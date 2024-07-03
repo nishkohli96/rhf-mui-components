@@ -17,7 +17,7 @@ import withConfigHOC from '../../../config/withConfig';
 import { RHFMuiConfig } from '../../../types';
 import { fieldNameToLabel } from '../../../utils';
 ;
-export type RHFPasswordInputProps<T extends FieldValues> = {
+export type RHFPasswordFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions;
@@ -34,7 +34,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 function PasswordField<T extends FieldValues>(
-  props: RHFPasswordInputProps<T> & RHFMuiConfig
+  props: RHFPasswordFieldProps<T> & RHFMuiConfig
 ) {
   const {
     fieldName,

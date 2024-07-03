@@ -23,7 +23,7 @@ export const LightThemePalette = {
 
 export const DarkThemePalette = {
   primary: { main: '#1976d2' },
-  secondary: { main: '#f50057' },
+  secondary: { main: '#f06095' },
   success: { main: '#4ad953' },
   warning: { main: '#ffa726' },
   error: { main: '#c62828' },

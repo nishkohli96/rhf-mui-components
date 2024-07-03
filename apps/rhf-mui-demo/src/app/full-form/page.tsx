@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
 import { PageHeading } from '@/components';
-import { TextAndPasswordInputForm } from '@/forms';
+import { JoiForm } from './components';
 
-const title = 'TextField & PasswordInput';
+const title = 'Joi Form';
 
 export const metadata: Metadata = {
 	title
 };
 
-export default function TextFieldPage() {
+export default function JoiFormPage() {
+
   return (
     <main>
       <PageHeading title={title} />
-      <TextAndPasswordInputForm />
+      <JoiForm />
     </main>
   );
 }
