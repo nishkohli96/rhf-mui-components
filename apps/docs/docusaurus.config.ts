@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: '@nish1896/rhf-mui-components',
+  tagline: 'A suite of reusable mui components for react-hook-form to minimize your time and effort in creating forms',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
