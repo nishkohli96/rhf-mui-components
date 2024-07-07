@@ -8,6 +8,7 @@ import { RHFSelect, RHFNativeSelect } from '@nish1896/rhf-mui-components';
 import { FormSchema } from './validation';
 import {
   FormContainer,
+  RenderFormState,
   GridContainer,
   FieldVariantInfo,
   SubmitButton
@@ -21,7 +22,7 @@ export function SelectFormWithClassValidator() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<FormSchema>({
+  } = useForm({
     resolver: classValidatorResolver(FormSchema)
   });
   console.log('watch: ', watch());
@@ -83,6 +84,9 @@ export function SelectFormWithClassValidator() {
           </Grid>
           <Grid item xs={12}>
             <SubmitButton />
+          </Grid>
+          <Grid item xs={12}>
+            <RenderFormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

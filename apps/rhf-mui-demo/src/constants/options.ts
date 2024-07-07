@@ -3,6 +3,9 @@ export const CountriesList = [
   { country: 'Australia', code: 'AUS' },
   { country: 'Bangladesh', code: 'BAN' },
   { country: 'Ireland', code: 'IRE' },
+	{ country: 'South Africa', code: 'SA' },
+	{ country: 'Brazil', code: 'Brazil' },
+	{ country: 'United Arab Emirates', code: 'UAE' },
 ];
 
 export const Currencies = [
