@@ -1,51 +1,50 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { PageHeading, SubHeading, GridContainer } from '@/components';
 
 export default function Home() {
   return (
     <main>
-      <Box sx={{ flexGrow: 1}}>
-      <GridContainer>
-        <Grid item xs={12}>
-          <Box
+      <Box sx={{ flexGrow: 1 }}>
+        <GridContainer>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
+              <PageHeading title="@nish1896/rhf-mui-components" />
+              <SubHeading title="Create and Style forms effortlessly within minutes!" />
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
             sx={{
               display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
+              justifyContent: { xs: 'center', md: 'flex-end' }
             }}
           >
-            <PageHeading title="@nish1896/rhf-mui-components" />
-            <SubHeading title="Create and Style forms effortlessly within minutes!" />
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{
-            display: 'flex',
-            justifyContent: { xs: 'center', md: 'flex-end' }
-          }}
-        >
-          <Button variant="contained">Read Docs</Button>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{
-            display: 'flex',
-            justifyContent: { xs: 'center', md: 'flex-start' }
-          }}
-        >
-          <Button variant="contained" color="secondary">
-            View Demo
-          </Button>
-        </Grid>
-      </GridContainer>
+            <Button variant="contained">Read Docs</Button>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'center', md: 'flex-start' }
+            }}
+          >
+            <Button variant="contained" color="secondary">
+              View Demo
+            </Button>
+          </Grid>
+        </GridContainer>
       </Box>
     </main>
   );
