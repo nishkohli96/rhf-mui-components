@@ -14,6 +14,10 @@ export const PageLinks = [
     href: `${pagePrefix}/checkbox-and-radiogroup-with-zod`
   },
   {
+    title: 'Switch, Slider & Rating with superstruct',
+    href: `${pagePrefix}/switch-slider-rating-with-superstruct`
+  },
+  {
     title: 'Full Form with Joi validation',
     href: '/full-form'
   }

@@ -10,6 +10,7 @@ import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
+  RenderFormState,
   SubmitButton
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
@@ -35,6 +36,7 @@ export function TextAndPasswordInputForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues
@@ -150,8 +152,11 @@ export function TextAndPasswordInputForm() {
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <SubmitButton />
+          </Grid>
+          <Grid item xs={12}>
+            <RenderFormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>
