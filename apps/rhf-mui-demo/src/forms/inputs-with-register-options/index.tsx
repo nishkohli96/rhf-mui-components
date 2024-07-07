@@ -9,7 +9,7 @@ import { RHFTextField, RHFPasswordField } from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
   GridContainer,
-  SubTitle,
+  FieldVariantInfo,
   SubmitButton
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
@@ -49,7 +49,7 @@ export function TextAndPasswordInputForm() {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid item xs={12} md={6}>
-            <SubTitle title="Basic Input field with required validation" />
+            <FieldVariantInfo title="Basic Input field with required validation" />
             <RHFTextField
               fieldName="firstName"
               register={register}
@@ -63,7 +63,7 @@ export function TextAndPasswordInputForm() {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SubTitle title="Input with min & max length validation" />
+            <FieldVariantInfo title="Input with min & max length validation" />
             <RHFTextField
               fieldName="lastName"
               register={register}
@@ -81,7 +81,7 @@ export function TextAndPasswordInputForm() {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SubTitle title="Input with pattern validation & label above form-field" />
+            <FieldVariantInfo title="Input with pattern validation & label above form-field" />
             <RHFTextField
               fieldName="email"
               register={register}
@@ -97,7 +97,7 @@ export function TextAndPasswordInputForm() {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SubTitle title="Simple Password Field" />
+            <FieldVariantInfo title="Simple Password Field" />
             <RHFPasswordField
               fieldName="password"
               register={register}
@@ -115,7 +115,7 @@ export function TextAndPasswordInputForm() {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SubTitle title="Password Field with custom icons & validate rule" />
+            <FieldVariantInfo title="Password Field with custom icons & validate rule" />
             <RHFPasswordField
               fieldName="confirmPassword"
               register={register}
@@ -136,7 +136,7 @@ export function TextAndPasswordInputForm() {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SubTitle title="Number Input with Typography as a helper text & return value as a number" />
+            <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
             <RHFTextField
               fieldName="age"
               register={register}
