@@ -6,6 +6,10 @@ export const PageLinks = [
     href: `${pagePrefix}/textfield-and-passwordfield`
   },
   {
+    title: 'Select with Class-Validator',
+    href: `${pagePrefix}/select-with-class-validator`
+  },
+  {
     title: 'Full Form with Joi validation',
     href: '/full-form'
   }

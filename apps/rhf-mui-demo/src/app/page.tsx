@@ -29,7 +29,9 @@ export default function Home() {
               justifyContent: { xs: 'center', md: 'flex-end' }
             }}
           >
-            <Button variant="contained">Read Docs</Button>
+            <Button variant="contained" href="/docs">
+              Read Docs
+            </Button>
           </Grid>
           <Grid
             item
@@ -40,7 +42,7 @@ export default function Home() {
               justifyContent: { xs: 'center', md: 'flex-start' }
             }}
           >
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" href="/demo">
               View Demo
             </Button>
           </Grid>

@@ -28,9 +28,9 @@ export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
   options: OptionType[];
-  defaultValue: SelectValueType;
   labelKey?: string;
   valueKey?: string;
+  defaultValue: SelectValueType;
   registerOptions?: RegisterOptions;
   onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
   helperText?: ReactNode;

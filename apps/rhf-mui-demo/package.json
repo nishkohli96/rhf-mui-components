@@ -21,6 +21,8 @@
     "@mui/material": "^5.15.19",
     "@mui/material-nextjs": "^5.15.11",
     "@mui/x-date-pickers": "^7.7.0",
+    "class-validator": "^0.14.1",
+    "class-transformer": "^0.5.1",
     "date-fns": "^3.6.0",
     "dayjs":"^1.11.11",
     "joi": "^17.13.1",
