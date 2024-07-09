@@ -22,6 +22,10 @@ export const PageLinks = [
     href: `${pagePrefix}/date-time-pickers`
   },
   {
+    title: 'Miscellaneous Components',
+    href: `${pagePrefix}/miscellaneous-components`
+  },
+  {
     title: 'Complete Form with Joi validation',
     href: `${pagePrefix}/complete-form-with-joi`
   }
