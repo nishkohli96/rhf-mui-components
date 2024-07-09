@@ -18,7 +18,11 @@ export const PageLinks = [
     href: `${pagePrefix}/switch-slider-rating-with-superstruct`
   },
   {
-    title: 'Full Form with Joi validation',
-    href: '/full-form'
+    title: 'Date & Time Pickers',
+    href: `${pagePrefix}/date-time-pickers`
+  },
+  {
+    title: 'Complete Form with Joi validation',
+    href: `${pagePrefix}/complete-form-with-joi`
   }
 ];

@@ -1,2 +1,2 @@
 export * from './DefaultConfig';
-export { RHFMuiConfigProvider } from './ConfigProvider';
+export { ConfigProvider } from './ConfigProvider';
