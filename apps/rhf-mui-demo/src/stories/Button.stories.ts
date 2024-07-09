@@ -29,6 +29,11 @@ export const Primary: Story = {
     primary: true,
     label: 'Button',
   },
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    },
+  },
 };
 
 export const Secondary: Story = {

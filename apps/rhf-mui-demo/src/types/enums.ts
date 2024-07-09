@@ -1,14 +1,20 @@
 export enum Colors {
-  Black = 'Black',
   Blue = 'Blue',
+  Orange = 'Orange',
   Red = 'Red',
-  White = 'White'
+  Yellow = 'Yellow'
 }
 
 export enum Gender {
   Male = 'Male',
   Female = 'Female',
   Others = 'Others'
+}
+
+export enum UserRole {
+  Admin = 'Admin',
+  User = 'User',
+  Guest = 'Guest',
 }
 
 export enum Sports {

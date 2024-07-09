@@ -9,7 +9,7 @@ type ConfigProviderProps = {
 
 export const RHFMuiConfigContext = createContext<RHFMuiConfig>(DefaultRHFMuiConfig);
 
-export const RHFMuiConfigProvider = ({
+export const ConfigProvider = ({
   children,
   defaultFormHelperTextSx,
   defaultFormLabelSx,

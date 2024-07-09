@@ -8,15 +8,24 @@ import {
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
-import FormHelperText, { FormHelperTextProps }  from '@mui/material/FormHelperText';
-import { fieldNameToLabel } from '../../../utils';
+import FormHelperText, {
+  FormHelperTextProps
+} from '@mui/material/FormHelperText';
+import { OptionType } from '../../../types';
+import {
+  fieldNameToLabel,
+  isKeyValueOption,
+  validateArray
+} from '../../../utils';
 
 type SelectValueType = string | string[] | number | number[];
 
 export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
-  options: string[] | number[];
+  options: OptionType[];
+  labelKey?: string;
+  valueKey?: string;
   defaultValue: SelectValueType;
   registerOptions?: RegisterOptions;
   label?: ReactNode;
@@ -36,6 +45,8 @@ export function RHFNativeSelect<T extends FieldValues>({
   register,
   registerOptions,
   options,
+  labelKey,
+  valueKey,
   defaultValue,
   onValueChange,
   formHelperTextProps,
@@ -49,37 +60,45 @@ export function RHFNativeSelect<T extends FieldValues>({
   const isError = Boolean(errorMsg);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { onChange, ...rest } = register(fieldName, registerOptions);
+  validateArray('RHFSelect', options, labelKey, valueKey);
 
   return (
-      <FormControl fullWidth error={isError}>
-        <InputLabel variant="standard" htmlFor={fieldName}>
-          {fieldLabel}
-        </InputLabel>
-        <NativeSelect
-          {...otherNativeSelectProps}
-          {...rest}
-          defaultValue={defaultValue}
-          inputProps={{
-            name: fieldName,
-            id: fieldName,
-          }}
-          onChange={(e) => {
-            onChange(e);
-            onValueChange && onValueChange(e);
-          }}
+    <FormControl fullWidth error={isError}>
+      <InputLabel variant="standard" htmlFor={fieldName}>
+        {fieldLabel}
+      </InputLabel>
+      <NativeSelect
+        {...otherNativeSelectProps}
+        {...rest}
+        defaultValue={defaultValue}
+        inputProps={{
+          name: fieldName,
+          id: fieldName
+        }}
+        onChange={(e) => {
+          onChange(e);
+          onValueChange && onValueChange(e);
+        }}
+      >
+        {options.map((option) => {
+          const isObject = isKeyValueOption(option, labelKey, valueKey);
+          const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
+          const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+          return (
+            <option key={opnValue} value={opnValue}>
+              {opnLabel}
+            </option>
+          );
+        })}
+      </NativeSelect>
+      {isError && (
+        <FormHelperText
+          error={isError}
+          sx={formHelperTextProps?.sx ?? { ml: 0 }}
         >
-          {options.map(opn => (
-            <option key={opn} value={opn}>{opn}</option>
-          ))}
-        </NativeSelect>
-        {isError && (
-          <FormHelperText 
-            error={isError}
-            sx={formHelperTextProps?.sx ?? { ml: 0 }}
-          >
-            {errorMsg}
-          </FormHelperText>
-        )}
-      </FormControl>
+          {errorMsg}
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 }

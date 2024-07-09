@@ -1,21 +1,53 @@
-import Typography from '@mui/material/Typography';
-import { PageLinks } from '@/constants';
-import { PageHeading, PageLink } from '@/components';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import { PageHeading, SubHeading, GridContainer } from '@/components';
 
 export default function Home() {
   return (
     <main>
-      <PageHeading title="Hello from the Home Page of Next App !" />
-      <Typography variant="body2" sx={{
-        mb: '20px',
-        mt: '30px'
-      }}
-      >
-        Click on any of the links below to see their demo
-      </Typography>
-      {PageLinks.map((link, idx) => (
-        <PageLink text={link.title} href={link.href} key={idx} />
-      ))}
+      <Box sx={{ flexGrow: 1 }}>
+        <GridContainer>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
+              <PageHeading title="@nish1896/rhf-mui-components" />
+              <SubHeading title="Create and Style forms effortlessly within minutes!" />
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'center', md: 'flex-end' }
+            }}
+          >
+            <Button variant="contained" href="/docs">
+              Read Docs
+            </Button>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'center', md: 'flex-start' }
+            }}
+          >
+            <Button variant="contained" color="secondary" href="/demo">
+              View Demo
+            </Button>
+          </Grid>
+        </GridContainer>
+      </Box>
     </main>
   );
 }
