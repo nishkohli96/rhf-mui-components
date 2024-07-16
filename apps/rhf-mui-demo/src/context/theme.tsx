@@ -22,15 +22,15 @@ interface ThemeContextProps {
   setMode: (mode: PaletteMode) => void;
 }
 
-export const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+export const AppThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [mode, setMode] = useState<PaletteMode>(getTheme());
   const value = useMemo(() => ({ mode, setMode }), [mode]);
   
   return (
-    <ThemeContext.Provider value={value}>
+    <AppThemeContext.Provider value={value}>
       {children}
-    </ThemeContext.Provider>
+    </AppThemeContext.Provider>
   );
 };

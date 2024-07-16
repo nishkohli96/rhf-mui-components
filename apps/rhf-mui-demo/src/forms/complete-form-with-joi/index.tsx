@@ -25,7 +25,8 @@ import {
   RenderFormState,
   SubmitButton
 } from '@/components';
-import { Colors, CountriesList, Gender, IPLTeams, Sports } from '@/types';
+import { Colors, Gender, Sports } from '@/types';
+import { CountriesList, IPLTeams } from '@/constants'
 import { Person, JoiFormSchema } from './validation';
 
 const initialValues: Person = {

@@ -1,5 +1,5 @@
 export default function DocsPage() {
 	return (
-		<p>Hello</p>
+		<p>Hello world</p>
 	);
 }

@@ -1,6 +1,8 @@
+import { Page } from '@/types';
+
 const pagePrefix = '/demo'
 
-export const PageLinks = [
+export const DemoPageLinks: Page[] = [
   {
     title: 'TextField & Password Input',
     href: `${pagePrefix}/textfield-and-passwordfield`
