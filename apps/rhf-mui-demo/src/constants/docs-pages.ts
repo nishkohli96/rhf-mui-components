@@ -27,11 +27,11 @@ export const DocsPageLinks: Page[] = [
 		pages: [
 			{
 				title: 'Mui',
-				href: `${pagePrefix}/inputs/RHFSelect`
+				href: `${pagePrefix}/select/RHFSelect`
 			},
 			{
 				title: 'Native',
-				href: `${pagePrefix}/inputs/RHFNativeSelect`
+				href: `${pagePrefix}/select/RHFNativeSelect`
 			},
 		]
 	},
@@ -41,11 +41,11 @@ export const DocsPageLinks: Page[] = [
 		pages: [
 			{
 				title: 'Single',
-				href: `${pagePrefix}/inputs/RHFCheckbox`
+				href: `${pagePrefix}/checkbox/RHFCheckbox`
 			},
 			{
 				title: 'Group',
-				href: `${pagePrefix}/inputs/RHFCheckboxGroup`
+				href: `${pagePrefix}/checkbox/RHFCheckboxGroup`
 			},
 		]
 	},

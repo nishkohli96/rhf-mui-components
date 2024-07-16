@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Grid from '@mui/material/Grid';
-import { Drawer } from '@/components';
+import { DrawerContent } from '@/components';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -8,16 +8,21 @@ type LayoutProps = {
 
 export const metadata: Metadata = {
   title: 'Docs',
-  description: 'Index of docs page'
+  description: 'Index of docs page',
 };
 
 export default function DocsLayout({ children }: LayoutProps) {
   return (
     <Grid container sx={{ height: '100%' }}>
-      <Grid item xs={0} md={3}>
-        <Drawer />
+      <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' }}}>
+        <DrawerContent />
       </Grid>
-      <Grid item xs={12} md={9}>
+      <Grid
+        item
+        xs={12}
+        md={9}
+        sx={{ padding: { xs: '30px', md: '30px 40px' } }}
+      >
         {children}
       </Grid>
     </Grid>
