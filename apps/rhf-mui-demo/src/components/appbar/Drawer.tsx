@@ -18,7 +18,11 @@ export function DrawerMenu() {
       <IconButton aria-label="Menu" onClick={toggleDrawer(true)}>
         <MenuIcon />
       </IconButton>
-      <Drawer open={drawerOpen} onClose={toggleDrawer(false)} sx={{ width: '60vw'}}>
+      <Drawer
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        PaperProps={{ sx: { width: '70vw' } }}
+      >
         <DrawerContent />
       </Drawer>
     </Fragment>

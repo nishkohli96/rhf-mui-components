@@ -29,7 +29,21 @@ const AppTheme = (mode: PaletteMode) => ({
       xl: 1400,
     },
   },
-  typography: { fontFamily: roboto.style.fontFamily },
+  typography: {
+    fontFamily: roboto.style.fontFamily,
+    // h4: {
+    //   fontSize: '2rem',
+    //   [theme.breakpoints.up('sm')]: {
+    //     fontSize: '2.5rem',
+    //   },
+    //   [theme.breakpoints.up('md')]: {
+    //     fontSize: '3rem',
+    //   },
+    //   [theme.breakpoints.up('lg')]: {
+    //     fontSize: '3.5rem',
+    //   },
+    // },
+  },
 });
 
 let themeMode = 'dark';
