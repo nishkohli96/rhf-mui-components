@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import NkLogo from '../../../public/nk-logo.png';
-import { DrawerMenu } from './Drawer';
+import { DrawerMenu } from './DrawerMenu';
 
 export function AppBar() {
   return (

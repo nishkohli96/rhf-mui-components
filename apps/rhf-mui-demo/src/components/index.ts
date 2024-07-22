@@ -4,6 +4,7 @@ export * from './buttons';
 export * from './containers';
 export * from './custom-rhf-components';
 export * from './drawer';
+export * from './feature-item';
 export * from './footer';
 export * from './form-info'; 
 export * from './page-heading';
