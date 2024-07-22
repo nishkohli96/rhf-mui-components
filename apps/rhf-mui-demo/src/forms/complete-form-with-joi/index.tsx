@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { joiResolver } from '@hookform/resolvers/joi';
 import {
@@ -57,7 +57,7 @@ export function CompleteFormWithJoi() {
     watch,
     setValue,
     formState: { errors }
-  } = useForm({
+  } = useForm<Person>({
     defaultValues: initialValues,
     resolver: joiResolver(JoiFormSchema)
   });
