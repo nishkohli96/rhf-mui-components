@@ -9,3 +9,4 @@ export * from './footer';
 export * from './form-info'; 
 export * from './page-heading';
 export * from './page-link';
+export * from './table';

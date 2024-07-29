@@ -5,7 +5,7 @@ const pagePrefix = '/docs';
 export const DocsPageLinks: Page[] = [
 	{
 		title: 'Introduction',
-		href: `${pagePrefix}/introduction`
+		href: `${pagePrefix}`
 	},
 	{
 		title: 'Inputs',
