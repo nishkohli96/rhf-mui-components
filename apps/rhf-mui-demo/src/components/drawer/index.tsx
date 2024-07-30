@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { DocsPageLinks } from '@/constants';
 import { Accordion } from '@/components';
 
-export function Drawer() {
+export function DrawerContent() {
   return (
     <Paper
       sx={{
@@ -19,15 +19,6 @@ export function Drawer() {
         const isNestedPage = Boolean(docsPage.pages);
         return (
           <Fragment key={docsPage.title}>
-            {/* {isNestedPage ? (
-              <Accordion page={docsPage} />
-            ) : (
-              <MenuItem>
-                <Typography variant="body1">
-                  <Link href={docsPage.href}>{docsPage.title}</Link>
-                </Typography>
-              </MenuItem>
-            )} */}
             <Accordion
               page={docsPage}
               isNested={isNestedPage}

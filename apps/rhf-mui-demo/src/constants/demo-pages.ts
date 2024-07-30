@@ -24,6 +24,10 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/date-time-pickers`
   },
   {
+    title: 'Styled Form with Config Provider',
+    href: `${pagePrefix}/styled-form-with-reusable-component`
+  },
+  {
     title: 'Miscellaneous Components',
     href: `${pagePrefix}/miscellaneous-components`
   },

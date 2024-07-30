@@ -1,6 +1,3 @@
-'use client';
-
-import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
@@ -10,14 +7,15 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
 import NkLogo from '../../../public/nk-logo.png';
+import { DrawerMenu } from './Drawer';
 
 export function AppBar() {
   return (
     <Box>
       <MuiAppBar position="static">
         <Toolbar>
+          <DrawerMenu />
           <Link href="/">
             <Image
               src={NkLogo}
