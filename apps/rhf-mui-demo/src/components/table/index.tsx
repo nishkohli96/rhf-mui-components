@@ -31,8 +31,8 @@ export function Table({ rows }: TableProps) {
               <TableCell>
                 {row.name}
               </TableCell>
-              <TableCell>
-                {row.isRequired ? 'Yes' : 'No'}
+              <TableCell align='center'>
+                {row.isRequired ? <span>✅</span>: ''}
               </TableCell>
               <TableCell>{row.description}</TableCell>
             </TableRow>
