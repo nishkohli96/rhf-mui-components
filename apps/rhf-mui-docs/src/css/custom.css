@@ -40,3 +40,8 @@ html[data-theme='dark'] .footer {
   background-color: #303846; /* Dark theme background color */
   color: #f8f9fa; /* Dark theme text color */
 }
+
+.center {
+  text-align: center;
+  background-color: rebeccapurple;
+}

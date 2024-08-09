@@ -1,0 +1,20 @@
+---
+sidebar_position: 1
+sidebar_label: Introduction
+description: A brief introduction of @nish1896/rhf-mui-components and its use case.
+title: Introduction
+---
+
+import { PropsDesc } from '@site/src/constants';
+import '@site/src/css/custom.css';
+
+# Introduction
+This library makes easier to integrate [react-hook-form](https://react-hook-form.com/) with [Material-UI](https://mui.com/material-ui/getting-started/) by providing a suite of reusable and customizable Mui components, thus helping you reduce code duplicacy and providing the flexibility to create form fields as per your website's design.
+
+## Working
+Each component requires some common props which are listed in the table
+below along with their description. Remaining component props include the props specific to that material-ui component, say Textfield, and can be viewed in the documentation page for that component.
+
+|Prop Name|Required|Description|
+|-|-|-|
+|{PropsDesc.fieldName.name}|<div className="center">{PropsDesc.fieldName.isRequired}</div>|{(PropsDesc.fieldName.description).replace('\`','\`')}|

@@ -1,6 +1,0 @@
-position: 5
-label: Linting Rules
-collapsible: true
-collapsed: true
-customProps:
-  description: list of rules for each plugin

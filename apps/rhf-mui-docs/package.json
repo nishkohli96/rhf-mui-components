@@ -19,7 +19,6 @@
     "@ckeditor/ckeditor5-react": "6.2.0",
     "@docusaurus/core": "3.4.0",
     "@docusaurus/preset-classic": "3.4.0",
-    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.6.0",

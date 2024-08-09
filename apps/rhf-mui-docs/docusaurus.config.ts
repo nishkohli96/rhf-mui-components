@@ -5,10 +5,10 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   url: 'https://nish1896-eslint-config.vercel.app/',
   baseUrl: '/',
-  projectName: 'eslint-config',
+  projectName: 'rhf-mui-components',
   organizationName: 'nish1896',
-  title: '@nish1896/eslint-config',
-  tagline: 'You focus on the code logic, we\'ll take care of formatting and finding errors !',
+  title: '@nish1896/rhf-mui-components',
+  tagline: 'Create and Style forms effortlessly within minutes!',
   favicon: 'img/favicon.ico',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

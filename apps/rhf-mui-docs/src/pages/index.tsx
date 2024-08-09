@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import Grid from '@mui/material/Grid';
 import styles from './index.module.css';
 
 function HomepageHeader() {
@@ -14,14 +15,32 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/intro"
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}
           >
-            Read the Docs
-          </Link>
-        </div>
+            <Link className="button button--secondary button--lg" to="/introduction">
+              Read Docs
+            </Link>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start'
+            }}
+          >
+            <Link className="button button--lg" to="/intro">
+              View Demo
+            </Link>
+          </Grid>
+        </Grid>
       </div>
     </header>
   );
