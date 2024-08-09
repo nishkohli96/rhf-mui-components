@@ -9,3 +9,7 @@ export function minCharMsg(min: number) {
 export function maxCharMsg(max: number) {
 	return `No more than ${max} characters are allowed`;
 }
+
+export function pageDescriptionMsg(fieldName: string) {
+	return `Input props and usage of ${fieldName}`
+}

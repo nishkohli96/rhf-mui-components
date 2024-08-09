@@ -5,13 +5,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Code } from '@/components';
 import { PropDesc } from '@/types';
 
 type TableProps = {
   rows: Array<PropDesc>;
+  isLastColDesc?: boolean;
 };
 
-export function Table({ rows }: TableProps) {
+export function Table({ rows, isLastColDesc }: TableProps) {
   return (
     <TableContainer component={Paper}>
       <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
@@ -19,7 +21,7 @@ export function Table({ rows }: TableProps) {
           <TableRow>
             <TableCell>Prop</TableCell>
             <TableCell>Required</TableCell>
-            <TableCell>Description</TableCell>
+            <TableCell>{isLastColDesc ? 'Description' : 'Type'}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,13 +30,17 @@ export function Table({ rows }: TableProps) {
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
+              <TableCell>{row.name}</TableCell>
+              <TableCell align="center">
+                {row.isRequired ? <span>✅</span> : ''}
+              </TableCell>
               <TableCell>
-                {row.name}
+                {isLastColDesc ? (
+                  row.description
+                ) : (
+                  <Code>{row.description}</Code>
+                )}
               </TableCell>
-              <TableCell align='center'>
-                {row.isRequired ? <span>✅</span>: ''}
-              </TableCell>
-              <TableCell>{row.description}</TableCell>
             </TableRow>
           ))}
         </TableBody>

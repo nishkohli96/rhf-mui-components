@@ -29,7 +29,7 @@ export default function DocsPage() {
         props specific to that material-ui component, say Textfield, and can be
         viewed in the documentation page for that component.
       </Paragraph>
-      <Table rows={Object.values(PropsDesc)} />
+      <Table rows={Object.values(PropsDesc)} isLastColDesc />
     </GridContainer>
   );
 }

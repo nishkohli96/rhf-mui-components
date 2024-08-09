@@ -83,4 +83,8 @@ export const DocsPageLinks: Page[] = [
 			},
 		]
 	},
+	{
+		title: 'Customization ⚙️',
+		href: `${pagePrefix}/customization`
+	}
 ]

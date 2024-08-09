@@ -9,7 +9,7 @@ export const PropsDesc = Object.freeze({
         React Hook Form requires name as a key for the registration process
       </Paragraph>
     ),
-    isRequired: true,
+    isRequired: true
   },
   register: {
     name: 'register',
@@ -21,7 +21,7 @@ export const PropsDesc = Object.freeze({
         <Code>useForm</Code>hook
       </Paragraph>
     ),
-    isRequired: true,
+    isRequired: true
   },
   registerOptions: {
     name: 'registerOptions',
@@ -49,7 +49,7 @@ export const PropsDesc = Object.freeze({
         components
       </Paragraph>
     ),
-    isRequired: true,
+    isRequired: true
   },
   setValue: {
     name: 'setValue',
@@ -65,7 +65,7 @@ export const PropsDesc = Object.freeze({
         components
       </Paragraph>
     ),
-    isRequired: true,
+    isRequired: true
   },
   onValueChange: {
     name: 'onValueChange',
@@ -77,7 +77,7 @@ export const PropsDesc = Object.freeze({
         method declaration in its documentation page
       </Paragraph>
     ),
-    isRequired: false,
+    isRequired: false
   },
   errorMsg: {
     name: 'errorMsg',
@@ -90,7 +90,7 @@ export const PropsDesc = Object.freeze({
         {' '}component if it exists
       </Paragraph>
     ),
-    isRequired: false,
+    isRequired: false
   },
   hideErrorMsg: {
     name: 'hideErrorMsg',
@@ -113,7 +113,7 @@ export const PropsDesc = Object.freeze({
         {' '}component
       </Paragraph>
     ),
-    isRequired: false,
+    isRequired: false
   },
   formLabelProps: {
     name: 'formLabelProps',
@@ -125,7 +125,7 @@ export const PropsDesc = Object.freeze({
         {' '}to customise css for a field.
       </Paragraph>
     ),
-    isRequired: false,
+    isRequired: false
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
@@ -137,6 +137,6 @@ export const PropsDesc = Object.freeze({
         {' '}to customise css for a field.
       </Paragraph>
     ),
-    isRequired: false,
+    isRequired: false
   },
 });
