@@ -1,4 +1,4 @@
-import { Paragraph, Link } from '@/components/page-heading';
+import { Paragraph, Link, Code } from '@/components/page-heading';
 import { ExternalLinks } from '@/constants';
 
 export const PropsDesc = Object.freeze({
@@ -6,7 +6,7 @@ export const PropsDesc = Object.freeze({
     name: 'fieldName',
     description: (
       <Paragraph>
-        React Hook Form requires name as a key for the registration process.
+        React Hook Form requires name as a key for the registration process
       </Paragraph>
     ),
     isRequired: true,
@@ -16,11 +16,9 @@ export const PropsDesc = Object.freeze({
     description: (
       <Paragraph>
         The{' '}
-        <b>
-          <i>register</i>
-        </b>{' '}
+        <Code>" register "</Code>{' '}
         option yielded on calling the
-        <span className="code">useForm</span> hook.
+        <Code>useForm</Code>hook
       </Paragraph>
     ),
     isRequired: true,
@@ -29,8 +27,8 @@ export const PropsDesc = Object.freeze({
     name: 'registerOptions',
     description: (
       <Paragraph>
-        <Link href={ExternalLinks.rhf.register}>Register options</Link>
-        if using rhf without any validation libraries
+        <Link href={ExternalLinks.rhf.register}>Register</Link>
+        {' '}options if using react-hook-form without any validation libraries
       </Paragraph>
     ),
     isRequired: false,
@@ -40,15 +38,15 @@ export const PropsDesc = Object.freeze({
     description: (
       <Paragraph>
         The{' '}
-        <b>
-          <i>control</i>
-        </b>{' '}
+        <Code>" control "</Code>{' '}
         option yielded on calling the
-        <span className="code">useForm</span> hook. Required when using{' '}
-        <span className="code">
-          RHFCheckbox, RHFCheckboxGroup, RHFRadioGroup, RHFRating, RHFSwitch
-        </span>
-        components.
+        <Code>useForm</Code> hook. Required when using
+        <Code>RHFCheckbox</Code>,
+        <Code>RHFCheckboxGroup</Code>,
+        <Code>RHFRadioGroup</Code>,
+        <Code>RHFRating</Code>and
+        <Code>RHFSwitch</Code>
+        components
       </Paragraph>
     ),
     isRequired: true,
@@ -58,47 +56,87 @@ export const PropsDesc = Object.freeze({
     description: (
       <Paragraph>
         The{' '}
-        <b>
-          <i>setValue</i>
-        </b>{' '}
+        <Code>" setValue "</Code>{' '}
         option yielded on calling the
-        <span className="code">useForm</span> hook. Required when using{' '}
-        <span className="code">
-          RHFDatePicker, RHFTimePicker, RHFDateTimeGroup
-        </span>
-        components.
+        <Code>useForm</Code> hook. Required when using{' '}
+        <Code>RHFDatePicker</Code>,
+        <Code>RHFTimePicker</Code> and
+        <Code>RHFDateTimeGroup</Code>
+        components
       </Paragraph>
     ),
     isRequired: true,
   },
   onValueChange: {
     name: 'onValueChange',
-    description: <Paragraph>The</Paragraph>,
+    description: (
+      <Paragraph>
+        An optional callback function when the value of a field changes.
+        Each component has its own 
+        <Code>onValueChange</Code>
+        method declaration in its documentation page
+      </Paragraph>
+    ),
     isRequired: false,
   },
   errorMsg: {
     name: 'errorMsg',
-    description: <Paragraph>The</Paragraph>,
-    isRequired: true,
+    description: (
+      <Paragraph>
+        Show field error message in{' '}
+        <Link href={ExternalLinks.muiComponents.formHelperText}>
+          FormHelperText
+        </Link>
+        {' '}component if it exists
+      </Paragraph>
+    ),
+    isRequired: false,
   },
   hideErrorMsg: {
     name: 'hideErrorMsg',
-    description: <Paragraph>The</Paragraph>,
-    isRequired: true,
+    description: (
+      <Paragraph>
+        Prevent showing error message, if you want to retain formHelper text,
+        even in case of an error in your form field
+      </Paragraph>
+    ),
+    isRequired: false,
   },
   showLabelAboveFormField: {
     name: 'showLabelAboveFormField',
-    description: <Paragraph>The</Paragraph>,
-    isRequired: true,
+    description: (
+      <Paragraph>
+        Render form label above the form field in{' '}
+        <Link href={ExternalLinks.muiComponents.formLabel}>
+          FormLabel
+        </Link>
+        {' '}component
+      </Paragraph>
+    ),
+    isRequired: false,
   },
   formLabelProps: {
     name: 'formLabelProps',
-    description: <Paragraph>The</Paragraph>,
-    isRequired: true,
+    description: (
+      <Paragraph>
+        <Link href={ExternalLinks.muiComponents.formLabel}>
+          FormLabel Props
+        </Link>
+        {' '}to customise css for a field.
+      </Paragraph>
+    ),
+    isRequired: false,
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
-    description: <Paragraph>The</Paragraph>,
-    isRequired: true,
+    description: (
+      <Paragraph>
+        <Link href={ExternalLinks.muiComponents.formHelperText}>
+          FormHelperText Props
+        </Link>
+        {' '}to customise css for a field.
+      </Paragraph>
+    ),
+    isRequired: false,
   },
 });
