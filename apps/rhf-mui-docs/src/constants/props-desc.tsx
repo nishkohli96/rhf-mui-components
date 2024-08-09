@@ -4,24 +4,14 @@ import { ExternalLinks } from '@site/src/constants';
 export const PropsDesc = Object.freeze({
   fieldName: {
     name: 'fieldName',
-    description: 'The `register` option is yielded when calling the `useForm` hook',
-    // `
-    // React Hook Form requires \`name\` as a key for the registration process
-    // `,
-    isRequired: '✅'
+    description: 'React Hook Form requires `name` as a key for the registration process',
+    isRequired: true
   },
-  // register: {
-  //   name: 'register',
-  //   description: (
-  //     <Paragraph>
-  //       The{' '}
-  //       <Code>" register "</Code>{' '}
-  //       option yielded on calling the
-  //       <Code>useForm</Code>hook
-  //     </Paragraph>
-  //   ),
-  //   isRequired: true
-  // },
+  register: {
+    name: 'register',
+    description: 'The `register` option yielded on calling the `useForm` hook',
+    isRequired: true
+  },
   // registerOptions: {
   //   name: 'registerOptions',
   //   description: (
