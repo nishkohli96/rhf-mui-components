@@ -10,12 +10,13 @@ export type Page = PageInfo & { pages?: PageInfo[] };
 export type PropDesc = {
   name: string;
   description: ReactNode;
-  isRequired: boolean;
+  required: boolean;
 };
 
 export type PropDescV2 = {
   name: string;
   description: ReactNode;
-  isRequired: boolean;
   type: string;
+  required?: boolean;
+  hasLinkInType?: boolean;
 };

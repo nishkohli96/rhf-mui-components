@@ -1,6 +1,0 @@
-position: 8
-label: Changelog
-collapsible: true
-collapsed: true
-customProps:
-  description: Changes done while upgrading each version.

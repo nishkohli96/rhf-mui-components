@@ -10,25 +10,25 @@ type MarkdownTableProps = {
 
 export const MarkdownTable = ({ rows, showType }: MarkdownTableProps) => {
   const primaryColor = '#4FC3F7';
-	const tableHeader = `| Name | Required | ${
+  const tableHeader = `| Name | Required | ${
     showType ? 'Type' : 'Description'
   } |\n| --- | :-: | --- |`;
 
   const tableRows = rows
     .map((row) => {
-      const { name, isRequired, description, type } = row;
-			const styledName = `<span style="color: ${primaryColor}; font-weight:500">${name}</span>`;
+      const { name, required, description, type, hasLinkInType } = row;
+      const styledName = `<span style="color: ${primaryColor}; font-weight:500">${name}</span>`;
 
-      return `| ${styledName} | ${isRequired ? '✅' : ''} | ${
-        showType ? type : description
+      return `| ${styledName} | ${required ? '✅' : ''} | ${
+        showType ? (hasLinkInType ? type : `\`${type}\``) : description
       } |`;
     })
     .join('\n');
   const tableContent = `${tableHeader}\n${tableRows}`;
-  
-	return (
-		<Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-			{tableContent}
-		</Markdown>
-	);
+
+  return (
+    <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+      {tableContent}
+    </Markdown>
+  );
 };

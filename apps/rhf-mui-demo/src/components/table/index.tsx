@@ -32,7 +32,7 @@ export function Table({ rows, isLastColDesc }: TableProps) {
             >
               <TableCell>{row.name}</TableCell>
               <TableCell align="center">
-                {row.isRequired ? <span>✅</span> : ''}
+                {row.required ? <span>✅</span> : ''}
               </TableCell>
               <TableCell>
                 {isLastColDesc ? (

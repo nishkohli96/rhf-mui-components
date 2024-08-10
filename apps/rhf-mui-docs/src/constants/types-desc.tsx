@@ -6,70 +6,70 @@ export const TypesDesc = Object.freeze({
 	fieldName: {
 		name: 'fieldName',
 		description: 'ReactNode',
-		isRequired: true
+		required: true
 	},
-	register: {
-		name: 'register',
-		description: (
-			<Link href={ExternalLinks.rhf.register}>
-				UseFormRegister
-			</Link>
-		),
-		isRequired: true
-	},
-	registerOptions: {
-		name: 'registerOptions',
-		description: (
-			<Link href={ExternalLinks.rhf.register}>
-				RegisterOptions
-			</Link>
-		),
-		isRequired: false
-	},
-	errorMsg: {
-		name: 'errorMsg',
-		description: 'ReactNode',
-		isRequired: false
-	},
-	hideErrorMsg: {
-		name: 'hideErrorMsg',
-		description: 'boolean',
-		isRequired: false
-	},
-	showLabelAboveFormField: {
-		name: 'showLabelAboveFormField',
-		description: 'boolean',
-		isRequired: false
-	},
-	formLabelProps: {
-		name: 'formLabelProps',
-		description: (
-			<Fragment>
-				{'Omit<'}
-				<Link href={ExternalLinks.muiComponents.formLabel}>
-					FormLabelProps
-				</Link>
-				{', "error">'}
-			</Fragment>
-		),
-		isRequired: false
-	},
-	formHelperTextProps: {
-		name: 'formHelperTextProps',
-		description: (
-			<Fragment>
-				{'Omit<'}
-				<Link href={ExternalLinks.muiComponents.formHelperText}>
-					FormHelperTextProps
-				</Link>
-				{', "children" | "error">'}
-			</Fragment>
-		),
-		isRequired: false
-	},
-	onValueChange_Input: {
-		name: 'onValueChange',
-		description: '(e: ChangeEvent) => void',
-		isRequired: false
-	},
+	// register: {
+	// 	name: 'register',
+	// 	description: (
+	// 		<Link href={ExternalLinks.rhf.register}>
+	// 			UseFormRegister
+	// 		</Link>
+	// 	),
+	// 	required: true
+	// },
+	// registerOptions: {
+	// 	name: 'registerOptions',
+	// 	description: (
+	// 		<Link href={ExternalLinks.rhf.register}>
+	// 			RegisterOptions
+	// 		</Link>
+	// 	),
+	// 	required: false
+	// },
+	// errorMsg: {
+	// 	name: 'errorMsg',
+	// 	description: 'ReactNode',
+	// 	required: false
+	// },
+	// hideErrorMsg: {
+	// 	name: 'hideErrorMsg',
+	// 	description: 'boolean',
+	// 	required: false
+	// },
+	// showLabelAboveFormField: {
+	// 	name: 'showLabelAboveFormField',
+	// 	description: 'boolean',
+	// 	required: false
+	// },
+	// formLabelProps: {
+	// 	name: 'formLabelProps',
+	// 	description: (
+	// 		<Fragment>
+	// 			{'Omit<'}
+	// 			<Link href={ExternalLinks.muiComponentApi.formLabel}>
+	// 				FormLabelProps
+	// 			</Link>
+	// 			{', "error">'}
+	// 		</Fragment>
+	// 	),
+	// 	required: false
+	// },
+	// formHelperTextProps: {
+	// 	name: 'formHelperTextProps',
+	// 	description: (
+	// 		<Fragment>
+	// 			{'Omit<'}
+	// 			<Link href={ExternalLinks.muiComponentApi.formHelperText}>
+	// 				FormHelperTextProps
+	// 			</Link>
+	// 			{', "children" | "error">'}
+	// 		</Fragment>
+	// 	),
+	// 	required: false
+	// },
+	// onValueChange_Input: {
+	// 	name: 'onValueChange',
+	// 	description: '(e: ChangeEvent) => void',
+	// 	required: false
+	// },
 })

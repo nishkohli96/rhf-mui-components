@@ -6,7 +6,7 @@ export const TypesDesc = Object.freeze({
 	fieldName: {
 		name: 'fieldName',
 		description: 'ReactNode',
-		isRequired: true
+		required: true
 	},
 	register: {
 		name: 'register',
@@ -15,7 +15,7 @@ export const TypesDesc = Object.freeze({
 				UseFormRegister
 			</Link>
 		),
-		isRequired: true
+		required: true
 	},
 	registerOptions: {
 		name: 'registerOptions',
@@ -24,22 +24,22 @@ export const TypesDesc = Object.freeze({
 				RegisterOptions
 			</Link>
 		),
-		isRequired: false
+		required: false
 	},
 	errorMsg: {
 		name: 'errorMsg',
 		description: 'ReactNode',
-		isRequired: false
+		required: false
 	},
 	hideErrorMsg: {
 		name: 'hideErrorMsg',
 		description: 'boolean',
-		isRequired: false
+		required: false
 	},
 	showLabelAboveFormField: {
 		name: 'showLabelAboveFormField',
 		description: 'boolean',
-		isRequired: false
+		required: false
 	},
 	formLabelProps: {
 		name: 'formLabelProps',
@@ -52,7 +52,7 @@ export const TypesDesc = Object.freeze({
 				{', "error">'}
 			</Fragment>
 		),
-		isRequired: false
+		required: false
 	},
 	formHelperTextProps: {
 		name: 'formHelperTextProps',
@@ -65,11 +65,11 @@ export const TypesDesc = Object.freeze({
 				{', "children" | "error">'}
 			</Fragment>
 		),
-		isRequired: false
+		required: false
 	},
 	onValueChange_Input: {
 		name: 'onValueChange',
 		description: '(e: ChangeEvent) => void',
-		isRequired: false
+		required: false
 	},
 })

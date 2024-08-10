@@ -10,5 +10,5 @@ export type Page = PageInfo & { pages?: PageInfo[] };
 export type PropDesc = {
   name: string;
   description: ReactNode;
-  isRequired: boolean;
+  required: boolean;
 };

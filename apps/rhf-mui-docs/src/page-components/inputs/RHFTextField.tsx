@@ -1,14 +1,12 @@
 import { MarkdownTable } from '@site/src/components';
 import { PropsDescription } from '@site/src/constants';
 
-export function IntroductionPageTable() {
+export function RHFTextFieldPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.register,
 		PropsDescription.registerOptions,
-		PropsDescription.control,
-		PropsDescription.setValue,
-		PropsDescription.onValueChange,
+		PropsDescription.onValueChange_Input,
 		PropsDescription.errorMsg,
 		PropsDescription.hideErrorMsg,
 		PropsDescription.showLabelAboveFormField,
@@ -17,6 +15,6 @@ export function IntroductionPageTable() {
 	];
 	
 	return (
-		<MarkdownTable rows={tableRows} />
+		<MarkdownTable rows={tableRows} showType/>
 	);
 }

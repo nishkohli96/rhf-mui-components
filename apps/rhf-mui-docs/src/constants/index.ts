@@ -3,6 +3,6 @@ export * from './docs-pages';
 export * from './external-links'; 
 export * from './features';
 export * from './options';
-export * from './props-desc';
+export * from './props';
 export * from './socials';
 export * from './types-desc';

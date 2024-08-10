@@ -9,7 +9,7 @@ export const PropsDesc = Object.freeze({
         React Hook Form requires name as a key for the registration process
       </Paragraph>
     ),
-    isRequired: true
+    required: true
   },
   register: {
     name: 'register',
@@ -21,7 +21,7 @@ export const PropsDesc = Object.freeze({
         <Code>useForm</Code>hook
       </Paragraph>
     ),
-    isRequired: true
+    required: true
   },
   registerOptions: {
     name: 'registerOptions',
@@ -31,7 +31,7 @@ export const PropsDesc = Object.freeze({
         {' '}options if using react-hook-form without any validation libraries
       </Paragraph>
     ),
-    isRequired: false,
+    required: false,
   },
   control: {
     name: 'control',
@@ -49,7 +49,7 @@ export const PropsDesc = Object.freeze({
         components
       </Paragraph>
     ),
-    isRequired: true
+    required: true
   },
   setValue: {
     name: 'setValue',
@@ -65,7 +65,7 @@ export const PropsDesc = Object.freeze({
         components
       </Paragraph>
     ),
-    isRequired: true
+    required: true
   },
   onValueChange: {
     name: 'onValueChange',
@@ -77,7 +77,7 @@ export const PropsDesc = Object.freeze({
         method declaration in its documentation page
       </Paragraph>
     ),
-    isRequired: false
+    required: false
   },
   errorMsg: {
     name: 'errorMsg',
@@ -90,7 +90,7 @@ export const PropsDesc = Object.freeze({
         {' '}component if it exists
       </Paragraph>
     ),
-    isRequired: false
+    required: false
   },
   hideErrorMsg: {
     name: 'hideErrorMsg',
@@ -100,7 +100,7 @@ export const PropsDesc = Object.freeze({
         even in case of an error in your form field
       </Paragraph>
     ),
-    isRequired: false,
+    required: false,
   },
   showLabelAboveFormField: {
     name: 'showLabelAboveFormField',
@@ -113,7 +113,7 @@ export const PropsDesc = Object.freeze({
         {' '}component
       </Paragraph>
     ),
-    isRequired: false
+    required: false
   },
   formLabelProps: {
     name: 'formLabelProps',
@@ -125,7 +125,7 @@ export const PropsDesc = Object.freeze({
         {' '}to customise css for a field.
       </Paragraph>
     ),
-    isRequired: false
+    required: false
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
@@ -137,6 +137,6 @@ export const PropsDesc = Object.freeze({
         {' '}to customise css for a field.
       </Paragraph>
     ),
-    isRequired: false
+    required: false
   },
 });
