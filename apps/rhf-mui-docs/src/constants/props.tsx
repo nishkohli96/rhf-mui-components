@@ -54,8 +54,14 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   formLabelProps: {
     name: 'formLabelProps',
-    description: `[FormLabel Props](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [UseConfig]() HO.`,
+    description: `[FormLabel Props](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [UseConfig]() HOC.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
+    hasLinkInType: true
+  },
+  formControlLabelProps: {
+    name: 'formControlLabelProps',
+    description: `[FormControlLabel Props](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [UseConfig]() HOC.`,
+    type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
   },
   formHelperTextProps: {
@@ -64,7 +70,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
   },
-  onValueChange_Input: {
+  onValueChange_Default: {
     name: 'onValueChange',
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
     type: `(e: ChangeEvent) => void`
@@ -74,10 +80,10 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
     type: `(e: SelectChangeEvent) => void`
   },
-  onValueChange_NativeSelect: {
+  onValueChange_CheckboxGroup: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
-    type: `(e: ChangeEvent) => void`
+    description: `An optional callback function when the value of chechboxGroup changes.`,
+    type: `(e: ChangeEvent<HTMLInputElement>, newValue: string) => void`
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -131,5 +137,17 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'label',
     description: `The text to render in \`FormLabel\` component.`,
     type: 'ReactNode'
+  },
+  checkboxProps: {
+    name: 'checkboxProps',
+    description:  `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox}) to customise each checkbox in checkbox group.`,
+    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox})`,
+    hasLinkInType: true
+  },
+  radioProps: {
+    name: 'radioProps',
+    description:  `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,
+    type: `[RadioProps](${ExternalLinks.muiComponentApi.radio})`,
+    hasLinkInType: true
   }
 });

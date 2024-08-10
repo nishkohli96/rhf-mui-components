@@ -5,4 +5,3 @@ export * from './features';
 export * from './options';
 export * from './props';
 export * from './socials';
-export * from './types-desc';

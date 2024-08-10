@@ -6,7 +6,7 @@ export function RHFTextFieldPropsTable() {
 		PropsDescription.fieldName,
 		PropsDescription.register,
 		PropsDescription.registerOptions,
-		PropsDescription.onValueChange_Input,
+		PropsDescription.onValueChange_Default,
 		PropsDescription.errorMsg,
 		PropsDescription.hideErrorMsg,
 		PropsDescription.showLabelAboveFormField,

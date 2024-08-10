@@ -6,7 +6,7 @@ export function RHFPasswordFieldPropsTable() {
 		PropsDescription.fieldName,
 		PropsDescription.register,
 		PropsDescription.registerOptions,
-		PropsDescription.onValueChange_Input,
+		PropsDescription.onValueChange_Default,
 		PropsDescription.showPasswordIcon,
 		PropsDescription.hidePasswordIcon,
 		PropsDescription.errorMsg,

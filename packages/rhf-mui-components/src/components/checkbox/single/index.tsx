@@ -16,8 +16,8 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   errorMsg?: ReactNode;
   hideErrorMsg?: boolean;
   label?: ReactNode;
-  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
   helperText?: ReactNode;
+  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<CheckboxProps, 'name' | 'checked' | 'onChange'>;
 

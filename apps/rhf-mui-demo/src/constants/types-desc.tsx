@@ -67,7 +67,7 @@ export const TypesDesc = Object.freeze({
 		),
 		required: false
 	},
-	onValueChange_Input: {
+	onValueChange_Default: {
 		name: 'onValueChange',
 		description: '(e: ChangeEvent) => void',
 		required: false

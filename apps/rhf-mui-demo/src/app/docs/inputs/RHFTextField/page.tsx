@@ -16,7 +16,7 @@ export default function RHFTextFieldPage() {
     TypesDesc.fieldName,
     TypesDesc.register,
     TypesDesc.registerOptions,
-    TypesDesc.onValueChange_Input,
+    TypesDesc.onValueChange_Default,
     TypesDesc.errorMsg,
     TypesDesc.hideErrorMsg,
     TypesDesc.showLabelAboveFormField,

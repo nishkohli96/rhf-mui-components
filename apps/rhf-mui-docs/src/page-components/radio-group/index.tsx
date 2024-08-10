@@ -1,21 +1,22 @@
 import { MarkdownTable } from '@site/src/components';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFNativeSelectPropsTable() {
+export function RHFRadioGroupPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
-		PropsDescription.register,
-		PropsDescription.registerOptions,
+		PropsDescription.control,
 		PropsDescription.options,
 		PropsDescription.labelKey,
 		PropsDescription.valueKey,
-		PropsDescription.defaultValue,
+		PropsDescription.radioProps,
+		PropsDescription.onValueChange_CheckboxGroup,
 		PropsDescription.label,
-		PropsDescription.onValueChange_Default,
+		PropsDescription.showLabelAboveFormField,
+		PropsDescription.helperText,
 		PropsDescription.errorMsg,
 		PropsDescription.hideErrorMsg,
-		PropsDescription.showDefaultOption,
-		PropsDescription.defaultOptionText,
+		PropsDescription.formLabelProps,
+		PropsDescription.formControlLabelProps,
 		PropsDescription.formHelperTextProps
 	];
 	

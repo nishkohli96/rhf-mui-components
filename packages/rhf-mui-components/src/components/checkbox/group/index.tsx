@@ -15,7 +15,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
+  onValueChange?: (e: ChangeEvent<HTMLInputElement>, newValue: string) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   helperText?: ReactNode;
