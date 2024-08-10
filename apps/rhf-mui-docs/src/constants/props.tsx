@@ -75,15 +75,25 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
     type: `(e: ChangeEvent) => void`
   },
+  onValueChange_CheckboxGroup: {
+    name: 'onValueChange',
+    description: `An optional callback function when the value of chechboxGroup changes.`,
+    type: `(e: ChangeEvent<HTMLInputElement>, newValue: string) => void`
+  },
+  onValueChange_Rating: {
+    name: 'onValueChange',
+    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    type: `(e: SyntheticEvent, newValue: number OR null) => void`
+  },
   onValueChange_Select: {
     name: 'onValueChange',
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
     type: `(e: SelectChangeEvent) => void`
   },
-  onValueChange_CheckboxGroup: {
-    name: 'onValueChange',
-    description: `An optional callback function when the value of chechboxGroup changes.`,
-    type: `(e: ChangeEvent<HTMLInputElement>, newValue: string) => void`
+  onValueChange_Slider: {
+    name: '',
+    description: ``,
+    type: `(event: Event, value: number | number[], activeThumb: number) => void`
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -116,7 +126,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   defaultValue: {
     name: 'defaultValue',
     description: `Preselected value in \`RHFSelect\` or \`RHFNativeSelect\` when the field renders.`,
-    type: `string OR number`,
+    type: `string OR number OR number[]`,
   },
   helperText: {
     name: 'helperText',

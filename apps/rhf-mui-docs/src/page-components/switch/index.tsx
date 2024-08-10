@@ -1,18 +1,16 @@
 import { MarkdownTable } from '@site/src/components';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFRadioGroupPropsTable() {
+export function RHFSwitchPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
-		PropsDescription.control,
-		PropsDescription.onValueChange_CheckboxGroup,
+		PropsDescription.register,
+		PropsDescription.registerOptions,
+		PropsDescription.onValueChange_Default,
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.errorMsg,
-		PropsDescription.hideErrorMsg,
-		PropsDescription.helperText,
-		PropsDescription.formLabelProps,
-		PropsDescription.formHelperTextProps
+		PropsDescription.formControlLabelProps
 	];
 	
 	return (

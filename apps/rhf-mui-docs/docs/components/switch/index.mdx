@@ -1,0 +1,38 @@
+---
+sidebar_position: 5
+sidebar_label: Switch
+title: RHFSwitch
+description: Input props and usage of RHFSwitch using react-hook-form.
+---
+
+import { RHFSwitchPropsTable } from "@site/src/page-components";
+
+# RHFSwitch
+
+Switches toggle the state of a single setting on or off. `RHFSwitch` extends Mui [Switch](https://mui.com/material-ui/react-switch/),
+so it accepts almost all props of `Switch` and can be customized accordingly!
+
+### Usage
+
+```js
+import { RHFSwitch, RHFSwitchProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFSwitch
+  fieldName="darkTheme"
+  control={control}
+  label="Enable Dark Theme ?"
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFSwitch Example](https://mui.com/material-ui/react-switch/)
+- Mui [Switch](https://mui.com/material-ui/react-switch/) Component
+
+### API
+
+`RHFSwitchProps` extends [SwitchProps](https://mui.com/material-ui/api/switch/) and accepts the following additional values.
+
+<RHFSwitchPropsTable />

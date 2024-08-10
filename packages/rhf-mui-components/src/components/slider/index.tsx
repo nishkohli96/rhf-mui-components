@@ -15,9 +15,9 @@ import { fieldNameToLabel } from '../../utils';
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  defaultValue: number | number[];
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions;
+  defaultValue: number | number[];
   onValueChange?: (
     event: Event,
     value: number | number[],

@@ -7,6 +7,7 @@ export const ExternalLinks = Object.freeze({
     nativeSelect: 'https://mui.com/material-ui/react-select/#native-select',
     radioGroup: 'https://mui.com/material-ui/react-radio-button/',
     select: 'https://mui.com/material-ui/react-select/',
+    switch: 'https://mui.com/material-ui/react-switch/',
     textField: 'https://mui.com/material-ui/react-text-field/',
   },
   muiComponentApi: {
@@ -18,6 +19,7 @@ export const ExternalLinks = Object.freeze({
     radio: 'https://mui.com/material-ui/api/radio/',
     radioGroup: 'https://mui.com/material-ui/api/radio-group/',
     select: 'https://mui.com/material-ui/api/select/',
+    switch: 'https://mui.com/material-ui/api/switch/',
     textField: 'https://mui.com/material-ui/api/text-field/',
   },
   rhfLinks: {
