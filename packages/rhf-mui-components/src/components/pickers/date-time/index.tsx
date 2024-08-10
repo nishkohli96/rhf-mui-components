@@ -22,9 +22,9 @@ import { fieldNameToLabel } from '../../../utils';
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
+  registerOptions?: RegisterOptions;
   setValue: UseFormSetValue<T>;
   onValueChange?: (newValue: unknown) => void;
-  registerOptions?: RegisterOptions;
   errorMsg?: ReactNode;
   hideErrorMsg?: boolean;
   helperText?: ReactNode;

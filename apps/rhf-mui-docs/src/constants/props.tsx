@@ -80,6 +80,11 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `An optional callback function when the value of chechboxGroup changes.`,
     type: `(e: ChangeEvent<HTMLInputElement>, newValue: string) => void`
   },
+  onValueChange_Pickers: {
+    name: 'onValueChange',
+    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    type: `(newValue: unknown) => void`
+  },
   onValueChange_Rating: {
     name: 'onValueChange',
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,

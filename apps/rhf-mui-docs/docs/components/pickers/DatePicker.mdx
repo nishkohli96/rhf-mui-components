@@ -1,0 +1,39 @@
+---
+sidebar_position: 1
+sidebar_label: RHFDatePicker
+title: RHFDatePicker
+description: Input props and usage of RHFDatePicker using react-hook-form.
+---
+
+import { RHFDatePickerPropsTable } from "@site/src/page-components";
+
+# RHFDatePicker
+
+Switches toggle the state of a single setting on or off. `RHFDatePicker` extends Mui [Switch](https://mui.com/material-ui/react-switch/),
+so it accepts almost all props of `Switch` and can be customized accordingly!
+
+### Usage
+
+```js
+import { RHFDatePicker, RHFDatePickerProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFDatePicker
+  fieldName="dob"
+  register={register}
+  setValue={setValue}
+  errorMsg={errors?.dob?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFDatePicker Example](https://mui.com/material-ui/react-switch/)
+- Mui [Switch](https://mui.com/material-ui/react-switch/) Component
+
+### API
+
+`RHFDatePickerProps` extends [SwitchProps](https://mui.com/material-ui/api/switch/) and accepts the following additional values.
+
+<RHFDatePickerPropsTable />
