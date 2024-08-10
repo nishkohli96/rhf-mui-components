@@ -5,12 +5,14 @@ export const PropsDesc = Object.freeze({
   fieldName: {
     name: 'fieldName',
     description: 'React Hook Form requires `name` as a key for the registration process',
-    isRequired: true
+    isRequired: true,
+    type: 'string'
   },
   register: {
     name: 'register',
     description: 'The `register` option yielded on calling the `useForm` hook',
-    isRequired: true
+    isRequired: true,
+    type: 'UserFormRegister'
   },
   // registerOptions: {
   //   name: 'registerOptions',
