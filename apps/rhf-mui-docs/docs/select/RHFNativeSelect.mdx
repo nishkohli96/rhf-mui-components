@@ -1,0 +1,57 @@
+---
+sidebar_position: 2
+sidebar_label: RHFNativeSelect
+title: RHFNativeSelect
+description: Input props and usage of RHFNativeSelect using react-hook-form.
+---
+
+import { RHFNativeSelectPropsTable } from "@site/src/page-components";
+
+# RHFNativeSelect
+
+`RHFNativeSelect` extends Mui [NativeSelect](https://mui.com/material-ui/react-select/#native-select) which
+allow users to select one or more options for a particular question.
+One significant advantage of using this component is its ability to _**accept both
+array as well as object-array values**_, thus reducing the effort of the developer to
+write a custom logic to render options, especially when the label and value of
+the option are different.
+
+### Usage
+
+```js
+import { RHFNativeSelect, RHFNativeSelectProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFNativeSelect
+  fieldName="color"
+  register={register}
+  options={["Red", "Blue", "Orange"]}
+  errorMsg={errors?.color?.message}
+/>
+
+/* With an array of objects as options */
+<RHFNativeSelect
+  fieldName="country"
+  register={register}
+  options={[
+    { code: "AUS", country: "Australia" },
+    { code: "UAE", country: "United Arab Emirates" },
+    { code: "IN", country: "India" },
+  ]}
+  labelKey="country"
+  valueKey="code"
+  errorMsg={errors?.country?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFNativeSelect Example](https://mui.com/material-ui/react-text-field/)
+- Mui [NativeSelect](https://mui.com/material-ui/react-select/) Component
+
+### API
+
+`RHFNativeSelectProps` extends [NativeSelectProps](https://mui.com/material-ui/api/native-select/) and accepts the following additional values.
+
+<RHFNativeSelectPropsTable />

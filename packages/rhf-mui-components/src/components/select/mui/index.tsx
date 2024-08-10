@@ -27,20 +27,20 @@ type SelectValueType = OptionType | OptionType[];
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
+  registerOptions?: RegisterOptions;
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  defaultValue: SelectValueType;
-  registerOptions?: RegisterOptions;
+  defaultValue?: SelectValueType;
   onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
-  helperText?: ReactNode;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
   errorMsg?: ReactNode;
   hideErrorMsg?: boolean;
-  showDefaultOption?: boolean;
-  defaultOptionText?: string;
+  helperText?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  showDefaultOption?: boolean;
+  defaultOptionText?: string;
 } & Omit<
   SelectProps,
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
@@ -92,7 +92,7 @@ function Select<T extends FieldValues>({
         id={fieldName}
         labelId={showLabelAboveFormField ? undefined : fieldName}
         label={showLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue ?? ''}
         error={isError}
         onChange={(e) => {
           onChange(e);

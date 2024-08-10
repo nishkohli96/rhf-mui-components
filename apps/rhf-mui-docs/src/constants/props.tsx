@@ -55,16 +55,81 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   formLabelProps: {
     name: 'formLabelProps',
     description: `[FormLabel Props](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [UseConfig]() HO.`,
-    type: `Omit<[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}), 'error'>`
+    type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
+    hasLinkInType: true
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
     description: `[FormHelperText Props](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [UseConfig]() HOC.`,
-    type: `Omit<[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}), 'children' | 'error'>`
+    type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
+    hasLinkInType: true
   },
   onValueChange_Input: {
     name: 'onValueChange',
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
-    type: `(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void`
+    type: `(e: ChangeEvent) => void`
+  },
+  onValueChange_Select: {
+    name: 'onValueChange',
+    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    type: `(e: SelectChangeEvent) => void`
+  },
+  onValueChange_NativeSelect: {
+    name: 'onValueChange',
+    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    type: `(e: ChangeEvent) => void`
+  },
+  showPasswordIcon: {
+    name: 'showPasswordIcon',
+    description: 'Icon component to show password, such as `VisibilityIcon` from `@mui/icons-material/Visibility`.',
+    type: 'ReactNode'
+  },
+  hidePasswordIcon: {
+    name: 'hidePasswordIcon',
+    description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
+    type: 'ReactNode',
+  },
+  options: {
+    name: 'options',
+    description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
+    type: `\`string[]\` or \`number[]\` or \`object[]\``,
+    required: true
+  },
+  labelKey: {
+    name: 'labelKey',
+    description: `The key of object in your array, whose value would be shown as the label in \`RHFSelect\` or \`RHFNativeSelect\`. Required when options prop is an array of objects.`,
+    type: 'string',
+    required: true
+  },
+  valueKey: {
+    name: 'valueKey',
+    description: `The key of object in your array, whose value would be actual value of the option selected in \`RHFSelect\` or \`RHFNativeSelect\`. Required when options prop is an array of objects.`,
+    type: 'string',
+    required: true
+  },
+  defaultValue: {
+    name: 'defaultValue',
+    description: `Preselected value in \`RHFSelect\` or \`RHFNativeSelect\` when the field renders.`,
+    type: `string OR number`,
+  },
+  helperText: {
+    name: 'helperText',
+    description: `Optional helperText to render under \`RHFSelect\` or \`RHFNativeSelect\` field.`,
+    type: 'ReactNode',
+  },
+  showDefaultOption: {
+    name: 'showDefaultOption',
+    description: `Show default Label of the disabled option when value of \`RHFSelect\` or \`RHFNativeSelect\` is \`''\`. This text cane be changed using the \`defaultOptionText\` prop.`,
+    type: 'boolean'
+  },
+  defaultOptionText: {
+    name: 'defaultOptionText',
+    description: `Custom text to replace the default text when \`showDefaultOption\` is \`true\` for \`RHFSelect\` or \`RHFNativeSelect\`.`,
+    type: 'string'
+  },
+  label: {
+    name: 'label',
+    description: `The text to render in \`FormLabel\` component.`,
+    type: 'ReactNode'
   }
 });

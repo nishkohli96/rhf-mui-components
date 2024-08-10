@@ -1,0 +1,57 @@
+---
+sidebar_position: 1
+sidebar_label: RHFSelect
+title: RHFSelect
+description: Input props and usage of RHFSelect using react-hook-form.
+---
+
+import { RHFSelectPropsTable } from "@site/src/page-components";
+
+# RHFSelect
+
+`RHFSelect` extends Mui [Select](https://mui.com/material-ui/react-select/) which
+allow users to select one or more options for a particular question.
+One significant advantage of using this component is its ability to _**accept both
+array as well as object-array values**_, thus reducing the effort of the developer to
+write a custom logic to render options, especially when the label and value of
+the option are different.
+
+### Usage
+
+```js
+import { RHFSelect, RHFSelectProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFSelect
+  fieldName="color"
+  register={register}
+  options={["Red", "Blue", "Orange"]}
+  errorMsg={errors?.color?.message}
+/>
+
+/* With an array of objects as options */
+<RHFSelect
+  fieldName="country"
+  register={register}
+  options={[
+    { code: "AUS", country: "Australia" },
+    { code: "UAE", country: "United Arab Emirates" },
+    { code: "IN", country: "India" },
+  ]}
+  labelKey="country"
+  valueKey="code"
+  errorMsg={errors?.country?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFSelect Example](https://mui.com/material-ui/react-text-field/)
+- Mui [Select](https://mui.com/material-ui/react-select/) Component
+
+### API
+
+`RHFSelectProps` extends [SelectProps](https://mui.com/material-ui/api/select/) and accepts the following additional values.
+
+<RHFSelectPropsTable />
