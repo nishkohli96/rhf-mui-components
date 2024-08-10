@@ -1,7 +1,7 @@
 import { Paragraph, Link, Code } from '@site/src/components/page-heading';
 import { ExternalLinks } from '@site/src/constants';
 
-export const PropsDesc = Object.freeze({
+export const PropsDescription = Object.freeze({
   fieldName: {
     name: 'fieldName',
     description: 'React Hook Form requires `name` as a key for the registration process',
@@ -12,7 +12,7 @@ export const PropsDesc = Object.freeze({
     name: 'register',
     description: 'The `register` option yielded on calling the `useForm` hook',
     isRequired: true,
-    type: 'UserFormRegister'
+    type: 'UseFormRegister'
   },
   // registerOptions: {
   //   name: 'registerOptions',

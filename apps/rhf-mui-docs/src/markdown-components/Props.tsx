@@ -1,11 +1,11 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { PropsDesc } from '@site/src/constants';
+import { PropsDescription } from '@site/src/constants';
 import '@site/src/css/styles.css';
 
 /* Generate Markdown table string */
 export const generateMarkdownTable = () => {
-  const propsDesc = PropsDesc;
+  const propsDesc = PropsDescription;
   const header = '| Name | Required | Description |\n| - | :-: | - |\n';
   const rows = Object.keys(propsDesc)
     .map((key) => {
