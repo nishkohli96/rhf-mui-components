@@ -66,6 +66,7 @@ function Select<T extends FieldValues>({
   label,
   defaultFormLabelSx,
   defaultFormHelperTextSx,
+  multiple,
   ...otherSelectProps
 }: RHFSelectProps<T> & RHFMuiConfig) {
   const isError = Boolean(errorMsg);
@@ -92,8 +93,9 @@ function Select<T extends FieldValues>({
         id={fieldName}
         labelId={showLabelAboveFormField ? undefined : fieldName}
         label={showLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue ?? ''}
+        defaultValue={defaultValue ?? ( multiple ? [] : '')}
         error={isError}
+        multiple={multiple}
         onChange={(e) => {
           onChange(e);
           onValueChange && onValueChange(e);

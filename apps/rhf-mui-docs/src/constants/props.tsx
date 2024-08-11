@@ -130,8 +130,8 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   defaultValue: {
     name: 'defaultValue',
-    description: `Preselected value in \`RHFSelect\` or \`RHFNativeSelect\` when the field renders.`,
-    type: `string OR number OR number[]`,
+    description: `When rendering \`RHFSelect\` or \`RHFNativeSelect\` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if \`multiple=true\``,
+    type: `string OR string[] OR number OR number[]`,
   },
   helperText: {
     name: 'helperText',

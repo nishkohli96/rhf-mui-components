@@ -15,12 +15,17 @@ import { IPLTeams, Currencies } from '@site/src/constants';
 import { Colors } from '@site/src/types';
 
 export function SelectFormWithClassValidator() {
+  const defaultValues = {
+    favouriteColor: Colors.Orange
+  };
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm({
+    defaultValues
     // resolver: classValidatorResolver(FormSchema)
   });
   console.log('watch: ', watch());
@@ -38,7 +43,7 @@ export function SelectFormWithClassValidator() {
             <FieldVariantInfo title="Single select field with helpertext" />
             <RHFSelect
               fieldName="favouriteColor"
-              defaultValue={''}
+              defaultValue={defaultValues.favouriteColor}
               register={register}
               options={Object.values(Colors)}
               errorMsg={errors?.favouriteColor?.message}
@@ -57,7 +62,6 @@ export function SelectFormWithClassValidator() {
               fieldName="iplTeams"
               register={register}
               options={IPLTeams}
-              defaultValue={[]}
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
