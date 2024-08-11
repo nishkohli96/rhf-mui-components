@@ -4,7 +4,11 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import Grid from '@mui/material/Grid';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from '@site/src/styles/theme';
 import styles from './index.module.css';
+import Button from '@mui/material/Button';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -40,6 +44,7 @@ function HomepageHeader() {
               View Demo
             </Link>
           </Grid>
+          <Button color='secondary' variant='contained'>hell3</Button>
         </Grid>
       </div>
     </header>
@@ -48,13 +53,19 @@ function HomepageHeader() {
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
+  const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+  console.log('isDarkTheme: ', isDarkTheme);
+
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />"
     >
-      <HomepageHeader />
-      <main></main>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HomepageHeader />
+        <main></main>
+      </ThemeProvider>
     </Layout>
   );
 }
