@@ -20,7 +20,7 @@ import { fieldNameToLabel } from '../../../utils';
 export type RHFPasswordFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
-  registerOptions?: RegisterOptions;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;

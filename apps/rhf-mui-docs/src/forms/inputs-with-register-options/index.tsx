@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import LockIcon from '@mui/icons-material/Lock';import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
+import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { RHFTextField, RHFPasswordField } from '@nish1896/rhf-mui-components';
 import {

@@ -21,7 +21,7 @@ type SelectValueType = string | string[] | number | number[];
 export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
-  registerOptions?: RegisterOptions;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
