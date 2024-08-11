@@ -35,7 +35,7 @@ export function StyledReusableComponentForm() {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
   return (
     <FormContainer title="TextField & PasswordInput">

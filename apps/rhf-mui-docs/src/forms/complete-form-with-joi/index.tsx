@@ -61,7 +61,7 @@ export function CompleteFormWithJoi() {
   });
 
   function onFormSubmit(formValues: Person) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (

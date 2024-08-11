@@ -28,11 +28,9 @@ export function SelectFormWithClassValidator() {
     defaultValues
     // resolver: classValidatorResolver(FormSchema)
   });
-  console.log('watch: ', watch());
-  console.log('errors: ', errors);
 
   function onFormSubmit(formValues) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
@@ -75,7 +73,6 @@ export function SelectFormWithClassValidator() {
             <FieldVariantInfo title="Native select" />
             <RHFNativeSelect
               fieldName="currency"
-              defaultValue={''}
               register={register}
               options={Currencies}
               labelKey="name"

@@ -24,16 +24,14 @@ export function CheckboxRadioZodForm() {
   } = useForm({
     resolver: zodResolver(formSchema)
   });
-  console.log('watch: ', watch());
-  console.log('errors: ', errors);
 
   function onFormSubmit(formValues: PersonInfo) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
     <FormContainer title="Radio & Checkbox Group">
-      <form>
+      <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Radio Group with onValueChange function" />
@@ -74,7 +72,6 @@ export function CheckboxRadioZodForm() {
           </Grid>
         </GridContainer>
       </form>
-      <p>hello</p>
     </FormContainer>
   );
 }

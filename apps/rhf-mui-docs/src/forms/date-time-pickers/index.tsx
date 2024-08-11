@@ -24,7 +24,7 @@ export function DateTimePickersForm() {
   } = useForm();
 
   function onFormSubmit(formValues) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
