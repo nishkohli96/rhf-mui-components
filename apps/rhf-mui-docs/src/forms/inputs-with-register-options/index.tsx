@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
+import LockIcon from '@mui/icons-material/Lock';import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { RHFTextField, RHFPasswordField } from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
@@ -27,7 +27,8 @@ const initialValues: FormSchema = {
   lastName: 'Jr.',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  age: null
 };
 
 export function TextAndPasswordInputForm() {
@@ -39,10 +40,10 @@ export function TextAndPasswordInputForm() {
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
-  
+
   function onFormSubmit(formValues: FormSchema) {
     console.log('formValues: ', formValues);
-    // alert(`formValues:  ${formValues}`);
+    alert('Form submitted!');
   }
 
   return (
@@ -88,12 +89,16 @@ export function TextAndPasswordInputForm() {
               register={register}
               errorMsg={errors?.email?.message}
               registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('Email')
+                },
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                   message: 'Invalid Email Id'
                 }
               }}
-              variant='standard'
+              variant="standard"
               showLabelAboveFormField
             />
           </Grid>
@@ -102,12 +107,15 @@ export function TextAndPasswordInputForm() {
             <RHFTextField
               fieldName="age"
               register={register}
-              type='number'
+              type="number"
               registerOptions={{
-                valueAsNumber: true
+                valueAsNumber: true,
+                validate: {
+                  positive: v => v ? (v > 0) || 'Value must be greater than 0.' : true
+                }
               }}
               errorMsg={errors?.age?.message}
-              variant='filled'
+              variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
@@ -131,7 +139,7 @@ export function TextAndPasswordInputForm() {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Password Field with custom icons & validate rule" />
+            <FieldVariantInfo title="Password Field with custom icons & validate rule to match password." />
             <RHFPasswordField
               fieldName="confirmPassword"
               register={register}
@@ -146,8 +154,8 @@ export function TextAndPasswordInputForm() {
                     value === formValues.password || 'Passwords do not match'
                 }
               }}
-              showPasswordIcon={<VisibilityOffTwoToneIcon />}
-              hidePasswordIcon={<VisibilityTwoToneIcon />}
+              showPasswordIcon={<LockIcon />}
+              hidePasswordIcon={<LockOpenIcon />}
               errorMsg={errors?.confirmPassword?.message}
             />
           </Grid>
