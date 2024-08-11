@@ -25,9 +25,11 @@ export const ExternalLinks = Object.freeze({
   rhfLinks: {
 		control: 'https://react-hook-form.com/docs/useform/control',
     register: 'https://react-hook-form.com/docs/useform/register',
+    resolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
     setValue: 'https://react-hook-form.com/docs/useform/setvalue'
   },
   validationLibs: {
+    classValidator: 'https://www.npmjs.com/package/class-validator',
     joi: 'https://www.npmjs.com/package/joi',
     yup: 'https://www.npmjs.com/package/yup',
   }
