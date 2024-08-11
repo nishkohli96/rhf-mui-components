@@ -29,8 +29,9 @@ export const ExternalLinks = Object.freeze({
     setValue: 'https://react-hook-form.com/docs/useform/setvalue'
   },
   validationLibs: {
-    classValidator: 'https://www.npmjs.com/package/class-validator',
     joi: 'https://www.npmjs.com/package/joi',
+    superstruct: 'https://www.npmjs.com/package/superstruct',
     yup: 'https://www.npmjs.com/package/yup',
+    zod: 'https://www.npmjs.com/package/zod'
   }
 })
