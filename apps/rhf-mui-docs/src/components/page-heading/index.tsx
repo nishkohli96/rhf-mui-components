@@ -46,29 +46,6 @@ export function FieldVariantInfo({ title }: PageHeadingProps) {
   );
 }
 
-export function Paragraph({ children }: Props) {
-  return (
-    <Typography variant="body1" sx={{ mb: '10px' }}>
-      {children}
-    </Typography>
-  );
-}
-
-export function Code({ children }: Props) {
-  return (
-    <Typography
-      variant="body2"
-      sx={{
-        color: '#b56f24',
-        padding: '2px 4px',
-        display: 'inline-block'
-      }}
-    >
-      {children}
-    </Typography>
-  );
-}
-
 export function Link(props: Omit<LinkProps, 'underline'>) {
   const { children, href, ...otherLinkProps } = props;
   return (
