@@ -15,8 +15,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "41.3.0",
-    "@ckeditor/ckeditor5-react": "6.2.0",
+    "@ckeditor/ckeditor5-react": "^9.0.0",
     "@docusaurus/core": "3.5.1",
     "@docusaurus/preset-classic": "3.5.1",
     "@emotion/react": "^11.11.4",
@@ -27,6 +26,7 @@
     "@mui/material": "^5.15.19",
     "@mui/x-date-pickers": "^7.7.0",
     "@nish1896/rhf-mui-components": "*",
+    "ckeditor5": "^43.0.0",
     "class-validator": "^0.14.1",
     "class-transformer": "^0.5.1",
     "clsx": "^2.0.0",

@@ -48,12 +48,12 @@ export function MiscellaneousComponentsForm() {
               onChange={(newValue) => setValue('rte', newValue)}
             />
           </Grid> */}
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
           <RHFColorPicker
-              defaultColor={getValues('color') ?? ''}
+              defaultValue={getValues('color') ?? ''}
               onValueChange={(newColor) => setValue('color', newColor.hex)}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <SubmitButton />
           </Grid>

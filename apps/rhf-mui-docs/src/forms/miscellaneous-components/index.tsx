@@ -1,13 +1,14 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
-import { RHFColorPicker } from '@nish1896/rhf-mui-components';
 import Typography from '@mui/material/Typography';
+import {
+  RHFRichTextEditor,
+  RHFColorPicker,
+} from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
   RenderFormState,
   GridContainer,
-  // RHFColorPicker,
-  RHFRichTextEditor,
   FieldVariantInfo,
   SubmitButton
 } from '@site/src/components';
@@ -19,7 +20,6 @@ type FormSchema = {
 
 export function MiscellaneousComponentsForm() {
   const {
-    register,
     setValue,
     handleSubmit,
     watch,
@@ -43,14 +43,15 @@ export function MiscellaneousComponentsForm() {
           <Grid item xs={12}>
             <FieldVariantInfo title="CK5Editor" />
             <RHFRichTextEditor
-              value={getValues('rte')}
-              onChange={(newValue) => setValue('rte', newValue)}
+              fieldName='rte'
+              setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <RHFColorPicker
-              formLabel="Pick a Color"
-              defaultColor={getValues('color')}
+              fieldName='color'
+              label='Choose color'
+              defaultValue={getValues('color')}
               onValueChange={(newColor) => setValue('color', newColor.hex)}
               helperText={
                 <Typography color={getValues('color')}>
