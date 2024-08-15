@@ -11,7 +11,7 @@ type FormContainerProps = {
 export function FormContainer({ title, children }: FormContainerProps) {
   return (
     <Box sx={{ padding: '10px', border: '1px solid gray' }}>
-      <Typography variant="h6" sx={{ mb: '20px' }}>
+      <Typography variant="h6" sx={{ mb: '10px' }}>
         {title}
       </Typography>
       {children}

@@ -26,7 +26,7 @@ export const ConfigProvider = ({
         defaultFormHelperTextSx,
       }),
       ...(dateAdapter && {
-        dateAdapter: setDateAdapter(dateAdapter),
+        dateAdapter
       }),
     }),
     [defaultFormHelperTextSx, defaultFormLabelSx, dateAdapter],

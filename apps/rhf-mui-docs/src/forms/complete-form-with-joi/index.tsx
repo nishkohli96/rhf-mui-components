@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { joiResolver } from '@hookform/resolvers/joi';
 import {
@@ -69,14 +69,12 @@ export function CompleteFormWithJoi() {
       <ConfigProvider
         defaultFormLabelSx={{
           mt: '20px',
-          ml: '20px',
           mb: '16px'
         }}
         defaultFormHelperTextSx={{
           mt: '20px',
           ml: '40px'
         }}
-        // dateAdapter='date-fns'
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
