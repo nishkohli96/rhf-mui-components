@@ -20,8 +20,8 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   editorConfig?: EditorConfig;
   onValueChange?: (event: EventInfo, newValue: string) => void;
   disabled?: boolean;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   label?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
@@ -35,8 +35,8 @@ function RichTextEditor<T extends FieldValues>({
   editorConfig,
   onValueChange,
   disabled,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   label,
   formLabelProps,
   helperText,
@@ -44,7 +44,7 @@ function RichTextEditor<T extends FieldValues>({
   defaultFormLabelSx,
   defaultFormHelperTextSx,
 }: RHFRichTextEditorProps<T> & RHFMuiConfig) {
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 	
 	function handleChange(event: EventInfo, editor: ClassicEditor) {
@@ -71,8 +71,8 @@ function RichTextEditor<T extends FieldValues>({
       />
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

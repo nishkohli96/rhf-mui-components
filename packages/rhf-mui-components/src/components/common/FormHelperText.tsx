@@ -4,9 +4,9 @@ import { RHFMuiConfig } from '../../types';
 
 type Props = {
   error: boolean;
-  errorMsg?: ReactNode;
+  errorMessage?: ReactNode;
 	helperText?: ReactNode;
-  hideErrorMsg?: boolean;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'error' | 'children'>;
 } & Pick<RHFMuiConfig, 'defaultFormHelperTextSx'>;
 
@@ -15,9 +15,9 @@ export function FormHelperText(props: Props) {
     formHelperTextProps,
     defaultFormHelperTextSx,
     error,
-		errorMsg,
+		errorMessage,
 		helperText,
-    hideErrorMsg
+    hideErrorMessage
   } = props;
 
   const { sx , ...otherHelperTextProps } = formHelperTextProps ?? {};
@@ -33,7 +33,7 @@ export function FormHelperText(props: Props) {
         sx={appliedHelperTextSx}
         error={error}
       >
-        {error && !hideErrorMsg ? errorMsg : helperText}
+        {error && !hideErrorMessage ? errorMessage : helperText}
       </MuiFormHelperText>
     </Fragment>
   );

@@ -9,7 +9,7 @@ export function RHFSwitchPropsTable() {
 		PropsDescription.onValueChange_Default,
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
-		PropsDescription.errorMsg,
+		PropsDescription.errorMessage,
 		PropsDescription.formControlLabelProps
 	];
 	

@@ -37,13 +37,13 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.`,
     type: 'Function'
   },
-  errorMsg: {
-    name: 'errorMsg',
+  errorMessage: {
+    name: 'errorMessage',
     description: `Show error message for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText}) component.`,
     type: 'ReactNode'
   },
-  hideErrorMsg: {
-    name: 'hideErrorMsg',
+  hideErrorMessage: {
+    name: 'hideErrorMessage',
     description: `Prevent replacing of form HelperText by error message during validation trigger.`,
     type: 'boolean',
   },

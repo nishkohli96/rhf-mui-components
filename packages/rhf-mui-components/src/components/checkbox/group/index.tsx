@@ -19,8 +19,8 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   helperText?: ReactNode;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   formControlLabelProps?: Omit<
     FormControlLabelProps,
@@ -38,8 +38,8 @@ function CheckboxGroup<T extends FieldValues>({
   valueKey,
   onValueChange,
   label,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   showLabelAboveFormField,
   formLabelProps,
   formHelperTextProps,
@@ -50,7 +50,7 @@ function CheckboxGroup<T extends FieldValues>({
   defaultFormHelperTextSx
 }: RHFCheckboxGroupProps<T> & RHFMuiConfig) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey)
 
   return (
@@ -104,8 +104,8 @@ function CheckboxGroup<T extends FieldValues>({
             </Fragment>
             <FormHelperText
               error={isError}
-              errorMsg={errorMsg}
-              hideErrorMsg={hideErrorMsg}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
               helperText={helperText}
               defaultFormHelperTextSx={defaultFormHelperTextSx}
               formHelperTextProps={formHelperTextProps}

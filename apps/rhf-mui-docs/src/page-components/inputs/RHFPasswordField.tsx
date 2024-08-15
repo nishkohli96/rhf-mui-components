@@ -9,8 +9,8 @@ export function RHFPasswordFieldPropsTable() {
 		PropsDescription.onValueChange_Default,
 		PropsDescription.showPasswordIcon,
 		PropsDescription.hidePasswordIcon,
-		PropsDescription.errorMsg,
-		PropsDescription.hideErrorMsg,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps

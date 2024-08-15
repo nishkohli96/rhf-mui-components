@@ -55,7 +55,7 @@ export function SwitchSliderRatingFormWithSuperstruct() {
               step={5}
               label="What is your score in class 10?"
               showLabelAboveFormField
-              errorMsg={errors?.score?.message}
+              errorMessage={errors?.score?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -66,7 +66,7 @@ export function SwitchSliderRatingFormWithSuperstruct() {
               label="How much would you rate us out of 8 stars?"
               max={8}
               showLabelAboveFormField
-              errorMsg={errors?.rating?.message}
+              errorMessage={errors?.rating?.message}
               helperText="Please select atleast 5"
             />
           </Grid>

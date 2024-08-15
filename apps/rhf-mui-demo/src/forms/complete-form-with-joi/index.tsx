@@ -86,7 +86,7 @@ export function CompleteFormWithJoi() {
               <RHFTextField
                 fieldName="email"
                 register={register}
-                errorMsg={errors?.email?.message}
+                errorMessage={errors?.email?.message}
                 showLabelAboveFormField
               />
             </Grid>
@@ -94,7 +94,7 @@ export function CompleteFormWithJoi() {
               <RHFPasswordField
                 fieldName="password"
                 register={register}
-                errorMsg={errors?.password?.message}
+                errorMessage={errors?.password?.message}
                 showLabelAboveFormField
               />
             </Grid>
@@ -105,7 +105,7 @@ export function CompleteFormWithJoi() {
                 setValue={setValue}
                 showLabelAboveFormField
                 ampm={false}
-                errorMsg={errors?.dateTime?.message}
+                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -116,7 +116,7 @@ export function CompleteFormWithJoi() {
                 label="Date of Birth"
                 showLabelAboveFormField
                 helperText="dedme"
-                errorMsg={errors?.dob?.message}
+                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -126,7 +126,7 @@ export function CompleteFormWithJoi() {
                 setValue={setValue}
                 label="Time"
                 ampm={false}
-                errorMsg={errors?.time?.message}
+                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -159,7 +159,7 @@ export function CompleteFormWithJoi() {
                 register={register}
                 defaultValue={initialValues.favouriteSport}
                 options={Object.values(Sports)}
-                errorMsg={errors?.favouriteSport?.message}
+                errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -169,7 +169,7 @@ export function CompleteFormWithJoi() {
                 defaultValue={initialValues.sports}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
-                errorMsg={errors?.sports?.message}
+                errorMessage={errors?.sports?.message}
                 multiple
                 showLabelAboveFormField
               />
@@ -183,7 +183,7 @@ export function CompleteFormWithJoi() {
                 labelKey="name"
                 valueKey="abbr"
                 options={IPLTeams}
-                errorMsg={errors?.sports?.message}
+                errorMessage={errors?.sports?.message}
                 multiple
               />
             </Grid>
@@ -193,7 +193,7 @@ export function CompleteFormWithJoi() {
                 register={register}
                 defaultValue={initialValues.favouriteColor}
                 options={Object.values(Colors)}
-                errorMsg={errors?.favouriteColor?.message}
+                errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
               />
@@ -205,7 +205,7 @@ export function CompleteFormWithJoi() {
                 label="Select Color"
                 showLabelAboveFormField
                 options={Object.values(Colors)}
-                errorMsg={errors?.color?.message}
+                errorMessage={errors?.color?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -216,7 +216,7 @@ export function CompleteFormWithJoi() {
                 options={CountriesList}
                 labelKey="country"
                 valueKey="code"
-                errorMsg={errors?.countries?.message}
+                errorMessage={errors?.countries?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -225,7 +225,7 @@ export function CompleteFormWithJoi() {
                 control={control}
                 options={Object.values(Gender)}
                 row
-                errorMsg={errors?.gender?.message}
+                errorMessage={errors?.gender?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -241,7 +241,7 @@ export function CompleteFormWithJoi() {
                   console.log('v1: ', v1);
                   console.log('opn: ', opn);
                 }}
-                errorMsg={errors?.country?.message}
+                errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -256,14 +256,14 @@ export function CompleteFormWithJoi() {
                   console.log('changed switch', e);
                 }}
                 showLabelAboveFormField
-                errorMsg={errors?.agreeTnC?.message}
+                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRating
                 fieldName="rating"
                 control={control}
-                errorMsg={errors?.rating?.message}
+                errorMessage={errors?.rating?.message}
                 max={10}
                 showLabelAboveFormField
               />

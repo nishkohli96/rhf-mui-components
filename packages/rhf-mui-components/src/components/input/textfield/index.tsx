@@ -20,8 +20,8 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
@@ -35,8 +35,8 @@ function TextField<T extends FieldValues>(
     register,
     registerOptions,
     onValueChange,
-    errorMsg,
-    hideErrorMsg,
+    errorMessage,
+    hideErrorMessage,
     showLabelAboveFormField,
     formLabelProps,
     formHelperTextProps,
@@ -46,7 +46,7 @@ function TextField<T extends FieldValues>(
     defaultFormHelperTextSx,
     ...rest
   } = props;
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { onChange, ...otherRegisterProps } = register(
@@ -76,8 +76,8 @@ function TextField<T extends FieldValues>(
       />
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

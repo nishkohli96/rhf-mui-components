@@ -17,8 +17,8 @@ export type RHFColorPickerProps<T extends FieldValues> = {
 	defaultValue?: string;
 	onValueChange?: (color: IColor) => void;
   disabled?: boolean;
-	errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+	errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
 	label?: ReactNode;
   showLabelAboveFormField?: boolean;
 	formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -32,8 +32,8 @@ function ColorPicker<T extends FieldValues>({
   onValueChange,
 	hideInput,
   disabled,
-	errorMsg,
-	hideErrorMsg,
+	errorMessage,
+	hideErrorMessage,
 	label,
   showLabelAboveFormField,
 	formLabelProps,
@@ -45,7 +45,7 @@ function ColorPicker<T extends FieldValues>({
 }: RHFColorPickerProps<T> & RHFMuiConfig) {
   const [color, setColor] = useColor(defaultValue ?? '#000000');
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-	const isError = Boolean(errorMsg);
+	const isError = Boolean(errorMessage);
 
   const handleColorChange = (color: IColor) => {
     if (!disabled) {
@@ -71,8 +71,8 @@ function ColorPicker<T extends FieldValues>({
       />
 			<FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

@@ -29,10 +29,10 @@ function StyledErrorMsg({ msg }: StyledErrorMsgProps) {
 export function StyledRHFTextField<T extends FieldValues>(
   props: StyledRHFTextFieldProps<T>,
 ) {
-  const { errorMsg, ...rest } = props;
+  const { errorMessage, ...rest } = props;
   return (
     <RHFTextField
-      errorMsg={errorMsg ? <StyledErrorMsg msg={errorMsg} />: undefined}
+      errorMessage={errorMessage ? <StyledErrorMsg msg={errorMessage} />: undefined}
       variant="standard"
 			showLabelAboveFormField
       {...rest}

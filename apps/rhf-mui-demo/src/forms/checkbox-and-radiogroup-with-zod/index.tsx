@@ -44,7 +44,7 @@ export function CheckboxRadioZodForm() {
               control={control}
               options={Object.values(Gender)}
 							onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
-              errorMsg={errors?.gender?.message}
+              errorMessage={errors?.gender?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -56,7 +56,7 @@ export function CheckboxRadioZodForm() {
               labelKey="country"
               valueKey="code"
               showLabelAboveFormField
-              errorMsg={errors?.countriesVisited?.message}
+              errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -65,7 +65,7 @@ export function CheckboxRadioZodForm() {
               fieldName="agreeTnC"
               control={control}
 							label="Agree to Terms & Conditions"
-              errorMsg={errors?.agreeTnC?.message}
+              errorMessage={errors?.agreeTnC?.message}
             />
           </Grid>
           <Grid item xs={12}>

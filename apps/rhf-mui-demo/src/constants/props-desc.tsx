@@ -79,8 +79,8 @@ export const PropsDesc = Object.freeze({
     ),
     required: false
   },
-  errorMsg: {
-    name: 'errorMsg',
+  errorMessage: {
+    name: 'errorMessage',
     description: (
       <Paragraph>
         Show field error message in{' '}
@@ -92,8 +92,8 @@ export const PropsDesc = Object.freeze({
     ),
     required: false
   },
-  hideErrorMsg: {
-    name: 'hideErrorMsg',
+  hideErrorMessage: {
+    name: 'hideErrorMessage',
     description: (
       <Paragraph>
         Prevent showing error message, if you want to retain formHelper text,

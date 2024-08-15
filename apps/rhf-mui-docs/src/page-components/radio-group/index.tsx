@@ -8,8 +8,8 @@ export function RHFRadioGroupPropsTable() {
 		PropsDescription.onValueChange_CheckboxGroup,
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
-		PropsDescription.errorMsg,
-		PropsDescription.hideErrorMsg,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.helperText,
 		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps

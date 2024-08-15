@@ -60,7 +60,7 @@ export function TextAndPasswordInputForm() {
                   message: reqdMsg('First Name')
                 }
               }}
-              errorMsg={errors?.firstName?.message}
+              errorMessage={errors?.firstName?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -78,7 +78,7 @@ export function TextAndPasswordInputForm() {
                   message: maxCharMsg(10)
                 }
               }}
-              errorMsg={errors?.lastName?.message}
+              errorMessage={errors?.lastName?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -86,7 +86,7 @@ export function TextAndPasswordInputForm() {
             <RHFTextField
               fieldName="email"
               register={register}
-              errorMsg={errors?.email?.message}
+              errorMessage={errors?.email?.message}
               registerOptions={{
                 required: {
                   value: true,
@@ -113,7 +113,7 @@ export function TextAndPasswordInputForm() {
                   positive: v => v ? (v > 0) || 'Value must be greater than 0.' : true
                 }
               }}
-              errorMsg={errors?.age?.message}
+              errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
@@ -134,7 +134,7 @@ export function TextAndPasswordInputForm() {
                   message: minCharMsg(4)
                 }
               }}
-              errorMsg={errors?.password?.message}
+              errorMessage={errors?.password?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -155,7 +155,7 @@ export function TextAndPasswordInputForm() {
               }}
               showPasswordIcon={<LockIcon />}
               hidePasswordIcon={<LockOpenIcon />}
-              errorMsg={errors?.confirmPassword?.message}
+              errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
           <Grid item xs={12}>

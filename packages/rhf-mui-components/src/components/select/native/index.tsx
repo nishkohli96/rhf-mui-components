@@ -28,8 +28,8 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   defaultValue?: SelectValueType;
   label?: ReactNode;
   onValueChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
@@ -48,14 +48,14 @@ export function RHFNativeSelect<T extends FieldValues>({
   defaultValue,
   onValueChange,
   formHelperTextProps,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   showDefaultOption,
   defaultOptionText,
   label,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) {
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { onChange, ...rest } = register(fieldName, registerOptions);
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
@@ -94,7 +94,7 @@ export function RHFNativeSelect<T extends FieldValues>({
           error={isError}
           sx={formHelperTextProps?.sx ?? { ml: 0 }}
         >
-          {errorMsg}
+          {errorMessage}
         </FormHelperText>
       )}
     </FormControl>

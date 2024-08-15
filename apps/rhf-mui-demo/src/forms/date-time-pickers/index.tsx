@@ -43,7 +43,7 @@ export function DateTimePickersForm() {
                 setValue={setValue}
                 label="Date of Birth"
                 showLabelAboveFormField
-                errorMsg={errors?.dob?.message}
+                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -54,7 +54,7 @@ export function DateTimePickersForm() {
                 setValue={setValue}
                 label="Time"
                 ampm={false}
-                errorMsg={errors?.time?.message}
+                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -65,7 +65,7 @@ export function DateTimePickersForm() {
                 showLabelAboveFormField
 								label="Date-Time Picker"
                 ampm={false}
-                errorMsg={errors?.dateTime?.message}
+                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid item xs={12}>

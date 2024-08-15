@@ -25,8 +25,8 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   setValue: UseFormSetValue<T>;
   onValueChange?: (newValue: unknown) => void;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   helperText?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps: Omit<FormLabelProps, 'error'>;
@@ -42,8 +42,8 @@ export function DateTimePicker<T extends FieldValues>(
     setValue,
     onValueChange,
     registerOptions,
-    errorMsg,
-    hideErrorMsg,
+    errorMessage,
+    hideErrorMessage,
     showLabelAboveFormField,
     formLabelProps,
     formHelperTextProps,
@@ -54,7 +54,7 @@ export function DateTimePicker<T extends FieldValues>(
     dateAdapter,
     ...rest
   } = props;
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { onChange, ...otherRegisterProps } = register(
@@ -85,8 +85,8 @@ export function DateTimePicker<T extends FieldValues>(
       </LocalizationProvider>
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
       />

@@ -61,7 +61,7 @@ export function StyledReusableComponentForm() {
                     message: reqdMsg('First Name'),
                   },
                 }}
-                errorMsg={errors?.firstName?.message}
+                errorMessage={errors?.firstName?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -78,7 +78,7 @@ export function StyledReusableComponentForm() {
                     message: maxCharMsg(10),
                   },
                 }}
-                errorMsg={errors?.lastName?.message}
+                errorMessage={errors?.lastName?.message}
               />
             </Grid>
 						<Grid item xs={6}>

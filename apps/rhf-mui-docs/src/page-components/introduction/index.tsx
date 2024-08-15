@@ -9,8 +9,8 @@ export function IntroductionPageTable() {
 		PropsDescription.control,
 		PropsDescription.setValue,
 		PropsDescription.onValueChange,
-		PropsDescription.errorMsg,
-		PropsDescription.hideErrorMsg,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps

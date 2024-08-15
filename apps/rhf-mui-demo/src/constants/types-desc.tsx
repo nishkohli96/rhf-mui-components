@@ -26,13 +26,13 @@ export const TypesDesc = Object.freeze({
 		),
 		required: false
 	},
-	errorMsg: {
-		name: 'errorMsg',
+	errorMessage: {
+		name: 'errorMessage',
 		description: 'ReactNode',
 		required: false
 	},
-	hideErrorMsg: {
-		name: 'hideErrorMsg',
+	hideErrorMessage: {
+		name: 'hideErrorMessage',
 		description: 'boolean',
 		required: false
 	},

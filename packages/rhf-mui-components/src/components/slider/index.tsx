@@ -25,8 +25,8 @@ export type RHFSliderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   helperText?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
@@ -43,8 +43,8 @@ function Slider<T extends FieldValues>(
     onValueChange,
     label,
     showLabelAboveFormField,
-    errorMsg,
-    hideErrorMsg,
+    errorMessage,
+    hideErrorMessage,
     helperText,
     formLabelProps,
     formHelperTextProps,
@@ -54,7 +54,7 @@ function Slider<T extends FieldValues>(
     max,
     ...rest
   } = props;
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { onChange, name } = register(fieldName, registerOptions);
@@ -81,8 +81,8 @@ function Slider<T extends FieldValues>(
       />
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

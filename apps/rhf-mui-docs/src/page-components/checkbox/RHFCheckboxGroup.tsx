@@ -12,8 +12,8 @@ export function RHFCheckboxGroupPropsTable() {
 		PropsDescription.onValueChange_CheckboxGroup,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.helperText,
-		PropsDescription.errorMsg,
-		PropsDescription.hideErrorMsg,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.formLabelProps,
 		PropsDescription.formControlLabelProps,
 		PropsDescription.formHelperTextProps

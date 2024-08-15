@@ -9,8 +9,8 @@ export function RHFRatingPropsTable() {
     PropsDescription.onValueChange_Rating,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
-    PropsDescription.errorMsg,
-    PropsDescription.hideErrorMsg,
+    PropsDescription.errorMessage,
+    PropsDescription.hideErrorMessage,
     PropsDescription.helperText,
     PropsDescription.formLabelProps,
     PropsDescription.formHelperTextProps

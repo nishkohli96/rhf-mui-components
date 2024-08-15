@@ -33,8 +33,8 @@ export type RHFSelectProps<T extends FieldValues> = {
   valueKey?: string;
   defaultValue?: SelectValueType;
   onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   helperText?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -57,8 +57,8 @@ function Select<T extends FieldValues>({
   onValueChange,
   helperText,
   formHelperTextProps,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   showDefaultOption,
   defaultOptionText,
   showLabelAboveFormField,
@@ -69,7 +69,7 @@ function Select<T extends FieldValues>({
   multiple,
   ...otherSelectProps
 }: RHFSelectProps<T> & RHFMuiConfig) {
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   validateArray('RHFSelect', options, labelKey, valueKey);
 
@@ -123,8 +123,8 @@ function Select<T extends FieldValues>({
       </MuiSelect>
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

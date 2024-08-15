@@ -24,8 +24,8 @@ export type RHFPasswordFieldProps<T extends FieldValues> = {
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
 	formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
@@ -41,8 +41,8 @@ function PasswordField<T extends FieldValues>(
     register,
     registerOptions,
     onValueChange,
-    errorMsg,
-    hideErrorMsg,
+    errorMessage,
+    hideErrorMessage,
     showLabelAboveFormField,
     formLabelProps,
     formHelperTextProps,
@@ -55,7 +55,7 @@ function PasswordField<T extends FieldValues>(
     ...rest
   } = props;
 
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { onChange, ...otherRegisterProps } = register(
     fieldName,
@@ -108,8 +108,8 @@ function PasswordField<T extends FieldValues>(
       />
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

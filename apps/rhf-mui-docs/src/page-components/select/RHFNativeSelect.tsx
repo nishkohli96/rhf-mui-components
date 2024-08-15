@@ -12,8 +12,8 @@ export function RHFNativeSelectPropsTable() {
 		PropsDescription.defaultValue,
 		PropsDescription.label,
 		PropsDescription.onValueChange_Default,
-		PropsDescription.errorMsg,
-		PropsDescription.hideErrorMsg,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.showDefaultOption,
 		PropsDescription.defaultOptionText,
 		PropsDescription.formHelperTextProps
