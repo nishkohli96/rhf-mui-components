@@ -1,12 +1,11 @@
-'use client';
-
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import { RHFColorPicker } from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
   RenderFormState,
   GridContainer,
-  RHFColorPicker,
+  // RHFColorPicker,
   RHFRichTextEditor,
   FieldVariantInfo,
   SubmitButton
@@ -49,8 +48,8 @@ export function MiscellaneousComponentsForm() {
           </Grid>
           <Grid item xs={12} md={6}>
             <RHFColorPicker
-              selectedColor={getValues('color') ?? ''}
-              onUpdateColor={(newColor) => setValue('color', newColor)}
+              defaultColor={getValues('color') ?? ''}
+              onValueChange={(newColor) => setValue('color', newColor.hex)}
             />
           </Grid>
           <Grid item xs={12}>

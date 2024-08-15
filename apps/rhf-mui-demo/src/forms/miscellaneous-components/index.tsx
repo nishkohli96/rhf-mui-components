@@ -6,11 +6,12 @@ import {
   FormContainer,
   RenderFormState,
   GridContainer,
-  RHFColorPicker,
-  RHFRichTextEditor,
+  // RHFColorPicker,
+  // RHFRichTextEditor,
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
+import { RHFColorPicker } from '@nish1896/rhf-mui-components';
 
 type FormSchema = {
   rte: string | null;
@@ -48,9 +49,9 @@ export function MiscellaneousComponentsForm() {
             />
           </Grid> */}
           <Grid item xs={12} md={6}>
-            <RHFColorPicker
-              selectedColor={getValues('color') ?? ''}
-              onUpdateColor={(newColor) => setValue('color', newColor)}
+          <RHFColorPicker
+              defaultColor={getValues('color') ?? ''}
+              onValueChange={(newColor) => setValue('color', newColor.hex)}
             />
           </Grid>
           <Grid item xs={12}>

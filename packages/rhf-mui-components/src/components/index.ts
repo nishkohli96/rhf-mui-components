@@ -1,5 +1,6 @@
 export * from './checkbox';
 export * from './input';
+export * from './miscellaneous';
 export * from './pickers';
 export * from './radio-group';
 export * from './rating';
