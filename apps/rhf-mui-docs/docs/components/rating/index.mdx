@@ -1,0 +1,40 @@
+---
+sidebar_position: 7
+sidebar_label: Rating
+title: RHFRating
+description: Input props and usage of RHFRating using react-hook-form.
+---
+
+import { RHFSliderPropsTable } from "@site/src/page-components";
+
+# RHFRating
+
+Ratings provide insight regarding others' opinions and experiences, and can
+allow the user to submit a rating of their own. `RHFRating` extends Mui 
+[Rating](https://mui.com/material-ui/react-rating/),
+so it accepts almost all props of `Rating` and can be customized accordingly!
+
+### Usage
+
+```js
+import { RHFRating, RHFRatingProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFRating
+  fieldName="rating"
+  control={control}
+  errorMessage={errors?.rating?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFRating Example](https://mui.com/material-ui/react-Rating/)
+- Mui [Rating](https://mui.com/material-ui/react-rating/) Component
+
+### API
+
+`RHFSliderProps` extends [SwitchProps](https://mui.com/material-ui/api/Rating/) and accepts the following additional values.
+
+<RHFSliderPropsTable />

@@ -17,8 +17,8 @@ export type RHFRatingProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   helperText?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
@@ -33,8 +33,8 @@ function Rating<T extends FieldValues>(
     onValueChange,
     label,
     showLabelAboveFormField,
-    errorMsg,
-    hideErrorMsg,
+    errorMessage,
+    hideErrorMessage,
     helperText,
     formLabelProps,
     formHelperTextProps,
@@ -42,7 +42,7 @@ function Rating<T extends FieldValues>(
     defaultFormHelperTextSx,
     ...rest
   } = props;
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   return (
@@ -70,8 +70,8 @@ function Rating<T extends FieldValues>(
             />
             <FormHelperText
               error={isError}
-              errorMsg={errorMsg}
-              hideErrorMsg={hideErrorMsg}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
               helperText={helperText}
               defaultFormHelperTextSx={defaultFormHelperTextSx}
               formHelperTextProps={formHelperTextProps}

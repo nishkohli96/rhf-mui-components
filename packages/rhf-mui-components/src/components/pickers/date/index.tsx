@@ -22,11 +22,11 @@ import { fieldNameToLabel } from '../../../utils';
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   setValue: UseFormSetValue<T>;
   onValueChange?: (newValue: unknown) => void;
-  registerOptions?: RegisterOptions;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   helperText?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps: Omit<FormLabelProps, 'error'>;
@@ -42,8 +42,8 @@ export function DatePicker<T extends FieldValues>(
     setValue,
     onValueChange,
     registerOptions,
-    errorMsg,
-    hideErrorMsg,
+    errorMessage,
+    hideErrorMessage,
     showLabelAboveFormField,
     formLabelProps,
     formHelperTextProps,
@@ -54,7 +54,7 @@ export function DatePicker<T extends FieldValues>(
     dateAdapter,
     ...rest
   } = props;
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { onChange, ...otherRegisterProps } = register(
@@ -85,8 +85,8 @@ export function DatePicker<T extends FieldValues>(
       </LocalizationProvider>
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
       />

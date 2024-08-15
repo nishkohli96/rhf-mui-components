@@ -1,0 +1,40 @@
+---
+sidebar_position: 1
+sidebar_label: RHFCheckbox
+title: RHFCheckbox
+description: Input props and usage of RHFCheckbox using react-hook-form.
+---
+
+import { RHFCheckboxPropsTable } from "@site/src/page-components";
+
+# RHFCheckbox
+
+`RHFCheckbox` component renders a checkbox which allows the user to turn an option on or off, for 
+example, to subscribe to promotional emails. `RHFCheckbox` extends Mui [Checkbox](https://mui.com/material-ui/react-checkbox/),
+so it accepts almost all props of `Checkbox` and can be customized in a similar way!
+
+### Usage
+
+```js
+import { RHFCheckbox, RHFCheckboxProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFCheckbox
+  fieldName="agreeTnC"
+  control={control}
+  label="Agree to Terms & Conditions"
+  errorMessage={errors?.agreeTnC?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFCheckbox Example](https://mui.com/material-ui/react-text-field/)
+- Mui [Checkbox](https://mui.com/material-ui/react-checkbox/) Component
+
+### API
+
+`RHFCheckboxProps` extends [TextFieldProps](https://mui.com/material-ui/api/text-field/) and accepts the following additional values.
+
+<RHFCheckboxPropsTable />

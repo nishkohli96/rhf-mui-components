@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+sidebar_label: RHFTextField
+title: RHFTextField
+description: Input props and usage of RHFTextField using react-hook-form.
+---
+
+import { RHFTextFieldPropsTable } from "@site/src/page-components";
+
+# RHFTextField
+
+Text fields allow users to enter text into a UI and are the "essential" component 
+of every form! `RHFTextField` extends Mui [TextField](https://mui.com/material-ui/react-text-field/),
+so it accepts almost all props of `TextField` and can be customized in a similar way!
+
+### Usage
+
+```js
+import { RHFTextField, RHFTextFieldProps } from "@nish1896/rhf-mui-components";
+```
+
+`RHFTextField` requires a bare minimum of 3-4 props to render a fully functional form-field.
+
+```jsx
+<RHFTextField
+  fieldName="firstName"
+  register={register}
+  errorMessage={errors?.firstName?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFTextField Example](https://mui.com/material-ui/react-text-field/)
+- Mui [TextField](https://mui.com/material-ui/react-text-field/) Component
+
+### API
+
+`RHFTextFieldProps` extends [TextFieldProps](https://mui.com/material-ui/api/text-field/) and accepts the following additional values.
+
+<RHFTextFieldPropsTable />

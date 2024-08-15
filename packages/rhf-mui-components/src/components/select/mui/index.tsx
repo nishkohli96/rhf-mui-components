@@ -27,20 +27,20 @@ type SelectValueType = OptionType | OptionType[];
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  defaultValue: SelectValueType;
-  registerOptions?: RegisterOptions;
+  defaultValue?: SelectValueType;
   onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   helperText?: ReactNode;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
-  showDefaultOption?: boolean;
-  defaultOptionText?: string;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  showDefaultOption?: boolean;
+  defaultOptionText?: string;
 } & Omit<
   SelectProps,
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
@@ -57,8 +57,8 @@ function Select<T extends FieldValues>({
   onValueChange,
   helperText,
   formHelperTextProps,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   showDefaultOption,
   defaultOptionText,
   showLabelAboveFormField,
@@ -66,9 +66,10 @@ function Select<T extends FieldValues>({
   label,
   defaultFormLabelSx,
   defaultFormHelperTextSx,
+  multiple,
   ...otherSelectProps
 }: RHFSelectProps<T> & RHFMuiConfig) {
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   validateArray('RHFSelect', options, labelKey, valueKey);
 
@@ -92,8 +93,9 @@ function Select<T extends FieldValues>({
         id={fieldName}
         labelId={showLabelAboveFormField ? undefined : fieldName}
         label={showLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue ?? ( multiple ? [] : '')}
         error={isError}
+        multiple={multiple}
         onChange={(e) => {
           onChange(e);
           onValueChange && onValueChange(e);
@@ -121,8 +123,8 @@ function Select<T extends FieldValues>({
       </MuiSelect>
       <FormHelperText
         error={isError}
-        errorMsg={errorMsg}
-        hideErrorMsg={hideErrorMsg}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}

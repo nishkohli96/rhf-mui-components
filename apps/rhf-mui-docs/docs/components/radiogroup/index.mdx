@@ -1,0 +1,54 @@
+---
+sidebar_position: 4
+sidebar_label: Radio Group
+title: RHFRadioGroup
+description: Input props and usage of RHFRadioGroup using react-hook-form.
+---
+
+import { RHFRadioGroupPropsTable } from "@site/src/page-components";
+
+# RHFRadioGroup
+
+`RHFRadioGroup` component renders a checkbox which allows the user to turn an option on or off, for 
+example, to subscribe to promotional emails. `RHFRadioGroup` extends Mui [Checkbox](https://mui.com/material-ui/react-checkbox/),
+so it accepts almost all props of `Checkbox` and can be customized in a similar way!
+
+### Usage
+
+```js
+import { RHFRadioGroup, RHFRadioGroupProps } from "@nish1896/rhf-mui-components";
+```
+
+```jsx
+<RHFRadioGroup
+  fieldName="favouriteColor"
+  control={control}
+  options={["Red", "Blue", "Orange"]}
+  errorMessage={errors?.favouriteColor?.message}
+/>
+
+/* With an array of objects as options */
+<RHFRadioGroup
+  fieldName="nationality"
+  control={control}
+  options={[
+    { code: "AUS", country: "Australia" },
+    { code: "UAE", country: "United Arab Emirates" },
+    { code: "IN", country: "India" },
+  ]}
+  labelKey="country"
+  valueKey="code"
+  errorMessage={errors?.nationality?.message}
+/>
+```
+
+Please visit the below links to check the component usage.
+
+- [RHFRadioGroup Example](https://mui.com/material-ui/react-text-field/)
+- Mui [RadioGroup](https://mui.com/material-ui/react-checkbox/#formgroup) Component
+
+### API
+
+`RHFRadioGroupProps` extends [TextFieldProps](https://mui.com/material-ui/api/text-field/) and accepts the following additional values.
+
+<RHFRadioGroupPropsTable />

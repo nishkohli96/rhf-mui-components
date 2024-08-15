@@ -20,8 +20,8 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   helperText?: ReactNode;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   formControlLabelProps?: Omit<
     FormControlLabelProps,
@@ -41,8 +41,8 @@ function RadioGroup<T extends FieldValues>({
   label,
   showLabelAboveFormField,
   helperText,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   formLabelProps,
   formControlLabelProps,
   formHelperTextProps,
@@ -52,7 +52,7 @@ function RadioGroup<T extends FieldValues>({
   ...rest
 }: RHFRadioGroupProps<T> & RHFMuiConfig) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   return (
@@ -94,8 +94,8 @@ function RadioGroup<T extends FieldValues>({
             </MuiRadioGroup>
             <FormHelperText
               error={isError}
-              errorMsg={errorMsg}
-              hideErrorMsg={hideErrorMsg}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
               helperText={helperText}
               defaultFormHelperTextSx={defaultFormHelperTextSx}
               formHelperTextProps={formHelperTextProps}

@@ -1,32 +1,37 @@
-import { ReactNode, createContext } from 'react';
+import { ReactNode, createContext, useMemo } from 'react';
 import { DefaultRHFMuiConfig } from './DefaultConfig';
 import { RHFMuiConfig, RHFMuiConfigInput } from '../types';
 import { setDateAdapter } from '../utils';
-;
+
 type ConfigProviderProps = {
   children: ReactNode;
 } & RHFMuiConfigInput;
 
-export const RHFMuiConfigContext = createContext<RHFMuiConfig>(DefaultRHFMuiConfig);
+export const RHFMuiConfigContext =
+  createContext<RHFMuiConfig>(DefaultRHFMuiConfig);
 
 export const ConfigProvider = ({
   children,
   defaultFormHelperTextSx,
   defaultFormLabelSx,
-  dateAdapter
+  dateAdapter,
 }: ConfigProviderProps) => {
-  const defaultSetting: RHFMuiConfig = {
-    ...DefaultRHFMuiConfig,
-    ...(defaultFormLabelSx && {
-      defaultFormLabelSx
+  const defaultSetting: RHFMuiConfig = useMemo(
+    () => ({
+      ...DefaultRHFMuiConfig,
+      ...(defaultFormLabelSx && {
+        defaultFormLabelSx,
+      }),
+      ...(defaultFormHelperTextSx && {
+        defaultFormHelperTextSx,
+      }),
+      ...(dateAdapter && {
+        dateAdapter
+      }),
     }),
-    ...(defaultFormHelperTextSx && {
-      defaultFormHelperTextSx
-    }),
-    ...(dateAdapter && {
-      dateAdapter: setDateAdapter(dateAdapter)
-    })
-  };
+    [defaultFormHelperTextSx, defaultFormLabelSx, dateAdapter],
+  );
+
   return (
     <RHFMuiConfigContext.Provider value={defaultSetting}>
       {children}

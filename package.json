@@ -11,6 +11,7 @@
     "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
     "demo:build": "yarn workspace @nish1896/rhf-mui-demo build",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
+    "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
     "storybook": "yarn workspace @nish1896/rhf-mui-demo storybook",
     "storybook:build": "yarn workspace @nish1896/rhf-mui-demo build-storybook"
   },

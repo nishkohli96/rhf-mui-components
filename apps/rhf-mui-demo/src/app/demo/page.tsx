@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import { PageLinks } from '@/constants';
+import { DemoPageLinks } from '@/constants';
 import { PageHeading, PageLink } from '@/components';
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       >
         Click on any of the links below to see their demo
       </Typography>
-      {PageLinks.map((link, idx) => (
+      {DemoPageLinks.map((link, idx) => (
         <PageLink text={link.title} href={link.href} key={idx} />
       ))}
     </main>

@@ -1,6 +1,8 @@
+import { Page } from '@/types';
+
 const pagePrefix = '/demo'
 
-export const PageLinks = [
+export const DemoPageLinks: Page[] = [
   {
     title: 'TextField & Password Input',
     href: `${pagePrefix}/textfield-and-passwordfield`
@@ -20,6 +22,10 @@ export const PageLinks = [
   {
     title: 'Date & Time Pickers',
     href: `${pagePrefix}/date-time-pickers`
+  },
+  {
+    title: 'Styled Form with Config Provider',
+    href: `${pagePrefix}/styled-form-with-reusable-component`
   },
   {
     title: 'Miscellaneous Components',

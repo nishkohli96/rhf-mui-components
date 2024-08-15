@@ -8,9 +8,7 @@ import {
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
-import FormHelperText, {
-  FormHelperTextProps
-} from '@mui/material/FormHelperText';
+import FormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { OptionType } from '../../../types';
 import {
   fieldNameToLabel,
@@ -23,18 +21,18 @@ type SelectValueType = string | string[] | number | number[];
 export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  defaultValue: SelectValueType;
-  registerOptions?: RegisterOptions;
+  defaultValue?: SelectValueType;
   label?: ReactNode;
   onValueChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-  errorMsg?: ReactNode;
-  hideErrorMsg?: boolean;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<
   NativeSelectProps,
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
@@ -50,17 +48,17 @@ export function RHFNativeSelect<T extends FieldValues>({
   defaultValue,
   onValueChange,
   formHelperTextProps,
-  errorMsg,
-  hideErrorMsg,
+  errorMessage,
+  hideErrorMessage,
   showDefaultOption,
   defaultOptionText,
   label,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) {
-  const isError = Boolean(errorMsg);
+  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { onChange, ...rest } = register(fieldName, registerOptions);
-  validateArray('RHFSelect', options, labelKey, valueKey);
+  validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   return (
     <FormControl fullWidth error={isError}>
@@ -70,7 +68,7 @@ export function RHFNativeSelect<T extends FieldValues>({
       <NativeSelect
         {...otherNativeSelectProps}
         {...rest}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue ?? ''}
         inputProps={{
           name: fieldName,
           id: fieldName
@@ -96,7 +94,7 @@ export function RHFNativeSelect<T extends FieldValues>({
           error={isError}
           sx={formHelperTextProps?.sx ?? { ml: 0 }}
         >
-          {errorMsg}
+          {errorMessage}
         </FormHelperText>
       )}
     </FormControl>

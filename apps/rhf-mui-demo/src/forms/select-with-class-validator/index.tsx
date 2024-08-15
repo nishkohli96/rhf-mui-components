@@ -43,7 +43,7 @@ export function SelectFormWithClassValidator() {
               defaultValue={''}
               register={register}
               options={Object.values(Colors)}
-              errorMsg={errors?.favouriteColor?.message}
+              errorMessage={errors?.favouriteColor?.message}
               helperText={
                 Boolean(watch('favouriteColor')) ? (
                   <Typography color={watch('favouriteColor')}>
@@ -65,7 +65,7 @@ export function SelectFormWithClassValidator() {
               showLabelAboveFormField
               showDefaultOption
               multiple
-              errorMsg={errors?.iplTeams?.message}
+              errorMessage={errors?.iplTeams?.message}
               helperText="Choose teams which have won atleast once"
             />
           </Grid>
@@ -79,7 +79,7 @@ export function SelectFormWithClassValidator() {
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
-              errorMsg={errors?.currency?.message}
+              errorMessage={errors?.currency?.message}
             />
           </Grid>
           <Grid item xs={12}>

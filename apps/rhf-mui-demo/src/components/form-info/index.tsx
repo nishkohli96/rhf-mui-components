@@ -1,14 +1,14 @@
 'use client';
 
 import ReactJson from 'react-json-view';
-import { UseFormWatch, FieldError, FieldValues } from 'react-hook-form';
+import { UseFormWatch, FieldErrors, FieldValues } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';
 
 type RenderFormStateProps<T extends FieldValues> = {
-  formValues: UseFormWatch<T>;
-  errors: FieldError;
+  formValues: T;
+  errors: FieldErrors<T>;
 };
 
 export function RenderFormState<T extends FieldValues>({
@@ -43,12 +43,12 @@ export function RenderFormState<T extends FieldValues>({
         sx={{ border: (theme) => theme.palette.error.main }}
       >
         <Paper>
-          {/* <ReactJson
+          <ReactJson
             src={errors}
             name="errors"
             quotesOnKeys={false}
             theme="pop"
-          /> */}
+          />
         </Paper>
       </Grid>
     </Grid>

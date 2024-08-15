@@ -1,0 +1,6 @@
+position: 8
+label: Pickers
+collapsible: true
+collapsed: true
+customProps:
+  description: RHFDatePicker, RHFTimePicker & RHFDateTimePicker usage and props.

@@ -8,7 +8,7 @@ import { LightThemePalette, DarkThemePalette } from './palette';
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
-  display: 'swap'
+  display: 'swap',
 });
 
 const AppTheme = (mode: PaletteMode) => ({
@@ -16,9 +16,9 @@ const AppTheme = (mode: PaletteMode) => ({
     mode,
     common: {
       black: '#000',
-      white: '#fff'
+      white: '#fff',
     },
-    ...(mode === 'light' ? LightThemePalette : DarkThemePalette)
+    ...(mode === 'light' ? LightThemePalette : DarkThemePalette),
   },
   breakpoints: {
     values: {
@@ -26,17 +26,35 @@ const AppTheme = (mode: PaletteMode) => ({
       sm: 350,
       md: 768,
       lg: 1024,
-      xl: 1400
-    }
+      xl: 1400,
+    },
   },
-  typography: { fontFamily: roboto.style.fontFamily }
+  typography: {
+    fontFamily: roboto.style.fontFamily,
+    // h4: {
+    //   fontSize: '2rem',
+    //   [theme.breakpoints.up('sm')]: {
+    //     fontSize: '2.5rem',
+    //   },
+    //   [theme.breakpoints.up('md')]: {
+    //     fontSize: '3rem',
+    //   },
+    //   [theme.breakpoints.up('lg')]: {
+    //     fontSize: '3.5rem',
+    //   },
+    // },
+  },
 });
 
-let themeMode = localStorage.getItem('theme');
-if(!themeMode) {
-  themeMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+let themeMode = 'dark';
+
+if (typeof window !== 'undefined') {
+  themeMode =
+    localStorage.getItem('theme') ??
+    (window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light');
   localStorage.setItem('theme', themeMode);
 }
 

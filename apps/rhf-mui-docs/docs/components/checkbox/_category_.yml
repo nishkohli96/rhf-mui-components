@@ -1,0 +1,6 @@
+position: 3
+label: Checkbox
+collapsible: true
+collapsed: true
+customProps:
+  description: RHFCheckbox & RHFCheckboxGroup usage and props.

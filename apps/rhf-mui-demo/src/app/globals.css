@@ -30,6 +30,11 @@ html, body {
   flex: 1;
 }
 
+.code {
+  background-color: silver;
+  padding: '2px 10px' !important;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
