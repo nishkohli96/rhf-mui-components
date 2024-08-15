@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { RHFColorPicker } from '@nish1896/rhf-mui-components';
+import Typography from '@mui/material/Typography';
 import {
   FormContainer,
   RenderFormState,
@@ -48,8 +49,14 @@ export function MiscellaneousComponentsForm() {
           </Grid>
           <Grid item xs={12} md={6}>
             <RHFColorPicker
-              defaultColor={getValues('color') ?? ''}
+              formLabel="Pick a Color"
+              defaultColor={getValues('color')}
               onValueChange={(newColor) => setValue('color', newColor.hex)}
+              helperText={
+                <Typography color={getValues('color')}>
+                  This helperText keeps changing its color.
+                </Typography>
+              }
             />
           </Grid>
           <Grid item xs={12}>
