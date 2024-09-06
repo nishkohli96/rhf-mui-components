@@ -24,13 +24,13 @@ export type RHFPasswordFieldProps<T extends FieldValues> = {
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  showPasswordIcon?: ReactNode;
+  hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
 	formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-  showPasswordIcon?: ReactNode;
-  hidePasswordIcon?: ReactNode;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 function PasswordField<T extends FieldValues>(
@@ -41,13 +41,13 @@ function PasswordField<T extends FieldValues>(
     register,
     registerOptions,
     onValueChange,
+    showPasswordIcon,
+    hidePasswordIcon,
     errorMessage,
     hideErrorMessage,
     showLabelAboveFormField,
     formLabelProps,
     formHelperTextProps,
-    showPasswordIcon,
-    hidePasswordIcon,
     label,
     helperText,
     defaultFormLabelSx,

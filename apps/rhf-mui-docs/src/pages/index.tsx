@@ -58,8 +58,8 @@ export default function Home(): JSX.Element {
 
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title="Homepage"
+      description="Reusable material-ui components for react-hook-form to minimize your time and effort in creating forms."
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />

@@ -22,13 +22,13 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   control: {
     name: 'control',
-    description: `The [control](${ExternalLinks.rhfLinks.control}) option yielded on calling the \`useForm\` hook.  Required when using \`RHFDatePicker\`, \`RHFTimePicker\` and \`RHFDateTimeGroup\` components.`,
+    description: `The [control](${ExternalLinks.rhfLinks.control}) option yielded on calling the \`useForm\` hook.`,
     required: true,
     type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`
   },
   setValue: {
     name: 'setValue',
-    description: `The [setValue](${ExternalLinks.rhfLinks.setValue}) option yielded on calling the \`useForm\` hook. Required when using \`RHFDatePicker\`, \`RHFTimePicker\` and \`RHFDateTimePicker\` components.`,
+    description: `The [setValue](${ExternalLinks.rhfLinks.setValue}) option yielded on calling the \`useForm\` hook.`,
     required: true,
     type: '(name: string, value: unknown, config?: Object) => void'
   },
@@ -39,7 +39,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   errorMessage: {
     name: 'errorMessage',
-    description: `Show error message for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText}) component.`,
+    description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText}) component.`,
     type: 'ReactNode'
   },
   hideErrorMessage: {
@@ -54,13 +54,13 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   formLabelProps: {
     name: 'formLabelProps',
-    description: `[FormLabel Props](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [UseConfig]() HOC.`,
+    description: `[FormLabel Props](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [UseConfig](/customization) HOC.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
     hasLinkInType: true
   },
   formControlLabelProps: {
     name: 'formControlLabelProps',
-    description: `[FormControlLabel Props](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [UseConfig]() HOC.`,
+    description: `[FormControlLabel Props](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [UseConfig](/customization) HOC.`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
   },
