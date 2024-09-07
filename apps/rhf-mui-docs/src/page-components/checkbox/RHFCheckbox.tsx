@@ -5,7 +5,7 @@ export function RHFCheckboxPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.control,
-		PropsDescription.onValueChange_Default,
+		PropsDescription.onValueChange_Checkbox,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
 		PropsDescription.label,

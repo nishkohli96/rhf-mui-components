@@ -3,10 +3,10 @@ import { Control, Controller, Path, FieldValues } from 'react-hook-form';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import withConfigHOC from '../../config/withConfig';
-import { RHFMuiConfig } from '../../types';
-import { fieldNameToLabel } from '../../utils';
+import { FormControl, FormLabel, FormHelperText } from '../../common';
+import withConfigHOC from '../../../config/withConfig';
+import { RHFMuiConfig } from '../../../types';
+import { fieldNameToLabel } from '../../../utils';
 
 export type RHFRatingProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -17,9 +17,9 @@ export type RHFRatingProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  helperText?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<RatingProps, 'name' | 'onChange' | 'error' | 'value'>;
@@ -33,9 +33,9 @@ function Rating<T extends FieldValues>(
     onValueChange,
     label,
     showLabelAboveFormField,
+    helperText,
     errorMessage,
     hideErrorMessage,
-    helperText,
     formLabelProps,
     formHelperTextProps,
     defaultFormLabelSx,

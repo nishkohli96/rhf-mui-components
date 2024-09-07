@@ -38,14 +38,14 @@ function CheckboxGroup<T extends FieldValues>({
   valueKey,
   onValueChange,
   label,
+  showLabelAboveFormField,
+  helperText,
   errorMessage,
   hideErrorMessage,
-  showLabelAboveFormField,
   formLabelProps,
   formHelperTextProps,
   formControlLabelProps,
   checkboxProps,
-  helperText,
   defaultFormLabelSx,
   defaultFormHelperTextSx
 }: RHFCheckboxGroupProps<T> & RHFMuiConfig) {

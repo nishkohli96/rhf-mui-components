@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { RHFCheckbox, RHFCheckboxGroup, RHFRadioGroup } from '@nish1896/rhf-mui-components';
 import { formSchema, PersonInfo } from './validation';
 import {
@@ -11,7 +10,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@site/src/components';
-import { IPLTeams, CountriesList } from '@site/src/constants';
+import { CountriesList } from '@site/src/constants';
 import { Gender } from '@site/src/types';
 
 export function CheckboxRadioZodForm() {
@@ -60,6 +59,7 @@ export function CheckboxRadioZodForm() {
             <RHFCheckbox
               fieldName="agreeTnC"
               control={control}
+              value="hello_world"
 							label="Agree to Terms & Conditions"
               errorMessage={errors?.agreeTnC?.message}
             />

@@ -1,8 +1,6 @@
 import { Fragment, ReactNode, ChangeEvent } from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import FormControlLabel, {
-  FormControlLabelProps
-} from '@mui/material/FormControlLabel';
+import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
 import withConfigHOC from '../../../config/withConfig';

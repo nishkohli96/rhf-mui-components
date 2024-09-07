@@ -5,10 +5,10 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import withConfigHOC from '../../config/withConfig';
-import { RHFMuiConfig, OptionType } from '../../types';
-import { fieldNameToLabel, validateArray, isKeyValueOption } from '../../utils';
+import { FormControl, FormLabel, FormHelperText } from '../../common';
+import withConfigHOC from '../../../config/withConfig';
+import { RHFMuiConfig, OptionType } from '../../../types';
+import { fieldNameToLabel, validateArray, isKeyValueOption } from '../../../utils';
 
 export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;

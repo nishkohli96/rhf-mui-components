@@ -5,12 +5,15 @@ export function RHFRadioGroupPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.control,
+		PropsDescription.options,
+		PropsDescription.labelKey,
+		PropsDescription.valueKey,
 		PropsDescription.onValueChange_CheckboxGroup,
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
+		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.helperText,
 		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps
 	];

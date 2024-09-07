@@ -2,42 +2,47 @@
 sidebar_position: 2
 sidebar_label: RHFCheckboxGroup
 title: RHFCheckboxGroup
-description: Input props and usage of RHFCheckboxGroup using react-hook-form.
+description: Learn how to use RHFCheckboxGroup with react-hook-form to create customizable groups of checkboxes. Explore examples and API details to enhance your forms.
 ---
 
-import { RHFCheckboxGroupPropsTable } from "@site/src/page-components";
+import { RHFCheckboxGroupPropsTable } from '@site/src/page-components';
 
 # RHFCheckboxGroup
 
-`RHFCheckboxGroup` component renders multiple checkboxes which allows the user
-to select one or more items from a set. `RHFCheckboxGroup` accepts options as
-array or an array of objects and the [checkbox](https://mui.com/material-ui/react-checkbox/)
-corresponding to each option can be customized!
+The `RHFCheckboxGroup` component renders multiple checkboxes allowing
+the user to select one or more items from a set. It supports both arrays 
+and arrays of objects for options, and each [checkbox](https://mui.com/material-ui/react-checkbox/) 
+can be customized as needed.
 
 ### Usage
 
 ```js
-import { RHFCheckboxGroup, RHFCheckboxGroupProps } from "@nish1896/rhf-mui-components";
+import { RHFCheckboxGroup, RHFCheckboxGroupProps } from '@nish1896/rhf-mui-components';
 ```
+
+Example with an array of strings:
 
 ```jsx
 <RHFCheckboxGroup
   fieldName="color"
   control={control}
   label="Agree to Terms & Conditions"
-	options={["Red", "Blue", "Orange"]}
+	options={['Red', 'Blue', 'Orange']}
   errorMessage={errors?.color?.message}
 />
+```
 
-/* With an array of objects as options */
+Example with an array of objects:
+
+```jsx
 <RHFCheckboxGroup
   fieldName="countries"
   control={control}
   label="Select Countries You've visited"
   options={[
-    { code: "AUS", country: "Australia" },
-    { code: "UAE", country: "United Arab Emirates" },
-    { code: "IN", country: "India" },
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'UAE', country: 'United Arab Emirates' }
   ]}
   labelKey="country"
   valueKey="code"
@@ -45,13 +50,17 @@ import { RHFCheckboxGroup, RHFCheckboxGroupProps } from "@nish1896/rhf-mui-compo
 />
 ```
 
-Please visit the below links to check the component usage.
+:::note
+When using an array of objects for options, both `labelKey` and `valueKey` 
+are required. If either is missing, an error will be thrown.
+:::
 
-- [RHFCheckboxGroup Example](https://mui.com/material-ui/react-text-field/)
-- Mui [CheckboxGroup](https://mui.com/material-ui/react-checkbox/#formgroup) Component
+### Examples
+- [RHFCheckboxGroup](../../examples/checkbox-radio)
+- [CheckboxGroup](https://mui.com/material-ui/react-checkbox/#formgroup)
+- [Complete Form](../../examples/complete-form)
 
 ### API
-
-`RHFCheckboxGroupProps` extends [TextFieldProps](https://mui.com/material-ui/api/text-field/) and accepts the following additional values.
+`RHFCheckboxGroupProps` accepts the following props:
 
 <RHFCheckboxGroupPropsTable />

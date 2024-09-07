@@ -24,7 +24,8 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'control',
     description: `The [control](${ExternalLinks.rhfLinks.control}) option yielded on calling the \`useForm\` hook.`,
     required: true,
-    type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`
+    type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`,
+    hasLinkInType: true
   },
   setValue: {
     name: 'setValue',
@@ -75,9 +76,14 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
     type: `(e: ChangeEvent) => void`
   },
+  onValueChange_Checkbox: {
+    name: 'onValueChange',
+    description: `An optional callback function which returns the state of the checkbox from \`e.target.checked\` value `,
+    type: `(e: ChangeEvent) => void`
+  },
   onValueChange_CheckboxGroup: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of chechboxGroup changes.`,
+    description: `An optional callback function returning the value of the selected control.`,
     type: `(e: ChangeEvent<HTMLInputElement>, newValue: string) => void`
   },
   onValueChange_Pickers: {
@@ -87,7 +93,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_Rating: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    description: `An optional callback function that returns the changed value of rating component`,
     type: `(e: SyntheticEvent, newValue: number OR null) => void`
   },
   onValueChange_Select: {
@@ -118,13 +124,13 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   labelKey: {
     name: 'labelKey',
-    description: `The key of object in your array, whose value would be shown as the label in \`RHFSelect\` or \`RHFNativeSelect\`. Required when options prop is an array of objects.`,
+    description: `The key of object in your array, whose value would be shown as the label in \`RHFSelect\` or \`RHFCheckboxGroup\`. Only required when options prop is an array of objects.`,
     type: 'string',
     required: true
   },
   valueKey: {
     name: 'valueKey',
-    description: `The key of object in your array, whose value would be actual value of the option selected in \`RHFSelect\` or \`RHFNativeSelect\`. Required when options prop is an array of objects.`,
+    description: `The key of object in your array, whose value would be actual value of the option selected in \`RHFSelect\` or \`RHFCheckboxGroup\`. Only required when options prop is an array of objects.`,
     type: 'string',
     required: true
   },

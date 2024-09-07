@@ -8,15 +8,16 @@ export function RHFCheckboxGroupPropsTable() {
 		PropsDescription.options,
 		PropsDescription.labelKey,
 		PropsDescription.valueKey,
-		PropsDescription.checkboxProps,
 		PropsDescription.onValueChange_CheckboxGroup,
+		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
 		PropsDescription.formLabelProps,
 		PropsDescription.formControlLabelProps,
-		PropsDescription.formHelperTextProps
+		PropsDescription.formHelperTextProps,
+		PropsDescription.checkboxProps
 	];
 	
 	return (

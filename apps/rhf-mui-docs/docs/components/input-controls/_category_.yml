@@ -1,0 +1,6 @@
+position: 4
+label: Input Controls
+collapsible: true
+collapsed: true
+customProps:
+  description: RHFRadioGroup, RHFRating, RHFSwitch & RHFSlider usage and props.

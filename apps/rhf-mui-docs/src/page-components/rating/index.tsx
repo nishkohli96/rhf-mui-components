@@ -4,8 +4,7 @@ import { PropsDescription } from '@site/src/constants';
 export function RHFRatingPropsTable() {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
-    PropsDescription.registerOptions,
+    PropsDescription.control,
     PropsDescription.onValueChange_Rating,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
