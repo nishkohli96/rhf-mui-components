@@ -1,21 +1,43 @@
 ---
 sidebar_position: 1
 sidebar_label: Introduction
-description: Introduction and basic working of form components of @nish1896/rhf-mui-components package.
+description: Introduction, installation and working of form components of @nish1896/rhf-mui-components package.
 title: Introduction
 ---
 
 import { IntroductionPageTable } from '@site/src/page-components';
 
 # Introduction
-Design forms within minutes by using the most popular form library [react-hook-form](https://react-hook-form.com/)
-with [Material-UI](https://mui.com/material-ui/getting-started/) using a suite of reusable and customizable Mui components,
-thus helping you reduce code duplicacy and providing the flexibility to create form fields as per your website's design.
+Easily design forms in minutes using the popular [react-hook-form](https://react-hook-form.com/)
+library alongside [Material-UI](https://mui.com/material-ui/getting-started/)
+This package offers a suite of reusable and customizable Mui components,
+reducing code duplication and providing the flexibility to style form fields 
+according to your website's design.
+
+## Installation
+
+To get started, install [react-hook-form](https://www.npmjs.com/package/react-hook-form) and [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components).
+
+```
+npm i react-hook-form @nish1896/rhf-mui-components
+```
+```
+yarn add react-hook-form @nish1896/rhf-mui-components
+```
+
+**Optional** : If you are using a third party for form validation, say [joi](https://www.npmjs.com/package/joi), make
+sure to install its npm package along with the [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package.
+
+```
+npm i @hookform/resolvers
+```
+```
+yarn add @hookform/resolvers
+```
 
 ## Working
-Each component requires some common props which are listed in the table
-below along with their description. Some props might be specific to a 
-material-ui component, say [DatePicker](../components/pickers/DatePicker#api), 
+Each component requires a set of common props, detailed in the table below.
+Some props might be specific to a component, say [DatePicker](../components/pickers/DatePicker#api), 
 and can be viewed in the documentation page for the respective component.
 
 <IntroductionPageTable />

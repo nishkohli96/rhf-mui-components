@@ -66,7 +66,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
-    description: `[FormHelperText Props](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [UseConfig]() HOC.`,
+    description: `[FormHelperText Props](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [UseConfig](/customization) HOC.`,
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
   },
