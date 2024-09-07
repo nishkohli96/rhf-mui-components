@@ -106,6 +106,17 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `Optional callback function returning the selected value of \`RHFSlider\`.`,
     type: `(event: Event, value: number OR number[], activeThumb: number) => void`
   },
+  onValueChange_ColorPicker: {
+    name: 'onValueChange',
+    description: `Callback function to get the selected color. Update form state by calling the \`setValue\` function, and passing the color value in preffered format.`,
+    type: `\`(color: IColor) => void\``,
+    required: true
+  },
+  value_ColorPicker: {
+    name: 'value',
+    description: `Selected color in \`RHFColorPicker\` component. Default is \`#000000\` (black).`,
+    type: 'string'
+  },
   showPasswordIcon: {
     name: 'showPasswordIcon',
     description: 'Icon component to show password, such as `VisibilityIcon` from `@mui/icons-material/Visibility`.',
@@ -176,5 +187,10 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description:  `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,
     type: `[RadioProps](${ExternalLinks.muiComponentApi.radio})`,
     hasLinkInType: true
+  },
+  disabled: {
+    name: 'disabled',
+    description: 'A \`boolean\` value to enable or disable editing of the form field.',
+    type: 'boolean'
   }
 });

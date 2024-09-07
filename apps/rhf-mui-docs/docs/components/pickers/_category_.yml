@@ -3,4 +3,4 @@ label: Pickers
 collapsible: true
 collapsed: true
 customProps:
-  description: RHFDatePicker, RHFTimePicker & RHFDateTimePicker usage and props.
+  description: Usage, Api and examples for RHFDatePicker, RHFTimePicker & RHFDateTimePicker.

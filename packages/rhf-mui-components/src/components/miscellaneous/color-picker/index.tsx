@@ -11,11 +11,11 @@ import 'react-color-palette/css';
 
 export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
-	defaultValue?: string;
+	value?: string;
 	height?: number;
 	hideAlpha?: boolean;
 	hideInput?: (keyof IColor)[] | boolean;
-	onValueChange?: (color: IColor) => void;
+	onValueChange: (color: IColor) => void;
   disabled?: boolean;
 	label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -28,7 +28,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
 
 function ColorPicker<T extends FieldValues>({
   fieldName,
-	defaultValue,
+	value,
 	hideInput,
   onValueChange,
   disabled,
@@ -43,14 +43,14 @@ function ColorPicker<T extends FieldValues>({
   defaultFormHelperTextSx,
   ...otherProps
 }: RHFColorPickerProps<T> & DefaultFieldConfig) {
-  const [color, setColor] = useColor(defaultValue ?? '#000000');
+  const [color, setColor] = useColor(value ?? '#000000');
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 	const isError = Boolean(errorMessage);
 
   const handleColorChange = (color: IColor) => {
     if (!disabled) {
       setColor(color);
-      onValueChange && onValueChange(color);
+      onValueChange(color);
     }
   };
 

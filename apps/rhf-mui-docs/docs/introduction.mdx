@@ -35,9 +35,17 @@ npm i @hookform/resolvers
 yarn add @hookform/resolvers
 ```
 
+Ensure you have [Material UI](https://www.npmjs.com/package/@mui/material) installed. 
+If not, refer to the [installation guide](https://mui.com/material-ui/getting-started/installation/). 
+For datepickers, follow the [installation guide](https://mui.com/x/react-date-pickers/getting-started/) 
+to install [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
+
 ## Working
 Each component requires a set of common props, detailed in the table below.
 Some props might be specific to a component, say [DatePicker](../components/pickers/DatePicker#api), 
 and can be viewed in the documentation page for the respective component.
+
+_You can also import the interface of each component, like `RHFDatePickerProps`
+to extend an existing component or create another reusable component from it._
 
 <IntroductionPageTable />

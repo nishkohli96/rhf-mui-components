@@ -3,4 +3,4 @@ label: Input Controls
 collapsible: true
 collapsed: true
 customProps:
-  description: RHFRadioGroup, RHFRating, RHFSwitch & RHFSlider usage and props.
+  description: Usage, Api and examples for RHFRadioGroup, RHFRating, RHFSwitch & RHFSlider.

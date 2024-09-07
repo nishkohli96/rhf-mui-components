@@ -3,4 +3,4 @@ label: Checkbox
 collapsible: true
 collapsed: true
 customProps:
-  description: RHFCheckbox & RHFCheckboxGroup usage and props.
+  description: Usage, Api and examples for RHFCheckbox & RHFCheckboxGroup.

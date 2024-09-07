@@ -51,11 +51,11 @@ export function MiscellaneousComponentsForm() {
             <RHFColorPicker
               fieldName='color'
               label='Choose color'
-              defaultValue={getValues('color')}
-              onValueChange={(newColor) => setValue('color', newColor.hex)}
+              value={getValues('color')}
+              onValueChange={color => setValue('color', color.hex)}
               helperText={
                 <Typography color={getValues('color')}>
-                  This helperText keeps changing its color.
+                  Your selected color is applied on this helperText.
                 </Typography>
               }
             />
