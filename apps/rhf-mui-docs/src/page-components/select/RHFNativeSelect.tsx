@@ -10,12 +10,12 @@ export function RHFNativeSelectPropsTable() {
 		PropsDescription.labelKey,
 		PropsDescription.valueKey,
 		PropsDescription.defaultValue,
-		PropsDescription.label,
-		PropsDescription.onValueChange_Default,
-		PropsDescription.errorMessage,
-		PropsDescription.hideErrorMessage,
 		PropsDescription.showDefaultOption,
 		PropsDescription.defaultOptionText,
+		PropsDescription.onValueChange_Default,
+		PropsDescription.label,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.formHelperTextProps
 	];
 	

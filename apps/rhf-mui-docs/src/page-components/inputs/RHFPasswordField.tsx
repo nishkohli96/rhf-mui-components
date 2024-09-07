@@ -7,12 +7,12 @@ export function RHFPasswordFieldPropsTable() {
 		PropsDescription.register,
 		PropsDescription.registerOptions,
 		PropsDescription.onValueChange_Default,
+		PropsDescription.showLabelAboveFormField,
+		PropsDescription.formLabelProps,
 		PropsDescription.showPasswordIcon,
 		PropsDescription.hidePasswordIcon,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.showLabelAboveFormField,
-		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps
 	];
 	

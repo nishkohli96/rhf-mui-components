@@ -11,10 +11,12 @@ export function RHFRadioGroupPropsTable() {
 		PropsDescription.onValueChange_CheckboxGroup,
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
+		PropsDescription.formLabelProps,
+		PropsDescription.radioProps,
+		PropsDescription.formControlLabelProps,
 		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps
 	];
 	

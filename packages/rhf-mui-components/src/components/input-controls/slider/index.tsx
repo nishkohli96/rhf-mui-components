@@ -10,7 +10,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
 import { FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { DefaultFieldConfig } from '../../../types';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFSliderProps<T extends FieldValues> = {
@@ -25,15 +25,15 @@ export type RHFSliderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  helperText?: ReactNode;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<SliderProps, 'name' | 'defaultValue'>;
 
 function Slider<T extends FieldValues>(
-  props: RHFSliderProps<T> & RHFMuiConfig
+  props: RHFSliderProps<T> & DefaultFieldConfig
 ) {
   const {
     fieldName,
@@ -43,15 +43,15 @@ function Slider<T extends FieldValues>(
     onValueChange,
     label,
     showLabelAboveFormField,
+    formLabelProps,
+    min,
+    max,
+    helperText,
     errorMessage,
     hideErrorMessage,
-    helperText,
-    formLabelProps,
     formHelperTextProps,
     defaultFormLabelSx,
     defaultFormHelperTextSx,
-    min,
-    max,
     ...rest
   } = props;
   const isError = Boolean(errorMessage);

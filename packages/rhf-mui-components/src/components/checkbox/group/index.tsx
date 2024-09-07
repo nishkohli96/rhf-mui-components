@@ -6,7 +6,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig, OptionType } from '../../../types';
+import { DefaultFieldConfig, OptionType } from '../../../types';
 import { fieldNameToLabel, validateArray, isKeyValueOption } from '../../../utils';
 
 export type RHFCheckboxGroupProps<T extends FieldValues> = {
@@ -18,16 +18,16 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   onValueChange?: (e: ChangeEvent<HTMLInputElement>, newValue: string) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  helperText?: ReactNode;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
+  checkboxProps?: CheckboxProps;
   formControlLabelProps?: Omit<
     FormControlLabelProps,
     'control' | 'label' | 'value'
   >;
+  helperText?: ReactNode;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-  checkboxProps?: CheckboxProps;
 };
 
 function CheckboxGroup<T extends FieldValues>({
@@ -39,16 +39,16 @@ function CheckboxGroup<T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  formLabelProps,
+  checkboxProps,
+  formControlLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
-  formLabelProps,
   formHelperTextProps,
-  formControlLabelProps,
-  checkboxProps,
   defaultFormLabelSx,
   defaultFormHelperTextSx
-}: RHFCheckboxGroupProps<T> & RHFMuiConfig) {
+}: RHFCheckboxGroupProps<T> & DefaultFieldConfig) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey)

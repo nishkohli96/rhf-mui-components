@@ -14,7 +14,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { DefaultFieldConfig } from '../../../types';
 import { fieldNameToLabel } from '../../../utils';
 ;
 export type RHFPasswordFieldProps<T extends FieldValues> = {
@@ -24,32 +24,32 @@ export type RHFPasswordFieldProps<T extends FieldValues> = {
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  showLabelAboveFormField?: boolean;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
 	formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 function PasswordField<T extends FieldValues>(
-  props: RHFPasswordFieldProps<T> & RHFMuiConfig
+  props: RHFPasswordFieldProps<T> & DefaultFieldConfig
 ) {
   const {
     fieldName,
     register,
     registerOptions,
     onValueChange,
-    showPasswordIcon,
-    hidePasswordIcon,
-    errorMessage,
-    hideErrorMessage,
+    label,
     showLabelAboveFormField,
     formLabelProps,
-    formHelperTextProps,
-    label,
+    showPasswordIcon,
+    hidePasswordIcon,
     helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
     defaultFormLabelSx,
     defaultFormHelperTextSx,
     ...rest

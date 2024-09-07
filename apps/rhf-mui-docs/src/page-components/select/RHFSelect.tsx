@@ -13,11 +13,11 @@ export function RHFSelectPropsTable() {
 		PropsDescription.showDefaultOption,
 		PropsDescription.defaultOptionText,
 		PropsDescription.onValueChange_Select,
-		PropsDescription.errorMessage,
-		PropsDescription.hideErrorMessage,
-		PropsDescription.helperText,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.formLabelProps,
+		PropsDescription.helperText,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.formHelperTextProps
 	];
 	

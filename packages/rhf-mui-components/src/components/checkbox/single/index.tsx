@@ -4,18 +4,18 @@ import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormContr
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { DefaultFieldConfig } from '../../../types';
 import { FormHelperText } from '../../common';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   onValueChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  label?: ReactNode;
+  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
+  helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  label?: ReactNode;
-  helperText?: ReactNode;
-  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<CheckboxProps, 'name' | 'checked' | 'onChange'>;
 
@@ -23,15 +23,15 @@ function Checkbox<T extends FieldValues>({
   fieldName,
   control,
   onValueChange,
-  errorMessage,
-  hideErrorMessage,
   label,
   formControlLabelProps,
   helperText,
+  errorMessage,
+  hideErrorMessage,
   formHelperTextProps,
   defaultFormHelperTextSx,
   ...rest
-}: RHFCheckboxProps<T> & RHFMuiConfig) {
+}: RHFCheckboxProps<T> & DefaultFieldConfig) {
   const isError = Boolean(errorMessage);
 
   return (

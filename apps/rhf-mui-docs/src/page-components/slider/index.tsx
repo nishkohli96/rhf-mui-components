@@ -10,10 +10,10 @@ export function RHFSliderPropsTable() {
     PropsDescription.onValueChange_Slider,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
+    PropsDescription.formLabelProps,
+    PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.helperText,
-    PropsDescription.formLabelProps,
     PropsDescription.formHelperTextProps
   ];
 

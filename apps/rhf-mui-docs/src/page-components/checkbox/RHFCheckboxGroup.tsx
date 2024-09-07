@@ -11,13 +11,13 @@ export function RHFCheckboxGroupPropsTable() {
 		PropsDescription.onValueChange_CheckboxGroup,
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
+		PropsDescription.formLabelProps,
+		PropsDescription.checkboxProps,
+		PropsDescription.formControlLabelProps,
 		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.formLabelProps,
-		PropsDescription.formControlLabelProps,
-		PropsDescription.formHelperTextProps,
-		PropsDescription.checkboxProps
+		PropsDescription.formHelperTextProps
 	];
 	
 	return (

@@ -8,11 +8,11 @@ export function RHFDatePickerPropsTable() {
 		PropsDescription.registerOptions,
 		PropsDescription.setValue,
 		PropsDescription.onValueChange_Pickers,
+		PropsDescription.showLabelAboveFormField,
+		PropsDescription.formLabelProps,
 		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.showLabelAboveFormField,
-		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps
 	];
 	

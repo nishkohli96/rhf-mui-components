@@ -25,11 +25,11 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   setValue: UseFormSetValue<T>;
   onValueChange?: (newValue: unknown) => void;
+  showLabelAboveFormField?: boolean;
+  formLabelProps: Omit<FormLabelProps, 'error'>;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   helperText?: ReactNode;
-  showLabelAboveFormField?: boolean;
-  formLabelProps: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
@@ -39,16 +39,16 @@ export function TimePicker<T extends FieldValues>(
   const {
     fieldName,
     register,
+    registerOptions,
     setValue,
     onValueChange,
-    registerOptions,
-    errorMessage,
-    hideErrorMessage,
+    label,
     showLabelAboveFormField,
     formLabelProps,
-    formHelperTextProps,
-    label,
     helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
     defaultFormHelperTextSx,
     defaultFormLabelSx,
     dateAdapter,

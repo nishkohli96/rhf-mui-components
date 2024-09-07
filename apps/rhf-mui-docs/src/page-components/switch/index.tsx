@@ -5,8 +5,8 @@ export function RHFSwitchPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.control,
-		PropsDescription.label,
 		PropsDescription.onValueChange_Default,
+		PropsDescription.label,
 		PropsDescription.formControlLabelProps
 	];
 	

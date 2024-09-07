@@ -33,3 +33,5 @@ export type RHFMuiConfig = {
   defaultFormHelperTextSx: SxProps;
   dateAdapter: MuiPickersAdapter;
 }
+
+export type DefaultFieldConfig = Omit<RHFMuiConfig, 'dateAdapter'>;

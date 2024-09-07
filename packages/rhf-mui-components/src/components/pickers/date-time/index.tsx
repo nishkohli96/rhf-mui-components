@@ -25,11 +25,11 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   setValue: UseFormSetValue<T>;
   onValueChange?: (newValue: unknown) => void;
+  showLabelAboveFormField?: boolean;
+  formLabelProps: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  showLabelAboveFormField?: boolean;
-  formLabelProps: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<DateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
@@ -42,13 +42,13 @@ export function DateTimePicker<T extends FieldValues>(
     registerOptions,
     setValue,
     onValueChange,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
     helperText,
     errorMessage,
     hideErrorMessage,
-    showLabelAboveFormField,
-    formLabelProps,
     formHelperTextProps,
-    label,
     defaultFormHelperTextSx,
     defaultFormLabelSx,
     dateAdapter,

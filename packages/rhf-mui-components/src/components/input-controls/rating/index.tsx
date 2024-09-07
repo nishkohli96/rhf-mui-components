@@ -5,7 +5,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { DefaultFieldConfig } from '../../../types';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFRatingProps<T extends FieldValues> = {
@@ -17,15 +17,15 @@ export type RHFRatingProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<RatingProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 function Rating<T extends FieldValues>(
-  props: RHFRatingProps<T> & RHFMuiConfig
+  props: RHFRatingProps<T> & DefaultFieldConfig
 ) {
   const {
     fieldName,
@@ -33,10 +33,10 @@ function Rating<T extends FieldValues>(
     onValueChange,
     label,
     showLabelAboveFormField,
+    formLabelProps,
     helperText,
     errorMessage,
     hideErrorMessage,
-    formLabelProps,
     formHelperTextProps,
     defaultFormLabelSx,
     defaultFormHelperTextSx,

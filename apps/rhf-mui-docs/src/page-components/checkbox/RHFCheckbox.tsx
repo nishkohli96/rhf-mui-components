@@ -6,11 +6,11 @@ export function RHFCheckboxPropsTable() {
 		PropsDescription.fieldName,
 		PropsDescription.control,
 		PropsDescription.onValueChange_Checkbox,
+		PropsDescription.label,
+		PropsDescription.formControlLabelProps,
+		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.label,
-		PropsDescription.helperText,
-		PropsDescription.formControlLabelProps,
 		PropsDescription.formHelperTextProps
 	];
 	

@@ -8,7 +8,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { DefaultFieldConfig } from '../../../types';
 import { fieldNameToLabel } from '../../../utils';
 import { defaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -20,11 +20,11 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   editorConfig?: EditorConfig;
   onValueChange?: (event: EventInfo, newValue: string) => void;
   disabled?: boolean;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
   label?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
@@ -35,15 +35,15 @@ function RichTextEditor<T extends FieldValues>({
   editorConfig,
   onValueChange,
   disabled,
-  errorMessage,
-  hideErrorMessage,
   label,
   formLabelProps,
   helperText,
+  errorMessage,
+  hideErrorMessage,
   formHelperTextProps,
   defaultFormLabelSx,
   defaultFormHelperTextSx,
-}: RHFRichTextEditorProps<T> & RHFMuiConfig) {
+}: RHFRichTextEditorProps<T> & DefaultFieldConfig) {
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 	

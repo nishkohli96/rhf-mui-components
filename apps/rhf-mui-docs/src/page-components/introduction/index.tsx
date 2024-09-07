@@ -9,10 +9,12 @@ export function IntroductionPageTable() {
 		PropsDescription.control,
 		PropsDescription.setValue,
 		PropsDescription.onValueChange,
-		PropsDescription.errorMessage,
-		PropsDescription.hideErrorMessage,
+		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.formLabelProps,
+		PropsDescription.helperText,
+		PropsDescription.errorMessage,
+		PropsDescription.hideErrorMessage,
 		PropsDescription.formHelperTextProps
 	];
 	

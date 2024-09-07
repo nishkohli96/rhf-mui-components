@@ -10,7 +10,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { DefaultFieldConfig } from '../../../types';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
@@ -20,28 +20,28 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 function TextField<T extends FieldValues>(
-  props: RHFTextFieldProps<T> & RHFMuiConfig
+  props: RHFTextFieldProps<T> & DefaultFieldConfig
 ) {
   const {
     fieldName,
     register,
     registerOptions,
     onValueChange,
-    errorMessage,
-    hideErrorMessage,
+    label,
     showLabelAboveFormField,
     formLabelProps,
-    formHelperTextProps,
-    label,
     helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
     defaultFormLabelSx,
     defaultFormHelperTextSx,
     ...rest

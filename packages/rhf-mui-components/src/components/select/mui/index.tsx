@@ -32,15 +32,15 @@ export type RHFSelectProps<T extends FieldValues> = {
   labelKey?: string;
   valueKey?: string;
   defaultValue?: SelectValueType;
-  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
-  helperText?: ReactNode;
-  showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
+  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
+  showLabelAboveFormField?: boolean;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  helperText?: ReactNode;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<
   SelectProps,
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
@@ -51,22 +51,22 @@ function Select<T extends FieldValues>({
   register,
   registerOptions,
   options,
-  defaultValue,
   labelKey,
   valueKey,
-  onValueChange,
-  helperText,
-  formHelperTextProps,
-  errorMessage,
-  hideErrorMessage,
+  defaultValue,
   showDefaultOption,
   defaultOptionText,
+  onValueChange,
+  label,
   showLabelAboveFormField,
   formLabelProps,
-  label,
+  multiple,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
   defaultFormLabelSx,
   defaultFormHelperTextSx,
-  multiple,
   ...otherSelectProps
 }: RHFSelectProps<T> & RHFMuiConfig) {
   const isError = Boolean(errorMessage);

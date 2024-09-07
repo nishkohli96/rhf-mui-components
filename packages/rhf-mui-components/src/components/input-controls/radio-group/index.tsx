@@ -7,7 +7,7 @@ import Radio, { RadioProps } from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig, OptionType } from '../../../types';
+import { DefaultFieldConfig, OptionType } from '../../../types';
 import { fieldNameToLabel, validateArray, isKeyValueOption } from '../../../utils';
 
 export type RHFRadioGroupProps<T extends FieldValues> = {
@@ -19,16 +19,16 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   onValueChange?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  helperText?: ReactNode;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
+  radioProps?: RadioProps;
   formControlLabelProps?: Omit<
     FormControlLabelProps,
     'control' | 'label' | 'value'
   >;
+  helperText?: ReactNode;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-  radioProps?: RadioProps;
 } & Omit<RadioGroupProps, 'name' | 'value' | 'onChange'>;
 
 function RadioGroup<T extends FieldValues>({
@@ -40,17 +40,17 @@ function RadioGroup<T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  formLabelProps,
+  radioProps,
+  formControlLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
-  formLabelProps,
-  formControlLabelProps,
   formHelperTextProps,
-  radioProps,
   defaultFormLabelSx,
   defaultFormHelperTextSx,
   ...rest
-}: RHFRadioGroupProps<T> & RHFMuiConfig) {
+}: RHFRadioGroupProps<T> & DefaultFieldConfig) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
