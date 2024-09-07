@@ -4,12 +4,9 @@ import { PropsDescription } from '@site/src/constants';
 export function RHFSwitchPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
-		PropsDescription.register,
-		PropsDescription.registerOptions,
-		PropsDescription.onValueChange_Default,
+		PropsDescription.control,
 		PropsDescription.label,
-		PropsDescription.showLabelAboveFormField,
-		PropsDescription.errorMessage,
+		PropsDescription.onValueChange_Default,
 		PropsDescription.formControlLabelProps
 	];
 	

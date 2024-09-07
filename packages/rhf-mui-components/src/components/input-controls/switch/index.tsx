@@ -7,6 +7,7 @@ import {
 } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
+import { fieldNameToLabel } from '../../../utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -27,6 +28,7 @@ export function RHFSwitch<T extends FieldValues>(
     formControlLabelProps,
     ...rest
   } = props;
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   return (
     <Controller
@@ -47,7 +49,7 @@ export function RHFSwitch<T extends FieldValues>(
                 }}
               />
             }
-            label={label}
+            label={fieldLabel}
             {...formControlLabelProps}
           />
         );

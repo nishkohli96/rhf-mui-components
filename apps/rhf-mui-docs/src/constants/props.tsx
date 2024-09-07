@@ -73,7 +73,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_Default: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\`.`,
     type: `(e: ChangeEvent) => void`
   },
   onValueChange_Checkbox: {
@@ -102,9 +102,9 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: `(e: SelectChangeEvent) => void`
   },
   onValueChange_Slider: {
-    name: '',
-    description: ``,
-    type: `(event: Event, value: number | number[], activeThumb: number) => void`
+    name: 'onValueChange',
+    description: `Optional callback function returning the selected value of \`RHFSlider\`.`,
+    type: `(event: Event, value: number OR number[], activeThumb: number) => void`
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -138,6 +138,12 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'defaultValue',
     description: `When rendering \`RHFSelect\` or \`RHFNativeSelect\` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if \`multiple=true\``,
     type: `string OR string[] OR number OR number[]`,
+  },
+  defaultValue_Slider: {
+    name: 'defaultValue',
+    description: `Initial value set for \`RHFSlider\` component on render.`,
+    type: `number OR number[]`,
+    required: true
   },
   helperText: {
     name: 'helperText',
