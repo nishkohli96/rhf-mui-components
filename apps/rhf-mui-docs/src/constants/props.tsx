@@ -88,7 +88,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_Pickers: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
+    description: `An optional callback function which returns the selected date or time value.`,
     type: `(newValue: unknown) => void`
   },
   onValueChange_Rating: {

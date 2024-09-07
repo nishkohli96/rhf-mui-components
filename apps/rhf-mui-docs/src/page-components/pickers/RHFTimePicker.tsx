@@ -8,9 +8,9 @@ export function RHFTimePickerPropsTable() {
 		PropsDescription.registerOptions,
 		PropsDescription.setValue,
 		PropsDescription.onValueChange_Pickers,
+		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,
-		PropsDescription.helperText,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.formLabelProps,
 		PropsDescription.formHelperTextProps
