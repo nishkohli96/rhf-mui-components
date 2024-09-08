@@ -1,9 +1,14 @@
+---
+title: Examples
+description: Details on the examples included in this package, showcasing different variations of each component through interactive forms that display the full form state (values and errors). Each example also includes a link to the source code for reference.
+---
+
 import DocCardList from '@theme/DocCardList';
 
 # Examples
 
-This section has various examples of all the form components that are available in the package. The different variations of each component have been presented to the reader in an interactive form which shows the complete form state, ie., values and errors during user input.
+This section provides examples of all form components available in the package. The variations of each component are showcased in an interactive form, displaying the complete form state, including values and errors during user input.
 
-We also have covered form validation using libraries like [joi](https://www.npmjs.com/package/joi), [yup](https://www.npmjs.com/package/yup), [class-validator](https://www.npmjs.com/package/class-validator) etc. which is possible in [react-hook-form](https://react-hook-form.com/) using [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package. Each example will also have link to the source code, which can be viewed in the Github repository.
+We've also covered form validation using libraries like [joi](https://www.npmjs.com/package/joi), [yup](https://www.npmjs.com/package/yup), [class-validator](https://www.npmjs.com/package/class-validator) which can be integrated with [react-hook-form](https://react-hook-form.com/) through the [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package. Each example includes a link to the source code, available in the GitHub repository.
 
 <DocCardList />
