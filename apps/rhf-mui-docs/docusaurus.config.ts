@@ -39,7 +39,7 @@ const config: Config = {
       },
       items: [
         {
-          href: 'https://github.com/nishkohli96/eslint-config',
+          href: 'https://github.com/nishkohli96/rhf-mui-components',
           label: 'GitHub',
           position: 'right',
         },

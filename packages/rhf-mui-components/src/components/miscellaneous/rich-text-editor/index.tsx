@@ -16,9 +16,9 @@ import 'ckeditor5/ckeditor5.css';
 export type RHFRichTextEditorProps<T extends FieldValues> = {
   fieldName: Path<T>;
   setValue: UseFormSetValue<T>;
-  defaultValue?: string; 
   editorConfig?: EditorConfig;
-  onValueChange?: (event: EventInfo, newValue: string) => void;
+  value?: string; 
+  onValueChange?: (event: EventInfo, newValue: string, editor: ClassicEditor) => void;
   disabled?: boolean;
   label?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -31,8 +31,8 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
 function RichTextEditor<T extends FieldValues>({
   fieldName,
   setValue,
-  defaultValue,
   editorConfig,
+  value,
   onValueChange,
   disabled,
   label,
@@ -50,7 +50,7 @@ function RichTextEditor<T extends FieldValues>({
 	function handleChange(event: EventInfo, editor: ClassicEditor) {
     const content = editor.getData();
     setValue(fieldName, content as PathValue<T, Path<T>>);
-		onValueChange && onValueChange(event, content);
+		onValueChange && onValueChange(event, content, editor);
   }
 
   return (
@@ -64,7 +64,7 @@ function RichTextEditor<T extends FieldValues>({
       />
       <CKEditor
         editor={ClassicEditor}
-        data={defaultValue}
+        data={value}
         onChange={handleChange}
 				config={editorConfig ?? defaultEditorConfig}
         disabled={disabled}

@@ -14,8 +14,8 @@ import {
 } from '@site/src/components';
 
 type FormSchema = {
-  rte: string | null;
-  color: string | null;
+  groceryList: string;
+  color: string;
 };
 
 export function MiscellaneousComponentsForm() {
@@ -27,7 +27,7 @@ export function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      rte: null,
+      groceryList: '<p><strong>Shopping List</strong></p><ol><li>Milk</li><li>Biscuits</li></ol>',
       color: '#007ABA'
     }
   });
@@ -43,7 +43,8 @@ export function MiscellaneousComponentsForm() {
           <Grid item xs={12}>
             <FieldVariantInfo title="CK5Editor" />
             <RHFRichTextEditor
-              fieldName='rte'
+              fieldName='groceryList'
+              value={getValues('groceryList')}
               setValue={setValue}
             />
           </Grid>

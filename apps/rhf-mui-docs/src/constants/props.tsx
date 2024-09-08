@@ -109,13 +109,23 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   onValueChange_ColorPicker: {
     name: 'onValueChange',
     description: `Callback function to get the selected color. Update form state by calling the \`setValue\` function, and passing the color value in preffered format.`,
-    type: `\`(color: IColor) => void\``,
+    type: `(color: IColor) => void`,
     required: true
+  },
+  onValueChange_RichTextEditor: {
+    name: 'onValueChange',
+    description: `Callback function returning the \`event\` object, editor value and editor details.`,
+    type: `(event: EventInfo, newValue: string, editor: ClassicEditor) => void`,
   },
   value_ColorPicker: {
     name: 'value',
     description: `Selected color in \`RHFColorPicker\` component. Default is \`#000000\` (black).`,
     type: 'string'
+  },
+  value_RichTextEditor: {
+    name: 'value',
+    description: `The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.`,
+    type: 'string',
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -192,5 +202,11 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'disabled',
     description: 'A \`boolean\` value to enable or disable editing of the form field.',
     type: 'boolean'
+  },
+  editorConfig: {
+    name: 'editorConfig',
+    description: `A Configuration object for CkEditor to customize formatting controls and toolbar positioning, as per requirement. Refer to the [toolbar positioning guide](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/toolbar.html) for more details.`,
+    type: `[EditorConfig](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html)`,
+    hasLinkInType: true
   }
 });
