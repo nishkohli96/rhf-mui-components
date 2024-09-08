@@ -1,9 +1,9 @@
 /**
  * Default Editor Config for CkEditor in the RHFRichTextEditor component.
- * 
+ *
  * To view the list of complete features, refer
  * https://ckeditor.com/docs/ckeditor5/latest/features/index.html
- * 
+ *
  * For an advanced feature usage example, refer
  * https://github.com/nishkohli96/react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx
  */
@@ -43,11 +43,11 @@ export const defaultEditorConfig: EditorConfig = {
     Alignment
   ],
   toolbar: {
-		/**
-		 * The arragement of the formatting controls is determined by their
-		 * order in the "items" array. "|" is the separtor to group similar
-		 * controls.
-		 */
+    /**
+     * The arragement of the formatting controls is determined by their
+     * order in the "items" array. "|" is the separtor to group similar
+     * controls.
+     */
     items: [
       'undo',
       'redo',
@@ -69,11 +69,11 @@ export const defaultEditorConfig: EditorConfig = {
       'insertTable'
     ]
   },
-	/**
-	 * By default only "paragraph", "h1", "h2" and "h3" options appear
-	 * under the heading dropdown. I've provided the option to view all
-	 * headings from "h1" to "h6". 
-	 */
+  /**
+   * By default only "paragraph", "h1", "h2" and "h3" options appear
+   * under the heading dropdown. I've provided the option to view all
+   * headings from "h1" to "h6".
+   */
   heading: {
     options: [
       {

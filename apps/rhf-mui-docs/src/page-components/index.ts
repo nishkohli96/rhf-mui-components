@@ -1,4 +1,5 @@
 export * from './checkbox';
+export * from './customization';
 export * from './inputs';
 export * from './introduction';
 export * from './miscellaneous';
