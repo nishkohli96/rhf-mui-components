@@ -9,7 +9,7 @@ import {
   RHFDatePicker,
   RHFDateTimePicker,
   RHFNativeSelect,
-  RHFPasswordField,
+  RHFPasswordInput,
   RHFRadioGroup,
   RHFRating,
   RHFSelect,
@@ -91,7 +91,7 @@ export function CompleteFormWithJoi() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFPasswordField
+              <RHFPasswordInput
                 fieldName="password"
                 register={register}
                 errorMessage={errors?.password?.message}

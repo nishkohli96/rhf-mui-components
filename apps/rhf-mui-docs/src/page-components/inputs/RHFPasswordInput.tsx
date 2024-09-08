@@ -1,7 +1,7 @@
 import { MarkdownTable } from '@site/src/components';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFPasswordFieldPropsTable() {
+export function RHFPasswordInputPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.register,

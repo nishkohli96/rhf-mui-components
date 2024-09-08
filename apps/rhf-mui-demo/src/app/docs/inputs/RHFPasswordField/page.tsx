@@ -3,14 +3,14 @@ import Grid from '@mui/material/Grid';
 import { GridContainer, PageHeading, SubHeading, Table } from '@/components';
 import { pageDescriptionMsg } from '@/utils';
 
-const componentName = 'RHFPasswordField';
+const componentName = 'RHFPasswordInput';
 
 export const metadata: Metadata = {
   title: componentName,
   description: pageDescriptionMsg(componentName)
 };
 
-export default function RHFPasswordFieldPage() {
+export default function RHFPasswordInputPage() {
   return (
     <GridContainer>
       <Grid item xs={12}>

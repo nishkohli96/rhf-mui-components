@@ -3,4 +3,4 @@ label: Inputs
 collapsible: true
 collapsed: true
 customProps:
-  description: Usage, Api and examples for RHFTextField & RHFPasswordField.
+  description: Usage, Api and examples for RHFTextField & RHFPasswordInput.

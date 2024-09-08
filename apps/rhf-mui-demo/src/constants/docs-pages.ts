@@ -17,7 +17,7 @@ export const DocsPageLinks: Page[] = [
 			},
 			{
 				title: 'PasswordField',
-				href: `${pagePrefix}/inputs/RHFPasswordField`
+				href: `${pagePrefix}/inputs/RHFPasswordInput`
 			},
 		]
 	},
