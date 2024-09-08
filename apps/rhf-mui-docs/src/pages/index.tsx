@@ -52,9 +52,9 @@ function HomepageHeader() {
 }
 
 export default function Home(): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
-  const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-  console.log('isDarkTheme: ', isDarkTheme);
+  // const { siteConfig } = useDocusaurusContext();
+  // const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+  // console.log('isDarkTheme: ', isDarkTheme);
 
   return (
     <Layout
