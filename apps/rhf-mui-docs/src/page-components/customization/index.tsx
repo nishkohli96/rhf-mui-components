@@ -2,10 +2,13 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import TableContent from './TableContent';
 
-export function DefaultConfigValuesTable() {
+export default function DefaultConfigValuesTable() {
+  const str = TableContent(); '**hi**';
 	return (
     <Markdown remarkPlugins={[remarkGfm]}>
-      {TableContent}
+      {/* {} */}
+      {str}
     </Markdown>
+    // <p>Helo</p>
   );
 }

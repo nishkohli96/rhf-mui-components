@@ -1,2 +1,2 @@
-export * from './RHFCheckbox';
-export * from './RHFCheckboxGroup';
+// export * from './RHFCheckbox';
+export { default as RHFCheckboxGroupPropsTable } from './RHFCheckboxGroup';

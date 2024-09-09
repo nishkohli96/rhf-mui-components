@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFCheckboxGroupPropsTable() {
+export default function RHFCheckboxGroupPropsTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.control,

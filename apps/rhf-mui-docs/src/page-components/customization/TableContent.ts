@@ -7,6 +7,5 @@ export default function TableContent(): string {
 	const row2 = `| defaultFormHelperTextSx | ${JSON.stringify(DefaultRHFMuiConfig.defaultFormHelperTextSx)} |\n `;
 	const row3 = `| dateAdapter | AdapterDayjs |`
 	
-	const tableContent = header + row1 + row2 + row3;
-	return tableContent;
+	return header + row1 + row2 + row3;
 }

@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function IntroductionPageTable() {
+export default function IntroductionPageTable() {
 	const tableRows = [
 		PropsDescription.fieldName,
 		PropsDescription.register,
