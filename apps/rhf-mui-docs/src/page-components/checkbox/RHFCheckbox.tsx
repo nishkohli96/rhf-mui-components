@@ -1,4 +1,4 @@
-import { MarkdownTable } from '@site/src/components';
+import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
 export function RHFCheckboxPropsTable() {

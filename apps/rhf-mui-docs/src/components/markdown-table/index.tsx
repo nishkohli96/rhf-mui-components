@@ -8,7 +8,7 @@ type MarkdownTableProps = {
   showType?: boolean;
 };
 
-export const MarkdownTable = ({ rows, showType }: MarkdownTableProps) => {
+export default function MarkdownTable({ rows, showType }: MarkdownTableProps) {
   const primaryColor = '#4FC3F7';
   let tableHeaderRow = `|Name`;
   let tableHeaderCol = '|-';
