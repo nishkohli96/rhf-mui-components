@@ -3,7 +3,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { RHFCheckbox, RHFCheckboxGroup, RHFRadioGroup } from '@nish1896/rhf-mui-components';
 import { formSchema, PersonInfo } from './validation';
 import {
@@ -13,24 +12,21 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { IPLTeams, CountriesList } from '@/constants';
+import { CountriesList } from '@/constants';
 import { Gender } from '@/types';
 
 export function CheckboxRadioZodForm() {
   const {
-    register,
 		control,
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema)
   });
-  console.log('watch: ', watch());
-  console.log('errors: ', errors);
 
   function onFormSubmit(formValues: PersonInfo) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (

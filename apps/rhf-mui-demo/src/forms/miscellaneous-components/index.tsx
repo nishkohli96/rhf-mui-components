@@ -6,16 +6,17 @@ import {
   FormContainer,
   RenderFormState,
   GridContainer,
-  // RHFColorPicker,
-  // RHFRichTextEditor,
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { RHFColorPicker } from '@nish1896/rhf-mui-components';
+import {
+  RHFColorPicker,
+  RHFRichTextEditor
+} from '@nish1896/rhf-mui-components';
 
 type FormSchema = {
-  rte: string | null;
-  color: string | null;
+  rte: string;
+  color: string;
 };
 
 export function MiscellaneousComponentsForm() {
@@ -28,32 +29,33 @@ export function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      rte: null,
       color: '#007ABA'
     }
   });
 
   function onFormSubmit(formValues) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
     <FormContainer title="Miscellaneous Components - RichTextEditor & ColorPicker">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          {/* <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6}>
             <FieldVariantInfo title="CK5Editor" />
             <RHFRichTextEditor
+              fieldName='rte'
               value={getValues('rte')}
-              onChange={(newValue) => setValue('rte', newValue)}
+              setValue={setValue}
             />
-          </Grid> */}
-          {/* <Grid item xs={12} md={6}>
-          <RHFColorPicker
-              defaultValue={getValues('color') ?? ''}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <RHFColorPicker
+              fieldName='color'
+              value={getValues('color') ?? ''}
               onValueChange={(newColor) => setValue('color', newColor.hex)}
             />
-          </Grid> */}
+          </Grid>
           <Grid item xs={12}>
             <SubmitButton />
           </Grid>

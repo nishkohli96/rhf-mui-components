@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { ConfigProvider, RHFDatePicker } from '@nish1896/rhf-mui-components';
 import { StyledRHFTextField } from './StyledTextField';
 import {
@@ -37,7 +38,7 @@ export function StyledReusableComponentForm() {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
   return (
     <FormContainer title="TextField & PasswordInput">
@@ -48,7 +49,7 @@ export function StyledReusableComponentForm() {
 				defaultFormHelperTextSx={{
 					ml: '12px'
 				}}
-				dateAdapter='luxon'
+				dateAdapter={AdapterLuxon}
 			>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>

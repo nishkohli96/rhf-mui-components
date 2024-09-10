@@ -2,7 +2,6 @@ export * from './accordion';
 export * from './appbar';
 export * from './buttons';
 export * from './containers';
-export * from './custom-rhf-components';
 export * from './drawer';
 export * from './feature-item';
 export * from './footer';

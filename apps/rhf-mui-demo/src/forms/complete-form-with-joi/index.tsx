@@ -1,6 +1,6 @@
 'use client';
 
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { joiResolver } from '@hookform/resolvers/joi';
 import {
@@ -28,6 +28,7 @@ import {
 import { Colors, Gender, Sports } from '@/types';
 import { CountriesList, IPLTeams } from '@/constants'
 import { Person, JoiFormSchema } from './validation';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 const initialValues: Person = {
   email: 'hello@example.com',
@@ -63,7 +64,7 @@ export function CompleteFormWithJoi() {
   });
 
   function onFormSubmit(formValues: Person) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
@@ -78,7 +79,7 @@ export function CompleteFormWithJoi() {
           mt: '20px',
           ml: '40px'
         }}
-        // dateAdapter='date-fns'
+        dateAdapter={AdapterMoment}
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>

@@ -33,11 +33,9 @@ export function SwitchSliderRatingFormWithSuperstruct() {
   } = useForm({
     resolver: superstructResolver(formSchema)
   });
-  console.log('watch: ', watch());
-  console.log('errors: ', errors);
 
   function onFormSubmit(formValues) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (

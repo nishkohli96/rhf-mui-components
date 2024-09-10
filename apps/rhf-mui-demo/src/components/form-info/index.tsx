@@ -1,7 +1,7 @@
 'use client';
 
 import ReactJson from 'react-json-view';
-import { UseFormWatch, FieldErrors, FieldValues } from 'react-hook-form';
+import { FieldErrors, FieldValues } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';
@@ -15,8 +15,25 @@ export function RenderFormState<T extends FieldValues>({
   formValues,
   errors
 }: RenderFormStateProps<T>) {
-	console.log('errors: ', errors);
-	return (
+
+  /**
+   * "errors" object from RHF also has ref, besides type & message.
+   * Unfortunately, "react-json-view" has a hard time parsing that
+   * ref key, which gives "Converting circular structure to JSON"
+   * error, so I had to create a new object to yield form errors.
+   */
+  let errObj = {};
+  Object.keys(errors).map((err) => {
+    errObj = {
+      ...errObj,
+      [err]: {
+        message: errors?.[err]?.message,
+        type: errors?.[err]?.type
+      }
+    };
+  });
+
+  return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <SubHeading title="Form values & errors in real-time" />
