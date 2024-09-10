@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function IntroductionPage() {
-	return <p>Intro</p>
+  return <p>Intro</p>;
 }

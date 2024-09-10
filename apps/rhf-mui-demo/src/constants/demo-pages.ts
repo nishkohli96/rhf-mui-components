@@ -1,6 +1,6 @@
 import { Page } from '@/types';
 
-const pagePrefix = '/demo'
+const pagePrefix = '/demo';
 
 export const DemoPageLinks: Page[] = [
   {

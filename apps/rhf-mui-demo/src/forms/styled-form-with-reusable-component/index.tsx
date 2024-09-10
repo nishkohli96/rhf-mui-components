@@ -7,7 +7,7 @@ import { ConfigProvider, RHFDatePicker } from '@nish1896/rhf-mui-components';
 import { StyledRHFTextField } from './StyledTextField';
 import {
   FormContainer,
-	FieldVariantInfo,
+  FieldVariantInfo,
   GridContainer,
   RenderFormState,
   SubmitButton,
@@ -17,19 +17,19 @@ import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
 type FormSchema = {
   firstName: string;
   lastName: string;
-	dob: Date | null;
+  dob: Date | null;
 };
 
 const initialValues: FormSchema = {
   firstName: '',
   lastName: '',
-	dob: null
+  dob: null
 };
 
 export function StyledReusableComponentForm() {
   const {
     register,
-		setValue,
+    setValue,
     handleSubmit,
     watch,
     formState: { errors },
@@ -43,14 +43,14 @@ export function StyledReusableComponentForm() {
   return (
     <FormContainer title="TextField & PasswordInput">
       <ConfigProvider
-				defaultFormLabelSx={{
-					color: '#007bff'
-				}}
-				defaultFormHelperTextSx={{
-					ml: '12px'
-				}}
-				dateAdapter={AdapterLuxon}
-			>
+        defaultFormLabelSx={{
+          color: '#007bff'
+        }}
+        defaultFormHelperTextSx={{
+          ml: '12px'
+        }}
+        dateAdapter={AdapterLuxon}
+      >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
             <Grid item xs={12} md={6}>
@@ -83,16 +83,16 @@ export function StyledReusableComponentForm() {
                 errorMessage={errors?.lastName?.message}
               />
             </Grid>
-						<Grid item xs={6}>
-							<FieldVariantInfo title='Date Picker with Luxon adapter' />
-							<RHFDatePicker 
-								register={register}
-								setValue={setValue}
-								fieldName='dob'
-								label='Date of Birth'
-								disableFuture
-							/>
-						</Grid>
+            <Grid item xs={6}>
+              <FieldVariantInfo title="Date Picker with Luxon adapter" />
+              <RHFDatePicker
+                register={register}
+                setValue={setValue}
+                fieldName="dob"
+                label="Date of Birth"
+                disableFuture
+              />
+            </Grid>
             <Grid item xs={12}>
               <SubmitButton />
             </Grid>

@@ -15,12 +15,18 @@ export default function DocsPage() {
       <Grid item />
       <PageHeading title="Introduction" />
       <Paragraph>
-        This library makes easier to integrate{' '}
-        <Link href={ExternalLinks.rhf.home}>react-hook-form</Link> with{' '}
-        <Link href={ExternalLinks.mui}>Material-UI</Link> by providing a suite
+        This library makes easier to integrate
+        {' '}
+        <Link href={ExternalLinks.rhf.home}>react-hook-form</Link>
+        {' '}
+        with
+        {' '}
+        <Link href={ExternalLinks.mui}>Material-UI</Link>
+        {' '}
+        by providing a suite
         of reusable and customizable mui components, thus helping you reduce
         code duplicacy and providing the flexibility to create form fields as
-        per your website's design.
+        per your website&apos;s design.
       </Paragraph>
       <PageHeading title="Working" />
       <Paragraph>

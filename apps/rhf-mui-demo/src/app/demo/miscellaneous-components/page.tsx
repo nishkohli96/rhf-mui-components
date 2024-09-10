@@ -3,10 +3,10 @@ import { PageHeading, SubHeading } from '@/components';
 import { MiscellaneousComponentsForm } from '@/forms';
 
 const title = 'Miscellaneous Components';
-const description = 'ColorPicker & RichTextEditor'
+const description = 'ColorPicker & RichTextEditor';
 
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

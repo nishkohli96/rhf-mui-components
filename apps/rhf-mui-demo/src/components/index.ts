@@ -5,7 +5,7 @@ export * from './containers';
 export * from './drawer';
 export * from './feature-item';
 export * from './footer';
-export * from './form-info'; 
+export * from './form-info';
 export * from './page-heading';
 export * from './page-link';
 export * from './table';

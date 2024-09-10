@@ -3,10 +3,10 @@ import { PageHeading, SubHeading } from '@/components';
 import { TextAndPasswordInputForm } from '@/forms';
 
 const title = 'TextField & PasswordInput';
-const description = 'Form with RHFTextField & RHFPasswordInput with register options'
+const description = 'Form with RHFTextField & RHFPasswordInput with register options';
 
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

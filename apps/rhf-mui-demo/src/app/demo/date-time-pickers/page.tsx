@@ -3,10 +3,10 @@ import { PageHeading, SubHeading } from '@/components';
 import { DateTimePickersForm } from '@/forms';
 
 const title = 'Date & Time Pickers';
-const description = 'DatePicker, TimePicker & DateTimePicker'
+const description = 'DatePicker, TimePicker & DateTimePicker';
 
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

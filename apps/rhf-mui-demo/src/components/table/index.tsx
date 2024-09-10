@@ -21,16 +21,20 @@ export function Table({ rows, isLastColDesc }: TableProps) {
           <TableRow>
             <TableCell>Prop</TableCell>
             <TableCell>Required</TableCell>
-            <TableCell>{isLastColDesc ? 'Description' : 'Type'}</TableCell>
+            <TableCell>
+              {isLastColDesc ? 'Description' : 'Type'}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map(row => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{row.name}</TableCell>
+              <TableCell>
+                {row.name}
+              </TableCell>
               <TableCell align="center">
                 {row.required ? <span>✅</span> : ''}
               </TableCell>
@@ -38,7 +42,9 @@ export function Table({ rows, isLastColDesc }: TableProps) {
                 {isLastColDesc ? (
                   row.description
                 ) : (
-                  <Code>{row.description}</Code>
+                  <Code>
+                    {row.description}
+                  </Code>
                 )}
               </TableCell>
             </TableRow>

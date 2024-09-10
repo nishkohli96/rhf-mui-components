@@ -5,7 +5,7 @@ import { SwitchSliderRatingFormWithSuperstruct } from '@/forms';
 const title = 'Switch, Slider & Rating with Superstruct validation';
 const description = 'RHFSwitch, RHFSlider & RHFRating';
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",
-    "@nish1896/eslint-config": "^2.0.4",
+    "@nish1896/eslint-config": "^2.0.5",
     "@storybook/addon-essentials": "^8.1.5",
     "@storybook/addon-interactions": "^8.1.5",
     "@storybook/addon-links": "^8.1.5",

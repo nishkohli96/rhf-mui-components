@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function CustomizationPage() {
-	return <p>Customization</p>
+  return <p>Customization</p>;
 }

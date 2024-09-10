@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFTimePickerPage() {
-	return <p>RHFTimePicker</p>
+  return <p>RHFTimePicker</p>;
 }

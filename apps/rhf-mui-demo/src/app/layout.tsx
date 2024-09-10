@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/assets/styles/theme';
-import { AppBar, Footer } from '@/components'
+import { AppBar, Footer } from '@/components';
 import { AppThemeContext } from '@/context/theme';
 import './globals.css';
 
@@ -29,9 +29,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <ThemeProvider theme={theme}>
             <AppBar />
-              <div className="content">
-                {children}
-              </div>
+            <div className="content">
+              {children}
+            </div>
             <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>

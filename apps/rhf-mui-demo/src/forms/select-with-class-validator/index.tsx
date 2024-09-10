@@ -43,7 +43,7 @@ export function SelectFormWithClassValidator() {
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
-                Boolean(watch('favouriteColor')) ? (
+                watch('favouriteColor') ? (
                   <Typography color={watch('favouriteColor')}>
                     {`This text is in ${watch('favouriteColor')} color`}
                   </Typography>

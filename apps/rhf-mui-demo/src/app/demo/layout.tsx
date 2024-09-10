@@ -7,8 +7,8 @@ type RootLayoutProps = {
 
 export default function DemoLayout({ children }: RootLayoutProps) {
   return (
-		<Box sx={{ p: '30px 20px' }}>
-      {children} 
-		</Box>
+    <Box sx={{ p: '30px 20px' }}>
+      {children}
+    </Box>
   );
 }

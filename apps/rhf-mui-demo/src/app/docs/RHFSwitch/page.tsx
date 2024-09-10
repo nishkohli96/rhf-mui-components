@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFSwitchPage() {
-	return <p>RHFSwitch</p>
+  return <p>RHFSwitch</p>;
 }

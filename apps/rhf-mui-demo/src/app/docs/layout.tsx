@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function DocsLayout({ children }: LayoutProps) {
   return (
     <Grid container sx={{ height: '100%' }}>
-      <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' }}}>
+      <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
         <DrawerContent />
       </Grid>
       <Grid

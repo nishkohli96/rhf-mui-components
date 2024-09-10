@@ -41,7 +41,7 @@ export function TextAndPasswordInputForm() {
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
-  
+
   function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
@@ -94,7 +94,7 @@ export function TextAndPasswordInputForm() {
                   message: 'Invalid Email Id'
                 }
               }}
-              variant='standard'
+              variant="standard"
               showLabelAboveFormField
             />
           </Grid>
@@ -127,7 +127,7 @@ export function TextAndPasswordInputForm() {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: (v) => v.length >= 4 || minCharMsg(4),
+                  minLen: v => v.length >= 4 || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -142,12 +142,12 @@ export function TextAndPasswordInputForm() {
             <RHFTextField
               fieldName="age"
               register={register}
-              type='number'
+              type="number"
               registerOptions={{
                 valueAsNumber: true
               }}
               errorMessage={errors?.age?.message}
-              variant='filled'
+              variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
             />

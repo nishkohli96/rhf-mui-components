@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFRatingPage() {
-	return <p>RHFRating</p>
+  return <p>RHFRating</p>;
 }

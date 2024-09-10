@@ -3,10 +3,10 @@ import { PageHeading, SubHeading } from '@/components';
 import { SelectFormWithClassValidator } from '@/forms';
 
 const title = 'Select with Class-Validator';
-const description = 'RHFSelect & RHFNativeSelect form fields with class-validator resolver from @hookform/resolvers/class-validator'
+const description = 'RHFSelect & RHFNativeSelect form fields with class-validator resolver from @hookform/resolvers/class-validator';
 
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

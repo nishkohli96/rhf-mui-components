@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFSelectPage() {
-	return <p>RHFSelect</p>
+  return <p>RHFSelect</p>;
 }

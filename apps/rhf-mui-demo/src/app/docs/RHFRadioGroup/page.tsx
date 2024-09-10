@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFRadioGroupPage() {
-	return <p>RHFRadioGroup</p>
+  return <p>RHFRadioGroup</p>;
 }

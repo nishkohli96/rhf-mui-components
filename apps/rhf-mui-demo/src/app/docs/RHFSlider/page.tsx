@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFSliderPage() {
-	return <p>RHFSlider</p>
+  return <p>RHFSlider</p>;
 }

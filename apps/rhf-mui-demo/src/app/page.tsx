@@ -55,15 +55,15 @@ export default function Home() {
         </GridContainer>
       </Box>
       <Container>
-      <Grid container item spacing={2} sx={{ py: '50px'}}>
-        {appFeatures.map((feature, idx) => (
-          <Grid item xs={12} md={4} key={idx}>
-            <FeatureItem
-              text={feature}
-            />
-          </Grid>
-        ))}
-      </Grid>
+        <Grid container item spacing={2} sx={{ py: '50px' }}>
+          {appFeatures.map((feature, idx) => (
+            <Grid item xs={12} md={4} key={idx}>
+              <FeatureItem
+                text={feature}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </main>
   );

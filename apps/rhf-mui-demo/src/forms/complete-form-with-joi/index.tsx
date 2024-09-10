@@ -26,7 +26,7 @@ import {
   SubmitButton
 } from '@/components';
 import { Colors, Gender, Sports } from '@/types';
-import { CountriesList, IPLTeams } from '@/constants'
+import { CountriesList, IPLTeams } from '@/constants';
 import { Person, JoiFormSchema } from './validation';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
@@ -149,7 +149,7 @@ export function CompleteFormWithJoi() {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={(e) => {
+                onValueChange={e => {
                   console.log('changed switch', e);
                 }}
               />
@@ -253,7 +253,7 @@ export function CompleteFormWithJoi() {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={(e) => {
+                onValueChange={e => {
                   console.log('changed switch', e);
                 }}
                 showLabelAboveFormField

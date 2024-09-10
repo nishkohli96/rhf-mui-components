@@ -17,8 +17,8 @@ export type Person = {
   country: string;
   favouriteSport: Sports | '';
   sports: string[];
-  iplTeams:  string[];
-	countries: string[] | null;
+  iplTeams: string[];
+  countries: string[] | null;
   favouriteColor: Colors | '',
   color: Colors[] | null;
   rating: number | null;

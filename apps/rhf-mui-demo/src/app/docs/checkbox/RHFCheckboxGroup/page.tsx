@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFCheckboxGroupPage() {
-	return <p>RHFCheckboxGroup</p>
+  return <p>RHFCheckboxGroup</p>;
 }

@@ -3,10 +3,10 @@ import { PageHeading, SubHeading } from '@/components';
 import { CheckboxRadioZodForm } from '@/forms';
 
 const title = 'CheckboxGroup & RadioGroup with Zod Validation';
-const description = 'RHFCheckbox, RHFCheckboxGroup & RHFRadioGroup form fields with zod validation from @hookform/resolvers/zod'
+const description = 'RHFCheckbox, RHFCheckboxGroup & RHFRadioGroup form fields with zod validation from @hookform/resolvers/zod';
 
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

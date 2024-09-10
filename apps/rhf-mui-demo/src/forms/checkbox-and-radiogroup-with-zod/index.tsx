@@ -17,7 +17,7 @@ import { Gender } from '@/types';
 
 export function CheckboxRadioZodForm() {
   const {
-		control,
+    control,
     handleSubmit,
     watch,
     formState: { errors }
@@ -39,7 +39,7 @@ export function CheckboxRadioZodForm() {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-							onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
+              onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
               errorMessage={errors?.gender?.message}
             />
           </Grid>
@@ -60,7 +60,7 @@ export function CheckboxRadioZodForm() {
             <RHFCheckbox
               fieldName="agreeTnC"
               control={control}
-							label="Agree to Terms & Conditions"
+              label="Agree to Terms & Conditions"
               errorMessage={errors?.agreeTnC?.message}
             />
           </Grid>

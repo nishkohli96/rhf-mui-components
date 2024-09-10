@@ -3,10 +3,10 @@ import { PageHeading, SubHeading } from '@/components';
 import { CompleteFormWithJoi } from '@/forms';
 
 const title = 'Complete Form with Joi';
-const description = 'A complete form showcasing all components from this package'
+const description = 'A complete form showcasing all components from this package';
 
 export const metadata: Metadata = {
-	title,
+  title,
   description
 };
 

@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RHFNativeSelectPage() {
-	return <p>RHFNativeSelect</p>
+  return <p>RHFNativeSelect</p>;
 }
