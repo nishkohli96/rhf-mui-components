@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
-import { RHFCheckbox, RHFCheckboxGroup, RHFRadioGroup } from '@nish1896/rhf-mui-components';
+import { RHFCheckbox, RHFCheckboxGroup, RHFRadioGroup, ConfigProvider } from '@nish1896/rhf-mui-components';
 import { formSchema, PersonInfo } from './validation';
 import {
   FormContainer,
@@ -32,6 +32,7 @@ export function CheckboxRadioZodForm() {
   return (
     <FormContainer title="Radio & Checkbox Group">
       <form onSubmit={handleSubmit(onFormSubmit)}>
+        <ConfigProvider defaultFormLabelSx={{ mb: '20px', ml:'13px' }}>
         <GridContainer>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Radio Group with onValueChange function" />
@@ -71,6 +72,7 @@ export function CheckboxRadioZodForm() {
             <RenderFormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
+        </ConfigProvider>
       </form>
     </FormContainer>
   );

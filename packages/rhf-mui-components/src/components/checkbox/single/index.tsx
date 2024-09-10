@@ -1,10 +1,9 @@
-import { Fragment, ReactNode, ChangeEvent } from 'react';
+import { Fragment, ReactNode, ChangeEvent, useContext } from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
-import withConfigHOC from '../../../config/withConfig';
-import { DefaultFieldConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { FormHelperText } from '../../common';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
@@ -19,7 +18,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<CheckboxProps, 'name' | 'checked' | 'onChange'>;
 
-function Checkbox<T extends FieldValues>({
+export function RHFCheckbox<T extends FieldValues>({
   fieldName,
   control,
   onValueChange,
@@ -29,9 +28,9 @@ function Checkbox<T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  defaultFormHelperTextSx,
   ...rest
-}: RHFCheckboxProps<T> & DefaultFieldConfig) {
+}: RHFCheckboxProps<T>) {
+  const { defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
 
   return (
@@ -71,5 +70,3 @@ function Checkbox<T extends FieldValues>({
     />
   );
 }
-
-export const RHFCheckbox = withConfigHOC(Checkbox);

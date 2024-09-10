@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useMemo } from 'react';
 import { DefaultRHFMuiConfig } from './DefaultConfig';
 import { RHFMuiConfig, RHFMuiConfigInput } from '../types';
-import { setDateAdapter } from '../utils';
 
 type ConfigProviderProps = {
   children: ReactNode;

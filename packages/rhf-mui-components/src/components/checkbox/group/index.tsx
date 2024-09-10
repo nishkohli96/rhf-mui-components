@@ -1,13 +1,19 @@
-import { Fragment, ReactNode, ChangeEvent } from 'react';
+import { Fragment, ReactNode, ChangeEvent, useContext } from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormControlLabel, {
+  FormControlLabelProps
+} from '@mui/material/FormControlLabel';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { DefaultFieldConfig, OptionType } from '../../../types';
-import { fieldNameToLabel, validateArray, isKeyValueOption } from '../../../utils';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { OptionType } from '../../../types';
+import {
+  fieldNameToLabel,
+  validateArray,
+  isKeyValueOption
+} from '../../../utils';
 
 export type RHFCheckboxGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -30,7 +36,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
-function CheckboxGroup<T extends FieldValues>({
+export function RHFCheckboxGroup<T extends FieldValues>({
   fieldName,
   control,
   options,
@@ -45,13 +51,12 @@ function CheckboxGroup<T extends FieldValues>({
   helperText,
   errorMessage,
   hideErrorMessage,
-  formHelperTextProps,
-  defaultFormLabelSx,
-  defaultFormHelperTextSx
-}: RHFCheckboxGroupProps<T> & DefaultFieldConfig) {
+  formHelperTextProps
+}: RHFCheckboxGroupProps<T>) {
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-  validateArray('RHFCheckboxGroup', options, labelKey, valueKey)
+  validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   return (
     <Controller
@@ -81,8 +86,12 @@ function CheckboxGroup<T extends FieldValues>({
             <Fragment>
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-                const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+                const opnValue = isObject
+                  ? `${option[valueKey ?? '']}`
+                  : option;
+                const opnLabel = isObject
+                  ? `${option[labelKey ?? '']}`
+                  : option;
                 return (
                   <FormControlLabel
                     key={idx}
@@ -116,5 +125,3 @@ function CheckboxGroup<T extends FieldValues>({
     />
   );
 }
-
-export const RHFCheckboxGroup = withConfigHOC(CheckboxGroup);
