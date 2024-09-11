@@ -22,7 +22,7 @@ export function SelectFormWithClassValidator() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormSchema>({
     resolver: classValidatorResolver(FormSchema)
   });
 

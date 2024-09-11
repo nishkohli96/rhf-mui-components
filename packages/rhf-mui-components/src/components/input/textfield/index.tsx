@@ -1,4 +1,4 @@
-import { ReactNode, ChangeEvent } from 'react';
+import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
   UseFormRegister,
   Path,
@@ -9,8 +9,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { DefaultFieldConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
@@ -27,8 +26,8 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-function TextField<T extends FieldValues>(
-  props: RHFTextFieldProps<T> & DefaultFieldConfig
+export function RHFTextField<T extends FieldValues>(
+  props: RHFTextFieldProps<T>
 ) {
   const {
     fieldName,
@@ -42,10 +41,10 @@ function TextField<T extends FieldValues>(
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    defaultFormLabelSx,
-    defaultFormHelperTextSx,
     ...rest
   } = props;
+
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
@@ -85,5 +84,3 @@ function TextField<T extends FieldValues>(
     </FormControl>
   );
 }
-
-export const RHFTextField = withConfigHOC(TextField);

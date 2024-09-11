@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { useContext, Fragment, ReactNode } from 'react';
 import {
   UseFormRegister,
   RegisterOptions,
@@ -9,8 +9,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
 import { FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { DefaultFieldConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFSliderProps<T extends FieldValues> = {
@@ -32,8 +31,8 @@ export type RHFSliderProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<SliderProps, 'name' | 'defaultValue'>;
 
-function Slider<T extends FieldValues>(
-  props: RHFSliderProps<T> & DefaultFieldConfig
+export function RHFSlider<T extends FieldValues>(
+  props: RHFSliderProps<T>
 ) {
   const {
     fieldName,
@@ -50,10 +49,10 @@ function Slider<T extends FieldValues>(
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    defaultFormLabelSx,
-    defaultFormHelperTextSx,
     ...rest
   } = props;
+
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
@@ -90,5 +89,3 @@ function Slider<T extends FieldValues>(
     </Fragment>
   );
 }
-
-export const RHFSlider = withConfigHOC(Slider);

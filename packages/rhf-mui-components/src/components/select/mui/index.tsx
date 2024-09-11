@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { useContext, Fragment, ReactNode } from 'react';
 import {
   UseFormRegister,
   RegisterOptions,
@@ -14,8 +14,8 @@ import MuiSelect, {
   SelectProps,
 } from '@mui/material/Select';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig, OptionType } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { OptionType } from '../../../types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -46,7 +46,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
 >;
 
-function Select<T extends FieldValues>({
+export function RHFSelect<T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
@@ -65,10 +65,9 @@ function Select<T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  defaultFormLabelSx,
-  defaultFormHelperTextSx,
   ...otherSelectProps
-}: RHFSelectProps<T> & RHFMuiConfig) {
+}: RHFSelectProps<T>) {
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   validateArray('RHFSelect', options, labelKey, valueKey);
@@ -132,5 +131,3 @@ function Select<T extends FieldValues>({
     </FormControl>
   );
 }
-
-export const RHFSelect = withConfigHOC(Select);

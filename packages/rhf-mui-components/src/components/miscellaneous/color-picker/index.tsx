@@ -1,11 +1,10 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import { FieldValues, Path } from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { DefaultFieldConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 import 'react-color-palette/css';
 
@@ -26,7 +25,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
-function ColorPicker<T extends FieldValues>({
+export function RHFColorPicker<T extends FieldValues>({
   fieldName,
 	value,
 	hideInput,
@@ -39,10 +38,9 @@ function ColorPicker<T extends FieldValues>({
 	errorMessage,
 	hideErrorMessage,
 	formHelperTextProps,
-  defaultFormLabelSx,
-  defaultFormHelperTextSx,
   ...otherProps
-}: RHFColorPickerProps<T> & DefaultFieldConfig) {
+}: RHFColorPickerProps<T>) {
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const [color, setColor] = useColor(value ?? '#000000');
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 	const isError = Boolean(errorMessage);
@@ -80,5 +78,3 @@ function ColorPicker<T extends FieldValues>({
     </FormControl>
   );
 }
-
-export const RHFColorPicker = withConfigHOC(ColorPicker);

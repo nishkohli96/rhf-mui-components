@@ -1,11 +1,10 @@
-import { ReactNode, SyntheticEvent } from 'react';
+import { useContext, ReactNode, SyntheticEvent } from 'react';
 import { Control, Controller, Path, FieldValues } from 'react-hook-form';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { DefaultFieldConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFRatingProps<T extends FieldValues> = {
@@ -24,8 +23,8 @@ export type RHFRatingProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<RatingProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-function Rating<T extends FieldValues>(
-  props: RHFRatingProps<T> & DefaultFieldConfig
+export function RHFRating<T extends FieldValues>(
+  props: RHFRatingProps<T>
 ) {
   const {
     fieldName,
@@ -38,10 +37,10 @@ function Rating<T extends FieldValues>(
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    defaultFormLabelSx,
-    defaultFormHelperTextSx,
     ...rest
   } = props;
+
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
@@ -82,5 +81,3 @@ function Rating<T extends FieldValues>(
     />
   );
 }
-
-export const RHFRating = withConfigHOC(Rating);
