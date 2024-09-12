@@ -183,7 +183,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   label: {
     name: 'label',
-    description: `The text to render in \`FormLabel\` component. By default the value of \`fieldName\` will be set as its value.`,
+    description: `The text to render in \`FormLabel\` component. By default, the value of \`fieldName\` such as firstName will be transformed to display "First Name".`,
     type: 'ReactNode'
   },
   checkboxProps: {
