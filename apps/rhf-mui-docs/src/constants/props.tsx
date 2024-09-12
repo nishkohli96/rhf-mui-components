@@ -55,19 +55,19 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   formLabelProps: {
     name: 'formLabelProps',
-    description: `[FormLabel Props](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
     hasLinkInType: true
   },
   formControlLabelProps: {
     name: 'formControlLabelProps',
-    description: `[FormControlLabel Props](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
+    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
-    description: `[FormHelperText Props](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
+    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
   },

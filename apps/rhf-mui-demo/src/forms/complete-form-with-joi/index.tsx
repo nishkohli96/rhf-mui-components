@@ -29,6 +29,7 @@ import { Colors, Gender, Sports } from '@/types';
 import { CountriesList, IPLTeams } from '@/constants';
 import { Person, JoiFormSchema } from './validation';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import styles from './styles.module.css';
 
 const initialValues: Person = {
   email: 'hello@example.com',
@@ -74,6 +75,9 @@ export function CompleteFormWithJoi() {
           mt: '20px',
           ml: '20px',
           mb: '16px'
+        }}
+        defaultFormControlLabelSx={{
+          color: '#1976D2',
         }}
         defaultFormHelperTextSx={{
           mt: '20px',
@@ -147,7 +151,10 @@ export function CompleteFormWithJoi() {
                 control={control}
                 label="Hello"
                 formControlLabelProps={{
-                  labelPlacement: 'end'
+                  labelPlacement: 'end',
+                  classes: {
+                    label: styles.switchLabel
+                  }
                 }}
                 onValueChange={e => {
                   console.log('changed switch', e);

@@ -12,6 +12,7 @@ export default function IntroductionPageTable() {
 		PropsDescription.label,
 		PropsDescription.showLabelAboveFormField,
 		PropsDescription.formLabelProps,
+		PropsDescription.formControlLabelProps,
 		PropsDescription.helperText,
 		PropsDescription.errorMessage,
 		PropsDescription.hideErrorMessage,

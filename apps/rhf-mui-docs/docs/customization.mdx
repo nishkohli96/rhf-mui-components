@@ -15,7 +15,9 @@ enabling you to style components globally, eliminating the need to
 duplicate code across your application.
 
 All components share at least two common props: [FormLabel](https://mui.com/material-ui/api/form-label/) 
-and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/). 
+and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/). Components like checkboxes or switches 
+also include a [FormControlLabel](https://mui.com/material-ui/api/form-control-label/). 
+These can be preconfigured to apply uniform styles across all components. 
 Additionally, there's an option to customize the `dateAdapter` for 
 date and time pickers, with `AdapterDayjs` set as the default, following 
 [MUI's recommendation](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
@@ -54,6 +56,7 @@ Please do install the npm package of the corresponding date library.
 ```jsx
 <ConfigProvider
   defaultFormLabelSx={{ color: '#007bff' }}
+  defaultFormControlLabelSx={{ color: '#ea3677', mr: '1rem' }}
   defaultFormHelperTextSx={{ mt: '0.75rem' }}
   dateAdapter={AdapterMoment}
 >
