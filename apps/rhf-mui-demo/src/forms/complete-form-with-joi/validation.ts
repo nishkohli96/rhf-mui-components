@@ -24,6 +24,8 @@ export type Person = {
   rating: number | null;
   darkTheme: boolean;
   agreeTnC: boolean;
+  bgColor: string;
+  feedback: string;
 };
 
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
@@ -94,5 +96,7 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   }),
   agreeTnC: Joi.boolean().required().valid(true).messages({
     'any.only': 'Please agree to the Terms & Conditions'
-  })
+  }),
+  bgColor: Joi.string().required(),
+  feedback: Joi.string().required()
 });

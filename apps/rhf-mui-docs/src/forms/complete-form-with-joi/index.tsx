@@ -15,6 +15,8 @@ import {
   RHFSwitch,
   RHFTextField,
   RHFTimePicker,
+  RHFColorPicker,
+  RHFRichTextEditor,
   ConfigProvider
 } from '@nish1896/rhf-mui-components';
 import {
@@ -26,6 +28,7 @@ import {
 import { Colors, Gender, Sports } from '@site/src/types';
 import { CountriesList, IPLTeams } from '@site/src/constants';
 import { Person, JoiFormSchema } from './validation';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 const initialValues: Person = {
   email: 'hello@example.com',
@@ -44,7 +47,9 @@ const initialValues: Person = {
   color: null,
   darkTheme: true,
   rating: null,
-  agreeTnC: false
+  agreeTnC: false,
+  bgColor: '#007ABA',
+  feedback: '',
 };
 
 export function CompleteFormWithJoi() {
@@ -54,6 +59,7 @@ export function CompleteFormWithJoi() {
     control,
     watch,
     setValue,
+    getValues,
     formState: { errors }
   } = useForm<Person>({
     defaultValues: initialValues,
@@ -69,12 +75,17 @@ export function CompleteFormWithJoi() {
       <ConfigProvider
         defaultFormLabelSx={{
           mt: '20px',
+          ml: '20px',
           mb: '16px'
+        }}
+        defaultFormControlLabelSx={{
+          color: '#1976D2',
         }}
         defaultFormHelperTextSx={{
           mt: '20px',
           ml: '40px'
         }}
+        dateAdapter={AdapterMoment}
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
@@ -260,6 +271,19 @@ export function CompleteFormWithJoi() {
                 errorMessage={errors?.rating?.message}
                 max={10}
                 showLabelAboveFormField
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFColorPicker
+                fieldName="bgColor"
+                onValueChange={(color) => setValue('bgColor', color.hex)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFRichTextEditor
+                fieldName="feedback"
+                value={getValues('feedback')}
+                setValue={setValue}
               />
             </Grid>
             <Grid item xs={12}>
