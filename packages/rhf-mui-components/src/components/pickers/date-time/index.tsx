@@ -71,6 +71,7 @@ export function RHFDateTimePicker<T extends FieldValues>({
             onValueChange?.(newValue);
           }}
           label={!showLabelAboveFormField ? fieldLabel : undefined}
+          {...otherRegisterProps}
           {...rest}
         />
       </LocalizationProvider>
