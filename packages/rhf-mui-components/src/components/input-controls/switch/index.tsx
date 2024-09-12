@@ -1,4 +1,4 @@
-import { ReactNode, ChangeEvent } from 'react';
+import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
   Control,
   Controller,
@@ -7,6 +7,7 @@ import {
 } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
@@ -28,6 +29,13 @@ export function RHFSwitch<T extends FieldValues>({
 ) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
+  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const appliedFormControlLabelSx = {
+		...defaultFormControlLabelSx,
+		...sx,
+	}
+
   return (
     <Controller
       name={fieldName}
@@ -48,7 +56,8 @@ export function RHFSwitch<T extends FieldValues>({
               />
             }
             label={fieldLabel}
-            {...formControlLabelProps}
+            sx={appliedFormControlLabelSx}
+            {...otherFormControlLabelProps}
           />
         );
       }}

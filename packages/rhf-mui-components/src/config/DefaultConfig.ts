@@ -11,6 +11,7 @@ const DefaultStyles = Object.freeze({
 
 export const DefaultRHFMuiConfig: RHFMuiConfig = {
 	defaultFormLabelSx: { mb: DefaultStyles.margin.bottom },
+	defaultFormControlLabelSx: {},
 	defaultFormHelperTextSx: { 
 		mt: DefaultStyles.margin.top,
 		ml: DefaultStyles.margin.left

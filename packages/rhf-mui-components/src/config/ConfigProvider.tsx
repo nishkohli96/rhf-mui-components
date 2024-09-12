@@ -12,6 +12,7 @@ export const RHFMuiConfigContext =
 export const ConfigProvider = ({
   children,
   defaultFormHelperTextSx,
+  defaultFormControlLabelSx,
   defaultFormLabelSx,
   dateAdapter,
 }: ConfigProviderProps) => {
@@ -19,16 +20,19 @@ export const ConfigProvider = ({
     () => ({
       ...DefaultRHFMuiConfig,
       ...(defaultFormLabelSx && {
-        defaultFormLabelSx,
+        defaultFormLabelSx
+      }),
+      ...(defaultFormControlLabelSx && {
+        defaultFormControlLabelSx
       }),
       ...(defaultFormHelperTextSx && {
-        defaultFormHelperTextSx,
+        defaultFormHelperTextSx
       }),
       ...(dateAdapter && {
         dateAdapter
       }),
     }),
-    [defaultFormHelperTextSx, defaultFormLabelSx, dateAdapter],
+    [defaultFormHelperTextSx, defaultFormControlLabelSx, defaultFormLabelSx, dateAdapter],
   );
 
   return (

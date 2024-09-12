@@ -51,10 +51,20 @@ export function RHFCheckboxGroup<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps
 }: RHFCheckboxGroupProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } =
-    useContext(RHFMuiConfigContext);
+  const {
+    defaultFormLabelSx,
+    defaultFormHelperTextSx,
+    defaultFormControlLabelSx
+  } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
+
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const appliedFormControlLabelSx = {
+    ...defaultFormControlLabelSx,
+    ...sx
+  };
+
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   return (
@@ -105,7 +115,8 @@ export function RHFCheckboxGroup<T extends FieldValues>({
                       />
                     }
                     label={`${opnLabel}`}
-                    {...formControlLabelProps}
+                    sx={appliedFormControlLabelSx}
+                    {...otherFormControlLabelProps}
                   />
                 );
               })}

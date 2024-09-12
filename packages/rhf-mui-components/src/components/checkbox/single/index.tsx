@@ -30,8 +30,14 @@ export function RHFCheckbox<T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFCheckboxProps<T>) {
-  const { defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
+
+  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const appliedFormControlLabelSx = {
+		...defaultFormControlLabelSx,
+		...sx,
+	};
 
   return (
     <Controller
@@ -54,7 +60,8 @@ export function RHFCheckbox<T extends FieldValues>({
                 />
               }
               label={label}
-              {...formControlLabelProps}
+              sx={appliedFormControlLabelSx}
+              {...otherFormControlLabelProps}
             />
             <FormHelperText
               error={isError}

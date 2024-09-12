@@ -53,9 +53,15 @@ export function RHFRadioGroup<T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFRadioGroupProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
+
+  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const appliedFormControlLabelSx = {
+		...defaultFormControlLabelSx,
+		...sx,
+	};
 
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
@@ -96,7 +102,8 @@ export function RHFRadioGroup<T extends FieldValues>({
                     control={<Radio {...radioProps} />}
                     value={opnValue}
                     label={opnLabel}
-                    {...formControlLabelProps}
+                    sx={appliedFormControlLabelSx}
+                    {...otherFormControlLabelProps}
                   />
                 );
               })}
