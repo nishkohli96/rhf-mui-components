@@ -35,7 +35,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.`,
+    description: 'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
   errorMessage: {
@@ -45,7 +45,7 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   hideErrorMessage: {
     name: 'hideErrorMessage',
-    description: `Prevent replacing of form HelperText by error message during validation trigger.`,
+    description: 'Prevent replacing of form HelperText by error message during validation trigger.',
     type: 'boolean',
   },
   showLabelAboveFormField: {
@@ -73,58 +73,58 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_Default: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\`.`,
-    type: `(e: ChangeEvent) => void`
+    description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
+    type: '(e: ChangeEvent) => void'
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
-    description: `An optional callback function which returns the state of the checkbox from \`e.target.checked\` value `,
-    type: `(e: ChangeEvent) => void`
+    description: 'An optional callback function which returns the state of the checkbox from `e.target.checked` value ',
+    type: '(e: ChangeEvent) => void'
   },
   onValueChange_CheckboxGroup: {
     name: 'onValueChange',
-    description: `An optional callback function returning the value of the selected control.`,
-    type: `(e: ChangeEvent<HTMLInputElement>, newValue: string) => void`
+    description: 'An optional callback function returning the value of the selected control.',
+    type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
   },
   onValueChange_Pickers: {
     name: 'onValueChange',
-    description: `An optional callback function which returns the selected date or time value.`,
-    type: `(newValue: unknown) => void`
+    description: 'An optional callback function which returns the selected date or time value.',
+    type: '(newValue: unknown) => void'
   },
   onValueChange_Rating: {
     name: 'onValueChange',
-    description: `An optional callback function that returns the changed value of rating component`,
-    type: `(e: SyntheticEvent, newValue: number OR null) => void`
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(e: SyntheticEvent, newValue: number OR null) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
-    description: `An optional callback function when the value of a field changes. The changed value can be obtained from \`e.target.value\` `,
-    type: `(e: SelectChangeEvent) => void`
+    description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
+    type: '(e: SelectChangeEvent) => void'
   },
   onValueChange_Slider: {
     name: 'onValueChange',
-    description: `Optional callback function returning the selected value of \`RHFSlider\`.`,
-    type: `(event: Event, value: number OR number[], activeThumb: number) => void`
+    description: 'Optional callback function returning the selected value of `RHFSlider`.',
+    type: '(event: Event, value: number OR number[], activeThumb: number) => void'
   },
   onValueChange_ColorPicker: {
     name: 'onValueChange',
-    description: `Callback function to get the selected color. Update form state by calling the \`setValue\` function, and passing the color value in preffered format.`,
-    type: `(color: IColor) => void`,
+    description: 'Callback function to get the selected color. Update form state by calling the `setValue` function, and passing the color value in preffered format.',
+    type: '(color: IColor) => void',
     required: true
   },
   onValueChange_RichTextEditor: {
     name: 'onValueChange',
-    description: `Callback function returning the \`event\` object, editor value and editor details.`,
-    type: `(event: EventInfo, newValue: string, editor: ClassicEditor) => void`,
+    description: 'Callback function returning the `event` object, editor value and editor details.',
+    type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void',
   },
   value_ColorPicker: {
     name: 'value',
-    description: `Selected color in \`RHFColorPicker\` component. Default is \`#000000\` (black).`,
+    description: 'Selected color in `RHFColorPicker` component. Default is `#000000` (black).',
     type: 'string'
   },
   value_RichTextEditor: {
     name: 'value',
-    description: `The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.`,
+    description: 'The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.',
     type: 'string',
   },
   showPasswordIcon: {
@@ -140,73 +140,73 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   options: {
     name: 'options',
     description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
-    type: `\`string[]\` or \`number[]\` or \`object[]\``,
+    type: '`string[]` or `number[]` or `object[]`',
     required: true
   },
   labelKey: {
     name: 'labelKey',
-    description: `The key of object in your array, whose value would be shown as the label in \`RHFSelect\` or \`RHFCheckboxGroup\`. Only required when options prop is an array of objects.`,
+    description: 'The key of object in your array, whose value would be shown as the label in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
     type: 'string',
     required: true
   },
   valueKey: {
     name: 'valueKey',
-    description: `The key of object in your array, whose value would be actual value of the option selected in \`RHFSelect\` or \`RHFCheckboxGroup\`. Only required when options prop is an array of objects.`,
+    description: 'The key of object in your array, whose value would be actual value of the option selected in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
     type: 'string',
     required: true
   },
   defaultValue: {
     name: 'defaultValue',
-    description: `When rendering \`RHFSelect\` or \`RHFNativeSelect\` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if \`multiple=true\``,
-    type: `string OR string[] OR number OR number[]`,
+    description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
+    type: 'string OR string[] OR number OR number[]',
   },
   defaultValue_Slider: {
     name: 'defaultValue',
-    description: `Initial value set for \`RHFSlider\` component on render.`,
-    type: `number OR number[]`,
+    description: 'Initial value set for `RHFSlider` component on render.',
+    type: 'number OR number[]',
     required: true
   },
   helperText: {
     name: 'helperText',
-    description: `Optional helperText to render under \`RHFSelect\` or \`RHFNativeSelect\` field.`,
+    description: 'Optional helperText to render under `RHFSelect` or `RHFNativeSelect` field.',
     type: 'ReactNode',
   },
   showDefaultOption: {
     name: 'showDefaultOption',
-    description: `Show default Label of the disabled option when value of \`RHFSelect\` or \`RHFNativeSelect\` is \`''\`. This text cane be changed using the \`defaultOptionText\` prop.`,
+    description: 'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text cane be changed using the `defaultOptionText` prop.',
     type: 'boolean'
   },
   defaultOptionText: {
     name: 'defaultOptionText',
-    description: `Custom text to replace the default text when \`showDefaultOption\` is \`true\` for \`RHFSelect\` or \`RHFNativeSelect\`.`,
+    description: 'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
     type: 'string'
   },
   label: {
     name: 'label',
-    description: `The text to render in \`FormLabel\` component. By default, the value of \`fieldName\` such as firstName will be transformed to display "First Name".`,
+    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as firstName will be transformed to display "First Name".',
     type: 'ReactNode'
   },
   checkboxProps: {
     name: 'checkboxProps',
-    description:  `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox}) to customise each checkbox in checkbox group.`,
+    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox}) to customise each checkbox in checkbox group.`,
     type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox})`,
     hasLinkInType: true
   },
   radioProps: {
     name: 'radioProps',
-    description:  `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,
+    description: `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,
     type: `[RadioProps](${ExternalLinks.muiComponentApi.radio})`,
     hasLinkInType: true
   },
   disabled: {
     name: 'disabled',
-    description: 'A \`boolean\` value to enable or disable editing of the form field.',
+    description: 'A `boolean` value to enable or disable editing of the form field.',
     type: 'boolean'
   },
   editorConfig: {
     name: 'editorConfig',
-    description: `A Configuration object for CkEditor to customize formatting controls and toolbar positioning, as per requirement. Refer to the [toolbar positioning guide](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/toolbar.html) for more details.`,
-    type: `[EditorConfig](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html)`,
+    description: 'A Configuration object for CkEditor to customize formatting controls and toolbar positioning, as per requirement. Refer to the [toolbar positioning guide](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/toolbar.html) for more details.',
+    type: '[EditorConfig](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html)',
     hasLinkInType: true
   }
 });

@@ -245,7 +245,7 @@ export function CompleteFormWithJoi() {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={(e, selectedValue) => {
+                onValueChange={(_, selectedValue) => {
                   console.log('selectedValue: ', selectedValue);
                 }}
                 errorMessage={errors?.country?.message}

@@ -15,8 +15,7 @@ import { Gender } from '@site/src/types';
 
 export default function CheckboxRadioZodForm() {
   const {
-    register,
-		control,
+    control,
     handleSubmit,
     watch,
     formState: { errors }
@@ -38,7 +37,7 @@ export default function CheckboxRadioZodForm() {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-							onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
+              onValueChange={(_, newVal) => alert(`You selected ${newVal}`)}
               errorMessage={errors?.gender?.message}
             />
           </Grid>
@@ -60,7 +59,7 @@ export default function CheckboxRadioZodForm() {
               fieldName="agreeTnC"
               control={control}
               value="hello_world"
-							label="Agree to Terms & Conditions"
+              label="Agree to Terms & Conditions"
               errorMessage={errors?.agreeTnC?.message}
             />
           </Grid>

@@ -148,7 +148,7 @@ export function TextAndPasswordInputForm() {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: (v) => v.length >= 4 || minCharMsg(4),
+                  minLen: v => v.length >= 4 || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }

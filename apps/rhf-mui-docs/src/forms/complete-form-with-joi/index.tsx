@@ -24,7 +24,7 @@ import {
   SubmitButton
 } from '@site/src/components';
 import { Colors, Gender, Sports } from '@site/src/types';
-import { CountriesList, IPLTeams } from '@site/src/constants'
+import { CountriesList, IPLTeams } from '@site/src/constants';
 import { Person, JoiFormSchema } from './validation';
 
 const initialValues: Person = {
@@ -144,7 +144,7 @@ export function CompleteFormWithJoi() {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={(e) => {
+                onValueChange={e => {
                   console.log('changed switch', e);
                 }}
               />
@@ -233,9 +233,8 @@ export function CompleteFormWithJoi() {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={(e, v1, opn) => {
-                  console.log('v1: ', v1);
-                  console.log('opn: ', opn);
+                onValueChange={(_, selectedValue) => {
+                  console.log('selectedValue: ', selectedValue);
                 }}
                 errorMessage={errors?.country?.message}
               />
@@ -248,10 +247,9 @@ export function CompleteFormWithJoi() {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={(e) => {
+                onValueChange={e => {
                   console.log('changed switch', e);
                 }}
-                showLabelAboveFormField
                 errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>

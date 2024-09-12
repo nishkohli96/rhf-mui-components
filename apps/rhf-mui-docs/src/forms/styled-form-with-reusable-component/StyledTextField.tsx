@@ -17,11 +17,11 @@ function StyledErrorMsg({ msg }: StyledErrorMsgProps) {
   return (
     <Fragment>
       {Boolean(msg) && (
-				<Typography variant="body2">
-					<PriorityHighIcon color='error' />
-					{msg}
-				</Typography>
-			)}
+        <Typography variant="body2">
+          <PriorityHighIcon color="error" />
+          {msg}
+        </Typography>
+      )}
     </Fragment>
   );
 }
@@ -32,9 +32,9 @@ export function StyledRHFTextField<T extends FieldValues>(
   const { errorMessage, ...rest } = props;
   return (
     <RHFTextField
-      errorMessage={errorMessage ? <StyledErrorMsg msg={errorMessage} />: undefined}
+      errorMessage={errorMessage ? <StyledErrorMsg msg={errorMessage} /> : undefined}
       variant="standard"
-			showLabelAboveFormField
+      showLabelAboveFormField
       {...rest}
     />
   );

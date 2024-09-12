@@ -18,7 +18,9 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">
+          {siteConfig.tagline}
+        </p>
         <Grid container spacing={2}>
           <Grid
             item
@@ -41,10 +43,10 @@ function HomepageHeader() {
             }}
           >
             {/* <Link className="button button--lg" to="/intro"> */}
-              View Demo
+            View Demo
             {/* </Link> */}
           </Grid>
-          <Button color='secondary' variant='contained'>hell3</Button>
+          <Button color="secondary" variant="contained">hell3</Button>
         </Grid>
       </div>
     </header>
@@ -64,7 +66,7 @@ export default function Home(): JSX.Element {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <HomepageHeader />
-        <main></main>
+        <main />
       </ThemeProvider>
     </Layout>
   );

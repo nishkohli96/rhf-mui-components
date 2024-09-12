@@ -1,9 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { RHFSelect, RHFNativeSelect } from '@nish1896/rhf-mui-components';
-// import { FormSchema } from './validation';
 import {
   FormContainer,
   RenderFormState,
@@ -13,6 +11,12 @@ import {
 } from '@site/src/components';
 import { IPLTeams, Currencies } from '@site/src/constants';
 import { Colors } from '@site/src/types';
+
+type FormSchema = {
+  favouriteColor: string;
+  iplTeams: string[];
+  currency: string;
+}
 
 export function SelectFormWithClassValidator() {
   const defaultValues = {
@@ -24,7 +28,7 @@ export function SelectFormWithClassValidator() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormSchema>({
     defaultValues
     // resolver: classValidatorResolver(FormSchema)
   });
@@ -46,7 +50,7 @@ export function SelectFormWithClassValidator() {
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
-                Boolean(watch('favouriteColor')) ? (
+                watch('favouriteColor') ? (
                   <Typography color={watch('favouriteColor')}>
                     {`This text is in ${watch('favouriteColor')} color`}
                   </Typography>

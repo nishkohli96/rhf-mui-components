@@ -8,7 +8,9 @@ function MyFormWrapper() {
     setIsClient(true);
   }, []);
 
-  if (!isClient) return null;
+  if (!isClient) {
+    return null;
+  }
 
   return <CheckboxRadioZodForm />;
 }

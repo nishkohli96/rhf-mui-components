@@ -10,7 +10,7 @@ type MarkdownTableProps = {
 
 export default function MarkdownTable({ rows, showType }: MarkdownTableProps) {
   const primaryColor = '#4FC3F7';
-  let tableHeaderRow = `|Name`;
+  let tableHeaderRow = '|Name';
   let tableHeaderCol = '|-';
 
   if(showType) {
@@ -21,13 +21,13 @@ export default function MarkdownTable({ rows, showType }: MarkdownTableProps) {
   tableHeaderCol += '|:-:|-|';
 
   const tableRows = rows
-    .map((row) => {
+    .map(row => {
       const { name, required, description, type, hasLinkInType } = row;
       const styledName = `<span style="color: ${primaryColor}; font-weight:500">${name}</span>`;
 
       let rowContent = `|${styledName}`;
       if(showType) {
-        rowContent += `|${hasLinkInType ? type : `\`${type}\``}`
+        rowContent += `|${hasLinkInType ? type : `\`${type}\``}`;
       }
       rowContent += `|${required ? '✅' : ''} | ${description}|`;
       return rowContent;
@@ -40,4 +40,4 @@ export default function MarkdownTable({ rows, showType }: MarkdownTableProps) {
       {tableContent}
     </Markdown>
   );
-};
+}

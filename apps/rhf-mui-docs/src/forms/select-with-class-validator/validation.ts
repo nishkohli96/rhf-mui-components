@@ -13,13 +13,12 @@ import { IPLTeams } from '@site/src/constants';
 
 @ValidatorConstraint({ name: 'isValidIPLTeam', async: false })
 export class IsValidIPLTeam implements ValidatorConstraintInterface {
-  validate(value: string[], args: ValidationArguments) {
+  validate(value: string[]) {
     if(!value) {
       return true;
     }
-    return (value ?? []).every((team) =>
-      IPLTeams.some((iplTeam) => iplTeam.abbr === team)
-    );
+    return (value ?? []).every(team =>
+      IPLTeams.some(iplTeam => iplTeam.abbr === team));
   }
 
   defaultMessage(args: ValidationArguments) {

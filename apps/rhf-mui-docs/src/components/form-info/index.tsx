@@ -13,25 +13,25 @@ export function RenderFormState<T extends FieldValues>({
   formValues,
   errors
 }: RenderFormStateProps<T>) {
-  
+
   /**
    * "errors" object from RHF also has ref, besides type & message.
    * Unfortunately, "react-json-view" has a hard time parsing that
    * ref key, which gives "Converting circular structure to JSON"
    * error, so I had to create a new object to yield form errors.
    */
-  let errObj = {}
-  Object.keys(errors).map(err => {
+  let errObj = {};
+  Object.keys(errors).forEach(err => {
     errObj = {
       ...errObj,
       [err]: {
         message: errors?.[err]?.message,
         type: errors?.[err]?.type,
       }
-    }
-  })
+    };
+  });
 
-	return (
+  return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <SubHeading title="Form values & errors in real-time" />
@@ -40,7 +40,7 @@ export function RenderFormState<T extends FieldValues>({
         item
         xs={12}
         md={6}
-        sx={{ border: (theme) => theme.palette.success.main }}
+        sx={{ border: theme => theme.palette.success.main }}
       >
         <Paper>
           <ReactJson
@@ -55,7 +55,7 @@ export function RenderFormState<T extends FieldValues>({
         item
         xs={12}
         md={6}
-        sx={{ border: (theme) => theme.palette.error.main }}
+        sx={{ border: theme => theme.palette.error.main }}
       >
         <Paper>
           <ReactJson

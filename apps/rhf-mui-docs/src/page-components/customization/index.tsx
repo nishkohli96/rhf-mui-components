@@ -9,7 +9,7 @@ export default function DefaultConfigValuesTable() {
   const row3 = '| defaultFormHelperTextSx | { marginTop: "0.25rem", marginLeft: 0 } |\n';
   const row4 = '| dateAdapter | AdapterDayjs |\n';
   const content = header + row1 + row2 + row3 + row4;
-	return (
+  return (
     <Markdown remarkPlugins={[remarkGfm]}>
       {content}
     </Markdown>

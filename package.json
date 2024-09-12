@@ -9,9 +9,10 @@
     "lib:build": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "eslint --fix ./packages/rhf-mui-components",
     "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
-    "demo:build": "yarn workspace @nish1896/rhf-mui-demo build",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
+    "demo:build": "yarn workspace @nish1896/rhf-mui-demo build",
     "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
+    "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
     "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build",
     "storybook": "yarn workspace @nish1896/rhf-mui-demo storybook",
     "storybook:build": "yarn workspace @nish1896/rhf-mui-demo build-storybook"

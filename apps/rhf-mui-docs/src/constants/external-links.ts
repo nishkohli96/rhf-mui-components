@@ -23,7 +23,7 @@ export const ExternalLinks = Object.freeze({
     textField: 'https://mui.com/material-ui/api/text-field/',
   },
   rhfLinks: {
-		control: 'https://react-hook-form.com/docs/useform/control',
+    control: 'https://react-hook-form.com/docs/useform/control',
     register: 'https://react-hook-form.com/docs/useform/register',
     resolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
     setValue: 'https://react-hook-form.com/docs/useform/setvalue'
@@ -34,4 +34,4 @@ export const ExternalLinks = Object.freeze({
     yup: 'https://www.npmjs.com/package/yup',
     zod: 'https://www.npmjs.com/package/zod'
   }
-})
+});

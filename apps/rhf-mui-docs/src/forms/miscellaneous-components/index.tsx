@@ -43,15 +43,15 @@ export function MiscellaneousComponentsForm() {
           <Grid item xs={12}>
             <FieldVariantInfo title="CK5Editor" />
             <RHFRichTextEditor
-              fieldName='groceryList'
+              fieldName="groceryList"
               value={getValues('groceryList')}
               setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <RHFColorPicker
-              fieldName='color'
-              label='Choose color'
+              fieldName="color"
+              label="Choose color"
               value={getValues('color')}
               onValueChange={color => setValue('color', color.hex)}
               helperText={
