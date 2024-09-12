@@ -13,7 +13,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 ;
 export type RHFPasswordInputProps<T extends FieldValues> = {
@@ -32,29 +32,27 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
 	formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-export function RHFPasswordInput<T extends FieldValues>(
-  props: RHFPasswordInputProps<T>
+export function RHFPasswordInput<T extends FieldValues>({
+  fieldName,
+  register,
+  registerOptions,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  showPasswordIcon,
+  hidePasswordIcon,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  ...rest
+}: RHFPasswordInputProps<T>
 ) {
-  const {
-    fieldName,
-    register,
-    registerOptions,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    showPasswordIcon,
-    hidePasswordIcon,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    ...rest
-  } = props;
-
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
   const { onChange, ...otherRegisterProps } = register(
     fieldName,
     registerOptions

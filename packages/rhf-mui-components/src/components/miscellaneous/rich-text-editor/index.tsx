@@ -7,7 +7,7 @@ import { ClassicEditor } from 'ckeditor5';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 import { defaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -42,8 +42,8 @@ export function RHFRichTextEditor<T extends FieldValues>({
   formHelperTextProps,
 }: RHFRichTextEditorProps<T>) {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 	
 	function handleChange(event: EventInfo, editor: ClassicEditor) {
     const content = editor.getData();

@@ -55,8 +55,9 @@ export function RHFNativeSelect<T extends FieldValues>({
   formHelperTextProps,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) {
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
+  
   const { onChange, ...rest } = register(fieldName, registerOptions);
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 

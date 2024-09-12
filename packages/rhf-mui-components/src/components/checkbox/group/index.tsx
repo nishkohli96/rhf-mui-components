@@ -5,7 +5,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { OptionType } from '../../../types';
 import {
   fieldNameToLabel,

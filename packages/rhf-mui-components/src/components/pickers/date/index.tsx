@@ -15,7 +15,7 @@ import {
 } from '@mui/x-date-pickers/DatePicker';
 import { PickerValidDate } from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFDatePickerProps<T extends FieldValues> = {
@@ -32,25 +32,22 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<DatePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-export function RHFDatePicker<T extends FieldValues>(
-  props: RHFDatePickerProps<T>
+export function RHFDatePicker<T extends FieldValues>({
+  fieldName,
+  register,
+  registerOptions,
+  setValue,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  ...rest
+}: RHFDatePickerProps<T>
 ) {
-  const {
-    fieldName,
-    register,
-    registerOptions,
-    setValue,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    ...rest
-  } = props;
-
   const { defaultFormLabelSx, defaultFormHelperTextSx, dateAdapter } =
     useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);

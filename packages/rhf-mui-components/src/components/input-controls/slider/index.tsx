@@ -9,7 +9,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
 import { FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFSliderProps<T extends FieldValues> = {
@@ -31,30 +31,27 @@ export type RHFSliderProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<SliderProps, 'name' | 'defaultValue'>;
 
-export function RHFSlider<T extends FieldValues>(
-  props: RHFSliderProps<T>
+export function RHFSlider<T extends FieldValues>({
+  fieldName,
+  defaultValue,
+  register,
+  registerOptions,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  min,
+  max,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  ...rest
+}: RHFSliderProps<T>
 ) {
-  const {
-    fieldName,
-    defaultValue,
-    register,
-    registerOptions,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    min,
-    max,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    ...rest
-  } = props;
-
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   const { onChange, name } = register(fieldName, registerOptions);
 

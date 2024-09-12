@@ -14,7 +14,7 @@ import MuiSelect, {
   SelectProps,
 } from '@mui/material/Select';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { OptionType } from '../../../types';
 import {
   fieldNameToLabel,
@@ -68,11 +68,11 @@ export function RHFSelect<T extends FieldValues>({
   ...otherSelectProps
 }: RHFSelectProps<T>) {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  validateArray('RHFSelect', options, labelKey, valueKey);
+  const isError = Boolean(errorMessage);
 
   const { onChange, ...rest } = register(fieldName, registerOptions);
+  validateArray('RHFSelect', options, labelKey, valueKey);
 
   return (
     <FormControl error={isError}>

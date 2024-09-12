@@ -17,17 +17,15 @@ export type RHFSwitchProps<T extends FieldValues> = {
   formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
 } & Omit<SwitchProps, 'name'>;
 
-export function RHFSwitch<T extends FieldValues>(
-  props: RHFSwitchProps<T>
+export function RHFSwitch<T extends FieldValues>({
+  fieldName,
+  control,
+  label,
+  onValueChange,
+  formControlLabelProps,
+  ...rest
+}: RHFSwitchProps<T>
 ) {
-  const {
-    fieldName,
-    control,
-    label,
-    onValueChange,
-    formControlLabelProps,
-    ...rest
-  } = props;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   return (

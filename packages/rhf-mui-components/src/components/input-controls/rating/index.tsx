@@ -4,7 +4,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFRatingProps<T extends FieldValues> = {
@@ -23,26 +23,23 @@ export type RHFRatingProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<RatingProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-export function RHFRating<T extends FieldValues>(
-  props: RHFRatingProps<T>
+export function RHFRating<T extends FieldValues>({
+  fieldName,
+  control,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  ...rest
+}: RHFRatingProps<T>
 ) {
-  const {
-    fieldName,
-    control,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    ...rest
-  } = props;
-
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   return (
     <Controller
