@@ -3,9 +3,10 @@ import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/assets/styles/theme';
-import { AppBar, Footer } from '@/components';
+import { AppBar, DrawerContent, Footer } from '@/components';
 import { AppThemeContext } from '@/context/theme';
 import './globals.css';
+import Grid from '@mui/material/Grid';
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -17,9 +18,9 @@ const defaultTitle = 'RHF-Mui Components';
 export const metadata: Metadata = {
   title: {
     template: `%s | ${defaultTitle}`,
-    default: defaultTitle,
+    default: defaultTitle
   },
-  description: 'Docs & Demo for RHF-Mui Components',
+  description: 'Docs & Demo for RHF-Mui Components'
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -29,9 +30,18 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <ThemeProvider theme={theme}>
             <AppBar />
-            <div className="content">
-              {children}
-            </div>
+            <Grid container className="content">
+              <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
+                <DrawerContent />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={9}
+              >
+                {children}
+              </Grid>
+            </Grid>
             <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>

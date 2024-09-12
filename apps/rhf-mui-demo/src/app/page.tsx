@@ -13,7 +13,7 @@ import { appFeatures } from '@/constants';
 export default function Home() {
   return (
     <main>
-      <Box sx={{ bgcolor: '#2B3137', flexGrow: 1, padding: '50px 20px' }}>
+      {/* <Box sx={{ bgcolor: '#2B3137', display: 'flex', flex: 1, flexGrow: 1, padding: '50px 20px' }}> */}
         <GridContainer>
           <Grid item xs={12}>
             <Box
@@ -53,18 +53,7 @@ export default function Home() {
             </Button>
           </Grid>
         </GridContainer>
-      </Box>
-      <Container>
-        <Grid container item spacing={2} sx={{ py: '50px' }}>
-          {appFeatures.map((feature, idx) => (
-            <Grid item xs={12} md={4} key={idx}>
-              <FeatureItem
-                text={feature}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      {/* </Box> */}
     </main>
   );
 }

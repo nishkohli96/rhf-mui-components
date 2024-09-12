@@ -20,7 +20,7 @@ export default function CheckboxRadioZodForm() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema)
   });
 
