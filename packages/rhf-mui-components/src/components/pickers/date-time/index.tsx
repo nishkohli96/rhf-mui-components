@@ -11,9 +11,9 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import {
   DateTimePicker as MuiDateTimePicker,
-  DateTimePickerProps
-} from '@mui/x-date-pickers/DateTimePicker';
-import { PickerValidDate } from '@mui/x-date-pickers';
+  DateTimePickerProps,
+  PickerValidDate
+} from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
 import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
@@ -23,9 +23,9 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   setValue: UseFormSetValue<T>;
-  onValueChange?: (newValue: unknown) => void;
+  onValueChange?: (newValue: PickerValidDate | null) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -46,17 +46,13 @@ export function RHFDateTimePicker<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFDateTimePickerProps<T>
-) {
+}: RHFDateTimePickerProps<T>) {
   const { defaultFormLabelSx, defaultFormHelperTextSx, dateAdapter } =
     useContext(RHFMuiConfigContext);
-    const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, ...otherRegisterProps } = register(
-    fieldName,
-    registerOptions
-  );
+  const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
 
   return (
     <FormControl error={isError}>
@@ -72,10 +68,9 @@ export function RHFDateTimePicker<T extends FieldValues>({
         <MuiDateTimePicker
           onChange={(newValue) => {
             setValue(fieldName, newValue as T[typeof fieldName]);
-            onValueChange && onValueChange(newValue);
+            onValueChange?.(newValue);
           }}
           label={!showLabelAboveFormField ? fieldLabel : undefined}
-          {...otherRegisterProps}
           {...rest}
         />
       </LocalizationProvider>
@@ -85,6 +80,7 @@ export function RHFDateTimePicker<T extends FieldValues>({
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
+        formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
   );

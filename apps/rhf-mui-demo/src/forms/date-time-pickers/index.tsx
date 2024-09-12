@@ -6,7 +6,6 @@ import {
   RHFDatePicker,
   RHFTimePicker,
   RHFDateTimePicker,
-  ConfigProvider
 } from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
@@ -15,6 +14,13 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
+import { Dayjs } from 'dayjs';
+
+type FormSchema = {
+  dob: Dayjs;
+  time: Dayjs;
+  dateTime: Dayjs;
+}
 
 export function DateTimePickersForm() {
   const {
@@ -23,7 +29,7 @@ export function DateTimePickersForm() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm();
+  } = useForm<FormSchema>();
 
   function onFormSubmit(formValues) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
