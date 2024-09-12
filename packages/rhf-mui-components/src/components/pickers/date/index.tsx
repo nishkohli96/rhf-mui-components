@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import {
   UseFormRegister,
   UseFormSetValue,
@@ -15,8 +15,7 @@ import {
 } from '@mui/x-date-pickers/DatePicker';
 import { PickerValidDate } from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFDatePickerProps<T extends FieldValues> = {
@@ -33,8 +32,8 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<DatePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-export function DatePicker<T extends FieldValues>(
-  props: RHFDatePickerProps<T> & RHFMuiConfig
+export function RHFDatePicker<T extends FieldValues>(
+  props: RHFDatePickerProps<T>
 ) {
   const {
     fieldName,
@@ -49,13 +48,13 @@ export function DatePicker<T extends FieldValues>(
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    defaultFormHelperTextSx,
-    defaultFormLabelSx,
-    dateAdapter,
     ...rest
   } = props;
-  const isError = Boolean(errorMessage);
+
+  const { defaultFormLabelSx, defaultFormHelperTextSx, dateAdapter } =
+    useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   const { onChange, ...otherRegisterProps } = register(
     fieldName,
@@ -93,5 +92,3 @@ export function DatePicker<T extends FieldValues>(
     </FormControl>
   );
 }
-
-export const RHFDatePicker = withConfigHOC(DatePicker);

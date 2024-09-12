@@ -1,6 +1,6 @@
 import { object, boolean, number } from 'superstruct';
 
-type FormSchema = {
+export type FormSchema = {
   rating: number;
   score: number;
   darkTheme: boolean;

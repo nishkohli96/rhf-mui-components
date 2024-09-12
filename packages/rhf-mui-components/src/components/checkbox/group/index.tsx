@@ -1,8 +1,6 @@
-import { Fragment, ReactNode, ChangeEvent, useContext } from 'react';
+import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import FormControlLabel, {
-  FormControlLabelProps
-} from '@mui/material/FormControlLabel';
+import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
@@ -53,7 +51,8 @@ export function RHFCheckboxGroup<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps
 }: RHFCheckboxGroupProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, defaultFormHelperTextSx } =
+    useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);

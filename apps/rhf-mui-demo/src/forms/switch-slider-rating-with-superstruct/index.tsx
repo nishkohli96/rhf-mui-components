@@ -5,7 +5,7 @@ import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import { RHFRating, RHFSlider, RHFSwitch } from '@nish1896/rhf-mui-components';
-import { formSchema } from './validation';
+import { FormSchema, formSchema } from './validation';
 import {
   FormContainer,
   RenderFormState,
@@ -30,11 +30,11 @@ export function SwitchSliderRatingFormWithSuperstruct() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormSchema>({
     resolver: superstructResolver(formSchema)
   });
 
-  function onFormSubmit(formValues) {
+  function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 

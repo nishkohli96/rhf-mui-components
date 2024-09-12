@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import {
   UseFormRegister,
   UseFormSetValue,
@@ -9,14 +9,13 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
-import { 
-	TimePicker as MuiTimePicker,
-	TimePickerProps
+import {
+  TimePicker as MuiTimePicker,
+  TimePickerProps
 } from '@mui/x-date-pickers/TimePicker';
 import { PickerValidDate } from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -33,8 +32,8 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-export function TimePicker<T extends FieldValues>(
-  props: RHFTimePickerProps<T> & RHFMuiConfig
+export function RHFTimePicker<T extends FieldValues>(
+  props: RHFTimePickerProps<T>
 ) {
   const {
     fieldName,
@@ -49,13 +48,13 @@ export function TimePicker<T extends FieldValues>(
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    defaultFormHelperTextSx,
-    defaultFormLabelSx,
-    dateAdapter,
     ...rest
   } = props;
-  const isError = Boolean(errorMessage);
+
+  const { defaultFormHelperTextSx, defaultFormLabelSx, dateAdapter } =
+    useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   const { onChange, ...otherRegisterProps } = register(
     fieldName,
@@ -93,5 +92,3 @@ export function TimePicker<T extends FieldValues>(
     </FormControl>
   );
 }
-
-export const RHFTimePicker = withConfigHOC(TimePicker);

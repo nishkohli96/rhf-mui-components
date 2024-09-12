@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import {
   FormContainer,
   RenderFormState,
@@ -15,13 +16,12 @@ import {
 } from '@nish1896/rhf-mui-components';
 
 type FormSchema = {
-  rte: string;
-  color: string;
+  bio: string;
+  favouriteColor: string;
 };
 
 export function MiscellaneousComponentsForm() {
-  const {
-    register,
+  const {    
     setValue,
     handleSubmit,
     watch,
@@ -29,11 +29,11 @@ export function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      color: '#007ABA'
+      favouriteColor: '#007ABA'
     }
   });
 
-  function onFormSubmit(formValues) {
+  function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
@@ -42,18 +42,24 @@ export function MiscellaneousComponentsForm() {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="CK5Editor" />
+            <FieldVariantInfo title="CK5 Rich Text Editor" />
             <RHFRichTextEditor
-              fieldName="rte"
-              value={getValues('rte')}
+              fieldName="bio"
+              label={(
+                <Typography color="#ea3677">
+                  Briefly describe yourself
+                </Typography>
+              )}
+              value={getValues('bio')}
               setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="React Palette Color Picker" />
             <RHFColorPicker
               fieldName="color"
-              value={getValues('color') ?? ''}
-              onValueChange={newColor => setValue('color', newColor.hex)}
+              value={getValues('favouriteColor') ?? ''}
+              onValueChange={newColor => setValue('favouriteColor', newColor.hex)}
             />
           </Grid>
           <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import {
   UseFormRegister,
   UseFormSetValue,
@@ -9,14 +9,13 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
-import { 
-	DateTimePicker as MuiDateTimePicker,
-	DateTimePickerProps
+import {
+  DateTimePicker as MuiDateTimePicker,
+  DateTimePickerProps
 } from '@mui/x-date-pickers/DateTimePicker';
 import { PickerValidDate } from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
@@ -33,8 +32,8 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<DateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-export function DateTimePicker<T extends FieldValues>(
-  props: RHFDateTimePickerProps<T> & RHFMuiConfig
+export function RHFDateTimePicker<T extends FieldValues>(
+  props: RHFDateTimePickerProps<T>
 ) {
   const {
     fieldName,
@@ -49,11 +48,11 @@ export function DateTimePicker<T extends FieldValues>(
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    defaultFormHelperTextSx,
-    defaultFormLabelSx,
-    dateAdapter,
     ...rest
   } = props;
+
+  const { defaultFormLabelSx, defaultFormHelperTextSx, dateAdapter } =
+    useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
@@ -93,5 +92,3 @@ export function DateTimePicker<T extends FieldValues>(
     </FormControl>
   );
 }
-
-export const RHFDateTimePicker = withConfigHOC(DateTimePicker);

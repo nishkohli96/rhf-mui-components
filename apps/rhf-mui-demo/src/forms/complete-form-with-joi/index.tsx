@@ -238,9 +238,8 @@ export function CompleteFormWithJoi() {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={(e, v1, opn) => {
-                  console.log('v1: ', v1);
-                  console.log('opn: ', opn);
+                onValueChange={(e, selectedValue) => {
+                  console.log('selectedValue: ', selectedValue);
                 }}
                 errorMessage={errors?.country?.message}
               />
@@ -254,9 +253,8 @@ export function CompleteFormWithJoi() {
                   labelPlacement: 'end'
                 }}
                 onValueChange={e => {
-                  console.log('changed switch', e);
+                  console.log('toggled checkbox', e);
                 }}
-                showLabelAboveFormField
                 errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
