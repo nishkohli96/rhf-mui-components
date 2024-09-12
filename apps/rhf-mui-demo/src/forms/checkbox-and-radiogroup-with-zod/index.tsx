@@ -32,46 +32,46 @@ export function CheckboxRadioZodForm() {
   return (
     <FormContainer title="Radio & Checkbox Group">
       <form onSubmit={handleSubmit(onFormSubmit)}>
-        <ConfigProvider defaultFormLabelSx={{ mb: '20px', ml:'13px' }}>
-        <GridContainer>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Radio Group with onValueChange function" />
-            <RHFRadioGroup
-              fieldName="gender"
-              control={control}
-              options={Object.values(Gender)}
-              onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
-              errorMessage={errors?.gender?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="CheckboxGroup with options as an array of objects" />
-            <RHFCheckboxGroup
-              fieldName="countriesVisited"
-              control={control}
-              options={CountriesList}
-              labelKey="country"
-              valueKey="code"
-              showLabelAboveFormField
-              errorMessage={errors?.countriesVisited?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Single Checkbox" />
-            <RHFCheckbox
-              fieldName="agreeTnC"
-              control={control}
-              label="Agree to Terms & Conditions"
-              errorMessage={errors?.agreeTnC?.message}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <SubmitButton />
-          </Grid>
-          <Grid item xs={12}>
-            <RenderFormState formValues={watch()} errors={errors} />
-          </Grid>
-        </GridContainer>
+        <ConfigProvider defaultFormLabelSx={{ mb: '20px', ml: '13px' }}>
+          <GridContainer>
+            <Grid item xs={12} md={6}>
+              <FieldVariantInfo title="Radio Group with onValueChange function" />
+              <RHFRadioGroup
+                fieldName="gender"
+                control={control}
+                options={Object.values(Gender)}
+                onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
+                errorMessage={errors?.gender?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FieldVariantInfo title="CheckboxGroup with options as an array of objects" />
+              <RHFCheckboxGroup
+                fieldName="countriesVisited"
+                control={control}
+                options={CountriesList}
+                labelKey="country"
+                valueKey="code"
+                showLabelAboveFormField
+                errorMessage={errors?.countriesVisited?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FieldVariantInfo title="Single Checkbox" />
+              <RHFCheckbox
+                fieldName="agreeTnC"
+                control={control}
+                label="Agree to Terms & Conditions"
+                errorMessage={errors?.agreeTnC?.message}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <SubmitButton />
+            </Grid>
+            <Grid item xs={12}>
+              <RenderFormState formValues={watch()} errors={errors} />
+            </Grid>
+          </GridContainer>
         </ConfigProvider>
       </form>
     </FormContainer>

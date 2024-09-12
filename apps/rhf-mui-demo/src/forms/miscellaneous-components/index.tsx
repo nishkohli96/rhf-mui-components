@@ -21,7 +21,7 @@ type FormSchema = {
 };
 
 export function MiscellaneousComponentsForm() {
-  const {    
+  const {
     setValue,
     handleSubmit,
     watch,
