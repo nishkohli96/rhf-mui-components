@@ -22,7 +22,7 @@ export function Footer() {
               justifyContent: 'center'
             }}
           >
-            {MySocials.map((social) => (
+            {MySocials.map(social => (
               <Link
                 key={social.name}
                 href={social.href}

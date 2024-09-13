@@ -22,14 +22,12 @@ export function SelectFormWithClassValidator() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormSchema>({
     resolver: classValidatorResolver(FormSchema)
   });
-  console.log('watch: ', watch());
-  console.log('errors: ', errors);
 
   function onFormSubmit(formValues: FormSchema) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
@@ -45,7 +43,7 @@ export function SelectFormWithClassValidator() {
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
-                Boolean(watch('favouriteColor')) ? (
+                watch('favouriteColor') ? (
                   <Typography color={watch('favouriteColor')}>
                     {`This text is in ${watch('favouriteColor')} color`}
                   </Typography>

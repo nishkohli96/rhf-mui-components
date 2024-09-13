@@ -2,25 +2,26 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import {
   FormContainer,
   RenderFormState,
   GridContainer,
-  // RHFColorPicker,
-  // RHFRichTextEditor,
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { RHFColorPicker } from '@nish1896/rhf-mui-components';
+import {
+  RHFColorPicker,
+  RHFRichTextEditor
+} from '@nish1896/rhf-mui-components';
 
 type FormSchema = {
-  rte: string | null;
-  color: string | null;
+  bio: string;
+  favouriteColor: string;
 };
 
 export function MiscellaneousComponentsForm() {
   const {
-    register,
     setValue,
     handleSubmit,
     watch,
@@ -28,32 +29,39 @@ export function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      rte: null,
-      color: '#007ABA'
+      favouriteColor: '#007ABA'
     }
   });
 
-  function onFormSubmit(formValues) {
-    console.log('formValues: ', formValues);
+  function onFormSubmit(formValues: FormSchema) {
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
     <FormContainer title="Miscellaneous Components - RichTextEditor & ColorPicker">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          {/* <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="CK5Editor" />
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="CK5 Rich Text Editor" />
             <RHFRichTextEditor
-              value={getValues('rte')}
-              onChange={(newValue) => setValue('rte', newValue)}
+              fieldName="bio"
+              label={(
+                <Typography color="#ea3677">
+                  Briefly describe yourself
+                </Typography>
+              )}
+              value={getValues('bio')}
+              setValue={setValue}
             />
-          </Grid> */}
-          {/* <Grid item xs={12} md={6}>
-          <RHFColorPicker
-              defaultValue={getValues('color') ?? ''}
-              onValueChange={(newColor) => setValue('color', newColor.hex)}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="React Palette Color Picker" />
+            <RHFColorPicker
+              fieldName="color"
+              value={getValues('favouriteColor') ?? ''}
+              onValueChange={newColor => setValue('favouriteColor', newColor.hex)}
             />
-          </Grid> */}
+          </Grid>
           <Grid item xs={12}>
             <SubmitButton />
           </Grid>

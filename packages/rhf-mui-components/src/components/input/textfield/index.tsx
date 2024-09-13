@@ -1,4 +1,4 @@
-import { ReactNode, ChangeEvent } from 'react';
+import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
   UseFormRegister,
   Path,
@@ -9,8 +9,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
@@ -20,32 +19,29 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   onValueChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-function TextField<T extends FieldValues>(
-  props: RHFTextFieldProps<T> & RHFMuiConfig
+export function RHFTextField<T extends FieldValues>({
+  fieldName,
+  register,
+  registerOptions,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  ...rest
+}: RHFTextFieldProps<T>
 ) {
-  const {
-    fieldName,
-    register,
-    registerOptions,
-    onValueChange,
-    errorMessage,
-    hideErrorMessage,
-    showLabelAboveFormField,
-    formLabelProps,
-    formHelperTextProps,
-    label,
-    helperText,
-    defaultFormLabelSx,
-    defaultFormHelperTextSx,
-    ...rest
-  } = props;
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
@@ -85,5 +81,3 @@ function TextField<T extends FieldValues>(
     </FormControl>
   );
 }
-
-export const RHFTextField = withConfigHOC(TextField);

@@ -14,7 +14,7 @@ const config: Config = {
   onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en']
   },
   presets: [
     [
@@ -22,28 +22,28 @@ const config: Config = {
       {
         docs: {
           routeBasePath: '/'
-        },
-      },
-    ],
+        }
+      }
+    ]
   ],
   themeConfig: {
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
-      respectPrefersColorScheme: true,
+      respectPrefersColorScheme: true
     },
     navbar: {
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.svg'
       },
       items: [
         {
-          href: 'https://github.com/nishkohli96/eslint-config',
+          href: 'https://github.com/nishkohli96/rhf-mui-components',
           label: 'GitHub',
-          position: 'right',
-        },
-      ],
+          position: 'right'
+        }
+      ]
     },
     footer: {
       style: 'light',
@@ -63,7 +63,7 @@ const config: Config = {
               <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCI+CjxwYXRoIGZpbGw9IiM0Y2FmNTAiIGQ9Ik00NSwxNi4ybC01LDIuNzVsLTUsNC43NUwzNSw0MGg3YzEuNjU3LDAsMy0xLjM0MywzLTNWMTYuMnoiPjwvcGF0aD48cGF0aCBmaWxsPSIjMWU4OGU1IiBkPSJNMywxNi4ybDMuNjE0LDEuNzFMMTMsMjMuN1Y0MEg2Yy0xLjY1NywwLTMtMS4zNDMtMy0zVjE2LjJ6Ij48L3BhdGg+PHBvbHlnb24gZmlsbD0iI2U1MzkzNSIgcG9pbnRzPSIzNSwxMS4yIDI0LDE5LjQ1IDEzLDExLjIgMTIsMTcgMTMsMjMuNyAyNCwzMS45NSAzNSwyMy43IDM2LDE3Ij48L3BvbHlnb24+PHBhdGggZmlsbD0iI2M2MjgyOCIgZD0iTTMsMTIuMjk4VjE2LjJsMTAsNy41VjExLjJMOS44NzYsOC44NTlDOS4xMzIsOC4zMDEsOC4yMjgsOCw3LjI5OCw4aDBDNC45MjQsOCwzLDkuOTI0LDMsMTIuMjk4eiI+PC9wYXRoPjxwYXRoIGZpbGw9IiNmYmMwMmQiIGQ9Ik00NSwxMi4yOThWMTYuMmwtMTAsNy41VjExLjJsMy4xMjQtMi4zNDFDMzguODY4LDguMzAxLDM5Ljc3Miw4LDQwLjcwMiw4aDAgQzQzLjA3Niw4LDQ1LDkuOTI0LDQ1LDEyLjI5OHoiPjwvcGF0aD4KPC9zdmc+"/>
             </a>
           `
-        },
+        }
       ],
       copyright: 'Made with ❤️ by Nish!!!!'
     },
@@ -72,13 +72,13 @@ const config: Config = {
       darkTheme: prismThemes.vsDark
     },
     customFields: {
-    githubLink: `
-      <a href="https://github.com/nishkohli96" target="_blank" rel="noreferrer noopener" aria-label="Nishant's Github">
-        <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICA8cGF0aCBkPSJNMTAuOSwyLjFjLTQuNiwwLjUtOC4zLDQuMi04LjgsOC43Yy0wLjUsNC43LDIuMiw4LjksNi4zLDEwLjVDOC43LDIxLjQsOSwyMS4yLDksMjAuOHYtMS42YzAsMC0wLjQsMC4xLTAuOSwwLjEgYy0xLjQsMC0yLTEuMi0yLjEtMS45Yy0wLjEtMC40LTAuMy0wLjctMC42LTFDNS4xLDE2LjMsNSwxNi4zLDUsMTYuMkM1LDE2LDUuMywxNiw1LjQsMTZjMC42LDAsMS4xLDAuNywxLjMsMWMwLjUsMC44LDEuMSwxLDEuNCwxIGMwLjQsMCwwLjctMC4xLDAuOS0wLjJjMC4xLTAuNywwLjQtMS40LDEtMS44Yy0yLjMtMC41LTQtMS44LTQtNGMwLTEuMSwwLjUtMi4yLDEuMi0zQzcuMSw4LjgsNyw4LjMsNyw3LjZjMC0wLjQsMC0wLjksMC4yLTEuMyBDNy4yLDYuMSw3LjQsNiw3LjUsNmMwLDAsMC4xLDAsMC4xLDBDOC4xLDYuMSw5LjEsNi40LDEwLDcuM0MxMC42LDcuMSwxMS4zLDcsMTIsN3MxLjQsMC4xLDIsMC4zYzAuOS0wLjksMi0xLjIsMi41LTEuMyBjMCwwLDAuMSwwLDAuMSwwYzAuMiwwLDAuMywwLjEsMC40LDAuM0MxNyw2LjcsMTcsNy4yLDE3LDcuNmMwLDAuOC0wLjEsMS4yLTAuMiwxLjRjMC43LDAuOCwxLjIsMS44LDEuMiwzYzAsMi4yLTEuNywzLjUtNCw0IGMwLjYsMC41LDEsMS40LDEsMi4zdjIuNmMwLDAuMywwLjMsMC42LDAuNywwLjVjMy43LTEuNSw2LjMtNS4xLDYuMy05LjNDMjIsNi4xLDE2LjksMS40LDEwLjksMi4xeiI+PC9wYXRoPgo8L3N2Zz4="/>
-      </a>
-    `
-  }
-  } satisfies Preset.ThemeConfig,
+      githubLink: `
+        <a href="https://github.com/nishkohli96" target="_blank" rel="noreferrer noopener" aria-label="Nishant's Github">
+          <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICA8cGF0aCBkPSJNMTAuOSwyLjFjLTQuNiwwLjUtOC4zLDQuMi04LjgsOC43Yy0wLjUsNC43LDIuMiw4LjksNi4zLDEwLjVDOC43LDIxLjQsOSwyMS4yLDksMjAuOHYtMS42YzAsMC0wLjQsMC4xLTAuOSwwLjEgYy0xLjQsMC0yLTEuMi0yLjEtMS45Yy0wLjEtMC40LTAuMy0wLjctMC42LTFDNS4xLDE2LjMsNSwxNi4zLDUsMTYuMkM1LDE2LDUuMywxNiw1LjQsMTZjMC42LDAsMS4xLDAuNywxLjMsMWMwLjUsMC44LDEuMSwxLDEuNCwxIGMwLjQsMCwwLjctMC4xLDAuOS0wLjJjMC4xLTAuNywwLjQtMS40LDEtMS44Yy0yLjMtMC41LTQtMS44LTQtNGMwLTEuMSwwLjUtMi4yLDEuMi0zQzcuMSw4LjgsNyw4LjMsNyw3LjZjMC0wLjQsMC0wLjksMC4yLTEuMyBDNy4yLDYuMSw3LjQsNiw3LjUsNmMwLDAsMC4xLDAsMC4xLDBDOC4xLDYuMSw5LjEsNi40LDEwLDcuM0MxMC42LDcuMSwxMS4zLDcsMTIsN3MxLjQsMC4xLDIsMC4zYzAuOS0wLjksMi0xLjIsMi41LTEuMyBjMCwwLDAuMSwwLDAuMSwwYzAuMiwwLDAuMywwLjEsMC40LDAuM0MxNyw2LjcsMTcsNy4yLDE3LDcuNmMwLDAuOC0wLjEsMS4yLTAuMiwxLjRjMC43LDAuOCwxLjIsMS44LDEuMiwzYzAsMi4yLTEuNywzLjUtNCw0IGMwLjYsMC41LDEsMS40LDEsMi4zdjIuNmMwLDAuMywwLjMsMC42LDAuNywwLjVjMy43LTEuNSw2LjMtNS4xLDYuMy05LjNDMjIsNi4xLDE2LjksMS40LDEwLjksMi4xeiI+PC9wYXRoPgo8L3N2Zz4="/>
+        </a>
+      `
+    }
+  } satisfies Preset.ThemeConfig
 };
 
 export default config;

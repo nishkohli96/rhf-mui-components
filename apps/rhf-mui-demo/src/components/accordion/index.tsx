@@ -19,17 +19,23 @@ export function Accordion({ page, isNested }: AccordionProps) {
         expandIcon={isNested ? <KeyboardArrowDownIcon /> : undefined}
       >
         <Typography>
-          {isNested ? page.title : <Link href={page.href}>{page.title}</Link>}
+          {isNested ? page.title : (
+            <Link href={page.href}>
+              {page.title}
+            </Link>
+          )}
         </Typography>
       </AccordionSummary>
       {isNested && (
         <AccordionDetails classes={{ root: classes.accordionDetailsRoot }}>
-          {page.pages?.length &&
-            page.pages.map((page) => (
-              <Typography className={classes.nestedItem} key={page.title}>
-                <Link href={page.href}>{page.title}</Link>
-              </Typography>
-            ))}
+          {page.pages?.length
+          && page.pages.map(page => (
+            <Typography className={classes.nestedItem} key={page.title}>
+              <Link href={page.href}>
+                {page.title}
+              </Link>
+            </Typography>
+          ))}
         </AccordionDetails>
       )}
     </MuiAccordion>

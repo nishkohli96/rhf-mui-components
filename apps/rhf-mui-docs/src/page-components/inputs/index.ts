@@ -1,2 +1,2 @@
-export * from './RHFPasswordField';
+export * from './RHFPasswordInput';
 export * from './RHFTextField';

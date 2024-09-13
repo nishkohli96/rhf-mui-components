@@ -17,9 +17,8 @@ export class IsValidIPLTeam implements ValidatorConstraintInterface {
     if(!value) {
       return true;
     }
-    return (value ?? []).every((team) =>
-      IPLTeams.some((iplTeam) => iplTeam.abbr === team)
-    );
+    return (value ?? []).every(team =>
+      IPLTeams.some(iplTeam => iplTeam.abbr === team));
   }
 
   defaultMessage(args: ValidationArguments) {

@@ -1,56 +1,54 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import { FieldValues, Path } from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 import 'react-color-palette/css';
 
 export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
+	value?: string;
 	height?: number;
 	hideAlpha?: boolean;
 	hideInput?: (keyof IColor)[] | boolean;
-	defaultValue?: string;
-	onValueChange?: (color: IColor) => void;
+	onValueChange: (color: IColor) => void;
   disabled?: boolean;
-	errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
 	label?: ReactNode;
   showLabelAboveFormField?: boolean;
 	formLabelProps?: Omit<FormLabelProps, 'error'>;
 	helperText?: ReactNode;
+	errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
-function ColorPicker<T extends FieldValues>({
+export function RHFColorPicker<T extends FieldValues>({
   fieldName,
-	defaultValue,
-  onValueChange,
+	value,
 	hideInput,
+  onValueChange,
   disabled,
-	errorMessage,
-	hideErrorMessage,
 	label,
   showLabelAboveFormField,
 	formLabelProps,
 	helperText,
+	errorMessage,
+	hideErrorMessage,
 	formHelperTextProps,
-  defaultFormLabelSx,
-  defaultFormHelperTextSx,
   ...otherProps
-}: RHFColorPickerProps<T> & RHFMuiConfig) {
-  const [color, setColor] = useColor(defaultValue ?? '#000000');
+}: RHFColorPickerProps<T>) {
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const [color, setColor] = useColor(value ?? '#000000');
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 	const isError = Boolean(errorMessage);
 
   const handleColorChange = (color: IColor) => {
     if (!disabled) {
       setColor(color);
-      onValueChange && onValueChange(color);
+      onValueChange(color);
     }
   };
 
@@ -80,5 +78,3 @@ function ColorPicker<T extends FieldValues>({
     </FormControl>
   );
 }
-
-export const RHFColorPicker = withConfigHOC(ColorPicker);

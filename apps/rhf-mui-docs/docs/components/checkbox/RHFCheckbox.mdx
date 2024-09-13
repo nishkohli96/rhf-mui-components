@@ -2,21 +2,22 @@
 sidebar_position: 1
 sidebar_label: RHFCheckbox
 title: RHFCheckbox
-description: Input props and usage of RHFCheckbox using react-hook-form.
+description: Learn how to use RHFCheckbox with react-hook-form to create customizable checkboxes. Explore how it extends Material-UI’s Checkbox component and see examples and API details to enhance your forms.
 ---
 
-import { RHFCheckboxPropsTable } from "@site/src/page-components";
+import RHFCheckboxPropsTable from '@site/src/page-components/checkbox/RHFCheckbox';
 
 # RHFCheckbox
 
-`RHFCheckbox` component renders a checkbox which allows the user to turn an option on or off, for 
-example, to subscribe to promotional emails. `RHFCheckbox` extends Mui [Checkbox](https://mui.com/material-ui/react-checkbox/),
-so it accepts almost all props of `Checkbox` and can be customized in a similar way!
+The `RHFCheckbox` component renders a checkbox, allowing users to toggle options on or off, 
+such as subscribing to newsletters. It extends the [Checkbox](https://mui.com/material-ui/react-checkbox/)
+component from MUI, accepting most of its props and offering similar 
+customization options.
 
 ### Usage
 
 ```js
-import { RHFCheckbox, RHFCheckboxProps } from "@nish1896/rhf-mui-components";
+import { RHFCheckbox, RHFCheckboxProps } from '@nish1896/rhf-mui-components';
 ```
 
 ```jsx
@@ -28,13 +29,14 @@ import { RHFCheckbox, RHFCheckboxProps } from "@nish1896/rhf-mui-components";
 />
 ```
 
-Please visit the below links to check the component usage.
-
-- [RHFCheckbox Example](https://mui.com/material-ui/react-text-field/)
-- Mui [Checkbox](https://mui.com/material-ui/react-checkbox/) Component
+### Examples
+<!-- - [RHFCheckbox](../../examples/checkbox-radio) -->
+- [Checkbox](https://mui.com/material-ui/react-checkbox/)
+<!-- - [Complete Form](../../examples/complete-form) -->
 
 ### API
 
-`RHFCheckboxProps` extends [TextFieldProps](https://mui.com/material-ui/api/text-field/) and accepts the following additional values.
+`RHFCheckboxProps` extends [CheckboxProps](https://mui.com/material-ui/api/checkbox/) 
+and accepts the following additional props:
 
 <RHFCheckboxPropsTable />

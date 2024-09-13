@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import {
   UseFormRegister,
   UseFormSetValue,
@@ -9,14 +9,13 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
-import { 
-	TimePicker as MuiTimePicker,
-	TimePickerProps
-} from '@mui/x-date-pickers/TimePicker';
-import { PickerValidDate } from '@mui/x-date-pickers';
+import {
+  TimePicker as MuiTimePicker,
+  TimePickerProps,
+  PickerValidDate
+} from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -24,43 +23,36 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   setValue: UseFormSetValue<T>;
-  onValueChange?: (newValue: unknown) => void;
+  onValueChange?: (newValue: PickerValidDate | null) => void;
+  showLabelAboveFormField?: boolean;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  helperText?: ReactNode;
-  showLabelAboveFormField?: boolean;
-  formLabelProps: Omit<FormLabelProps, 'error'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-export function TimePicker<T extends FieldValues>(
-  props: RHFTimePickerProps<T> & RHFMuiConfig
-) {
-  const {
-    fieldName,
-    register,
-    setValue,
-    onValueChange,
-    registerOptions,
-    errorMessage,
-    hideErrorMessage,
-    showLabelAboveFormField,
-    formLabelProps,
-    formHelperTextProps,
-    label,
-    helperText,
-    defaultFormHelperTextSx,
-    defaultFormLabelSx,
-    dateAdapter,
-    ...rest
-  } = props;
-  const isError = Boolean(errorMessage);
+export function RHFTimePicker<T extends FieldValues>({
+  fieldName,
+  register,
+  registerOptions,
+  setValue,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  ...rest
+}: RHFTimePickerProps<T>) {
+  const { defaultFormHelperTextSx, defaultFormLabelSx, dateAdapter } =
+    useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
-  const { onChange, ...otherRegisterProps } = register(
-    fieldName,
-    registerOptions
-  );
+  const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
 
   return (
     <FormControl error={isError}>
@@ -76,7 +68,7 @@ export function TimePicker<T extends FieldValues>(
         <MuiTimePicker
           onChange={(newValue) => {
             setValue(fieldName, newValue as T[typeof fieldName]);
-            onValueChange && onValueChange(newValue);
+            onValueChange?.(newValue);
           }}
           label={!showLabelAboveFormField ? fieldLabel : undefined}
           {...otherRegisterProps}
@@ -89,9 +81,8 @@ export function TimePicker<T extends FieldValues>(
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         defaultFormHelperTextSx={defaultFormHelperTextSx}
+        formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
   );
 }
-
-export const RHFTimePicker = withConfigHOC(TimePicker);

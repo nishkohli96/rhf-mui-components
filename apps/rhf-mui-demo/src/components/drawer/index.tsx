@@ -12,10 +12,10 @@ export function DrawerContent() {
       sx={{
         height: '100%',
         borderRadius: 0,
-				paddingTop: '10px'
+        paddingTop: '10px'
       }}
     >
-      {DocsPageLinks.map((docsPage) => {
+      {DocsPageLinks.map(docsPage => {
         const isNestedPage = Boolean(docsPage.pages);
         return (
           <Fragment key={docsPage.title}>

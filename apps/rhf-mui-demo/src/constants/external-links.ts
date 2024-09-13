@@ -7,6 +7,6 @@ export const ExternalLinks = Object.freeze({
   rhf: {
     home: 'https://react-hook-form.com/',
     register: 'https://react-hook-form.com/docs/useform/register',
-		control: 'https://react-hook-form.com/docs/useform/control',
+    control: 'https://react-hook-form.com/docs/useform/control',
   }
-})
+});

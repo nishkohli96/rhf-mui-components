@@ -1,40 +1,43 @@
-import { Fragment, ReactNode, ChangeEvent } from 'react';
+import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import FormControlLabel, {
-  FormControlLabelProps
-} from '@mui/material/FormControlLabel';
+import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config';
 import { FormHelperText } from '../../common';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   onValueChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  label?: ReactNode;
+  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
+  helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  label?: ReactNode;
-  helperText?: ReactNode;
-  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<CheckboxProps, 'name' | 'checked' | 'onChange'>;
 
-function Checkbox<T extends FieldValues>({
+export function RHFCheckbox<T extends FieldValues>({
   fieldName,
   control,
   onValueChange,
-  errorMessage,
-  hideErrorMessage,
   label,
   formControlLabelProps,
   helperText,
+  errorMessage,
+  hideErrorMessage,
   formHelperTextProps,
-  defaultFormHelperTextSx,
   ...rest
-}: RHFCheckboxProps<T> & RHFMuiConfig) {
+}: RHFCheckboxProps<T>) {
+  const { defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
+
+  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const appliedFormControlLabelSx = {
+		...defaultFormControlLabelSx,
+		...sx,
+	};
 
   return (
     <Controller
@@ -57,7 +60,8 @@ function Checkbox<T extends FieldValues>({
                 />
               }
               label={label}
-              {...formControlLabelProps}
+              sx={appliedFormControlLabelSx}
+              {...otherFormControlLabelProps}
             />
             <FormHelperText
               error={isError}
@@ -73,5 +77,3 @@ function Checkbox<T extends FieldValues>({
     />
   );
 }
-
-export const RHFCheckbox = withConfigHOC(Checkbox);

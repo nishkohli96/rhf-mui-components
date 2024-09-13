@@ -6,13 +6,6 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { PickerValidDate } from '@mui/x-date-pickers';
 
-export type AdapterOptions =
-  | 'dayjs'
-  | 'date-fns-2'
-  | 'date-fns'
-  | 'luxon'
-  | 'moment'
-
 export type MuiPickersAdapter =
   | typeof AdapterDayjs
   | typeof AdapterDateFnsV2
@@ -20,16 +13,16 @@ export type MuiPickersAdapter =
   | typeof AdapterLuxon
   | typeof AdapterMoment;
 
-export type MuiPickersInitialValue = PickerValidDate | null;
-
 export type RHFMuiConfigInput = {
   defaultFormLabelSx?: SxProps;
+  defaultFormControlLabelSx?: SxProps;
   defaultFormHelperTextSx?: SxProps;
   dateAdapter?: MuiPickersAdapter;
 }
 
 export type RHFMuiConfig = {
   defaultFormLabelSx: SxProps;
+  defaultFormControlLabelSx: SxProps;
   defaultFormHelperTextSx: SxProps;
   dateAdapter: MuiPickersAdapter;
 }

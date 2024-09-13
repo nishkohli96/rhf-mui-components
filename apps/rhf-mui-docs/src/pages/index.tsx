@@ -18,7 +18,9 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">
+          {siteConfig.tagline}
+        </p>
         <Grid container spacing={2}>
           <Grid
             item
@@ -40,11 +42,11 @@ function HomepageHeader() {
               justifyContent: 'flex-start'
             }}
           >
-            <Link className="button button--lg" to="/intro">
-              View Demo
-            </Link>
+            {/* <Link className="button button--lg" to="/intro"> */}
+            View Demo
+            {/* </Link> */}
           </Grid>
-          <Button color='secondary' variant='contained'>hell3</Button>
+          <Button color="secondary" variant="contained">hell3</Button>
         </Grid>
       </div>
     </header>
@@ -52,19 +54,19 @@ function HomepageHeader() {
 }
 
 export default function Home(): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
-  const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-  console.log('isDarkTheme: ', isDarkTheme);
+  // const { siteConfig } = useDocusaurusContext();
+  // const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+  // console.log('isDarkTheme: ', isDarkTheme);
 
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title="Homepage"
+      description="Reusable material-ui components for react-hook-form to minimize your time and effort in creating forms."
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <HomepageHeader />
-        <main></main>
+        <main />
       </ThemeProvider>
     </Layout>
   );

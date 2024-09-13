@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { RHFTextField, RHFPasswordField } from '@nish1896/rhf-mui-components';
+import { RHFTextField, RHFPasswordInput } from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
   GridContainer,
@@ -121,7 +121,7 @@ export function TextAndPasswordInputForm() {
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Simple Password Field" />
-            <RHFPasswordField
+            <RHFPasswordInput
               fieldName="password"
               register={register}
               registerOptions={{
@@ -139,7 +139,7 @@ export function TextAndPasswordInputForm() {
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Password Field with custom icons & validate rule to match password." />
-            <RHFPasswordField
+            <RHFPasswordInput
               fieldName="confirmPassword"
               register={register}
               registerOptions={{
@@ -148,7 +148,7 @@ export function TextAndPasswordInputForm() {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: (v) => v.length >= 4 || minCharMsg(4),
+                  minLen: v => v.length >= 4 || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }

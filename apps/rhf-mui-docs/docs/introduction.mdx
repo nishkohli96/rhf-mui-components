@@ -1,17 +1,51 @@
 ---
 sidebar_position: 1
 sidebar_label: Introduction
-description: Introduction to @nish1896/rhf-mui-components and its usage.
+description: Introduction, installation and working of form components of @nish1896/rhf-mui-components package.
 title: Introduction
 ---
 
-import { IntroductionPageTable } from '@site/src/page-components';
+import IntroductionPageTable from '@site/src/page-components/introduction';
 
 # Introduction
-This library makes easier to integrate [react-hook-form](https://react-hook-form.com/) with [Material-UI](https://mui.com/material-ui/getting-started/) by providing a suite of reusable and customizable Mui components, thus helping you reduce code duplicacy and providing the flexibility to create form fields as per your website's design.
+Easily design forms in minutes using the popular [react-hook-form](https://react-hook-form.com/)
+library alongside [Material-UI](https://mui.com/material-ui/getting-started/)
+This package offers a suite of reusable and customizable MUI components,
+reducing code duplication and providing the flexibility to style form fields 
+according to your website's design.
+
+## Installation
+
+To get started, install [react-hook-form](https://www.npmjs.com/package/react-hook-form) and [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components).
+
+```
+npm i react-hook-form @nish1896/rhf-mui-components
+```
+```
+yarn add react-hook-form @nish1896/rhf-mui-components
+```
+
+Ensure that you also have installed [Material UI](https://www.npmjs.com/package/@mui/material). 
+If not, refer to the [installation guide](https://mui.com/material-ui/getting-started/installation/). 
+For datepickers, follow the [installation guide](https://mui.com/x/react-date-pickers/getting-started/) 
+to install [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
+
+**Optional** : If you are using a third party library for form validation, say [joi](https://www.npmjs.com/package/joi), make
+sure to install its npm package along with the [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package.
+
+```
+npm i @hookform/resolvers joi
+```
+```
+yarn add @hookform/resolvers joi
+```
 
 ## Working
-Each component requires some common props which are listed in the table
-below along with their description. Remaining component props include the props specific to that material-ui component, say Textfield, and can be viewed in the documentation page for that component.
+Each component requires a set of common props, detailed in the table below.
+Some props might be specific to a component, say [DatePicker](../components/pickers/RHFDatePicker#api), 
+and can be viewed in the documentation page for the respective component.
+
+_You can also import the interface of each component, like `RHFDatePickerProps`
+to extend an existing component or create another reusable component from it._
 
 <IntroductionPageTable />

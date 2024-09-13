@@ -1,0 +1,63 @@
+---
+sidebar_position: 1
+sidebar_label: Color Picker
+title: RHFColorPicker
+description: A customizable color picker for your forms with example and API details for seamless functionality.
+---
+
+import { RHFColorPickerPropsTable } from '@site/src/page-components';
+
+# RHFColorPicker
+
+`RHFColorPicker` is derived from the [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage) 
+component of [react-color-palette](https://www.npmjs.com/package/react-color-palette) package.
+
+```
+npm install react-color-palette
+```
+
+```
+yarn add react-color-palette
+```
+
+## Usage
+
+```js
+import { RHFColorPicker, RHFColorPickerProps } from '@nish1896/rhf-mui-components';
+```
+
+The color-picker accepts `hex`, `rgb`, `hsl` or text format, such as:
+- `#561ecb`
+- `rgb(86 30 203)`
+- `hsl(120 100% 50% / .5)`
+- `cyan`
+
+If an invalid value is provided, the default color `#000000`(black) will be selected.
+
+```jsx
+<RHFColorPicker
+  fieldName='favouriteColor'
+  value={getValues('favouriteColor')}
+  onValueChange={color => setValue('favouriteColor', color.hex)}
+/>
+```
+
+:::note
+The `onValueChange` prop is mandatory and allows you to choose the format
+of the selected color value based on your preference.
+:::
+
+### Examples
+<!-- - [RHFColorPicker](../../examples/misc-components) -->
+- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
+
+### Alternatives
+If this package doesn't meet your requirements, consider the
+[react-color](https://www.npmjs.com/package/react-color) package.
+
+### API
+
+`RHFColorPickerProps` extends the props of [ColorPicker](https://www.npmjs.com/package/react-color-palette#api)
+and accepts the following additional props:
+
+<RHFColorPickerPropsTable />

@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { useContext, Fragment, ReactNode } from 'react';
 import {
   UseFormRegister,
   RegisterOptions,
@@ -14,8 +14,8 @@ import MuiSelect, {
   SelectProps,
 } from '@mui/material/Select';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig, OptionType } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config';
+import { OptionType } from '../../../types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -32,48 +32,47 @@ export type RHFSelectProps<T extends FieldValues> = {
   labelKey?: string;
   valueKey?: string;
   defaultValue?: SelectValueType;
-  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
-  helperText?: ReactNode;
-  showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
+  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
+  showLabelAboveFormField?: boolean;
+  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  helperText?: ReactNode;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<
   SelectProps,
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
 >;
 
-function Select<T extends FieldValues>({
+export function RHFSelect<T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
   options,
-  defaultValue,
   labelKey,
   valueKey,
-  onValueChange,
-  helperText,
-  formHelperTextProps,
-  errorMessage,
-  hideErrorMessage,
+  defaultValue,
   showDefaultOption,
   defaultOptionText,
+  onValueChange,
+  label,
   showLabelAboveFormField,
   formLabelProps,
-  label,
-  defaultFormLabelSx,
-  defaultFormHelperTextSx,
   multiple,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
   ...otherSelectProps
-}: RHFSelectProps<T> & RHFMuiConfig) {
-  const isError = Boolean(errorMessage);
+}: RHFSelectProps<T>) {
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  validateArray('RHFSelect', options, labelKey, valueKey);
+  const isError = Boolean(errorMessage);
 
   const { onChange, ...rest } = register(fieldName, registerOptions);
+  validateArray('RHFSelect', options, labelKey, valueKey);
 
   return (
     <FormControl error={isError}>
@@ -132,5 +131,3 @@ function Select<T extends FieldValues>({
     </FormControl>
   );
 }
-
-export const RHFSelect = withConfigHOC(Select);

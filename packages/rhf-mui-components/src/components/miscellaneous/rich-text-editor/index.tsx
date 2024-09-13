@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
 import { UseFormSetValue, FieldValues, Path, PathValue } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { EventInfo } from '@ckeditor/ckeditor5-utils';
@@ -7,8 +7,7 @@ import { ClassicEditor } from 'ckeditor5';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '../../common';
-import withConfigHOC from '../../../config/withConfig';
-import { RHFMuiConfig } from '../../../types';
+import { RHFMuiConfigContext } from '../../../config';
 import { fieldNameToLabel } from '../../../utils';
 import { defaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -16,41 +15,40 @@ import 'ckeditor5/ckeditor5.css';
 export type RHFRichTextEditorProps<T extends FieldValues> = {
   fieldName: Path<T>;
   setValue: UseFormSetValue<T>;
-  defaultValue?: string; 
   editorConfig?: EditorConfig;
-  onValueChange?: (event: EventInfo, newValue: string) => void;
+  value?: string; 
+  onValueChange?: (event: EventInfo, newValue: string, editor: ClassicEditor) => void;
   disabled?: boolean;
-  errorMessage?: ReactNode;
-  hideErrorMessage?: boolean;
   label?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
+  errorMessage?: ReactNode;
+  hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
-function RichTextEditor<T extends FieldValues>({
+export function RHFRichTextEditor<T extends FieldValues>({
   fieldName,
   setValue,
-  defaultValue,
   editorConfig,
+  value,
   onValueChange,
   disabled,
-  errorMessage,
-  hideErrorMessage,
   label,
   formLabelProps,
   helperText,
+  errorMessage,
+  hideErrorMessage,
   formHelperTextProps,
-  defaultFormLabelSx,
-  defaultFormHelperTextSx,
-}: RHFRichTextEditorProps<T> & RHFMuiConfig) {
-  const isError = Boolean(errorMessage);
+}: RHFRichTextEditorProps<T>) {
+  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 	
 	function handleChange(event: EventInfo, editor: ClassicEditor) {
     const content = editor.getData();
     setValue(fieldName, content as PathValue<T, Path<T>>);
-		onValueChange && onValueChange(event, content);
+		onValueChange && onValueChange(event, content, editor);
   }
 
   return (
@@ -64,7 +62,7 @@ function RichTextEditor<T extends FieldValues>({
       />
       <CKEditor
         editor={ClassicEditor}
-        data={defaultValue}
+        data={value}
         onChange={handleChange}
 				config={editorConfig ?? defaultEditorConfig}
         disabled={disabled}
@@ -80,5 +78,3 @@ function RichTextEditor<T extends FieldValues>({
     </FormControl>
   );
 }
-
-export const RHFRichTextEditor = withConfigHOC(RichTextEditor);

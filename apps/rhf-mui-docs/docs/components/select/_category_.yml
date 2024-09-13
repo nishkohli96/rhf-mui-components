@@ -1,6 +1,6 @@
 position: 2
-label: Select
+label: Dropdowns
 collapsible: true
 collapsed: true
 customProps:
-  description: RHFSelect & RHFNativeSelect usage and props.
+  description: Usage, Api and examples for RHFSelect & RHFNativeSelect.

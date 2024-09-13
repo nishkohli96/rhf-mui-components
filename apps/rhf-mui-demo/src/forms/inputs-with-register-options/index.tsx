@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
-import { RHFTextField, RHFPasswordField } from '@nish1896/rhf-mui-components';
+import { RHFTextField, RHFPasswordInput } from '@nish1896/rhf-mui-components';
 import {
   FormContainer,
   GridContainer,
@@ -41,9 +41,9 @@ export function TextAndPasswordInputForm() {
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
-  
+
   function onFormSubmit(formValues: FormSchema) {
-    console.log('formValues: ', formValues);
+    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
   return (
@@ -94,13 +94,13 @@ export function TextAndPasswordInputForm() {
                   message: 'Invalid Email Id'
                 }
               }}
-              variant='standard'
+              variant="standard"
               showLabelAboveFormField
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Simple Password Field" />
-            <RHFPasswordField
+            <RHFPasswordInput
               fieldName="password"
               register={register}
               registerOptions={{
@@ -118,7 +118,7 @@ export function TextAndPasswordInputForm() {
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Password Field with custom icons & validate rule" />
-            <RHFPasswordField
+            <RHFPasswordInput
               fieldName="confirmPassword"
               register={register}
               registerOptions={{
@@ -127,7 +127,7 @@ export function TextAndPasswordInputForm() {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: (v) => v.length >= 4 || minCharMsg(4),
+                  minLen: v => v && `${v}`.length >= 4 || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -142,12 +142,12 @@ export function TextAndPasswordInputForm() {
             <RHFTextField
               fieldName="age"
               register={register}
-              type='number'
+              type="number"
               registerOptions={{
                 valueAsNumber: true
               }}
               errorMessage={errors?.age?.message}
-              variant='filled'
+              variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
             />

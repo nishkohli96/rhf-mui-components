@@ -49,10 +49,10 @@ const AppTheme = (mode: PaletteMode) => ({
 let themeMode = 'dark';
 
 if (typeof window !== 'undefined') {
-  themeMode =
-    localStorage.getItem('theme') ??
-    (window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
+  themeMode
+    = localStorage.getItem('theme')
+    ?? (window.matchMedia
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light');
   localStorage.setItem('theme', themeMode);
