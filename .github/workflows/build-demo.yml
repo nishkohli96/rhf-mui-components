@@ -1,8 +1,8 @@
-name: Build Docusaurus Site
+name: Build Examples Website
 on: [push]
 jobs:
-  build-docs:
-    name: Build Docs
+  build-demo:
+    name: Build Examples
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,5 +14,5 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build Docs
-        run: yarn docs:build
+      - name: Build Examples
+        run: yarn demo:build

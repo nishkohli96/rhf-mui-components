@@ -15,8 +15,7 @@
     "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
     "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build",
     "docs:deploy": "yarn workspace @nish1896/rhf-mui-components-docs deploy",
-    "storybook": "yarn workspace @nish1896/rhf-mui-demo storybook",
-    "storybook:build": "yarn workspace @nish1896/rhf-mui-demo build-storybook"
+    "storybook": "yarn workspace @nish1896/rhf-mui-demo storybook"
   },
   "keywords": [
     "@nish1896",
