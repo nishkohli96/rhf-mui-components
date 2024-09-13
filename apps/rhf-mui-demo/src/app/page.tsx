@@ -13,8 +13,9 @@ import { appFeatures } from '@/constants';
 export default function Home() {
   return (
     <main>
+      <p>hello</p>
       {/* <Box sx={{ bgcolor: '#2B3137', display: 'flex', flex: 1, flexGrow: 1, padding: '50px 20px' }}> */}
-      <GridContainer>
+      {/* <GridContainer>
         <Grid item xs={12}>
           <Box
             sx={{
@@ -52,7 +53,7 @@ export default function Home() {
             View Demo
           </Button>
         </Grid>
-      </GridContainer>
+      </GridContainer> */}
       {/* </Box> */}
     </main>
   );
