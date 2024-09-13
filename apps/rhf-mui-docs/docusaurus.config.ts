@@ -3,13 +3,14 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  url: 'https://nish1896-eslint-config.vercel.app/',
+  url: 'https://rhf-mui-components.github.io',
   baseUrl: '/',
-  projectName: 'rhf-mui-components',
+  projectName: '@nish1896/rhf-mui-components',
   organizationName: 'nish1896',
   title: '@nish1896/rhf-mui-components',
   tagline: 'Create and Style forms effortlessly within minutes!',
   favicon: 'img/favicon.ico',
+  trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   i18n: {
