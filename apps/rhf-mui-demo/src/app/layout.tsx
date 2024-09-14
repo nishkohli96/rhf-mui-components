@@ -27,14 +27,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <ThemeProvider theme={theme}>
             <AppBar />
             <Grid container className="content">
-              {/* <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
+              <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
                 <DrawerContent />
-              </Grid> */}
+              </Grid>
               <Grid
                 item
                 xs={12}

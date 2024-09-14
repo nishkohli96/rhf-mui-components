@@ -110,7 +110,7 @@ export function TextAndPasswordInputForm() {
               registerOptions={{
                 valueAsNumber: true,
                 validate: {
-                  positive: v => v ? (v > 0) || 'Value must be greater than 0.' : true
+                  positive: v => v ? (Number(v) > 0) || 'Value must be greater than 0.' : true
                 }
               }}
               errorMessage={errors?.age?.message}
@@ -148,7 +148,7 @@ export function TextAndPasswordInputForm() {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: v => v.length >= 4 || minCharMsg(4),
+                  minLen: v => v && `${v}`.length >= 4 || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
