@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { StyledReusableComponentForm } from '@/forms';
 
 const title = 'Styled form with a reusable component';
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 
 export default function StyledReusableComponentFormPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description} />
       <StyledReusableComponentForm />
-    </main>
+    </ContentContainer>
   );
 }

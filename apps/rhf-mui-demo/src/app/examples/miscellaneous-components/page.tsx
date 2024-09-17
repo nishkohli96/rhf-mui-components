@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { MiscellaneousComponentsForm } from '@/forms';
 
 const title = 'Miscellaneous Components';
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function MiscellaneousComponentsFormPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <MiscellaneousComponentsForm />
-    </main>
+    </ContentContainer>
   );
 }

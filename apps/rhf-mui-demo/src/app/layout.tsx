@@ -3,10 +3,11 @@ import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/assets/styles/theme';
-import { AppBar, DrawerContent, Footer } from '@/components';
+import { AppBar, Footer } from '@/components';
 import { AppThemeContext } from '@/context/theme';
 import './globals.css';
 import Grid from '@mui/material/Grid';
+import DrawerContent from '@/components/drawer';
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     template: `%s | ${defaultTitle}`,
     default: defaultTitle
   },
-  description: 'Docs & Demo for RHF-Mui Components'
+  description: 'Examples for RHF-Mui Components'
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {

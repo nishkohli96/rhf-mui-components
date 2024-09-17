@@ -1,60 +1,65 @@
+import type { Metadata } from 'next';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import {
-  PageHeading,
-  SubHeading,
-  GridContainer,
-  FeatureItem,
-} from '@/components';
-import { appFeatures } from '@/constants';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import { ContentContainer, PageHeading } from '@/components';
+
+export const metadata: Metadata = {
+  title: 'Introduction',
+  description: 'Introduction to the examples website for RHF-Mui Components'
+};
 
 export default function Home() {
   return (
     <main>
-      <p>hello</p>
-      {/* <Box sx={{ bgcolor: '#2B3137', display: 'flex', flex: 1, flexGrow: 1, padding: '50px 20px' }}> */}
-      {/* <GridContainer>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}
+      <ContentContainer>
+        <PageHeading title="@nish1896/rhf-mui-components" />
+
+        <Box sx={{ my: '20px' }}>
+  <img
+    alt="NPM Version"
+    src="https://img.shields.io/npm/v/@nish1896/rhf-mui-components"
+    style={{ display: 'inline-block', marginRight: '10px' }}
+  />
+  <img 
+    alt="NPM Downloads" 
+    src="https://img.shields.io/npm/dt/@nish1896/rhf-mui-components"
+    style={{ display: 'inline-block', marginRight: '10px' }}
+    />
+      <img 
+    alt="GitHub Release Date" 
+    src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components"
+    style={{ display: 'inline-block', marginRight: '10px' }}
+    />
+</Box>
+
+        <Typography variant="h6" color="steelblue">
+          "A suite of Material-UI and other form components to create and style
+          forms effortlessly within minutes!"
+        </Typography>
+
+        <Typography variant="body1" sx={{ mt: '20px' }}>
+          This website demonstrates examples from the
+          <Link
+            href="https://www.npmjs.com/package/@nish1896/rhf-mui-components"
+            target="_blank"
           >
-            <PageHeading title="@nish1896/rhf-mui-components" />
-            <SubHeading title="Create and Style forms effortlessly within minutes!" />
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button variant="contained" href="/docs">
-            Read Docs
-          </Button>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <Button variant="contained" color="secondary" href="/demo">
-            View Demo
-          </Button>
-        </Grid>
-      </GridContainer> */}
-      {/* </Box> */}
+            {' @nish1896/rhf-mui-components '}
+          </Link>
+          package by embedding forms for each component, showcasing various
+          variations and validation approaches using different form libraries.
+          Below each form, you can view the form's field values and errors
+          through the attached formState component. Each page also provides
+          links to the relevant documentation and the source code for the
+          components used.
+        </Typography>
+        <Typography variant="body1" sx={{ mt: '20px' }}>
+          To view the documentation of this package, please visit
+          <Link href="https://rhf-mui-components.netlify.app/" target="_blank">
+            {' https://rhf-mui-components.netlify.app/.'}
+          </Link>
+        </Typography>
+      </ContentContainer>
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { DateTimePickersForm } from '@/forms';
 
 const title = 'Date & Time Pickers';
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function DateTimePickerFormPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <DateTimePickersForm />
-    </main>
+    </ContentContainer>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { SwitchSliderRatingFormWithSuperstruct } from '@/forms';
 
 const title = 'Switch, Slider & Rating with Superstruct validation';
@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 export default function SwitchSliderRatingFormPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <SwitchSliderRatingFormWithSuperstruct />
-    </main>
+    </ContentContainer>
   );
 }

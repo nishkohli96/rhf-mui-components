@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { CheckboxRadioZodForm } from '@/forms';
 
 const title = 'CheckboxGroup & RadioGroup with Zod Validation';
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function CheckboxRadioZodFormPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <CheckboxRadioZodForm />
-    </main>
+    </ContentContainer>
   );
 }

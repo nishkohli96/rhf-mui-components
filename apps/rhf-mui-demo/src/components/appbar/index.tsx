@@ -15,7 +15,7 @@ export function AppBar() {
     <Box>
       <MuiAppBar position="static">
         <Toolbar>
-          {/* <DrawerMenu /> */}
+          <DrawerMenu />
           <Link href="/">
             <Image
               src={NkLogo}

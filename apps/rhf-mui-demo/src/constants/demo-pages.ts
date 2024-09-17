@@ -1,11 +1,15 @@
 import { Page } from '@/types';
 
-const pagePrefix = '/demo';
+const pagePrefix = '/examples';
 
 export const DemoPageLinks: Page[] = [
   {
+    title: 'Introduction',
+    href: '/'
+  },
+  {
     title: 'TextField & Password Input',
-    href: `${pagePrefix}/textfield-and-passwordfield`
+    href: `${pagePrefix}/textfield-and-passwordinput`
   },
   {
     title: 'Select with Class-Validator',

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { CompleteFormWithJoi } from '@/forms';
 
 const title = 'Complete Form with Joi';
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function CompleteFormWithJoiPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <CompleteFormWithJoi />
-    </main>
+    </ContentContainer>
   );
 }

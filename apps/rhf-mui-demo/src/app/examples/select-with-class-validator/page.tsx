@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { SelectFormWithClassValidator } from '@/forms';
 
 const title = 'Select with Class-Validator';
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function SelectWithClassValidatorPage() {
   return (
-    <main>
+    <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <SelectFormWithClassValidator />
-    </main>
+    </ContentContainer>
   );
 }
