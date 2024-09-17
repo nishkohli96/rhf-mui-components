@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import { DocsLinks, ValidationLibLinks } from '@/constants';
 import { CheckboxRadioZodForm } from '@/forms';
 
 const title = 'CheckboxGroup & RadioGroup with Zod Validation';
@@ -12,28 +13,17 @@ export const metadata: Metadata = {
 
 export default function CheckboxRadioZodFormPage() {
   const links = [
-    {
-      title: 'RHFCheckbox',
-      href: 'https://rhf-mui-components.netlify.app/components/checkbox/RHFCheckbox'
-    },
-    {
-      title: 'RHFCheckboxGroup',
-      href: 'https://rhf-mui-components.netlify.app/components/checkbox/RHFCheckboxGroup'
-    },
-    {
-      title: 'RHFRadioGroup',
-      href: 'https://rhf-mui-components.netlify.app/components/input-controls/RHFRadioGroup'
-    },
-    {
-      title: 'Zod',
-      href: 'https://www.npmjs.com/package/zod'
-    }
+    DocsLinks.rhfCheckbox,
+    DocsLinks.rhfCheckboxGroup,
+    DocsLinks.rhfRadioGroup,
+    ValidationLibLinks.zod
   ];
   return (
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <CheckboxRadioZodForm />
+      <LinksList links={links} />
     </ContentContainer>
   );
 }

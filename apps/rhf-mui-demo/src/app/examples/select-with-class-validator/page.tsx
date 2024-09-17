@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import { DocsLinks, ValidationLibLinks } from '@/constants';
 import { SelectFormWithClassValidator } from '@/forms';
 
 const title = 'Select with Class-Validator';
@@ -12,18 +13,9 @@ export const metadata: Metadata = {
 
 export default function SelectWithClassValidatorPage() {
   const links = [
-    {
-      title: 'RHFSelect',
-      href: 'https://rhf-mui-components.netlify.app/components/select/RHFSelect'
-    },
-    {
-      title: 'RHFNativeSelect',
-      href: 'https://rhf-mui-components.netlify.app/components/select/RHFNativeSelect'
-    },
-    {
-      title: 'Class Validator',
-      href: 'https://www.npmjs.com/package/class-validator'
-    }
+    DocsLinks.rhfSelect,
+    DocsLinks.rhfNativeSelect,
+    ValidationLibLinks.classValidator
   ];
 
   return (

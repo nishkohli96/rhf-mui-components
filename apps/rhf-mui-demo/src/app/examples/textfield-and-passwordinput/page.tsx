@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import { DocsLinks } from '@/constants';
 import { TextAndPasswordInputForm } from '@/forms';
 
 const title = 'TextField & PasswordInput';
@@ -12,14 +13,8 @@ export const metadata: Metadata = {
 
 export default function TextFieldPage() {
   const links = [
-    {
-      title: 'RHFTextField',
-      href: 'https://rhf-mui-components.netlify.app/components/inputs/RHFTextField'
-    },
-    {
-      title: 'RHFPasswordInput',
-      href: 'https://rhf-mui-components.netlify.app/components/inputs/RHFPasswordInput'
-    }
+    DocsLinks.rhfTextField,
+    DocsLinks.rhfPasswordField
   ];
 
   return (

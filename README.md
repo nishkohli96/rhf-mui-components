@@ -6,4 +6,4 @@
 
 **A suite of reusable mui components for react-hook-form to minimize your time and effort in creating forms**
 
-[https://rhf-mui-components.netlify.app/](https://rhf-mui-components.netlify.app/)
+To view the documentation for this package, visit [https://rhf-mui-components.netlify.app/](https://rhf-mui-components.netlify.app/). For examples, visit [https://rhf-mui-components-examples.netlify.app/](https://rhf-mui-components-examples.netlify.app/)

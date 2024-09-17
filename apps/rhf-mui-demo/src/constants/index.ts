@@ -1,5 +1,6 @@
 export * from './demo-pages';
-export * from './docs-pages';
+export * from './docs-links';
+export * from './env-vars';
 export * from './external-links';
 export * from './features';
 export * from './options';

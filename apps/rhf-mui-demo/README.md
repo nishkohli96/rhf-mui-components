@@ -1,3 +1,3 @@
-# @nish1896/rhf-mui-demo
+# @nish1896/rhf-mui-components-examples
 
-NextJs Project that uses mui and storybook to demo `rhf-mui-components`.
+View examples for all the components included in [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components) on [https://rhf-mui-components-examples.netlify.app/](https://rhf-mui-components-examples.netlify.app/).

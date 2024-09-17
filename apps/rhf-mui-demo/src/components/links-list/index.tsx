@@ -1,16 +1,14 @@
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { PageInfo } from '@/types';
 
 type LinksListProps = {
-  links: Array<{
-    title: string;
-    href: string;
-  }>;
+  links: PageInfo[];
 };
 
 export function LinksList({ links }: LinksListProps) {
-  const title = 'Related Components'
+  const title = 'Related Links'
   return (
     <Box sx={{ mt: '20px' }}>
       <Typography color="secondary" variant="h6" sx={{ mb: '15px' }}>

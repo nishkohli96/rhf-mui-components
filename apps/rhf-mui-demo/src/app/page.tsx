@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { ENV_VARS } from '@/constants';
 import { ContentContainer, PageHeading } from '@/components';
 
 export const metadata: Metadata = {
@@ -65,8 +66,8 @@ export default function Home() {
         </Typography>
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit
-          <Link href="https://rhf-mui-components.netlify.app/" target="_blank">
-            {' https://rhf-mui-components.netlify.app/.'}
+          <Link href={ENV_VARS.DOCS_URL} target="_blank">
+            {` ${ENV_VARS.DOCS_URL}.`}
           </Link>
         </Typography>
       </ContentContainer>

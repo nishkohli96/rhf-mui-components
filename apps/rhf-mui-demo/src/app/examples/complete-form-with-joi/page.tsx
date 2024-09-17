@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { ContentContainer, PageHeading, SubHeading } from '@/components';
+import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
+import { DocsLinks, ValidationLibLinks } from '@/constants';
 import { CompleteFormWithJoi } from '@/forms';
 
 const title = 'Complete Form with Joi';
@@ -11,11 +12,13 @@ export const metadata: Metadata = {
 };
 
 export default function CompleteFormWithJoiPage() {
+  const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
   return (
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <CompleteFormWithJoi />
+      <LinksList links={[...links, ValidationLibLinks.joi]} />
     </ContentContainer>
   );
 }
