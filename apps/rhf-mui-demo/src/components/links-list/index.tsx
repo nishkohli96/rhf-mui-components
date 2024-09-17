@@ -10,10 +10,11 @@ type LinksListProps = {
 };
 
 export function LinksList({ links }: LinksListProps) {
+  const title = 'Related Components'
   return (
     <Box sx={{ mt: '20px' }}>
       <Typography color="secondary" variant="h6" sx={{ mb: '15px' }}>
-        RELATED LINKS
+        {title.toUpperCase()}
       </Typography>
       <Box
         sx={{
@@ -22,7 +23,7 @@ export function LinksList({ links }: LinksListProps) {
           gap: '10px'
         }}
       >
-        {links.map((link) => (
+        {links.map(link => (
           <Link href={link.href} key={link.title} target="_blank">
             {link.title}
           </Link>

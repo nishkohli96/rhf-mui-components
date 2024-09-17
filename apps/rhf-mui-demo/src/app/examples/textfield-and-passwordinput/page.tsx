@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from '@mui/material/Link';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import { TextAndPasswordInputForm } from '@/forms';
 

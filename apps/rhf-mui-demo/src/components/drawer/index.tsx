@@ -14,10 +14,12 @@ export default function DrawerContent() {
       }}
     >
       <List>
-        {DemoPageLinks.map((link) => (
+        {DemoPageLinks.map(link => (
           <ListItem key={link.href.replace('/', '')} disablePadding>
             <ListItemButton href={`${link.href}`}>
-              <ListItemText>{link.title}</ListItemText>
+              <ListItemText>
+                {link.title}
+              </ListItemText>
             </ListItemButton>
           </ListItem>
         ))}

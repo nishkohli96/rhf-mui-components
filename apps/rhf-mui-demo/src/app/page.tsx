@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
@@ -16,22 +17,31 @@ export default function Home() {
         <PageHeading title="@nish1896/rhf-mui-components" />
 
         <Box sx={{ my: '20px' }}>
-  <img
-    alt="NPM Version"
-    src="https://img.shields.io/npm/v/@nish1896/rhf-mui-components"
-    style={{ display: 'inline-block', marginRight: '10px' }}
-  />
-  <img 
-    alt="NPM Downloads" 
-    src="https://img.shields.io/npm/dt/@nish1896/rhf-mui-components"
-    style={{ display: 'inline-block', marginRight: '10px' }}
-    />
-      <img 
-    alt="GitHub Release Date" 
-    src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components"
-    style={{ display: 'inline-block', marginRight: '10px' }}
-    />
-</Box>
+          <Image
+            alt="NPM Version"
+            src="https://img.shields.io/npm/v/@nish1896/rhf-mui-components"
+            style={{ display: 'inline-block', marginRight: '10px' }}
+            width={100}
+            height={50}
+          />
+          <Image
+            alt="NPM Version"
+            src="https://img.shields.io/npm/dt/@nish1896/eslint-config"
+            style={{ display: 'inline-block', marginRight: '10px' }}
+            width={100}
+            height={50}
+          />
+          {/* <img
+            alt="NPM Downloads"
+            src="https://img.shields.io/npm/dt/@nish1896/rhf-mui-components"
+            style={{ display: 'inline-block', marginRight: '10px' }}
+          />
+          <img
+            alt="GitHub Release Date"
+            src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components"
+            style={{ display: 'inline-block', marginRight: '10px' }}
+          /> */}
+        </Box>
 
         <Typography variant="h6" color="steelblue">
           "A suite of Material-UI and other form components to create and style
