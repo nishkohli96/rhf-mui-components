@@ -14,20 +14,20 @@ export const ExternalLinks = Object.freeze({
 });
 
 export const ValidationLibLinks: Record<string, PageInfo> = {
-  classValidator:  {
+  classValidator: {
     title: 'Class Validator',
     href: 'https://www.npmjs.com/package/class-validator'
   },
-  joi:  {
+  joi: {
     title: 'Joi',
     href: 'https://www.npmjs.com/package/joi'
   },
-  superstruct:  {
+  superstruct: {
     title: 'Superstruct',
     href: 'https://www.npmjs.com/package/superstruct'
   },
-  zod:  {
+  zod: {
     title: 'Zod',
     href: 'https://www.npmjs.com/package/zod'
   }
-}
+};

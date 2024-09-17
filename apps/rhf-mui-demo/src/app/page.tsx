@@ -45,8 +45,8 @@ export default function Home() {
         </Box>
 
         <Typography variant="h6" color="steelblue">
-          "A suite of Material-UI and other form components to create and style
-          forms effortlessly within minutes!"
+          &quot;A suite of Material-UI and other form components to create and style
+          forms effortlessly within minutes!&quot;
         </Typography>
 
         <Typography variant="body1" sx={{ mt: '20px' }}>
@@ -59,7 +59,7 @@ export default function Home() {
           </Link>
           package by embedding forms for each component, showcasing various
           variations and validation approaches using different form libraries.
-          Below each form, you can view the form's field values and errors
+          Below each form, you can view the form&apos;s field values and errors
           through the attached formState component. Each page also provides
           links to the relevant documentation and the source code for the
           components used.

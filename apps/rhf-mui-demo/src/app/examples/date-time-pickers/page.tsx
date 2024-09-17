@@ -16,7 +16,7 @@ export default function DateTimePickerFormPage() {
     DocsLinks.rhfDatePicker,
     DocsLinks.rhfTimePicker,
     DocsLinks.rhfDateTimePicker
-  ]
+  ];
   return (
     <ContentContainer>
       <PageHeading title={title} />

@@ -6,11 +6,11 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFTextField',
     href: `${ENV_VARS.DOCS_URL}components/inputs/RHFTextField`
   },
-  rhfPasswordField:  {
+  rhfPasswordField: {
     title: 'RHFPasswordInput',
     href: `${ENV_VARS.DOCS_URL}components/inputs/RHFPasswordInput`
   },
-  rhfSelect:  {
+  rhfSelect: {
     title: 'RHFSelect',
     href: `${ENV_VARS.DOCS_URL}components/select/RHFSelect`
   },
@@ -22,7 +22,7 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFCheckbox',
     href: `${ENV_VARS.DOCS_URL}components/checkbox/RHFCheckbox`
   },
-  rhfCheckboxGroup:  {
+  rhfCheckboxGroup: {
     title: 'RHFCheckboxGroup',
     href: `${ENV_VARS.DOCS_URL}components/checkbox/RHFCheckboxGroup`
   },
@@ -30,19 +30,19 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFSlider',
     href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFSlider`
   },
-  rhfSwitch:  {
+  rhfSwitch: {
     title: 'RHFSwitch',
     href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFSwitch`
   },
-  rhfRating:  {
+  rhfRating: {
     title: 'RHFRating',
     href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFRating`
   },
-  rhfRadioGroup:  {
+  rhfRadioGroup: {
     title: 'RHFRadioGroup',
     href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFRadioGroup`
   },
-  rhfDatePicker:  {
+  rhfDatePicker: {
     title: 'RHFDatePicker',
     href: `${ENV_VARS.DOCS_URL}components/pickers/RHFDatePicker`
   },
@@ -54,7 +54,7 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFDateTimePicker',
     href: `${ENV_VARS.DOCS_URL}components/pickers/RHFDateTimePicker`
   },
-  rhfColorPicker:  {
+  rhfColorPicker: {
     title: 'RHFColorPicker',
     href: `${ENV_VARS.DOCS_URL}components/miscellaneous/RHFColorPicker`
   },
@@ -62,4 +62,4 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFRichTextEditor',
     href: `${ENV_VARS.DOCS_URL}components/miscellaneous/RHFRichTextEditor`
   }
-}
+};

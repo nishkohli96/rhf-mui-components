@@ -16,7 +16,7 @@ export default function StyledReusableComponentFormPage() {
   const links = [
     DocsLinks.rhfTextField,
     DocsLinks.rhfDatePicker
-  ]; 
+  ];
   return (
     <ContentContainer>
       <PageHeading title={title} />

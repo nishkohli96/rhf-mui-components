@@ -8,7 +8,7 @@ type LinksListProps = {
 };
 
 export function LinksList({ links }: LinksListProps) {
-  const title = 'Related Links'
+  const title = 'Related Links';
   return (
     <Box sx={{ mt: '20px' }}>
       <Typography color="secondary" variant="h6" sx={{ mb: '15px' }}>
