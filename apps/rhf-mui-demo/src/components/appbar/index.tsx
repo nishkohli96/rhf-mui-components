@@ -3,12 +3,10 @@ import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
 import NkLogo from '../../../public/nk-logo.png';
 import { DrawerMenu } from './DrawerMenu';
+import { ThemeChangeButton } from '../buttons';
 
 export function AppBar() {
   return (
@@ -36,11 +34,10 @@ export function AppBar() {
           >
             <Typography variant="h6">RHF-Mui Components</Typography>
           </Box>
-          <Tooltip title="Toggle Theme">
-            <IconButton aria-label="Toggle Theme">
+            {/* <IconButton aria-label="Toggle Theme">
               <DarkModeIcon />
-            </IconButton>
-          </Tooltip>
+            </IconButton> */}
+            <ThemeChangeButton />
         </Toolbar>
       </MuiAppBar>
     </Box>
