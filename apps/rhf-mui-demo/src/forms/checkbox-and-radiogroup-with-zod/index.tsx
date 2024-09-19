@@ -19,7 +19,7 @@ import { CountriesList } from '@/constants';
 import { Gender } from '@/types';
 import { formSchema, PersonInfo } from './validation';
 
-export function CheckboxRadioZodForm() {
+export default function CheckboxRadioZodForm() {
   const {
     control,
     handleSubmit,

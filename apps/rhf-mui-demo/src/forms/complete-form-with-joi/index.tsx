@@ -55,7 +55,7 @@ const initialValues: Person = {
   feedback: ''
 };
 
-export function CompleteFormWithJoi() {
+export default function CompleteFormWithJoi() {
   const {
     register,
     handleSubmit,

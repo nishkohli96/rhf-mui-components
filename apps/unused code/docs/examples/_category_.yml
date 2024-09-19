@@ -1,6 +1,0 @@
-position: 4
-label: Examples
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage of rhf-mui-components in various forms. Showcased different variants of each component and validated using form libraries like yup & joi.

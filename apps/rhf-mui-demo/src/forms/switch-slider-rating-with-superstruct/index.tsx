@@ -23,7 +23,7 @@ const orangeTheme = createTheme({
   }
 });
 
-export function SwitchSliderRatingFormWithSuperstruct() {
+export default function SwitchSliderRatingFormWithSuperstruct() {
   const initialValues = {
     score: 20,
   };

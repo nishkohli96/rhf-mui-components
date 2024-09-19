@@ -16,7 +16,7 @@ import {
 import { IPLTeams, Currencies } from '@/constants';
 import { Colors } from '@/types';
 
-export function SelectFormWithClassValidator() {
+export default function SelectFormWithClassValidator() {
   const {
     register,
     handleSubmit,

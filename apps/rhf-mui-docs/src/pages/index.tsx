@@ -8,7 +8,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@site/src/styles/theme';
 import styles from './index.module.css';
-import Button from '@mui/material/Button';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();

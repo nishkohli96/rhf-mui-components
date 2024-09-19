@@ -32,7 +32,7 @@ const initialValues: FormSchema = {
   confirmPassword: ''
 };
 
-export function TextAndPasswordInputForm() {
+export default function TextAndPasswordInputForm() {
   const {
     register,
     handleSubmit,

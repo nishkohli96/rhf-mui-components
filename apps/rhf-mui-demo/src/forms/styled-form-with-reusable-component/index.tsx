@@ -28,7 +28,7 @@ const initialValues: FormSchema = {
   dob: null
 };
 
-export function StyledReusableComponentForm() {
+export default function StyledReusableComponentForm() {
   const {
     register,
     setValue,

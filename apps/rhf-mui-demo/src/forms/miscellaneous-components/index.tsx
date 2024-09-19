@@ -20,7 +20,7 @@ type FormSchema = {
   favouriteColor: string;
 };
 
-export function MiscellaneousComponentsForm() {
+export default function MiscellaneousComponentsForm() {
   const {
     setValue,
     handleSubmit,

@@ -1,5 +1,3 @@
-'use client';
-
 import { PaletteMode } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { LightThemePalette, DarkThemePalette } from './palette';
