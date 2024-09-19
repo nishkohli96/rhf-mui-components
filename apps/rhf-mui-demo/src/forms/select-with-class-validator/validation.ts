@@ -13,7 +13,7 @@ import { IPLTeams } from '@/constants';
 
 @ValidatorConstraint({ name: 'isValidIPLTeam', async: false })
 export class IsValidIPLTeam implements ValidatorConstraintInterface {
-  validate(value: string[], args: ValidationArguments) {
+  validate(value: string[], _: ValidationArguments) {
     if(!value) {
       return true;
     }

@@ -22,7 +22,7 @@ export function RenderFormState<T extends FieldValues>({
    * error, so I had to create a new object to yield form errors.
    */
   let errObj = {};
-  Object.keys(errors).map(err => {
+  Object.keys(errors).forEach(err => {
     errObj = {
       ...errObj,
       [err]: {

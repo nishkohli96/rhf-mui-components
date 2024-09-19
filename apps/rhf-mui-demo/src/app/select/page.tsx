@@ -20,7 +20,7 @@ export default function SelectWithClassValidatorPage() {
   const codeLinks = [
     SourceCodeLinks.select,
     CodeSandboxLinks.select
-  ]
+  ];
 
   return (
     <ContentContainer>

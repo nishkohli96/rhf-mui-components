@@ -1,16 +1,10 @@
 // 'use client';
 
-import { ReactNode } from 'react';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material';
 import MuiLink, { LinkProps } from '@mui/material/Link';
 
 type PageHeadingProps = {
   title: string;
-};
-
-type Props = {
-  children: ReactNode;
 };
 
 export function PageHeading({ title }: PageHeadingProps) {
@@ -44,29 +38,6 @@ export function FieldVariantInfo({ title }: PageHeadingProps) {
       sx={{ mb: '10px', fontWeight: 400 }}
     >
       {title}
-    </Typography>
-  );
-}
-
-export function Paragraph({ children }: Props) {
-  return (
-    <Typography variant="body1" sx={{ mb: '10px' }}>
-      {children}
-    </Typography>
-  );
-}
-
-export function Code({ children }: Props) {
-  return (
-    <Typography
-      variant="body2"
-      sx={{
-        color: '#b56f24',
-        padding: '2px 4px',
-        display: 'inline-block'
-      }}
-    >
-      {children}
     </Typography>
   );
 }

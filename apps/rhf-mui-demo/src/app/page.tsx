@@ -60,7 +60,10 @@ export default function Home() {
           package by embedding forms for each component, showcasing various
           variations and validation approaches using different form libraries.
           For each form, you can view the form&apos;s field values and errors
-          through the attached <b>formState component</b>. Each page also provides
+          through the attached
+          {' '}
+          <b>formState component</b>
+          . Each page also provides
           links to the relevant documentation and the source code for the
           components used.
         </Typography>

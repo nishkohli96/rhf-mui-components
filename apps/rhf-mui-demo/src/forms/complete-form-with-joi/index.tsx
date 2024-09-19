@@ -161,7 +161,7 @@ export function CompleteFormWithJoi() {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={(e) => {
+                onValueChange={e => {
                   console.log('toggled checkbox', e);
                 }}
                 errorMessage={errors?.agreeTnC?.message}
@@ -223,9 +223,9 @@ export function CompleteFormWithJoi() {
                     label: styles.switchLabel
                   }
                 }}
-                onValueChange={(e) => {
+                onValueChange={e => {
                   const isChecked = e.target.checked;
-                  alert(`Switch turned ${isChecked ? 'ON': 'OFF'}`);
+                  alert(`Switch turned ${isChecked ? 'ON' : 'OFF'}`);
                 }}
               />
             </Grid>
@@ -283,7 +283,7 @@ export function CompleteFormWithJoi() {
             <Grid item xs={12} md={6}>
               <RHFColorPicker
                 fieldName="bgColor"
-                onValueChange={(color) => setValue('bgColor', color.hex)}
+                onValueChange={color => setValue('bgColor', color.hex)}
               />
             </Grid>
             <Grid item xs={12} md={6}>

@@ -1,5 +1,4 @@
-import { Paragraph, Link, Code } from '@/components/page-heading';
-import { ExternalLinks } from '@/constants';
+import { Paragraph } from '@/components/page-heading';
 
 export const PropsDesc = Object.freeze({
   fieldName: {
