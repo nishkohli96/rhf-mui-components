@@ -27,7 +27,7 @@ export default function SelectWithClassValidatorPage() {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <SelectFormWithClassValidator />
-      <LinksList links={codeLinks} showCode />
+      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
     </ContentContainer>
   );

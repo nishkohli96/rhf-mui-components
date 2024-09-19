@@ -30,7 +30,7 @@ export const SourceCodeLinks: Record<string, Page> = {
 		title: 'Miscellaneous Components',
 		href: `${commonRoute}/miscellaneous-components/index.tsx`
 	},
-	styledFormComponent: {
+	customization: {
 		title: 'Styled Form with reusable component',
 		href: `${commonRoute}/styled-form-with-reusable-component/index.tsx`
 	},
@@ -65,7 +65,7 @@ export const CodeSandboxLinks: Record<string, Page> = {
 		title: `${sandboxPrefix}Miscellaneous Components`,
 		href: `${sandboxRoute}/miscellaneous-components/index.tsx`
 	},
-	styledFormComponent: {
+	customization: {
 		title: `${sandboxPrefix}Styled Form with reusable component`,
 		href: `${sandboxRoute}/styled-form-with-reusable-component/index.tsx`
 	},

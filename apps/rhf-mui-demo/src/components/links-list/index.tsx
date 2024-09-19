@@ -5,21 +5,21 @@ import { PageInfo } from '@/types';
 
 type LinksListProps = {
   links: PageInfo[];
-  showCode?: boolean;
+  areCodeLinks?: boolean;
 };
 
-export function LinksList({ links, showCode }: LinksListProps) {
-  const title = showCode ? 'Source Code' : 'Related Links';
+export function LinksList({ links, areCodeLinks }: LinksListProps) {
+  const title = areCodeLinks ? 'Source Code </>' : 'Documentation 📖';
   return (
-    <Box sx={{ mt: '20px' }}>
-      <Typography color="secondary" variant="h6" sx={{ mb: '15px' }}>
+    <Box sx={{ mt: '20px', ...(areCodeLinks && { mb: '20px' }) }}>
+      <Typography color="secondary" variant="h6" sx={{ mb: '10px' }}>
         {title.toUpperCase()}
       </Typography>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '10px'
+          gap: '5px'
         }}
       >
         {links.map(link => (

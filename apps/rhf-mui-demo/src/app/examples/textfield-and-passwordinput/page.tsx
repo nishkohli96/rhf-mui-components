@@ -19,14 +19,14 @@ export default function TextFieldPage() {
   const codeLinks = [
     SourceCodeLinks.inputs,
     CodeSandboxLinks.inputs
-  ]
+  ];
 
   return (
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <TextAndPasswordInputForm />
-      <LinksList links={codeLinks} showCode />
+      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
     </ContentContainer>
   );

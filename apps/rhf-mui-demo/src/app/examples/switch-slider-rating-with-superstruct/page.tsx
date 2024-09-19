@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { DocsLinks, ValidationLibLinks } from '@/constants';
+import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from '@/constants';
 import { SwitchSliderRatingFormWithSuperstruct } from '@/forms';
 
 const title = 'Switch, Slider & Rating with Superstruct validation';
-const description = 'RHFSwitch, RHFSlider & RHFRating';
+const description = 'Form utilizing RHFSwitch, RHFSlider & RHFRating components with validation managed by Superstruct.';
 
 export const metadata: Metadata = {
   title,
@@ -18,11 +18,16 @@ export default function SwitchSliderRatingFormPage() {
     DocsLinks.rhfRating,
     ValidationLibLinks.superstruct
   ];
+  const codeLinks = [
+    SourceCodeLinks.switchSliderRating,
+    CodeSandboxLinks.switchSliderRating
+  ];
   return (
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <SwitchSliderRatingFormWithSuperstruct />
+      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
     </ContentContainer>
   );

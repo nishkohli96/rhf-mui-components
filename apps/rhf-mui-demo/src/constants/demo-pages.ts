@@ -16,11 +16,11 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/select-with-class-validator`
   },
   {
-    title: 'Checkbox & RadioGroup with zod',
+    title: 'Checkbox & RadioGroup with Zod',
     href: `${pagePrefix}/checkbox-and-radiogroup-with-zod`
   },
   {
-    title: 'Switch, Slider & Rating with superstruct',
+    title: 'Switch, Slider & Rating with Superstruct',
     href: `${pagePrefix}/switch-slider-rating-with-superstruct`
   },
   {
@@ -28,12 +28,12 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/date-time-pickers`
   },
   {
-    title: 'Styled Form with Config Provider',
-    href: `${pagePrefix}/styled-form-with-reusable-component`
-  },
-  {
     title: 'Miscellaneous Components',
     href: `${pagePrefix}/miscellaneous-components`
+  },
+  {
+    title: 'Styled Form with ConfigProvider',
+    href: `${pagePrefix}/styled-form-with-reusable-component`
   },
   {
     title: 'Complete Form with Joi validation',
