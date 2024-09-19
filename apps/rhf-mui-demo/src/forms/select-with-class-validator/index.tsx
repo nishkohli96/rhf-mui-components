@@ -23,6 +23,7 @@ export function SelectFormWithClassValidator() {
     watch,
     formState: { errors }
   } = useForm<FormSchema>({
+    defaultValues: { favouriteColor: Colors.Blue },
     resolver: classValidatorResolver(FormSchema)
   });
 
@@ -38,7 +39,7 @@ export function SelectFormWithClassValidator() {
             <FieldVariantInfo title="Single select field with helpertext" />
             <RHFSelect
               fieldName="favouriteColor"
-              defaultValue={''}
+              defaultValue={Colors.Blue}
               register={register}
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
@@ -57,21 +58,19 @@ export function SelectFormWithClassValidator() {
               fieldName="iplTeams"
               register={register}
               options={IPLTeams}
-              defaultValue={[]}
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
               showDefaultOption
               multiple
               errorMessage={errors?.iplTeams?.message}
-              helperText="Choose teams which have won atleast once"
+              helperText="Select one or more teams"
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Native select" />
             <RHFNativeSelect
               fieldName="currency"
-              defaultValue={''}
               register={register}
               options={Currencies}
               labelKey="name"

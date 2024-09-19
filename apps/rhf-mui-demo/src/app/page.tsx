@@ -8,7 +8,7 @@ import { ContentContainer, PageHeading } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Introduction',
-  description: 'Introduction to the examples website for RHF-Mui Components'
+  description: 'Overview of the Examples Website for RHF-MUI Components'
 };
 
 export default function Home() {
@@ -59,8 +59,8 @@ export default function Home() {
           </Link>
           package by embedding forms for each component, showcasing various
           variations and validation approaches using different form libraries.
-          Below each form, you can view the form&apos;s field values and errors
-          through the attached formState component. Each page also provides
+          For each form, you can view the form&apos;s field values and errors
+          through the attached <b>formState component</b>. Each page also provides
           links to the relevant documentation and the source code for the
           components used.
         </Typography>

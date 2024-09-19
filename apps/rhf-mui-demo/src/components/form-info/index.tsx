@@ -15,7 +15,6 @@ export function RenderFormState<T extends FieldValues>({
   formValues,
   errors
 }: RenderFormStateProps<T>) {
-
   /**
    * "errors" object from RHF also has ref, besides type & message.
    * Unfortunately, "react-json-view" has a hard time parsing that
@@ -38,12 +37,7 @@ export function RenderFormState<T extends FieldValues>({
       <Grid item xs={12}>
         <SubHeading title="Form values & errors in real-time" />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{ border: theme => theme.palette.success.main }}
-      >
+      <Grid item xs={12} md={6}>
         <Paper>
           <ReactJson
             src={formValues}
@@ -53,15 +47,10 @@ export function RenderFormState<T extends FieldValues>({
           />
         </Paper>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{ border: theme => theme.palette.error.main }}
-      >
+      <Grid item xs={12} md={6}>
         <Paper>
           <ReactJson
-            src={errors}
+            src={errObj}
             name="errors"
             quotesOnKeys={false}
             theme="pop"

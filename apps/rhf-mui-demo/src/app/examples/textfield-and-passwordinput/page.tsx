@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { DocsLinks } from '@/constants';
+import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 import { TextAndPasswordInputForm } from '@/forms';
 
 const title = 'TextField & PasswordInput';
-const description = 'Form with RHFTextField & RHFPasswordInput with register options';
+const description = 'Form utilizing RHFTextField and RHFPasswordInput with validation managed via react-hook-form\'s register options.';
 
 export const metadata: Metadata = {
   title,
@@ -16,12 +16,17 @@ export default function TextFieldPage() {
     DocsLinks.rhfTextField,
     DocsLinks.rhfPasswordField
   ];
+  const codeLinks = [
+    SourceCodeLinks.inputs,
+    CodeSandboxLinks.inputs
+  ]
 
   return (
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <TextAndPasswordInputForm />
+      <LinksList links={codeLinks} showCode />
       <LinksList links={links} />
     </ContentContainer>
   );

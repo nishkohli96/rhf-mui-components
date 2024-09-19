@@ -5,10 +5,11 @@ import { PageInfo } from '@/types';
 
 type LinksListProps = {
   links: PageInfo[];
+  showCode?: boolean;
 };
 
-export function LinksList({ links }: LinksListProps) {
-  const title = 'Related Links';
+export function LinksList({ links, showCode }: LinksListProps) {
+  const title = showCode ? 'Source Code' : 'Related Links';
   return (
     <Box sx={{ mt: '20px' }}>
       <Typography color="secondary" variant="h6" sx={{ mb: '15px' }}>
