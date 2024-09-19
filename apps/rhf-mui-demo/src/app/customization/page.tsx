@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description,
 };
 
-export default function StyledReusableComponentFormPage() {
+export default function CustomizationPage() {
   const links = [
     DocsLinks.rhfTextField,
     DocsLinks.rhfDatePicker

@@ -1,6 +1,6 @@
 import { Page } from '@/types';
 
-const pagePrefix = '/examples';
+const pagePrefix = '';
 
 export const DemoPageLinks: Page[] = [
   {
@@ -8,20 +8,20 @@ export const DemoPageLinks: Page[] = [
     href: '/'
   },
   {
-    title: 'TextField & Password Input',
+    title: 'TextField & PasswordInput',
     href: `${pagePrefix}/textfield-and-passwordinput`
   },
   {
-    title: 'Select with Class-Validator',
-    href: `${pagePrefix}/select-with-class-validator`
+    title: 'Select',
+    href: `${pagePrefix}/select`
   },
   {
-    title: 'Checkbox & RadioGroup with Zod',
-    href: `${pagePrefix}/checkbox-and-radiogroup-with-zod`
+    title: 'Checkbox & RadioGroup',
+    href: `${pagePrefix}/checkbox-and-radiogroup`
   },
   {
-    title: 'Switch, Slider & Rating with Superstruct',
-    href: `${pagePrefix}/switch-slider-rating-with-superstruct`
+    title: 'Switch, Slider & Rating',
+    href: `${pagePrefix}/switch-slider-rating`
   },
   {
     title: 'Date & Time Pickers',
@@ -32,11 +32,11 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/miscellaneous-components`
   },
   {
-    title: 'Styled Form with ConfigProvider',
-    href: `${pagePrefix}/styled-form-with-reusable-component`
+    title: 'Customization',
+    href: `${pagePrefix}/customization`
   },
   {
-    title: 'Complete Form with Joi validation',
-    href: `${pagePrefix}/complete-form-with-joi`
+    title: 'Complete Form',
+    href: `${pagePrefix}/complete-form`
   }
 ];
