@@ -9640,11 +9640,6 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-color-palette@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/react-color-palette/-/react-color-palette-7.1.0.tgz#dff94e86b90626777df82f5c78e60d376347db2e"
-  integrity sha512-F5jMWOWh7FMkgm7aJfwNr5+TatvGKvQatuaDtw8trSU4yKk0bzcxOC7HFYVRs/9qEJ8kvatjWaUUrcQATYSXhw==
-
 react-color-palette@7.2.2:
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/react-color-palette/-/react-color-palette-7.2.2.tgz#84d209a425887dce9955466682db353144ab1bb1"

@@ -1,0 +1,6 @@
+# Ignore these files while publishing to the npm directory
+src/
+.npmignore
+node_modules/
+tsconfig.tsbuildinfo
+

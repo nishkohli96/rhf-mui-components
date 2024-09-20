@@ -16,12 +16,9 @@
     "publish:auto": "npm publish --provenance --access public"
   },
 	"peerDependencies": {
-    "@ckeditor/ckeditor5-react": ">=9",
 		"@mui/icons-material": ">=5",
     "@mui/material": ">=5",
     "@mui/x-date-pickers": ">=7",
-    "ckeditor5": ">=43",
-    "react-color-palette": ">=7",
 		"react-hook-form": ">=7"
 	},
   "keywords": [
