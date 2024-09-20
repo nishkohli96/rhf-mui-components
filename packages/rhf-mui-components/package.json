@@ -7,7 +7,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "publish:manual": "npm publish --access public"
+    "publish:manual": "npm publish --provenance --access public"
   },
 	"peerDependencies": {
 		"@mui/icons-material": ">=5",
