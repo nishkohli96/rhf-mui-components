@@ -23,7 +23,10 @@ const orangeTheme = createTheme({
   }
 });
 
-export function SwitchSliderRatingFormWithSuperstruct() {
+export default function SwitchSliderRatingFormWithSuperstruct() {
+  const initialValues = {
+    score: 20,
+  };
   const {
     register,
     control,
@@ -31,6 +34,7 @@ export function SwitchSliderRatingFormWithSuperstruct() {
     watch,
     formState: { errors }
   } = useForm<FormSchema>({
+    defaultValues: initialValues,
     resolver: superstructResolver(formSchema)
   });
 
@@ -47,12 +51,12 @@ export function SwitchSliderRatingFormWithSuperstruct() {
             <RHFSlider
               fieldName="score"
               register={register}
-              defaultValue={20}
+              defaultValue={initialValues.score}
               min={0}
-              max={75}
+              max={50}
               marks={[
                 { value: 0, label: '0' },
-                { value: 75, label: '75' }
+                { value: 50, label: '50' }
               ]}
               step={5}
               label="What is your score in class 10?"
@@ -76,9 +80,8 @@ export function SwitchSliderRatingFormWithSuperstruct() {
             <FieldVariantInfo title="Switch with onValueChange and theme override" />
             <ThemeProvider theme={orangeTheme}>
               <RHFSwitch
-                fieldName="darkTheme"
+                fieldName="turnOnWifi"
                 control={control}
-                label="Enable Dark Theme ?"
               />
             </ThemeProvider>
           </Grid>

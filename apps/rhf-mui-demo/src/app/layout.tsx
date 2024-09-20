@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '@/assets/styles/theme';
-import { AppBar, DrawerContent, Footer } from '@/components';
-import { AppThemeContext } from '@/context/theme';
+import { AppThemeProvider } from '@/theme';
+import { AppBar, Footer } from '@/components';
 import './globals.css';
 import Grid from '@mui/material/Grid';
+import DrawerContent from '@/components/drawer';
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -20,21 +19,20 @@ export const metadata: Metadata = {
     template: `%s | ${defaultTitle}`,
     default: defaultTitle
   },
-  description: 'Docs & Demo for RHF-Mui Components'
+  description: 'Examples for RHF-Mui Components'
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
         <AppRouterCacheProvider options={{ key: 'mui' }}>
-          <ThemeProvider theme={theme}>
+          <AppThemeProvider>
             <AppBar />
             <Grid container className="content">
-              {/* <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
+              <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
                 <DrawerContent />
-              </Grid> */}
+              </Grid>
               <Grid
                 item
                 xs={12}
@@ -44,7 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </Grid>
             </Grid>
             <Footer />
-          </ThemeProvider>
+          </AppThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

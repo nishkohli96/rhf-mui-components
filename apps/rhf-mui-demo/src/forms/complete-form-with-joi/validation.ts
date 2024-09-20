@@ -1,29 +1,25 @@
 import Joi from 'joi';
 import { Moment } from 'moment';
-import {
-  Colors,
-  Gender,
-  Sports,
-} from '@/types';
+import { Colors, Gender, Sports } from '@/types';
 
 export type Person = {
   email: string;
   password: string;
+  favouriteColor: Colors | '';
+  sports: string[];
+  iplTeams: string[];
+  favouriteSport: Sports | '';
+  agreeTnC: boolean;
+  colors: Colors[] | null;
+  countries: string[] | null;
+  gender: Gender | null;
+  country: string;
+  darkTheme: boolean;
+  age: number;
+  rating: number | null;
   dob: Moment | null;
   time: Moment | null;
   dateTime: Moment | null;
-  age: number;
-  gender: Gender | null;
-  country: string;
-  favouriteSport: Sports | '';
-  sports: string[];
-  iplTeams: string[];
-  countries: string[] | null;
-  favouriteColor: Colors | '',
-  color: Colors[] | null;
-  rating: number | null;
-  darkTheme: boolean;
-  agreeTnC: boolean;
   bgColor: string;
   feedback: string;
 };
@@ -31,14 +27,12 @@ export type Person = {
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required().min(8),
-  age: Joi.number().required().positive(),
-  gender: Joi.string()
+  favouriteColor: Joi.string()
     .required()
-    .valid(...Object.values(Gender))
+    .valid(...Object.values(Colors))
     .messages({
-      'any.only': 'Select gender'
+      'any.only': 'Select a Color'
     }),
-  country: Joi.string().required(),
   sports: Joi.array()
     .items(
       Joi.string()
@@ -50,12 +44,6 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Select atleast one sport'
     }),
-  favouriteSport: Joi.string()
-    .required()
-    .valid(...Object.values(Sports))
-    .messages({
-      'any.only': 'Select a sport'
-    }),
   iplTeams: Joi.array()
     .items(Joi.string().required())
     .min(1)
@@ -63,23 +51,16 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Select atleast one country'
     }),
-  countries: Joi.array()
-    .items(Joi.string().required())
-    .min(1)
+  favouriteSport: Joi.string()
     .required()
+    .valid(...Object.values(Sports))
     .messages({
-      'array.base': 'Select atleast one country'
+      'any.only': 'Select a sport'
     }),
-  dob: Joi.date().required(),
-  time: Joi.date().required(),
-  dateTime: Joi.date().required(),
-  favouriteColor: Joi.string()
-    .required()
-    .valid(...Object.values(Colors))
-    .messages({
-      'any.only': 'Select a Color'
-    }),
-  color: Joi.array()
+  agreeTnC: Joi.boolean().required().valid(true).messages({
+    'any.only': 'Please agree to the Terms & Conditions'
+  }),
+  colors: Joi.array()
     .items(
       Joi.string()
         .required()
@@ -90,13 +71,28 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Select atleast one color'
     }),
+  countries: Joi.array()
+    .items(Joi.string().required())
+    .min(1)
+    .required()
+    .messages({
+      'array.base': 'Select atleast one country'
+    }),
+  gender: Joi.string()
+    .required()
+    .valid(...Object.values(Gender))
+    .messages({
+      'any.only': 'Select gender'
+    }),
+  country: Joi.string().required(),
   darkTheme: Joi.boolean().required(),
+  age: Joi.number().required().positive(),
   rating: Joi.number().required().min(1).max(5).messages({
     'number.base': 'Please rate your experience'
   }),
-  agreeTnC: Joi.boolean().required().valid(true).messages({
-    'any.only': 'Please agree to the Terms & Conditions'
-  }),
+  dob: Joi.date().required(),
+  time: Joi.date().required(),
+  dateTime: Joi.date().required(),
   bgColor: Joi.string().required(),
   feedback: Joi.string().required()
 });

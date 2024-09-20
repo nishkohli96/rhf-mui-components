@@ -8,6 +8,14 @@ type FormContainerProps = {
   children: ReactElement | ReactElement[];
 };
 
+export function ContentContainer({ children }: Pick<FormContainerProps, 'children'>) {
+  return (
+    <Box sx={{ padding: { xs: '30px 25px', md: '50px 20px' } }}>
+      {children}
+    </Box>
+  );
+}
+
 export function FormContainer({ title, children }: FormContainerProps) {
   return (
     <Box sx={{ padding: '10px', border: '1px solid gray' }}>

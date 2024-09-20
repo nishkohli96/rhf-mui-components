@@ -8,7 +8,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@site/src/styles/theme';
 import styles from './index.module.css';
-import Button from '@mui/material/Button';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -30,8 +29,12 @@ function HomepageHeader() {
               justifyContent: 'flex-end'
             }}
           >
-            <Link className="button button--secondary button--lg" to="/introduction">
-              Read Docs
+            <Link 
+              className="button button--lg" 
+              to="/introduction"
+              style={{ backgroundColor: '#25C19F'}}
+            >
+              Get Started
             </Link>
           </Grid>
           <Grid
@@ -42,11 +45,14 @@ function HomepageHeader() {
               justifyContent: 'flex-start'
             }}
           >
-            {/* <Link className="button button--lg" to="/intro"> */}
-            View Demo
-            {/* </Link> */}
+            <Link 
+              className="button button--lg" 
+              to="https://rhf-mui-components-examples.netlify.app/"
+              style={{ backgroundColor: '#54C7EC'}}
+            >
+              View Examples
+            </Link>
           </Grid>
-          <Button color="secondary" variant="contained">hell3</Button>
         </Grid>
       </div>
     </header>
@@ -54,10 +60,6 @@ function HomepageHeader() {
 }
 
 export default function Home(): JSX.Element {
-  // const { siteConfig } = useDocusaurusContext();
-  // const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-  // console.log('isDarkTheme: ', isDarkTheme);
-
   return (
     <Layout
       title="Homepage"

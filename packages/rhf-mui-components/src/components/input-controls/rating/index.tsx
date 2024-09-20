@@ -60,7 +60,7 @@ export function RHFRating<T extends FieldValues>({
               {...rest}
               {...otherFieldParams}
               onChange={(e, newValue) => {
-                onChange(e);
+                onChange(Number(newValue));
                 onValueChange && onValueChange(e, newValue);
               }}
             />

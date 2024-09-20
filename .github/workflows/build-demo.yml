@@ -1,0 +1,20 @@
+name: Build Examples Website
+on: [push]
+jobs:
+  build-demo:
+    name: Build Examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build Package
+        run: yarn lib:build
+      - name: Build Examples
+        run: yarn demo:build

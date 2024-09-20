@@ -6,7 +6,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "publish:manual": "npm publish --access public"
   },
 	"peerDependencies": {
 		"@mui/icons-material": ">=5",

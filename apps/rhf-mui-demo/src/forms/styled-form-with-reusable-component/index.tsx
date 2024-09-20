@@ -2,9 +2,10 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { ConfigProvider, RHFDatePicker } from '@nish1896/rhf-mui-components';
-import { StyledRHFTextField } from './StyledTextField';
 import {
   FormContainer,
   FieldVariantInfo,
@@ -13,6 +14,7 @@ import {
   SubmitButton,
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
+import { StyledRHFTextField } from './StyledTextField';
 
 type FormSchema = {
   firstName: string;
@@ -26,7 +28,7 @@ const initialValues: FormSchema = {
   dob: null
 };
 
-export function StyledReusableComponentForm() {
+export default function StyledReusableComponentForm() {
   const {
     register,
     setValue,
@@ -53,6 +55,9 @@ export function StyledReusableComponentForm() {
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
+            <Grid item xs={12}>
+              <FieldVariantInfo title='Custom FormLabel for both text inputs; custom helperText for "firstName" field'/>
+            </Grid>
             <Grid item xs={12} md={6}>
               <StyledRHFTextField
                 fieldName="firstName"
@@ -63,6 +68,12 @@ export function StyledReusableComponentForm() {
                     message: reqdMsg('First Name'),
                   },
                 }}
+                helperText={
+                  <Typography variant="body2">
+                    <InfoIcon color="info" />
+                    The name that matches on your passport
+                  </Typography>
+                }
                 errorMessage={errors?.firstName?.message}
               />
             </Grid>

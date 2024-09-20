@@ -1,5 +1,5 @@
 {
-  "name": "@nish1896/rhf-mui-demo",
+  "name": "@nish1896/rhf-mui-components-examples",
   "version": "1.0.0",
   "private": true,
   "author": "Nishant Kohli",
@@ -7,9 +7,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "lint": "next lint --fix"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -34,30 +32,20 @@
     "react-dom": "^18",
     "react-json-view": "^1.21.3",
     "react-hook-form": "^7.53.0",
+    "sharp": "^0.33.5",
     "superstruct": "^2.0.2",
     "yup": "^1.4.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.5.0",
     "@nish1896/eslint-config": "^2.0.5",
-    "@storybook/addon-essentials": "^8.1.5",
-    "@storybook/addon-interactions": "^8.1.5",
-    "@storybook/addon-links": "^8.1.5",
-    "@storybook/addon-onboarding": "^8.1.5",
-    "@storybook/blocks": "^8.1.5",
-    "@storybook/nextjs": "^8.1.5",
-    "@storybook/react": "^8.1.5",
-    "@storybook/test": "^8.1.5",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
-    "eslint-plugin-storybook": "^0.8.0",
     "postcss": "^8",
-    "storybook": "^8.1.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

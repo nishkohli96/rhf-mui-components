@@ -36,26 +36,26 @@ import styles from './styles.module.css';
 const initialValues: Person = {
   email: 'hello@example.com',
   password: '',
+  favouriteColor: '',
+  sports: [],
+  iplTeams: [],
+  favouriteSport: '',
+  agreeTnC: true,
+  colors: null,
   dob: null,
   time: null,
   dateTime: null,
   age: 25,
   gender: null,
   country: '',
-  favouriteSport: '',
-  sports: [],
-  iplTeams: [],
-  favouriteColor: '',
   countries: null,
-  color: null,
   darkTheme: true,
   rating: null,
-  agreeTnC: false,
   bgColor: '#007ABA',
-  feedback: '',
+  feedback: ''
 };
 
-export function CompleteFormWithJoi() {
+export default function CompleteFormWithJoi() {
   const {
     register,
     handleSubmit,
@@ -82,7 +82,7 @@ export function CompleteFormWithJoi() {
           mb: '16px'
         }}
         defaultFormControlLabelSx={{
-          color: '#1976D2',
+          color: '#1976D2'
         }}
         defaultFormHelperTextSx={{
           mt: '20px',
@@ -109,70 +109,14 @@ export function CompleteFormWithJoi() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFDateTimePicker
-                fieldName="dateTime"
+              <RHFSelect
+                fieldName="favouriteColor"
                 register={register}
-                setValue={setValue}
-                showLabelAboveFormField
-                ampm={false}
-                errorMessage={errors?.dateTime?.message}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <RHFDatePicker
-                fieldName="dob"
-                register={register}
-                setValue={setValue}
-                label="Date of Birth"
-                showLabelAboveFormField
-                helperText="dedme"
-                errorMessage={errors?.dob?.message}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <RHFTimePicker
-                fieldName="time"
-                register={register}
-                setValue={setValue}
-                label="Time"
-                ampm={false}
-                errorMessage={errors?.time?.message}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <RHFSlider
-                fieldName="age"
-                register={register}
-                defaultValue={initialValues.age}
-                label="Age"
-                min={0}
-                max={50}
-                helperText="hel"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <RHFSwitch
-                fieldName="darkTheme"
-                control={control}
-                label="Hello"
-                formControlLabelProps={{
-                  labelPlacement: 'end',
-                  classes: {
-                    label: styles.switchLabel
-                  }
-                }}
-                onValueChange={e => {
-                  console.log('changed switch', e);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <RHFNativeSelect
-                fieldName="favouriteSport"
-                register={register}
-                defaultValue={initialValues.favouriteSport}
-                options={Object.values(Sports)}
-                errorMessage={errors?.favouriteSport?.message}
+                defaultValue={initialValues.favouriteColor}
+                options={Object.values(Colors)}
+                errorMessage={errors?.favouriteColor?.message}
+                defaultOptionText="--- Select ---"
+                showDefaultOption
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -201,24 +145,36 @@ export function CompleteFormWithJoi() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFSelect
-                fieldName="favouriteColor"
+              <RHFNativeSelect
+                fieldName="favouriteSport"
                 register={register}
-                defaultValue={initialValues.favouriteColor}
-                options={Object.values(Colors)}
-                errorMessage={errors?.favouriteColor?.message}
-                defaultOptionText="--- Select ---"
-                showDefaultOption
+                defaultValue={initialValues.favouriteSport}
+                options={Object.values(Sports)}
+                errorMessage={errors?.favouriteSport?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFCheckbox
+                fieldName="agreeTnC"
+                control={control}
+                label="Agree To Terms & Conditions"
+                formControlLabelProps={{
+                  labelPlacement: 'end'
+                }}
+                onValueChange={e => {
+                  console.log('toggled checkbox', e);
+                }}
+                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFCheckboxGroup
-                fieldName="color"
+                fieldName="colors"
                 control={control}
                 label="Select Color"
                 showLabelAboveFormField
                 options={Object.values(Colors)}
-                errorMessage={errors?.color?.message}
+                errorMessage={errors?.colors?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -251,23 +207,37 @@ export function CompleteFormWithJoi() {
                 valueKey="code"
                 row
                 onValueChange={(_, selectedValue) => {
-                  console.log('selectedValue: ', selectedValue);
+                  alert(`selectedValue: ${selectedValue}`);
                 }}
                 errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFCheckbox
-                fieldName="agreeTnC"
+              <RHFSwitch
+                fieldName="darkTheme"
                 control={control}
-                label="Agree To Terms & Conditions"
+                label="Enable Dark Theme"
                 formControlLabelProps={{
-                  labelPlacement: 'end'
+                  labelPlacement: 'end',
+                  classes: {
+                    label: styles.switchLabel
+                  }
                 }}
                 onValueChange={e => {
-                  console.log('toggled checkbox', e);
+                  const isChecked = e.target.checked;
+                  alert(`Switch turned ${isChecked ? 'ON' : 'OFF'}`);
                 }}
-                errorMessage={errors?.agreeTnC?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFSlider
+                fieldName="age"
+                register={register}
+                defaultValue={initialValues.age}
+                label="Age"
+                min={0}
+                max={50}
+                helperText="hel"
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -277,6 +247,37 @@ export function CompleteFormWithJoi() {
                 errorMessage={errors?.rating?.message}
                 max={10}
                 showLabelAboveFormField
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFDatePicker
+                fieldName="dob"
+                register={register}
+                setValue={setValue}
+                label="Date of Birth"
+                showLabelAboveFormField
+                helperText="dedme"
+                errorMessage={errors?.dob?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFTimePicker
+                fieldName="time"
+                register={register}
+                setValue={setValue}
+                label="Time"
+                ampm={false}
+                errorMessage={errors?.time?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFDateTimePicker
+                fieldName="dateTime"
+                register={register}
+                setValue={setValue}
+                showLabelAboveFormField
+                ampm={false}
+                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>

@@ -22,7 +22,7 @@ type FormSchema = {
   dateTime: Dayjs;
 }
 
-export function DateTimePickersForm() {
+export default function DateTimePickersForm() {
   const {
     register,
     setValue,

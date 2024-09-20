@@ -1,3 +1,8 @@
+/**
+ *	Dark mode with MUI.
+ *  https://mui.com/material-ui/customization/dark-mode/
+ */
+
 export const LightThemePalette = {
   primary: { main: '#007aba' },
   secondary: { main: '#ba68c9' },

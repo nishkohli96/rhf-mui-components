@@ -1,0 +1,25 @@
+name: Node.js CI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  check:
+    name: Prepare release...
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.10.0'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install Dependencies
+        run: yarn --frozen-lockfile
+      
+      - name: release @nish1896/rhf-mui-components
+        run: yarn workspace @nish1896/rhf-mui-components publish:manual
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
