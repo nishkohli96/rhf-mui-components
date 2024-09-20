@@ -1,13 +1,14 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "publish:manual": "npm publish --provenance --access public"
+    "publish:manual": "npm publish --access public",
+    "publish:auto": "npm publish --provenance --access public"
   },
 	"peerDependencies": {
 		"@mui/icons-material": ">=5",
@@ -22,7 +23,11 @@
     "rhf-mui",
     "reusable rhf components",
     "material-ui",
-    "mui"
+    "mui",
+    "react form",
+    "@hookform",
+    "@hookform/resolvers",
+    "reusable form components"
   ],
   "homepage": "https://github.com/nishkohli96/eslint-config#readme",
   "repository": {

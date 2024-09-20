@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Reusable material-ui and other third party components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
   "private": true,
@@ -14,7 +14,7 @@
     "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
     "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
     "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build",
-    "pkg:publish": "yarn workspace @nish1896/rhf-mui-components publish:manual"
+    "pkg:publish": "yarn workspace @nish1896/rhf-mui-components publish:auto"
   },
   "keywords": [
     "@nish1896",

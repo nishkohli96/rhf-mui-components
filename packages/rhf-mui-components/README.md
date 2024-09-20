@@ -4,35 +4,35 @@
 ![NPM Downloads](https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components)
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
 
-**A suite of reusable Material UI and other third-party components for react-hook-form to minimize your time and effort in creating beautiful forms.**
+**A suite of reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
 You can read the full documentation [here](https://rhf-mui-components.netlify.app/).
 
-To explore and interact with the form components, visit the[examples website](https://rhf-mui-components-examples.netlify.app/).
+To explore and interact with the form components, visit the [examples website](https://rhf-mui-components-examples.netlify.app/).
 
 ## Form Components List
 
 - Inputs
-	- [TextField](https://rhf-mui-components.netlify.app/components/inputs/RHFTextField)
-	- [PasswordInput](https://rhf-mui-components.netlify.app/components/inputs/RHFPasswordInput)
+  - [TextField](https://rhf-mui-components.netlify.app/components/inputs/RHFTextField)
+  - [PasswordInput](https://rhf-mui-components.netlify.app/components/inputs/RHFPasswordInput)
 - Dropdowns
-	- [Select](https://rhf-mui-components.netlify.app/components/select/RHFSelect)
-	- [Native Select](https://rhf-mui-components.netlify.app/components/select/RHFNativeSelect)
+  - [Select](https://rhf-mui-components.netlify.app/components/select/RHFSelect)
+  - [Native Select](https://rhf-mui-components.netlify.app/components/select/RHFNativeSelect)
 - Checkbox
-	- [Single](https://rhf-mui-components.netlify.app/components/checkbox/RHFCheckbox)
-	- [Checkbox Group](https://rhf-mui-components.netlify.app/components/checkbox/RHFCheckboxGroup)
+  - [Single](https://rhf-mui-components.netlify.app/components/checkbox/RHFCheckbox)
+  - [Checkbox Group](https://rhf-mui-components.netlify.app/components/checkbox/RHFCheckboxGroup)
 - Input Controls
-	- [Radio Group](https://rhf-mui-components.netlify.app/components/input-controls/RHFRadioGroup)
-	- [Rating](https://rhf-mui-components.netlify.app/components/input-controls/RHFRating)
-	- [Slider](https://rhf-mui-components.netlify.app/components/input-controls/RHFSlider)
-	- [Switch](https://rhf-mui-components.netlify.app/components/input-controls/RHFSwitch)
+  - [Radio Group](https://rhf-mui-components.netlify.app/components/input-controls/RHFRadioGroup)
+  - [Rating](https://rhf-mui-components.netlify.app/components/input-controls/RHFRating)
+  - [Slider](https://rhf-mui-components.netlify.app/components/input-controls/RHFSlider)
+  - [Switch](https://rhf-mui-components.netlify.app/components/input-controls/RHFSwitch)
 - Pickers
-	- [Date](https://rhf-mui-components.netlify.app/components/pickers/RHFDatePicker)
-	- [Time](https://rhf-mui-components.netlify.app/components/pickers/RHFTimePicker)
-	- [DateTime](https://rhf-mui-components.netlify.app/components/pickers/RHFDateTimePicker)
+  - [Date](https://rhf-mui-components.netlify.app/components/pickers/RHFDatePicker)
+  - [Time](https://rhf-mui-components.netlify.app/components/pickers/RHFTimePicker)
+  - [DateTime](https://rhf-mui-components.netlify.app/components/pickers/RHFDateTimePicker)
 - Miscellaneous
-	- [Color Picker](https://rhf-mui-components.netlify.app/components/miscellaneous/RHFColorPicker)
-	- [Rich Text Editor](https://rhf-mui-components.netlify.app/components/miscellaneous/RHFRichTextEditor)
+  - [Color Picker](https://rhf-mui-components.netlify.app/components/miscellaneous/RHFColorPicker)
+  - [Rich Text Editor](https://rhf-mui-components.netlify.app/components/miscellaneous/RHFRichTextEditor)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 

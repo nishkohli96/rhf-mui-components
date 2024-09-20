@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-docs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
