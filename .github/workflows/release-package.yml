@@ -1,13 +1,15 @@
-name: Node.js CI
+name: Publish Package
 
 on:
   release:
     types: [published]
 
 jobs:
-  check:
-    name: Prepare release...
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -20,6 +22,6 @@ jobs:
         run: yarn --frozen-lockfile
       
       - name: release @nish1896/rhf-mui-components
-        run: yarn workspace @nish1896/rhf-mui-components publish:manual
+        run: yarn pkg:publish
         env: 
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -10,10 +10,11 @@
     "lib:lint": "eslint --fix ./packages/rhf-mui-components",
     "demo": "yarn workspace @nish1896/rhf-mui-components-examples dev",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-components-examples lint",
-    "demo:build": "yarn workspace @nish1896/rhf-mui-components-examples build",
+    "demo:build": "yarn lib:build && yarn workspace @nish1896/rhf-mui-components-examples build",
     "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
     "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
-    "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build"
+    "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build",
+    "pkg:publish": "yarn workspace @nish1896/rhf-mui-components publish:manual"
   },
   "keywords": [
     "@nish1896",
