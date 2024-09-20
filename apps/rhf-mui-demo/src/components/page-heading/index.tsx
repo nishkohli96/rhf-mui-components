@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import Typography from '@mui/material/Typography';
 import MuiLink, { LinkProps } from '@mui/material/Link';
@@ -9,7 +9,7 @@ type PageHeadingProps = {
 
 export function PageHeading({ title }: PageHeadingProps) {
   return (
-    <Typography variant="h4" color="primary" sx={{ mb: '30px' }}>
+    <Typography variant="h4" color="primary" sx={{ mb: '20px' }}>
       {title}
     </Typography>
   );
@@ -22,7 +22,7 @@ export function SubHeading({ title }: PageHeadingProps) {
       sx={{
         mb: '10px',
         fontWeight: 400,
-        color: '#006600' // theme => theme.palette.info.main
+        color: theme => theme.palette.warning.main
       }}
     >
       {title}

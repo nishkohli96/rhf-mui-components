@@ -26,22 +26,19 @@ export default function Home() {
             height={50}
           />
           <Image
-            alt="NPM Version"
-            src="https://img.shields.io/npm/dt/@nish1896/eslint-config"
+            alt="NPM Downloads"
+            src="https://img.shields.io/npm/dt/@nish1896/rhf-mui-components"
             style={{ display: 'inline-block', marginRight: '10px' }}
             width={100}
             height={50}
           />
-          {/* <img
-            alt="NPM Downloads"
-            src="https://img.shields.io/npm/dt/@nish1896/rhf-mui-components"
-            style={{ display: 'inline-block', marginRight: '10px' }}
-          />
-          <img
+          <Image
             alt="GitHub Release Date"
             src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components"
             style={{ display: 'inline-block', marginRight: '10px' }}
-          /> */}
+            width={100}
+            height={50}
+          />
         </Box>
 
         <Typography variant="h6" color="steelblue">
