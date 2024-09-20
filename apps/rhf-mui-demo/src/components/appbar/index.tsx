@@ -34,10 +34,10 @@ export function AppBar() {
           >
             <Typography variant="h6">RHF-Mui Components</Typography>
           </Box>
-            {/* <IconButton aria-label="Toggle Theme">
+          {/* <IconButton aria-label="Toggle Theme">
               <DarkModeIcon />
             </IconButton> */}
-            <ThemeChangeButton />
+          <ThemeChangeButton />
         </Toolbar>
       </MuiAppBar>
     </Box>
