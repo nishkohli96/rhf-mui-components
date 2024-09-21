@@ -1,14 +1,19 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist/",
     "README.md"
   ],
+  "exports": {
+    "./config": "./dist/config",
+    "./misc": "./dist/miscellaneous",
+    "./mui": "./dist/mui",
+    "./mui-pickers": "./dist/mui-pickers",
+    "./types": "./dist/types"
+  },
   "scripts": {
     "build": "tsc --build",
     "prepublishOnly": "npm run build",
@@ -16,12 +21,8 @@
     "publish:auto": "npm publish --provenance --access public"
   },
 	"peerDependencies": {
-    "@ckeditor/ckeditor5-react": ">=9",
 		"@mui/icons-material": ">=5",
     "@mui/material": ">=5",
-    "@mui/x-date-pickers": ">=7",
-    "ckeditor5": ">=43",
-    "react-color-palette": ">=7",
 		"react-hook-form": ">=7"
 	},
   "keywords": [
