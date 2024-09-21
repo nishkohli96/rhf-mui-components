@@ -63,7 +63,6 @@ export default function RHFDateTimePicker<T extends FieldValues>({
         formLabelProps={formLabelProps}
         defaultFormLabelSx={defaultFormLabelSx}
       />
-      {/* @ts-ignore */}
       <LocalizationProvider dateAdapter={dateAdapter}>
         <MuiDateTimePicker
           onChange={(newValue) => {

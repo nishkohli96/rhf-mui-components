@@ -1,5 +1,4 @@
 import { RHFMuiConfig } from '../types';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const DefaultStyles = Object.freeze({
 	margin: {
@@ -15,6 +14,5 @@ export const DefaultRHFMuiConfig: RHFMuiConfig = {
 	defaultFormHelperTextSx: { 
 		mt: DefaultStyles.margin.top,
 		ml: DefaultStyles.margin.left
-	},
-	dateAdapter: AdapterDayjs
+	}
 }
