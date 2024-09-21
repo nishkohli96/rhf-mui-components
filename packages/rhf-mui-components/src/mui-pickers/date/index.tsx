@@ -15,7 +15,7 @@ import {
   PickerValidDate
 } from '@mui/x-date-pickers';
 import { FormControl, FormLabel, FormHelperText } from '../../mui/common';
-import { RHFMuiConfigContext } from '../../config';
+import { RHFMuiConfigContext } from '../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../utils';
 
 export type RHFDatePickerProps<T extends FieldValues> = {

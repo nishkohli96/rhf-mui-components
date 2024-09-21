@@ -25,7 +25,7 @@ import {
 } from 'ckeditor5';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 
-export const defaultEditorConfig: EditorConfig = {
+export const DefaultEditorConfig: EditorConfig = {
   plugins: [
     Essentials,
     Undo,

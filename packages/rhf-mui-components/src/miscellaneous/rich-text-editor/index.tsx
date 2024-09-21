@@ -7,9 +7,9 @@ import { ClassicEditor } from 'ckeditor5';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '../../mui/common';
-import { RHFMuiConfigContext } from '../../config';
+import { RHFMuiConfigContext } from '../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../utils';
-import { defaultEditorConfig } from './config';
+import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
 
 export type RHFRichTextEditorProps<T extends FieldValues> = {
@@ -26,6 +26,8 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
+
+export { DefaultEditorConfig };
 
 export default function RHFRichTextEditor<T extends FieldValues>({
   fieldName,
@@ -64,7 +66,7 @@ export default function RHFRichTextEditor<T extends FieldValues>({
         editor={ClassicEditor}
         data={value}
         onChange={handleChange}
-				config={editorConfig ?? defaultEditorConfig}
+				config={editorConfig ?? DefaultEditorConfig}
         disabled={disabled}
       />
       <FormHelperText

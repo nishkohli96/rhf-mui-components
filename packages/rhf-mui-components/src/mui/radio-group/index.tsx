@@ -6,7 +6,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config';
+import { RHFMuiConfigContext } from '../../config/ConfigProvider';
 import { OptionType } from '../../types';
 import {
   fieldNameToLabel,

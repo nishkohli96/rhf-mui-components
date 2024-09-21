@@ -7,7 +7,7 @@ import {
 } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
-import { RHFMuiConfigContext } from '../../config';
+import { RHFMuiConfigContext } from '../../config/ConfigProvider';
 import { fieldNameToLabel } from '../../utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {

@@ -14,7 +14,7 @@ import MuiSelect, {
   SelectProps,
 } from '@mui/material/Select';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config';
+import { RHFMuiConfigContext } from '../../config/ConfigProvider';
 import { OptionType } from '../../types';
 import {
   fieldNameToLabel,
