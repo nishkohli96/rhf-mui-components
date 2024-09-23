@@ -26,10 +26,10 @@ yarn add react-color-palette
 import RHFColorPicker, { RHFColorPickerProps } from '@nish1896/rhf-mui-components/misc/color-picker';
 ```
 
-The color-picker accepts `hex`, `rgb`, `hsl` or text format, such as:
-- `#561ecb`
-- `rgb(86 30 203)`
-- `hsl(120 100% 50% / .5)`
+The color-picker accepts string value in `hex`, `rgb`, `hsl` or text format, such as:
+- `#00ffff`
+- `rgb(0 255 255)`
+- `hsl(180 100% 100% / 1)`
 - `cyan`
 
 If an invalid value is provided, the default color `#000000`(black) will be selected.
@@ -47,6 +47,27 @@ The `onValueChange` prop is mandatory and allows you to choose the format
 of the selected color value based on your preference. The returned value
 need to be passed to the `setValue` function to update the form state.
 :::
+
+The returned value from `onValueChange` is an object with the equivalent
+hex, rgb and hsv values.
+
+```js
+{
+  hex: '#00ffff',
+  hsv: {
+    a: 1,
+    h: 180,
+    s: 100,
+    v: 100
+  },
+  rgb: {
+    a: 1,
+    b: 255,
+    g: 255,
+    r: 0
+  }
+}
+```
 
 ### Examples
 - [RHFColorPicker](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)

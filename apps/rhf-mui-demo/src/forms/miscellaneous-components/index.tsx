@@ -27,7 +27,7 @@ export default function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      favouriteColor: '#007ABA'
+      favouriteColor:'hsl(201 100% 73% / 1)'
     }
   });
 
@@ -57,7 +57,10 @@ export default function MiscellaneousComponentsForm() {
             <RHFColorPicker
               fieldName="color"
               value={getValues('favouriteColor') ?? ''}
-              onValueChange={newColor => setValue('favouriteColor', newColor.hex)}
+              onValueChange={newColor => {
+                console.log('newColor: ', newColor);
+                setValue('favouriteColor', newColor.hex)
+              }}
             />
           </Grid>
           <Grid item xs={12}>
