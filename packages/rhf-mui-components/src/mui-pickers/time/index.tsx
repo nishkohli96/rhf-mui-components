@@ -47,8 +47,11 @@ export default function RHFTimePicker<T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTimePickerProps<T>) {
-  const { defaultFormHelperTextSx, defaultFormLabelSx, dateAdapter } =
-    useContext(RHFMuiConfigContext);
+  const { 
+    defaultFormHelperTextSx,
+    defaultFormLabelSx,
+    dateAdapter 
+  } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 

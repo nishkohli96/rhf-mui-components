@@ -10,7 +10,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import RHFColorPicker from '@nish1896/rhf-mui-component/misc/color-picker';
+import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 
 type FormSchema = {

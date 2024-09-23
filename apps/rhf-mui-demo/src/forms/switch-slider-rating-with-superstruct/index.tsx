@@ -4,7 +4,9 @@ import { useForm } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import { RHFRating, RHFSlider, RHFSwitch } from '@nish1896/rhf-mui-components';
+import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
+import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
+import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
 import { FormSchema, formSchema } from './validation';
 import {
   FormContainer,

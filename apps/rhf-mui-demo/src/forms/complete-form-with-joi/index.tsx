@@ -4,24 +4,21 @@ import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
-import {
-  RHFCheckbox,
-  RHFCheckboxGroup,
-  RHFNativeSelect,
-  RHFPasswordInput,
-  RHFRadioGroup,
-  RHFRating,
-  RHFSelect,
-  RHFSlider,
-  RHFSwitch,
-  RHFTextField,
-} from '@nish1896/rhf-mui-components/mui';
-import { 
-  RHFDatePicker,
-  RHFDateTimePicker,
-  RHFTimePicker
-} from '@nish1896/rhf-mui-components/mui-pickers';
-import { RHFColorPicker, RHFRichTextEditor } from '@nish1896/rhf-mui-components/misc';
+import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
+import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
+import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
+import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
+import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
+import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
+import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
+import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
+import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
+import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
+import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
+import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
+import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
   FormContainer,
   GridContainer,
@@ -43,15 +40,15 @@ const initialValues: Person = {
   favouriteSport: '',
   agreeTnC: true,
   colors: null,
+  countries: null,
+  gender: null,
+  country: '',
+  darkTheme: true,
+  age: 25,
+  rating: null,
   dob: null,
   time: null,
   dateTime: null,
-  age: 25,
-  gender: null,
-  country: '',
-  countries: null,
-  darkTheme: true,
-  rating: null,
   bgColor: '#007ABA',
   feedback: ''
 };

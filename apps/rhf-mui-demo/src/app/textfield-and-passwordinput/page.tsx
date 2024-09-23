@@ -6,6 +6,8 @@ import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 const title = 'TextField & PasswordInput';
 const description = 'Form utilizing RHFTextField and RHFPasswordInput with validation managed via react-hook-form\'s register options.';
 
+const ClientForm = dynamic(() => import('@/forms/inputs-with-register-options'), { ssr: false });
+
 export const metadata: Metadata = {
   title,
   description
@@ -25,7 +27,7 @@ export default function TextFieldPage() {
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
-      {/* <ClientForm /> */}
+      <ClientForm />
       <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
     </ContentContainer>
