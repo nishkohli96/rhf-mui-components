@@ -12,16 +12,31 @@ import { fieldNameToLabel } from '../../utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
 
+/**
+ * CK Editor Props ref -
+ * https://ckeditor.com/docs/ckeditor5/latest/getting-started/legacy/legacy-integrations/react.html#context-feature-properties
+ */
+
+type ErrorDetails = {
+  phase: 'initialization' | 'runtime';
+  willContextRestart?: boolean;
+}
+
 export type RHFRichTextEditorProps<T extends FieldValues> = {
   fieldName: Path<T>;
   setValue: UseFormSetValue<T>;
+  id?: string;
   editorConfig?: EditorConfig;
+  onReady?: (editor: ClassicEditor) => void;
+  onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   value?: string; 
   onValueChange?: (event: EventInfo, newValue: string, editor: ClassicEditor) => void;
+  onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   disabled?: boolean;
   label?: ReactNode;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
+  onError?: (error: Error, details: ErrorDetails) => void;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
@@ -32,13 +47,18 @@ export { DefaultEditorConfig };
 export default function RHFRichTextEditor<T extends FieldValues>({
   fieldName,
   setValue,
+  id,
   editorConfig,
+  onReady,
+  onFocus,
   value,
   onValueChange,
+  onBlur,
   disabled,
   label,
   formLabelProps,
   helperText,
+  onError,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
@@ -63,10 +83,15 @@ export default function RHFRichTextEditor<T extends FieldValues>({
         defaultFormLabelSx={defaultFormLabelSx}
       />
       <CKEditor
+        id={id}
         editor={ClassicEditor}
+				config={editorConfig ?? DefaultEditorConfig}
         data={value}
         onChange={handleChange}
-				config={editorConfig ?? DefaultEditorConfig}
+        onReady={onReady}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onError={onError}
         disabled={disabled}
       />
       <FormHelperText

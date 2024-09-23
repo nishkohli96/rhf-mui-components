@@ -13,7 +13,8 @@ import { RHFRichTextEditorPropsTable } from '@site/src/page-components';
 content creation within forms. It allows users to format text with features 
 like _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_, 
 and more, making it suitable for blog posts, comments, or any content 
-requiring rich formatting. This component is built on top of [CkEditor](https://ckeditor.com/docs/ckeditor5/latest/index.html),, 
+requiring rich formatting. This component is built on top of 
+[CkEditor](https://ckeditor.com/docs/ckeditor5/latest/index.html),
 a highly customizable editor that supports advanced features like 
 `codeBlocks`, `findAndReplace`, `tables`, and more.
 
@@ -28,7 +29,7 @@ yarn add ckeditor5 @ckeditor/ckeditor5-react
 ## Usage
 
 ```js
-import RHFRichTextEditor, { RHFRichTextEditorProps } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 ```
 
 ```jsx
@@ -40,7 +41,8 @@ import RHFRichTextEditor, { RHFRichTextEditorProps } from '@nish1896/rhf-mui-com
 ```
 
 To reorder formatting options or add advanced features, you can provide
-a custom configuration via the `editorConfig` prop. You can check the 
+a custom configuration via the `editorConfig` prop, or override the existing
+configuration by modifying the `DefaultEditorConfig` object. You can check the 
 [default configuration here](https://github.com/nishkohli96/rhf-mui-components/blob/main/packages/rhf-mui-components/src/components/miscellaneous/rich-text-editor/config.ts).
 
 To customize editor theme, check the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
