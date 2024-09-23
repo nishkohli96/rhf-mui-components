@@ -27,7 +27,7 @@ export default function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      favouriteColor:'hsl(201 100% 73% / 1)'
+      favouriteColor: 'hsl(201 100% 73% / 1)'
     }
   });
 
@@ -59,7 +59,7 @@ export default function MiscellaneousComponentsForm() {
               value={getValues('favouriteColor') ?? ''}
               onValueChange={newColor => {
                 console.log('newColor: ', newColor);
-                setValue('favouriteColor', newColor.hex)
+                setValue('favouriteColor', newColor.hex);
               }}
             />
           </Grid>

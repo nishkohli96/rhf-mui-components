@@ -38,6 +38,7 @@
     "@docusaurus/module-type-aliases": "3.5.2",
     "@docusaurus/tsconfig": "3.5.2",
     "@docusaurus/types": "3.5.2",
+    "@nish1896/eslint-config": "^2.0.5",
     "eslint": "^8",
     "typescript": "~5.2.2"
   },
