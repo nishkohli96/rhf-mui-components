@@ -23,6 +23,7 @@
     "dist/",
     "README.md"
   ],
+  "types": "./dist/types/index.d.ts",
   "exports": {
     "./config": "./dist/config/index.js",
     "./misc": "./dist/miscellaneous/index.js",
@@ -42,8 +43,7 @@
     "./mui-pickers": "./dist/mui-pickers/index.js",
     "./mui-pickers/date": "./dist/mui-pickers/date/index.js",
     "./mui-pickers/date-time": "./dist/mui-pickers/date-time/index.js",
-    "./mui-pickers/time": "./dist/mui-pickers/time/index.js",
-    "./types": "./dist/types/index.js"
+    "./mui-pickers/time": "./dist/mui-pickers/time/index.js"
   },
   "keywords": [
     "@nish1896",

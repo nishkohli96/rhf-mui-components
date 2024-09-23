@@ -1,6 +1,0 @@
-position: 1
-label: Inputs
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage, Api and examples for RHFTextField & RHFPasswordInput.

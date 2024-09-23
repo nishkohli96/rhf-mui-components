@@ -1,0 +1,64 @@
+---
+sidebar_position: 2
+sidebar_label: Getting Started
+title: Introduction
+description:  Instructions on installation and usage of the form components in each module of the @nish1896/rhf-mui-components package.
+---
+
+import IntroductionPageTable from '@site/src/page-components/introduction';
+
+# Getting Started
+
+To minimize the application bundle size and allow developers to install 
+only the necessary packages, the package is divided into the following 
+independent modules:
+
+```
+📁@nish1896/rhf-mui-components
+  └── config
+  └── 📁 mui
+      └── RHFTextField
+      └── RHFPasswordInput
+      └── RHFSelect
+      └── RHFNativeSelect
+      └── RHFCheckbox
+      └── RHFCheckboxGroup
+      └── RHFRadioGroup
+      └── RHFSlider
+      └── RHFSwitch
+      └── RHFRating
+  └── 📁 mui-pickers
+      └── RHFDatePicker
+      └── RHFTimePicker
+      └── RHFDateTimePicker
+  └── 📁 misc
+      └── RHFColorPicker
+      └── RHFRichTextEditor
+```
+
+- [Config](./customization) - Provides a Context Provider to set default styles 
+for all components or configure the `dateAdapter` for date and time pickers.
+- [Mui](./components/mui) - Includes core Material-UI components such as TextField, 
+Select, and others.
+- [Mui-Pickers](./components/mui-pickers) - Contains Material-UI date and 
+time picker components.
+- [Misc](./components/misc) -  Features external form components, such as the 
+rich text editor, that are not part of Material-UI.
+
+To minimize the bundle size, this package includes both named and default exports 
+within each module. Similar to Material-UI, developers are encouraged to use 
+default import syntax to [reduce bundle size](https://mui.com/material-ui/guides/minimizing-bundle-size/).
+
+The type for each component can also be imported to modify or customize an 
+existing component.  
+
+## Working
+
+Each component requires a set of common props, detailed in the table below.
+Some props might be specific to a component, say [DatePicker](../components/mui-pickers/RHFDatePicker#api), 
+and can be viewed in the documentation page for the respective component.
+
+_You can also import the interface of each component, like `RHFDatePickerProps`
+to extend an existing component or create another reusable component from it._
+
+<IntroductionPageTable />

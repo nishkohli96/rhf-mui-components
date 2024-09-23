@@ -1,6 +1,0 @@
-position: 4
-label: Input Controls
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage, Api and examples for RHFRadioGroup, RHFRating, RHFSwitch & RHFSlider.

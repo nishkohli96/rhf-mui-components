@@ -20,7 +20,7 @@ function HomepageHeader() {
         <p className="hero__subtitle">
           {siteConfig.tagline}
         </p>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mt: '10px' }}>
           <Grid
             item
             xs={6}
