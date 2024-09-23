@@ -8,4 +8,4 @@
 
 To view the documentation for this package, visit [https://rhf-mui-components.netlify.app/](https://rhf-mui-components.netlify.app/). 
 
-To explore and interact with the form components, visit the[https://rhf-mui-components-examples.netlify.app/](https://rhf-mui-components-examples.netlify.app/).
+To explore and interact with the form components, visit the [https://rhf-mui-components-examples.netlify.app/](https://rhf-mui-components-examples.netlify.app/).
