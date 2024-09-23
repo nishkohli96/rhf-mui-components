@@ -3,11 +3,10 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import {
   RHFCheckbox,
   RHFCheckboxGroup,
-  RHFDatePicker,
-  RHFDateTimePicker,
   RHFNativeSelect,
   RHFPasswordInput,
   RHFRadioGroup,
@@ -16,11 +15,13 @@ import {
   RHFSlider,
   RHFSwitch,
   RHFTextField,
-  RHFTimePicker,
-  RHFColorPicker,
-  RHFRichTextEditor,
-  ConfigProvider
-} from '@nish1896/rhf-mui-components';
+} from '@nish1896/rhf-mui-components/mui';
+import { 
+  RHFDatePicker,
+  RHFDateTimePicker,
+  RHFTimePicker
+} from '@nish1896/rhf-mui-components/mui-pickers';
+import { RHFColorPicker, RHFRichTextEditor } from '@nish1896/rhf-mui-components/misc';
 import {
   FormContainer,
   GridContainer,

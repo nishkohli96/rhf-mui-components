@@ -2,11 +2,9 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
-import {
-  RHFDatePicker,
-  RHFTimePicker,
-  RHFDateTimePicker,
-} from '@nish1896/rhf-mui-components';
+import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
+import RHFTimePicker from '@nish1896/rhf-mui-component/mui-pickers/time';
+import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 import {
   FormContainer,
   RenderFormState,

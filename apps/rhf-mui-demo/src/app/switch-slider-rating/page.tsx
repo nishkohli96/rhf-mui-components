@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/switch-slider-rating-with-superstruct'), { ssr: false });
+// const ClientForm = dynamic(() => import('@/forms/switch-slider-rating-with-superstruct'), { ssr: false });
 
 const title = 'Switch, Slider & Rating with Superstruct validation';
 const description = 'Form utilizing RHFSwitch, RHFSlider & RHFRating components with validation managed by Superstruct.';
@@ -28,7 +28,7 @@ export default function SwitchSliderRatingFormPage() {
     <ContentContainer>
       <PageHeading title={title} />
       <SubHeading title={description}/>
-      <ClientForm />
+      {/* <ClientForm /> */}
       <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
     </ContentContainer>

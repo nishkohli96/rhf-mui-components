@@ -5,7 +5,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
-import { RHFTextField, RHFPasswordInput } from '@nish1896/rhf-mui-components';
+import RHFTextField from '@nish1896/rhf-mui-component/mui/textfield';
+import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import {
   FormContainer,
   GridContainer,

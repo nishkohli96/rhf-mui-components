@@ -1,19 +1,12 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "1.0.5",
+  "version": "1.0.2",
   "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
   "files": [
     "dist/",
     "README.md"
   ],
-  "exports": {
-    "./config": "./dist/config",
-    "./misc": "./dist/miscellaneous",
-    "./mui": "./dist/mui",
-    "./mui-pickers": "./dist/mui-pickers",
-    "./types": "./dist/types"
-  },
   "scripts": {
     "build": "tsc --build",
     "prepublishOnly": "npm run build",
@@ -25,6 +18,28 @@
     "@mui/material": ">=5",
 		"react-hook-form": ">=7"
 	},
+  "exports": {
+    "./config": "./dist/config/index.js",
+    "./misc": "./dist/miscellaneous/index.js",
+    "./misc/color-picker": "./dist/miscellaneous/color-picker/index.js",
+    "./misc/rich-text-editor": "./dist/miscellaneous/rich-text-editor/index.js",
+    "./mui": "./dist/mui/index.js",
+    "./mui/checkbox": "./dist/mui/checkbox/index.js",
+    "./mui/checkbox-group": "./dist/mui/checkbox-group/index.js",
+    "./mui/native-select": "./dist/mui/native-select/index.js",
+    "./mui/password-input": "./dist/mui/password-input/index.js",
+    "./mui/radio-group": "./dist/mui/radio-group/index.js",
+    "./mui/rating": "./dist/mui/rating/index.js",
+    "./mui/select": "./dist/mui/select/index.js",
+    "./mui/slider": "./dist/mui/slider/index.js",
+    "./mui/switch": "./dist/mui/switch/index.js",
+    "./mui/textfield": "./dist/mui/textfield/index.js",
+    "./mui-pickers": "./dist/mui-pickers/index.js",
+    "./mui-pickers/date": "./dist/mui-pickers/date/index.js",
+    "./mui-pickers/date-time": "./dist/mui-pickers/date-time/index.js",
+    "./mui-pickers/time": "./dist/mui-pickers/time/index.js",
+    "./types": "./dist/types/index.js"
+  },
   "keywords": [
     "@nish1896",
     "@nish1896/rhf-mui-components",
@@ -34,6 +49,8 @@
     "material-ui",
     "mui",
     "react form",
+    "form components",
+    "material ui",
     "@hookform",
     "@hookform/resolvers",
     "reusable form components"
