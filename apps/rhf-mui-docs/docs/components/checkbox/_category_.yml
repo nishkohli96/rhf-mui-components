@@ -1,6 +1,0 @@
-position: 3
-label: Checkbox
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage, Api and examples for RHFCheckbox & RHFCheckboxGroup.

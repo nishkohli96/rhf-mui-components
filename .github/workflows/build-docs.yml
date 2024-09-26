@@ -1,4 +1,4 @@
-name: Build Docusaurus Site
+name: Build Docs Website
 on: [push]
 jobs:
   build-docs:

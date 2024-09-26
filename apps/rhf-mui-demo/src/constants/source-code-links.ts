@@ -31,8 +31,12 @@ export const SourceCodeLinks: Record<string, Page> = {
     href: `${commonRoute}/miscellaneous-components/index.tsx`
   },
   customization: {
-    title: 'Styled Form with reusable component',
+    title: 'Styled Form with Reusable TextField',
     href: `${commonRoute}/styled-form-with-reusable-component/index.tsx`
+  },
+  styledTextField: {
+    title: 'Reusable TextField',
+    href: `${commonRoute}/styled-form-with-reusable-component/StyledTextField.tsx`
   },
   completeForm: {
     title: 'Complete Form with Joi',

@@ -1,0 +1,39 @@
+---
+sidebar_position: 1
+sidebar_label: Date
+title: RHFDatePicker
+description: Integrate RHFDatePicker with react-hook-form to create customizable date-picking inputs. Supports flexible props for enhanced form functionality. Explore examples and API details for seamless integration.
+---
+
+import { RHFDatePickerPropsTable } from '@site/src/page-components';
+
+# RHFDatePicker
+
+`RHFDatePicker` extends the [DatePicker](https://mui.com/x/react-date-pickers/date-picker/)
+component to let users select a date and can be customized in a similar way.
+
+### Usage
+
+```js
+import RHFDatePicker, { RHFDatePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/date';
+```
+
+```jsx
+<RHFDatePicker
+  fieldName="dateOfBirth"
+  register={register}
+  setValue={setValue}
+  errorMessage={errors?.dateOfBirth?.message}
+/>
+```
+
+### Examples
+- [RHFDatePicker](https://rhf-mui-components-examples.netlify.app/date-time-pickers)
+- [DatePicker](https://mui.com/x/react-date-pickers/date-picker/)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+`RHFDatePickerProps` extends [DatePickerProps](https://mui.com/x/api/date-pickers/date-picker/) 
+and accepts the following additional props:
+
+<RHFDatePickerPropsTable />

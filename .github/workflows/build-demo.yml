@@ -12,9 +12,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build Package
-        run: yarn lib:build
-      - name: Build Examples
+      - name: Setup App
+        run: sh setup.sh
+      - name: Build Next App
         run: yarn demo:build

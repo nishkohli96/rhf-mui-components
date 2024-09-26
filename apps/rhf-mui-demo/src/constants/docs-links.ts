@@ -4,62 +4,62 @@ import { ENV_VARS } from './env-vars';
 export const DocsLinks: Record<string, PageInfo> = {
   rhfTextField: {
     title: 'RHFTextField',
-    href: `${ENV_VARS.DOCS_URL}components/inputs/RHFTextField`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFTextField`
   },
   rhfPasswordField: {
     title: 'RHFPasswordInput',
-    href: `${ENV_VARS.DOCS_URL}components/inputs/RHFPasswordInput`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFPasswordInput`
   },
   rhfSelect: {
     title: 'RHFSelect',
-    href: `${ENV_VARS.DOCS_URL}components/select/RHFSelect`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFSelect`
   },
   rhfNativeSelect: {
     title: 'RHFNativeSelect',
-    href: `${ENV_VARS.DOCS_URL}components/select/RHFNativeSelect`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFNativeSelect`
   },
   rhfCheckbox: {
     title: 'RHFCheckbox',
-    href: `${ENV_VARS.DOCS_URL}components/checkbox/RHFCheckbox`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCheckbox`
   },
   rhfCheckboxGroup: {
     title: 'RHFCheckboxGroup',
-    href: `${ENV_VARS.DOCS_URL}components/checkbox/RHFCheckboxGroup`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCheckboxGroup`
   },
   rhfSlider: {
     title: 'RHFSlider',
-    href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFSlider`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFSlider`
   },
   rhfSwitch: {
     title: 'RHFSwitch',
-    href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFSwitch`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFSwitch`
   },
   rhfRating: {
     title: 'RHFRating',
-    href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFRating`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFRating`
   },
   rhfRadioGroup: {
     title: 'RHFRadioGroup',
-    href: `${ENV_VARS.DOCS_URL}components/input-controls/RHFRadioGroup`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFRadioGroup`
   },
   rhfDatePicker: {
     title: 'RHFDatePicker',
-    href: `${ENV_VARS.DOCS_URL}components/pickers/RHFDatePicker`
+    href: `${ENV_VARS.DOCS_URL}components/mui-pickers/RHFDatePicker`
   },
   rhfTimePicker: {
     title: 'RHFTimePicker',
-    href: `${ENV_VARS.DOCS_URL}components/pickers/RHFTimePicker`
+    href: `${ENV_VARS.DOCS_URL}components/mui-pickers/RHFTimePicker`
   },
   rhfDateTimePicker: {
     title: 'RHFDateTimePicker',
-    href: `${ENV_VARS.DOCS_URL}components/pickers/RHFDateTimePicker`
+    href: `${ENV_VARS.DOCS_URL}components/mui-pickers/RHFDateTimePicker`
   },
   rhfColorPicker: {
     title: 'RHFColorPicker',
-    href: `${ENV_VARS.DOCS_URL}components/miscellaneous/RHFColorPicker`
+    href: `${ENV_VARS.DOCS_URL}components/misc/RHFColorPicker`
   },
   rhfRichTextEditor: {
     title: 'RHFRichTextEditor',
-    href: `${ENV_VARS.DOCS_URL}components/miscellaneous/RHFRichTextEditor`
+    href: `${ENV_VARS.DOCS_URL}components/misc/RHFRichTextEditor`
   }
 };

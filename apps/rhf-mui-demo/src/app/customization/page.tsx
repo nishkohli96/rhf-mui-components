@@ -21,6 +21,7 @@ export default function CustomizationPage() {
   ];
   const codeLinks = [
     SourceCodeLinks.customization,
+    SourceCodeLinks.styledTextField,
     CodeSandboxLinks.customization
   ];
   return (

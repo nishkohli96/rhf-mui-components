@@ -55,19 +55,19 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   formLabelProps: {
     name: 'formLabelProps',
-    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
     hasLinkInType: true
   },
   formControlLabelProps: {
     name: 'formControlLabelProps',
-    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
+    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
   },
   formHelperTextProps: {
     name: 'formHelperTextProps',
-    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider component](/customization).`,
+    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
   },
@@ -208,5 +208,30 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'A Configuration object for CkEditor to customize formatting controls and toolbar positioning, as per requirement. Refer to the [toolbar positioning guide](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/toolbar.html) for more details.',
     type: '[EditorConfig](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html)',
     hasLinkInType: true
+  },
+  id_Rte: {
+    name: 'id',
+    description: 'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration.',
+    type: 'string'
+  },
+  onReady_Rte: {
+    name: 'onReady',
+    description: 'A function called when the context is ready and all editors inside were (re)initialized with the context instance.',
+    type: '(editor: ClassicEditor) => void'
+  },
+  onFocus_Rte: {
+    name: 'onFocus',
+    description: 'Callback function triggered when the editor gains focus.',
+    type: '(event: EventInfo<string, unknown>, editor: ClassicEditor) => void'
+  },
+  onBlur_Rte: {
+    name: 'onBlur',
+    description: 'Callback function triggered when the editor gains loses focus.',
+    type: '(event: EventInfo<string, unknown>, editor: ClassicEditor) => void'
+  },
+  onError_Rte: {
+    name: 'onError',
+    description: 'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
+    type: '(error: Error, details: ErrorDetails) => void'
   }
 });

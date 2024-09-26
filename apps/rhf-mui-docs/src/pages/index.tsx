@@ -20,7 +20,7 @@ function HomepageHeader() {
         <p className="hero__subtitle">
           {siteConfig.tagline}
         </p>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mt: '10px' }}>
           <Grid
             item
             xs={6}
@@ -29,10 +29,10 @@ function HomepageHeader() {
               justifyContent: 'flex-end'
             }}
           >
-            <Link 
-              className="button button--lg" 
+            <Link
+              className="button button--lg"
               to="/introduction"
-              style={{ backgroundColor: '#25C19F'}}
+              style={{ backgroundColor: '#25C19F' }}
             >
               Get Started
             </Link>
@@ -45,10 +45,10 @@ function HomepageHeader() {
               justifyContent: 'flex-start'
             }}
           >
-            <Link 
-              className="button button--lg" 
+            <Link
+              className="button button--lg"
               to="https://rhf-mui-components-examples.netlify.app/"
-              style={{ backgroundColor: '#54C7EC'}}
+              style={{ backgroundColor: '#54C7EC' }}
             >
               View Examples
             </Link>

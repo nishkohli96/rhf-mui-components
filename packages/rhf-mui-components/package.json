@@ -1,20 +1,38 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
+  "repository": {
+    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
+  },
+  "license": "MIT",
   "scripts": {
-    "build": "tsc --build",
-    "publish:manual": "npm publish --provenance --access public"
+    "build": "tsc --build && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/"
   },
 	"peerDependencies": {
 		"@mui/icons-material": ">=5",
     "@mui/material": ">=5",
-    "@mui/x-date-pickers": ">=7",
 		"react-hook-form": ">=7"
 	},
+  "exports": {
+    "./config": "./config/index.js",
+    "./misc": "./misc/index.js",
+    "./misc/*": "./misc/*",
+    "./mui": "./mui/index.js",
+    "./mui/*": "./mui/*",
+    "./mui-pickers": "./mui-pickers/index.js",
+    "./mui-pickers/*": "./mui-pickers/*"
+  },
+  "typesVersions": {
+    "*": {
+      "./mui": ["mui/index.d.ts"],
+      "./mui-pickers": ["mui-pickers/index.d.ts"],
+      "./misc": ["misc/index.d.ts"]
+    }
+  },
+  "types": "./types/index.d.ts",
   "keywords": [
     "@nish1896",
     "@nish1896/rhf-mui-components",
@@ -22,11 +40,12 @@
     "rhf-mui",
     "reusable rhf components",
     "material-ui",
-    "mui"
-  ],
-  "homepage": "https://github.com/nishkohli96/eslint-config#readme",
-  "repository": {
-    "url": "git+https://github.com/nishkohli96/eslint-config.git"
-  },
-  "license": "ISC"
+    "mui",
+    "react form",
+    "form components",
+    "material ui",
+    "@hookform",
+    "@hookform/resolvers",
+    "reusable form components"
+  ]
 }

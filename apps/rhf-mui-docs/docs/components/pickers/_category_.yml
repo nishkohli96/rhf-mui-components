@@ -1,6 +1,0 @@
-position: 5
-label: Pickers
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage, Api and examples for RHFDatePicker, RHFTimePicker & RHFDateTimePicker.

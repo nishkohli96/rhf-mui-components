@@ -1,2 +1,2 @@
-export * from './DefaultConfig';
-export * from './ConfigProvider';
+export { DefaultRHFMuiConfig } from './DefaultConfig';
+export { ConfigProvider } from './ConfigProvider';

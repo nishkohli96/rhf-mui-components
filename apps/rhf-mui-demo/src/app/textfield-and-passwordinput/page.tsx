@@ -3,10 +3,10 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/inputs-with-register-options'), { ssr: false });
-
 const title = 'TextField & PasswordInput';
 const description = 'Form utilizing RHFTextField and RHFPasswordInput with validation managed via react-hook-form\'s register options.';
+
+const ClientForm = dynamic(() => import('@/forms/inputs-with-register-options'), { ssr: false });
 
 export const metadata: Metadata = {
   title,

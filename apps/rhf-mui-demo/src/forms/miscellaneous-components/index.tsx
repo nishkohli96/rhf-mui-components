@@ -10,10 +10,8 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import {
-  RHFColorPicker,
-  RHFRichTextEditor
-} from '@nish1896/rhf-mui-components';
+import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 
 type FormSchema = {
   bio: string;
@@ -29,7 +27,7 @@ export default function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      favouriteColor: '#007ABA'
+      favouriteColor: 'hsl(201 100% 73% / 1)'
     }
   });
 
@@ -59,7 +57,10 @@ export default function MiscellaneousComponentsForm() {
             <RHFColorPicker
               fieldName="color"
               value={getValues('favouriteColor') ?? ''}
-              onValueChange={newColor => setValue('favouriteColor', newColor.hex)}
+              onValueChange={newColor => {
+                console.log('newColor: ', newColor);
+                setValue('favouriteColor', newColor.hex);
+              }}
             />
           </Grid>
           <Grid item xs={12}>
