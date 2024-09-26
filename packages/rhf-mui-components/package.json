@@ -3,9 +3,9 @@
   "version": "1.0.2",
   "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
-  "homepage": "https://github.com/nishkohli96/eslint-config#readme",
+  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
   "repository": {
-    "url": "git+https://github.com/nishkohli96/eslint-config.git"
+    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
   },
   "license": "MIT",
   "scripts": {
@@ -23,35 +23,23 @@
     "dist/",
     "README.md"
   ],
+  "exports": {
+    "./config": "./config/index.js",
+    "./misc": "./misc/index.js",
+    "./misc/*": "./misc/*",
+    "./mui": "./mui/index.js",
+    "./mui/*": "./mui/*",
+    "./mui-pickers": "./mui-pickers/index.js",
+    "./mui-pickers/*": "./mui-pickers/*"
+  },
   "typesVersions": {
     "*": {
-      "./mui": ["dist/mui/index.d.ts"],
-      "./mui-pickers": ["dist/mui-pickers/index.d.ts"],
-      "./misc": ["dist/misc/index.d.ts"]
+      "./mui": ["mui/index.d.ts"],
+      "./mui-pickers": ["mui-pickers/index.d.ts"],
+      "./misc": ["misc/index.d.ts"]
     }
   },
-  "types": "./dist/types/index.d.ts",
-  "exports": {
-    "./config": "./dist/config/index.js",
-    "./misc": "./dist/miscellaneous/index.js",
-    "./misc/color-picker": "./dist/miscellaneous/color-picker/index.js",
-    "./misc/rich-text-editor": "./dist/miscellaneous/rich-text-editor/index.js",
-    "./mui": "./dist/mui/index.js",
-    "./mui/checkbox": "./dist/mui/checkbox/index.js",
-    "./mui/checkbox-group": "./dist/mui/checkbox-group/index.js",
-    "./mui/native-select": "./dist/mui/native-select/index.js",
-    "./mui/password-input": "./dist/mui/password-input/index.js",
-    "./mui/radio-group": "./dist/mui/radio-group/index.js",
-    "./mui/rating": "./dist/mui/rating/index.js",
-    "./mui/select": "./dist/mui/select/index.js",
-    "./mui/slider": "./dist/mui/slider/index.js",
-    "./mui/switch": "./dist/mui/switch/index.js",
-    "./mui/textfield": "./dist/mui/textfield/index.js",
-    "./mui-pickers": "./dist/mui-pickers/index.js",
-    "./mui-pickers/date": "./dist/mui-pickers/date/index.js",
-    "./mui-pickers/date-time": "./dist/mui-pickers/date-time/index.js",
-    "./mui-pickers/time": "./dist/mui-pickers/time/index.js"
-  },
+  "types": "./types/index.d.ts",
   "keywords": [
     "@nish1896",
     "@nish1896/rhf-mui-components",
