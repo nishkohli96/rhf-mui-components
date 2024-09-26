@@ -20,7 +20,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@nish1896/rhf-mui-components/*": ["../../packages/rhf-mui-components/dist/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../rhf-mui-components unused code/next components/features.ts", "../rhf-mui-components unused code/next components/props-desc.tsx", "../rhf-mui-components unused code/next components/types-desc.tsx"],

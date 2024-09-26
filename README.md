@@ -9,3 +9,16 @@
 To view the documentation for this package, visit [https://rhf-mui-components.netlify.app/](https://rhf-mui-components.netlify.app/). 
 
 To explore and interact with the form components, visit the [https://rhf-mui-components-examples.netlify.app/](https://rhf-mui-components-examples.netlify.app/).
+
+## Setup
+Run the setup script.
+
+```bash
+sh setup.sh
+```
+
+This will perform the following tasks:
+
+- Install `node_modules` in workspace root
+- Build the `@nish1896/rhf-mui-components` package.
+- Link this package to `@nish1896/rhf-mui-components-examples` repo to test new and existing components
