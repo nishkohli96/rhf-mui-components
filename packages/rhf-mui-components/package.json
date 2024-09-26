@@ -23,6 +23,13 @@
     "dist/",
     "README.md"
   ],
+  "typesVersions": {
+    "*": {
+      "./mui": ["dist/mui/index.d.ts"],
+      "./mui-pickers": ["dist/mui-pickers/index.d.ts"],
+      "./misc": ["dist/misc/index.d.ts"]
+    }
+  },
   "types": "./dist/types/index.d.ts",
   "exports": {
     "./config": "./dist/config/index.js",
