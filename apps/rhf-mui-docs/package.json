@@ -23,7 +23,6 @@
     "@mdx-js/react": "^3.0.0",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.19",
-    "@nish1896/rhf-mui-components": "*",
     "class-transformer": "^0.5.1",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",

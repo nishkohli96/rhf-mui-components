@@ -9,10 +9,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --build",
-    "prepublishOnly": "npm run build",
-    "publish:manual": "npm publish --access public",
-    "publish:auto": "npm publish --provenance --access public"
+    "build": "tsc --build && cp package.json dist/ && cp README.md dist/",
+    "pkg:publish": "npm run build && npm publish --access public"
   },
 	"peerDependencies": {
 		"@mui/icons-material": ">=5",
@@ -20,8 +18,7 @@
 		"react-hook-form": ">=7"
 	},
   "files": [
-    "dist/",
-    "README.md"
+    "dist/"
   ],
   "exports": {
     "./config": "./config/index.js",
