@@ -27,7 +27,7 @@ coverage
 *.log
 .pnp.js
 *.pem
-
+*.tgz
 
 # IDEs and editors
 /.idea

@@ -9,17 +9,13 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --build && cp package.json dist/ && cp README.md dist/",
-    "pkg:publish": "npm run build && npm publish --access public"
+    "build": "tsc --build && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/"
   },
 	"peerDependencies": {
 		"@mui/icons-material": ">=5",
     "@mui/material": ">=5",
 		"react-hook-form": ">=7"
 	},
-  "files": [
-    "dist/"
-  ],
   "exports": {
     "./config": "./config/index.js",
     "./misc": "./misc/index.js",

@@ -1,4 +1,6 @@
 # Ignore these files while publishing to the npm directory
+*.tgz
+package
 src/
 .npmignore
 node_modules/
