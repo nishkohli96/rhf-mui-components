@@ -18,16 +18,18 @@ export const ConfigProvider = ({
 }: ConfigProviderProps) => {
   const defaultSetting: RHFMuiConfig = useMemo(
     () => ({
-      ...DefaultRHFMuiConfig,
-      ...(defaultFormLabelSx && {
-        defaultFormLabelSx
-      }),
-      ...(defaultFormControlLabelSx && {
-        defaultFormControlLabelSx
-      }),
-      ...(defaultFormHelperTextSx && {
-        defaultFormHelperTextSx
-      }),
+      defaultFormLabelSx: { 
+        ...DefaultRHFMuiConfig.defaultFormLabelSx,
+        ...defaultFormLabelSx 
+      },
+      defaultFormControlLabelSx: {
+        ...DefaultRHFMuiConfig.defaultFormControlLabelSx,
+        ...defaultFormControlLabelSx
+      },
+      defaultFormHelperTextSx: {
+        ...DefaultRHFMuiConfig.defaultFormHelperTextSx,
+        ...defaultFormLabelSx
+      },
       ...(dateAdapter && {
         dateAdapter
       }),
