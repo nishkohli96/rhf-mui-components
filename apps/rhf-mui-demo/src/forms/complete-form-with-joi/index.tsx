@@ -1,8 +1,9 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid';
 import { joiResolver } from '@hookform/resolvers/joi';
+import Grid from '@mui/material/Grid';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
@@ -25,35 +26,37 @@ import {
   RenderFormState,
   SubmitButton
 } from '@/components';
+import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports } from '@/types';
 import { CountriesList, IPLTeams } from '@/constants';
 import { Person, JoiFormSchema } from './validation';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import styles from './styles.module.css';
 
-const initialValues: Person = {
-  email: 'hello@example.com',
-  password: '',
-  favouriteColor: '',
-  sports: [],
-  iplTeams: [],
-  favouriteSport: '',
-  agreeTnC: true,
-  colors: null,
-  countries: null,
-  gender: null,
-  country: '',
-  darkTheme: true,
-  age: 25,
-  rating: null,
-  dob: null,
-  time: null,
-  dateTime: null,
-  bgColor: '#007ABA',
-  feedback: ''
-};
-
 export default function CompleteFormWithJoi() {
+  const { currentTheme, toggleTheme } = useThemeContext();
+
+  const initialValues: Person = {
+    email: 'hello@example.com',
+    password: '',
+    favouriteColor: '',
+    sports: [],
+    iplTeams: [],
+    favouriteSport: '',
+    agreeTnC: true,
+    colors: null,
+    countries: null,
+    gender: null,
+    country: '',
+    darkTheme: currentTheme === 'dark',
+    age: 25,
+    rating: null,
+    dob: null,
+    time: null,
+    dateTime: null,
+    bgColor: '#007ABA',
+    feedback: ''
+  };
+
   const {
     register,
     handleSubmit,
@@ -221,10 +224,7 @@ export default function CompleteFormWithJoi() {
                     label: styles.switchLabel
                   }
                 }}
-                onValueChange={e => {
-                  const isChecked = e.target.checked;
-                  alert(`Switch turned ${isChecked ? 'ON' : 'OFF'}`);
-                }}
+                onValueChange={() => toggleTheme()}
               />
             </Grid>
             <Grid item xs={12} md={6}>
