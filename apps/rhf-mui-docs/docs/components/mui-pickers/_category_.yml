@@ -1,6 +1,0 @@
-position: 2
-label: Mui Pickers
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage, Api and examples for date and time pickers in @nish1896/rhf-mui-components/mui-pickers module.
