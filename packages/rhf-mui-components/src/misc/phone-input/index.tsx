@@ -9,11 +9,10 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
 import {
-	CountryData,
+  CountryData,
   CountryIso2,
   defaultCountries,
   FlagImage,
@@ -25,6 +24,7 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import RenderCountry from './RenderCountry';
 import 'react-international-phone/style.css';
 
 type PhoneInputChangeReturnValue = {
@@ -85,37 +85,35 @@ const RHFPhoneInput = <T extends FieldValues>({
   const {
     countries,
     hideDropdown,
-		preferredCountries,
+    preferredCountries,
     forceDialCode,
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
 
-	const countryOptions = countries ?? defaultCountries;
-	let countriesToList = countryOptions;
-	let countriesToListAtTop: CountryData[] = [];
-	
-	/**
+  const countryOptions = countries ?? defaultCountries;
+  let countriesToList = countryOptions;
+  let countriesToListAtTop: CountryData[] = [];
+
+  /**
 	 * Render preferred countries at the top of the list.
 	 * Preferred countries will maintain the order in which they were
 	 * specified in the props, while other countries will be sorted
 	 * alphabetically.
 	 */
-	if (preferredCountries?.length) {
-		countriesToListAtTop = countryOptions.filter((country) => 
-			preferredCountries.includes(parseCountry(country).iso2)
-		);
-		countriesToListAtTop.sort((a, b) => {
-			return (
-				preferredCountries.indexOf(parseCountry(a).iso2) - 
-				preferredCountries.indexOf(parseCountry(b).iso2)
-			);
-		});
-	
-		countriesToList = countryOptions.filter(
-			(country) => !preferredCountries.includes(parseCountry(country).iso2)
-		);
-		countriesToList = [...countriesToListAtTop, ...countriesToList];
-	}
+  if (preferredCountries?.length) {
+    countriesToListAtTop = countryOptions.filter(country =>
+      preferredCountries.includes(parseCountry(country).iso2));
+    countriesToListAtTop.sort((a, b) => {
+      return (
+        preferredCountries.indexOf(parseCountry(a).iso2)
+        - preferredCountries.indexOf(parseCountry(b).iso2)
+      );
+    });
+
+    countriesToList = countryOptions.filter(
+      country => !preferredCountries.includes(parseCountry(country).iso2)
+    );
+  }
 
   const {
     inputValue,
@@ -127,14 +125,14 @@ const RHFPhoneInput = <T extends FieldValues>({
     ...otherPhoneInputProps,
     value,
     onChange: (phoneData: PhoneInputChangeReturnValue) => {
-			setValue(fieldName, phoneData.inputValue as PathValue<T, Path<T>>);
+      setValue(fieldName, phoneData.inputValue as PathValue<T, Path<T>>);
       if (onValueChange) {
-				onValueChange(phoneData);
+        onValueChange(phoneData);
       }
     },
-		countries: countryOptions,
-		preferredCountries,
-		forceDialCode: hideDropdown ?? forceDialCode,
+    countries: countryOptions,
+    preferredCountries,
+    forceDialCode: hideDropdown ?? forceDialCode,
   });
 
   return (
@@ -200,24 +198,15 @@ const RHFPhoneInput = <T extends FieldValues>({
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {countriesToList.map(c => {
-                  const country = parseCountry(c);
-                  return (
-                    <MenuItem key={country.iso2} value={country.iso2}>
-                      <FlagImage
-                        iso2={country.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {country.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {country.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
+                {countriesToListAtTop.map(country => (
+									<RenderCountry country={country} />
+								))}
+                {countriesToListAtTop.length > 0 && (
+                  <Divider />
+                )}
+                {countriesToList.map(country => (
+									<RenderCountry country={country} />
+								))}
               </Select>
             </InputAdornment>
           )

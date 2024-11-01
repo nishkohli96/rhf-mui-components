@@ -17,7 +17,7 @@ import {
 
 type FormSchema = {
   bio: string;
-  contact_number: string;
+  contactNumber: string;
   favouriteColor: string;
 };
 
@@ -75,8 +75,8 @@ export default function MiscellaneousComponentsForm() {
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Phone Input" />
             <RHFPhoneInput
-              fieldName='contact_number'
-              value={getValues('contact_number')}
+              fieldName='contactNumber'
+              value={getValues('contactNumber')}
               setValue={setValue}
               showLabelAboveFormField
               variant='standard'
