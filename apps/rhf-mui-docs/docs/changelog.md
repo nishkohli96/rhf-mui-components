@@ -18,3 +18,5 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Use [tsc-alias](https://www.npmjs.com/package/tsc-alias) for alias imports.
 - Lint package using my own [eslint config](https://www.npmjs.com/package/@nish1896/eslint-config).
 - Update search keywords in `package.json`.
+- Change [next](https://nextjs.org/) version from `14.2.3` to `14.2.16`.
+- Remove badges from demo website homepage due to size inconsistency.

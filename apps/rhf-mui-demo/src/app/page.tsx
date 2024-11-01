@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { ENV_VARS } from '@/constants';
@@ -16,47 +14,6 @@ export default function Home() {
     <main>
       <ContentContainer>
         <PageHeading title="@nish1896/rhf-mui-components" />
-
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '10px',
-            flexWrap: 'wrap',
-            mb: '20px'
-          }}
-        >
-          {[
-            {
-              alt: 'NPM Version',
-              src: 'https://img.shields.io/npm/v/@nish1896/rhf-mui-components'
-            },
-            {
-              alt: 'NPM Downloads',
-              src: 'https://img.shields.io/npm/dt/@nish1896/rhf-mui-components'
-            },
-            {
-              alt: 'NPM Downloads per month',
-              src: 'https://img.shields.io/npm/dm/@nish1896/rhf-mui-components'
-            },
-            {
-              alt: 'GitHub Release Date',
-              src: 'https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components'
-            }
-          ].map(({ alt, src }) => (
-            <Image
-              key={alt}
-              alt={alt}
-              src={src}
-              width={90}
-              height={20}
-              // style={{
-              //   objectFit: 'contain',
-              //   display: 'inline-block'
-              // }}
-            />
-          ))}
-        </Box>
-
         <Typography variant="h6" color="steelblue">
           &quot;A suite of Material-UI and other form components to create and
           style forms effortlessly within minutes!&quot;
@@ -73,7 +30,10 @@ export default function Home() {
           package by embedding forms for each component, showcasing various
           variations and validation approaches using different form libraries.
           For each form, you can view the form&apos;s field values and errors
-          through the attached <b>formState component</b>. Each page also
+          through the attached
+          {' '}
+          <b>formState component</b>
+          . Each page also
           provides links to the relevant documentation and the source code for
           the components used.
         </Typography>
