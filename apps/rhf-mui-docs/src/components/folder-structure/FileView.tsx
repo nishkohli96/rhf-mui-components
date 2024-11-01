@@ -1,4 +1,5 @@
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import Link from '@mui/material/Link';
 import { FileIcon } from './Icons';
 
 type FileViewProps = {
@@ -23,7 +24,11 @@ const FileView = ({
 			{fileList.map((file, idx) => (
         <TreeItem
           nodeId={`${nodeId}/${idx+1}`}
-					label={file.name}
+					label={(
+						<Link href={file.path}>
+              {file.name}
+						</Link>
+					)}
 					icon={<FileIcon />}
 				/>
 			))}

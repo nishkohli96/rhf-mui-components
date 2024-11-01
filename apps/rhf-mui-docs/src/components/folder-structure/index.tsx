@@ -14,6 +14,7 @@ const FolderStructure = () => {
       aria-label="file system navigator"
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
+			defaultExpanded={['1']}
     >
       <TreeItem
         nodeId="1"
