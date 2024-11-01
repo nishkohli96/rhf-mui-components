@@ -8,9 +8,9 @@ import {
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;

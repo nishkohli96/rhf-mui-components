@@ -1,5 +1,5 @@
-import { OptionType, KeyValueOption } from '../types';
-import { generateLabelValueErrMsg } from '../utils';
+import { OptionType, KeyValueOption } from '@/types';
+import { generateLabelValueErrMsg } from '@/utils';
 
 function isStrNumArray(arr: OptionType[]): boolean {
   return arr.every(el => typeof el === 'number' || typeof el === 'string');

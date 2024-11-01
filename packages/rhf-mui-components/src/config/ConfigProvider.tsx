@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useMemo } from 'react';
+import { RHFMuiConfig, RHFMuiConfigInput } from '@/types';
 import { DefaultRHFMuiConfig } from './DefaultConfig';
-import { RHFMuiConfig, RHFMuiConfigInput } from '../types';
 
 type ConfigProviderProps = {
   children: ReactNode;

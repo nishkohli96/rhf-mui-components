@@ -8,9 +8,9 @@ import {
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;

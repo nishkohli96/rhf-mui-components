@@ -12,9 +12,9 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;

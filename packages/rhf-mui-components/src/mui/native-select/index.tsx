@@ -9,12 +9,12 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
 import FormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { OptionType } from '../../types';
+import { OptionType } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
   validateArray
-} from '../../utils';
+} from '@/utils';
 
 type SelectValueType = string | string[] | number | number[];
 

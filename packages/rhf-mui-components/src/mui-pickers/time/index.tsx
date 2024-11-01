@@ -14,9 +14,9 @@ import {
   TimePickerProps,
   PickerValidDate
 } from '@mui/x-date-pickers';
-import { FormControl, FormLabel, FormHelperText } from '../../mui/common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { fieldNameToLabel } from '@/utils';
 
 export type RHFTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;

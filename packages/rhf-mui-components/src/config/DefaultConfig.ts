@@ -1,4 +1,4 @@
-import { RHFMuiConfig } from '../types';
+import { RHFMuiConfig } from '@/types';
 
 const DefaultStyles = Object.freeze({
   margin: {

@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from 'react';
 import MuiFormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { RHFMuiConfig } from '../../types';
+import { RHFMuiConfig } from '@/types';
 
 type Props = {
   error: boolean;

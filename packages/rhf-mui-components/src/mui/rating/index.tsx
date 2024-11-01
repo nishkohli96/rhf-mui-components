@@ -3,9 +3,9 @@ import { Control, Controller, Path, FieldValues } from 'react-hook-form';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
 
 export type RHFRatingProps<T extends FieldValues> = {
   fieldName: Path<T>;

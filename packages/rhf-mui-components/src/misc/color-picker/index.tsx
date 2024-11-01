@@ -3,9 +3,9 @@ import { FieldValues, Path } from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
-import { FormControl, FormLabel, FormHelperText } from '../../mui/common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import 'react-color-palette/css';
 
 export type RHFColorPickerProps<T extends FieldValues> = {

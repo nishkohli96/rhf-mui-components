@@ -13,14 +13,14 @@ import MuiSelect, {
   SelectChangeEvent,
   SelectProps,
 } from '@mui/material/Select';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { OptionType } from '../../types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-} from '../../utils';
+} from '@/utils';
+import { FormControl, FormLabel, FormHelperText } from '../common';
 
 type SelectValueType = OptionType | OptionType[];
 

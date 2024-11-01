@@ -4,14 +4,14 @@ import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormContr
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { OptionType } from '../../types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption
-} from '../../utils';
+} from '@/utils';
+import { FormControl, FormLabel, FormHelperText } from '../common';
 
 export type RHFCheckboxGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
