@@ -29,5 +29,5 @@ This will perform the following tasks:
 To apply any changes made to the package, rebuild it by running the command below:
 
 ```
-yarn lib:build
+yarn lib
 ```
