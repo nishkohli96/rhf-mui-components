@@ -4,6 +4,7 @@
 ![NPM Downloads](https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components)
 ![NPM Downloads Per Month](https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063)
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0c4fc578-ed19-4a5a-a3cd-e59fedcdb689/deploy-status)](https://app.netlify.com/sites/rhf-mui-components/deploys)
 
 **A suite of reusable mui components for react-hook-form to minimize your time and effort in creating forms**
 
