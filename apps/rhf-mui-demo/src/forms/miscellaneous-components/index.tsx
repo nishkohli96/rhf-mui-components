@@ -3,6 +3,10 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { defaultCountries, parseCountry, CountryIso2 } from 'react-international-phone';
+import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
   FormContainer,
   RenderFormState,
@@ -10,9 +14,6 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
-import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
-import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 
 type FormSchema = {
   bio: string;
@@ -31,6 +32,12 @@ export default function MiscellaneousComponentsForm() {
     defaultValues: {
       favouriteColor: 'hsl(201 100% 73% / 1)'
     }
+  });
+
+  const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'gb', 'vn'];
+  const countries = defaultCountries.filter((country) => {
+    const { iso2 } = parseCountry(country);
+    return countyCodes.includes(iso2);
   });
 
   function onFormSubmit(formValues: FormSchema) {
@@ -73,9 +80,10 @@ export default function MiscellaneousComponentsForm() {
               setValue={setValue}
               showLabelAboveFormField
               variant='standard'
-              disabled
               phoneInputProps={{
-                hideDropdown: true
+                defaultCountry: countyCodes[0],
+                countries,
+                preferredCountries: countyCodes.slice(0,3)
               }}
             />
           </Grid>
