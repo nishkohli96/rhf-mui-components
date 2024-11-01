@@ -12,10 +12,10 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
-;
+
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
@@ -29,7 +29,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-	formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 export default function RHFPasswordInput<T extends FieldValues>({
@@ -47,8 +47,7 @@ export default function RHFPasswordInput<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFPasswordInputProps<T>
-) {
+}: RHFPasswordInputProps<T>) {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -80,7 +79,9 @@ export default function RHFPasswordInput<T extends FieldValues>({
         {...rest}
         onChange={e => {
           onChange(e);
-          onValueChange && onValueChange(e);
+          if(onValueChange) {
+            onValueChange(e);
+          }
         }}
         {...otherRegisterProps}
         autoComplete={fieldName}

@@ -6,9 +6,9 @@ import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
-import { FormControl, FormLabel, FormHelperText } from '../../mui/common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
 
@@ -29,7 +29,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   editorConfig?: EditorConfig;
   onReady?: (editor: ClassicEditor) => void;
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  value?: string; 
+  value?: string;
   onValueChange?: (event: EventInfo, newValue: string, editor: ClassicEditor) => void;
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   disabled?: boolean;
@@ -66,11 +66,13 @@ export default function RHFRichTextEditor<T extends FieldValues>({
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-	
-	function handleChange(event: EventInfo, editor: ClassicEditor) {
+
+  function handleChange(event: EventInfo, editor: ClassicEditor) {
     const content = editor.getData();
     setValue(fieldName, content as PathValue<T, Path<T>>);
-		onValueChange && onValueChange(event, content, editor);
+    if(onValueChange) {
+      onValueChange(event, content, editor);
+    }
   }
 
   return (
@@ -85,7 +87,7 @@ export default function RHFRichTextEditor<T extends FieldValues>({
       <CKEditor
         id={id}
         editor={ClassicEditor}
-				config={editorConfig ?? DefaultEditorConfig}
+        config={editorConfig ?? DefaultEditorConfig}
         data={value}
         onChange={handleChange}
         onReady={onReady}

@@ -14,9 +14,9 @@ import {
   DateTimePickerProps,
   PickerValidDate
 } from '@mui/x-date-pickers';
-import { FormControl, FormLabel, FormHelperText } from '../../mui/common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { fieldNameToLabel } from '@/utils';
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -47,10 +47,10 @@ export default function RHFDateTimePicker<T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFDateTimePickerProps<T>) {
-  const { 
+  const {
     defaultFormHelperTextSx,
     defaultFormLabelSx,
-    dateAdapter 
+    dateAdapter
   } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -68,7 +68,7 @@ export default function RHFDateTimePicker<T extends FieldValues>({
       />
       <LocalizationProvider dateAdapter={dateAdapter}>
         <MuiDateTimePicker
-          onChange={(newValue) => {
+          onChange={newValue => {
             setValue(fieldName, newValue as T[typeof fieldName]);
             onValueChange?.(newValue);
           }}

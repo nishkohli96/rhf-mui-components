@@ -2,13 +2,17 @@
 
 ![NPM Version](https://img.shields.io/npm/v/%40nish1896%2Frhf-mui-components)
 ![NPM Downloads](https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components)
+![NPM Downloads Per Month](https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063)
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0c4fc578-ed19-4a5a-a3cd-e59fedcdb689/deploy-status)](https://app.netlify.com/sites/rhf-mui-components/deploys)
 
 **A suite of reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
 You can read the full documentation [here](https://rhf-mui-components.netlify.app/).
 
 To explore and interact with the form components, visit the [examples website](https://rhf-mui-components-examples.netlify.app/).
+
+Codesandbox Playground - [https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
 
 ## Form Components List
 The following is a list of the modules included in this package, along with the components contained within each module:

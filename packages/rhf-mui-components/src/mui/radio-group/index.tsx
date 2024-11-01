@@ -5,14 +5,14 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { OptionType } from '../../types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption
-} from '../../utils';
+} from '@/utils';
+import { FormControl, FormLabel, FormHelperText } from '../common';
 
 export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -57,11 +57,11 @@ export default function RHFRadioGroup<T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
-		...defaultFormControlLabelSx,
-		...sx,
-	};
+    ...defaultFormControlLabelSx,
+    ...sx,
+  };
 
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
@@ -85,7 +85,9 @@ export default function RHFRadioGroup<T extends FieldValues>({
               {...otherFieldParams}
               onChange={(e, value) => {
                 onChange(e);
-                onValueChange && onValueChange(e, value);
+                if(onValueChange) {
+                  onValueChange(e, value);
+                }
               }}
             >
               {options.map((option, idx) => {

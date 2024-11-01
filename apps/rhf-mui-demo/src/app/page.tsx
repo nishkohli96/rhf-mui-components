@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { ENV_VARS } from '@/constants';
@@ -16,34 +14,9 @@ export default function Home() {
     <main>
       <ContentContainer>
         <PageHeading title="@nish1896/rhf-mui-components" />
-
-        <Box sx={{ my: '20px' }}>
-          <Image
-            alt="NPM Version"
-            src="https://img.shields.io/npm/v/@nish1896/rhf-mui-components"
-            style={{ display: 'inline-block', marginRight: '10px' }}
-            width={100}
-            height={50}
-          />
-          <Image
-            alt="NPM Downloads"
-            src="https://img.shields.io/npm/dt/@nish1896/rhf-mui-components"
-            style={{ display: 'inline-block', marginRight: '10px' }}
-            width={100}
-            height={50}
-          />
-          <Image
-            alt="GitHub Release Date"
-            src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components"
-            style={{ display: 'inline-block', marginRight: '10px' }}
-            width={100}
-            height={50}
-          />
-        </Box>
-
         <Typography variant="h6" color="steelblue">
-          &quot;A suite of Material-UI and other form components to create and style
-          forms effortlessly within minutes!&quot;
+          &quot;A suite of Material-UI and other form components to create and
+          style forms effortlessly within minutes!&quot;
         </Typography>
 
         <Typography variant="body1" sx={{ mt: '20px' }}>
@@ -60,9 +33,9 @@ export default function Home() {
           through the attached
           {' '}
           <b>formState component</b>
-          . Each page also provides
-          links to the relevant documentation and the source code for the
-          components used.
+          . Each page also
+          provides links to the relevant documentation and the source code for
+          the components used.
         </Typography>
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit

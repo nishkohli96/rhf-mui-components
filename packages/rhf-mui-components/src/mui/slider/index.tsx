@@ -8,9 +8,9 @@ import {
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -47,8 +47,7 @@ export default function RHFSlider<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFSliderProps<T>
-) {
+}: RHFSliderProps<T>) {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -72,7 +71,9 @@ export default function RHFSlider<T extends FieldValues>({
         {...rest}
         onChange={(event, value, activeThumb) => {
           onChange(event);
-          onValueChange && onValueChange(event, value, activeThumb);
+          if(onValueChange) {
+            onValueChange(event, value, activeThumb);
+          }
         }}
       />
       <FormHelperText

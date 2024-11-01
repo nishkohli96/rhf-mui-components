@@ -13,14 +13,14 @@ import MuiSelect, {
   SelectChangeEvent,
   SelectProps,
 } from '@mui/material/Select';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { OptionType } from '../../types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-} from '../../utils';
+} from '@/utils';
+import { FormControl, FormLabel, FormHelperText } from '../common';
 
 type SelectValueType = OptionType | OptionType[];
 
@@ -85,7 +85,9 @@ export default function RHFSelect<T extends FieldValues>({
       />
       <Fragment>
         {!showLabelAboveFormField && (
-          <InputLabel id={fieldName}>{fieldLabel}</InputLabel>
+          <InputLabel id={fieldName}>
+            {fieldLabel}
+          </InputLabel>
         )}
       </Fragment>
       <MuiSelect
@@ -95,9 +97,11 @@ export default function RHFSelect<T extends FieldValues>({
         defaultValue={defaultValue ?? ( multiple ? [] : '')}
         error={isError}
         multiple={multiple}
-        onChange={(e) => {
+        onChange={e => {
           onChange(e);
-          onValueChange && onValueChange(e);
+          if(onValueChange) {
+            onValueChange(e);
+          }
         }}
         {...otherSelectProps}
         {...rest}
@@ -109,7 +113,7 @@ export default function RHFSelect<T extends FieldValues>({
         >
           {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
         </MenuItem>
-        {options.map((option) => {
+        {options.map(option => {
           const isObject = isKeyValueOption(option, labelKey, valueKey);
           const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
           const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;

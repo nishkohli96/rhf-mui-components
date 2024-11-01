@@ -3,9 +3,9 @@ import { Control, Controller, Path, FieldValues } from 'react-hook-form';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
 
 export type RHFRatingProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -35,8 +35,7 @@ export default function RHFRating<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFRatingProps<T>
-) {
+}: RHFRatingProps<T>) {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -61,7 +60,9 @@ export default function RHFRating<T extends FieldValues>({
               {...otherFieldParams}
               onChange={(e, newValue) => {
                 onChange(Number(newValue));
-                onValueChange && onValueChange(e, newValue);
+                if(onValueChange) {
+                  onValueChange(e, newValue);
+                }
               }}
             />
             <FormHelperText

@@ -2,7 +2,7 @@
 echo "🏁 Initiating Setup..."
 echo "Installing Dependencies & Building Package 🛠️"
 yarn
-yarn lib:build
+yarn lib
 
 # Link the package
 echo "Linking Package... 🔗"

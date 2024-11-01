@@ -24,8 +24,11 @@
     "noEmit": false,
     "incremental": false,
     "jsx": "react-jsx",
-    "baseUrl": "src",
-    "rootDir": "src"
+    "baseUrl": "./",
+    "rootDir": "src",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "dist", "**/*.spec*"]

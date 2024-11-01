@@ -4,14 +4,14 @@ import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormContr
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import { FormControl, FormLabel, FormHelperText } from '../common';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { OptionType } from '../../types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption
-} from '../../utils';
+} from '@/utils';
+import { FormControl, FormLabel, FormHelperText } from '../common';
 
 export type RHFCheckboxGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -81,7 +81,9 @@ export default function RHFCheckboxGroup<T extends FieldValues>({
             ? [...(value ?? []), event.target.value]
             : value!.filter((v: string) => v !== event.target.value);
           onChange(newValue);
-          onValueChange && onValueChange(event, event.target.value);
+          if(onValueChange) {
+            onValueChange(event, event.target.value);
+          }
         };
         return (
           <FormControl error={isError}>
@@ -110,7 +112,7 @@ export default function RHFCheckboxGroup<T extends FieldValues>({
                         checked={(
                           (value as (string | number)[]) ?? []
                         ).includes(opnValue)}
-                        onChange={(e) => handleChange(e, e.target.checked)}
+                        onChange={e => handleChange(e, e.target.checked)}
                         value={opnValue}
                       />
                     }

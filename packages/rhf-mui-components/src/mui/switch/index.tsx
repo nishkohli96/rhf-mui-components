@@ -7,8 +7,8 @@ import {
 } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
-import { fieldNameToLabel } from '../../utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { fieldNameToLabel } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -25,16 +25,15 @@ export default function RHFSwitch<T extends FieldValues>({
   onValueChange,
   formControlLabelProps,
   ...rest
-}: RHFSwitchProps<T>
-) {
+}: RHFSwitchProps<T>) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
-		...defaultFormControlLabelSx,
-		...sx,
-	}
+    ...defaultFormControlLabelSx,
+    ...sx,
+  };
 
   return (
     <Controller
@@ -51,7 +50,9 @@ export default function RHFSwitch<T extends FieldValues>({
                 checked={value}
                 onChange={e => {
                   onChange(e);
-                  onValueChange && onValueChange(e);
+                  if(onValueChange) {
+                    onValueChange(e);
+                  }
                 }}
               />
             }

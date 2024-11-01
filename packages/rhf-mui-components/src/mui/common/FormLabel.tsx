@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from 'react';
 import MuiFormLabel, { FormLabelProps } from '@mui/material/FormLabel';
-import { RHFMuiConfig } from '../../types';
+import { RHFMuiConfig } from '@/types';
 
 type Props = {
   label: ReactNode;
@@ -27,11 +27,11 @@ export function FormLabel(props: Props) {
   return (
     <Fragment>
       {isVisible && (
-        <MuiFormLabel 
-					{...otherLabelProps} 
-					error={error} 
-					sx={appliedLabelSx}
-				>
+        <MuiFormLabel
+          {...otherLabelProps}
+          error={error}
+          sx={appliedLabelSx}
+        >
           {label}
         </MuiFormLabel>
       )}

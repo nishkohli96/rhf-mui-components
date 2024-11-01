@@ -1,4 +1,4 @@
-export const ExternalLinks = Object.freeze({
+const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
   muiComponents: {
@@ -35,3 +35,6 @@ export const ExternalLinks = Object.freeze({
     zod: 'https://www.npmjs.com/package/zod'
   }
 });
+
+export default ExternalLinks;
+

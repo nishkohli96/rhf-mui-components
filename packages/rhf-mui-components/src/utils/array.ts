@@ -1,8 +1,8 @@
-import { OptionType, KeyValueOption } from '../types';
-import { generateLabelValueErrMsg } from '../utils';
+import { OptionType, KeyValueOption } from '@/types';
+import { generateLabelValueErrMsg } from '@/utils';
 
 function isStrNumArray(arr: OptionType[]): boolean {
-  return arr.every((el) => typeof el === 'number' || typeof el === 'string');
+  return arr.every(el => typeof el === 'number' || typeof el === 'string');
 }
 
 export function validateArray(
@@ -23,9 +23,9 @@ export function isKeyValueOption(
   valueKey?: string,
 ): option is KeyValueOption {
   return (
-    typeof option === 'object' &&
-    `${labelKey}` in option &&
-    `${valueKey}` in option
+    typeof option === 'object'
+    && `${labelKey}` in option
+    && `${valueKey}` in option
   );
 }
 

@@ -6,11 +6,11 @@
   "private": true,
   "workspaces": ["./apps/*", "./packages/*"],
   "scripts": {
-    "lib:build": "yarn workspace @nish1896/rhf-mui-components build",
-    "lib:lint": "eslint --fix ./packages/rhf-mui-components",
+    "lib": "yarn workspace @nish1896/rhf-mui-components build",
+    "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
     "demo": "yarn workspace @nish1896/rhf-mui-components-examples dev",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-components-examples lint",
-    "demo:build": "yarn lib:build && yarn workspace @nish1896/rhf-mui-components-examples build",
+    "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-components-examples build",
     "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
     "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
     "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build"
