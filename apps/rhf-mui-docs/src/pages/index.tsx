@@ -6,6 +6,8 @@ import Heading from '@theme/Heading';
 import Grid from '@mui/material/Grid';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { HomePageButton } from '@site/src/components';
+import { InternalLinks } from '@site/src/constants';
 import theme from '@site/src/styles/theme';
 import styles from './index.module.css';
 
@@ -21,7 +23,22 @@ function HomepageHeader() {
           {siteConfig.tagline}
         </p>
         <Grid container spacing={2} sx={{ mt: '10px' }}>
-          <Grid
+          <HomePageButton
+            text="Get Started"
+            href="/introduction"
+            bgColor='#25C19F'
+          />
+          <HomePageButton
+            text="View Examples"
+            href={InternalLinks.demo}
+            bgColor='#54C7EC'
+          />
+          <HomePageButton
+            text="Playground"
+            href={InternalLinks.playground}
+            bgColor='#54C7EC'
+          />
+          {/* <Grid
             item
             xs={6}
             sx={{
@@ -36,8 +53,8 @@ function HomepageHeader() {
             >
               Get Started
             </Link>
-          </Grid>
-          <Grid
+          </Grid> */}
+          {/* <Grid
             item
             xs={6}
             sx={{
@@ -52,7 +69,7 @@ function HomepageHeader() {
             >
               View Examples
             </Link>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     </header>

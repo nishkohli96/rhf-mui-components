@@ -1,7 +1,7 @@
 import { ExternalLinks } from '@site/src/constants';
 import { PropDescV2 } from '@site/src/types';
 
-export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
+const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   fieldName: {
     name: 'fieldName',
     description: 'React Hook Form requires `name` as a key for the registration process.',
@@ -235,3 +235,5 @@ export const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: '(error: Error, details: ErrorDetails) => void'
   }
 });
+
+export default PropsDescription;
