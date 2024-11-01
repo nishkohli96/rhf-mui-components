@@ -13,7 +13,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 - Fix `defaultFormHelperTextSx` bug in `ConfigProvider`.
 - Handle snake-case convention to render default form label text.
-- Added [Playground link](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l) on docs homepage.
+- Added [Examples](https://rhf-mui-components-examples.netlify.app/) and [Playground](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l) links on appbar in docs website.
 - Added ***downloads per month*** metric in README.
 - Use [tsc-alias](https://www.npmjs.com/package/tsc-alias) for alias imports.
 - Lint package using my own [eslint config](https://www.npmjs.com/package/@nish1896/eslint-config).

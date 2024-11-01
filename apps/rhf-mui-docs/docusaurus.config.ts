@@ -34,11 +34,22 @@ const config: Config = {
       respectPrefersColorScheme: true
     },
     navbar: {
+      title: 'RHF-MUI Components',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Website Logo',
         src: 'img/logo.svg'
       },
       items: [
+        {
+          href: 'https://rhf-mui-components-examples.netlify.app/',
+          label: 'Examples',
+          position: 'right'
+        },
+        {
+          href: 'https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l',
+          label: 'Playground',
+          position: 'right'
+        },
         {
           href: 'https://github.com/nishkohli96/rhf-mui-components',
           label: 'GitHub',
