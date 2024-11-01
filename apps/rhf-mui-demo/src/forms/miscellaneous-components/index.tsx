@@ -34,7 +34,7 @@ export default function MiscellaneousComponentsForm() {
     }
   });
 
-  const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'gb', 'vn'];
+  const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'cn', 'gb', 'vn'];
   const countries = defaultCountries.filter((country) => {
     const { iso2 } = parseCountry(country);
     return countyCodes.includes(iso2);

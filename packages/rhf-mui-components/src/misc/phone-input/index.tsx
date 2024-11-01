@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import {
+	CountryData,
   CountryIso2,
   defaultCountries,
   FlagImage,
@@ -84,11 +85,37 @@ const RHFPhoneInput = <T extends FieldValues>({
   const {
     countries,
     hideDropdown,
+		preferredCountries,
     forceDialCode,
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
 
-	const countryOptions = countries ?? defaultCountries
+	const countryOptions = countries ?? defaultCountries;
+	let countriesToList = countryOptions;
+	let countriesToListAtTop: CountryData[] = [];
+	
+	/**
+	 * Render preferred countries at the top of the list.
+	 * Preferred countries will maintain the order in which they were
+	 * specified in the props, while other countries will be sorted
+	 * alphabetically.
+	 */
+	if (preferredCountries?.length) {
+		countriesToListAtTop = countryOptions.filter((country) => 
+			preferredCountries.includes(parseCountry(country).iso2)
+		);
+		countriesToListAtTop.sort((a, b) => {
+			return (
+				preferredCountries.indexOf(parseCountry(a).iso2) - 
+				preferredCountries.indexOf(parseCountry(b).iso2)
+			);
+		});
+	
+		countriesToList = countryOptions.filter(
+			(country) => !preferredCountries.includes(parseCountry(country).iso2)
+		);
+		countriesToList = [...countriesToListAtTop, ...countriesToList];
+	}
 
   const {
     inputValue,
@@ -106,6 +133,7 @@ const RHFPhoneInput = <T extends FieldValues>({
       }
     },
 		countries: countryOptions,
+		preferredCountries,
 		forceDialCode: hideDropdown ?? forceDialCode,
   });
 
@@ -172,7 +200,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {countryOptions.map(c => {
+                {countriesToList.map(c => {
                   const country = parseCountry(c);
                   return (
                     <MenuItem key={country.iso2} value={country.iso2}>
