@@ -17,10 +17,10 @@
     "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.10"
   },
-	"peerDependencies": {
-		"@mui/icons-material": ">=5",
+  "peerDependencies": {
+    "@mui/icons-material": ">=5",
     "@mui/material": ">=5",
-		"react-hook-form": ">=7"
+    "react-hook-form": ">=7"
 	},
   "exports": {
     "./config": "./config/index.js",
