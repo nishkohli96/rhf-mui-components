@@ -1,8 +1,8 @@
-import { Fragment } from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,12 +14,7 @@ import theme from '@site/src/styles/theme';
 import styles from './index.module.css';
 
 const IntroductionBtn = () => (
-  <HomePageButton
-    text="Get Started"
-    href="/introduction"
-    bgColor="#25C19F"
-    align="flex-end"
-  />
+  <HomePageButton text="Get Started" href="/introduction" bgColor="#25C19F" />
 );
 
 const ExamplesBtn = () => (
@@ -27,7 +22,6 @@ const ExamplesBtn = () => (
     text="View Examples"
     href={InternalLinks.demo}
     bgColor="#54C7EC"
-    align="center"
   />
 );
 
@@ -36,30 +30,27 @@ const PlaygroundBtn = () => (
     text="Playground"
     href={InternalLinks.playground}
     bgColor="#ff6b6b"
-    align="flex-start"
   />
 );
 
 const HomepageButtons = () => {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
-    <Grid container spacing={2} sx={{ mt: '10px' }}>
-      {isLargeScreen ? (
-        <></>
-      ) : (
-        <Fragment>
-          <Grid item xs={12}>
-            <IntroductionBtn />
-          </Grid>
-          <Grid item xs={12}>
-            <ExamplesBtn />
-          </Grid>
-          <Grid item xs={12}>
-            <PlaygroundBtn />
-          </Grid>
-        </Fragment>
-      )}
+    <Grid container justifyContent="center" sx={{ mt: '40px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: isLargeScreen ? 'row' : 'column',
+          gap: isLargeScreen ? '30px' : '25px',
+          alignItems: 'center'
+        }}
+      >
+        <IntroductionBtn />
+        <ExamplesBtn />
+        <PlaygroundBtn />
+      </Box>
     </Grid>
   );
 };
