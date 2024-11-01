@@ -1,10 +1,11 @@
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import FileView from './FileView';
-import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
+import { FolderIcon, FolderOpenIcon } from './Icons';
 import {
+	muiFoldersList,
 	muiPickersFoldersList,
-	miscFoldersList 
+	miscFoldersList
 } from './routesList';
 
 const FolderStructure = () => {
@@ -13,29 +14,28 @@ const FolderStructure = () => {
       aria-label="file system navigator"
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
-      expanded={['1']}
     >
       <TreeItem
         nodeId="1"
         label="@nish1896/rhf-mui-components"
         collapseIcon={<FolderIcon />}
       >
-				{/* <FileView
+        <FileView
           nodeId='2'
-					folderName='misc1'
-					fileList={miscFoldersList}
+					folderName='mui'
+					fileList={muiFoldersList}
 				/>
 				<FileView
           nodeId='3'
 					folderName='mui-pickers'
-					fileList={miscFoldersList}
-				/> */}
-				{/* <FileView
+					fileList={muiPickersFoldersList}
+				/> 
+				<FileView
           nodeId='4'
 					folderName='misc'
 					fileList={miscFoldersList}
-				/> */}
-      </TreeItem>
+				/>
+			</TreeItem>
     </TreeView>
   );
 };

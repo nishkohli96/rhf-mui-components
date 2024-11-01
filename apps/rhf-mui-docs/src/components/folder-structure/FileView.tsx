@@ -1,5 +1,5 @@
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
+import { FileIcon } from './Icons';
 
 type FileViewProps = {
 	nodeId: string;
