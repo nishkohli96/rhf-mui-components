@@ -16,7 +16,7 @@ import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-edito
 
 type FormSchema = {
   bio: string;
-  contactNo: string;
+  contact_number: string;
   favouriteColor: string;
 };
 
@@ -38,7 +38,7 @@ export default function MiscellaneousComponentsForm() {
   }
 
   return (
-    <FormContainer title="Miscellaneous Components - RichTextEditor & ColorPicker">
+    <FormContainer title="Miscellaneous Components">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid item xs={12} md={6}>
@@ -68,9 +68,14 @@ export default function MiscellaneousComponentsForm() {
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Phone Input" />
             <RHFPhoneInput
-              value={getValues('contactNo') ?? ''}
-              onChange={newPhone => {
-                setValue('contactNo', newPhone);
+              fieldName='contact_number'
+              value={getValues('contact_number')}
+              setValue={setValue}
+              showLabelAboveFormField
+              variant='standard'
+              disabled
+              phoneInputProps={{
+                hideDropdown: true
               }}
             />
           </Grid>

@@ -9,9 +9,9 @@ export function fieldNameToLabel(str: string) {
     .replace(/([A-Z])/g, ' $1')
     .replace(/_/g, ' ')
     .toLowerCase()
-    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .replace(/\b\w/g, char => char.toUpperCase())
     .trim();
-  
+
   return result;
 }
 
