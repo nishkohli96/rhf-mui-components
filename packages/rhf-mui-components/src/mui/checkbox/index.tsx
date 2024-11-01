@@ -3,7 +3,7 @@ import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
-import { RHFMuiConfigContext } from '../../config/ConfigProvider';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '../common';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
@@ -33,11 +33,11 @@ export default function RHFCheckbox<T extends FieldValues>({
   const { defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
 
-  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
-		...defaultFormControlLabelSx,
-		...sx,
-	};
+    ...defaultFormControlLabelSx,
+    ...sx,
+  };
 
   return (
     <Controller
@@ -53,7 +53,7 @@ export default function RHFCheckbox<T extends FieldValues>({
                   {...otherFieldParams}
                   {...rest}
                   checked={value}
-                  onChange={(e) => {
+                  onChange={e => {
                     onChange(e);
                     onValueChange && onValueChange(e);
                   }}

@@ -40,6 +40,6 @@ const MarkdownTable = ({ rows, showType }: MarkdownTableProps) => {
       {tableContent}
     </Markdown>
   );
-}
+};
 
 export default MarkdownTable;

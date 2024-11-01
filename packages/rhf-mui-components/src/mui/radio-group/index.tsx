@@ -57,11 +57,11 @@ export default function RHFRadioGroup<T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
-		...defaultFormControlLabelSx,
-		...sx,
-	};
+    ...defaultFormControlLabelSx,
+    ...sx,
+  };
 
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 

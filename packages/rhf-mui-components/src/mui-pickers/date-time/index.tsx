@@ -47,10 +47,10 @@ export default function RHFDateTimePicker<T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFDateTimePickerProps<T>) {
-  const { 
+  const {
     defaultFormHelperTextSx,
     defaultFormLabelSx,
-    dateAdapter 
+    dateAdapter
   } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -68,7 +68,7 @@ export default function RHFDateTimePicker<T extends FieldValues>({
       />
       <LocalizationProvider dateAdapter={dateAdapter}>
         <MuiDateTimePicker
-          onChange={(newValue) => {
+          onChange={newValue => {
             setValue(fieldName, newValue as T[typeof fieldName]);
             onValueChange?.(newValue);
           }}

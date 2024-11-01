@@ -27,11 +27,11 @@ export function FormLabel(props: Props) {
   return (
     <Fragment>
       {isVisible && (
-        <MuiFormLabel 
-					{...otherLabelProps} 
-					error={error} 
-					sx={appliedLabelSx}
-				>
+        <MuiFormLabel
+          {...otherLabelProps}
+          error={error}
+          sx={appliedLabelSx}
+        >
           {label}
         </MuiFormLabel>
       )}

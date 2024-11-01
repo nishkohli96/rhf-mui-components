@@ -110,7 +110,7 @@ export default function RHFCheckboxGroup<T extends FieldValues>({
                         checked={(
                           (value as (string | number)[]) ?? []
                         ).includes(opnValue)}
-                        onChange={(e) => handleChange(e, e.target.checked)}
+                        onChange={e => handleChange(e, e.target.checked)}
                         value={opnValue}
                       />
                     }

@@ -6,8 +6,8 @@ type ConfigProviderProps = {
   children: ReactNode;
 } & RHFMuiConfigInput;
 
-export const RHFMuiConfigContext =
-  createContext<RHFMuiConfig>(DefaultRHFMuiConfig);
+export const RHFMuiConfigContext
+  = createContext<RHFMuiConfig>(DefaultRHFMuiConfig);
 
 export const ConfigProvider = ({
   children,
@@ -18,9 +18,9 @@ export const ConfigProvider = ({
 }: ConfigProviderProps) => {
   const defaultSetting: RHFMuiConfig = useMemo(
     () => ({
-      defaultFormLabelSx: { 
+      defaultFormLabelSx: {
         ...DefaultRHFMuiConfig.defaultFormLabelSx,
-        ...defaultFormLabelSx 
+        ...defaultFormLabelSx
       },
       defaultFormControlLabelSx: {
         ...DefaultRHFMuiConfig.defaultFormControlLabelSx,
@@ -28,7 +28,7 @@ export const ConfigProvider = ({
       },
       defaultFormHelperTextSx: {
         ...DefaultRHFMuiConfig.defaultFormHelperTextSx,
-        ...defaultFormLabelSx
+        ...defaultFormHelperTextSx
       },
       ...(dateAdapter && {
         dateAdapter

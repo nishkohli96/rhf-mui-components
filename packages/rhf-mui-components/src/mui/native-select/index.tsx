@@ -57,7 +57,7 @@ export default function RHFNativeSelect<T extends FieldValues>({
 }: RHFNativeSelectProps<T>) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-  
+
   const { onChange, ...rest } = register(fieldName, registerOptions);
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
@@ -74,12 +74,12 @@ export default function RHFNativeSelect<T extends FieldValues>({
           name: fieldName,
           id: fieldName
         }}
-        onChange={(e) => {
+        onChange={e => {
           onChange(e);
           onValueChange && onValueChange(e);
         }}
       >
-        {options.map((option) => {
+        {options.map(option => {
           const isObject = isKeyValueOption(option, labelKey, valueKey);
           const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
           const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;

@@ -10,27 +10,27 @@ import RHFSwitch, { RHFSwitchProps } from './switch';
 import RHFTextField, { RHFTextFieldProps } from './textfield';
 
 export {
-	RHFCheckbox,
-	RHFCheckboxGroup,
-	RHFNativeSelect,
-	RHFPasswordInput,
-	RHFRadioGroup,
-	RHFRating,
-	RHFSelect,
-	RHFSlider,
-	RHFSwitch,
-	RHFTextField
-}
+  RHFCheckbox,
+  RHFCheckboxGroup,
+  RHFNativeSelect,
+  RHFPasswordInput,
+  RHFRadioGroup,
+  RHFRating,
+  RHFSelect,
+  RHFSlider,
+  RHFSwitch,
+  RHFTextField
+};
 
 export type {
-	RHFCheckboxProps,
-	RHFCheckboxGroupProps,
-	RHFNativeSelectProps,
-	RHFPasswordInputProps,
-	RHFRadioGroupProps,
-	RHFRatingProps,
-	RHFSelectProps,
-	RHFSliderProps,
-	RHFSwitchProps,
-	RHFTextFieldProps
-}
+  RHFCheckboxProps,
+  RHFCheckboxGroupProps,
+  RHFNativeSelectProps,
+  RHFPasswordInputProps,
+  RHFRadioGroupProps,
+  RHFRatingProps,
+  RHFSelectProps,
+  RHFSliderProps,
+  RHFSwitchProps,
+  RHFTextFieldProps
+};

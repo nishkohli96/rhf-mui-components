@@ -85,7 +85,9 @@ export default function RHFSelect<T extends FieldValues>({
       />
       <Fragment>
         {!showLabelAboveFormField && (
-          <InputLabel id={fieldName}>{fieldLabel}</InputLabel>
+          <InputLabel id={fieldName}>
+            {fieldLabel}
+          </InputLabel>
         )}
       </Fragment>
       <MuiSelect
@@ -95,7 +97,7 @@ export default function RHFSelect<T extends FieldValues>({
         defaultValue={defaultValue ?? ( multiple ? [] : '')}
         error={isError}
         multiple={multiple}
-        onChange={(e) => {
+        onChange={e => {
           onChange(e);
           onValueChange && onValueChange(e);
         }}
@@ -109,7 +111,7 @@ export default function RHFSelect<T extends FieldValues>({
         >
           {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
         </MenuItem>
-        {options.map((option) => {
+        {options.map(option => {
           const isObject = isKeyValueOption(option, labelKey, valueKey);
           const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
           const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;

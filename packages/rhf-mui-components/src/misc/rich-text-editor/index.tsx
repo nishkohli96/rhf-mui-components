@@ -29,7 +29,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   editorConfig?: EditorConfig;
   onReady?: (editor: ClassicEditor) => void;
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  value?: string; 
+  value?: string;
   onValueChange?: (event: EventInfo, newValue: string, editor: ClassicEditor) => void;
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   disabled?: boolean;
@@ -66,11 +66,11 @@ export default function RHFRichTextEditor<T extends FieldValues>({
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-	
-	function handleChange(event: EventInfo, editor: ClassicEditor) {
+
+  function handleChange(event: EventInfo, editor: ClassicEditor) {
     const content = editor.getData();
     setValue(fieldName, content as PathValue<T, Path<T>>);
-		onValueChange && onValueChange(event, content, editor);
+    onValueChange && onValueChange(event, content, editor);
   }
 
   return (
@@ -85,7 +85,7 @@ export default function RHFRichTextEditor<T extends FieldValues>({
       <CKEditor
         id={id}
         editor={ClassicEditor}
-				config={editorConfig ?? DefaultEditorConfig}
+        config={editorConfig ?? DefaultEditorConfig}
         data={value}
         onChange={handleChange}
         onReady={onReady}

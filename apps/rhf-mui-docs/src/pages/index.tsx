@@ -63,7 +63,9 @@ const HomepageHeader = () => {
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">
+          {siteConfig.tagline}
+        </p>
         <HomepageButtons />
       </div>
     </header>

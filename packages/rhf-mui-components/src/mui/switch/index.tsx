@@ -25,16 +25,15 @@ export default function RHFSwitch<T extends FieldValues>({
   onValueChange,
   formControlLabelProps,
   ...rest
-}: RHFSwitchProps<T>
-) {
+}: RHFSwitchProps<T>) {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const { sx , ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
-		...defaultFormControlLabelSx,
-		...sx,
-	}
+    ...defaultFormControlLabelSx,
+    ...sx,
+  };
 
   return (
     <Controller
