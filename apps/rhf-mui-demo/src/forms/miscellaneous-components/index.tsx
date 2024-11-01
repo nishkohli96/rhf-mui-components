@@ -11,10 +11,12 @@ import {
   SubmitButton
 } from '@/components';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 
 type FormSchema = {
   bio: string;
+  contactNo: string;
   favouriteColor: string;
 };
 
@@ -60,6 +62,15 @@ export default function MiscellaneousComponentsForm() {
               onValueChange={newColor => {
                 console.log('newColor: ', newColor);
                 setValue('favouriteColor', newColor.hex);
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Phone Input" />
+            <RHFPhoneInput
+              value={getValues('contactNo') ?? ''}
+              onChange={newPhone => {
+                setValue('contactNo', newPhone);
               }}
             />
           </Grid>
