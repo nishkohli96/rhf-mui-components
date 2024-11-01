@@ -70,7 +70,9 @@ export default function RHFRichTextEditor<T extends FieldValues>({
   function handleChange(event: EventInfo, editor: ClassicEditor) {
     const content = editor.getData();
     setValue(fieldName, content as PathValue<T, Path<T>>);
-    onValueChange && onValueChange(event, content, editor);
+    if(onValueChange) {
+      onValueChange(event, content, editor);
+    }
   }
 
   return (

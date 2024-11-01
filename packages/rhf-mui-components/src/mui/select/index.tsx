@@ -99,7 +99,9 @@ export default function RHFSelect<T extends FieldValues>({
         multiple={multiple}
         onChange={e => {
           onChange(e);
-          onValueChange && onValueChange(e);
+          if(onValueChange) {
+            onValueChange(e);
+          }
         }}
         {...otherSelectProps}
         {...rest}

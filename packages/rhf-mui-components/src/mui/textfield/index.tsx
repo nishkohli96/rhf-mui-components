@@ -63,7 +63,9 @@ export default function RHFTextField<T extends FieldValues>({
         {...rest}
         onChange={e => {
           onChange(e);
-          onValueChange && onValueChange(e);
+          if(onValueChange) {
+            onValueChange(e);
+          }
         }}
         {...otherRegisterProps}
         label={!showLabelAboveFormField ? fieldLabel : undefined}

@@ -79,7 +79,9 @@ export default function RHFPasswordInput<T extends FieldValues>({
         {...rest}
         onChange={e => {
           onChange(e);
-          onValueChange && onValueChange(e);
+          if(onValueChange) {
+            onValueChange(e);
+          }
         }}
         {...otherRegisterProps}
         autoComplete={fieldName}

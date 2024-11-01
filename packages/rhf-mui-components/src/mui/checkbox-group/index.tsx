@@ -81,7 +81,9 @@ export default function RHFCheckboxGroup<T extends FieldValues>({
             ? [...(value ?? []), event.target.value]
             : value!.filter((v: string) => v !== event.target.value);
           onChange(newValue);
-          onValueChange && onValueChange(event, event.target.value);
+          if(onValueChange) {
+            onValueChange(event, event.target.value);
+          }
         };
         return (
           <FormControl error={isError}>

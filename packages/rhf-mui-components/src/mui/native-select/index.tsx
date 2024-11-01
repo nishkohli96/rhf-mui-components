@@ -76,7 +76,9 @@ export default function RHFNativeSelect<T extends FieldValues>({
         }}
         onChange={e => {
           onChange(e);
-          onValueChange && onValueChange(e);
+          if(onValueChange) {
+            onValueChange(e);
+          }
         }}
       >
         {options.map(option => {

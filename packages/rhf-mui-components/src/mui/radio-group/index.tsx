@@ -85,7 +85,9 @@ export default function RHFRadioGroup<T extends FieldValues>({
               {...otherFieldParams}
               onChange={(e, value) => {
                 onChange(e);
-                onValueChange && onValueChange(e, value);
+                if(onValueChange) {
+                  onValueChange(e, value);
+                }
               }}
             >
               {options.map((option, idx) => {

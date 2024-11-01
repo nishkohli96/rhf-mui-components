@@ -55,7 +55,9 @@ export default function RHFCheckbox<T extends FieldValues>({
                   checked={value}
                   onChange={e => {
                     onChange(e);
-                    onValueChange && onValueChange(e);
+                    if(onValueChange) {
+                      onValueChange(e);
+                    }
                   }}
                 />
               }

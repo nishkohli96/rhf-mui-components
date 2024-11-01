@@ -60,7 +60,9 @@ export default function RHFRating<T extends FieldValues>({
               {...otherFieldParams}
               onChange={(e, newValue) => {
                 onChange(Number(newValue));
-                onValueChange && onValueChange(e, newValue);
+                if(onValueChange) {
+                  onValueChange(e, newValue);
+                }
               }}
             />
             <FormHelperText

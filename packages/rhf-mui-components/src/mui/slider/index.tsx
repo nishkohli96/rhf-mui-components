@@ -71,7 +71,9 @@ export default function RHFSlider<T extends FieldValues>({
         {...rest}
         onChange={(event, value, activeThumb) => {
           onChange(event);
-          onValueChange && onValueChange(event, value, activeThumb);
+          if(onValueChange) {
+            onValueChange(event, value, activeThumb);
+          }
         }}
       />
       <FormHelperText
