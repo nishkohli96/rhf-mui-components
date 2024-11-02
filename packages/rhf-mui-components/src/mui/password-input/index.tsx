@@ -48,7 +48,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFPasswordInputProps<T>) => {
-  const { defaultFormLabelSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -77,7 +77,6 @@ const RHFPasswordInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <TextField
         {...rest}

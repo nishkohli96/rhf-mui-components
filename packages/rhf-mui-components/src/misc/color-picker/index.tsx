@@ -1,10 +1,9 @@
-import { useContext, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { FieldValues, Path } from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel } from '@/utils';
 import 'react-color-palette/css';
 
@@ -40,7 +39,6 @@ const RHFColorPicker = <T extends FieldValues>({
   formHelperTextProps,
   ...otherProps
 }: RHFColorPickerProps<T>) => {
-  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const [color, setColor] = useColor(value ?? '#000000');
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -59,7 +57,6 @@ const RHFColorPicker = <T extends FieldValues>({
         isVisible={showLabelAboveFormField ?? true}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <ReactColorPicker
         color={color}

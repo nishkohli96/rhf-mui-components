@@ -1,9 +1,8 @@
-import { useContext, ReactNode, SyntheticEvent } from 'react';
+import { ReactNode, SyntheticEvent } from 'react';
 import { Control, Controller, Path, FieldValues } from 'react-hook-form';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
@@ -36,7 +35,6 @@ const RHFRating = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFRatingProps<T>) => {
-  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -53,7 +51,6 @@ const RHFRating = <T extends FieldValues>({
               isVisible={showLabelAboveFormField ?? true}
               error={isError}
               formLabelProps={formLabelProps}
-              defaultFormLabelSx={defaultFormLabelSx}
             />
             <MuiRating
               {...rest}

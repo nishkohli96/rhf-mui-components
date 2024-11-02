@@ -47,11 +47,7 @@ const RHFTimePicker = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTimePickerProps<T>) => {
-  const {
-    defaultFormLabelSx,
-    dateAdapter,
-    allLabelsAboveFormField
-  } = useContext(RHFMuiConfigContext);
+  const { dateAdapter, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFormField
@@ -68,7 +64,6 @@ const RHFTimePicker = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <LocalizationProvider dateAdapter={dateAdapter}>
         <MuiTimePicker

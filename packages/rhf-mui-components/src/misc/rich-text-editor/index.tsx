@@ -1,4 +1,4 @@
-import { useContext, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { UseFormSetValue, FieldValues, Path, PathValue } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { EventInfo } from '@ckeditor/ckeditor5-utils';
@@ -7,7 +7,6 @@ import { ClassicEditor } from 'ckeditor5';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -61,7 +60,6 @@ const RHFRichTextEditor = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
 }: RHFRichTextEditorProps<T>) => {
-  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -80,7 +78,6 @@ const RHFRichTextEditor = <T extends FieldValues>({
         isVisible={Boolean(fieldLabel)}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <CKEditor
         id={id}

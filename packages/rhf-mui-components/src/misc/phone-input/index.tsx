@@ -77,8 +77,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   phoneInputProps,
   ...rest
 }: RHFPhoneInputProps<T>) => {
-  const { defaultFormLabelSx, allLabelsAboveFormField }
-    = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -146,7 +145,6 @@ const RHFPhoneInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <TextField
         autoComplete={fieldName}

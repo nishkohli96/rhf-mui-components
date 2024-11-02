@@ -8,7 +8,6 @@ import {
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel } from '@/utils';
 import { FormLabel, FormHelperText } from '../common';
 
@@ -48,7 +47,6 @@ const RHFSlider = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFSliderProps<T>) => {
-  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -61,7 +59,6 @@ const RHFSlider = <T extends FieldValues>({
         isVisible={showLabelAboveFormField ?? true}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <MuiSlider
         min={Number(min)}

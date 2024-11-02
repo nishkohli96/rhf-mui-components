@@ -40,7 +40,7 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTextFieldProps<T>) => {
-  const { defaultFormLabelSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -59,7 +59,6 @@ const RHFTextField = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <MuiTextField
         autoComplete={fieldName}

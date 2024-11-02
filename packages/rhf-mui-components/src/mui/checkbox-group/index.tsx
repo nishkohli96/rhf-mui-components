@@ -51,10 +51,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps
 }: RHFCheckboxGroupProps<T>) => {
-  const {
-    defaultFormLabelSx,
-    defaultFormControlLabelSx
-  } = useContext(RHFMuiConfigContext);
+  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -91,7 +88,6 @@ const RHFCheckboxGroup = <T extends FieldValues>({
               isVisible={showLabelAboveFormField ?? true}
               error={isError}
               formLabelProps={formLabelProps}
-              defaultFormLabelSx={defaultFormLabelSx}
             />
             <Fragment>
               {options.map((option, idx) => {

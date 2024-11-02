@@ -1,23 +1,23 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, useContext } from 'react';
 import MuiFormLabel, { FormLabelProps } from '@mui/material/FormLabel';
-import { RHFMuiConfig } from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 
 type Props = {
   label: ReactNode;
   error: boolean;
   isVisible?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
-} & Pick<RHFMuiConfig, 'defaultFormLabelSx'>;
+};
 
 export function FormLabel(props: Props) {
   const {
     label,
     formLabelProps,
-    defaultFormLabelSx,
     error,
     isVisible
   } = props;
 
+  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherLabelProps } = formLabelProps ?? {};
   const appliedLabelSx = {
     ...defaultFormLabelSx,
