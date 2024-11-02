@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFRichTextEditorPropsTable() {
+const RHFRichTextEditorPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.setValue,
@@ -26,3 +26,5 @@ export function RHFRichTextEditorPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFRichTextEditorPropsTable;

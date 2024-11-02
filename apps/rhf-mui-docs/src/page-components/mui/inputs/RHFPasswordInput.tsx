@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFPasswordInputPropsTable() {
+const RHFPasswordInputPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.register,
@@ -20,3 +20,5 @@ export function RHFPasswordInputPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFPasswordInputPropsTable;

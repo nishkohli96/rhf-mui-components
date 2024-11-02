@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFNativeSelectPropsTable() {
+const RHFNativeSelectPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.register,
@@ -23,3 +23,6 @@ export function RHFNativeSelectPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFNativeSelectPropsTable;
+

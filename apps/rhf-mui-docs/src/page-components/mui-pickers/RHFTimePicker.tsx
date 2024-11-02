@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFTimePickerPropsTable() {
+const RHFTimePickerPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.register,
@@ -20,3 +20,5 @@ export function RHFTimePickerPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFTimePickerPropsTable;

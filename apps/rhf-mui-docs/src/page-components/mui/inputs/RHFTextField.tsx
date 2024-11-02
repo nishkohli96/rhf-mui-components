@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFTextFieldPropsTable() {
+const RHFTextFieldPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.register,
@@ -18,3 +18,5 @@ export function RHFTextFieldPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFTextFieldPropsTable;

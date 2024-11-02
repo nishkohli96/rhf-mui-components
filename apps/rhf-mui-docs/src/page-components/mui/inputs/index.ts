@@ -1,2 +1,2 @@
-export * from './RHFPasswordInput';
-export * from './RHFTextField';
+export { default as RHFPasswordInputPropsTable } from './RHFPasswordInput';
+export { default as RHFTextFieldPropsTable } from './RHFTextField';

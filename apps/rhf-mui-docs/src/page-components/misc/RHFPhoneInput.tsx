@@ -1,19 +1,18 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-const RHFDateTimePickerPropsTable = () => {
+const RHFPhoneInputPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
-    PropsDescription.registerOptions,
+    PropsDescription.value_PhoneInput,
     PropsDescription.setValue,
-    PropsDescription.onValueChange_Pickers,
+    PropsDescription.onValueChange_PhoneInput,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
-    PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    PropsDescription.formHelperTextProps,
+    PropsDescription.phoneInputProps
   ];
 
   return (
@@ -21,4 +20,5 @@ const RHFDateTimePickerPropsTable = () => {
   );
 }
 
-export default RHFDateTimePickerPropsTable;
+export default RHFPhoneInputPropsTable;
+

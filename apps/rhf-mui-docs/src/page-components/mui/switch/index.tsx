@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFSwitchPropsTable() {
+const RHFSwitchPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -14,3 +14,5 @@ export function RHFSwitchPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFSwitchPropsTable;

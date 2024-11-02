@@ -33,6 +33,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   disabled?: boolean;
   label?: ReactNode;
+  showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
   onError?: (error: Error, details: ErrorDetails) => void;
@@ -53,6 +54,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
   onBlur,
   disabled,
   label,
+  showLabelAboveFormField,
   formLabelProps,
   helperText,
   onError,
@@ -75,7 +77,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={Boolean(fieldLabel)}
+        isVisible={showLabelAboveFormField ??  true}
         error={isError}
         formLabelProps={formLabelProps}
       />

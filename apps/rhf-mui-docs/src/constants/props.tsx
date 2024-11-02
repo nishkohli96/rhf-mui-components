@@ -117,6 +117,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'Callback function returning the `event` object, editor value and editor details.',
     type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void',
   },
+  onValueChange_PhoneInput: {
+    name: 'onValueChange',
+    description: 'Callback function to get details of input phone number, including the country details.',
+    type: '({ phone, inputValue, country }) => void',
+  },
   value_ColorPicker: {
     name: 'value',
     description: 'Selected color in `RHFColorPicker` component. Default is `#000000` (black).',
@@ -125,6 +130,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   value_RichTextEditor: {
     name: 'value',
     description: 'The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.',
+    type: 'string',
+  },
+  value_PhoneInput: {
+    name: 'value',
+    description: 'Input phone number, for example, "+91 99887-76655".',
     type: 'string',
   },
   showPasswordIcon: {
@@ -233,6 +243,12 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'onError',
     description: 'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
     type: '(error: Error, details: ErrorDetails) => void'
+  },
+  phoneInputProps: {
+    name: 'phoneInputProps',
+    description: 'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
+    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean}',
+    hasLinkInType: true
   }
 });
 

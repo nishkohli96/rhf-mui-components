@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFColorPickerPropsTable() {
+const RHFColorPickerPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.value_ColorPicker,
@@ -20,3 +20,5 @@ export function RHFColorPickerPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFColorPickerPropsTable;

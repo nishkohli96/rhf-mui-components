@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export default function RHFCheckboxPropsTable() {
+const RHFCheckboxPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -18,3 +18,5 @@ export default function RHFCheckboxPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFCheckboxPropsTable;

@@ -1,7 +1,7 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-export default function DefaultConfigValuesTable() {
+const DefaultConfigValuesTable = () => {
   const header = '| Prop Name | Default Value |\n|-|-|\n';
   const row1 = '| defaultFormLabelSx | { marginBottom: "0.75rem" } |\n';
   const row2 = '| defaultFormControlLabelSx | {} |\n';
@@ -14,3 +14,5 @@ export default function DefaultConfigValuesTable() {
     </Markdown>
   );
 }
+
+export default DefaultConfigValuesTable;

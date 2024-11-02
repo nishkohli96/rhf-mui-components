@@ -30,7 +30,8 @@ export default function MiscellaneousComponentsForm() {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: {
-      favouriteColor: 'hsl(201 100% 73% / 1)'
+      favouriteColor: 'hsl(201 100% 73% / 1)',
+      contactNumber: '+1 (765) 232-3423'
     }
   });
 

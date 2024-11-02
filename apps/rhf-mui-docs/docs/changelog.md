@@ -7,6 +7,19 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 # **What's changed?**
 
+## [1.1.0](https://github.com/nishkohli96/rhf-mui-components/tree/v1.1.0)
+
+**Released - 3 Nov, 2024**
+
+**New Components 🔥**
+- [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
+
+**New Features 🎉**
+- Add `allLabelsAboveFormField` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all applicable components. 
+
+**Fixes 🛠️**
+- Code optimization
+
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
 
 **Released - 1 Nov, 2024**

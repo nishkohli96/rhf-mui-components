@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-export function RHFRadioGroupPropsTable() {
+const RHFRadioGroupPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -24,3 +24,5 @@ export function RHFRadioGroupPropsTable() {
     <MarkdownTable rows={tableRows} showType/>
   );
 }
+
+export default RHFRadioGroupPropsTable;
