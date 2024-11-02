@@ -26,6 +26,7 @@ import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import RenderCountry from './RenderCountry';
 import 'react-international-phone/style.css';
+import { MenuItem, Typography } from '@mui/material';
 
 type PhoneInputChangeReturnValue = {
   phone: string;
@@ -35,13 +36,7 @@ type PhoneInputChangeReturnValue = {
 
 type OmittedTextFieldProps = Omit<
   TextFieldProps,
-  | 'name'
-  | 'value'
-  | 'onChange'
-  | 'error'
-  | 'InputProps'
-  | 'inputRef'
-  | 'type'
+  'name' | 'value' | 'onChange' | 'error' | 'InputProps' | 'inputRef' | 'type'
 >;
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
@@ -98,45 +93,41 @@ const RHFPhoneInput = <T extends FieldValues>({
   let countriesToListAtTop: CountryData[] = [];
 
   /**
-	 * Render preferred countries at the top of the list.
-	 * Preferred countries will maintain the order in which they were
-	 * specified in the props, while other countries will be sorted
-	 * alphabetically.
-	 */
+   * Render preferred countries at the top of the list.
+   * Preferred countries will maintain the order in which they were
+   * specified in the props, while other countries will be sorted
+   * alphabetically.
+   */
   if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter(country =>
-      preferredCountries.includes(parseCountry(country).iso2));
+    countriesToListAtTop = countryOptions.filter((country) =>
+      preferredCountries.includes(parseCountry(country).iso2)
+    );
     countriesToListAtTop.sort((a, b) => {
       return (
-        preferredCountries.indexOf(parseCountry(a).iso2)
-        - preferredCountries.indexOf(parseCountry(b).iso2)
+        preferredCountries.indexOf(parseCountry(a).iso2) -
+        preferredCountries.indexOf(parseCountry(b).iso2)
       );
     });
 
     countriesToList = countryOptions.filter(
-      country => !preferredCountries.includes(parseCountry(country).iso2)
+      (country) => !preferredCountries.includes(parseCountry(country).iso2)
     );
   }
 
-  const {
-    inputValue,
-    handlePhoneValueChange,
-    inputRef,
-    country,
-    setCountry
-  } = usePhoneInput({
-    ...otherPhoneInputProps,
-    value,
-    onChange: (phoneData: PhoneInputChangeReturnValue) => {
-      setValue(fieldName, phoneData.inputValue as PathValue<T, Path<T>>);
-      if (onValueChange) {
-        onValueChange(phoneData);
-      }
-    },
-    countries: countryOptions,
-    preferredCountries,
-    forceDialCode: hideDropdown ?? forceDialCode,
-  });
+  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
+    usePhoneInput({
+      ...otherPhoneInputProps,
+      value,
+      onChange: (phoneData: PhoneInputChangeReturnValue) => {
+        setValue(fieldName, phoneData.inputValue as PathValue<T, Path<T>>);
+        if (onValueChange) {
+          onValueChange(phoneData);
+        }
+      },
+      countries: countryOptions,
+      preferredCountries,
+      forceDialCode: hideDropdown ?? forceDialCode
+    });
 
   return (
     <FormControl error={isError}>
@@ -195,20 +186,85 @@ const RHFPhoneInput = <T extends FieldValues>({
                 }}
                 value={country.iso2}
                 disabled={disabled || hideDropdown}
-                onChange={e => setCountry(e.target.value as CountryIso2)}
-                renderValue={value => (
+                onChange={(e) => setCountry(e.target.value as CountryIso2)}
+                renderValue={(value) => (
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {countriesToListAtTop.map((country, idx) => (
-                  <RenderCountry country={country} key={idx} />
-                ))}
-                {countriesToListAtTop.length > 0 && (
-                  <Divider />
-                )}
-                {countriesToList.map((country, idx) => (
-                  <RenderCountry country={country} key={idx} />
-                ))}
+                {/* {defaultCountries.map(c => {
+  const parsedCountry = parseCountry(c);
+  // return <RenderCountry key={parsedCountry.iso2} country={parsedCountry} />;
+  return (
+    <MenuItem key={parsedCountry.iso2} value={parsedCountry.iso2}>
+      <FlagImage
+        iso2={parsedCountry.iso2}
+        style={{ marginRight: '8px' }}
+      />
+      <Typography marginRight="8px">
+        {parsedCountry.name}
+      </Typography>
+      <Typography color="gray">
+        +
+        {parsedCountry.dialCode}
+      </Typography>
+    </MenuItem>
+  );
+})} */}
+
+                {defaultCountries.map(c => {
+                  const countryInfo = parseCountry(c);
+                  return <RenderCountry key={countryInfo.iso2} country={countryInfo} />
+
+                //   return (
+                //     <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                //       <FlagImage
+                //         iso2={countryInfo.iso2}
+                //         style={{ marginRight: '8px' }}
+                //       />
+                //       <Typography marginRight="8px">{countryInfo.name}</Typography>
+                //       <Typography color="gray">+{countryInfo.dialCode}</Typography>
+                //     </MenuItem>
+                //     // <RenderCountry key={countryInfo.iso2} country={countryInfo} />
+                // )
+                })}
+
+                {/* {countriesToListAtTop.length > 0 && <Divider />} */}
+                {/* {defaultCountries.map((c) => {
+                  const country = parseCountry(c);
+                  return (
+                    <CountryMenuItem key={country.iso2} country={country} />
+                  );
+                })} */}
+
+                {/* {defaultCountries.map((c) => {
+                  const country = parseCountry(c);
+                  return (
+                    <MenuItem key={country.iso2} value={country.iso2}>
+                      <FlagImage
+                        iso2={country.iso2}
+                        style={{ marginRight: '8px' }}
+                      />
+                      <Typography marginRight="8px">{country.name}</Typography>
+                      <Typography color="gray">+{country.dialCode}</Typography>
+                    </MenuItem>
+                  );
+                })} */}
+                {/* {defaultCountries.map((c) => {
+                  const country = parseCountry(c);
+                  return (
+                    <MenuItem key={country.iso2} value={country.iso2}>
+                      <FlagImage
+                        iso2={country.iso2}
+                        style={{ marginRight: '8px' }}
+                      />
+                      <Typography marginRight="8px">{country.name}</Typography>
+                      <Typography color="gray">+{country.dialCode}</Typography>
+                    </MenuItem>
+                  );
+                })} */}
+                {/* {countriesToList.map((country, idx) => (
+                  <RenderCountry country={country} key={Math.random()}/>
+                ))} */}
               </Select>
             </InputAdornment>
           )
