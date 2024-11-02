@@ -1,7 +1,7 @@
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import FileView from './FileView';
-import { FolderIcon, FolderOpenIcon } from './Icons';
+import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
 import {
 	muiFoldersList,
 	muiPickersFoldersList,
@@ -22,19 +22,24 @@ const FolderStructure = () => {
         collapseIcon={<FolderIcon />}
       >
         <FileView
-          nodeId='2'
-					folderName='mui'
+          nodeId="2"
+					folderName="mui"
 					fileList={muiFoldersList}
 				/>
 				<FileView
-          nodeId='3'
-					folderName='mui-pickers'
+          nodeId="3"
+					folderName="mui-pickers"
 					fileList={muiPickersFoldersList}
 				/> 
 				<FileView
-          nodeId='4'
-					folderName='misc'
+          nodeId="4"
+					folderName="misc"
 					fileList={miscFoldersList}
+				/>
+				<TreeItem
+          nodeId="5"
+					label="config"
+					icon={<FileIcon />}
 				/>
 			</TreeItem>
     </TreeView>

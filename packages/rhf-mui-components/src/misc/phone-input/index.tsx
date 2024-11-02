@@ -198,15 +198,15 @@ const RHFPhoneInput = <T extends FieldValues>({
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {countriesToListAtTop.map(country => (
-									<RenderCountry country={country} />
-								))}
+                {countriesToListAtTop.map((country, idx) => (
+                  <RenderCountry country={country} key={idx} />
+                ))}
                 {countriesToListAtTop.length > 0 && (
                   <Divider />
                 )}
-                {countriesToList.map(country => (
-									<RenderCountry country={country} />
-								))}
+                {countriesToList.map((country, idx) => (
+                  <RenderCountry country={country} key={idx} />
+                ))}
               </Select>
             </InputAdornment>
           )
