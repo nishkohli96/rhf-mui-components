@@ -30,7 +30,7 @@ const RHFCheckbox = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFCheckboxProps<T>) => {
-  const { defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
@@ -70,7 +70,6 @@ const RHFCheckbox = <T extends FieldValues>({
               errorMessage={errorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
-              defaultFormHelperTextSx={defaultFormHelperTextSx}
               formHelperTextProps={formHelperTextProps}
             />
           </Fragment>

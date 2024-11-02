@@ -40,7 +40,7 @@ const RHFColorPicker = <T extends FieldValues>({
   formHelperTextProps,
   ...otherProps
 }: RHFColorPickerProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const [color, setColor] = useColor(value ?? '#000000');
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -72,7 +72,6 @@ const RHFColorPicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

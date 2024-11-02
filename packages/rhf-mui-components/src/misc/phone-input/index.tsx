@@ -77,7 +77,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   phoneInputProps,
   ...rest
 }: RHFPhoneInputProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField }
+  const { defaultFormLabelSx, allLabelsAboveFormField }
     = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -221,7 +221,6 @@ const RHFPhoneInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

@@ -48,7 +48,6 @@ const RHFTimePicker = <T extends FieldValues>({
   ...rest
 }: RHFTimePickerProps<T>) => {
   const {
-    defaultFormHelperTextSx,
     defaultFormLabelSx,
     dateAdapter,
     allLabelsAboveFormField
@@ -87,7 +86,6 @@ const RHFTimePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

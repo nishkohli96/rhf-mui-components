@@ -68,7 +68,7 @@ const RHFSelect = <T extends FieldValues>({
   formHelperTextProps,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFormField
@@ -134,7 +134,6 @@ const RHFSelect = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

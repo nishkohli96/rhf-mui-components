@@ -48,7 +48,6 @@ const RHFDatePicker = <T extends FieldValues>({
   ...rest
 }: RHFDatePickerProps<T>) => {
   const {
-    defaultFormHelperTextSx,
     defaultFormLabelSx,
     dateAdapter,
     allLabelsAboveFormField
@@ -87,7 +86,6 @@ const RHFDatePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

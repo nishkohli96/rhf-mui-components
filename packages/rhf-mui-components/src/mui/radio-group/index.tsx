@@ -53,7 +53,7 @@ const RHFRadioGroup = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFRadioGroupProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -115,7 +115,6 @@ const RHFRadioGroup = <T extends FieldValues>({
               errorMessage={errorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
-              defaultFormHelperTextSx={defaultFormHelperTextSx}
               formHelperTextProps={formHelperTextProps}
             />
           </FormControl>

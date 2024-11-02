@@ -40,7 +40,7 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTextFieldProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -79,7 +79,6 @@ const RHFTextField = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

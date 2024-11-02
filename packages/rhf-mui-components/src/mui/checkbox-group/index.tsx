@@ -53,7 +53,6 @@ const RHFCheckboxGroup = <T extends FieldValues>({
 }: RHFCheckboxGroupProps<T>) => {
   const {
     defaultFormLabelSx,
-    defaultFormHelperTextSx,
     defaultFormControlLabelSx
   } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -128,7 +127,6 @@ const RHFCheckboxGroup = <T extends FieldValues>({
               errorMessage={errorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
-              defaultFormHelperTextSx={defaultFormHelperTextSx}
               formHelperTextProps={formHelperTextProps}
             />
           </FormControl>
