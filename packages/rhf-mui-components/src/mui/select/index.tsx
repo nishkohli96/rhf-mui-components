@@ -46,7 +46,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
 >;
 
-export default function RHFSelect<T extends FieldValues>({
+const RHFSelect = <T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
@@ -66,7 +66,7 @@ export default function RHFSelect<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...otherSelectProps
-}: RHFSelectProps<T>) {
+}: RHFSelectProps<T>) => {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -135,3 +135,5 @@ export default function RHFSelect<T extends FieldValues>({
     </FormControl>
   );
 }
+
+export default RHFSelect;

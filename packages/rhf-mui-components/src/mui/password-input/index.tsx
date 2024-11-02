@@ -32,7 +32,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-export default function RHFPasswordInput<T extends FieldValues>({
+const RHFPasswordInput = <T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
@@ -47,7 +47,7 @@ export default function RHFPasswordInput<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFPasswordInputProps<T>) {
+}: RHFPasswordInputProps<T>) => {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -114,3 +114,5 @@ export default function RHFPasswordInput<T extends FieldValues>({
     </FormControl>
   );
 }
+
+export default RHFPasswordInput;

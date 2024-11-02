@@ -35,7 +35,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<RadioGroupProps, 'name' | 'value' | 'onChange'>;
 
-export default function RHFRadioGroup<T extends FieldValues>({
+const RHFRadioGroup = <T extends FieldValues>({
   fieldName,
   control,
   options,
@@ -52,7 +52,7 @@ export default function RHFRadioGroup<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFRadioGroupProps<T>) {
+}: RHFRadioGroupProps<T>) => {
   const { defaultFormLabelSx, defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -124,3 +124,5 @@ export default function RHFRadioGroup<T extends FieldValues>({
     />
   );
 }
+
+export default RHFRadioGroup;

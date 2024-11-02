@@ -38,7 +38,7 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
 >;
 
-export default function RHFNativeSelect<T extends FieldValues>({
+const RHFNativeSelect = <T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
@@ -54,7 +54,7 @@ export default function RHFNativeSelect<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...otherNativeSelectProps
-}: RHFNativeSelectProps<T>) {
+}: RHFNativeSelectProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -103,3 +103,5 @@ export default function RHFNativeSelect<T extends FieldValues>({
     </FormControl>
   );
 }
+
+export default RHFNativeSelect;

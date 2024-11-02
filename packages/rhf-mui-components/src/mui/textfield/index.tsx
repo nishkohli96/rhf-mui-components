@@ -26,7 +26,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
-export default function RHFTextField<T extends FieldValues>({
+const RHFTextField = <T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
@@ -39,7 +39,7 @@ export default function RHFTextField<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFTextFieldProps<T>) {
+}: RHFTextFieldProps<T>) => {
   const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -83,3 +83,5 @@ export default function RHFTextField<T extends FieldValues>({
     </FormControl>
   );
 }
+
+export default RHFTextField;

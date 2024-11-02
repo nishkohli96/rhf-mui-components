@@ -32,7 +32,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<DateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-export default function RHFDateTimePicker<T extends FieldValues>({
+const RHFDateTimePicker = <T extends FieldValues>({
   fieldName,
   register,
   registerOptions,
@@ -46,7 +46,7 @@ export default function RHFDateTimePicker<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFDateTimePickerProps<T>) {
+}: RHFDateTimePickerProps<T>) => {
   const {
     defaultFormHelperTextSx,
     defaultFormLabelSx,
@@ -88,3 +88,5 @@ export default function RHFDateTimePicker<T extends FieldValues>({
     </FormControl>
   );
 }
+
+export default RHFDateTimePicker;

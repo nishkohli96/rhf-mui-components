@@ -31,7 +31,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<SliderProps, 'name' | 'defaultValue'>;
 
-export default function RHFSlider<T extends FieldValues>({
+const RHFSlider = <T extends FieldValues>({
   fieldName,
   defaultValue,
   register,
@@ -47,7 +47,7 @@ export default function RHFSlider<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFSliderProps<T>) {
+}: RHFSliderProps<T>) => {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -87,3 +87,5 @@ export default function RHFSlider<T extends FieldValues>({
     </Fragment>
   );
 }
+
+export default RHFSlider;

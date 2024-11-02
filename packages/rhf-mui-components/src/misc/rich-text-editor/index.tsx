@@ -42,9 +42,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
-export { DefaultEditorConfig };
-
-export default function RHFRichTextEditor<T extends FieldValues>({
+const RHFRichTextEditor = <T extends FieldValues>({
   fieldName,
   setValue,
   id,
@@ -62,7 +60,7 @@ export default function RHFRichTextEditor<T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-}: RHFRichTextEditorProps<T>) {
+}: RHFRichTextEditorProps<T>) => {
   const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -107,3 +105,6 @@ export default function RHFRichTextEditor<T extends FieldValues>({
     </FormControl>
   );
 }
+
+export { DefaultEditorConfig };
+export default RHFRichTextEditor;

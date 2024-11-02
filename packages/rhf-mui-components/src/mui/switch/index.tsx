@@ -18,14 +18,14 @@ export type RHFSwitchProps<T extends FieldValues> = {
   formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
 } & Omit<SwitchProps, 'name'>;
 
-export default function RHFSwitch<T extends FieldValues>({
+const RHFSwitch = <T extends FieldValues>({
   fieldName,
   control,
   label,
   onValueChange,
   formControlLabelProps,
   ...rest
-}: RHFSwitchProps<T>) {
+}: RHFSwitchProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -65,3 +65,5 @@ export default function RHFSwitch<T extends FieldValues>({
     />
   );
 }
+
+export default RHFSwitch;

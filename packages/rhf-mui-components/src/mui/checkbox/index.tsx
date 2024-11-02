@@ -18,7 +18,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 } & Omit<CheckboxProps, 'name' | 'checked' | 'onChange'>;
 
-export default function RHFCheckbox<T extends FieldValues>({
+const RHFCheckbox = <T extends FieldValues>({
   fieldName,
   control,
   onValueChange,
@@ -29,7 +29,7 @@ export default function RHFCheckbox<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFCheckboxProps<T>) {
+}: RHFCheckboxProps<T>) => {
   const { defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
 
@@ -79,3 +79,5 @@ export default function RHFCheckbox<T extends FieldValues>({
     />
   );
 }
+
+export default RHFCheckbox;

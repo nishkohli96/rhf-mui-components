@@ -34,7 +34,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
 };
 
-export default function RHFCheckboxGroup<T extends FieldValues>({
+const RHFCheckboxGroup = <T extends FieldValues>({
   fieldName,
   control,
   options,
@@ -50,7 +50,7 @@ export default function RHFCheckboxGroup<T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps
-}: RHFCheckboxGroupProps<T>) {
+}: RHFCheckboxGroupProps<T>) => {
   const {
     defaultFormLabelSx,
     defaultFormHelperTextSx,
@@ -137,3 +137,5 @@ export default function RHFCheckboxGroup<T extends FieldValues>({
     />
   );
 }
+
+export default RHFCheckboxGroup;
