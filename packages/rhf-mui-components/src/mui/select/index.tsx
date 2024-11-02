@@ -19,6 +19,7 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
+  keepLabelAboveFormField,
 } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
@@ -67,7 +68,11 @@ const RHFSelect = <T extends FieldValues>({
   formHelperTextProps,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFormField
+  );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -78,13 +83,13 @@ const RHFSelect = <T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
         defaultFormLabelSx={defaultFormLabelSx}
       />
       <Fragment>
-        {!showLabelAboveFormField && (
+        {!isLabelAboveFormField && (
           <InputLabel id={fieldName}>
             {fieldLabel}
           </InputLabel>
@@ -92,8 +97,8 @@ const RHFSelect = <T extends FieldValues>({
       </Fragment>
       <MuiSelect
         id={fieldName}
-        labelId={showLabelAboveFormField ? undefined : fieldName}
-        label={showLabelAboveFormField ? undefined : fieldName}
+        labelId={isLabelAboveFormField ? undefined : fieldName}
+        label={isLabelAboveFormField ? undefined : fieldName}
         defaultValue={defaultValue ?? ( multiple ? [] : '')}
         error={isError}
         multiple={multiple}

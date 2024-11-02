@@ -43,8 +43,10 @@ const RHFTextField = <T extends FieldValues>({
   const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isLabelAboveFormField = keepLabelAboveFormField(showLabelAboveFormField, allLabelsAboveFormField);
-
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFormField
+  );
   const { onChange, ...otherRegisterProps } = register(
     fieldName,
     registerOptions

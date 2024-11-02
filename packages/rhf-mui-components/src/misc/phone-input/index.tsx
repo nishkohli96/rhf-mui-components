@@ -22,7 +22,7 @@ import {
   UsePhoneInputConfig
 } from 'react-international-phone';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import RenderCountry from './RenderCountry';
 import 'react-international-phone/style.css';
@@ -77,10 +77,14 @@ const RHFPhoneInput = <T extends FieldValues>({
   phoneInputProps,
   ...rest
 }: RHFPhoneInputProps<T>) => {
-  const { defaultFormLabelSx, defaultFormHelperTextSx }
+  const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField }
     = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFormField
+  );
 
   const {
     countries,
@@ -139,7 +143,7 @@ const RHFPhoneInput = <T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
         defaultFormLabelSx={defaultFormLabelSx}
@@ -151,7 +155,7 @@ const RHFPhoneInput = <T extends FieldValues>({
         value={inputValue}
         onChange={handlePhoneValueChange}
         inputRef={inputRef}
-        label={!showLabelAboveFormField ? fieldLabel : undefined}
+        label={!isLabelAboveFormField ? fieldLabel : undefined}
         error={isError}
         disabled={disabled}
         InputProps={{

@@ -50,7 +50,7 @@ const RHFRating = <T extends FieldValues>({
           <FormControl error={isError}>
             <FormLabel
               label={fieldLabel}
-              isVisible={showLabelAboveFormField}
+              isVisible={showLabelAboveFormField ?? true}
               error={isError}
               formLabelProps={formLabelProps}
               defaultFormLabelSx={defaultFormLabelSx}

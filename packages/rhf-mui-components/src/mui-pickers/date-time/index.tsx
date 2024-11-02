@@ -16,7 +16,7 @@ import {
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -50,8 +50,13 @@ const RHFDateTimePicker = <T extends FieldValues>({
   const {
     defaultFormHelperTextSx,
     defaultFormLabelSx,
-    dateAdapter
+    dateAdapter,
+    allLabelsAboveFormField
   } = useContext(RHFMuiConfigContext);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFormField
+  );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -61,7 +66,7 @@ const RHFDateTimePicker = <T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
         defaultFormLabelSx={defaultFormLabelSx}
@@ -72,7 +77,7 @@ const RHFDateTimePicker = <T extends FieldValues>({
             setValue(fieldName, newValue as T[typeof fieldName]);
             onValueChange?.(newValue);
           }}
-          label={!showLabelAboveFormField ? fieldLabel : undefined}
+          label={!isLabelAboveFormField ? fieldLabel : undefined}
           {...otherRegisterProps}
           {...rest}
         />
