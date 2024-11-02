@@ -4,7 +4,7 @@ import { PropDescV2 } from '@site/src/types';
 const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   fieldName: {
     name: 'fieldName',
-    description: 'React Hook Form requires `name` as a key for the registration process.',
+    description: 'React Hook Form requires `name` as a key for the registration process. This is a required props for all components.',
     required: true,
     type: 'string'
   },

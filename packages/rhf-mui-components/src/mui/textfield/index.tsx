@@ -9,7 +9,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
@@ -40,9 +40,10 @@ export default function RHFTextField<T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTextFieldProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx, defaultFormHelperTextSx, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isLabelAboveFormField = keepLabelAboveFormField(showLabelAboveFormField, allLabelsAboveFormField);
 
   const { onChange, ...otherRegisterProps } = register(
     fieldName,
@@ -53,7 +54,7 @@ export default function RHFTextField<T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
         error={isError}
         formLabelProps={formLabelProps}
         defaultFormLabelSx={defaultFormLabelSx}
@@ -68,7 +69,7 @@ export default function RHFTextField<T extends FieldValues>({
           }
         }}
         {...otherRegisterProps}
-        label={!showLabelAboveFormField ? fieldLabel : undefined}
+        label={!isLabelAboveFormField ? fieldLabel : undefined}
         error={isError}
       />
       <FormHelperText
