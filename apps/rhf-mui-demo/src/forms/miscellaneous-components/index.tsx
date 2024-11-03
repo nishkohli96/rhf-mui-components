@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { defaultCountries, parseCountry, CountryIso2 } from 'react-international-phone';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFCountrySelect from '@nish1896/rhf-mui-components/misc/country-select';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
@@ -19,10 +20,12 @@ type FormSchema = {
   bio: string;
   contactNumber: string;
   favouriteColor: string;
+  countries: string[];
 };
 
 export default function MiscellaneousComponentsForm() {
   const {
+    register,
     setValue,
     handleSubmit,
     watch,
@@ -83,9 +86,17 @@ export default function MiscellaneousComponentsForm() {
               variant='standard'
               phoneInputProps={{
                 defaultCountry: countyCodes[0],
-                countries,
+                //countries,
                 preferredCountries: countyCodes.slice(0,3)
               }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Country Select" />
+            <RHFCountrySelect
+              fieldName='countries'
+              register={register}
+              showLabelAboveFormField
             />
           </Grid>
           <Grid item xs={12}>
