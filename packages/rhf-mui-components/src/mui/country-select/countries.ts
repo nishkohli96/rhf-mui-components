@@ -3,7 +3,9 @@
  * https://github.com/dr5hn/countries-states-cities-database/blob/master/json/countries.json 
  */
 
-const allCountries = [
+import { CountryDetails } from '@/types';
+
+export const allCountries: CountryDetails[] = [
   {
     name: 'Afghanistan',
     iso: 'AF',

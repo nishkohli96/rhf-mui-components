@@ -13,23 +13,15 @@ import MuiSelect, {
   SelectChangeEvent,
   SelectProps
 } from '@mui/material/Select';
-import {
-  defaultCountries,
-	CountryIso2,
-  FlagImage,
-  parseCountry
-} from 'react-international-phone';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import {
-  fieldNameToLabel,
-  isKeyValueOption,
-  keepLabelAboveFormField
-} from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { Typography } from '@mui/material';
-import 'react-international-phone/style.css';
+import { allCountries } from './countries';
 
-type OptionValue = string | CountryIso2;
+type OptionValue = string;
 type SelectValueType = OptionValue | OptionValue[];
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -101,9 +93,9 @@ const RHFCountrySelect = <T extends FieldValues>({
         defaultValue={defaultValue ?? (multiple ? [] : '')}
         error={isError}
         multiple={multiple}
-				// renderValue={(value) => (
-				// 	<FlagImage iso2={value} style={{ display: 'flex' }} />
-				// )}
+        // renderValue={(value) => (
+        // 	<FlagImage iso2={value} style={{ display: 'flex' }} />
+        // )}
         onChange={(e) => {
           onChange(e);
           if (onValueChange) {
@@ -120,16 +112,15 @@ const RHFCountrySelect = <T extends FieldValues>({
         >
           {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
         </MenuItem>
-        {defaultCountries.map((c) => {
-          const countryInfo = parseCountry(c);
-					// countryInfo.
+        {allCountries.map((countryInfo) => {
           return (
-            <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-              <FlagImage
-                iso2={countryInfo.iso2}
-                style={{ marginRight: '8px' }}
-              />
-              <Typography marginRight="16px">{countryInfo.name}</Typography>
+            <MenuItem key={countryInfo.iso} value={countryInfo.iso}>
+              <ListItemIcon>
+                <Typography variant="h5" component="span">
+                  {countryInfo.emoji}
+                </Typography>
+              </ListItemIcon>
+              <ListItemText>{countryInfo.name}</ListItemText>
             </MenuItem>
           );
         })}
