@@ -83,7 +83,7 @@ export default function MiscellaneousComponentsForm() {
               variant='standard'
               phoneInputProps={{
                 defaultCountry: countyCodes[0],
-                //countries,
+                countries,
                 preferredCountries: countyCodes.slice(0,3)
               }}
             />

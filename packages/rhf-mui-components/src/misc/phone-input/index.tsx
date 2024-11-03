@@ -11,6 +11,8 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import {
   CountryData,
   CountryIso2,
@@ -22,11 +24,9 @@ import {
   UsePhoneInputConfig
 } from 'react-international-phone';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import RenderCountry from './RenderCountry';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import 'react-international-phone/style.css';
-import { MenuItem, Typography } from '@mui/material';
 
 type PhoneInputChangeReturnValue = {
   phone: string;
@@ -191,80 +191,43 @@ const RHFPhoneInput = <T extends FieldValues>({
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {/* {defaultCountries.map(c => {
-  const parsedCountry = parseCountry(c);
-  // return <RenderCountry key={parsedCountry.iso2} country={parsedCountry} />;
-  return (
-    <MenuItem key={parsedCountry.iso2} value={parsedCountry.iso2}>
-      <FlagImage
-        iso2={parsedCountry.iso2}
-        style={{ marginRight: '8px' }}
-      />
-      <Typography marginRight="8px">
-        {parsedCountry.name}
-      </Typography>
-      <Typography color="gray">
-        +
-        {parsedCountry.dialCode}
-      </Typography>
-    </MenuItem>
-  );
-})} */}
-
-                {defaultCountries.map(c => {
+                {countriesToListAtTop.map((c) => {
                   const countryInfo = parseCountry(c);
-                  return <RenderCountry key={countryInfo.iso2} country={countryInfo} />
-
-                //   return (
-                //     <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                //       <FlagImage
-                //         iso2={countryInfo.iso2}
-                //         style={{ marginRight: '8px' }}
-                //       />
-                //       <Typography marginRight="8px">{countryInfo.name}</Typography>
-                //       <Typography color="gray">+{countryInfo.dialCode}</Typography>
-                //     </MenuItem>
-                //     // <RenderCountry key={countryInfo.iso2} country={countryInfo} />
-                // )
+                  return (
+                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                      <FlagImage
+                        iso2={countryInfo.iso2}
+                        style={{ marginRight: '8px' }}
+                      />
+                      <Typography marginRight="8px">
+                        {countryInfo.name}
+                      </Typography>
+                      <Typography color="gray">
+                        +{countryInfo.dialCode}
+                      </Typography>
+                    </MenuItem>
+                  );
                 })}
 
-                {/* {countriesToListAtTop.length > 0 && <Divider />} */}
-                {/* {defaultCountries.map((c) => {
-                  const country = parseCountry(c);
-                  return (
-                    <CountryMenuItem key={country.iso2} country={country} />
-                  );
-                })} */}
+                {countriesToListAtTop.length > 0 && <Divider />}
 
-                {/* {defaultCountries.map((c) => {
-                  const country = parseCountry(c);
+                {countriesToList.map((c) => {
+                  const countryInfo = parseCountry(c);
                   return (
-                    <MenuItem key={country.iso2} value={country.iso2}>
+                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
                       <FlagImage
-                        iso2={country.iso2}
+                        iso2={countryInfo.iso2}
                         style={{ marginRight: '8px' }}
                       />
-                      <Typography marginRight="8px">{country.name}</Typography>
-                      <Typography color="gray">+{country.dialCode}</Typography>
+                      <Typography marginRight="8px">
+                        {countryInfo.name}
+                      </Typography>
+                      <Typography color="gray">
+                        +{countryInfo.dialCode}
+                      </Typography>
                     </MenuItem>
                   );
-                })} */}
-                {/* {defaultCountries.map((c) => {
-                  const country = parseCountry(c);
-                  return (
-                    <MenuItem key={country.iso2} value={country.iso2}>
-                      <FlagImage
-                        iso2={country.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">{country.name}</Typography>
-                      <Typography color="gray">+{country.dialCode}</Typography>
-                    </MenuItem>
-                  );
-                })} */}
-                {/* {countriesToList.map((country, idx) => (
-                  <RenderCountry country={country} key={Math.random()}/>
-                ))} */}
+                })}
               </Select>
             </InputAdornment>
           )
