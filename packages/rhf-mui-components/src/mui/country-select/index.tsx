@@ -9,20 +9,28 @@ import MenuItem from '@mui/material/MenuItem';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import MuiSelect, {
-  SelectChangeEvent,
-  SelectProps
-} from '@mui/material/Select';
+import MuiSelect, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { Typography } from '@mui/material';
-import { allCountries } from './countries';
+import { CountryDetails } from '@/types';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { countryList } from './countries';
 
-type OptionValue = string;
+type OptionValue = CountryDetails;
 type SelectValueType = OptionValue | OptionValue[];
+
+type SelectInputProps =  Omit<SelectProps,
+  | 'name'
+	| 'id'
+	| 'labelId'
+	| 'error'
+	| 'onChange'
+	| 'value'
+	| 'defaultValue'
+>;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -39,10 +47,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<
-  SelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
->;
+} & SelectInputProps;
 
 const RHFCountrySelect = <T extends FieldValues>({
   fieldName,
@@ -94,7 +99,13 @@ const RHFCountrySelect = <T extends FieldValues>({
         error={isError}
         multiple={multiple}
         // renderValue={(value) => (
-        // 	<FlagImage iso2={value} style={{ display: 'flex' }} />
+				// 	<>
+        //     {Array.isArray(value) ? (
+        //       value.map(v => v.iso)
+				// 		): (
+				// 			value?.iso
+				// 		)}
+				// 	</>
         // )}
         onChange={(e) => {
           onChange(e);
@@ -112,7 +123,7 @@ const RHFCountrySelect = <T extends FieldValues>({
         >
           {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
         </MenuItem>
-        {allCountries.map((countryInfo) => {
+        {countryList.map((countryInfo) => {
           return (
             <MenuItem key={countryInfo.iso} value={countryInfo.iso}>
               <ListItemIcon>

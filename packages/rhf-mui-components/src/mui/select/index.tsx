@@ -9,10 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import MuiSelect, {
-  SelectChangeEvent,
-  SelectProps,
-} from '@mui/material/Select';
+import MuiSelect, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { OptionType } from '@/types';
 import {
@@ -24,6 +21,16 @@ import {
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
 type SelectValueType = OptionType | OptionType[];
+
+type SelectInputProps =  Omit<SelectProps,
+  | 'name'
+	| 'id'
+	| 'labelId'
+	| 'error'
+	| 'onChange'
+	| 'value'
+	| 'defaultValue'
+>;
 
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -42,10 +49,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<
-  SelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
->;
+} & SelectInputProps;
 
 const RHFSelect = <T extends FieldValues>({
   fieldName,

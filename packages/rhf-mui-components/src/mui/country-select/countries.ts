@@ -5,7 +5,7 @@
 
 import { CountryDetails } from '@/types';
 
-export const allCountries: CountryDetails[] = [
+export const countryList: CountryDetails[] = [
   {
     name: 'Afghanistan',
     iso: 'AF',
