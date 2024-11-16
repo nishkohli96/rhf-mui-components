@@ -36,6 +36,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   countries?: CountryDetails[];
   preferredCountries?: string[];
   defaultValue?: SelectValueType;
+  valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
@@ -58,6 +59,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   defaultValue,
+  valueKey,
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -77,6 +79,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
+  const countryValueKey = valueKey ?? 'iso';
 
   const { onChange, ...rest } = register(fieldName, registerOptions);
 
@@ -91,17 +94,16 @@ const RHFCountrySelect = <T extends FieldValues>({
    * alphabetically.
    */
   if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter((country) =>
-      preferredCountries.includes(country.iso)
-    );
+    countriesToListAtTop = countryOptions.filter(country =>
+      preferredCountries.includes(country[countryValueKey]));
     countriesToListAtTop.sort((a, b) => {
       return (
-        preferredCountries.indexOf(a.iso) - preferredCountries.indexOf(b.iso)
+        preferredCountries.indexOf(a[countryValueKey]) - preferredCountries.indexOf(b[countryValueKey])
       );
     });
 
     countriesToList = countryOptions.filter(
-      (country) => !preferredCountries.includes(country.iso)
+      country => !preferredCountries.includes(country[countryValueKey])
     );
   }
 
@@ -113,7 +115,9 @@ const RHFCountrySelect = <T extends FieldValues>({
         <Typography variant="h5" component="span">
           {countryInfo.emoji}
         </Typography>
-        <Typography>{countryInfo.name}</Typography>
+        <Typography>
+          {countryInfo.name}
+        </Typography>
       </span>
     );
   };
@@ -128,7 +132,9 @@ const RHFCountrySelect = <T extends FieldValues>({
       />
       <Fragment>
         {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>{fieldLabel}</InputLabel>
+          <InputLabel id={fieldName}>
+            {fieldLabel}
+          </InputLabel>
         )}
       </Fragment>
       <MuiSelect
@@ -137,15 +143,15 @@ const RHFCountrySelect = <T extends FieldValues>({
         label={isLabelAboveFormField ? undefined : fieldName}
         defaultValue={defaultValue ?? ''}
         error={isError}
-        renderValue={(iso) => {
-          const country = countryList.find((c) => c.iso === iso);
+        renderValue={value => {
+          const country = countryList.find(c => c[countryValueKey] === value);
           return (
             <Box sx={{ display: 'flex', alignItems: 'center', height: '23px' }}>
-							<CountryMenuItem countryInfo={country!} />
+              <CountryMenuItem countryInfo={country!} />
             </Box>
           );
         }}
-        onChange={(e) => {
+        onChange={e => {
           onChange(e);
           if (onValueChange) {
             onValueChange(e);
@@ -161,17 +167,18 @@ const RHFCountrySelect = <T extends FieldValues>({
         >
           {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
         </MenuItem>
-        {countriesToListAtTop.map((countryInfo) => {
+        {countriesToListAtTop.map(countryInfo => {
           return (
-						<MenuItem key={countryInfo.iso} value={countryInfo.iso}>
-						<CountryMenuItem countryInfo={countryInfo} />
-					</MenuItem>          );
+            <MenuItem key={countryInfo.iso} value={countryInfo[countryValueKey]}>
+              <CountryMenuItem countryInfo={countryInfo} />
+            </MenuItem>
+          );
         })}
         {countriesToListAtTop.length > 0 && <Divider />}
-        {countriesToList.map((countryInfo) => {
+        {countriesToList.map(countryInfo => {
           return (
-            <MenuItem key={countryInfo.iso} value={countryInfo.iso}>
-							<CountryMenuItem countryInfo={countryInfo} />
+            <MenuItem key={countryInfo.iso} value={countryInfo[countryValueKey]}>
+              <CountryMenuItem countryInfo={countryInfo} />
             </MenuItem>
           );
         })}
@@ -187,5 +194,5 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
 };
 
-export { countryList }
+export { countryList };
 export default RHFCountrySelect;

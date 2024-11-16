@@ -20,10 +20,16 @@ type FormSchema = {
   bio: string;
   contactNumber: string;
   favouriteColor: string;
-  countries: string[];
+  countries: string;
 };
 
 export default function MiscellaneousComponentsForm() {
+  const initialValues = {
+    favouriteColor: 'hsl(201 100% 73% / 1)',
+    contactNumber: '+1 (765) 232-3423',
+    countries: 'Angola'
+  };
+
   const {
     register,
     setValue,
@@ -32,10 +38,7 @@ export default function MiscellaneousComponentsForm() {
     getValues,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: {
-      favouriteColor: 'hsl(201 100% 73% / 1)',
-      contactNumber: '+1 (765) 232-3423'
-    }
+    defaultValues: initialValues
   });
 
   const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'cn', 'gb', 'vn'];

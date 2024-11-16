@@ -82,6 +82,6 @@ const RHFTextField = <T extends FieldValues>({
       />
     </FormControl>
   );
-}
+};
 
 export default RHFTextField;

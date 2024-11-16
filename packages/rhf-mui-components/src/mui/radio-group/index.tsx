@@ -121,6 +121,6 @@ const RHFRadioGroup = <T extends FieldValues>({
       }}
     />
   );
-}
+};
 
 export default RHFRadioGroup;

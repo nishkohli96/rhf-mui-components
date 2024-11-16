@@ -99,23 +99,22 @@ const RHFPhoneInput = <T extends FieldValues>({
    * alphabetically.
    */
   if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter((country) =>
-      preferredCountries.includes(parseCountry(country).iso2)
-    );
+    countriesToListAtTop = countryOptions.filter(country =>
+      preferredCountries.includes(parseCountry(country).iso2));
     countriesToListAtTop.sort((a, b) => {
       return (
-        preferredCountries.indexOf(parseCountry(a).iso2) -
-        preferredCountries.indexOf(parseCountry(b).iso2)
+        preferredCountries.indexOf(parseCountry(a).iso2)
+        - preferredCountries.indexOf(parseCountry(b).iso2)
       );
     });
 
     countriesToList = countryOptions.filter(
-      (country) => !preferredCountries.includes(parseCountry(country).iso2)
+      country => !preferredCountries.includes(parseCountry(country).iso2)
     );
   }
 
-  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
-    usePhoneInput({
+  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
+    = usePhoneInput({
       ...otherPhoneInputProps,
       value,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
@@ -186,12 +185,12 @@ const RHFPhoneInput = <T extends FieldValues>({
                 }}
                 value={country.iso2}
                 disabled={disabled || hideDropdown}
-                onChange={(e) => setCountry(e.target.value as CountryIso2)}
-                renderValue={(value) => (
+                onChange={e => setCountry(e.target.value as CountryIso2)}
+                renderValue={value => (
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {countriesToListAtTop.map((c) => {
+                {countriesToListAtTop.map(c => {
                   const countryInfo = parseCountry(c);
                   return (
                     <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
@@ -203,7 +202,8 @@ const RHFPhoneInput = <T extends FieldValues>({
                         {countryInfo.name}
                       </Typography>
                       <Typography color="gray">
-                        +{countryInfo.dialCode}
+                        +
+                        {countryInfo.dialCode}
                       </Typography>
                     </MenuItem>
                   );
@@ -211,7 +211,7 @@ const RHFPhoneInput = <T extends FieldValues>({
 
                 {countriesToListAtTop.length > 0 && <Divider />}
 
-                {countriesToList.map((c) => {
+                {countriesToList.map(c => {
                   const countryInfo = parseCountry(c);
                   return (
                     <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
@@ -223,7 +223,8 @@ const RHFPhoneInput = <T extends FieldValues>({
                         {countryInfo.name}
                       </Typography>
                       <Typography color="gray">
-                        +{countryInfo.dialCode}
+                        +
+                        {countryInfo.dialCode}
                       </Typography>
                     </MenuItem>
                   );

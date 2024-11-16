@@ -77,7 +77,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField ??  true}
+        isVisible={showLabelAboveFormField ?? true}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -102,7 +102,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
       />
     </FormControl>
   );
-}
+};
 
 export { DefaultEditorConfig };
 export default RHFRichTextEditor;

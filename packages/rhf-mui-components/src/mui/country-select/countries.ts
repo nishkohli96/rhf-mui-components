@@ -1,6 +1,6 @@
 /**
  * Data courtesy -
- * https://github.com/dr5hn/countries-states-cities-database/blob/master/json/countries.json 
+ * https://github.com/dr5hn/countries-states-cities-database/blob/master/json/countries.json
  */
 
 import { CountryDetails } from '@/types';
@@ -319,7 +319,7 @@ export const countryList: CountryDetails[] = [
     emoji: '🇨🇷'
   },
   {
-    name: "Cote D'Ivoire (Ivory Coast)",
+    name: 'Cote D\'Ivoire (Ivory Coast)',
     iso: 'CI',
     iso3: 'CIV',
     emoji: '🇨🇮'

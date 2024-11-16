@@ -1,4 +1,4 @@
-import { useContext, Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import {
   UseFormRegister,
   RegisterOptions,
@@ -82,6 +82,6 @@ const RHFSlider = <T extends FieldValues>({
       />
     </Fragment>
   );
-}
+};
 
 export default RHFSlider;

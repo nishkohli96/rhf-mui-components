@@ -15,7 +15,7 @@ import MuiSelect, {
 } from '@mui/material/Select';
 import {
   defaultCountries,
-	CountryIso2,
+  CountryIso2,
   FlagImage,
   parseCountry
 } from 'react-international-phone';
@@ -91,7 +91,9 @@ const RHFCountrySelect = <T extends FieldValues>({
       />
       <Fragment>
         {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>{fieldLabel}</InputLabel>
+          <InputLabel id={fieldName}>
+            {fieldLabel}
+          </InputLabel>
         )}
       </Fragment>
       <MuiSelect
@@ -101,10 +103,10 @@ const RHFCountrySelect = <T extends FieldValues>({
         defaultValue={defaultValue ?? (multiple ? [] : '')}
         error={isError}
         multiple={multiple}
-				// renderValue={(value) => (
-				// 	<FlagImage iso2={value} style={{ display: 'flex' }} />
-				// )}
-        onChange={(e) => {
+        // renderValue={(value) => (
+        // 	<FlagImage iso2={value} style={{ display: 'flex' }} />
+        // )}
+        onChange={e => {
           onChange(e);
           if (onValueChange) {
             onValueChange(e);
@@ -120,16 +122,18 @@ const RHFCountrySelect = <T extends FieldValues>({
         >
           {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
         </MenuItem>
-        {defaultCountries.map((c) => {
+        {defaultCountries.map(c => {
           const countryInfo = parseCountry(c);
-					// countryInfo.
+          // countryInfo.
           return (
             <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
               <FlagImage
                 iso2={countryInfo.iso2}
                 style={{ marginRight: '8px' }}
               />
-              <Typography marginRight="16px">{countryInfo.name}</Typography>
+              <Typography marginRight="16px">
+                {countryInfo.name}
+              </Typography>
             </MenuItem>
           );
         })}

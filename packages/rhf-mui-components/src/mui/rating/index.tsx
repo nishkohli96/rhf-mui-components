@@ -74,7 +74,7 @@ const RHFRating = <T extends FieldValues>({
       }}
     />
   );
-}
+};
 
 export default RHFRating;
 

@@ -64,6 +64,6 @@ const RHFSwitch = <T extends FieldValues>({
       }}
     />
   );
-}
+};
 
 export default RHFSwitch;

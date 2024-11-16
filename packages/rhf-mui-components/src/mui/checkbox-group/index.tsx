@@ -130,6 +130,6 @@ const RHFCheckboxGroup = <T extends FieldValues>({
       }}
     />
   );
-}
+};
 
 export default RHFCheckboxGroup;

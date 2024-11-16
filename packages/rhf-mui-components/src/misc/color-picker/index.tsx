@@ -73,6 +73,6 @@ const RHFColorPicker = <T extends FieldValues>({
       />
     </FormControl>
   );
-}
+};
 
 export default RHFColorPicker;

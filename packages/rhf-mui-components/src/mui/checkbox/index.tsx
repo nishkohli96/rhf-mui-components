@@ -77,6 +77,6 @@ const RHFCheckbox = <T extends FieldValues>({
       }}
     />
   );
-}
+};
 
 export default RHFCheckbox;

@@ -22,14 +22,14 @@ import { FormControl, FormLabel, FormHelperText } from '../common';
 
 type SelectValueType = OptionType | OptionType[];
 
-type SelectInputProps =  Omit<SelectProps,
-  | 'name'
-	| 'id'
-	| 'labelId'
-	| 'error'
-	| 'onChange'
-	| 'value'
-	| 'defaultValue'
+type SelectInputProps = Omit<SelectProps,
+| 'name'
+| 'id'
+| 'labelId'
+| 'error'
+| 'onChange'
+| 'value'
+| 'defaultValue'
 >;
 
 export type RHFSelectProps<T extends FieldValues> = {
@@ -141,6 +141,6 @@ const RHFSelect = <T extends FieldValues>({
       />
     </FormControl>
   );
-}
+};
 
 export default RHFSelect;

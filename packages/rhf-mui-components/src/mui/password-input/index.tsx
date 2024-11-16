@@ -115,6 +115,6 @@ const RHFPasswordInput = <T extends FieldValues>({
       />
     </FormControl>
   );
-}
+};
 
 export default RHFPasswordInput;

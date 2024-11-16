@@ -85,6 +85,6 @@ const RHFDateTimePicker = <T extends FieldValues>({
       />
     </FormControl>
   );
-}
+};
 
 export default RHFDateTimePicker;

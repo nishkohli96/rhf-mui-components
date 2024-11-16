@@ -102,6 +102,6 @@ const RHFNativeSelect = <T extends FieldValues>({
       )}
     </FormControl>
   );
-}
+};
 
 export default RHFNativeSelect;
