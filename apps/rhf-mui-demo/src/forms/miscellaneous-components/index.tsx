@@ -82,8 +82,8 @@ export default function MiscellaneousComponentsForm() {
               fieldName='contactNumber'
               value={getValues('contactNumber')}
               setValue={setValue}
-              // showLabelAboveFormField
-              // variant='standard'
+              showLabelAboveFormField
+              variant='standard'
               phoneInputProps={{
                 defaultCountry: countyCodes[0],
                 preferredCountries: countyCodes.slice(0,3)
@@ -95,8 +95,8 @@ export default function MiscellaneousComponentsForm() {
             <RHFCountrySelect
               fieldName='countries'
               register={register}
-              // showLabelAboveFormField
-              preferredCountries={['IN', 'AU']}
+              showLabelAboveFormField
+              preferredCountries={['IN', 'AU', 'JP']}
             />
           </Grid>
           <Grid item xs={12}>

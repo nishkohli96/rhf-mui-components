@@ -22,12 +22,11 @@ import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 
-type OptionValue = string;
-type SelectValueType = OptionValue | OptionValue[];
+type SelectValueType = string;
 
 type SelectInputProps = Omit<
   SelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
+  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue' | 'multiple'
 >;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -65,7 +64,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   label,
   showLabelAboveFormField,
   formLabelProps,
-  multiple,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -109,16 +107,14 @@ const RHFCountrySelect = <T extends FieldValues>({
 
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => {
     return (
-      <MenuItem
-        key={countryInfo.iso}
-        value={countryInfo.iso}
-        sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+      <span
+        style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
       >
         <Typography variant="h5" component="span">
           {countryInfo.emoji}
         </Typography>
         <Typography>{countryInfo.name}</Typography>
-      </MenuItem>
+      </span>
     );
   };
 
@@ -139,17 +135,13 @@ const RHFCountrySelect = <T extends FieldValues>({
         id={fieldName}
         labelId={isLabelAboveFormField ? undefined : fieldName}
         label={isLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue ?? (multiple ? [] : '')}
+        defaultValue={defaultValue ?? ''}
         error={isError}
-        multiple={multiple}
         renderValue={(iso) => {
           const country = countryList.find((c) => c.iso === iso);
           return (
-            <Box style={{ display: 'flex', alignItems: 'center', gap: '8px', height: '23px' }}>
-              <Typography variant="h5" component="span">
-                {country?.emoji}
-              </Typography>
-              <Typography>{country?.name}</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', height: '23px' }}>
+							<CountryMenuItem countryInfo={country!} />
             </Box>
           );
         }}
@@ -171,26 +163,15 @@ const RHFCountrySelect = <T extends FieldValues>({
         </MenuItem>
         {countriesToListAtTop.map((countryInfo) => {
           return (
-            <CountryMenuItem countryInfo={countryInfo} key={countryInfo.iso} />
-          );
+						<MenuItem key={countryInfo.iso} value={countryInfo.iso}>
+						<CountryMenuItem countryInfo={countryInfo} />
+					</MenuItem>          );
         })}
-
         {countriesToListAtTop.length > 0 && <Divider />}
-
         {countriesToList.map((countryInfo) => {
-          // return (
-          //   <CountryMenuItem countryInfo={countryInfo} key={countryInfo.iso} />
-          // );
           return (
-            <MenuItem
-              key={countryInfo.iso}
-              value={countryInfo.iso}
-              sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-            >
-              <Typography variant="h5" component="span">
-                {countryInfo.emoji}
-              </Typography>
-              <Typography>{countryInfo.name}</Typography>
+            <MenuItem key={countryInfo.iso} value={countryInfo.iso}>
+							<CountryMenuItem countryInfo={countryInfo} />
             </MenuItem>
           );
         })}
@@ -206,4 +187,5 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
 };
 
+export { countryList }
 export default RHFCountrySelect;
