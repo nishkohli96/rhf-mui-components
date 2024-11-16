@@ -5,6 +5,8 @@ import {
   Path,
   FieldValues
 } from 'react-hook-form';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
@@ -19,7 +21,6 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
-import Divider from '@mui/material/Divider';
 
 type OptionValue = string;
 type SelectValueType = OptionValue | OptionValue[];
@@ -143,14 +144,13 @@ const RHFCountrySelect = <T extends FieldValues>({
         multiple={multiple}
         renderValue={(iso) => {
           const country = countryList.find((c) => c.iso === iso);
-          // return <CountryMenuItem countryInfo={country!} />
           return (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: '8px', height: '23px' }}>
               <Typography variant="h5" component="span">
                 {country?.emoji}
               </Typography>
               <Typography>{country?.name}</Typography>
-            </span>
+            </Box>
           );
         }}
         onChange={(e) => {
@@ -173,18 +173,6 @@ const RHFCountrySelect = <T extends FieldValues>({
           return (
             <CountryMenuItem countryInfo={countryInfo} key={countryInfo.iso} />
           );
-          // return (
-          //   <MenuItem
-          //     key={countryInfo.iso}
-          //     value={countryInfo.iso}
-          //     sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-          //   >
-          //     <Typography variant="h5" component="span">
-          //       {countryInfo.emoji}
-          //     </Typography>
-          //     <Typography>{countryInfo.name}</Typography>
-          //   </MenuItem>
-          // );
         })}
 
         {countriesToListAtTop.length > 0 && <Divider />}
