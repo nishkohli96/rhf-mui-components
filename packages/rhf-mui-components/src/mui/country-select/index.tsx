@@ -1,5 +1,10 @@
-import { useContext, Fragment, ReactNode } from 'react';
-import { UseFormRegister, RegisterOptions, Path, FieldValues } from 'react-hook-form';
+import { useContext, ReactNode } from 'react';
+import {
+  UseFormRegister,
+  RegisterOptions,
+  Path,
+  FieldValues
+} from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
@@ -9,13 +14,23 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
-import { SelectChangeEvent, FormLabelProps, FormHelperTextProps, InputLabel } from '@mui/material';
+import {
+  SelectChangeEvent,
+  FormLabelProps,
+  FormHelperTextProps,
+  InputLabel
+} from '@mui/material';
 
 type CountryMenuItemProps = {
   countryInfo: CountryDetails;
 };
 
 type SelectValueType = string;
+
+type AutoCompleteProps = Omit<
+  AutocompleteProps<CountryDetails, false, false, false>,
+  'freeSolo' | 'fullWidth' | 'id'
+>;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -35,7 +50,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & AutocompleteProps<CountryDetails, false, false, false>
+} & AutoCompleteProps;
 
 const RHFCountrySelect = <T extends FieldValues>({
   fieldName,
@@ -71,11 +86,17 @@ const RHFCountrySelect = <T extends FieldValues>({
   let countriesToListAtTop: CountryDetails[] = [];
 
   if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter(country =>
+    countriesToListAtTop = countryOptions.filter((country) =>
       preferredCountries.includes(country[valueKey])
     );
-    countriesToListAtTop.sort((a, b) => preferredCountries.indexOf(a[valueKey]) - preferredCountries.indexOf(b[valueKey]));
-    countriesToList = countryOptions.filter(country => !preferredCountries.includes(country[valueKey]));
+    countriesToListAtTop.sort(
+      (a, b) =>
+        preferredCountries.indexOf(a[valueKey]) -
+        preferredCountries.indexOf(b[valueKey])
+    );
+    countriesToList = countryOptions.filter(
+      (country) => !preferredCountries.includes(country[valueKey])
+    );
   }
 
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
@@ -98,12 +119,22 @@ const RHFCountrySelect = <T extends FieldValues>({
       <Autocomplete
         id={fieldName}
         fullWidth
+        multiple
+        limitTags={2}
+        blurOnSelect
         options={[...countriesToListAtTop, ...countriesToList]}
         getOptionLabel={(option) => option.name}
-        isOptionEqualToValue={(option, value) => option[valueKey] === value[valueKey]}
+        isOptionEqualToValue={(option, value) =>
+          option[valueKey] === value[valueKey]
+        }
+        autoComplete
         autoHighlight
         renderOption={(props, option) => (
-          <Box component="li" sx={{ display: 'flex', alignItems: 'center' }} {...props}>
+          <Box
+            component="li"
+            sx={{ display: 'flex', alignItems: 'center' }}
+            {...props}
+          >
             <CountryMenuItem countryInfo={option} />
           </Box>
         )}
@@ -113,7 +144,7 @@ const RHFCountrySelect = <T extends FieldValues>({
             label="Choose a country"
             inputProps={{
               ...params.inputProps,
-              autoComplete: 'new-password',
+              autoComplete: 'new-password'
             }}
           />
         )}
