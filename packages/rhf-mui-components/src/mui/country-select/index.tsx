@@ -1,38 +1,27 @@
 import { useContext, Fragment, ReactNode } from 'react';
-import {
-  UseFormRegister,
-  RegisterOptions,
-  Path,
-  FieldValues
-} from 'react-hook-form';
+import { UseFormRegister, RegisterOptions, Path, FieldValues } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import { FormLabelProps } from '@mui/material/FormLabel';
-import InputLabel from '@mui/material/InputLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import MuiSelect, {
-  SelectChangeEvent,
-  SelectProps
-} from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
+import { SelectChangeEvent, FormLabelProps, FormHelperTextProps, InputLabel } from '@mui/material';
+
+type CountryMenuItemProps = {
+  countryInfo: CountryDetails;
+};
 
 type SelectValueType = string;
-
-type SelectInputProps = Omit<
-  SelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue' | 'multiple'
->;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  label?: ReactNode;
   countries?: CountryDetails[];
   preferredCountries?: string[];
   defaultValue?: SelectValueType;
@@ -41,16 +30,12 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   defaultOptionText?: string;
   onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & SelectInputProps;
-
-type CountryMenuItemProps = {
-  countryInfo: CountryDetails;
-};
+  formHelperTextProps?: FormHelperTextProps;
+} & AutocompleteProps<CountryDetails, false, false, false>
 
 const RHFCountrySelect = <T extends FieldValues>({
   fieldName,
@@ -59,7 +44,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   defaultValue,
-  valueKey,
+  valueKey = 'iso',
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -79,48 +64,28 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-  const countryValueKey = valueKey ?? 'iso';
 
   const { onChange, ...rest } = register(fieldName, registerOptions);
-
   const countryOptions = countries ?? countryList;
   let countriesToList = countryOptions;
   let countriesToListAtTop: CountryDetails[] = [];
 
-  /**
-   * Render preferred countries at the top of the list.
-   * Preferred countries will maintain the order in which they were
-   * specified in the props, while other countries will be sorted
-   * alphabetically.
-   */
   if (preferredCountries?.length) {
     countriesToListAtTop = countryOptions.filter(country =>
-      preferredCountries.includes(country[countryValueKey]));
-    countriesToListAtTop.sort((a, b) => {
-      return (
-        preferredCountries.indexOf(a[countryValueKey]) - preferredCountries.indexOf(b[countryValueKey])
-      );
-    });
-
-    countriesToList = countryOptions.filter(
-      country => !preferredCountries.includes(country[countryValueKey])
+      preferredCountries.includes(country[valueKey])
     );
+    countriesToListAtTop.sort((a, b) => preferredCountries.indexOf(a[valueKey]) - preferredCountries.indexOf(b[valueKey]));
+    countriesToList = countryOptions.filter(country => !preferredCountries.includes(country[valueKey]));
   }
 
-  const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => {
-    return (
-      <span
-        style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-      >
-        <Typography variant="h5" component="span">
-          {countryInfo.emoji}
-        </Typography>
-        <Typography>
-          {countryInfo.name}
-        </Typography>
-      </span>
-    );
-  };
+  const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
+    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <Typography variant="h5" component="span">
+        {countryInfo.emoji}
+      </Typography>
+      <Typography>{countryInfo.name}</Typography>
+    </span>
+  );
 
   return (
     <FormControl error={isError}>
@@ -130,59 +95,29 @@ const RHFCountrySelect = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <Fragment>
-        {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>
-            {fieldLabel}
-          </InputLabel>
-        )}
-      </Fragment>
-      <MuiSelect
+      <Autocomplete
         id={fieldName}
-        labelId={isLabelAboveFormField ? undefined : fieldName}
-        label={isLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue ?? ''}
-        error={isError}
-        renderValue={value => {
-          const country = countryList.find(c => c[countryValueKey] === value);
-          return (
-            <Box sx={{ display: 'flex', alignItems: 'center', height: '23px' }}>
-              <CountryMenuItem countryInfo={country!} />
-            </Box>
-          );
-        }}
-        onChange={e => {
-          onChange(e);
-          if (onValueChange) {
-            onValueChange(e);
-          }
-        }}
-        {...otherSelectProps}
-        {...rest}
-      >
-        <MenuItem
-          value=""
-          disabled
-          sx={{ display: showDefaultOption ? 'block' : 'none' }}
-        >
-          {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
-        </MenuItem>
-        {countriesToListAtTop.map(countryInfo => {
-          return (
-            <MenuItem key={countryInfo.iso} value={countryInfo[countryValueKey]}>
-              <CountryMenuItem countryInfo={countryInfo} />
-            </MenuItem>
-          );
-        })}
-        {countriesToListAtTop.length > 0 && <Divider />}
-        {countriesToList.map(countryInfo => {
-          return (
-            <MenuItem key={countryInfo.iso} value={countryInfo[countryValueKey]}>
-              <CountryMenuItem countryInfo={countryInfo} />
-            </MenuItem>
-          );
-        })}
-      </MuiSelect>
+        fullWidth
+        options={[...countriesToListAtTop, ...countriesToList]}
+        getOptionLabel={(option) => option.name}
+        isOptionEqualToValue={(option, value) => option[valueKey] === value[valueKey]}
+        autoHighlight
+        renderOption={(props, option) => (
+          <Box component="li" sx={{ display: 'flex', alignItems: 'center' }} {...props}>
+            <CountryMenuItem countryInfo={option} />
+          </Box>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Choose a country"
+            inputProps={{
+              ...params.inputProps,
+              autoComplete: 'new-password',
+            }}
+          />
+        )}
+      />
       <FormHelperText
         error={isError}
         errorMessage={errorMessage}
