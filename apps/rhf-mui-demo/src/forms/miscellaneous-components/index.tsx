@@ -99,6 +99,8 @@ export default function MiscellaneousComponentsForm() {
               fieldName='countries'
               register={register}
               showLabelAboveFormField
+              multiple
+              textFieldProps={{ variant: 'standard' }}
               preferredCountries={['IN', 'AU', 'JP']}
             />
           </Grid>

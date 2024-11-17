@@ -5,10 +5,13 @@ import {
   Path,
   FieldValues
 } from 'react-hook-form';
+import muiPackage from '@mui/material/package.json';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+import { FormLabelProps } from '@mui/material/FormLabel';
+import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
@@ -16,8 +19,6 @@ import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 import {
   SelectChangeEvent,
-  FormLabelProps,
-  FormHelperTextProps,
   InputLabel
 } from '@mui/material';
 
@@ -29,8 +30,19 @@ type SelectValueType = string;
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, false, false, false>,
-  'freeSolo' | 'fullWidth' | 'id'
+  'freeSolo' | 'fullWidth' | 'id' | 'renderInput' | 'options'
 >;
+
+type AutoCompleteTextFieldProps = Omit<
+  TextFieldProps,
+  | 'value'
+  | 'onChange'
+  | 'disabled'
+  | 'inputProps'
+  | 'slotProps'
+  | 'label'
+  | 'error'
+>
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -50,6 +62,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  textFieldProps?: AutoCompleteTextFieldProps;
 } & AutoCompleteProps;
 
 const RHFCountrySelect = <T extends FieldValues>({
@@ -59,6 +72,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   defaultValue,
+  disabled,
   valueKey = 'iso',
   showDefaultOption,
   defaultOptionText,
@@ -70,7 +84,8 @@ const RHFCountrySelect = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  ...otherSelectProps
+  textFieldProps,
+  ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
   const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -80,7 +95,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, ...rest } = register(fieldName, registerOptions);
+  const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
   const countryOptions = countries ?? countryList;
   let countriesToList = countryOptions;
   let countriesToListAtTop: CountryDetails[] = [];
@@ -98,6 +113,8 @@ const RHFCountrySelect = <T extends FieldValues>({
       (country) => !preferredCountries.includes(country[valueKey])
     );
   }
+
+  const isMuiV6 = muiPackage.version.startsWith('6.');
 
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
     <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -119,16 +136,17 @@ const RHFCountrySelect = <T extends FieldValues>({
       <Autocomplete
         id={fieldName}
         fullWidth
-        multiple
-        limitTags={2}
+        autoHighlight
         blurOnSelect
+        disabled={disabled}
+        limitTags={2}
+        getLimitTagsText={more => more === 1 ? `+1 Country`: `+${more} Countries`}
         options={[...countriesToListAtTop, ...countriesToList]}
         getOptionLabel={(option) => option.name}
         isOptionEqualToValue={(option, value) =>
           option[valueKey] === value[valueKey]
         }
-        autoComplete
-        autoHighlight
+        // autoComplete
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -140,14 +158,29 @@ const RHFCountrySelect = <T extends FieldValues>({
         )}
         renderInput={(params) => (
           <TextField
+            {...textFieldProps}
             {...params}
-            label="Choose a country"
-            inputProps={{
-              ...params.inputProps,
-              autoComplete: 'new-password'
-            }}
+            label={!isLabelAboveFormField ? fieldLabel : undefined}
+            disabled={disabled}
+            error={isError}
+            {...(isMuiV6
+              ? {
+                  slotProps: {
+                    htmlInput: {
+                      ...params.inputProps,
+                      autoComplete: fieldName
+                    },
+                  },
+                }
+              : {
+                  inputProps: {
+                    ...params.inputProps,
+                    autoComplete: fieldName
+                  },
+                })}
           />
         )}
+        {...otherAutoCompleteProps}
       />
       <FormHelperText
         error={isError}
