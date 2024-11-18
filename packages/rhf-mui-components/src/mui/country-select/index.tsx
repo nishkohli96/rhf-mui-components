@@ -21,7 +21,12 @@ type SelectValueType = string | string[];
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, false, false, false>,
-  'freeSolo' | 'fullWidth' | 'id' | 'renderInput' | 'options'
+  | 'freeSolo'
+  | 'fullWidth'
+  | 'id'
+  | 'renderInput'
+  | 'options'
+  | 'defaultValue'
 >;
 
 type AutoCompleteTextFieldProps = Omit<
@@ -131,25 +136,29 @@ const RHFCountrySelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
+        // defaultValue={defaultValue}
         // @ts-ignore
-        defaultValue={defaultValue}
-        // defaultValue={
-        //   multiple
-        //     ? (defaultValue as T[typeof fieldName]) || [] // Ensure defaultValue is an array if multiple is true
-        //     : (defaultValue as T[typeof fieldName]) || ''   // Ensure defaultValue is a string if multiple is false
-        // }
+        defaultValue={
+          multiple
+            ? Array.isArray(defaultValue) ? defaultValue : []
+            : defaultValue
+        }
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
           console.log('140 value: ', value);
-          const selectedCountry = countrySelectOptions.find(c => c[valueKey] === value)
+          const selectedCountry = multiple ?
+          countrySelectOptions.filter(c => value?.includes(c[valueKey]))
+          : countrySelectOptions.find(c => c[valueKey] === value)
           return (
           <Autocomplete
             {...otherFieldProps}
             id={fieldName}
             fullWidth
             options={countrySelectOptions}
+            // @ts-ignore
             value={selectedCountry}
             onChange={(e, newValue) => {
-              onChange(newValue?.[valueKey]);
+              const result = multiple ? [...value, newValue?.[valueKey]]: newValue?.[valueKey]
+              onChange(result);
               // if(onValueChange) {
               //   onValueChange(e, newValue)
               // }
