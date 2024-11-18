@@ -1,14 +1,5 @@
-
-
-
-import { ReactNode, SyntheticEvent, useContext, useState } from 'react';
-import {
-  UseFormRegister,
-  RegisterOptions,
-  Path,
-  FieldValues,
-  useFormContext
-} from 'react-hook-form';
+import { useContext, ReactNode, SyntheticEvent } from 'react';
+import { Controller, Control, Path, FieldValues, RegisterOptions } from 'react-hook-form';
 import muiPackage from '@mui/material/package.json';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -21,16 +12,12 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
-import {
-  SelectChangeEvent,
-  InputLabel
-} from '@mui/material';
 
 type CountryMenuItemProps = {
   countryInfo: CountryDetails;
 };
 
-type SelectValueType = string;
+type SelectValueType = string | string[];
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, false, false, false>,
@@ -50,14 +37,14 @@ type AutoCompleteTextFieldProps = Omit<
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  setValue: any;
-  //register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   label?: ReactNode;
   countries?: CountryDetails[];
   preferredCountries?: string[];
   defaultValue?: SelectValueType;
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
+  disabled?: boolean;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (e: SyntheticEvent, newValue: CountryDetails | null) => void;
@@ -72,14 +59,13 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
 
 const RHFCountrySelect = <T extends FieldValues>({
   fieldName,
-  //register,
-  setValue,
+  control,
   registerOptions,
   countries,
   preferredCountries,
+  valueKey = 'iso',
   defaultValue,
   disabled,
-  valueKey = 'iso',
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -90,6 +76,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  multiple,
   textFieldProps,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
@@ -101,14 +88,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const fc = useFormContext();
-  console.log('fc: ', fc);
-  // { setValue, getValues }
-  const [selectedValue, setSelectedValue] = useState<CountryDetails | null>(
-    //getValues(fieldName) || null
-  );
-
-  //const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
   const countryOptions = countries ?? countryList;
   let countriesToList = countryOptions;
   let countriesToListAtTop: CountryDetails[] = [];
@@ -129,12 +108,6 @@ const RHFCountrySelect = <T extends FieldValues>({
 
   const isMuiV6 = muiPackage.version.startsWith('6.');
 
-  const handleChange = (event: SyntheticEvent, newValue: CountryDetails | null) => {
-    setSelectedValue(newValue);
-    setValue(fieldName, newValue?.iso)
-    // setValue(fieldName, newValue ? newValue[valueKey] : '');
-  };
-
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
     <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <Typography variant="h5" component="span">
@@ -144,6 +117,8 @@ const RHFCountrySelect = <T extends FieldValues>({
     </span>
   );
 
+  const countrySelectOptions = [...countriesToListAtTop, ...countriesToList];
+
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -152,55 +127,60 @@ const RHFCountrySelect = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <Autocomplete
-        id={fieldName}
-        fullWidth
-        autoHighlight
-        blurOnSelect
-        disabled={disabled}
-        limitTags={2}
-        value={selectedValue}
-        onChange={(e, newValue) => handleChange(e, newValue)}
-        getLimitTagsText={more => more === 1 ? `+1 Country`: `+${more} Countries`}
-        options={[...countriesToListAtTop, ...countriesToList]}
-        getOptionLabel={(option) => option.name}
-        isOptionEqualToValue={(option, value) =>
-          option[valueKey] === value[valueKey]
-        }
-        renderOption={(props, option) => (
-          <Box
-            component="li"
-            sx={{ display: 'flex', alignItems: 'center' }}
-            {...props}
-          >
-            <CountryMenuItem countryInfo={option} />
-          </Box>
-        )}
-        renderInput={(params) => (
-          <TextField
-            {...textFieldProps}
-            {...params}
-            label={!isLabelAboveFormField ? fieldLabel : undefined}
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        // @ts-ignore
+        defaultValue={defaultValue}
+        // defaultValue={
+        //   multiple
+        //     ? (defaultValue as T[typeof fieldName]) || [] // Ensure defaultValue is an array if multiple is true
+        //     : (defaultValue as T[typeof fieldName]) || ''   // Ensure defaultValue is a string if multiple is false
+        // }
+        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+          console.log('140 value: ', value);
+          const selectedCountry = countrySelectOptions.find(c => c[valueKey] === value)
+          return (
+          <Autocomplete
+            {...otherFieldProps}
+            id={fieldName}
+            fullWidth
+            options={countrySelectOptions}
+            value={selectedCountry}
+            onChange={(e, newValue) => {
+              onChange(newValue?.[valueKey]);
+              // if(onValueChange) {
+              //   onValueChange(e, newValue)
+              // }
+            }}
+            multiple={multiple}
+            autoHighlight
+            blurOnSelect
             disabled={disabled}
-            error={isError}
-            {...(isMuiV6
-              ? {
-                  slotProps: {
-                    htmlInput: {
-                      ...params.inputProps,
-                      autoComplete: fieldName
-                    },
-                  },
-                }
-              : {
-                  inputProps: {
-                    ...params.inputProps,
-                    autoComplete: fieldName
-                  },
-                })}
+            limitTags={2}
+            getLimitTagsText={more => more === 1 ? '+1 Country': `+${more} Countries`}
+            getOptionLabel={option => option.name}
+            isOptionEqualToValue={(option, value) => option[valueKey] === value[valueKey]}
+            renderOption={(props, option) => (
+              <Box component="li" sx={{ display: 'flex', alignItems: 'center' }} {...props}>
+                <CountryMenuItem countryInfo={option} />
+              </Box>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...textFieldProps}
+                {...params}
+                label={!isLabelAboveFormField ? fieldLabel : undefined}
+                error={isError}
+                {...(isMuiV6
+                  ? { slotProps: { htmlInput: { ...params.inputProps, autoComplete: fieldName } } }
+                  : { inputProps: { ...params.inputProps, autoComplete: fieldName } })}
+              />
+            )}
+            {...otherAutoCompleteProps}
           />
-        )}
-        {...otherAutoCompleteProps}
+        )}}
       />
       <FormHelperText
         error={isError}
