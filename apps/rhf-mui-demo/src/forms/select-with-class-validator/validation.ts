@@ -6,7 +6,8 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
   ValidationArguments,
-  Validate
+  Validate,
+  IsNotEmpty
 } from 'class-validator';
 import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';
@@ -38,4 +39,8 @@ export class FormSchema {
   @IsString({ each: true })
   @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
   iplTeams!: string[];
+
+  @IsArray()
+  @IsNotEmpty()
+  countries!: string[];
 }

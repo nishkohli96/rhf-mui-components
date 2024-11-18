@@ -50,7 +50,6 @@ type AutoCompleteTextFieldProps = Omit<
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  setValue: any;
   //register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   label?: ReactNode;
@@ -73,7 +72,6 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
 const RHFCountrySelect = <T extends FieldValues>({
   fieldName,
   //register,
-  setValue,
   registerOptions,
   countries,
   preferredCountries,
@@ -131,7 +129,6 @@ const RHFCountrySelect = <T extends FieldValues>({
 
   const handleChange = (event: SyntheticEvent, newValue: CountryDetails | null) => {
     setSelectedValue(newValue);
-    setValue(fieldName, newValue?.iso)
     // setValue(fieldName, newValue ? newValue[valueKey] : '');
   };
 

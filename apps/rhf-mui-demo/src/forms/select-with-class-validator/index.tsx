@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
+import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
 import { FormSchema } from './validation';
 import {
   FormContainer,
@@ -20,6 +21,8 @@ import { Colors } from '@/types';
 export default function SelectFormWithClassValidator() {
   const {
     register,
+    control,
+    setValue,
     handleSubmit,
     watch,
     formState: { errors }
@@ -78,6 +81,22 @@ export default function SelectFormWithClassValidator() {
               valueKey="code"
               label="Choose a currency"
               errorMessage={errors?.currency?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Country Select" />
+            <RHFCountrySelect
+              fieldName="countries"
+              control={control}
+              setValue={setValue}
+              showLabelAboveFormField
+              multiple
+              textFieldProps={{ variant: 'standard' }}
+              preferredCountries={['IN', 'AU', 'JP']}
+              onValueChange={(e, newValue) => {
+                console.log('newValue: ', newValue);
+              }}
+              errorMessage={errors?.countries?.message}
             />
           </Grid>
           <Grid item xs={12}>
