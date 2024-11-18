@@ -136,7 +136,6 @@ const RHFCountrySelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        // defaultValue={defaultValue}
         // @ts-ignore
         defaultValue={
           multiple
@@ -144,52 +143,71 @@ const RHFCountrySelect = <T extends FieldValues>({
             : defaultValue
         }
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
-          console.log('140 value: ', value);
-          const selectedCountry = multiple ?
-          countrySelectOptions.filter(c => value?.includes(c[valueKey]))
-          : countrySelectOptions.find(c => c[valueKey] === value)
+          // Map current value(s) to corresponding country objects
+          const selectedCountries = multiple
+            ? (value ?? []).map((val) =>
+                countrySelectOptions.find((c) => c[valueKey] === val)
+              ).filter(Boolean)
+            : countrySelectOptions.find((c) => c[valueKey] === value) || null;
+
           return (
-          <Autocomplete
-            {...otherFieldProps}
-            id={fieldName}
-            fullWidth
-            options={countrySelectOptions}
-            // @ts-ignore
-            value={selectedCountry}
-            onChange={(e, newValue) => {
-              const result = multiple ? [...value, newValue?.[valueKey]]: newValue?.[valueKey]
-              onChange(result);
-              // if(onValueChange) {
-              //   onValueChange(e, newValue)
-              // }
-            }}
-            multiple={multiple}
-            autoHighlight
-            blurOnSelect
-            disabled={disabled}
-            limitTags={2}
-            getLimitTagsText={more => more === 1 ? '+1 Country': `+${more} Countries`}
-            getOptionLabel={option => option.name}
-            isOptionEqualToValue={(option, value) => option[valueKey] === value[valueKey]}
-            renderOption={(props, option) => (
-              <Box component="li" sx={{ display: 'flex', alignItems: 'center' }} {...props}>
-                <CountryMenuItem countryInfo={option} />
-              </Box>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...textFieldProps}
-                {...params}
-                label={!isLabelAboveFormField ? fieldLabel : undefined}
-                error={isError}
-                {...(isMuiV6
-                  ? { slotProps: { htmlInput: { ...params.inputProps, autoComplete: fieldName } } }
-                  : { inputProps: { ...params.inputProps, autoComplete: fieldName } })}
-              />
-            )}
-            {...otherAutoCompleteProps}
-          />
-        )}}
+            <Autocomplete
+              {...otherFieldProps}
+              id={fieldName}
+              fullWidth
+              options={countrySelectOptions}
+              // @ts-ignore
+              value={selectedCountries}
+              onChange={(e, newValue) => {
+                const newValueKey = multiple
+                // @ts-ignore
+                  ? (newValue ?? []).map((item) => item[valueKey])
+                  : (newValue as CountryDetails)?.[valueKey] || '';
+                onChange(newValueKey);
+                if (onValueChange) {
+                  onValueChange(e, newValue);
+                }
+              }}
+              multiple={multiple}
+              autoHighlight
+              blurOnSelect
+              disabled={disabled}
+              limitTags={2}
+              getLimitTagsText={(more) =>
+                more === 1 ? `+1 Country` : `+${more} Countries`
+              }
+              getOptionLabel={(option) => option.name}
+              isOptionEqualToValue={(option, value) =>
+                option[valueKey] === (value as CountryDetails)[valueKey]
+              }
+              renderOption={(props, option) => (
+                <Box
+                  component="li"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                  {...props}
+                >
+                  <CountryMenuItem countryInfo={option} />
+                </Box>
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...textFieldProps}
+                  {...params}
+                  label={!isLabelAboveFormField ? fieldLabel : undefined}
+                  error={isError}
+                  {...(muiPackage.version.startsWith('6.')
+                    ? {
+                        slotProps: {
+                          htmlInput: { ...params.inputProps, autoComplete: fieldName },
+                        },
+                      }
+                    : { inputProps: { ...params.inputProps, autoComplete: fieldName } })}
+                />
+              )}
+              {...otherAutoCompleteProps}
+            />
+          );
+        }}
       />
       <FormHelperText
         error={isError}

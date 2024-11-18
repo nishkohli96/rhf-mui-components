@@ -88,11 +88,11 @@ export default function SelectFormWithClassValidator() {
             <RHFCountrySelect
               fieldName="countries"
               control={control}
-              // defaultValue={["IN"]}
-              defaultValue={"IN"}
+              defaultValue={["IN", "BR"]}
+              // defaultValue={"IN"}
               // setValue={setValue}
-              showLabelAboveFormField
-              // multiple
+              //showLabelAboveFormField
+              multiple
               textFieldProps={{ variant: 'standard' }}
               preferredCountries={['IN', 'AU', 'JP']}
               onValueChange={(e, newValue) => {
