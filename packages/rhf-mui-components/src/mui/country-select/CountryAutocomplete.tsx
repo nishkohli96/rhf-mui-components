@@ -1,5 +1,13 @@
-import { useContext, ReactNode, SyntheticEvent } from 'react';
-import { Controller, Control, Path, FieldValues, RegisterOptions } from 'react-hook-form';
+
+
+
+import { useContext, ReactNode } from 'react';
+import {
+  UseFormRegister,
+  RegisterOptions,
+  Path,
+  FieldValues
+} from 'react-hook-form';
 import muiPackage from '@mui/material/package.json';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,12 +20,16 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
+import {
+  SelectChangeEvent,
+  InputLabel
+} from '@mui/material';
 
 type CountryMenuItemProps = {
   countryInfo: CountryDetails;
 };
 
-type SelectValueType = string | string[];
+type SelectValueType = string;
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, false, false, false>,
@@ -37,17 +49,16 @@ type AutoCompleteTextFieldProps = Omit<
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  control: Control<T>;
+  register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   label?: ReactNode;
   countries?: CountryDetails[];
   preferredCountries?: string[];
   defaultValue?: SelectValueType;
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
-  disabled?: boolean;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
-  onValueChange?: (e: SyntheticEvent, newValue: CountryDetails | null) => void;
+  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
@@ -59,13 +70,13 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
 
 const RHFCountrySelect = <T extends FieldValues>({
   fieldName,
-  control,
+  register,
   registerOptions,
   countries,
   preferredCountries,
-  valueKey = 'iso',
   defaultValue,
   disabled,
+  valueKey = 'iso',
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -76,7 +87,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  multiple,
   textFieldProps,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
@@ -88,6 +98,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
+  const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
   const countryOptions = countries ?? countryList;
   let countriesToList = countryOptions;
   let countriesToListAtTop: CountryDetails[] = [];
@@ -125,59 +136,54 @@ const RHFCountrySelect = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        // @ts-ignore
-        defaultValue={"IN"}
-        // defaultValue={
-        //   multiple
-        //     ? (defaultValue as T[typeof fieldName]) || [] // Ensure defaultValue is an array if multiple is true
-        //     : (defaultValue as T[typeof fieldName]) || ''   // Ensure defaultValue is a string if multiple is false
-        // }
-        render={({ field: { value, onChange, ...otherFieldProps } }) => {
-          console.log('140 value: ', value);
-          return (
-          <Autocomplete
-            {...otherFieldProps}
-            id={fieldName}
-            fullWidth
-            options={[...countriesToListAtTop, ...countriesToList]}
-            value={value}
-            onChange={(e, newValue) => {
-              onChange(e);
-              if(onValueChange) {
-                onValueChange(e, newValue)
-              }
-            }}
-            multiple={multiple}
-            autoHighlight
-            blurOnSelect
+      <Autocomplete
+        id={fieldName}
+        fullWidth
+        autoHighlight
+        blurOnSelect
+        disabled={disabled}
+        limitTags={2}
+        getLimitTagsText={more => more === 1 ? `+1 Country`: `+${more} Countries`}
+        options={[...countriesToListAtTop, ...countriesToList]}
+        getOptionLabel={(option) => option.name}
+        isOptionEqualToValue={(option, value) =>
+          option[valueKey] === value[valueKey]
+        }
+        // autoComplete
+        renderOption={(props, option) => (
+          <Box
+            component="li"
+            sx={{ display: 'flex', alignItems: 'center' }}
+            {...props}
+          >
+            <CountryMenuItem countryInfo={option} />
+          </Box>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...textFieldProps}
+            {...params}
+            label={!isLabelAboveFormField ? fieldLabel : undefined}
             disabled={disabled}
-            limitTags={2}
-            getLimitTagsText={more => more === 1 ? `+1 Country`: `+${more} Countries`}
-            getOptionLabel={option => option.name}
-            isOptionEqualToValue={(option, value) => option[valueKey] === value[valueKey]}
-            renderOption={(props, option) => (
-              <Box component="li" sx={{ display: 'flex', alignItems: 'center' }} {...props}>
-                <CountryMenuItem countryInfo={option} />
-              </Box>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...textFieldProps}
-                {...params}
-                label={!isLabelAboveFormField ? fieldLabel : undefined}
-                error={isError}
-                {...(isMuiV6
-                  ? { slotProps: { htmlInput: { ...params.inputProps, autoComplete: fieldName } } }
-                  : { inputProps: { ...params.inputProps, autoComplete: fieldName } })}
-              />
-            )}
-            {...otherAutoCompleteProps}
+            error={isError}
+            {...(isMuiV6
+              ? {
+                  slotProps: {
+                    htmlInput: {
+                      ...params.inputProps,
+                      autoComplete: fieldName
+                    },
+                  },
+                }
+              : {
+                  inputProps: {
+                    ...params.inputProps,
+                    autoComplete: fieldName
+                  },
+                })}
           />
-        )}}
+        )}
+        {...otherAutoCompleteProps}
       />
       <FormHelperText
         error={isError}

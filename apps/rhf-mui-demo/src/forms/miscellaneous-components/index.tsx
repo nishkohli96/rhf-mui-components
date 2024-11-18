@@ -32,6 +32,7 @@ export default function MiscellaneousComponentsForm() {
 
   const {
     register,
+    control,
     setValue,
     handleSubmit,
     watch,
@@ -97,11 +98,14 @@ export default function MiscellaneousComponentsForm() {
             <FieldVariantInfo title="Country Select" />
             <RHFCountrySelect
               fieldName='countries'
-              register={register}
+              control={control}
               showLabelAboveFormField
-              multiple
+              // multiple
               textFieldProps={{ variant: 'standard' }}
               preferredCountries={['IN', 'AU', 'JP']}
+              onValueChange={(e, newValue) => {
+                console.log('newValue: ', newValue);
+              }}
             />
           </Grid>
           <Grid item xs={12}>
