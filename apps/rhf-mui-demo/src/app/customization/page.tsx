@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description,
 };
 
-export default function CustomizationPage() {
+const CustomizationPage = () => {
   const links = [
     DocsLinks.rhfTextField,
     DocsLinks.rhfDatePicker
@@ -34,3 +34,5 @@ export default function CustomizationPage() {
     </ContentContainer>
   );
 }
+
+export default CustomizationPage;

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description
 };
 
-export default function MiscellaneousComponentsFormPage() {
+const MiscellaneousComponentsFormPage = () => {
   const links = [
     DocsLinks.rhfColorPicker,
     DocsLinks.rhfRichTextEditor
@@ -33,3 +33,5 @@ export default function MiscellaneousComponentsFormPage() {
     </ContentContainer>
   );
 }
+
+export default MiscellaneousComponentsFormPage;

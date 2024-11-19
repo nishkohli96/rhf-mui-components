@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description
 };
 
-export default function TextFieldPage() {
+const TextFieldPage = () => {
   const links = [
     DocsLinks.rhfTextField,
     DocsLinks.rhfPasswordField
@@ -33,3 +33,5 @@ export default function TextFieldPage() {
     </ContentContainer>
   );
 }
+
+export default TextFieldPage;

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description
 };
 
-export default function DateTimePickerFormPage() {
+const DateTimePickerFormPage = () => {
   const links = [
     DocsLinks.rhfDatePicker,
     DocsLinks.rhfTimePicker,
@@ -34,3 +34,6 @@ export default function DateTimePickerFormPage() {
     </ContentContainer>
   );
 }
+
+export default DateTimePickerFormPage;
+

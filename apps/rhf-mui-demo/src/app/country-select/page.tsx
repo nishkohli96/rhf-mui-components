@@ -3,22 +3,23 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
 import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/complete-form-with-joi'), { ssr: false });
+const ClientForm = dynamic(() => import('@/forms/country-select'), { ssr: false });
 
-const title = 'Complete Form with Joi';
-const description = 'A complete form showcasing all components from this package!';
+const title = 'Country Select Examples';
+const description = 'Form showcasing the field to select single or multiple countries';
 
 export const metadata: Metadata = {
   title,
   description
 };
 
-const CompleteFormWithJoiPage = () => {
+const CountrySelectFormPage = () => {
   const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
   const codeLinks = [
     SourceCodeLinks.completeForm,
     CodeSandboxLinks.completeForm
   ];
+
   return (
     <ContentContainer>
       <PageHeading title={title} />
@@ -30,4 +31,4 @@ const CompleteFormWithJoiPage = () => {
   );
 }
 
-export default CompleteFormWithJoiPage;
+export default CountrySelectFormPage;
