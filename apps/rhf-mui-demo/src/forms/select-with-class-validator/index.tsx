@@ -92,7 +92,7 @@ export default function SelectFormWithClassValidator() {
               // defaultValue={"IN"}
               // setValue={setValue}
               //showLabelAboveFormField
-              multiple
+              // multiple
               textFieldProps={{ variant: 'standard' }}
               preferredCountries={['IN', 'AU', 'JP']}
               onValueChange={(e, newValue) => {

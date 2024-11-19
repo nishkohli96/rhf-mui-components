@@ -1,4 +1,4 @@
-import { useContext, ReactNode, SyntheticEvent } from 'react';
+import { useContext, ReactNode, SyntheticEvent, useMemo } from 'react';
 import { Controller, Control, Path, FieldValues, RegisterOptions, PathValue } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -92,37 +92,43 @@ const RHFCountrySelect = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
+  const initialValue = multiple
+    ? Array.isArray(defaultValue) ? defaultValue : []
+    : defaultValue;
   const countryOptions = countries ?? countryList;
-  let countriesToList = countryOptions;
-  let countriesToListAtTop: CountryDetails[] = [];
 
-  if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter((country) =>
-      preferredCountries.includes(country[valueKey])
-    );
-    countriesToListAtTop.sort(
-      (a, b) =>
-        preferredCountries.indexOf(a[valueKey]) -
-        preferredCountries.indexOf(b[valueKey])
-    );
-    countriesToList = countryOptions.filter(
-      (country) => !preferredCountries.includes(country[valueKey])
-    );
-  }
+  const countrySelectOptions = useMemo(() => {
+    let countriesToList = countryOptions;
+    let countriesToListAtTop: CountryDetails[] = [];
+
+    if (preferredCountries?.length) {
+      countriesToListAtTop = countryOptions.filter(country =>
+        preferredCountries.includes(country[valueKey]));
+
+      countriesToListAtTop.sort(
+        (a, b) =>
+          preferredCountries.indexOf(a[valueKey])
+          - preferredCountries.indexOf(b[valueKey])
+      );
+
+      countriesToList = countryOptions.filter(
+        country => !preferredCountries.includes(country[valueKey])
+      );
+    }
+
+    return [...countriesToListAtTop, ...countriesToList];
+  }, [countryOptions, preferredCountries, valueKey]);
 
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
     <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <Typography variant="h5" component="span">
         {countryInfo.emoji}
       </Typography>
-      <Typography>{countryInfo.name}</Typography>
+      <Typography>
+        {countryInfo.name}
+      </Typography>
     </span>
   );
-
-  const countrySelectOptions = [...countriesToListAtTop, ...countriesToList];
-  const initialValue = multiple
-    ? Array.isArray(defaultValue) ? defaultValue : []
-    : defaultValue
 
   return (
     <FormControl error={isError}>
@@ -139,10 +145,10 @@ const RHFCountrySelect = <T extends FieldValues>({
         defaultValue={initialValue as PathValue<T, Path<T>>}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
           const selectedCountries = multiple
-            ? (value ?? []).map((val) =>
-                countrySelectOptions.find((c) => c[valueKey] === val)
-              ).filter(Boolean)
-            : countrySelectOptions.find((c) => c[valueKey] === value) || null;
+            ? (value ?? [])
+              .map(val => countrySelectOptions.find(country => country[valueKey] === val))
+              .filter((country): country is CountryDetails => Boolean(country))
+            : countrySelectOptions.find(country => country[valueKey] === value) || null;
 
           return (
             <Autocomplete
@@ -150,11 +156,10 @@ const RHFCountrySelect = <T extends FieldValues>({
               id={fieldName}
               fullWidth
               options={countrySelectOptions}
-              // @ts-ignore
               value={selectedCountries}
               onChange={(e, newValue) => {
                 const newValueKey = Array.isArray(newValue)
-                  ? (newValue ?? []).map((item) => item[valueKey])
+                  ? (newValue ?? []).map(item => item[valueKey])
                   : (newValue)?.[valueKey] ?? '';
                 onChange(newValueKey);
                 if (onValueChange) {
@@ -166,13 +171,11 @@ const RHFCountrySelect = <T extends FieldValues>({
               blurOnSelect
               disabled={disabled}
               limitTags={2}
-              getLimitTagsText={(more) =>
-                more === 1 ? `+1 Country` : `+${more} Countries`
-              }
-              getOptionLabel={(option) => option.name}
+              getLimitTagsText={more =>
+                more === 1 ? '+1 Country' : `+${more} Countries`}
+              getOptionLabel={option => option.name}
               isOptionEqualToValue={(option, value) =>
-                option[valueKey] === (value as CountryDetails)[valueKey]
-              }
+                option[valueKey] === (value as CountryDetails)[valueKey]}
               renderOption={({ key, ...props }, option) => (
                 <Box
                   component="li"
@@ -183,7 +186,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                   <CountryMenuItem countryInfo={option} />
                 </Box>
               )}
-              renderInput={(params) => (
+              renderInput={params => (
                 <TextField
                   {...textFieldProps}
                   {...params}
@@ -191,10 +194,10 @@ const RHFCountrySelect = <T extends FieldValues>({
                   error={isError}
                   {...(isMuiV6
                     ? {
-                        slotProps: {
-                          htmlInput: { ...params.inputProps, autoComplete: fieldName },
-                        },
-                      }
+                      slotProps: {
+                        htmlInput: { ...params.inputProps, autoComplete: fieldName },
+                      },
+                    }
                     : { inputProps: { ...params.inputProps, autoComplete: fieldName } })}
                 />
               )}
