@@ -1,6 +1,5 @@
 import { useContext, ReactNode, SyntheticEvent } from 'react';
-import { Controller, Control, Path, FieldValues, RegisterOptions } from 'react-hook-form';
-import muiPackage from '@mui/material/package.json';
+import { Controller, Control, Path, FieldValues, RegisterOptions, PathValue } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
@@ -10,7 +9,7 @@ import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, isMuiV6, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 
 type CountryMenuItemProps = {
@@ -111,8 +110,6 @@ const RHFCountrySelect = <T extends FieldValues>({
     );
   }
 
-  const isMuiV6 = muiPackage.version.startsWith('6.');
-
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
     <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <Typography variant="h5" component="span">
@@ -123,6 +120,9 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
 
   const countrySelectOptions = [...countriesToListAtTop, ...countriesToList];
+  const initialValue = multiple
+    ? Array.isArray(defaultValue) ? defaultValue : []
+    : defaultValue
 
   return (
     <FormControl error={isError}>
@@ -136,14 +136,8 @@ const RHFCountrySelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        // @ts-ignore
-        defaultValue={
-          multiple
-            ? Array.isArray(defaultValue) ? defaultValue : []
-            : defaultValue
-        }
+        defaultValue={initialValue as PathValue<T, Path<T>>}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
-          // Map current value(s) to corresponding country objects
           const selectedCountries = multiple
             ? (value ?? []).map((val) =>
                 countrySelectOptions.find((c) => c[valueKey] === val)
@@ -159,10 +153,9 @@ const RHFCountrySelect = <T extends FieldValues>({
               // @ts-ignore
               value={selectedCountries}
               onChange={(e, newValue) => {
-                const newValueKey = multiple
-                // @ts-ignore
+                const newValueKey = Array.isArray(newValue)
                   ? (newValue ?? []).map((item) => item[valueKey])
-                  : (newValue as CountryDetails)?.[valueKey] || '';
+                  : (newValue)?.[valueKey] ?? '';
                 onChange(newValueKey);
                 if (onValueChange) {
                   onValueChange(e, newValue);
@@ -180,9 +173,10 @@ const RHFCountrySelect = <T extends FieldValues>({
               isOptionEqualToValue={(option, value) =>
                 option[valueKey] === (value as CountryDetails)[valueKey]
               }
-              renderOption={(props, option) => (
+              renderOption={({ key, ...props }, option) => (
                 <Box
                   component="li"
+                  key={option.iso}
                   sx={{ display: 'flex', alignItems: 'center' }}
                   {...props}
                 >
@@ -195,7 +189,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                   {...params}
                   label={!isLabelAboveFormField ? fieldLabel : undefined}
                   error={isError}
-                  {...(muiPackage.version.startsWith('6.')
+                  {...(isMuiV6
                     ? {
                         slotProps: {
                           htmlInput: { ...params.inputProps, autoComplete: fieldName },
