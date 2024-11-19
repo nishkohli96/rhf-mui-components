@@ -20,7 +20,7 @@ type CountryMenuItemProps = {
 type SelectValueType = string | string[];
 
 type AutoCompleteProps = Omit<
-  AutocompleteProps<CountryDetails, false, false, false>,
+  AutocompleteProps<CountryDetails, true | false, false, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'id'
@@ -52,7 +52,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   disabled?: boolean;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
-  onValueChange?: (e: SyntheticEvent, newValue: CountryDetails | null) => void;
+  onValueChange?: (e: SyntheticEvent, newValue: CountryDetails | CountryDetails[] | null) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
