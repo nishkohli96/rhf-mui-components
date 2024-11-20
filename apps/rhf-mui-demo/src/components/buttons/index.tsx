@@ -7,15 +7,15 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useThemeContext } from '@/theme';
 
-export function SubmitButton() {
+export const SubmitButton = () => {
   return (
     <Button variant="contained" color="primary" type="submit">
       Submit
     </Button>
   );
-}
+};
 
-export function ThemeChangeButton() {
+export const ThemeChangeButton = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const isDarkTheme = currentTheme === 'dark';
   const toolTip = `Switch to ${isDarkTheme ? 'light' : 'dark'} theme`;
@@ -27,4 +27,4 @@ export function ThemeChangeButton() {
       </IconButton>
     </Tooltip>
   );
-}
+};

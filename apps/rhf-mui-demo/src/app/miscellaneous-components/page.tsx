@@ -32,6 +32,6 @@ const MiscellaneousComponentsFormPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default MiscellaneousComponentsFormPage;

@@ -29,6 +29,6 @@ const CountrySelectFormPage = () => {
       <LinksList links={[...links, ValidationLibLinks.joi]} />
     </ContentContainer>
   );
-}
+};
 
 export default CountrySelectFormPage;

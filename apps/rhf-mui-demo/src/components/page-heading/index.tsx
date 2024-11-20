@@ -7,15 +7,15 @@ type PageHeadingProps = {
   title: string;
 };
 
-export function PageHeading({ title }: PageHeadingProps) {
+export const PageHeading = ({ title }: PageHeadingProps) => {
   return (
     <Typography variant="h4" color="primary" sx={{ mb: '20px' }}>
       {title}
     </Typography>
   );
-}
+};
 
-export function SubHeading({ title }: PageHeadingProps) {
+export const SubHeading = ({ title }: PageHeadingProps) => {
   return (
     <Typography
       variant="h6"
@@ -28,9 +28,9 @@ export function SubHeading({ title }: PageHeadingProps) {
       {title}
     </Typography>
   );
-}
+};
 
-export function FieldVariantInfo({ title }: PageHeadingProps) {
+export const FieldVariantInfo = ({ title }: PageHeadingProps) => {
   return (
     <Typography
       variant="body1"
@@ -40,13 +40,13 @@ export function FieldVariantInfo({ title }: PageHeadingProps) {
       {title}
     </Typography>
   );
-}
+};
 
-export function Link(props: Omit<LinkProps, 'underline'>) {
+export const Link = (props: Omit<LinkProps, 'underline'>) => {
   const { children, href, ...otherLinkProps } = props;
   return (
     <MuiLink href={href} underline="hover" {...otherLinkProps}>
       {children}
     </MuiLink>
   );
-}
+};

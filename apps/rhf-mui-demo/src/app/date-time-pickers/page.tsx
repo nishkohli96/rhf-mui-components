@@ -33,7 +33,7 @@ const DateTimePickerFormPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default DateTimePickerFormPage;
 

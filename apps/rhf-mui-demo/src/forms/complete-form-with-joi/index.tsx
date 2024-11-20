@@ -32,7 +32,7 @@ import { CountriesList, IPLTeams } from '@/constants';
 import { Person, JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
-export default function CompleteFormWithJoi() {
+const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
 
   const initialValues: Person = {
@@ -302,4 +302,6 @@ export default function CompleteFormWithJoi() {
       </ConfigProvider>
     </FormContainer>
   );
-}
+};
+
+export default CompleteFormWithJoi;

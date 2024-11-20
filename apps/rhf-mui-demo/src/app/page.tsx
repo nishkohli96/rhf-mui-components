@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Overview of the Examples Website for RHF-MUI Components'
 };
 
-export default function Home() {
+const HomePage = () => {
   return (
     <main>
       <ContentContainer>
@@ -46,4 +46,6 @@ export default function Home() {
       </ContentContainer>
     </main>
   );
-}
+};
+
+export default HomePage;

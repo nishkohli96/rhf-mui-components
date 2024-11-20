@@ -13,7 +13,7 @@ type StyledErrorMsgProps = {
   msg: ReactNode;
 };
 
-function StyledErrorMsg({ msg }: StyledErrorMsgProps) {
+const StyledErrorMsg = ({ msg }: StyledErrorMsgProps) => {
   return (
     <Fragment>
       {Boolean(msg) && (
@@ -24,11 +24,11 @@ function StyledErrorMsg({ msg }: StyledErrorMsgProps) {
       )}
     </Fragment>
   );
-}
+};
 
-export function StyledRHFTextField<T extends FieldValues>(
-  props: StyledRHFTextFieldProps<T>,
-) {
+const StyledRHFTextField = <T extends FieldValues>(
+  props: StyledRHFTextFieldProps<T>
+) => {
   const { errorMessage, ...rest } = props;
   return (
     <RHFTextField
@@ -38,4 +38,6 @@ export function StyledRHFTextField<T extends FieldValues>(
       {...rest}
     />
   );
-}
+};
+
+export default StyledRHFTextField;

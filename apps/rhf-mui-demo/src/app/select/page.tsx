@@ -33,6 +33,6 @@ const SelectWithClassValidatorPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default SelectWithClassValidatorPage;

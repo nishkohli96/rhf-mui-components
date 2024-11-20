@@ -28,6 +28,6 @@ const CompleteFormWithJoiPage = () => {
       <LinksList links={[...links, ValidationLibLinks.joi]} />
     </ContentContainer>
   );
-}
+};
 
 export default CompleteFormWithJoiPage;

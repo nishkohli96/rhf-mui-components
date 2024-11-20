@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { MySocials } from '@/constants';
 
-export function Footer() {
+const Footer = () => {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -52,4 +52,6 @@ export function Footer() {
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+export default Footer;

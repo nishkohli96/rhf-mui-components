@@ -11,10 +11,10 @@ type RenderFormStateProps<T extends FieldValues> = {
   errors: FieldErrors<T>;
 };
 
-export function RenderFormState<T extends FieldValues>({
+const RenderFormState = <T extends FieldValues>({
   formValues,
   errors
-}: RenderFormStateProps<T>) {
+}: RenderFormStateProps<T>) => {
   /**
    * "errors" object from RHF also has ref, besides type & message.
    * Unfortunately, "react-json-view" has a hard time parsing that
@@ -59,4 +59,6 @@ export function RenderFormState<T extends FieldValues>({
       </Grid>
     </Grid>
   );
-}
+};
+
+export default RenderFormState;

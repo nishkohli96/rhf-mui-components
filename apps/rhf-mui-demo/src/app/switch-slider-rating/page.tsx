@@ -33,6 +33,6 @@ const SwitchSliderRatingFormPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default SwitchSliderRatingFormPage;

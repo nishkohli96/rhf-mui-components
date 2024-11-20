@@ -32,6 +32,6 @@ const TextFieldPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default TextFieldPage;

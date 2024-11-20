@@ -12,16 +12,16 @@ import {
 } from '@/components';
 
 type FormSchema = {
-	nationality: string;
-	dreamDestination?: string;
-	countriesVisited: string[];
+  nationality: string;
+  dreamDestination?: string;
+  countriesVisited: string[];
 }
 
-export default function CountrySelectForm() {
-	const intialValues: FormSchema = {
+const CountrySelectForm = () => {
+  const intialValues: FormSchema = {
     nationality: 'IN',
-		countriesVisited: ['BR']
-	}
+    countriesVisited: ['BR']
+  };
 
   const {
     register,
@@ -50,7 +50,7 @@ export default function CountrySelectForm() {
               // defaultValue={["IN", "BR"]}
               // defaultValue={"IN"}
               // setValue={setValue}
-              //showLabelAboveFormField
+              // showLabelAboveFormField
               // multiple
               // textFieldProps={{ variant: 'standard' }}
               // preferredCountries={['IN', 'AU', 'JP']}
@@ -70,4 +70,6 @@ export default function CountrySelectForm() {
       </form>
     </FormContainer>
   );
-}
+};
+
+export default CountrySelectForm;

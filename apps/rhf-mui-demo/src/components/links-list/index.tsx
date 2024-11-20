@@ -8,7 +8,7 @@ type LinksListProps = {
   areCodeLinks?: boolean;
 };
 
-export const LinksList = ({ links, areCodeLinks }: LinksListProps) => {
+const LinksList = ({ links, areCodeLinks }: LinksListProps) => {
   const title = areCodeLinks ? 'Source Code </>' : 'Documentation 📖';
   return (
     <Box sx={{ mt: '20px', ...(areCodeLinks && { mb: '20px' }) }}>
@@ -30,4 +30,6 @@ export const LinksList = ({ links, areCodeLinks }: LinksListProps) => {
       </Box>
     </Box>
   );
-}
+};
+
+export default LinksList;

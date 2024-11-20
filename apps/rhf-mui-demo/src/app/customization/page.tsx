@@ -33,6 +33,6 @@ const CustomizationPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default CustomizationPage;

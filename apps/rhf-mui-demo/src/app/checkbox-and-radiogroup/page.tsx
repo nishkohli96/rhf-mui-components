@@ -34,6 +34,6 @@ const CheckboxRadioZodFormPage = () => {
       <LinksList links={links} />
     </ContentContainer>
   );
-}
+};
 
 export default CheckboxRadioZodFormPage;

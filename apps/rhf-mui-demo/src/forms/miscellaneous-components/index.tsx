@@ -22,7 +22,7 @@ type FormSchema = {
   countries: string;
 };
 
-export default function MiscellaneousComponentsForm() {
+const MiscellaneousComponentsForm = () => {
   const initialValues = {
     favouriteColor: 'hsl(201 100% 73% / 1)',
     contactNumber: '+1 (765) 232-3423',
@@ -30,8 +30,6 @@ export default function MiscellaneousComponentsForm() {
   };
 
   const {
-    register,
-    control,
     setValue,
     handleSubmit,
     watch,
@@ -103,4 +101,6 @@ export default function MiscellaneousComponentsForm() {
       </form>
     </FormContainer>
   );
-}
+};
+
+export default MiscellaneousComponentsForm;

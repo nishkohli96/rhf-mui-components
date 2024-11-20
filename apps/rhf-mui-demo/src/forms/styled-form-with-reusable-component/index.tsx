@@ -15,7 +15,7 @@ import {
   SubmitButton,
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
-import { StyledRHFTextField } from './StyledTextField';
+import StyledRHFTextField from './StyledTextField';
 
 type FormSchema = {
   firstName: string;
