@@ -8,7 +8,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { CountryDetails } from '@/types';
+import { CountryDetails, CountryISO } from '@/types';
 import { fieldNameToLabel, isMuiV6, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 
@@ -25,6 +25,7 @@ type AutoCompleteProps = Omit<
   | 'id'
   | 'renderInput'
   | 'options'
+  | 'value'
   | 'defaultValue'
 >;
 
@@ -45,7 +46,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   label?: ReactNode;
   countries?: CountryDetails[];
-  preferredCountries?: string[];
+  preferredCountries?: CountryISO[];
   defaultValue?: SelectValueType;
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   disabled?: boolean;
@@ -103,16 +104,16 @@ const RHFCountrySelect = <T extends FieldValues>({
 
     if (preferredCountries?.length) {
       countriesToListAtTop = countryOptions.filter(country =>
-        preferredCountries.includes(country[valueKey]));
+        preferredCountries.includes(country.iso));
 
       countriesToListAtTop.sort(
         (a, b) =>
-          preferredCountries.indexOf(a[valueKey])
-          - preferredCountries.indexOf(b[valueKey])
+          preferredCountries.indexOf(a.iso)
+          - preferredCountries.indexOf(b.iso)
       );
 
       countriesToList = countryOptions.filter(
-        country => !preferredCountries.includes(country[valueKey])
+        country => !preferredCountries.includes(country.iso)
       );
     }
 
@@ -217,5 +218,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
 };
 
+export type { CountryISO };
 export { countryList };
 export default RHFCountrySelect;

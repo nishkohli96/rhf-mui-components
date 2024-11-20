@@ -25,6 +25,6 @@ const RHFRichTextEditorPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFRichTextEditorPropsTable;

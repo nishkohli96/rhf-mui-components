@@ -19,6 +19,6 @@ const RHFColorPickerPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFColorPickerPropsTable;

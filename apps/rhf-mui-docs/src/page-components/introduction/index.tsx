@@ -22,6 +22,6 @@ const IntroductionPageTable = () => {
   return (
     <MarkdownTable rows={tableRows} />
   );
-}
+};
 
 export default IntroductionPageTable;

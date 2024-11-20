@@ -7,7 +7,6 @@ import {
   ValidatorConstraintInterface,
   ValidationArguments,
   Validate,
-  IsNotEmpty
 } from 'class-validator';
 import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';

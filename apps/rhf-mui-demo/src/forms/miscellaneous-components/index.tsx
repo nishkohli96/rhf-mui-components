@@ -18,6 +18,7 @@ import {
 type FormSchema = {
   bio: string;
   contactNumber: string;
+  contactNumber2?: string; 
   favouriteColor: string;
   countries: string;
 };
@@ -85,7 +86,18 @@ const MiscellaneousComponentsForm = () => {
               setValue={setValue}
               showLabelAboveFormField
               variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top" />
+            <RHFPhoneInput
+              fieldName="contactNumber2"
+              value={getValues('contactNumber2')}
+              setValue={setValue}
+              showLabelAboveFormField
+              variant="standard"
               phoneInputProps={{
+                countries,
                 defaultCountry: countyCodes[0],
                 preferredCountries: countyCodes.slice(0, 3)
               }}

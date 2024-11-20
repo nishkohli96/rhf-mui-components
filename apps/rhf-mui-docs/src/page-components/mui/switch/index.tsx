@@ -13,6 +13,6 @@ const RHFSwitchPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFSwitchPropsTable;

@@ -18,7 +18,7 @@ const RHFPhoneInputPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFPhoneInputPropsTable;
 

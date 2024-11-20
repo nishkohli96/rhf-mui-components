@@ -2,7 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
-import RHFCountrySelect, { countryList } from '@nish1896/rhf-mui-components/mui/country-select';
+import Typography from '@mui/material/Typography';
+import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import {
   FormContainer,
   FormState,
@@ -22,10 +23,9 @@ const CountrySelectForm = () => {
     countriesVisited: ['AU', 'SG']
   };
 
+  const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
   const {
-    register,
     control,
-    setValue,
     handleSubmit,
     watch,
     formState: { errors }
@@ -38,7 +38,7 @@ const CountrySelectForm = () => {
   function onFormSubmit(formValues) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
-  
+
   return (
     <FormContainer title="Country Select Component with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -64,7 +64,7 @@ const CountrySelectForm = () => {
             <RHFCountrySelect
               fieldName="countriesVisited"
               control={control}
-              preferredCountries={['IN', 'AU', 'JP']}
+              preferredCountries={preferredCountries}
               multiple
               errorMessage={errors?.countriesVisited?.message}
             />
@@ -77,17 +77,24 @@ const CountrySelectForm = () => {
               registerOptions={{
                 required: {
                   value: true,
-                  message: 'Select atleast 1 country'
+                  message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) =>
+                  minItems: value =>
                     value && value.length >= 3 ? true : 'Select at least 3 countries',
                 },
               }}
-              valueKey='name'
+              valueKey="name"
               preferredCountries={['IN', 'AU', 'JP']}
               countries={filteredCountries}
               multiple
+              label="What are your Dream Destinations?"
+              textFieldProps={{ variant: 'filled' }}
+              helperText={
+                <Typography color="slateblue">
+                  Select atleast 3 countries
+                </Typography>
+              }
               errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>

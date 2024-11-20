@@ -19,6 +19,6 @@ const RHFTimePickerPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFTimePickerPropsTable;

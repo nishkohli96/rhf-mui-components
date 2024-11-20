@@ -23,6 +23,6 @@ const RHFCheckboxGroupPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFCheckboxGroupPropsTable;

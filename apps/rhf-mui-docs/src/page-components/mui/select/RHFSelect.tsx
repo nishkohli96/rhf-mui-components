@@ -24,6 +24,6 @@ const RHFSelectPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFSelectPropsTable;

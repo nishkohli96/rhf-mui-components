@@ -18,7 +18,7 @@ const RHFSliderPropsTable = () => {
   ];
 
   return <MarkdownTable rows={tableRows} showType />;
-}
+};
 
 export default RHFSliderPropsTable;
 

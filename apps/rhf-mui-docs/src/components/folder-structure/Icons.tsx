@@ -9,5 +9,5 @@ export const FolderOpenIcon = () => (
 );
 
 export const FileIcon = () => (
-	<InsertDriveFileIcon />
-)
+  <InsertDriveFileIcon />
+);

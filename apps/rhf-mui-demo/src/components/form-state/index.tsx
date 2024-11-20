@@ -35,7 +35,7 @@ const FormState = <T extends FieldValues>({
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <SubHeading title="Form values & errors in real-time" />
+        <SubHeading title="Form State - Values & Errors" />
       </Grid>
       <Grid item xs={12} md={6}>
         <Paper>

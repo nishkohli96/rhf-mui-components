@@ -17,6 +17,6 @@ const RHFTextFieldPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFTextFieldPropsTable;

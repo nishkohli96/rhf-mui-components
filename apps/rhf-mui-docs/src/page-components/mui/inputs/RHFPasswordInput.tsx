@@ -19,6 +19,6 @@ const RHFPasswordInputPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFPasswordInputPropsTable;

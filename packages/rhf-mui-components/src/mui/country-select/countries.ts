@@ -5,6 +5,7 @@
 
 import { CountryDetails } from '@/types';
 
+/* Total - 250 Records */
 export const countryList: readonly CountryDetails[] = [
   {
     name: 'Afghanistan',

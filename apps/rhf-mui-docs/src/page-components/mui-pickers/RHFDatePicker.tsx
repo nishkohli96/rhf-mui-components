@@ -19,7 +19,7 @@ const RHFDatePickerPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFDatePickerPropsTable;
 

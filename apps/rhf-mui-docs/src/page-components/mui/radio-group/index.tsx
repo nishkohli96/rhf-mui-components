@@ -23,6 +23,6 @@ const RHFRadioGroupPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFRadioGroupPropsTable;

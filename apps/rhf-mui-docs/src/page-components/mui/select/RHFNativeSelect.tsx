@@ -22,7 +22,7 @@ const RHFNativeSelectPropsTable = () => {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
 
 export default RHFNativeSelectPropsTable;
 

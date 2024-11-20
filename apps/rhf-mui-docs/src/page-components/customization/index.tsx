@@ -13,6 +13,6 @@ const DefaultConfigValuesTable = () => {
       {content}
     </Markdown>
   );
-}
+};
 
 export default DefaultConfigValuesTable;

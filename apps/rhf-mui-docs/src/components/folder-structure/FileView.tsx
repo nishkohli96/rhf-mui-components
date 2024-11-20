@@ -3,37 +3,38 @@ import Link from '@mui/material/Link';
 import { FileIcon } from './Icons';
 
 type FileViewProps = {
-	nodeId: string;
-	folderName: string;
-	fileList: {
+  nodeId: string;
+  folderName: string;
+  fileList: {
     name: string;
     path: string;
   }[];
 }
 
 const FileView = ({
-	nodeId,
+  nodeId,
   folderName,
-	fileList
+  fileList
 }: FileViewProps) => {
-	return (
-		<TreeItem
+  return (
+    <TreeItem
       nodeId={nodeId}
       label={folderName}
     >
-			{fileList.map((file, idx) => (
+      {fileList.map((file, idx) => (
         <TreeItem
-          nodeId={`${nodeId}/${idx+1}`}
-					label={(
-						<Link href={file.path}>
+          nodeId={`${nodeId}/${idx + 1}`}
+          key={`${nodeId}/${idx + 1}`}
+          label={(
+            <Link href={file.path}>
               {file.name}
-						</Link>
-					)}
-					icon={<FileIcon />}
-				/>
-			))}
+            </Link>
+          )}
+          icon={<FileIcon />}
+        />
+      ))}
     </TreeItem>
-	);
-}
+  );
+};
 
 export default FileView;
