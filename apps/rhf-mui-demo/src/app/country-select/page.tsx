@@ -6,7 +6,7 @@ import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from
 const ClientForm = dynamic(() => import('@/forms/country-select'), { ssr: false });
 
 const title = 'Country Select Examples';
-const description = 'Form showcasing the field to select single or multiple countries';
+const description = 'Form showcasing the RHFCountrySelect component to select single or multiple countries';
 
 export const metadata: Metadata = {
   title,

@@ -16,6 +16,10 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/select`
   },
   {
+    title: 'Country Select',
+    href: `${pagePrefix}/country-select`
+  },
+  {
     title: 'Checkbox & RadioGroup',
     href: `${pagePrefix}/checkbox-and-radiogroup`
   },
