@@ -3,17 +3,17 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
 import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/complete-form'), { ssr: false });
+const ClientForm = dynamic(() => import('@/forms/complete-form-with-joi'), { ssr: false });
 
-const title = 'Complete Form with Register Options';
-const description = 'A complete form showcasing all components from this package with appropriate validations.';
+const title = 'Complete Form with Joi';
+const description = 'A complete form showcasing all components from this package, with validation handled by Joi!';
 
 export const metadata: Metadata = {
   title,
   description
 };
 
-const CompleteFormPage = () => {
+const CompleteFormWithJoiPage = () => {
   const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
   const codeLinks = [
     SourceCodeLinks.completeForm,
@@ -30,4 +30,4 @@ const CompleteFormPage = () => {
   );
 };
 
-export default CompleteFormPage;
+export default CompleteFormWithJoiPage;

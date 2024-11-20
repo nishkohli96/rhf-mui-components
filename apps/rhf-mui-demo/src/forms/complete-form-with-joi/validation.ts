@@ -1,30 +1,5 @@
 import Joi from 'joi';
-import { Moment } from 'moment';
-import { Colors, Gender, Sports } from '@/types';
-
-export type Person = {
-  email: string;
-  password: string;
-  favouriteColor: Colors | '';
-  sports: string[];
-  iplTeams: string[];
-  favouriteSport: Sports | '';
-  agreeTnC: boolean;
-  colors: Colors[] | null;
-  countries: string[] | null;
-  gender: Gender | null;
-  country: string;
-  countryCode?: string;
-  phoneNumber?: string;
-  darkTheme: boolean;
-  age: number;
-  rating: number | null;
-  dob: Moment | null;
-  time: Moment | null;
-  dateTime: Moment | null;
-  bgColor: string;
-  feedback: string;
-};
+import { Colors, Gender, Sports, Person } from '@/types';
 
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),

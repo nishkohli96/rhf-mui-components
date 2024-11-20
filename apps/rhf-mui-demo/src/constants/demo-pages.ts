@@ -42,5 +42,9 @@ export const DemoPageLinks: Page[] = [
   {
     title: 'Complete Form',
     href: `${pagePrefix}/complete-form`
+  },
+  {
+    title: 'Complete Form with Joi',
+    href: `${pagePrefix}/complete-form-joi`
   }
 ];
