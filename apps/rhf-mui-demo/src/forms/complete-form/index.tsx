@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Path, useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -22,6 +22,7 @@ import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
 import {
   FormContainer,
   GridContainer,
@@ -45,6 +46,18 @@ const CompleteFormWithJoi = () => {
     getValues,
     formState: { errors }
   } = useForm<Person>();
+
+	function reqdMessage(fieldName: Path<Person>) {
+		return `${fieldNameToLabel(fieldName)} is required`;
+	}
+
+	function minLengthMsg(length: number) {
+		return `Minimum length should be ${length}`
+	}
+
+	function matchPatternMessage(fieldName: Path<Person>) {
+		return `The value for ${fieldName} must match the pattern specified.`;
+	}
 
   function onFormSubmit(formValues: Person) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
@@ -74,6 +87,20 @@ const CompleteFormWithJoi = () => {
               <RHFTextField
                 fieldName="email"
                 register={register}
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('email')
+									},
+									minLength: {
+										value: 5,
+										message: minLengthMsg(5)
+									},
+									pattern: {
+										value: /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9_]+\.[a-zA-Z]{2,4}$/i,
+										message: matchPatternMessage('email')
+									}
+								}}
                 errorMessage={errors?.email?.message}
                 showLabelAboveFormField
               />
@@ -84,13 +111,32 @@ const CompleteFormWithJoi = () => {
                 register={register}
                 errorMessage={errors?.password?.message}
                 showLabelAboveFormField
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('password')
+									},
+									minLength: {
+										value: 8,
+										message: minLengthMsg(8)
+									},
+									pattern: {
+										value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i,
+										message: matchPatternMessage('password')
+									}
+								}}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="favouriteColor"
                 register={register}
-                // defaultValue={initialValues.favouriteColor}
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('favouriteColor')
+									}
+								}}
                 options={Object.values(Colors)}
                 errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
@@ -102,6 +148,16 @@ const CompleteFormWithJoi = () => {
                 fieldName="sports"
                 register={register}
                 // defaultValue={initialValues.sports}
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('sports')
+									},
+									validate: {
+										minLength: (value) =>
+											(value?.length ?? 0) >= 2 || minLengthMsg(2),
+									},
+								}}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
                 errorMessage={errors?.sports?.message}
@@ -114,11 +170,21 @@ const CompleteFormWithJoi = () => {
                 fieldName="iplTeams"
                 register={register}
                 // defaultValue={initialValues.iplTeams}
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('iplTeams')
+									},
+									validate: {
+										minLength: (value) =>
+											(value?.length ?? 0) >= 3 || minLengthMsg(3),
+									},
+								}}
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"
                 options={IPLTeams}
-                errorMessage={errors?.sports?.message}
+                errorMessage={errors?.iplTeams?.message}
                 multiple
               />
             </Grid>
@@ -127,6 +193,12 @@ const CompleteFormWithJoi = () => {
                 fieldName="countryCode"
                 control={control}
                 label="Country Code of Nationality"
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('countryCode')
+									}
+								}}
                 errorMessage={errors?.countryCode?.message}
               />
             </Grid>
@@ -134,6 +206,12 @@ const CompleteFormWithJoi = () => {
               <RHFNativeSelect
                 fieldName="favouriteSport"
                 register={register}
+								registerOptions={{
+									required: {
+										value: true,
+										message: reqdMessage('countryCode')
+									}
+								}}
                 // defaultValue={initialValues.favouriteSport}
                 options={Object.values(Sports)}
                 errorMessage={errors?.favouriteSport?.message}

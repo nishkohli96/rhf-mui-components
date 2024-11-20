@@ -24,6 +24,7 @@
 	},
   "exports": {
     "./config": "./config/index.js",
+    "./form-helpers": "./form-helpers/index.js",
     "./misc": "./misc/index.js",
     "./misc/*": "./misc/*",
     "./mui": "./mui/index.js",
