@@ -54,8 +54,7 @@ const CountrySelectForm = () => {
                   message: 'Choose the country of your nationality'
                 }
               }}
-              textFieldProps={{ variant: 'standard' }}
-              showLabelAboveFormField
+              textFieldProps={{ variant: 'filled' }}
               errorMessage={errors?.nationality?.message}
             />
           </Grid>
@@ -70,7 +69,7 @@ const CountrySelectForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multiple Selection with minLength validation, valueKey filtered Options" />
+            <FieldVariantInfo title="Multiple Selection with minLength validation, valueKey, filtered Options and ChipProps" />
             <RHFCountrySelect
               fieldName="dreamDestinations"
               control={control}
@@ -88,8 +87,9 @@ const CountrySelectForm = () => {
               preferredCountries={['IN', 'AU', 'JP']}
               countries={filteredCountries}
               multiple
+              showLabelAboveFormField
               label="What are your Dream Destinations?"
-              textFieldProps={{ variant: 'filled' }}
+              ChipProps={{ sx: { background: theme => theme.palette.primary.main }}}
               helperText={
                 <Typography color="slateblue">
                   Select atleast 3 countries

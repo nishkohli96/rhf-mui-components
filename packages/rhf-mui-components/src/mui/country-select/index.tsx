@@ -27,6 +27,7 @@ type AutoCompleteProps = Omit<
   | 'options'
   | 'value'
   | 'defaultValue'
+  | 'disabled'
 >;
 
 type AutoCompleteTextFieldProps = Omit<
@@ -50,8 +51,6 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   defaultValue?: SelectValueType;
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   disabled?: boolean;
-  showDefaultOption?: boolean;
-  defaultOptionText?: string;
   onValueChange?: (e: SyntheticEvent, newValue: CountryDetails | CountryDetails[] | null) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -71,8 +70,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   valueKey = 'iso',
   defaultValue,
   disabled,
-  showDefaultOption,
-  defaultOptionText,
   onValueChange,
   label,
   showLabelAboveFormField,
