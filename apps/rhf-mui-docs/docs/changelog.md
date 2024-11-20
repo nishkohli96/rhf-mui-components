@@ -12,6 +12,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 **Released - 3 Nov, 2024**
 
 **New Components 🔥**
+- [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
 **New Features 🎉**
@@ -19,6 +20,8 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 **Fixes 🛠️**
 - Code optimization
+- Upgrade MUI Versions
+
 
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
 

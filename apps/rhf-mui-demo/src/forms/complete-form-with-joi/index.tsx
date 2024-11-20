@@ -3,11 +3,13 @@
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Grid from '@mui/material/Grid';
+import useTheme from '@mui/material/styles/useTheme';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
+import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
@@ -20,6 +22,7 @@ import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-tim
 import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import {
   FormContainer,
   GridContainer,
@@ -34,6 +37,7 @@ import styles from './styles.module.css';
 
 const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
+  const muiTheme = useTheme();
 
   const initialValues: Person = {
     email: 'hello@example.com',
@@ -47,6 +51,7 @@ const CompleteFormWithJoi = () => {
     countries: null,
     gender: null,
     country: '',
+    phoneNumber: '+91 9876598765',
     darkTheme: currentTheme === 'dark',
     age: 25,
     rating: null,
@@ -79,15 +84,16 @@ const CompleteFormWithJoi = () => {
       <ConfigProvider
         defaultFormLabelSx={{
           mt: '20px',
-          ml: '20px',
-          mb: '16px'
+          mb: '16px',
+          color: '#EA3677'
         }}
         defaultFormControlLabelSx={{
           color: '#1976D2'
         }}
         defaultFormHelperTextSx={{
           mt: '20px',
-          ml: '40px'
+          fontWeight: 500,
+          color: muiTheme.palette.info.main
         }}
         dateAdapter={AdapterMoment}
       >
@@ -143,6 +149,14 @@ const CompleteFormWithJoi = () => {
                 options={IPLTeams}
                 errorMessage={errors?.sports?.message}
                 multiple
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFCountrySelect
+                fieldName="countryCode"
+                control={control}
+                label="Country Code of Nationality"
+                errorMessage={errors?.countryCode?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -233,9 +247,9 @@ const CompleteFormWithJoi = () => {
                 register={register}
                 defaultValue={initialValues.age}
                 label="Age"
-                min={0}
-                max={50}
-                helperText="hel"
+                min={10}
+                max={80}
+                helperText="min:10; max:80"
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -253,8 +267,10 @@ const CompleteFormWithJoi = () => {
                 register={register}
                 setValue={setValue}
                 label="Date of Birth"
+                format="DD MMM YYYY"
+                disableFuture
                 showLabelAboveFormField
-                helperText="dedme"
+                helperText="Cannot select future dates"
                 errorMessage={errors?.dob?.message}
               />
             </Grid>
@@ -289,6 +305,19 @@ const CompleteFormWithJoi = () => {
                 fieldName="feedback"
                 value={getValues('feedback')}
                 setValue={setValue}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFPhoneInput
+                fieldName="phoneNumber"
+                value={getValues('phoneNumber')}
+                setValue={setValue}
+                showLabelAboveFormField
+                variant="standard"
+                phoneInputProps={{
+                  defaultCountry: 'in'
+                }}
+                errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
             <Grid item xs={12}>

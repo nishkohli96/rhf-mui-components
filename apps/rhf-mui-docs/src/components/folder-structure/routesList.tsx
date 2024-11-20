@@ -7,6 +7,7 @@ const muiComponents = [
   'RHFTextField',
   'RHFPasswordInput',
   'RHFSelect',
+  'RHFCountrySelect',
   'RHFNativeSelect',
   'RHFCheckbox',
   'RHFCheckboxGroup',

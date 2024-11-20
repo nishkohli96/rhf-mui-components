@@ -14,6 +14,8 @@ export type Person = {
   countries: string[] | null;
   gender: Gender | null;
   country: string;
+  countryCode?: string;
+  phoneNumber?: string;
   darkTheme: boolean;
   age: number;
   rating: number | null;
@@ -85,6 +87,8 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
       'any.only': 'Select gender'
     }),
   country: Joi.string().required(),
+  countryCode: Joi.string().required(),
+  phoneNumber: Joi.string().required().min(8),
   darkTheme: Joi.boolean().required(),
   age: Joi.number().required().positive(),
   rating: Joi.number().required().min(1).max(5).messages({
