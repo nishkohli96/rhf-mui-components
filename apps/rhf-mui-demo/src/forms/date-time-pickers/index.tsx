@@ -9,7 +9,7 @@ import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 import {
   FormContainer,
-  RenderFormState,
+  FormState,
   GridContainer,
   FieldVariantInfo,
   SubmitButton,
@@ -78,7 +78,7 @@ const DateTimePickersForm = () => {
               <SubmitButton />
             </Grid>
             <Grid item xs={12}>
-              <RenderFormState formValues={watch()} errors={errors} />
+              <FormState formValues={watch()} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

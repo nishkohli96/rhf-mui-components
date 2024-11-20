@@ -11,7 +11,7 @@ type RenderFormStateProps<T extends FieldValues> = {
   errors: FieldErrors<T>;
 };
 
-const RenderFormState = <T extends FieldValues>({
+const FormState = <T extends FieldValues>({
   formValues,
   errors
 }: RenderFormStateProps<T>) => {
@@ -61,4 +61,4 @@ const RenderFormState = <T extends FieldValues>({
   );
 };
 
-export default RenderFormState;
+export default FormState;

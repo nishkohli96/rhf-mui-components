@@ -11,7 +11,7 @@ import {
   FormContainer,
   FieldVariantInfo,
   GridContainer,
-  RenderFormState,
+  FormState,
   SubmitButton,
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
@@ -109,7 +109,7 @@ export default function StyledReusableComponentForm() {
               <SubmitButton />
             </Grid>
             <Grid item xs={12}>
-              <RenderFormState formValues={watch()} errors={errors} />
+              <FormState formValues={watch()} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

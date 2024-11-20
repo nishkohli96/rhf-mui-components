@@ -9,7 +9,7 @@ import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
   FormContainer,
-  RenderFormState,
+  FormState,
   GridContainer,
   FieldVariantInfo,
   SubmitButton
@@ -95,7 +95,7 @@ const MiscellaneousComponentsForm = () => {
             <SubmitButton />
           </Grid>
           <Grid item xs={12}>
-            <RenderFormState formValues={watch()} errors={errors} />
+            <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

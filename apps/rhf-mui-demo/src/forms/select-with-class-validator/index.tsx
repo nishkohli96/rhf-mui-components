@@ -9,7 +9,7 @@ import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import { FormSchema } from './validation';
 import {
   FormContainer,
-  RenderFormState,
+  FormState,
   GridContainer,
   FieldVariantInfo,
   SubmitButton
@@ -84,7 +84,7 @@ const SelectFormWithClassValidator = () => {
             <SubmitButton />
           </Grid>
           <Grid item xs={12}>
-            <RenderFormState formValues={watch()} errors={errors} />
+            <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

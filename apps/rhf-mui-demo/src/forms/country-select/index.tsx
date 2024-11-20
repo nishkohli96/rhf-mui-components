@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
 import {
   FormContainer,
-  RenderFormState,
+  FormState,
   GridContainer,
   FieldVariantInfo,
   SubmitButton
@@ -64,7 +64,7 @@ const CountrySelectForm = () => {
             <SubmitButton />
           </Grid>
           <Grid item xs={12}>
-            <RenderFormState formValues={watch()} errors={errors} />
+            <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>
