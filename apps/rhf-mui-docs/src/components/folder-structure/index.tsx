@@ -1,17 +1,27 @@
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import { VersionProps } from '@site/src/types';
 import FileView from './FileView';
 import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
 import {
   muiFoldersList,
   muiPickersFoldersList,
-  miscFoldersList
+  miscFoldersList,
+  newlyAddedComponents
 } from './routesList';
 
-const FolderStructure = () => {
+const FolderStructure = ({ isV1 }: VersionProps) => {
+  const muiList = isV1 
+    ? muiFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
+    : muiFoldersList;
+
+  const miscList = isV1
+    ? miscFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
+    : miscFoldersList
+
   return (
     <TreeView
-      aria-label="file system navigator"
+      aria-label="rhf-mui-components directory"
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
       defaultExpanded={['1']}
@@ -24,7 +34,7 @@ const FolderStructure = () => {
         <FileView
           nodeId="2"
           folderName="mui"
-          fileList={muiFoldersList}
+          fileList={muiList}
         />
         <FileView
           nodeId="3"
@@ -34,13 +44,20 @@ const FolderStructure = () => {
         <FileView
           nodeId="4"
           folderName="misc"
-          fileList={miscFoldersList}
+          fileList={miscList}
         />
         <TreeItem
           nodeId="5"
           label="config"
           icon={<FileIcon />}
         />
+        {!isV1 && (
+          <TreeItem
+            nodeId="6"
+            label="form-helpers"
+            icon={<FileIcon />}
+          />
+        )}
       </TreeItem>
     </TreeView>
   );

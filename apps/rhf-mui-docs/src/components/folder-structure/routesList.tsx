@@ -29,6 +29,11 @@ const miscComponents = [
   'RHFPhoneInput'
 ];
 
+export const newlyAddedComponents = [
+  'RHFCountrySelect',
+  'RHFPhoneInput'
+]
+
 export const muiFoldersList = muiComponents.map(component => ({
   name: component,
   path: `${rootDir}${muiPrefix}/${component}`
