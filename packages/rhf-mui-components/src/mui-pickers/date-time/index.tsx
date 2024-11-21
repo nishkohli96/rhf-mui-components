@@ -21,7 +21,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   onValueChange?: (
     newValue: PickerValidDate | null,
     context: PickerChangeHandlerContext<DateTimeValidationError>
-  ) => void;  showLabelAboveFormField?: boolean;
+  ) => void; showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;

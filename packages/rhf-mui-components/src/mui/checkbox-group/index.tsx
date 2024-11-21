@@ -90,7 +90,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
             const newValue = checked
               ? [...(value ?? []), event.target.value]
               : value!.filter((v: string) => v !== event.target.value);
-              onChange(newValue);
+            onChange(newValue);
             if(onValueChange) {
               onValueChange(event.target.value, newValue, event);
             }
