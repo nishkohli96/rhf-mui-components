@@ -433,8 +433,18 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFRichTextEditor
                 fieldName="feedback"
-                value={getValues('feedback')}
-                setValue={setValue}
+                control={control}
+                errorMessage={errors?.feedback?.message}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('feedback')
+                  },
+                  validate: {
+                    minLength: (value) =>
+                      (value?.length ?? 0) >= 10 || minLengthMsg(10)
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>

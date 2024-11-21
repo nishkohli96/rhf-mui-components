@@ -300,8 +300,8 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFRichTextEditor
                 fieldName="feedback"
-                value={getValues('feedback')}
-                setValue={setValue}
+                control={control}
+                errorMessage={errors?.feedback?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
