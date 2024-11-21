@@ -30,9 +30,9 @@ import {
   SubmitButton
 } from '@/components';
 import { useThemeContext } from '@/theme';
-import { Colors, Gender, Sports } from '@/types';
+import { Colors, Gender, Sports, Person } from '@/types';
 import { CountriesList, IPLTeams } from '@/constants';
-import { Person, JoiFormSchema } from './validation';
+import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
 const CompleteFormWithJoi = () => {
@@ -118,7 +118,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="favouriteColor"
-                register={register}
+                control={control}
                 defaultValue={initialValues.favouriteColor}
                 options={Object.values(Colors)}
                 errorMessage={errors?.favouriteColor?.message}
@@ -129,7 +129,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="sports"
-                register={register}
+                control={control}
                 defaultValue={initialValues.sports}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
@@ -141,7 +141,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="iplTeams"
-                register={register}
+                control={control}
                 defaultValue={initialValues.iplTeams}
                 label="IPL Teams"
                 labelKey="name"

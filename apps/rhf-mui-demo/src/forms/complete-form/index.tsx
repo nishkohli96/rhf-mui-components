@@ -34,7 +34,7 @@ import { Colors, Gender, Sports, Person } from '@/types';
 import { CountriesList, IPLTeams } from '@/constants';
 
 const CompleteFormWithJoi = () => {
-  const { toggleTheme } = useThemeContext();
+  const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
 
   const {
@@ -45,7 +45,11 @@ const CompleteFormWithJoi = () => {
     setValue,
     getValues,
     formState: { errors }
-  } = useForm<Person>();
+  } = useForm<Person>({
+    defaultValues: {
+      darkTheme: currentTheme === 'dark'
+    }
+  });
 
 	function reqdMessage(fieldName: Path<Person>) {
 		return `${fieldNameToLabel(fieldName)} is required`;
@@ -294,12 +298,17 @@ const CompleteFormWithJoi = () => {
                 fieldName="country"
                 control={control}
                 options={CountriesList}
-                // defaultValue={initialValues.country}
                 labelKey="country"
                 valueKey="code"
                 row
                 onValueChange={(_, selectedValue) => {
                   alert(`selectedValue: ${selectedValue}`);
+                }}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('country')
+                  },
                 }}
                 errorMessage={errors?.country?.message}
               />
@@ -313,6 +322,8 @@ const CompleteFormWithJoi = () => {
                   labelPlacement: 'end'
                 }}
                 onValueChange={() => toggleTheme()}
+                helperText="Toggling this changes theme"
+                errorMessage={errors?.darkTheme?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>

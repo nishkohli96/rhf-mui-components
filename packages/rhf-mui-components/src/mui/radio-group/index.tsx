@@ -85,6 +85,7 @@ const RHFRadioGroup = <T extends FieldValues>({
             <MuiRadioGroup
               {...rest}
               {...otherFieldParams}
+              value={field.value ?? ''}
               onChange={(e, value) => {
                 onChange(e);
                 if(onValueChange) {

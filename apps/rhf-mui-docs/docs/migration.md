@@ -5,3 +5,6 @@ add registerOptions to
 - RHFCheckbox
 - RHFCheckboxGroup
 - RHFRadioGroup
+- RHFSwitch
+
+added `errorMessage`, `helprText` to RHFSwitch
