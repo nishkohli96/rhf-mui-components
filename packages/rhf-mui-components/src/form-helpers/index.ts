@@ -6,5 +6,5 @@
 import { fieldNameToLabel } from '@/utils';
 
 export {
-	fieldNameToLabel
-}
+  fieldNameToLabel
+};

@@ -115,7 +115,7 @@ const RHFCountrySelect = <T extends FieldValues>({
     }
 
     return [...countriesToListAtTop, ...countriesToList];
-  }, [countryOptions, preferredCountries, valueKey]);
+  }, [countryOptions, preferredCountries]);
 
   const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
     <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

@@ -130,7 +130,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="favouriteColor"
-                register={register}
+                control={control}
 								registerOptions={{
 									required: {
 										value: true,
@@ -146,7 +146,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="sports"
-                register={register}
+                control={control}
                 // defaultValue={initialValues.sports}
 								registerOptions={{
 									required: {
@@ -168,7 +168,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="iplTeams"
-                register={register}
+                control={control}
                 // defaultValue={initialValues.iplTeams}
 								registerOptions={{
 									required: {

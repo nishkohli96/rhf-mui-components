@@ -1,6 +1,8 @@
 import { useContext, Fragment, ReactNode } from 'react';
 import {
-  UseFormRegister,
+  Controller,
+  Control,
+  PathValue,
   RegisterOptions,
   Path,
   FieldValues,
@@ -30,11 +32,14 @@ type SelectInputProps = Omit<SelectProps,
 | 'onChange'
 | 'value'
 | 'defaultValue'
+| 'onBlur'
+| 'disabled'
+| 'ref'
 >;
 
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: OptionType[];
   labelKey?: string;
@@ -42,7 +47,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   defaultValue?: SelectValueType;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
-  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
+  onValueChange?: (e: SelectChangeEvent<SelectValueType>, newValue: SelectValueType, child: ReactNode) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
@@ -53,7 +58,7 @@ export type RHFSelectProps<T extends FieldValues> = {
 
 const RHFSelect = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   options,
   labelKey,
@@ -80,7 +85,6 @@ const RHFSelect = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, ...rest } = register(fieldName, registerOptions);
   validateArray('RHFSelect', options, labelKey, valueKey);
 
   return (
@@ -98,40 +102,51 @@ const RHFSelect = <T extends FieldValues>({
           </InputLabel>
         )}
       </Fragment>
-      <MuiSelect
-        id={fieldName}
-        labelId={isLabelAboveFormField ? undefined : fieldName}
-        label={isLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue ?? ( multiple ? [] : '')}
-        error={isError}
-        multiple={multiple}
-        onChange={e => {
-          onChange(e);
-          if(onValueChange) {
-            onValueChange(e);
-          }
-        }}
-        {...otherSelectProps}
-        {...rest}
-      >
-        <MenuItem
-          value=""
-          disabled
-          sx={{ display: showDefaultOption ? 'block' : 'none' }}
-        >
-          {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
-        </MenuItem>
-        {options.map(option => {
-          const isObject = isKeyValueOption(option, labelKey, valueKey);
-          const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-          const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        defaultValue={defaultValue as PathValue<T, Path<T>>}
+        render={({ field: { value, onChange, ...otherFieldProps } }) => {
           return (
-            <MenuItem key={opnValue} value={opnValue}>
-              {opnLabel}
-            </MenuItem>
+            <MuiSelect
+              {...otherFieldProps}
+              id={fieldName}
+              labelId={isLabelAboveFormField ? undefined : fieldName}
+              label={isLabelAboveFormField ? undefined : fieldName}
+              value={value ?? (multiple ? [] : '')}
+              error={isError}
+              multiple={multiple}
+              onChange={(e, child) => {
+                const selectedValue = e.target.value;
+                onChange(selectedValue);
+                if (onValueChange) {
+                  onValueChange(e, selectedValue, child);
+                }
+              }}
+              {...otherSelectProps}
+            >
+              <MenuItem
+                value=""
+                disabled
+                sx={{ display: showDefaultOption ? 'block' : 'none' }}
+              >
+                {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
+              </MenuItem>
+              {options.map(option => {
+                const isObject = isKeyValueOption(option, labelKey, valueKey);
+                const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
+                const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+                return (
+                  <MenuItem key={opnValue} value={opnValue}>
+                    {opnLabel}
+                  </MenuItem>
+                );
+              })}
+            </MuiSelect>
           );
-        })}
-      </MuiSelect>
+        }}
+      />
       <FormHelperText
         error={isError}
         errorMessage={errorMessage}

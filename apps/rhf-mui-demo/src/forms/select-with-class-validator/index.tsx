@@ -19,6 +19,7 @@ import { Colors } from '@/types';
 
 const SelectFormWithClassValidator = () => {
   const {
+    control,
     register,
     handleSubmit,
     watch,
@@ -41,7 +42,7 @@ const SelectFormWithClassValidator = () => {
             <RHFSelect
               fieldName="favouriteColor"
               defaultValue={Colors.Blue}
-              register={register}
+              control={control}
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
@@ -57,7 +58,7 @@ const SelectFormWithClassValidator = () => {
             <FieldVariantInfo title="Multiple Select with options as an array of objects" />
             <RHFSelect
               fieldName="iplTeams"
-              register={register}
+              control={control}
               options={IPLTeams}
               labelKey="name"
               valueKey="abbr"
