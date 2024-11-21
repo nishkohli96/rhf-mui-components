@@ -222,6 +222,12 @@ const CompleteFormWithJoi = () => {
                 fieldName="agreeTnC"
                 control={control}
                 label="Agree To Terms & Conditions"
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('agreeTnC')
+                  }
+                }}
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
@@ -238,6 +244,12 @@ const CompleteFormWithJoi = () => {
                 label="Select Color"
                 showLabelAboveFormField
                 options={Object.values(Colors)}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('colors')
+                  },
+                }}
                 errorMessage={errors?.colors?.message}
               />
             </Grid>
@@ -249,6 +261,16 @@ const CompleteFormWithJoi = () => {
                 options={CountriesList}
                 labelKey="country"
                 valueKey="code"
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('countries')
+                  },
+                  validate: {
+										minLength: (value) =>
+											(value?.length ?? 0) >= 4 || minLengthMsg(4),
+									},
+                }}
                 errorMessage={errors?.countries?.message}
               />
             </Grid>
@@ -258,6 +280,12 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 options={Object.values(Gender)}
                 row
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('gender')
+                  },
+                }}
                 errorMessage={errors?.gender?.message}
               />
             </Grid>

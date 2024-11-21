@@ -1,5 +1,5 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
+import { Controller, Control, FieldValues, RegisterOptions, Path } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
@@ -9,6 +9,7 @@ import { FormHelperText } from '../common';
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: ReactNode;
   formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
@@ -21,6 +22,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
 const RHFCheckbox = <T extends FieldValues>({
   fieldName,
   control,
+  registerOptions,
   onValueChange,
   label,
   formControlLabelProps,
@@ -43,6 +45,7 @@ const RHFCheckbox = <T extends FieldValues>({
     <Controller
       name={fieldName}
       control={control}
+      rules={registerOptions}
       render={({ field }) => {
         const { value, onChange, ...otherFieldParams } = field;
         return (
@@ -52,7 +55,7 @@ const RHFCheckbox = <T extends FieldValues>({
                 <MuiCheckbox
                   {...otherFieldParams}
                   {...rest}
-                  checked={value}
+                  checked={Boolean(value)}
                   onChange={e => {
                     onChange(e);
                     if(onValueChange) {

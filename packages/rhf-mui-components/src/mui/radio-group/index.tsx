@@ -1,5 +1,5 @@
 import { useContext, ReactNode, ChangeEvent } from 'react';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
+import { Controller, Control, FieldValues, RegisterOptions, Path } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
@@ -17,6 +17,7 @@ import { FormControl, FormLabel, FormHelperText } from '../common';
 export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
@@ -38,6 +39,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
 const RHFRadioGroup = <T extends FieldValues>({
   fieldName,
   control,
+  registerOptions,
   options,
   labelKey,
   valueKey,
@@ -69,6 +71,7 @@ const RHFRadioGroup = <T extends FieldValues>({
     <Controller
       name={fieldName}
       control={control}
+      rules={registerOptions}
       render={({ field }) => {
         const { onChange, ...otherFieldParams } = field;
         return (
