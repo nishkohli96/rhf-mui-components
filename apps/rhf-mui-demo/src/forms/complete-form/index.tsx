@@ -367,8 +367,23 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFDatePicker
                 fieldName="dob"
-                register={register}
-                setValue={setValue}
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('dob')
+                  },
+                  valueAsDate: true,
+                  validate: {
+                    validDate: (value) => {
+                      if (!value) return "Date is required";
+                      /* Ensure value is at least 10 days from today */
+                      const tenDaysFromNow = new Date();
+                      tenDaysFromNow.setDate(tenDaysFromNow.getDate() - 10);
+                      return value <= tenDaysFromNow || "Date must be at least 10 days before from today";
+                    },
+                  }
+                }}
                 label="Date of Birth"
                 format="DD MMM YYYY"
                 disableFuture
@@ -390,8 +405,14 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFDateTimePicker
                 fieldName="dateTime"
-                register={register}
-                setValue={setValue}
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('dateTime')
+                  },
+                  valueAsDate: true,
+                }}
                 showLabelAboveFormField
                 ampm={false}
                 errorMessage={errors?.dateTime?.message}

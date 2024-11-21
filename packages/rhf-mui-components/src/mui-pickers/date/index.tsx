@@ -1,18 +1,12 @@
 import { useContext, ReactNode } from 'react';
-import {
-  UseFormRegister,
-  UseFormSetValue,
-  Path,
-  FieldValues,
-  RegisterOptions
-} from 'react-hook-form';
+import { Controller, Control, Path, FieldValues, RegisterOptions } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import {
   DatePicker as MuiDatePicker,
   DatePickerProps,
-  PickerValidDate
+  PickerValidDate,
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
@@ -20,10 +14,10 @@ import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  setValue: UseFormSetValue<T>;
-  onValueChange?: (newValue: unknown) => void;
+  onValueChange?: (newValue: PickerValidDate | null) => void;
+  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
@@ -34,9 +28,8 @@ export type RHFDatePickerProps<T extends FieldValues> = {
 
 const RHFDatePicker = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
-  setValue,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -55,8 +48,6 @@ const RHFDatePicker = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
-
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -66,14 +57,21 @@ const RHFDatePicker = <T extends FieldValues>({
         formLabelProps={formLabelProps}
       />
       <LocalizationProvider dateAdapter={dateAdapter}>
-        <MuiDatePicker
-          onChange={newValue => {
-            setValue(fieldName, newValue as T[typeof fieldName]);
-            onValueChange?.(newValue);
-          }}
-          label={!isLabelAboveFormField ? fieldLabel : undefined}
-          {...otherRegisterProps}
-          {...rest}
+        <Controller
+          name={fieldName}
+          control={control}
+          rules={registerOptions}
+          render={({ field: { value, onChange } }) => (
+            <MuiDatePicker
+              {...rest}
+              value={value ?? null}
+              onChange={newValue => {
+                onChange(newValue);
+                onValueChange?.(newValue);
+              }}
+              label={!isLabelAboveFormField ? fieldLabel : undefined}
+            />
+          )}
         />
       </LocalizationProvider>
       <FormHelperText

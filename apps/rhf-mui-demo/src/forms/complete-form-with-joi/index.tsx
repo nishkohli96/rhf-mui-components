@@ -264,8 +264,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFDatePicker
                 fieldName="dob"
-                register={register}
-                setValue={setValue}
+                control={control}
                 label="Date of Birth"
                 format="DD MMM YYYY"
                 disableFuture
@@ -287,8 +286,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFDateTimePicker
                 fieldName="dateTime"
-                register={register}
-                setValue={setValue}
+                control={control}
                 showLabelAboveFormField
                 ampm={false}
                 errorMessage={errors?.dateTime?.message}
