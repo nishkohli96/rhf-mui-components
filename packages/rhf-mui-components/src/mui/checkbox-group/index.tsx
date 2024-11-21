@@ -66,32 +66,32 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      rules={registerOptions}
-      render={({ field }) => {
-        const { value, onChange } = field;
-        const handleChange = (
-          event: ChangeEvent<HTMLInputElement>,
-          checked: boolean
-        ) => {
-          const newValue = checked
-            ? [...(value ?? []), event.target.value]
-            : value!.filter((v: string) => v !== event.target.value);
-          onChange(newValue);
-          if(onValueChange) {
-            onValueChange(event, event.target.value);
-          }
-        };
-        return (
-          <FormControl error={isError}>
-            <FormLabel
-              label={fieldLabel}
-              isVisible={showLabelAboveFormField ?? true}
-              error={isError}
-              formLabelProps={formLabelProps}
-            />
+    <FormControl error={isError}>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={showLabelAboveFormField ?? true}
+        error={isError}
+        formLabelProps={formLabelProps}
+      />
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange } = field;
+          const handleChange = (
+            event: ChangeEvent<HTMLInputElement>,
+            checked: boolean
+          ) => {
+            const newValue = checked
+              ? [...(value ?? []), event.target.value]
+              : value!.filter((v: string) => v !== event.target.value);
+            onChange(newValue);
+            if(onValueChange) {
+              onValueChange(event, event.target.value);
+            }
+          };
+          return (
             <Fragment>
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -121,17 +121,18 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                 );
               })}
             </Fragment>
-            <FormHelperText
-              error={isError}
-              errorMessage={errorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              formHelperTextProps={formHelperTextProps}
-            />
-          </FormControl>
-        );
-      }}
-    />
+
+          );
+        }}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        formHelperTextProps={formHelperTextProps}
+      />
+    </FormControl>
   );
 };
 

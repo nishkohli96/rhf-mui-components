@@ -47,7 +47,7 @@ const CompleteFormWithJoi = () => {
     formState: { errors }
   } = useForm<Person>({
     defaultValues: {
-      darkTheme: currentTheme === 'dark'
+      darkTheme: currentTheme === 'dark',
     }
   });
 
@@ -91,20 +91,20 @@ const CompleteFormWithJoi = () => {
               <RHFTextField
                 fieldName="email"
                 register={register}
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('email')
-									},
-									minLength: {
-										value: 5,
-										message: minLengthMsg(5)
-									},
-									pattern: {
-										value: /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9_]+\.[a-zA-Z]{2,4}$/i,
-										message: matchPatternMessage('email')
-									}
-								}}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('email')
+                  },
+                  minLength: {
+                    value: 5,
+                    message: minLengthMsg(5)
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9_]+\.[a-zA-Z]{2,4}$/i,
+                    message: matchPatternMessage('email')
+                  }
+                }}
                 errorMessage={errors?.email?.message}
                 showLabelAboveFormField
               />
@@ -115,32 +115,33 @@ const CompleteFormWithJoi = () => {
                 register={register}
                 errorMessage={errors?.password?.message}
                 showLabelAboveFormField
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('password')
-									},
-									minLength: {
-										value: 8,
-										message: minLengthMsg(8)
-									},
-									pattern: {
-										value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i,
-										message: matchPatternMessage('password')
-									}
-								}}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('password')
+                  },
+                  minLength: {
+                    value: 8,
+                    message: minLengthMsg(8)
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i,
+                    message: matchPatternMessage('password')
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFSelect
                 fieldName="favouriteColor"
                 control={control}
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('favouriteColor')
-									}
-								}}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('favouriteColor')
+                  }
+                }}
                 options={Object.values(Colors)}
                 errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
@@ -151,17 +152,16 @@ const CompleteFormWithJoi = () => {
               <RHFSelect
                 fieldName="sports"
                 control={control}
-                // defaultValue={initialValues.sports}
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('sports')
-									},
-									validate: {
-										minLength: (value) =>
-											(value?.length ?? 0) >= 2 || minLengthMsg(2),
-									},
-								}}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('sports')
+                  },
+                  validate: {
+                    minLength: (value) =>
+                      (value?.length ?? 0) >= 2 || minLengthMsg(2)
+                  }
+                }}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
                 errorMessage={errors?.sports?.message}
@@ -173,17 +173,16 @@ const CompleteFormWithJoi = () => {
               <RHFSelect
                 fieldName="iplTeams"
                 control={control}
-                // defaultValue={initialValues.iplTeams}
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('iplTeams')
-									},
-									validate: {
-										minLength: (value) =>
-											(value?.length ?? 0) >= 3 || minLengthMsg(3),
-									},
-								}}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('iplTeams')
+                  },
+                  validate: {
+                    minLength: (value) =>
+                      (value?.length ?? 0) >= 3 || minLengthMsg(3)
+                  }
+                }}
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"
@@ -197,12 +196,12 @@ const CompleteFormWithJoi = () => {
                 fieldName="countryCode"
                 control={control}
                 label="Country Code of Nationality"
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('countryCode')
-									}
-								}}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('countryCode')
+                  }
+                }}
                 errorMessage={errors?.countryCode?.message}
               />
             </Grid>
@@ -210,13 +209,12 @@ const CompleteFormWithJoi = () => {
               <RHFNativeSelect
                 fieldName="favouriteSport"
                 register={register}
-								registerOptions={{
-									required: {
-										value: true,
-										message: reqdMessage('countryCode')
-									}
-								}}
-                // defaultValue={initialValues.favouriteSport}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('countryCode')
+                  }
+                }}
                 options={Object.values(Sports)}
                 errorMessage={errors?.favouriteSport?.message}
               />
@@ -235,7 +233,7 @@ const CompleteFormWithJoi = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={e => {
+                onValueChange={(e) => {
                   console.log('toggled checkbox', e);
                 }}
                 errorMessage={errors?.agreeTnC?.message}
@@ -252,7 +250,7 @@ const CompleteFormWithJoi = () => {
                   required: {
                     value: true,
                     message: reqdMessage('colors')
-                  },
+                  }
                 }}
                 errorMessage={errors?.colors?.message}
               />
@@ -271,9 +269,9 @@ const CompleteFormWithJoi = () => {
                     message: reqdMessage('countries')
                   },
                   validate: {
-										minLength: (value) =>
-											(value?.length ?? 0) >= 4 || minLengthMsg(4),
-									},
+                    minLength: (value) =>
+                      (value?.length ?? 0) >= 4 || minLengthMsg(4)
+                  }
                 }}
                 errorMessage={errors?.countries?.message}
               />
@@ -288,7 +286,7 @@ const CompleteFormWithJoi = () => {
                   required: {
                     value: true,
                     message: reqdMessage('gender')
-                  },
+                  }
                 }}
                 errorMessage={errors?.gender?.message}
               />
@@ -308,7 +306,7 @@ const CompleteFormWithJoi = () => {
                   required: {
                     value: true,
                     message: reqdMessage('country')
-                  },
+                  }
                 }}
                 errorMessage={errors?.country?.message}
               />
@@ -329,21 +327,41 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSlider
                 fieldName="age"
-                register={register}
-                // defaultValue={initialValues.age}
+                control={control}
                 label="Age"
                 min={10}
                 max={80}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('age')
+                  },
+                  valueAsNumber: true,
+                  validate: {
+                    min: value => (value && value >= 18) || 'Age must be greater than 18'
+                  }
+                }}
                 helperText="min:10; max:80"
+                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRating
                 fieldName="rating"
                 control={control}
-                errorMessage={errors?.rating?.message}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('rating')
+                  },
+                  valueAsNumber: true,
+                  validate: {
+                    min: value => (value && value >= 5) || 'Don\'t you think we deserve a better rating ?'
+                  }
+                }}
                 max={10}
                 showLabelAboveFormField
+                errorMessage={errors?.rating?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -382,7 +400,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFColorPicker
                 fieldName="bgColor"
-                onValueChange={color => setValue('bgColor', color.hex)}
+                onValueChange={(color) => setValue('bgColor', color.hex)}
               />
             </Grid>
             <Grid item xs={12} md={6}>

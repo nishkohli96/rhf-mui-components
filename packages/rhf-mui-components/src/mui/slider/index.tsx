@@ -1,10 +1,5 @@
 import { Fragment, ReactNode } from 'react';
-import {
-  UseFormRegister,
-  RegisterOptions,
-  Path,
-  FieldValues
-} from 'react-hook-form';
+import { Controller, Control, FieldValues, Path, RegisterOptions } from 'react-hook-form';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
@@ -13,14 +8,9 @@ import { FormLabel, FormHelperText } from '../common';
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  defaultValue: number | number[];
-  onValueChange?: (
-    event: Event,
-    value: number | number[],
-    activeThumb: number
-  ) => void;
+  onValueChange?: (event: Event, value: number | number[], activeThumb: number) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -28,19 +18,16 @@ export type RHFSliderProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<SliderProps, 'name' | 'defaultValue'>;
+} & Omit<SliderProps, 'name' | 'value' | 'onChange'>;
 
 const RHFSlider = <T extends FieldValues>({
   fieldName,
-  defaultValue,
-  register,
+  control,
   registerOptions,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
-  min,
-  max,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -50,8 +37,6 @@ const RHFSlider = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, name } = register(fieldName, registerOptions);
-
   return (
     <Fragment>
       <FormLabel
@@ -60,18 +45,22 @@ const RHFSlider = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <MuiSlider
-        min={Number(min)}
-        max={Number(max)}
-        defaultValue={defaultValue}
-        name={name}
-        {...rest}
-        onChange={(event, value, activeThumb) => {
-          onChange(event);
-          if(onValueChange) {
-            onValueChange(event, value, activeThumb);
-          }
-        }}
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => (
+          <MuiSlider
+            {...field}
+            {...rest}
+            onChange={(event, value, activeThumb) => {
+              field.onChange(value);
+              if (onValueChange) {
+                onValueChange(event, value, activeThumb);
+              }
+            }}
+          />
+        )}
       />
       <FormHelperText
         error={isError}

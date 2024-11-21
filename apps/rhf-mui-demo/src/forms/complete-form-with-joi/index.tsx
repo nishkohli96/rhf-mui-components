@@ -244,12 +244,12 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFSlider
                 fieldName="age"
-                register={register}
-                defaultValue={initialValues.age}
+                control={control}
                 label="Age"
                 min={10}
                 max={80}
                 helperText="min:10; max:80"
+                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>

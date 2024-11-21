@@ -6,5 +6,6 @@ add registerOptions to
 - RHFCheckboxGroup
 - RHFRadioGroup
 - RHFSwitch
+- RHFSlider
 
 added `errorMessage`, `helprText` to RHFSwitch

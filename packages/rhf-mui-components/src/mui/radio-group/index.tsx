@@ -68,20 +68,20 @@ const RHFRadioGroup = <T extends FieldValues>({
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      rules={registerOptions}
-      render={({ field }) => {
-        const { onChange, ...otherFieldParams } = field;
-        return (
-          <FormControl error={isError}>
-            <FormLabel
-              label={fieldLabel}
-              isVisible={showLabelAboveFormField ?? true}
-              error={isError}
-              formLabelProps={formLabelProps}
-            />
+    <FormControl error={isError}>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={showLabelAboveFormField ?? true}
+        error={isError}
+        formLabelProps={formLabelProps}
+      />
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { onChange, ...otherFieldParams } = field;
+          return (
             <MuiRadioGroup
               {...rest}
               {...otherFieldParams}
@@ -113,17 +113,18 @@ const RHFRadioGroup = <T extends FieldValues>({
                 );
               })}
             </MuiRadioGroup>
-            <FormHelperText
-              error={isError}
-              errorMessage={errorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              formHelperTextProps={formHelperTextProps}
-            />
-          </FormControl>
-        );
-      }}
-    />
+
+          );
+        }}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        formHelperTextProps={formHelperTextProps}
+      />
+    </FormControl>
   );
 };
 

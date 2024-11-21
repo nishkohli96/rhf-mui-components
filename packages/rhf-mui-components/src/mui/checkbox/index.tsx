@@ -42,14 +42,14 @@ const RHFCheckbox = <T extends FieldValues>({
   };
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      rules={registerOptions}
-      render={({ field }) => {
-        const { value, onChange, ...otherFieldParams } = field;
-        return (
-          <Fragment>
+    <Fragment>
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange, ...otherFieldParams } = field;
+          return (
             <FormControlLabel
               control={
                 <MuiCheckbox
@@ -68,17 +68,17 @@ const RHFCheckbox = <T extends FieldValues>({
               sx={appliedFormControlLabelSx}
               {...otherFormControlLabelProps}
             />
-            <FormHelperText
-              error={isError}
-              errorMessage={errorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              formHelperTextProps={formHelperTextProps}
-            />
-          </Fragment>
-        );
-      }}
-    />
+          );
+        }}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        formHelperTextProps={formHelperTextProps}
+      />
+    </Fragment>
   );
 };
 
