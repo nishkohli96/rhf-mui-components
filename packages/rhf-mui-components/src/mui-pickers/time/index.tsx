@@ -12,7 +12,9 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import {
   TimePicker as MuiTimePicker,
   TimePickerProps,
-  PickerValidDate
+  PickerValidDate,
+  TimeValidationError,
+  PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
@@ -22,7 +24,10 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (newValue: PickerValidDate | null) => void;
+  onValueChange?: (
+    newValue: PickerValidDate | null,
+    context: PickerChangeHandlerContext<TimeValidationError>
+  ) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
@@ -70,9 +75,9 @@ const RHFTimePicker = <T extends FieldValues>({
             <MuiTimePicker
               {...fieldProps}
               value={value || null}
-              onChange={newValue => {
+              onChange={(newValue, context) => {
                 onChange(newValue);
-                onValueChange?.(newValue);
+                onValueChange?.(newValue, context);
               }}
               label={!isLabelAboveFormField ? fieldLabel : undefined}
               {...rest}

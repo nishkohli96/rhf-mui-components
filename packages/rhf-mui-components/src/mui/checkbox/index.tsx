@@ -10,7 +10,10 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onValueChange?: (
+    isChecked: boolean,
+    event: ChangeEvent<HTMLInputElement>
+  ) => void;
   label?: ReactNode;
   formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
   helperText?: ReactNode;
@@ -56,10 +59,10 @@ const RHFCheckbox = <T extends FieldValues>({
                   {...otherFieldParams}
                   {...rest}
                   checked={Boolean(value)}
-                  onChange={e => {
-                    onChange(e);
+                  onChange={(event, checked) => {
+                    onChange(checked);
                     if(onValueChange) {
-                      onValueChange(e);
+                      onValueChange(checked, event);
                     }
                   }}
                 />

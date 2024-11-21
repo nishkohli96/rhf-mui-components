@@ -20,7 +20,11 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (e: ChangeEvent<HTMLInputElement>, newValue: string) => void;
+  onValueChange?: (
+    selectedItemValue: string,
+    newValue: string,
+    event: ChangeEvent<HTMLInputElement>
+  ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -86,9 +90,9 @@ const RHFCheckboxGroup = <T extends FieldValues>({
             const newValue = checked
               ? [...(value ?? []), event.target.value]
               : value!.filter((v: string) => v !== event.target.value);
-            onChange(newValue);
+              onChange(newValue);
             if(onValueChange) {
-              onValueChange(event, event.target.value);
+              onValueChange(event.target.value, newValue, event);
             }
           };
           return (

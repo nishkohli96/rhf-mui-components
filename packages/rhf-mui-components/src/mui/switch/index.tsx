@@ -23,7 +23,10 @@ export type RHFSwitchProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-  onValueChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onValueChange?: (
+    isChecked: boolean,
+    event: ChangeEvent<HTMLInputElement>
+  ) => void;
 } & Omit<SwitchProps, 'name'>;
 
 const RHFSwitch = <T extends FieldValues>({
@@ -64,10 +67,10 @@ const RHFSwitch = <T extends FieldValues>({
                   {...otherFieldParams}
                   {...rest}
                   checked={Boolean(value)}
-                  onChange={e => {
-                    onChange(e);
+                  onChange={(event, isChecked) => {
+                    onChange(event);
                     if(onValueChange) {
-                      onValueChange(e);
+                      onValueChange(isChecked, event);
                     }
                   }}
                 />

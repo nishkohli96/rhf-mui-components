@@ -7,6 +7,8 @@ import {
   DatePicker as MuiDatePicker,
   DatePickerProps,
   PickerValidDate,
+  DateValidationError,
+  PickerChangeHandlerContext,
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
@@ -16,7 +18,10 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (newValue: PickerValidDate | null) => void;
+  onValueChange?: (
+    newValue: PickerValidDate | null,
+    context: PickerChangeHandlerContext<DateValidationError>
+  ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -65,9 +70,9 @@ const RHFDatePicker = <T extends FieldValues>({
             <MuiDatePicker
               {...rest}
               value={value ?? null}
-              onChange={newValue => {
+              onChange={(newValue, context) => {
                 onChange(newValue);
-                onValueChange?.(newValue);
+                onValueChange?.(newValue, context);
               }}
               label={!isLabelAboveFormField ? fieldLabel : undefined}
             />

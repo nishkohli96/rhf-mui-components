@@ -21,7 +21,8 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    value: string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -80,10 +81,10 @@ const RHFPasswordInput = <T extends FieldValues>({
       />
       <TextField
         {...rest}
-        onChange={e => {
-          onChange(e);
+        onChange={event => {
+          onChange(event);
           if(onValueChange) {
-            onValueChange(e);
+            onValueChange(event.target.value, event);
           }
         }}
         {...otherRegisterProps}

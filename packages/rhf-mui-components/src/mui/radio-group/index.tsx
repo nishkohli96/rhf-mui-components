@@ -21,7 +21,10 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
+  onValueChange?: (
+    selectedValue: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -86,10 +89,10 @@ const RHFRadioGroup = <T extends FieldValues>({
               {...rest}
               {...otherFieldParams}
               value={field.value ?? ''}
-              onChange={(e, value) => {
-                onChange(e);
+              onChange={(event, selectedValue) => {
+                onChange(event);
                 if(onValueChange) {
-                  onValueChange(e, value);
+                  onValueChange(selectedValue, event);
                 }
               }}
             >

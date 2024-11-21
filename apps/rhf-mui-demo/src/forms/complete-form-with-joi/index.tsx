@@ -175,8 +175,8 @@ const CompleteFormWithJoi = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={e => {
-                  console.log('toggled checkbox', e);
+                onValueChange={isChecked => {
+                  console.log('Is checked', isChecked);
                 }}
                 errorMessage={errors?.agreeTnC?.message}
               />

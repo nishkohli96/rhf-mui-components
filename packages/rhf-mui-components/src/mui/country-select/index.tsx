@@ -2,7 +2,7 @@ import { useContext, ReactNode, SyntheticEvent, useMemo } from 'react';
 import { Controller, Control, Path, FieldValues, RegisterOptions, PathValue } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, { AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteProps } from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
@@ -54,7 +54,12 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   defaultValue?: SelectValueType;
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   disabled?: boolean;
-  onValueChange?: (e: SyntheticEvent, newValue: CountryDetails | CountryDetails[] | null) => void;
+  onValueChange?: (
+    newValue: CountryDetails | CountryDetails[] | null,
+    event: SyntheticEvent,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<CountryDetails>
+  ) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
@@ -158,13 +163,13 @@ const RHFCountrySelect = <T extends FieldValues>({
               fullWidth
               options={countrySelectOptions}
               value={selectedCountries}
-              onChange={(e, newValue) => {
+              onChange={(event, newValue, reason, details) => {
                 const newValueKey = Array.isArray(newValue)
                   ? (newValue ?? []).map(item => item[valueKey])
                   : (newValue)?.[valueKey] ?? '';
                 onChange(newValueKey);
                 if (onValueChange) {
-                  onValueChange(e, newValue);
+                  onValueChange(newValue, event, reason, details);
                 }
               }}
               multiple={multiple}

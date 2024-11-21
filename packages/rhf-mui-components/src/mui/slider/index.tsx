@@ -10,7 +10,11 @@ export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (event: Event, value: number | number[], activeThumb: number) => void;
+  onValueChange?: (
+    value: number | number[],
+    activeThumb: number,
+    event: Event,
+  ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -57,7 +61,7 @@ const RHFSlider = <T extends FieldValues>({
             onChange={(event, value, activeThumb) => {
               onChange(value);
               if (onValueChange) {
-                onValueChange(event, value, activeThumb);
+                onValueChange(value, activeThumb, event);
               }
             }}
           />

@@ -47,7 +47,11 @@ export type RHFSelectProps<T extends FieldValues> = {
   defaultValue?: SelectValueType;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
-  onValueChange?: (e: SelectChangeEvent<SelectValueType>, newValue: SelectValueType, child: ReactNode) => void;
+  onValueChange?: (
+    newValue: SelectValueType,
+    event: SelectChangeEvent<SelectValueType>,
+    child: ReactNode
+  ) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
   helperText?: ReactNode;
@@ -117,11 +121,11 @@ const RHFSelect = <T extends FieldValues>({
               value={value ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}
-              onChange={(e, child) => {
-                const selectedValue = e.target.value;
+              onChange={(event, child) => {
+                const selectedValue = event.target.value;
                 onChange(selectedValue);
                 if (onValueChange) {
-                  onValueChange(e, selectedValue, child);
+                  onValueChange(selectedValue, event, child);
                 }
               }}
               {...otherSelectProps}

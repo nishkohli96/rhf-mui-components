@@ -36,7 +36,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   onReady?: (editor: ClassicEditor) => void;
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  onValueChange?: (event: EventInfo, newValue: string, editor: ClassicEditor) => void;
+  onValueChange?: (newValue: string, event: EventInfo, editor: ClassicEditor) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -93,7 +93,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
               const content = editor.getData();
               onChange(content);
               if(onValueChange) {
-                onValueChange(event, content, editor);
+                onValueChange(content, event, editor);
               }
             }}
             onReady={onReady}

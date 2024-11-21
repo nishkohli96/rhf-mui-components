@@ -28,7 +28,7 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   defaultValue?: SelectValueType;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
-  onValueChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onValueChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
   label?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -74,10 +74,10 @@ const RHFNativeSelect = <T extends FieldValues>({
           name: fieldName,
           id: fieldName
         }}
-        onChange={e => {
-          onChange(e);
+        onChange={event => {
+          onChange(event);
           if(onValueChange) {
-            onValueChange(e);
+            onValueChange(event);
           }
         }}
       >
