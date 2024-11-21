@@ -22,11 +22,11 @@ type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, true | false, false, false>,
   | 'freeSolo'
   | 'fullWidth'
-  | 'id'
   | 'renderInput'
   | 'options'
   | 'value'
   | 'defaultValue'
+  | 'onChange'
   | 'disabled'
 >;
 
@@ -39,6 +39,9 @@ type AutoCompleteTextFieldProps = Omit<
   | 'slotProps'
   | 'label'
   | 'error'
+  | 'getOptionKey'
+  | 'getOptionLabel'
+  | 'isOptionEqualToValue'
 >
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -171,13 +174,14 @@ const RHFCountrySelect = <T extends FieldValues>({
               limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
+              getOptionKey={option => option[valueKey]}
               getOptionLabel={option => option.name}
               isOptionEqualToValue={(option, value) =>
                 option[valueKey] === (value as CountryDetails)[valueKey]}
               renderOption={({ key, ...props }, option) => (
                 <Box
                   component="li"
-                  key={option.iso}
+                  key={key}
                   sx={{ display: 'flex', alignItems: 'center' }}
                   {...props}
                 >

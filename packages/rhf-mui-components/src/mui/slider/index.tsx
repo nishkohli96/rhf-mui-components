@@ -49,12 +49,13 @@ const RHFSlider = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => (
+        render={({ field: { onChange, value, ...otherFieldProps } }) => (
           <MuiSlider
-            {...field}
+            {...otherFieldProps}
             {...rest}
+            value={value ?? 0}
             onChange={(event, value, activeThumb) => {
-              field.onChange(value);
+              onChange(value);
               if (onValueChange) {
                 onValueChange(event, value, activeThumb);
               }
