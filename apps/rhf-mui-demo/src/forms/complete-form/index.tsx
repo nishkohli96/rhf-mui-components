@@ -450,8 +450,17 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFPhoneInput
                 fieldName="phoneNumber"
-                value={getValues('phoneNumber')}
-                setValue={setValue}
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('phoneNumber')
+                  },
+                  validate: {
+                    minLength: (value) =>
+                      (value?.length ?? 0) >= 10 || minLengthMsg(10)
+                  }
+                }}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{

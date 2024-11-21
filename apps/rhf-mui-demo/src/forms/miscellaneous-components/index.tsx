@@ -31,6 +31,7 @@ const MiscellaneousComponentsForm = () => {
   };
 
   const {
+    control,
     setValue,
     handleSubmit,
     watch,
@@ -58,13 +59,12 @@ const MiscellaneousComponentsForm = () => {
             <FieldVariantInfo title="CK5 Rich Text Editor" />
             <RHFRichTextEditor
               fieldName="bio"
+              control={control}
               label={(
                 <Typography color="#ea3677">
                   Briefly describe yourself
                 </Typography>
               )}
-              value={getValues('bio')}
-              setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -82,18 +82,14 @@ const MiscellaneousComponentsForm = () => {
             <FieldVariantInfo title="Phone Input" />
             <RHFPhoneInput
               fieldName="contactNumber"
-              value={getValues('contactNumber')}
-              setValue={setValue}
-              showLabelAboveFormField
-              variant="standard"
+              control={control}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top" />
             <RHFPhoneInput
               fieldName="contactNumber2"
-              value={getValues('contactNumber2')}
-              setValue={setValue}
+              control={control}
               showLabelAboveFormField
               variant="standard"
               phoneInputProps={{

@@ -68,7 +68,6 @@ const CompleteFormWithJoi = () => {
     control,
     watch,
     setValue,
-    getValues,
     formState: { errors }
   } = useForm<Person>({
     defaultValues: initialValues,
@@ -307,8 +306,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFPhoneInput
                 fieldName="phoneNumber"
-                value={getValues('phoneNumber')}
-                setValue={setValue}
+                control={control}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{

@@ -4,7 +4,13 @@
  */
 
 import { useContext, ReactNode } from 'react';
-import { Path, FieldValues, UseFormSetValue, PathValue } from 'react-hook-form';
+import {
+  FieldValues,
+  Path,
+  Controller,
+  Control,
+  UseControllerProps
+} from 'react-hook-form';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
@@ -45,8 +51,8 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  value?: string;
-  setValue: UseFormSetValue<T>;
+  control: Control<T>;
+  registerOptions?: UseControllerProps<T>['rules'];
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -58,8 +64,8 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
 
 const RHFPhoneInput = <T extends FieldValues>({
   fieldName,
-  value,
-  setValue,
+  control,
+  registerOptions,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -116,9 +122,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
       ...otherPhoneInputProps,
-      value,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
-        setValue(fieldName, phoneData.inputValue as PathValue<T, Path<T>>);
         if (onValueChange) {
           onValueChange(phoneData);
         }
@@ -136,102 +140,124 @@ const RHFPhoneInput = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <TextField
-        autoComplete={fieldName}
-        type="tel"
-        {...rest}
-        value={inputValue}
-        onChange={handlePhoneValueChange}
-        inputRef={inputRef}
-        label={!isLabelAboveFormField ? fieldLabel : undefined}
-        error={isError}
-        disabled={disabled}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment
-              position="start"
-              style={{ marginRight: '2px', marginLeft: '-8px' }}
-            >
-              <Select
-                MenuProps={{
-                  style: {
-                    height: '300px',
-                    width: '360px',
-                    top: '10px',
-                    left: '-34px'
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'left'
-                  }
-                }}
-                sx={{
-                  width: 'max-content',
-                  fieldset: {
-                    display: 'none'
-                  },
-                  '&.Mui-focused:has(div[aria-expanded="false"])': {
-                    fieldset: {
-                      display: 'block'
-                    }
-                  },
-                  '.MuiSelect-select': {
-                    padding: '8px',
-                    paddingRight: '24px !important'
-                  },
-                  svg: {
-                    right: 0
-                  }
-                }}
-                value={country.iso2}
-                disabled={disabled || hideDropdown}
-                onChange={e => setCountry(e.target.value as CountryIso2)}
-                renderValue={value => (
-                  <FlagImage iso2={value} style={{ display: 'flex' }} />
-                )}
-              >
-                {countriesToListAtTop.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-
-                {countriesToListAtTop.length > 0 && <Divider />}
-
-                {countriesToList.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </InputAdornment>
-          )
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field, fieldState }) => {
+          const isError = Boolean(fieldState.error?.message);
+          return (
+            <TextField
+              {...field}
+              {...rest}
+              autoComplete={fieldName}
+              type="tel"
+              value={inputValue}
+              onChange={e => {
+                handlePhoneValueChange(e);
+                field.onChange(e.target.value);
+              }}
+              inputRef={ref => {
+                field.ref(ref);
+                inputRef.current = ref;
+              }}
+              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              error={isError}
+              disabled={disabled}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment
+                    position="start"
+                    style={{ marginRight: '2px', marginLeft: '-8px' }}
+                  >
+                    <Select
+                      MenuProps={{
+                        style: {
+                          height: '300px',
+                          width: '360px',
+                          top: '10px',
+                          left: '-34px'
+                        },
+                        transformOrigin: {
+                          vertical: 'top',
+                          horizontal: 'left'
+                        }
+                      }}
+                      sx={{
+                        width: 'max-content',
+                        fieldset: {
+                          display: 'none'
+                        },
+                        '&.Mui-focused:has(div[aria-expanded="false"])': {
+                          fieldset: {
+                            display: 'block'
+                          }
+                        },
+                        '.MuiSelect-select': {
+                          padding: '8px',
+                          paddingRight: '24px !important'
+                        },
+                        svg: {
+                          right: 0
+                        }
+                      }}
+                      value={country.iso2}
+                      disabled={disabled || hideDropdown}
+                      onChange={e =>
+                        setCountry(e.target.value as CountryIso2)}
+                      renderValue={value => (
+                        <FlagImage iso2={value} style={{ display: 'flex' }} />
+                      )}
+                    >
+                      {countriesToListAtTop.map(c => {
+                        const countryInfo = parseCountry(c);
+                        return (
+                          <MenuItem
+                            key={countryInfo.iso2}
+                            value={countryInfo.iso2}
+                          >
+                            <FlagImage
+                              iso2={countryInfo.iso2}
+                              style={{ marginRight: '8px' }}
+                            />
+                            <Typography marginRight="8px">
+                              {countryInfo.name}
+                            </Typography>
+                            <Typography color="gray">
+                              +
+                              {countryInfo.dialCode}
+                            </Typography>
+                          </MenuItem>
+                        );
+                      })}
+                      {countriesToListAtTop.length > 0 && <Divider />}
+                      {countriesToList.map(c => {
+                        const countryInfo = parseCountry(c);
+                        return (
+                          <MenuItem
+                            key={countryInfo.iso2}
+                            value={countryInfo.iso2}
+                          >
+                            <FlagImage
+                              iso2={countryInfo.iso2}
+                              style={{ marginRight: '8px' }}
+                            />
+                            <Typography marginRight="8px">
+                              {countryInfo.name}
+                            </Typography>
+                            <Typography color="gray">
+                              +
+                              {countryInfo.dialCode}
+                            </Typography>
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </InputAdornment>
+                )
+              }}
+            />
+          );
         }}
       />
       <FormHelperText
