@@ -276,8 +276,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFTimePicker
                 fieldName="time"
-                register={register}
-                setValue={setValue}
+                control={control}
                 label="Time"
                 ampm={false}
                 errorMessage={errors?.time?.message}

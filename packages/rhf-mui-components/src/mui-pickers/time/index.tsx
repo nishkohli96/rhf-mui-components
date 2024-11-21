@@ -1,7 +1,7 @@
 import { useContext, ReactNode } from 'react';
 import {
-  UseFormRegister,
-  UseFormSetValue,
+  Controller,
+  Control,
   Path,
   FieldValues,
   RegisterOptions
@@ -20,9 +20,8 @@ import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  setValue: UseFormSetValue<T>;
   onValueChange?: (newValue: PickerValidDate | null) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -34,9 +33,8 @@ export type RHFTimePickerProps<T extends FieldValues> = {
 
 const RHFTimePicker = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
-  setValue,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -55,8 +53,6 @@ const RHFTimePicker = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, ...otherRegisterProps } = register(fieldName, registerOptions);
-
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -66,14 +62,22 @@ const RHFTimePicker = <T extends FieldValues>({
         formLabelProps={formLabelProps}
       />
       <LocalizationProvider dateAdapter={dateAdapter}>
-        <MuiTimePicker
-          onChange={newValue => {
-            setValue(fieldName, newValue as T[typeof fieldName]);
-            onValueChange?.(newValue);
-          }}
-          label={!isLabelAboveFormField ? fieldLabel : undefined}
-          {...otherRegisterProps}
-          {...rest}
+        <Controller
+          name={fieldName}
+          control={control}
+          rules={registerOptions}
+          render={({ field: { onChange, value, ...fieldProps } }) => (
+            <MuiTimePicker
+              {...fieldProps}
+              value={value || null}
+              onChange={newValue => {
+                onChange(newValue);
+                onValueChange?.(newValue);
+              }}
+              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              {...rest}
+            />
+          )}
         />
       </LocalizationProvider>
       <FormHelperText

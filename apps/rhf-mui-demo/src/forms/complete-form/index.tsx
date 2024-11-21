@@ -395,8 +395,14 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFTimePicker
                 fieldName="time"
-                register={register}
-                setValue={setValue}
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('time')
+                  },
+                  valueAsDate: true,
+                }}
                 label="Time"
                 ampm={false}
                 errorMessage={errors?.time?.message}
