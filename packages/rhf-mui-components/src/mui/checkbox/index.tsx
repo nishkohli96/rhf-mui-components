@@ -1,8 +1,8 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import {
+  FieldValues,
   Controller,
   Control,
-  FieldValues,
   RegisterOptions,
   Path
 } from 'react-hook-form';

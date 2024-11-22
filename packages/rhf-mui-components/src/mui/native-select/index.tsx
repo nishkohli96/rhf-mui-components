@@ -1,9 +1,9 @@
 import { ReactNode, ChangeEvent } from 'react';
 import {
+  FieldValues,
   UseFormRegister,
   RegisterOptions,
-  Path,
-  FieldValues
+  Path
 } from 'react-hook-form';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';

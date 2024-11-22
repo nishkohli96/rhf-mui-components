@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import {
+  FieldValues,
   Controller,
   Control,
-  FieldValues,
-  Path,
-  RegisterOptions
+  RegisterOptions,
+  Path
 } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { EventInfo } from '@ckeditor/ckeditor5-utils';

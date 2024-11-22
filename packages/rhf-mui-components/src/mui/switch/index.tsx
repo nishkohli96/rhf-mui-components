@@ -1,10 +1,10 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import {
-  Control,
-  Controller,
-  Path,
   FieldValues,
-  RegisterOptions
+  Controller,
+  Control,
+  RegisterOptions,
+  Path
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
