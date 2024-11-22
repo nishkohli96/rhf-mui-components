@@ -1,7 +1,6 @@
 import { useContext, ReactNode } from 'react';
 import { Controller, Control, FieldValues, Path, RegisterOptions } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import {
   DateTimePicker as MuiDateTimePicker,
   DateTimePickerProps,
@@ -11,7 +10,7 @@ import {
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
@@ -26,7 +25,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 } & Omit<DateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
 const RHFDateTimePicker = <T extends FieldValues>({

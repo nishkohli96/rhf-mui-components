@@ -4,15 +4,16 @@ import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/For
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
-  | 'error'
   | 'children'
-> 
+  | 'error'
+>
 
 export type FormHelperTextProps = Omit<
   MuiFormHelperTextProps,
-  | 'error'
   | 'children'
-> 
+  | 'component'
+  | 'error'
+>
 
 export type MuiPickersAdapter = { new (...args: any): any }
 

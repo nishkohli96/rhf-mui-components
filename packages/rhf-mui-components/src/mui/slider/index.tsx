@@ -1,10 +1,9 @@
 import { Fragment, ReactNode } from 'react';
 import { Controller, Control, FieldValues, Path, RegisterOptions } from 'react-hook-form';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
-import { FormLabelProps } from '@/types';
+import { FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
-import { FormLabel, FormHelperText } from '../common';
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -21,7 +20,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 } & Omit<SliderProps, 'name' | 'value' | 'onChange'>;
 
 const RHFSlider = <T extends FieldValues>({

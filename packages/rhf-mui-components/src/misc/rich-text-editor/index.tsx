@@ -10,9 +10,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -45,7 +44,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   onError?: (error: Error, details: ErrorDetails) => void;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 };
 
 const RHFRichTextEditor = <T extends FieldValues>({

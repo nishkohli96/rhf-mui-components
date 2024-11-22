@@ -9,17 +9,16 @@ import {
 } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSelect, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormLabelProps, OptionType } from '@/types';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps, OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
   keepLabelAboveFormField,
 } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
 
 type SelectValueType = OptionType | OptionType[];
 
@@ -56,7 +55,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 } & SelectInputProps;
 
 const RHFSelect = <T extends FieldValues>({

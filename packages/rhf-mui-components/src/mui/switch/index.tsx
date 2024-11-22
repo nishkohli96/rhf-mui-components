@@ -7,11 +7,11 @@ import {
   RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormHelperText } from '@/mui/common';
+import { FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
-import { FormHelperText } from '../common';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -22,7 +22,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
   onValueChange?: (
     isChecked: boolean,
     event: ChangeEvent<HTMLInputElement>

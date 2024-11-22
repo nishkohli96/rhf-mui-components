@@ -6,11 +6,13 @@ type Props = {
   error: boolean;
 }
 
-export function FormControl(props: Props) {
+const FormControl = (props: Props) => {
   const { children, error } = props;
   return (
     <MuiFormControl fullWidth error={error}>
       {children}
     </MuiFormControl>
   );
-}
+};
+
+export default FormControl;

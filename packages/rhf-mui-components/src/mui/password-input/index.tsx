@@ -8,13 +8,12 @@ import {
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormLabelProps } from '@/types';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -30,7 +29,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 } & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
 
 const RHFPasswordInput = <T extends FieldValues>({

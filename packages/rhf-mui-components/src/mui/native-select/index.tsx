@@ -8,8 +8,8 @@ import {
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
-import FormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { OptionType } from '@/types';
+import FormHelperText from '@mui/material/FormHelperText';
+import { FormHelperTextProps, OptionType } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

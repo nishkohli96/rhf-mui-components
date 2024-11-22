@@ -1,10 +1,9 @@
 import { ReactNode, SyntheticEvent } from 'react';
 import { Control, Controller, RegisterOptions, Path, FieldValues } from 'react-hook-form';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
-import { FormLabelProps } from '@/types';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
 
 type OmittedRatingprops = Omit<
   RatingProps,
@@ -29,7 +28,7 @@ export type RHFRatingProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 } & OmittedRatingprops;
 
 const RHFRating = <T extends FieldValues>({

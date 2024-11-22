@@ -39,6 +39,6 @@ const FormHelperText = (props: Props) => {
       </MuiFormHelperText>
     </Fragment>
   );
-}
+};
 
 export default FormHelperText;

@@ -11,7 +11,6 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
@@ -30,7 +29,7 @@ import {
 } from 'react-international-phone';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import 'react-international-phone/style.css';
 
@@ -66,7 +65,7 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
   phoneInputProps?: PhoneInputProps;
 } & OmittedTextFieldProps;
 
@@ -128,7 +127,7 @@ const RHFPhoneInput = <T extends FieldValues>({
     );
   }
 
-  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
+  const { handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
       ...otherPhoneInputProps,
       value,

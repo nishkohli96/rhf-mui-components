@@ -10,7 +10,7 @@ type Props = {
   formLabelProps?: FormLabelProps;
 };
 
-export function FormLabel(props: Props) {
+const FormLabel = (props: Props) => {
   const {
     label,
     formLabelProps,
@@ -38,4 +38,6 @@ export function FormLabel(props: Props) {
       )}
     </Fragment>
   );
-}
+};
+
+export default FormLabel;

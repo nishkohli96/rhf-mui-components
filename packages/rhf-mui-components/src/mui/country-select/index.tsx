@@ -1,13 +1,24 @@
 import { useContext, ReactNode, SyntheticEvent, useMemo } from 'react';
-import { Controller, Control, Path, FieldValues, RegisterOptions, PathValue } from 'react-hook-form';
+import {
+  Controller,
+  Control,
+  Path,
+  FieldValues,
+  RegisterOptions,
+  PathValue
+} from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Autocomplete, { AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteProps } from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { CountryDetails, CountryISO, FormLabelProps } from '@/types';
+import {
+  CountryDetails,
+  CountryISO,
+  FormLabelProps,
+  FormHelperTextProps
+} from '@/types';
 import { fieldNameToLabel, isMuiV6, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 

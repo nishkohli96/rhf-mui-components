@@ -1,10 +1,16 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
-import { Controller, Control, FieldValues, RegisterOptions, Path } from 'react-hook-form';
+import {
+  Controller,
+  Control,
+  FieldValues,
+  RegisterOptions,
+  Path
+} from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormHelperText } from '../common';
+import { FormHelperText } from '@/mui/common';
+import { FormHelperTextProps } from '@/types';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -19,7 +25,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 } & Omit<CheckboxProps, 'name' | 'checked' | 'onChange'>;
 
 const RHFCheckbox = <T extends FieldValues>({

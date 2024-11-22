@@ -1,3 +1,3 @@
-export * from './FormControl';
+export { default as FormControl } from './FormControl';
 export { default as FormHelperText } from './FormHelperText';
-export * from './FormLabel';
+export { default as FormLabel } from './FormLabel';

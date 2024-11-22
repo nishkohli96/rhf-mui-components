@@ -1,16 +1,21 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
-import { Controller, Control, FieldValues, RegisterOptions, Path } from 'react-hook-form';
+import {
+  Controller,
+  Control,
+  FieldValues,
+  RegisterOptions,
+  Path
+} from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormLabelProps, OptionType } from '@/types';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps, OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption
 } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
 
 export type RHFCheckboxGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -35,7 +40,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
+  formHelperTextProps?: FormHelperTextProps;
 };
 
 const RHFCheckboxGroup = <T extends FieldValues>({
