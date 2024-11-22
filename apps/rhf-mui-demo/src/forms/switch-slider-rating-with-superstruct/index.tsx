@@ -30,7 +30,6 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
     score: 20,
   };
   const {
-    register,
     control,
     handleSubmit,
     watch,
@@ -52,8 +51,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
             <FieldVariantInfo title="Slider with label, custom range and marks" />
             <RHFSlider
               fieldName="score"
-              register={register}
-              defaultValue={initialValues.score}
+              control={control}
               min={0}
               max={50}
               marks={[

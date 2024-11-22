@@ -3,6 +3,7 @@ import {
   IsEnum,
   IsArray,
   ArrayMinSize,
+  ArrayUnique,
   ValidatorConstraint,
   ValidatorConstraintInterface,
   ValidationArguments,
@@ -35,6 +36,7 @@ export class FormSchema {
 
   @IsArray()
   @ArrayMinSize(1, { message: 'Select atleast one option' })
+  @ArrayUnique()
   @IsString({ each: true })
   @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
   iplTeams!: string[];

@@ -89,7 +89,7 @@ const CountrySelectForm = () => {
               multiple
               showLabelAboveFormField
               label="What are your Dream Destinations?"
-              ChipProps={{ sx: { background: theme => theme.palette.primary.main }}}
+              ChipProps={{ sx: { background: theme => theme.palette.primary.main } }}
               helperText={
                 <Typography color="slateblue">
                   Select atleast 3 countries

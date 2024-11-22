@@ -10,16 +10,16 @@ type StyledRHFTextFieldProps<T extends FieldValues> = Omit<
 >;
 
 type StyledErrorMsgProps = {
-  msg: ReactNode;
+  errorMessage: ReactNode;
 };
 
-const StyledErrorMsg = ({ msg }: StyledErrorMsgProps) => {
+const StyledErrorMsg = ({ errorMessage }: StyledErrorMsgProps) => {
   return (
     <Fragment>
-      {Boolean(msg) && (
+      {Boolean(errorMessage) && (
         <Typography variant="body2">
           <PriorityHighIcon color="error" />
-          {msg}
+          {errorMessage}
         </Typography>
       )}
     </Fragment>
@@ -32,7 +32,9 @@ const StyledRHFTextField = <T extends FieldValues>(
   const { errorMessage, ...rest } = props;
   return (
     <RHFTextField
-      errorMessage={errorMessage ? <StyledErrorMsg msg={errorMessage} /> : undefined}
+      errorMessage={
+        errorMessage ? <StyledErrorMsg errorMessage={errorMessage} /> : undefined
+      }
       variant="standard"
       showLabelAboveFormField
       {...rest}

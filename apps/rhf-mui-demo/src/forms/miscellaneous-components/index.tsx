@@ -18,7 +18,7 @@ import {
 type FormSchema = {
   bio: string;
   contactNumber: string;
-  contactNumber2?: string; 
+  contactNumber2?: string;
   favouriteColor: string;
   countries: string;
 };
@@ -83,6 +83,7 @@ const MiscellaneousComponentsForm = () => {
             <RHFPhoneInput
               fieldName="contactNumber"
               control={control}
+              value={getValues('contactNumber')}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -90,6 +91,7 @@ const MiscellaneousComponentsForm = () => {
             <RHFPhoneInput
               fieldName="contactNumber2"
               control={control}
+              value={getValues('contactNumber2')}
               showLabelAboveFormField
               variant="standard"
               phoneInputProps={{

@@ -25,7 +25,7 @@ const SelectFormWithClassValidator = () => {
     watch,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: { favouriteColor: Colors.Blue },
+    defaultValues: { favouriteColor: Colors.Orange },
     resolver: classValidatorResolver(FormSchema)
   });
 
@@ -41,14 +41,13 @@ const SelectFormWithClassValidator = () => {
             <FieldVariantInfo title="Single select field with helpertext" />
             <RHFSelect
               fieldName="favouriteColor"
-              defaultValue={Colors.Blue}
               control={control}
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
                 watch('favouriteColor') ? (
                   <Typography color={watch('favouriteColor')}>
-                    {`This text is in ${watch('favouriteColor')} color`}
+                    {`Select an option to change selected text color from ${watch('favouriteColor')}`}
                   </Typography>
                 ) : undefined
               }

@@ -32,7 +32,7 @@ const initialValues: FormSchema = {
 export default function StyledReusableComponentForm() {
   const {
     register,
-    setValue,
+    control,
     handleSubmit,
     watch,
     formState: { errors },
@@ -98,8 +98,7 @@ export default function StyledReusableComponentForm() {
             <Grid item xs={6}>
               <FieldVariantInfo title="Date Picker with Luxon adapter" />
               <RHFDatePicker
-                register={register}
-                setValue={setValue}
+                control={control}
                 fieldName="dob"
                 label="Date of Birth"
                 disableFuture

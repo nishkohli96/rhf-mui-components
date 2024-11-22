@@ -51,17 +51,17 @@ const CompleteFormWithJoi = () => {
     }
   });
 
-	function reqdMessage(fieldName: Path<Person>) {
-		return `${fieldNameToLabel(fieldName)} is required`;
-	}
+  function reqdMessage(fieldName: Path<Person>) {
+    return `${fieldNameToLabel(fieldName)} is required`;
+  }
 
-	function minLengthMsg(length: number) {
-		return `Minimum length should be ${length}`
-	}
+  function minLengthMsg(length: number) {
+    return `Minimum length should be ${length}`;
+  }
 
-	function matchPatternMessage(fieldName: Path<Person>) {
-		return `The value for ${fieldName} must match the pattern specified.`;
-	}
+  function matchPatternMessage(fieldName: Path<Person>) {
+    return `The value for ${fieldName} must match the pattern specified.`;
+  }
 
   function onFormSubmit(formValues: Person) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
@@ -158,7 +158,7 @@ const CompleteFormWithJoi = () => {
                     message: reqdMessage('sports')
                   },
                   validate: {
-                    minLength: (value) =>
+                    minLength: value =>
                       (value?.length ?? 0) >= 2 || minLengthMsg(2)
                   }
                 }}
@@ -179,7 +179,7 @@ const CompleteFormWithJoi = () => {
                     message: reqdMessage('iplTeams')
                   },
                   validate: {
-                    minLength: (value) =>
+                    minLength: value =>
                       (value?.length ?? 0) >= 3 || minLengthMsg(3)
                   }
                 }}
@@ -269,7 +269,7 @@ const CompleteFormWithJoi = () => {
                     message: reqdMessage('countries')
                   },
                   validate: {
-                    minLength: (value) =>
+                    minLength: value =>
                       (value?.length ?? 0) >= 4 || minLengthMsg(4)
                   }
                 }}
@@ -375,12 +375,14 @@ const CompleteFormWithJoi = () => {
                   },
                   valueAsDate: true,
                   validate: {
-                    validDate: (value) => {
-                      if (!value) return "Date is required";
+                    validDate: value => {
+                      if (!value) {
+                        return 'Date is required';
+                      }
                       /* Ensure value is at least 10 days from today */
                       const tenDaysFromNow = new Date();
                       tenDaysFromNow.setDate(tenDaysFromNow.getDate() - 10);
-                      return value <= tenDaysFromNow || "Date must be at least 10 days before from today";
+                      return value <= tenDaysFromNow || 'Date must be at least 10 days before from today';
                     },
                   }
                 }}
@@ -427,7 +429,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFColorPicker
                 fieldName="bgColor"
-                onValueChange={(color) => setValue('bgColor', color.hex)}
+                onValueChange={color => setValue('bgColor', color.hex)}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -441,7 +443,7 @@ const CompleteFormWithJoi = () => {
                     message: reqdMessage('feedback')
                   },
                   validate: {
-                    minLength: (value) =>
+                    minLength: value =>
                       (value?.length ?? 0) >= 10 || minLengthMsg(10)
                   }
                 }}
@@ -451,13 +453,14 @@ const CompleteFormWithJoi = () => {
               <RHFPhoneInput
                 fieldName="phoneNumber"
                 control={control}
+                value={getValues('phoneNumber')}
                 registerOptions={{
                   required: {
                     value: true,
                     message: reqdMessage('phoneNumber')
                   },
                   validate: {
-                    minLength: (value) =>
+                    minLength: value =>
                       (value?.length ?? 0) >= 10 || minLengthMsg(10)
                   }
                 }}

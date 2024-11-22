@@ -19,13 +19,12 @@ import { Dayjs } from 'dayjs';
 type FormSchema = {
   dob: Dayjs;
   time: Dayjs;
-  dateTime: Dayjs;
+  dateOfJourney: Dayjs;
 };
 
 const DateTimePickersForm = () => {
   const {
-    register,
-    setValue,
+    control,
     handleSubmit,
     watch,
     formState: { errors },
@@ -44,9 +43,8 @@ const DateTimePickersForm = () => {
               <FieldVariantInfo title="DatePicker with disabled future" />
               <RHFDatePicker
                 fieldName="dob"
-                register={register}
+                control={control}
                 disableFuture
-                setValue={setValue}
                 label="Date of Birth"
                 showLabelAboveFormField
                 errorMessage={errors?.dob?.message}
@@ -56,22 +54,20 @@ const DateTimePickersForm = () => {
               <FieldVariantInfo title="TimePicker with 24-Hour Format" />
               <RHFTimePicker
                 fieldName="time"
-                register={register}
-                setValue={setValue}
-                label="Time"
+                control={control}
+                label="Arrival Time"
                 ampm={false}
                 errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFDateTimePicker
-                fieldName="dateTime"
-                register={register}
-                setValue={setValue}
+                fieldName="dateOfJourney"
+                control={control}
                 showLabelAboveFormField
                 label="Date-Time Picker"
                 ampm={false}
-                errorMessage={errors?.dateTime?.message}
+                errorMessage={errors?.dateOfJourney?.message}
               />
             </Grid>
             <Grid item xs={12}>

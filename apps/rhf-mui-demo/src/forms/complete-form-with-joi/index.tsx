@@ -68,6 +68,7 @@ const CompleteFormWithJoi = () => {
     control,
     watch,
     setValue,
+    getValues,
     formState: { errors }
   } = useForm<Person>({
     defaultValues: initialValues,
@@ -307,6 +308,7 @@ const CompleteFormWithJoi = () => {
               <RHFPhoneInput
                 fieldName="phoneNumber"
                 control={control}
+                value={getValues('phoneNumber')}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{

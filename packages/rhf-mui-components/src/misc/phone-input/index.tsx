@@ -9,7 +9,7 @@ import {
   Path,
   Controller,
   Control,
-  UseControllerProps
+  RegisterOptions
 } from 'react-hook-form';
 import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
@@ -42,7 +42,14 @@ type PhoneInputChangeReturnValue = {
 
 type OmittedTextFieldProps = Omit<
   TextFieldProps,
-  'name' | 'value' | 'onChange' | 'error' | 'InputProps' | 'inputRef' | 'type'
+  | 'name'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'error'
+  | 'InputProps'
+  | 'inputRef'
+  | 'type'
 >;
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
@@ -52,7 +59,8 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
 export type RHFPhoneInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
-  registerOptions?: UseControllerProps<T>['rules'];
+  registerOptions?: RegisterOptions<T, Path<T>>;
+  value?: string;
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: Omit<FormLabelProps, 'error'>;
@@ -66,6 +74,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  value,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -122,6 +131,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
       ...otherPhoneInputProps,
+      value,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
         if (onValueChange) {
           onValueChange(phoneData);
@@ -152,7 +162,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               {...rest}
               autoComplete={fieldName}
               type="tel"
-              value={inputValue}
+              // value={inputValue}
               onChange={e => {
                 handlePhoneValueChange(e);
                 field.onChange(e.target.value);
