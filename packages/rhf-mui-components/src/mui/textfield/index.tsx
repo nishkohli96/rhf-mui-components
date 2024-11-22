@@ -5,10 +5,10 @@ import {
   FieldValues,
   RegisterOptions
 } from 'react-hook-form';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormLabelProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
@@ -21,7 +21,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;

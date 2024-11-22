@@ -1,12 +1,13 @@
 import { Fragment, ReactNode, useContext } from 'react';
-import MuiFormLabel, { FormLabelProps } from '@mui/material/FormLabel';
+import MuiFormLabel from '@mui/material/FormLabel';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormLabelProps } from '@/types';
 
 type Props = {
   label: ReactNode;
   error: boolean;
   isVisible?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
 };
 
 export function FormLabel(props: Props) {

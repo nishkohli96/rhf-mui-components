@@ -8,7 +8,6 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import {
   TimePicker as MuiTimePicker,
   TimePickerProps,
@@ -18,6 +17,7 @@ import {
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -29,7 +29,7 @@ export type RHFTimePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<TimeValidationError>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;

@@ -8,11 +8,11 @@ import {
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormLabelProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
@@ -25,7 +25,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;

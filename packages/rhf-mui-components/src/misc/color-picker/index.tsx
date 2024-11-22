@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 import { FieldValues, Path } from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps } from '@/types'; 
 import { fieldNameToLabel } from '@/utils';
 import 'react-color-palette/css';
 
@@ -17,7 +17,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;

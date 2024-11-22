@@ -1,8 +1,8 @@
 import { Fragment, ReactNode } from 'react';
 import { Controller, Control, FieldValues, Path, RegisterOptions } from 'react-hook-form';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
+import { FormLabelProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 import { FormLabel, FormHelperText } from '../common';
 
@@ -17,7 +17,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;

@@ -1,16 +1,17 @@
 import { Fragment, ReactNode, useContext } from 'react';
-import MuiFormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
+import MuiFormHelperText from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormHelperTextProps } from '@/types';
 
 type Props = {
   error: boolean;
   errorMessage?: ReactNode;
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'error' | 'children'>;
+  formHelperTextProps?: FormHelperTextProps;
 };
 
-export function FormHelperText(props: Props) {
+const FormHelperText = (props: Props) => {
   const {
     formHelperTextProps,
     error,
@@ -39,3 +40,5 @@ export function FormHelperText(props: Props) {
     </Fragment>
   );
 }
+
+export default FormHelperText;

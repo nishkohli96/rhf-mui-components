@@ -4,11 +4,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Autocomplete, { AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteProps } from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { CountryDetails, CountryISO } from '@/types';
+import { CountryDetails, CountryISO, FormLabelProps } from '@/types';
 import { fieldNameToLabel, isMuiV6, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 

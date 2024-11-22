@@ -1,4 +1,18 @@
 import { SxProps } from '@mui/system';
+import { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
+import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
+
+export type FormLabelProps = Omit<
+  MuiFormLabelProps,
+  | 'error'
+  | 'children'
+> 
+
+export type FormHelperTextProps = Omit<
+  MuiFormHelperTextProps,
+  | 'error'
+  | 'children'
+> 
 
 export type MuiPickersAdapter = { new (...args: any): any }
 

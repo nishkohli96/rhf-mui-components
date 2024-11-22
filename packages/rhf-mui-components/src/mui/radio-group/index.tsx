@@ -2,11 +2,10 @@ import { useContext, ReactNode, ChangeEvent } from 'react';
 import { Controller, Control, FieldValues, RegisterOptions, Path } from 'react-hook-form';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { OptionType } from '@/types';
+import { FormLabelProps, OptionType } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -27,7 +26,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   radioProps?: RadioProps;
   formControlLabelProps?: Omit<
     FormControlLabelProps,

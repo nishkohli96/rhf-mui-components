@@ -9,9 +9,9 @@ import {
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Switch, { SwitchProps } from '@mui/material/Switch';
-import { FormHelperText } from '../common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel } from '@/utils';
+import { FormHelperText } from '../common';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
