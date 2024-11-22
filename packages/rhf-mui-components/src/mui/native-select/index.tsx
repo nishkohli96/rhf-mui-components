@@ -18,6 +18,17 @@ import {
 
 type SelectValueType = string | string[] | number | number[];
 
+type InputNativeSelectProps = Omit<
+  NativeSelectProps,
+  | 'name'
+  | 'id'
+  | 'labelId'
+  | 'error'
+  | 'onChange'
+  | 'value'
+  | 'defaultValue'
+>
+
 export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
@@ -32,11 +43,8 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   label?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<
-  NativeSelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
->;
+  formHelperTextProps?: FormHelperTextProps;
+} & InputNativeSelectProps;
 
 const RHFNativeSelect = <T extends FieldValues>({
   fieldName,
@@ -81,6 +89,11 @@ const RHFNativeSelect = <T extends FieldValues>({
           }
         }}
       >
+        {showDefaultOption && (
+          <option value="" disabled>
+            {defaultOptionText ?? 'Select an option'}
+          </option>
+        )}
         {options.map(option => {
           const isObject = isKeyValueOption(option, labelKey, valueKey);
           const opnValue = isObject ? `${option[valueKey ?? '']}` : option;

@@ -11,7 +11,7 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
-type OmittedRatingprops = Omit<
+type InputRatingProps = Omit<
   RatingProps,
   | 'name'
   | 'onChange'
@@ -35,7 +35,7 @@ export type RHFRatingProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & OmittedRatingprops;
+} & InputRatingProps;
 
 const RHFRating = <T extends FieldValues>({
   fieldName,

@@ -39,7 +39,7 @@ type PhoneInputChangeReturnValue = {
   country: ParsedCountry;
 };
 
-type OmittedTextFieldProps = Omit<
+type InputTextFieldProps = Omit<
   TextFieldProps,
   | 'name'
   | 'value'
@@ -67,7 +67,7 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   phoneInputProps?: PhoneInputProps;
-} & OmittedTextFieldProps;
+} & InputTextFieldProps;
 
 const RHFPhoneInput = <T extends FieldValues>({
   fieldName,
