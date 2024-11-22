@@ -30,6 +30,7 @@ export function FormHelperText(props: Props) {
     <Fragment>
       <MuiFormHelperText
         {...otherHelperTextProps}
+        component="div"
         sx={appliedHelperTextSx}
         error={error}
       >
