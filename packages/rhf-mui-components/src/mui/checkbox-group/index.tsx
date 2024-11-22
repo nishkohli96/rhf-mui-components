@@ -6,11 +6,16 @@ import {
   RegisterOptions,
   Path
 } from 'react-hook-form';
-import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, OptionType } from '@/types';
+import {
+  FormLabelProps,
+  FormHelperTextProps,
+  FormControlLabelProps,
+  OptionType
+} from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -33,10 +38,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   checkboxProps?: CheckboxProps;
-  formControlLabelProps?: Omit<
-    FormControlLabelProps,
-    'control' | 'label' | 'value'
-  >;
+  formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;

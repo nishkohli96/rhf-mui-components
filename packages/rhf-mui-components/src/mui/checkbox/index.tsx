@@ -6,11 +6,11 @@ import {
   RegisterOptions,
   Path
 } from 'react-hook-form';
-import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/mui/common';
-import { FormHelperTextProps } from '@/types';
+import { FormControlLabelProps, FormHelperTextProps } from '@/types';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -21,7 +21,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   label?: ReactNode;
-  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
+  formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;

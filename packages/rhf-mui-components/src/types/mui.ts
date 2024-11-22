@@ -1,5 +1,6 @@
 import { SxProps } from '@mui/system';
 import { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
+import { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
 
 export type FormLabelProps = Omit<
@@ -7,6 +8,16 @@ export type FormLabelProps = Omit<
   | 'children'
   | 'error'
 >
+
+export type FormControlLabelProps = Omit<
+  MuiFormControlLabelProps,
+  | 'control'
+  | 'label'
+  | 'value'
+  | 'defaultValue'
+  | 'defaultChecked'
+  | 'key'
+>;
 
 export type FormHelperTextProps = Omit<
   MuiFormHelperTextProps,

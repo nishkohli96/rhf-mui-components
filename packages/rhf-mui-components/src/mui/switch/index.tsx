@@ -6,11 +6,11 @@ import {
   FieldValues,
   RegisterOptions
 } from 'react-hook-form';
-import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/mui/common';
-import { FormHelperTextProps } from '@/types';
+import { FormControlLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
@@ -18,7 +18,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   label?: ReactNode;
-  formControlLabelProps?: Omit<FormControlLabelProps, 'control' | 'label'>;
+  formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
