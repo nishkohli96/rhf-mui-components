@@ -1,14 +1,15 @@
 import { ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
-  UseFormRegister,
-  RegisterOptions,
-  Path
+  Path,
+  Controller,
+  Control,
+  RegisterOptions
 } from 'react-hook-form';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
-import FormHelperText from '@mui/material/FormHelperText';
+import { FormHelperText } from '@/mui/common';
 import { FormHelperTextProps, OptionType } from '@/types';
 import {
   fieldNameToLabel,
@@ -16,31 +17,21 @@ import {
   validateArray
 } from '@/utils';
 
-type SelectValueType = string | string[] | number | number[];
-
 type InputNativeSelectProps = Omit<
   NativeSelectProps,
-  | 'name'
-  | 'id'
-  | 'labelId'
-  | 'error'
-  | 'onChange'
-  | 'value'
-  | 'defaultValue'
->
+  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value'
+>;
 
 export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  defaultValue?: SelectValueType;
-  showDefaultOption?: boolean;
-  defaultOptionText?: string;
   onValueChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
   label?: ReactNode;
+  helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -48,71 +39,72 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
 
 const RHFNativeSelect = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   options,
   labelKey,
   valueKey,
-  defaultValue,
-  showDefaultOption,
-  defaultOptionText,
   onValueChange,
   label,
+  helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
+  validateArray('RHFNativeSelect', options, labelKey, valueKey);
+
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const { onChange, ...rest } = register(fieldName, registerOptions);
-  validateArray('RHFNativeSelect', options, labelKey, valueKey);
-
   return (
     <FormControl fullWidth error={isError}>
-      <InputLabel variant="standard" htmlFor={fieldName}>
+      <InputLabel variant="standard" htmlFor={fieldName} error={isError}>
         {fieldLabel}
       </InputLabel>
-      <NativeSelect
-        {...otherNativeSelectProps}
-        {...rest}
-        defaultValue={defaultValue ?? ''}
-        inputProps={{
-          name: fieldName,
-          id: fieldName
-        }}
-        onChange={event => {
-          onChange(event);
-          if(onValueChange) {
-            onValueChange(event);
-          }
-        }}
-      >
-        {showDefaultOption && (
-          <option value="" disabled>
-            {defaultOptionText ?? 'Select an option'}
-          </option>
-        )}
-        {options.map(option => {
-          const isObject = isKeyValueOption(option, labelKey, valueKey);
-          const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-          const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
-          return (
-            <option key={opnValue} value={opnValue}>
-              {opnLabel}
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field: { onChange, value, ...rest } }) => (
+          <NativeSelect
+            {...otherNativeSelectProps}
+            {...rest}
+            value={value ?? ''}
+            inputProps={{
+              name: fieldName,
+              id: fieldName
+            }}
+            onChange={event => {
+              onChange(event.target.value);
+              if (onValueChange) {
+                onValueChange(event);
+              }
+            }}
+          >
+            <option value="" disabled >
+              {''}
             </option>
-          );
-        })}
-      </NativeSelect>
-      {isError && (
-        <FormHelperText
-          error={isError}
-          sx={formHelperTextProps?.sx ?? { ml: 0 }}
-        >
-          {errorMessage}
-        </FormHelperText>
-      )}
+            {options.map(option => {
+              const isObject = isKeyValueOption(option, labelKey, valueKey);
+              const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
+              const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+              return (
+                <option key={opnValue} value={opnValue}>
+                  {opnLabel}
+                </option>
+              );
+            })}
+          </NativeSelect>
+        )}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        formHelperTextProps={formHelperTextProps}
+      />
     </FormControl>
   );
 };

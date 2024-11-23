@@ -6,10 +6,10 @@
 import { useContext, ReactNode } from 'react';
 import {
   FieldValues,
+  Path,
   Controller,
   Control,
-  RegisterOptions,
-  Path
+  RegisterOptions
 } from 'react-hook-form';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -161,7 +161,6 @@ const RHFPhoneInput = <T extends FieldValues>({
               {...rest}
               autoComplete={fieldName}
               type="tel"
-              // value={inputValue}
               onChange={e => {
                 handlePhoneValueChange(e);
                 field.onChange(e.target.value);

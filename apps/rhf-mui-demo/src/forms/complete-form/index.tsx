@@ -71,8 +71,7 @@ const CompleteFormWithJoi = () => {
     <FormContainer title="Joi Form">
       <ConfigProvider
         defaultFormLabelSx={{
-          mt: '20px',
-          mb: '16px',
+          mb: '8px',
           color: '#EA3677'
         }}
         defaultFormControlLabelSx={{
@@ -208,11 +207,11 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFNativeSelect
                 fieldName="favouriteSport"
-                register={register}
+                control={control}
                 registerOptions={{
                   required: {
                     value: true,
-                    message: reqdMessage('countryCode')
+                    message: reqdMessage('favouriteSport')
                   }
                 }}
                 options={Object.values(Sports)}

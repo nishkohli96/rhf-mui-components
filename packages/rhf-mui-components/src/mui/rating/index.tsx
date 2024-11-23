@@ -1,10 +1,10 @@
 import { ReactNode, SyntheticEvent } from 'react';
 import {
   FieldValues,
+  Path,
   Controller,
   Control,
-  RegisterOptions,
-  Path
+  RegisterOptions
 } from 'react-hook-form';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';

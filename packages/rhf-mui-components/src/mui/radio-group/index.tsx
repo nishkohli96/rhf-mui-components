@@ -1,10 +1,10 @@
 import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
+  Path,
   Controller,
   Control,
-  RegisterOptions,
-  Path
+  RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -64,6 +64,8 @@ const RHFRadioGroup = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFRadioGroupProps<T>) => {
+  validateArray('RHFRadioGroup', options, labelKey, valueKey);
+
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -73,8 +75,6 @@ const RHFRadioGroup = <T extends FieldValues>({
     ...defaultFormControlLabelSx,
     ...sx,
   };
-
-  validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   return (
     <FormControl error={isError}>

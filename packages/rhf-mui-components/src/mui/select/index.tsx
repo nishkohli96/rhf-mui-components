@@ -1,11 +1,11 @@
 import { useContext, Fragment, ReactNode } from 'react';
 import {
   FieldValues,
+  Path,
+  PathValue,
   Controller,
   Control,
-  RegisterOptions,
-  Path,
-  PathValue
+  RegisterOptions
 } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -79,6 +79,8 @@ const RHFSelect = <T extends FieldValues>({
   formHelperTextProps,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
+  validateArray('RHFSelect', options, labelKey, valueKey);
+
   const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -86,8 +88,6 @@ const RHFSelect = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-
-  validateArray('RHFSelect', options, labelKey, valueKey);
 
   return (
     <FormControl error={isError}>

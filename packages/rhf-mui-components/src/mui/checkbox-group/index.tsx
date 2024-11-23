@@ -1,10 +1,10 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
+  Path,
   Controller,
   Control,
-  RegisterOptions,
-  Path
+  RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
@@ -63,6 +63,8 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps
 }: RHFCheckboxGroupProps<T>) => {
+  validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
+
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -72,8 +74,6 @@ const RHFCheckboxGroup = <T extends FieldValues>({
     ...defaultFormControlLabelSx,
     ...sx
   };
-
-  validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   return (
     <FormControl error={isError}>

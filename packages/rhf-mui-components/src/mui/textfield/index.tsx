@@ -1,9 +1,9 @@
 import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
+  Path,
   UseFormRegister,
   RegisterOptions,
-  Path
 } from 'react-hook-form';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';

@@ -1,10 +1,10 @@
 import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
+  Path,
   Controller,
   Control,
-  RegisterOptions,
-  Path
+  RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';

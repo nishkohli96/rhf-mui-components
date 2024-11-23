@@ -20,7 +20,6 @@ import { Colors } from '@/types';
 const SelectFormWithClassValidator = () => {
   const {
     control,
-    register,
     handleSubmit,
     watch,
     formState: { errors }
@@ -72,7 +71,7 @@ const SelectFormWithClassValidator = () => {
             <FieldVariantInfo title="Native select" />
             <RHFNativeSelect
               fieldName="currency"
-              register={register}
+              control={control}
               options={Currencies}
               labelKey="name"
               valueKey="code"
