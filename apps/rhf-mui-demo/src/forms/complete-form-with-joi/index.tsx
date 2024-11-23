@@ -45,7 +45,7 @@ const CompleteFormWithJoi = () => {
     email: 'hello@example.com',
     password: '',
     favouriteColor: '',
-    sports: [],
+    sports: [Sports.Badminton],
     iplTeams: [],
     favouriteSport: '',
     agreeTnC: true,
@@ -76,7 +76,6 @@ const CompleteFormWithJoi = () => {
     defaultValues: initialValues,
     resolver: joiResolver(JoiFormSchema)
   });
-  
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
 
   function onFormSubmit(formValues: FormSchema) {
@@ -130,7 +129,6 @@ const CompleteFormWithJoi = () => {
               <RHFSelect
                 fieldName="favouriteColor"
                 control={control}
-                defaultValue={initialValues.favouriteColor}
                 options={Object.values(Colors)}
                 errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
@@ -142,7 +140,6 @@ const CompleteFormWithJoi = () => {
               <RHFSelect
                 fieldName="sports"
                 control={control}
-                defaultValue={initialValues.sports}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
                 errorMessage={errors?.sports?.message}
@@ -155,7 +152,6 @@ const CompleteFormWithJoi = () => {
               <RHFSelect
                 fieldName="iplTeams"
                 control={control}
-                defaultValue={initialValues.iplTeams}
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"

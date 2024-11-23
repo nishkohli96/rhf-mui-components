@@ -103,6 +103,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_Select: {
     name: 'onValueChange',
+    description: 'An optional callback function when the value of a field changes. The latest value can be obtained from `newValue` argument.',
+    type: '(newValue, event, child) => void'
+  },
+  onValueChange_Select_v1: {
+    name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
     type: '(e: SelectChangeEvent) => void'
   },

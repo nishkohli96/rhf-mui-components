@@ -10,12 +10,12 @@ import {
   newlyAddedComponents
 } from './routesList';
 
-const FolderStructure = ({ isV1 }: VersionProps) => {
-  const muiList = isV1 
+const FolderStructure = ({ v1 }: VersionProps) => {
+  const muiList = v1 
     ? muiFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
     : muiFoldersList;
 
-  const miscList = isV1
+  const miscList = v1
     ? miscFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
     : miscFoldersList
 
@@ -51,7 +51,7 @@ const FolderStructure = ({ isV1 }: VersionProps) => {
           label="config"
           icon={<FileIcon />}
         />
-        {!isV1 && (
+        {!v1 && (
           <TreeItem
             nodeId="6"
             label="form-helpers"

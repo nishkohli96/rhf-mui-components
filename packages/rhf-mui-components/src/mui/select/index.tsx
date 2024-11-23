@@ -2,7 +2,6 @@ import { useContext, Fragment, ReactNode } from 'react';
 import {
   FieldValues,
   Path,
-  PathValue,
   Controller,
   Control,
   RegisterOptions
@@ -41,7 +40,6 @@ export type RHFSelectProps<T extends FieldValues> = {
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  defaultValue?: SelectValueType;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (
@@ -64,7 +62,6 @@ const RHFSelect = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
-  defaultValue,
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -107,7 +104,6 @@ const RHFSelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        defaultValue={defaultValue as PathValue<T, Path<T>>}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
           return (
             <MuiSelect

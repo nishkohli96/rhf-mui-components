@@ -6,7 +6,7 @@ import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from
 const ClientForm = dynamic(() => import('@/forms/complete-form-with-joi'), { ssr: false });
 
 const title = 'Complete Form with Joi';
-const description = 'A complete form showcasing all components from this package, with validation handled by Joi!';
+const description = 'A complete form showcasing all components from this package, with validation handled by Joi.';
 
 export const metadata: Metadata = {
   title,

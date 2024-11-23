@@ -25,7 +25,7 @@ Here’s a basic example with an array of strings:
 ```jsx
 <RHFSelect
   fieldName="color"
-  register={register}
+  control={control}
   options={['Red', 'Blue', 'Orange']}
   errorMessage={errors?.color?.message}
 />
@@ -36,7 +36,7 @@ For options as an array of objects:
 ```jsx
 <RHFSelect
   fieldName="country"
-  register={register}
+  control={control}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },

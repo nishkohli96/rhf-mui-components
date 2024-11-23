@@ -1,12 +1,18 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFPasswordInputPropsTable = () => {
+const RHFPasswordInputPropsTable = ({ v1}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
+    ...(!v1 
+      ? [PropsDescription.control]
+      : [PropsDescription.register]
+    ),
     PropsDescription.registerOptions,
-    PropsDescription.onValueChange_Default,
+    ...(!v1
+      ? [PropsDescription.onValueChange_Inputs]
+      : [PropsDescription.onValueChange_Default]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.showPasswordIcon,
