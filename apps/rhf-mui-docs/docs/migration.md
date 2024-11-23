@@ -10,7 +10,7 @@ register to control
 - RHFDatePicker
 - RHFTimePicker
 - RHFDateTimePicker
-
+- RHFRichTextEditor
 
 add registerOptions to
 - RHFCheckbox
@@ -18,6 +18,7 @@ add registerOptions to
 - RHFRadioGroup
 - RHFSwitch
 - RHFRating
+- RHFRichTextEditor
 
 add `disabled` in RHFCheckboxGroup RHFRadioGroup
 

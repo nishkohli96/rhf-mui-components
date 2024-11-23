@@ -78,6 +78,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel}) component.`,
     type: 'boolean'
   },
+  showLabelAboveFormField_Rte: {
+    name: 'showLabelAboveFormField',
+    description: 'Renders the form label above the rich text editor by default. Set this prop to `false` to hide the label.',
+    type: 'boolean'
+  },
   helperText: {
     name: 'helperText',
     description: 'The content to display within the `FormHelperText` component below the field. If the field validation fails, this content will be overridden by the corresponding error message.',
@@ -206,6 +211,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     required: true
   },
   onValueChange_RichTextEditor: {
+    name: 'onValueChange',
+    description: 'Callback function returning the editor value, `event` object and editor details.',
+    type: '(newValue: string, event: EventInfo, editor: ClassicEditor) => void',
+  },
+  onValueChange_RichTextEditor_v1: {
     name: 'onValueChange',
     description: 'Callback function returning the `event` object, editor value and editor details.',
     type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void',

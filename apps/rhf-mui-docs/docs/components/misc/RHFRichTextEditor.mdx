@@ -35,8 +35,8 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 ```jsx
 <RHFRichTextEditor
   fieldName='bio'
-  value={getValues('bio')}
-  setValue={setValue}
+  control={control}
+  errorMessage={errors?.bio?.message}
 />
 ```
 

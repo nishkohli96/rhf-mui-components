@@ -1,19 +1,35 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFRichTextEditorPropsTable = () => {
+const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.setValue,
+    ...(!v1
+      ? [
+          PropsDescription.control,
+          PropsDescription.registerOptions
+        ]
+      : [PropsDescription.setValue]
+    ),
     PropsDescription.id_Rte,
     PropsDescription.editorConfig,
     PropsDescription.onReady_Rte,
     PropsDescription.onFocus_Rte,
-    PropsDescription.value_RichTextEditor,
-    PropsDescription.onValueChange_RichTextEditor,
+    ...(!v1
+      ? [PropsDescription.onValueChange_RichTextEditor]
+      : [
+        PropsDescription.value_RichTextEditor,
+        PropsDescription.onValueChange_RichTextEditor_v1
+      ]
+    ),
     PropsDescription.onBlur_Rte,
     PropsDescription.disabled,
     PropsDescription.label,
+    ...(!v1
+      ? [PropsDescription.showLabelAboveFormField_Rte]
+      : []
+    ),
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.onError_Rte,
