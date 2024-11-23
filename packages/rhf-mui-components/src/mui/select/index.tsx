@@ -77,10 +77,10 @@ const RHFSelect = <T extends FieldValues>({
 }: RHFSelectProps<T>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
-  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
-    allLabelsAboveFormField
+    allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);

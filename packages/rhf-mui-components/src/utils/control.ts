@@ -1,6 +1,6 @@
 export function keepLabelAboveFormField(
   showLabelAboveFormField?: boolean,
-  allLabelsAboveFormField?: boolean
+  allLabelsAboveFields?: boolean
 ) {
-  return Boolean(showLabelAboveFormField ?? allLabelsAboveFormField);
+  return Boolean(showLabelAboveFormField ?? allLabelsAboveFields);
 }

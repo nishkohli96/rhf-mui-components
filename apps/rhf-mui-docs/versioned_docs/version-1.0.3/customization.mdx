@@ -32,7 +32,21 @@ You can either apply these customizations across all forms by initializing
 `ConfigProvider` at the root level of your application or use it within a 
 specific form as a parent component.
 
-Below are the default values for customization:
+The type definition for `ConfigProvider` is listed below -
+
+```ts
+type RHFMuiConfigInput = {
+  defaultFormLabelSx?: SxProps;
+  defaultFormControlLabelSx?: SxProps;
+  defaultFormHelperTextSx?: SxProps;
+  dateAdapter?: `AdapterDayjs` | `AdapterDateFns` | `AdapterLuxon` | `AdapterMoment`;
+}
+```
+
+The values listed below represent the default **sx** styles applied to the
+[FormLabel](https://mui.com/material-ui/api/form-label/),
+[FormControlLabel](https://mui.com/material-ui/api/form-control-label/),
+and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/) components.
 
 <DefaultConfigValuesTable />
 
@@ -67,4 +81,4 @@ Please do install the npm package of the corresponding date library.
 ```
 
 For detailed usage of `ConfigProvider` and extending an existing component,
-refer to [this example](https://rhf-mui-components-examples.netlify.app/examples/customization).
+refer to [this example](https://rhf-mui-components-examples.netlify.app/customization).

@@ -16,7 +16,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
 **New Features 🎉**
-- Add `allLabelsAboveFormField` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all applicable components. 
+- Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components. 
 
 **Enhancements**
 - Added another form with all components with validation done via `registerOptions`
@@ -27,7 +27,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
 - disable option in checkbox & radiogrop
-
+- Update v1 docs.
 
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
 

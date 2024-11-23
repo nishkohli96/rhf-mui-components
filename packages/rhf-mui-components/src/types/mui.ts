@@ -50,7 +50,7 @@ export type RHFMuiConfigInput = {
   defaultFormControlLabelSx?: SxProps;
   defaultFormHelperTextSx?: SxProps;
   dateAdapter?: MuiPickersAdapter;
-  allLabelsAboveFormField?: boolean;
+  allLabelsAboveFields?: boolean;
 }
 
 export type RHFMuiConfig = {
@@ -58,5 +58,5 @@ export type RHFMuiConfig = {
   defaultFormControlLabelSx: SxProps;
   defaultFormHelperTextSx: SxProps;
   dateAdapter?: MuiPickersAdapter;
-  allLabelsAboveFormField?: boolean;
+  allLabelsAboveFields?: boolean;
 }

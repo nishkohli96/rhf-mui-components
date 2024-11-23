@@ -65,11 +65,11 @@ const RHFPasswordInput = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFPasswordInputProps<T>) => {
-  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
-    allLabelsAboveFormField
+    allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 

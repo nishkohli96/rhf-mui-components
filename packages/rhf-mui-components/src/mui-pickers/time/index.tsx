@@ -57,10 +57,10 @@ const RHFTimePicker = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTimePickerProps<T>) => {
-  const { dateAdapter, allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
-    allLabelsAboveFormField
+    allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);

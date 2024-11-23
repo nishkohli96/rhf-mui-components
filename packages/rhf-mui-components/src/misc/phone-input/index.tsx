@@ -86,12 +86,12 @@ const RHFPhoneInput = <T extends FieldValues>({
   phoneInputProps,
   ...rest
 }: RHFPhoneInputProps<T>) => {
-  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
-    allLabelsAboveFormField
+    allLabelsAboveFields
   );
 
   const {

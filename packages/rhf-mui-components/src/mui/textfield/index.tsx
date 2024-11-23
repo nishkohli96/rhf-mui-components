@@ -49,12 +49,12 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   ...rest
 }: RHFTextFieldProps<T>) => {
-  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
-    allLabelsAboveFormField
+    allLabelsAboveFields
   );
 
   return (

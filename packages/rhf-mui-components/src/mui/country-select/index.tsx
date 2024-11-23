@@ -98,10 +98,10 @@ const RHFCountrySelect = <T extends FieldValues>({
   textFieldProps,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
-  const { allLabelsAboveFormField } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
-    allLabelsAboveFormField
+    allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);

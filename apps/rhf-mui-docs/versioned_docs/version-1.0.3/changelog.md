@@ -7,8 +7,6 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 # **What's changed?**
 
-## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
-
 **Released - 1 Nov, 2024**
 
 - Fix `defaultFormHelperTextSx` bug in `ConfigProvider`.
