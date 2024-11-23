@@ -1,8 +1,15 @@
-import { useState, useContext, ChangeEvent, MouseEvent, ReactNode } from 'react';
+import {
+  useState,
+  useContext,
+  ChangeEvent,
+  MouseEvent,
+  ReactNode
+} from 'react';
 import {
   FieldValues,
   Path,
-  UseFormRegister,
+  Controller,
+  Control,
   RegisterOptions
 } from 'react-hook-form';
 import IconButton from '@mui/material/IconButton';
@@ -15,9 +22,19 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
+type InputPasswordProps = Omit<
+  TextFieldProps,
+  | 'name'
+  | 'type'
+  | 'value'
+  | 'onChange'
+  | 'error'
+  | 'InputProps'
+>
+
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
     value: string,
@@ -30,11 +47,11 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
+} & InputPasswordProps;
 
 const RHFPasswordInput = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   onValueChange,
   label,
@@ -56,11 +73,6 @@ const RHFPasswordInput = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
-  const { onChange, ...otherRegisterProps } = register(
-    fieldName,
-    registerOptions
-  );
-
   const [showPassword, setShowPassword] = useState(false);
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;
   const HidePasswordIcon = hidePasswordIcon ?? <VisibilityIcon />;
@@ -78,32 +90,43 @@ const RHFPasswordInput = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <TextField
-        {...rest}
-        onChange={event => {
-          onChange(event);
-          if(onValueChange) {
-            onValueChange(event.target.value, event);
-          }
-        }}
-        {...otherRegisterProps}
-        autoComplete={fieldName}
-        label={!isLabelAboveFormField ? fieldLabel : undefined}
-        error={isError}
-        type={showPassword ? 'text' : 'password'}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Toggle Password Visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? HidePasswordIcon : ShowPasswordIcon}
-              </IconButton>
-            </InputAdornment>
-          )
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange, ...otherFieldParams } = field;
+          return (
+            <TextField
+              autoComplete={fieldName}
+              type={showPassword ? 'text' : 'password'}
+              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              value={value ?? ''}
+              onChange={event => {
+                onChange(event);
+                if (onValueChange) {
+                  onValueChange(event.target.value, event);
+                }
+              }}
+              error={isError}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle Password Visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? HidePasswordIcon : ShowPasswordIcon}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+              {...rest}
+              {...otherFieldParams}
+            />
+          );
         }}
       />
       <FormHelperText

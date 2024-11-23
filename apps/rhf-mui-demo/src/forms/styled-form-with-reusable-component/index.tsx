@@ -31,11 +31,10 @@ const initialValues: FormSchema = {
 
 export default function StyledReusableComponentForm() {
   const {
-    register,
     control,
-    handleSubmit,
     watch,
     formState: { errors },
+    handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues,
   });
@@ -62,7 +61,7 @@ export default function StyledReusableComponentForm() {
             <Grid item xs={12} md={6}>
               <StyledRHFTextField
                 fieldName="firstName"
-                register={register}
+                control={control}
                 registerOptions={{
                   required: {
                     value: true,
@@ -81,7 +80,7 @@ export default function StyledReusableComponentForm() {
             <Grid item xs={12} md={6}>
               <StyledRHFTextField
                 fieldName="lastName"
-                register={register}
+                control={control}
                 registerOptions={{
                   minLength: {
                     value: 4,

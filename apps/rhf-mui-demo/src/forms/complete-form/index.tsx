@@ -38,13 +38,12 @@ const CompleteFormWithJoi = () => {
   const muiTheme = useTheme();
 
   const {
-    register,
-    handleSubmit,
     control,
     watch,
     setValue,
     getValues,
-    formState: { errors }
+    formState: { errors },
+    handleSubmit
   } = useForm<Person>({
     defaultValues: {
       darkTheme: currentTheme === 'dark',
@@ -89,7 +88,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFTextField
                 fieldName="email"
-                register={register}
+                control={control}
                 registerOptions={{
                   required: {
                     value: true,
@@ -111,7 +110,7 @@ const CompleteFormWithJoi = () => {
             <Grid item xs={12} md={6}>
               <RHFPasswordInput
                 fieldName="password"
-                register={register}
+                control={control}
                 errorMessage={errors?.password?.message}
                 showLabelAboveFormField
                 registerOptions={{

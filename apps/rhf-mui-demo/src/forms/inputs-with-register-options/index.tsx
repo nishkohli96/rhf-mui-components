@@ -35,10 +35,10 @@ const initialValues: FormSchema = {
 
 const TextAndPasswordInputForm = () => {
   const {
-    register,
-    handleSubmit,
+    control,
     watch,
-    formState: { errors }
+    formState: { errors },
+    handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
@@ -55,7 +55,7 @@ const TextAndPasswordInputForm = () => {
             <FieldVariantInfo title="Basic Input field with required validation" />
             <RHFTextField
               fieldName="firstName"
-              register={register}
+              control={control}
               registerOptions={{
                 required: {
                   value: true,
@@ -69,7 +69,7 @@ const TextAndPasswordInputForm = () => {
             <FieldVariantInfo title="Input with min & max length validation" />
             <RHFTextField
               fieldName="lastName"
-              register={register}
+              control={control}
               registerOptions={{
                 minLength: {
                   value: 4,
@@ -87,7 +87,7 @@ const TextAndPasswordInputForm = () => {
             <FieldVariantInfo title="Input with pattern validation & label above form-field" />
             <RHFTextField
               fieldName="email"
-              register={register}
+              control={control}
               errorMessage={errors?.email?.message}
               registerOptions={{
                 pattern: {
@@ -103,7 +103,7 @@ const TextAndPasswordInputForm = () => {
             <FieldVariantInfo title="Simple Password Field" />
             <RHFPasswordInput
               fieldName="password"
-              register={register}
+              control={control}
               registerOptions={{
                 required: {
                   value: true,
@@ -121,7 +121,7 @@ const TextAndPasswordInputForm = () => {
             <FieldVariantInfo title="Password Field with custom icons & validate rule" />
             <RHFPasswordInput
               fieldName="confirmPassword"
-              register={register}
+              control={control}
               registerOptions={{
                 required: {
                   value: true,
@@ -142,7 +142,7 @@ const TextAndPasswordInputForm = () => {
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
             <RHFTextField
               fieldName="age"
-              register={register}
+              control={control}
               type="number"
               registerOptions={{
                 valueAsNumber: true

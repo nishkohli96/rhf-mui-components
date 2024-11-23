@@ -2,8 +2,9 @@ import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
   Path,
-  UseFormRegister,
-  RegisterOptions,
+  Controller,
+  Control,
+  RegisterOptions
 } from 'react-hook-form';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -11,9 +12,17 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
+type TextFieldInputProps = Omit<
+  TextFieldProps,
+  | 'name'
+  | 'onChange'
+  | 'error'
+  | 'value'
+>
+
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
     value: string,
@@ -24,11 +33,11 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
+} & TextFieldInputProps;
 
 const RHFTextField = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   onValueChange,
   label,
@@ -47,10 +56,6 @@ const RHFTextField = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFormField
   );
-  const { onChange, ...otherRegisterProps } = register(
-    fieldName,
-    registerOptions
-  );
 
   return (
     <FormControl error={isError}>
@@ -60,18 +65,29 @@ const RHFTextField = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <MuiTextField
-        autoComplete={fieldName}
-        {...rest}
-        onChange={event => {
-          onChange(event);
-          if(onValueChange) {
-            onValueChange(event.target.value, event);
-          }
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange, ...otherFieldParams } = field;
+          return (
+            <MuiTextField
+              autoComplete={fieldName}
+              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              value={value ?? ''}
+              onChange={event => {
+                onChange(event);
+                if (onValueChange) {
+                  onValueChange(event.target.value, event);
+                }
+              }}
+              error={isError}
+              {...rest}
+              {...otherFieldParams}
+            />
+          );
         }}
-        {...otherRegisterProps}
-        label={!isLabelAboveFormField ? fieldLabel : undefined}
-        error={isError}
       />
       <FormHelperText
         error={isError}
