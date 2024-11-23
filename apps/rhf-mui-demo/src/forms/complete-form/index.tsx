@@ -297,7 +297,7 @@ const CompleteFormWithJoi = () => {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={(_, selectedValue) => {
+                onValueChange={selectedValue => {
                   alert(`selectedValue: ${selectedValue}`);
                 }}
                 registerOptions={{

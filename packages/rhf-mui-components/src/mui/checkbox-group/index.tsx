@@ -34,6 +34,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
     newValue: string,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
+  disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -53,6 +54,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   labelKey,
   valueKey,
   onValueChange,
+  disabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -126,6 +128,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                     }
                     label={`${opnLabel}`}
                     sx={appliedFormControlLabelSx}
+                    disabled={disabled}
                     {...otherFormControlLabelProps}
                   />
                 );

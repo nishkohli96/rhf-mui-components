@@ -31,7 +31,6 @@ type SelectInputProps = Omit<SelectProps,
 | 'value'
 | 'defaultValue'
 | 'onBlur'
-| 'disabled'
 | 'ref'
 >;
 

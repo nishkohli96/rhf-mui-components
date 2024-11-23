@@ -35,11 +35,13 @@ import { CountriesList, IPLTeams } from '@/constants';
 import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
+type FormSchema = Person & { disableAllFields?: boolean;}
+
 const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
-
-  const initialValues: Person = {
+  
+  const initialValues: FormSchema = {
     email: 'hello@example.com',
     password: '',
     favouriteColor: '',
@@ -59,7 +61,8 @@ const CompleteFormWithJoi = () => {
     time: null,
     dateTime: null,
     bgColor: '#007ABA',
-    feedback: ''
+    feedback: '',
+    disableAllFields: false
   };
 
   const {
@@ -69,12 +72,14 @@ const CompleteFormWithJoi = () => {
     getValues,
     formState: { errors },
     handleSubmit
-  } = useForm<Person>({
+  } = useForm<FormSchema>({
     defaultValues: initialValues,
     resolver: joiResolver(JoiFormSchema)
   });
+  
+  const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
 
-  function onFormSubmit(formValues: Person) {
+  function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
@@ -97,12 +102,19 @@ const CompleteFormWithJoi = () => {
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
+            <Grid item xs={12}>
+              <RHFCheckbox
+                fieldName='disableAllFields'
+                control={control}
+              />
+            </Grid>
             <Grid item xs={12} md={6}>
               <RHFTextField
                 fieldName="email"
                 control={control}
                 errorMessage={errors?.email?.message}
                 showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -111,6 +123,7 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 errorMessage={errors?.password?.message}
                 showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -122,6 +135,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -134,6 +148,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.sports?.message}
                 multiple
                 showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -147,6 +162,7 @@ const CompleteFormWithJoi = () => {
                 options={IPLTeams}
                 errorMessage={errors?.sports?.message}
                 multiple
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -155,6 +171,7 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 label="Country Code of Nationality"
                 errorMessage={errors?.countryCode?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -163,6 +180,7 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 options={Object.values(Sports)}
                 errorMessage={errors?.favouriteSport?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -177,6 +195,7 @@ const CompleteFormWithJoi = () => {
                   console.log('Is checked', isChecked);
                 }}
                 errorMessage={errors?.agreeTnC?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -187,6 +206,7 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 options={Object.values(Colors)}
                 errorMessage={errors?.colors?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -198,6 +218,7 @@ const CompleteFormWithJoi = () => {
                 labelKey="country"
                 valueKey="code"
                 errorMessage={errors?.countries?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -207,6 +228,7 @@ const CompleteFormWithJoi = () => {
                 options={Object.values(Gender)}
                 row
                 errorMessage={errors?.gender?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -218,10 +240,11 @@ const CompleteFormWithJoi = () => {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={(_, selectedValue) => {
+                onValueChange={selectedValue => {
                   alert(`selectedValue: ${selectedValue}`);
                 }}
                 errorMessage={errors?.country?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -236,6 +259,7 @@ const CompleteFormWithJoi = () => {
                   }
                 }}
                 onValueChange={() => toggleTheme()}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -247,6 +271,7 @@ const CompleteFormWithJoi = () => {
                 max={80}
                 helperText="min:10; max:80"
                 errorMessage={errors?.age?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -256,6 +281,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.rating?.message}
                 max={10}
                 showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -268,6 +294,7 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
                 errorMessage={errors?.dob?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -277,6 +304,7 @@ const CompleteFormWithJoi = () => {
                 label="Time"
                 ampm={false}
                 errorMessage={errors?.time?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -286,12 +314,14 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 ampm={false}
                 errorMessage={errors?.dateTime?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFColorPicker
                 fieldName="bgColor"
                 onValueChange={color => setValue('bgColor', color.hex)}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -299,6 +329,7 @@ const CompleteFormWithJoi = () => {
                 fieldName="feedback"
                 control={control}
                 errorMessage={errors?.feedback?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -312,6 +343,7 @@ const CompleteFormWithJoi = () => {
                   defaultCountry: 'in'
                 }}
                 errorMessage={errors?.phoneNumber?.message}
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid item xs={12}>

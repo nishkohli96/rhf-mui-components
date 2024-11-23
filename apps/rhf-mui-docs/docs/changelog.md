@@ -9,7 +9,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.0.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.0)
 
-**Released - 3 Nov, 2024**
+**Released - 24 Nov, 2024**
 
 **New Components 🔥**
 - [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
@@ -18,9 +18,15 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 **New Features 🎉**
 - Add `allLabelsAboveFormField` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all applicable components. 
 
+**Enhancements**
+- Added another form with all components with validation done via `registerOptions`
+- Added a checkbox to enable/disable all fields in forms with all components of this package. 
+
 **Fixes 🛠️**
 - Code optimization
 - Upgrade MUI Versions
+- Checkbox default label now renders with label prop
+- disable option in checkbox & radiogrop
 
 
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)

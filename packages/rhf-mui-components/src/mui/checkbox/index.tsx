@@ -11,6 +11,7 @@ import MuiCheckbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/mui/common';
 import { FormControlLabelProps, FormHelperTextProps } from '@/types';
+import { fieldNameToLabel } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -42,6 +43,7 @@ const RHFCheckbox = <T extends FieldValues>({
   ...rest
 }: RHFCheckboxProps<T>) => {
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
@@ -73,7 +75,7 @@ const RHFCheckbox = <T extends FieldValues>({
                   }}
                 />
               }
-              label={label}
+              label={fieldLabel}
               sx={appliedFormControlLabelSx}
               {...otherFormControlLabelProps}
             />

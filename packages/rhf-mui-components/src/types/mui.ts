@@ -16,6 +16,7 @@ export type FormControlLabelProps = Omit<
   | 'value'
   | 'defaultValue'
   | 'defaultChecked'
+  | 'disabled'
   | 'key'
 >;
 

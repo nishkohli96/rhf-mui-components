@@ -23,6 +23,13 @@ import {
   isKeyValueOption
 } from '@/utils';
 
+type RadioGroupInputProps =  Omit<
+  RadioGroupProps,
+  | 'name'
+  | 'value'
+  | 'onChange'
+>;
+
 export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -34,6 +41,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
     selectedValue: string,
     event: ChangeEvent<HTMLInputElement>,
   ) => void;
+  disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -43,7 +51,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<RadioGroupProps, 'name' | 'value' | 'onChange'>;
+} & RadioGroupInputProps;
 
 const RHFRadioGroup = <T extends FieldValues>({
   fieldName,
@@ -53,6 +61,7 @@ const RHFRadioGroup = <T extends FieldValues>({
   labelKey,
   valueKey,
   onValueChange,
+  disabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -101,6 +110,7 @@ const RHFRadioGroup = <T extends FieldValues>({
                   onValueChange(selectedValue, event);
                 }
               }}
+              aria-disabled={disabled}
             >
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -116,6 +126,7 @@ const RHFRadioGroup = <T extends FieldValues>({
                     control={<Radio {...radioProps} />}
                     value={opnValue}
                     label={opnLabel}
+                    disabled={disabled}
                     sx={appliedFormControlLabelSx}
                     {...otherFormControlLabelProps}
                   />
