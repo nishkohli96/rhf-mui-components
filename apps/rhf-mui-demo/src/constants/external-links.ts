@@ -16,5 +16,9 @@ export const ValidationLibLinks: Record<string, PageInfo> = {
   zod: {
     title: 'Zod',
     href: 'https://www.npmjs.com/package/zod'
+  },
+  luxon: {
+    title: 'Luxon',
+    href: 'https://www.npmjs.com/package/luxon'
   }
 };

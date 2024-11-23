@@ -24,8 +24,8 @@ const CompleteFormWithJoiPage = () => {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={[...links, ValidationLibLinks.joi]} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
 };

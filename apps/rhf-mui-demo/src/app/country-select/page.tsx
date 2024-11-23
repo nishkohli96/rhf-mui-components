@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 };
 
 const CountrySelectFormPage = () => {
-  const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
   const codeLinks = [
-    SourceCodeLinks.completeForm,
-    CodeSandboxLinks.completeForm
+    SourceCodeLinks.countrySelect,
+  ];
+  const docsLinks = [
+    DocsLinks.rhfCountrySelect
   ];
 
   return (
@@ -25,8 +26,8 @@ const CountrySelectFormPage = () => {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
+      <LinksList links={docsLinks} />
       <LinksList links={codeLinks} areCodeLinks />
-      <LinksList links={[...links, ValidationLibLinks.joi]} />
     </ContentContainer>
   );
 };

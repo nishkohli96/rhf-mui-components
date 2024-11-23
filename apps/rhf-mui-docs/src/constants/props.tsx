@@ -264,6 +264,32 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
     type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean}',
     hasLinkInType: true
+  },
+  countries: {
+    name: 'countries',
+    description: 'The list of countries to render for selection in the Autocomplete. By default all countries will be listed.',
+    type: 'CountryDetails[]',
+  },
+  preferredCountries: {
+    name: 'preferredCountries',
+    description: 'The countries to show at the top of the list. The array requires the `iso` values of the countries.',
+    type: 'CountryISO[]',
+  },
+  valueKey_CountrySelect: {
+    name: 'valueKey',
+    description: 'The key to select from each option when returning the value(s) from yhe',
+    type: '`name` OR `iso` OR `iso3`',
+  },
+  onValueChange_CountrySelect: {
+    name: 'onValueChange',
+    description: 'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
+    type: '(newValue, event,reason, details?) => void '
+  },
+  textFieldProps_CountrySelect: {
+    name: 'textFieldProps',
+    description: 'Props to customise the Autocomplete Textfield.',
+    type: '[TextFieldProps](https://mui.com/material-ui/api/text-field/)',
+    hasLinkInType: true
   }
 });
 

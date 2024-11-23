@@ -15,6 +15,10 @@ export const SourceCodeLinks: Record<string, Page> = {
     title: 'Select',
     href: `${commonRoute}/select-with-class-validator/index.tsx`
   },
+  countrySelect: {
+    title: 'Country Select',
+    href: `${commonRoute}/country-select/index.tsx`
+  },
   checkboxRadio: {
     title: 'Checkbox & Radio with Zod',
     href: `${commonRoute}/checkbox-and-radiogroup-with-zod/index.tsx`

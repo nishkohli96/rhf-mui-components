@@ -18,6 +18,10 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFNativeSelect',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFNativeSelect`
   },
+  rhfCountrySelect: {
+    title: 'RHFCountrySelect',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCountrySelect`
+  },
   rhfCheckbox: {
     title: 'RHFCheckbox',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFCheckbox`

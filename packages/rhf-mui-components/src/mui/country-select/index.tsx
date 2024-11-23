@@ -2,14 +2,17 @@ import { useContext, ReactNode, SyntheticEvent, useMemo } from 'react';
 import {
   FieldValues,
   Path,
-  PathValue,
   Controller,
   Control,
   RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Autocomplete, { AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, {
+  AutocompleteProps,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
+} from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
@@ -33,11 +36,14 @@ type AutoCompleteProps = Omit<
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
+  | 'renderOption'
   | 'options'
   | 'value'
   | 'defaultValue'
   | 'onChange'
-  | 'disabled'
+  | 'getOptionKey'
+  | 'getOptionLabel'
+  | 'isOptionEqualToValue'
 >;
 
 type AutoCompleteTextFieldProps = Omit<
@@ -49,9 +55,6 @@ type AutoCompleteTextFieldProps = Omit<
   | 'slotProps'
   | 'label'
   | 'error'
-  | 'getOptionKey'
-  | 'getOptionLabel'
-  | 'isOptionEqualToValue'
 >
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -61,9 +64,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   label?: ReactNode;
   countries?: CountryDetails[];
   preferredCountries?: CountryISO[];
-  defaultValue?: SelectValueType;
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
-  disabled?: boolean;
   onValueChange?: (
     newValue: CountryDetails | CountryDetails[] | null,
     event: SyntheticEvent,
@@ -86,7 +87,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   valueKey = 'iso',
-  defaultValue,
   disabled,
   onValueChange,
   label,
@@ -108,11 +108,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const initialValue = multiple
-    ? Array.isArray(defaultValue) ? defaultValue : []
-    : defaultValue;
   const countryOptions = countries ?? countryList;
-
   const countrySelectOptions = useMemo(() => {
     let countriesToList = countryOptions;
     let countriesToListAtTop: CountryDetails[] = [];
@@ -158,7 +154,6 @@ const RHFCountrySelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        defaultValue={initialValue as PathValue<T, Path<T>>}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
           const selectedCountries = multiple
             ? (value ?? [])
@@ -234,6 +229,6 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
 };
 
-export type { CountryISO };
+export type { CountryISO, CountryDetails };
 export { countryList };
 export default RHFCountrySelect;

@@ -39,6 +39,7 @@ const HomePage = () => {
         </Typography>
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit
+          {' '}
           <Link href={ENV_VARS.DOCS_URL} target="_blank">
             {` ${ENV_VARS.DOCS_URL}.`}
           </Link>

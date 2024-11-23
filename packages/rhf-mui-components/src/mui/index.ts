@@ -1,6 +1,11 @@
 import RHFCheckbox, { RHFCheckboxProps } from './checkbox';
 import RHFCheckboxGroup, { RHFCheckboxGroupProps } from './checkbox-group';
-import RHFCountrySelect, { RHFCountrySelectProps, CountryISO, countryList } from './country-select';
+import RHFCountrySelect, {
+  RHFCountrySelectProps,
+  CountryISO,
+  CountryDetails,
+  countryList
+} from './country-select';
 import RHFNativeSelect, { RHFNativeSelectProps } from './native-select';
 import RHFPasswordInput, { RHFPasswordInputProps } from './password-input';
 import RHFRadioGroup, { RHFRadioGroupProps } from './radio-group';
@@ -30,6 +35,7 @@ export type {
   RHFCheckboxGroupProps,
   RHFCountrySelectProps,
   CountryISO,
+  CountryDetails,
   RHFNativeSelectProps,
   RHFPasswordInputProps,
   RHFRadioGroupProps,
