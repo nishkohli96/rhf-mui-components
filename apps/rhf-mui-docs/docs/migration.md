@@ -4,6 +4,8 @@ register to control
 
 - RHFTextField
 - RHFPasswordInput
+- RHFSelect
+- RHFNativeSelect
 
 now required control instead of register
   onValueChange?: (e: SelectChangeEvent_SelectValueType_, newValue: SelectValueType, child: ReactNode) => void;
@@ -13,5 +15,8 @@ add registerOptions to
 - RHFRadioGroup
 - RHFSwitch
 - RHFSlider
+
+### RHFNativeSelect
+Removed `defaultValue`, `showDefaultOption`, `defaultOptionText`. Added `helperText` prop
 
 added `errorMessage`, `helprText` to RHFSwitch

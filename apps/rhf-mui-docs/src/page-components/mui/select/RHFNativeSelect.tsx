@@ -1,19 +1,31 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFNativeSelectPropsTable = () => {
+const RHFNativeSelectPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
+    ...(!v1 ? 
+      [PropsDescription.control]
+      : [PropsDescription.register]
+    ),
     PropsDescription.registerOptions,
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    PropsDescription.defaultValue,
-    PropsDescription.showDefaultOption,
-    PropsDescription.defaultOptionText,
-    PropsDescription.onValueChange_Default,
+    ...(!v1
+      ? [PropsDescription.onValueChange_NativeSelect]
+      : [
+          PropsDescription.defaultValue,
+          PropsDescription.showDefaultOption,
+          PropsDescription.defaultOptionText,
+          PropsDescription.onValueChange_Default
+        ]),
     PropsDescription.label,
+    ...(!v1
+      ? [PropsDescription.helperText]
+      : []
+    ),
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps
@@ -25,4 +37,3 @@ const RHFNativeSelectPropsTable = () => {
 };
 
 export default RHFNativeSelectPropsTable;
-
