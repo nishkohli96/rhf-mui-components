@@ -1,13 +1,14 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const IntroductionPageTable = () => {
+const IntroductionPageTable = ({ isV1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
-    PropsDescription.registerOptions,
+    ...(isV1 ? [PropsDescription.register] : []),
     PropsDescription.control,
-    PropsDescription.setValue,
+    PropsDescription.registerOptions,
+    ...(isV1 ? [PropsDescription.setValue] : []),
     PropsDescription.onValueChange,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,

@@ -18,18 +18,18 @@ You can explore the folder structure and its contents by expanding the tree node
 
 <FolderStructure isV1/>
 
-- [Config](./customization) - Provides a Context Provider to set default styles 
-for all components and configure the `dateAdapter` for date and time pickers.
 - [Mui](./components/mui) - Includes core Material-UI components such as TextField, 
 Select, and others.
 - [Mui-Pickers](./components/mui-pickers) - Contains Material-UI date and 
 time picker components.
 - [Misc](./components/misc) -  Features external form components, such as the 
 rich text editor, that are not part of Material-UI.
+- [Config](./customization) - Provides a Context Provider to set default styles 
+for all components and configure the `dateAdapter` for date and time pickers.
 
-To minimize the bundle size, this package includes both named and default exports 
-within each module. Similar to Material-UI, developers are encouraged to use 
-default import syntax to [reduce bundle size](https://mui.com/material-ui/guides/minimizing-bundle-size/).
+To minimize the bundle size during the build process, this package includes both
+named and default exports within each module. Similar to Material-UI, developers 
+are encouraged to use default import syntax to [reduce bundle size](https://mui.com/material-ui/guides/minimizing-bundle-size/).
 
 The type for each component can also be imported to modify or customize an 
 existing component.  
@@ -39,10 +39,9 @@ existing component.
 Each component requires a set of common props, detailed in the table below.
 Some props might be specific to a component, say [DatePicker](../components/mui-pickers/RHFDatePicker#api), 
 and can be viewed in the documentation page for the respective component.
-The properties marked as required are mandatory for the components that
-require it.
+The properties marked as required are mandatory for that component.
 
 _You can also import the interface of each component, like `RHFDatePickerProps`
 to extend an existing component or create another reusable component from it._
 
-<IntroductionPageTable />
+<IntroductionPageTable isV1 />

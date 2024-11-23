@@ -1,12 +1,18 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFTextFieldPropsTable = () => {
+const RHFTextFieldPropsTable = ({ isV1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
+    ...(!isV1 
+      ? [PropsDescription.control]
+      : [PropsDescription.register]
+    ),
     PropsDescription.registerOptions,
-    PropsDescription.onValueChange_Default,
+    ...(!isV1
+      ? [PropsDescription.onValueChange_Inputs]
+      : [PropsDescription.onValueChange_Default]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.errorMessage,
@@ -14,9 +20,7 @@ const RHFTextFieldPropsTable = () => {
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFTextFieldPropsTable;

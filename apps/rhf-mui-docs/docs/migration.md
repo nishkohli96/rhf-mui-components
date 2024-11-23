@@ -1,4 +1,9 @@
-# RHFSelect
+# Migration Guide
+
+register to control
+
+- 
+
 now required control instead of register
   onValueChange?: (e: SelectChangeEvent_SelectValueType_, newValue: SelectValueType, child: ReactNode) => void;
 add registerOptions to

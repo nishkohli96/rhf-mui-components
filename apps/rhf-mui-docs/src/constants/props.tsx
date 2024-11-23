@@ -17,7 +17,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   registerOptions: {
     name: 'registerOptions',
-    description: `[Register](${ExternalLinks.rhfLinks.register}) options if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
+    description: `[Register](${ExternalLinks.rhfLinks.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
     type: 'RegisterOptions'
   },
   control: {
@@ -75,6 +75,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
     type: '(e: ChangeEvent) => void'
+  },
+  onValueChange_Inputs: {
+    name: 'onValueChange',
+    description: 'An optional callback function when the value of a field changes.',
+    type: '(value: string, e: ChangeEvent) => void'
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
