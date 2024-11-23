@@ -1,0 +1,67 @@
+---
+sidebar_position: 6
+sidebar_label: Country Select
+title: RHFCountrySelect
+description: Learn how to use RHFCountrySelect with react-hook-form for customizable dropdowns that handle both arrays and object arrays. Explore examples and API details to enhance your React forms.
+---
+
+import { RHFSelectPropsTable } from '@site/src/page-components';
+
+# RHFCountrySelect
+
+**RHFCountrySelect** leverages the [Autocomplete](https://mui.com/material-ui/react-autocomplete/) 
+component from Material-UI to enable users to select one or more countries
+from a comprehensive list of 250 options. It offers flexibility in retrieving
+the selected country's value as its name, ISO code, or ISO3 code. Additionally,
+each option is displayed with the respective country's flag, enhancing the
+component's visual appeal and user experience.
+
+### Usage
+
+```js
+import RHFCountrySelect, { RHFCountrySelectProps } from '@nish1896/rhf-mui-components/mui/select';
+```
+
+Here’s a basic example with an array of strings:
+
+```jsx
+<RHFCountrySelect
+  fieldName="color"
+  control={control}
+  options={['Red', 'Blue', 'Orange']}
+  errorMessage={errors?.color?.message}
+/>
+```
+
+For options as an array of objects:
+
+```jsx
+<RHFCountrySelect
+  fieldName="country"
+  control={control}
+  options={[
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'UAE', country: 'United Arab Emirates' },
+  ]}
+  labelKey="country"
+  valueKey="code"
+  errorMessage={errors?.country?.message}
+/>
+```
+
+:::note
+When using an array of objects for options, both `labelKey` and `valueKey` 
+are required. If either is missing, an error will be thrown.
+:::
+
+### Examples
+- [RHFCountrySelect](https://rhf-mui-components-examples.netlify.app/select)
+- [Select](https://mui.com/material-ui/react-select/)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+The `RHFSelectProps` interface extends [SelectProps](https://mui.com/material-ui/api/select/) 
+and accepts the following additional props:
+
+<RHFSelectPropsTable />
