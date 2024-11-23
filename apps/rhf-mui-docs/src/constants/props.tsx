@@ -27,6 +27,24 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`,
     hasLinkInType: true
   },
+  options: {
+    name: 'options',
+    description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
+    type: '`string[]` or `number[]` or `object[]`',
+    required: true
+  },
+  labelKey: {
+    name: 'labelKey',
+    description: 'The key of object in your array, whose value would be shown as the label in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
+    type: 'string',
+    required: true
+  },
+  valueKey: {
+    name: 'valueKey',
+    description: 'The key of object in your array, whose value would be actual value of the option selected in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
+    type: 'string',
+    required: true
+  },
   setValue: {
     name: 'setValue',
     description: `The [setValue](${ExternalLinks.rhfLinks.setValue}) option yielded on calling the \`useForm\` hook.`,
@@ -38,20 +56,10 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
-  errorMessage: {
-    name: 'errorMessage',
-    description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText}) component.`,
+  label: {
+    name: 'label',
+    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as firstName will be transformed to display "First Name".',
     type: 'ReactNode'
-  },
-  hideErrorMessage: {
-    name: 'hideErrorMessage',
-    description: 'Prevent replacing of form HelperText by error message during validation trigger.',
-    type: 'boolean',
-  },
-  showLabelAboveFormField: {
-    name: 'showLabelAboveFormField',
-    description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel}) component.`,
-    type: 'boolean'
   },
   formLabelProps: {
     name: 'formLabelProps',
@@ -65,13 +73,33 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
   },
+  showLabelAboveFormField: {
+    name: 'showLabelAboveFormField',
+    description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel}) component.`,
+    type: 'boolean'
+  },
+  helperText: {
+    name: 'helperText',
+    description: 'The content to display within the `FormHelperText` component below the field. If the field validation fails, this content will be overridden by the corresponding error message.',
+    type: 'ReactNode',
+  },
+  errorMessage: {
+    name: 'errorMessage',
+    description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText}) component.`,
+    type: 'ReactNode'
+  },
+  hideErrorMessage: {
+    name: 'hideErrorMessage',
+    description: 'Prevent replacing of form HelperText by error message during validation trigger.',
+    type: 'boolean',
+  },
   formHelperTextProps: {
     name: 'formHelperTextProps',
     description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
   },
-  onValueChange_Default: {
+  onValueChange_Default_v1: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
     type: '(e: ChangeEvent) => void'
@@ -80,6 +108,26 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes.',
     type: '(value: string, e: ChangeEvent) => void'
+  },
+  onValueChange_Select: {
+    name: 'onValueChange',
+    description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
+    type: '(newValue, event, child) => void'
+  },
+  onValueChange_Select_v1: {
+    name: 'onValueChange',
+    description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
+    type: '(e: SelectChangeEvent) => void'
+  },
+  onValueChange_NativeSelect: {
+    name: 'onValueChange',
+    description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
+    type: '(newValue, event) => void'
+  },
+  onValueChange_CountrySelect: {
+    name: 'onValueChange',
+    description: 'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
+    type: '(newValue, event,reason, details?) => void '
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
@@ -106,36 +154,6 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function returning the value of the radio button being selected.',
     type: '(selectedItemValue, event) =>  void'
   },
-  onValueChange_Pickers: {
-    name: 'onValueChange',
-    description: 'An optional callback function which returns the selected date or time value.',
-    type: '(newValue: unknown) => void'
-  },
-  onValueChange_Rating: {
-    name: 'onValueChange',
-    description: 'An optional callback function that returns the changed value of rating component',
-    type: '(newValue: number OR null, event) => void'
-  },
-  onValueChange_Rating_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function that returns the changed value of rating component',
-    type: '(e: SyntheticEvent, newValue: number OR null) => void'
-  },
-  onValueChange_Select: {
-    name: 'onValueChange',
-    description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
-    type: '(newValue, event, child) => void'
-  },
-  onValueChange_Select_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
-    type: '(e: SelectChangeEvent) => void'
-  },
-  onValueChange_NativeSelect: {
-    name: 'onValueChange',
-    description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
-    type: '(newValue, event) => void'
-  },
   onValueChange_Slider: {
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
@@ -150,6 +168,36 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'onValueChange',
     description: 'A callback function that triggers when the switch is toggled, providing a boolean indicating whether the switch is on or off.',
     type: '(isChecked: boolean, e: ChangeEvent) => void'
+  },
+  onValueChange_Rating: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(newValue: number OR null, event) => void'
+  },
+  onValueChange_Rating_v1: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(e: SyntheticEvent, newValue: number OR null) => void'
+  },
+  onValueChange_DatePicker: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate OR null, dateContext) => void'
+  },
+  onValueChange_TimePicker: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate OR null, timeContext) => void'
+  },
+  onValueChange_DateTimePicker: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate OR null, dateTimeContext) => void'
+  },
+  onValueChange_Pickers_v1: {
+    name: 'onValueChange',
+    description: 'An optional callback function which returns the selected date or time value.',
+    type: '(newValue: unknown) => void'
   },
   onValueChange_ColorPicker: {
     name: 'onValueChange',
@@ -192,24 +240,6 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode',
   },
-  options: {
-    name: 'options',
-    description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: '`string[]` or `number[]` or `object[]`',
-    required: true
-  },
-  labelKey: {
-    name: 'labelKey',
-    description: 'The key of object in your array, whose value would be shown as the label in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
-    type: 'string',
-    required: true
-  },
-  valueKey: {
-    name: 'valueKey',
-    description: 'The key of object in your array, whose value would be actual value of the option selected in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
-    type: 'string',
-    required: true
-  },
   defaultValue: {
     name: 'defaultValue',
     description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
@@ -221,11 +251,6 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: 'number OR number[]',
     required: true
   },
-  helperText: {
-    name: 'helperText',
-    description: 'The content to display within the `FormHelperText` component below the field. If the field validation fails, this content will be overridden by the corresponding error message.',
-    type: 'ReactNode',
-  },
   showDefaultOption: {
     name: 'showDefaultOption',
     description: 'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text cane be changed using the `defaultOptionText` prop.',
@@ -235,11 +260,6 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'defaultOptionText',
     description: 'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
     type: 'string'
-  },
-  label: {
-    name: 'label',
-    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as firstName will be transformed to display "First Name".',
-    type: 'ReactNode'
   },
   checkboxProps: {
     name: 'checkboxProps',
@@ -309,11 +329,6 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'valueKey',
     description: 'The key to select from each option when returning the value(s) from yhe',
     type: '`name` OR `iso` OR `iso3`',
-  },
-  onValueChange_CountrySelect: {
-    name: 'onValueChange',
-    description: 'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
-    type: '(newValue, event,reason, details?) => void '
   },
   textFieldProps_CountrySelect: {
     name: 'textFieldProps',

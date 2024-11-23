@@ -7,7 +7,9 @@ register to control
 - RHFSelect
 - RHFNativeSelect
 - RHFSlider
-
+- RHFDatePicker
+- RHFTimePicker
+- RHFDateTimePicker
 
 
 add registerOptions to

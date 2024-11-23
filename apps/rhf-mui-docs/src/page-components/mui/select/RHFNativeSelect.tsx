@@ -19,7 +19,7 @@ const RHFNativeSelectPropsTable = ({ v1 }: VersionProps) => {
           PropsDescription.defaultValue,
           PropsDescription.showDefaultOption,
           PropsDescription.defaultOptionText,
-          PropsDescription.onValueChange_Default
+          PropsDescription.onValueChange_Default_v1
         ]),
     PropsDescription.label,
     ...(!v1

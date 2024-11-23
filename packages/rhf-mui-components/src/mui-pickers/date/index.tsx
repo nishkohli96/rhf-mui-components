@@ -19,6 +19,13 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
+type DatePickerInputProps = Omit<
+  DatePickerProps<PickerValidDate>,
+  | 'value'
+  | 'onChange'
+  | 'label'
+>
+
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -34,7 +41,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<DatePickerProps<PickerValidDate>, 'value' | 'onChange'>;
+} & DatePickerInputProps;
 
 const RHFDatePicker = <T extends FieldValues>({
   fieldName,

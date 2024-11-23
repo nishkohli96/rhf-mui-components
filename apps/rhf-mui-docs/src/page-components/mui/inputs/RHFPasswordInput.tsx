@@ -12,7 +12,7 @@ const RHFPasswordInputPropsTable = ({ v1}: VersionProps) => {
     PropsDescription.registerOptions,
     ...(!v1
       ? [PropsDescription.onValueChange_Inputs]
-      : [PropsDescription.onValueChange_Default]),
+      : [PropsDescription.onValueChange_Default_v1]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.showPasswordIcon,

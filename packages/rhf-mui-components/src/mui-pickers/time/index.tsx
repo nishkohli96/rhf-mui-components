@@ -19,6 +19,13 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
+type TimePickerInputProps = Omit<
+  TimePickerProps<PickerValidDate>,
+  | 'value'
+  | 'onChange'
+  | 'label'
+>;
+
 export type RHFTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -27,13 +34,14 @@ export type RHFTimePickerProps<T extends FieldValues> = {
     newValue: PickerValidDate | null,
     context: PickerChangeHandlerContext<TimeValidationError>
   ) => void;
+  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<TimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
+} & TimePickerInputProps;
 
 const RHFTimePicker = <T extends FieldValues>({
   fieldName,

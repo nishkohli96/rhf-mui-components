@@ -11,7 +11,7 @@ const RHFSwitchPropsTable = ({ v1 }: VersionProps) => {
           PropsDescription.registerOptions,
           PropsDescription.onValueChange_Switch
         ]
-      : [PropsDescription.onValueChange_Default]
+      : [PropsDescription.onValueChange_Default_v1]
     ),
     PropsDescription.label,
     PropsDescription.formControlLabelProps,
