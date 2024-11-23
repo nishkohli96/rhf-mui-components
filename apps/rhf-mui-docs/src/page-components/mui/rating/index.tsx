@@ -1,11 +1,18 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFRatingPropsTable = () => {
+const RHFRatingPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    PropsDescription.onValueChange_Rating,
+    ...(!v1
+      ? [
+          PropsDescription.registerOptions,
+          PropsDescription.onValueChange_Rating
+        ]
+      : [PropsDescription.onValueChange_Rating_v1]
+    ),
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,

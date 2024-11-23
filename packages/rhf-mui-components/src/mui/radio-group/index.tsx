@@ -7,7 +7,7 @@ import {
   RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio, { RadioProps } from '@mui/material/Radio';
+import Radio from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
@@ -15,7 +15,8 @@ import {
   FormLabelProps,
   FormControlLabelProps,
   FormHelperTextProps,
-  OptionType
+  OptionType,
+  RadioProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -23,7 +24,7 @@ import {
   isKeyValueOption
 } from '@/utils';
 
-type RadioGroupInputProps =  Omit<
+type RadioGroupInputProps = Omit<
   RadioGroupProps,
   | 'name'
   | 'value'

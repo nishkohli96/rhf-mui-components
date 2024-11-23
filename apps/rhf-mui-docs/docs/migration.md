@@ -6,20 +6,20 @@ register to control
 - RHFPasswordInput
 - RHFSelect
 - RHFNativeSelect
+- RHFSlider
 
-now required control instead of register
-  onValueChange?: (e: SelectChangeEvent_SelectValueType_, newValue: SelectValueType, child: ReactNode) => void;
+
 
 add registerOptions to
 - RHFCheckbox
 - RHFCheckboxGroup
 - RHFRadioGroup
 - RHFSwitch
-- RHFSlider
+- RHFRating
 
 add `disabled` in RHFCheckboxGroup RHFRadioGroup
 
 ### RHFNativeSelect
 Removed `defaultValue`, `showDefaultOption`, `defaultOptionText`. Added `helperText` prop
 
-added `errorMessage`, `helprText` to RHFSwitch
+added `errorMessage`, `helperText` , `hideErrorMessage`, `formHelperTextProps` to RHFSwitch

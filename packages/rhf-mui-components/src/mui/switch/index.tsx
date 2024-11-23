@@ -17,29 +17,29 @@ export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  onValueChange?: (
+    isChecked: boolean,
+    event: ChangeEvent<HTMLInputElement>
+  ) => void;
   label?: ReactNode;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  onValueChange?: (
-    isChecked: boolean,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
 } & Omit<SwitchProps, 'name'>;
 
 const RHFSwitch = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  onValueChange,
   label,
   formControlLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  onValueChange,
   ...rest
 }: RHFSwitchProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);

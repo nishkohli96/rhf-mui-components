@@ -29,8 +29,6 @@ type CountryMenuItemProps = {
   countryInfo: CountryDetails;
 };
 
-type SelectValueType = string | string[];
-
 type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, true | false, false, false>,
   | 'freeSolo'

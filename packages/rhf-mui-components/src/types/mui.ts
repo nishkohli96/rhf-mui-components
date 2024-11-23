@@ -3,6 +3,7 @@ import { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
 import { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
 import { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
+import { RadioProps as MuiRadioProps } from '@mui/material/Radio';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
@@ -33,7 +34,13 @@ export type CheckboxProps = Omit<
   | 'name'
   | 'value'
   | 'checked'
+  | 'defaultChecked'
   | 'onChange'
+>;
+
+export type RadioProps = Omit<
+  MuiRadioProps,
+  | 'checked'
 >;
 
 export type MuiPickersAdapter = { new (...args: any): any }

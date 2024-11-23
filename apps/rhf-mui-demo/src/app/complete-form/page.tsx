@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
-import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from '@/constants';
+import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/complete-form'), { ssr: false });
 

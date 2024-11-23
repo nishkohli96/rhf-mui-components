@@ -35,12 +35,12 @@ import { CountriesList, IPLTeams } from '@/constants';
 import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
-type FormSchema = Person & { disableAllFields?: boolean;}
+type FormSchema = Person & { disableAllFields?: boolean; }
 
 const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
-  
+
   const initialValues: FormSchema = {
     email: 'hello@example.com',
     password: '',
@@ -103,7 +103,7 @@ const CompleteFormWithJoi = () => {
           <GridContainer>
             <Grid item xs={12}>
               <RHFCheckbox
-                fieldName='disableAllFields'
+                fieldName="disableAllFields"
                 control={control}
               />
             </Grid>

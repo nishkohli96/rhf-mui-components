@@ -33,7 +33,7 @@ import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, Person } from '@/types';
 import { CountriesList, IPLTeams } from '@/constants';
 
-type FormSchema = Person & { disableAllFields?: boolean;}
+type FormSchema = Person & { disableAllFields?: boolean; }
 
 const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
@@ -90,7 +90,7 @@ const CompleteFormWithJoi = () => {
           <GridContainer>
             <Grid item xs={12}>
               <RHFCheckbox
-                fieldName='disableAllFields'
+                fieldName="disableAllFields"
                 control={control}
               />
             </Grid>

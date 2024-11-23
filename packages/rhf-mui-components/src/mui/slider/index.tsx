@@ -11,6 +11,13 @@ import { FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
+type SliderInputProps = Omit<
+  SliderProps,
+  | 'name'
+  | 'value'
+  | 'onChange'
+>;
+
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -27,7 +34,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<SliderProps, 'name' | 'value' | 'onChange'>;
+} & SliderInputProps;
 
 const RHFSlider = <T extends FieldValues>({
   fieldName,

@@ -1,13 +1,29 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFSwitchPropsTable = () => {
+const RHFSwitchPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    PropsDescription.onValueChange_Default,
+    ...(!v1 
+      ? [
+          PropsDescription.registerOptions,
+          PropsDescription.onValueChange_Switch
+        ]
+      : [PropsDescription.onValueChange_Default]
+    ),
     PropsDescription.label,
-    PropsDescription.formControlLabelProps
+    PropsDescription.formControlLabelProps,
+    ...(!v1 
+      ? [
+          PropsDescription.helperText,
+          PropsDescription.errorMessage,
+          PropsDescription.hideErrorMessage,
+          PropsDescription.formHelperTextProps
+        ]
+      : []
+    ),
   ];
 
   return (

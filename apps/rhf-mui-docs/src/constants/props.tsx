@@ -101,12 +101,22 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function returning the value of the selected control.',
     type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
   },
+  onValueChange_RadioGroup: {
+    name: 'onValueChange',
+    description: 'An optional callback function returning the value of the radio button being selected.',
+    type: '(selectedItemValue, event) =>  void'
+  },
   onValueChange_Pickers: {
     name: 'onValueChange',
     description: 'An optional callback function which returns the selected date or time value.',
     type: '(newValue: unknown) => void'
   },
   onValueChange_Rating: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(newValue: number OR null, event) => void'
+  },
+  onValueChange_Rating_v1: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the changed value of rating component',
     type: '(e: SyntheticEvent, newValue: number OR null) => void'
@@ -129,7 +139,17 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   onValueChange_Slider: {
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
+    type: '(value: number OR number[], activeThumb: number, event) => void'
+  },
+  onValueChange_Slider_v1: {
+    name: 'onValueChange',
+    description: 'Optional callback function returning the selected value of `RHFSlider`.',
     type: '(event: Event, value: number OR number[], activeThumb: number) => void'
+  },
+  onValueChange_Switch: {
+    name: 'onValueChange',
+    description: 'A callback function that triggers when the switch is toggled, providing a boolean indicating whether the switch is on or off.',
+    type: '(isChecked: boolean, e: ChangeEvent) => void'
   },
   onValueChange_ColorPicker: {
     name: 'onValueChange',
@@ -203,7 +223,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   helperText: {
     name: 'helperText',
-    description: 'Optional helperText to render under `RHFSelect` or `RHFNativeSelect` field.',
+    description: 'The content to display within the `FormHelperText` component below the field. If the field validation fails, this content will be overridden by the corresponding error message.',
     type: 'ReactNode',
   },
   showDefaultOption: {
