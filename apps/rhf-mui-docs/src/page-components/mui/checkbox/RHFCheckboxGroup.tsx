@@ -1,14 +1,25 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFCheckboxGroupPropsTable = () => {
+const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
+    ...(!v1
+      ? [PropsDescription.registerOptions]
+      : []
+    ),
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    PropsDescription.onValueChange_CheckboxGroup,
+    ...(!v1
+      ? [
+          PropsDescription.onValueChange_CheckboxGroup,
+          PropsDescription.disabled
+        ]
+      : [PropsDescription.onValueChange_CheckboxGroup_v1]
+    ),
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,

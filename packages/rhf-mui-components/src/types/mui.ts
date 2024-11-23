@@ -2,6 +2,7 @@ import { SxProps } from '@mui/system';
 import { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
 import { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
 import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
+import { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
@@ -26,6 +27,14 @@ export type FormHelperTextProps = Omit<
   | 'component'
   | 'error'
 >
+
+export type CheckboxProps = Omit<
+  MuiCheckboxProps,
+  | 'name'
+  | 'value'
+  | 'checked'
+  | 'onChange'
+>;
 
 export type MuiPickersAdapter = { new (...args: any): any }
 

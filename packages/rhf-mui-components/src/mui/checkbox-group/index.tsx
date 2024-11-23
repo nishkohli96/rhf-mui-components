@@ -7,13 +7,14 @@ import {
   RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
   FormLabelProps,
   FormHelperTextProps,
   FormControlLabelProps,
+  CheckboxProps,
   OptionType
 } from '@/types';
 import {
@@ -31,7 +32,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   valueKey?: string;
   onValueChange?: (
     selectedItemValue: string,
-    newValue: string,
+    newValue: string[],
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   disabled?: boolean;
@@ -119,6 +120,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                     control={
                       <Checkbox
                         {...checkboxProps}
+                        name={`${opnLabel}`}
                         checked={(
                           (value as (string | number)[]) ?? []
                         ).includes(opnValue)}

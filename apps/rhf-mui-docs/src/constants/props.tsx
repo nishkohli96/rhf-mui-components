@@ -83,10 +83,20 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
-    description: 'An optional callback function which returns the state of the checkbox from `e.target.checked` value ',
+    description: 'An optional callback function which returns the state of the checkbox.',
+    type: '(isChecked: boolean, e: ChangeEvent) => void'
+  },
+  onValueChange_Checkbox_v1: {
+    name: 'onValueChange',
+    description: 'An optional callback function which returns the state of the checkbox from `e.target.checked` value.',
     type: '(e: ChangeEvent) => void'
   },
   onValueChange_CheckboxGroup: {
+    name: 'onValueChange',
+    description: "An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.",
+    type: '(selectedItemValue, value, event) => void'
+  },
+  onValueChange_CheckboxGroup_v1: {
     name: 'onValueChange',
     description: 'An optional callback function returning the value of the selected control.',
     type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
@@ -164,7 +174,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   options: {
     name: 'options',
-    description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
+    description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
     type: '`string[]` or `number[]` or `object[]`',
     required: true
   },
