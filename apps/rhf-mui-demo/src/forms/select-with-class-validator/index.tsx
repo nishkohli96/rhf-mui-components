@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
+import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown'; 
 import { FormSchema } from './validation';
 import {
   FormContainer,

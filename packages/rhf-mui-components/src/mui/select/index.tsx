@@ -8,10 +8,10 @@ import {
 } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import MuiSelect, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
+import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, OptionType } from '@/types';
+import { FormLabelProps, FormHelperTextProps, OptionType, SelectProps } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -20,18 +20,6 @@ import {
 } from '@/utils';
 
 type SelectValueType = OptionType | OptionType[];
-
-type SelectInputProps = Omit<SelectProps,
-| 'name'
-| 'id'
-| 'labelId'
-| 'error'
-| 'onChange'
-| 'value'
-| 'defaultValue'
-| 'onBlur'
-| 'ref'
->;
 
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -53,7 +41,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & SelectInputProps;
+} & SelectProps;
 
 const RHFSelect = <T extends FieldValues>({
   fieldName,
