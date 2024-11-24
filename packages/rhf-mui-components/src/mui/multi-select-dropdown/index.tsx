@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { Fragment, useState, useContext } from 'react';
 import {
 	FieldValues,
 	Path,
@@ -13,7 +13,13 @@ import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, OptionType, SelectProps } from '@/types';
+import {
+	FormLabelProps,
+	FormHelperTextProps,
+	OptionType,
+	SelectProps,
+	StrNumArray
+} from '@/types';
 import { fieldNameToLabel, validateArray, isKeyValueOption } from '@/utils';
 
 type MultiSelectValueType = OptionType[];
@@ -30,8 +36,7 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   options: OptionType[];
   labelKey?: string;
   valueKey?: string;
-  showDefaultOption?: boolean;
-  defaultOptionText?: string;
+  selectAllOptionText?: string;
   onValueChange?: (
     newValue: MultiSelectValueType,
     event: React.ChangeEvent<{ value: unknown }>
@@ -51,8 +56,7 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
-  showDefaultOption,
-  defaultOptionText,
+  selectAllOptionText,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -69,53 +73,70 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
+  const selectAllOpnValue = 'select_all';
 
-  const [selectedValues, setSelectedValues] = useState<MultiSelectValueType>([]);
+  const [selectedValues, setSelectedValues] = useState<StrNumArray>([]);
 
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-			setSelectedValues([]);
-      // const allValues = options.map(option => (isKeyValueOption(option, labelKey, valueKey) ? option[valueKey ?? ''] : option));
-      // setSelectedValues(allValues);
-      // if (onValueChange) onValueChange(allValues as MultiSelectValueType, event);
-    } else {
-      setSelectedValues(options);
-      // if (onValueChange) onValueChange([], event);
+	const getFieldValues = (isSelectAll: boolean) => {
+    if (isSelectAll) {
+      const allValues = options.map((option) =>
+        isKeyValueOption(option, labelKey, valueKey)
+          ? option[valueKey ?? '']
+          : option
+      );
+      return allValues as StrNumArray;
     }
+    return [];
   };
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, value: OptionType) => {
-    const updatedValues = event.target.checked
+  const handleCheckboxChange = (isChecked: boolean, value: string | number) => {
+    return isChecked
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
-
-    setSelectedValues(updatedValues);
-    if (onValueChange) onValueChange(updatedValues as MultiSelectValueType, event);
   };
 
   return (
     <FormControl error={isError}>
-      <FormLabel label={fieldLabel} isVisible={isLabelAboveFormField} error={isError} formLabelProps={formLabelProps} />
-      <Controller
+      <FormLabel
+        label={fieldLabel}
+				isVisible={isLabelAboveFormField}
+				error={isError}
+				formLabelProps={formLabelProps}
+			/>
+			<Fragment>
+        {!isLabelAboveFormField && (
+          <InputLabel id={fieldName}>
+            {fieldLabel}
+          </InputLabel>
+        )}
+      </Fragment>
+			<Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => (
           <MuiSelect
             {...otherFieldProps}
+						id={fieldName}
+						labelId={isLabelAboveFormField ? undefined : fieldName}
+						label={isLabelAboveFormField ? undefined : fieldLabel}
+						error={isError}
             value={selectedValues}
-            onChange={onChange}
             multiple
             renderValue={(selected: MultiSelectValueType) => selected.join(', ')}
             {...otherSelectProps}
           >
-            <MenuItem>
+            <MenuItem value={'null'}>
               <Checkbox
                 checked={selectedValues.length === options.length}
 								indeterminate={selectedValues.length > 0 && selectedValues.length !== options.length}
-                onChange={handleSelectAll}
+                onChange={e => {
+									const fieldValue = getFieldValues(e.target.checked);
+									setSelectedValues(fieldValue);
+									onChange(fieldValue);
+								}}
               />
-              <ListItemText primary="Select All" />
+              <ListItemText primary={selectAllOptionText ?? 'Select All'} />
             </MenuItem>
             {options.map(option => {
 							const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -126,7 +147,11 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                 <MenuItem key={opnValue} value={opnValue}>
                   <Checkbox
                     checked={isChecked}
-                    onChange={event => handleCheckboxChange(event, opnValue)}
+                    onChange={event => {
+											const fieldValue = handleCheckboxChange(event.target.checked, opnValue);
+											setSelectedValues(fieldValue);
+											onChange(fieldValue);
+										}}
                   />
                   <ListItemText primary={opnLabel} />
                 </MenuItem>
@@ -147,3 +172,4 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
 };
 
 export default RHFMultiSelectDropdown;
+

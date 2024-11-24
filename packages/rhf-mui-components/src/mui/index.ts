@@ -6,6 +6,7 @@ import RHFCountrySelect, {
   CountryDetails,
   countryList
 } from './country-select';
+import RHFMultiSelectDropdown, { RHFMultiSelectDropdownProps } from './multi-select-dropdown';
 import RHFNativeSelect, { RHFNativeSelectProps } from './native-select';
 import RHFPasswordInput, { RHFPasswordInputProps } from './password-input';
 import RHFRadioGroup, { RHFRadioGroupProps } from './radio-group';
@@ -19,6 +20,7 @@ export {
   RHFCheckbox,
   RHFCheckboxGroup,
   RHFCountrySelect,
+  RHFMultiSelectDropdown,
   RHFNativeSelect,
   RHFPasswordInput,
   RHFRadioGroup,
@@ -36,6 +38,7 @@ export type {
   RHFCountrySelectProps,
   CountryISO,
   CountryDetails,
+  RHFMultiSelectDropdownProps,
   RHFNativeSelectProps,
   RHFPasswordInputProps,
   RHFRadioGroupProps,

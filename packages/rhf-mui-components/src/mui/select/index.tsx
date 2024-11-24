@@ -98,7 +98,7 @@ const RHFSelect = <T extends FieldValues>({
               {...otherFieldProps}
               id={fieldName}
               labelId={isLabelAboveFormField ? undefined : fieldName}
-              label={isLabelAboveFormField ? undefined : fieldName}
+              label={isLabelAboveFormField ? undefined : fieldLabel}
               value={value ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}

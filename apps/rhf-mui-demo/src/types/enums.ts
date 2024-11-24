@@ -1,8 +1,14 @@
 export enum Colors {
+  Black = 'Black',
   Blue = 'Blue',
+  Green = 'Green',
   Orange = 'Orange',
+  Pink = 'Pink',
+  Purple = 'Purple',
   Red = 'Red',
-  Yellow = 'Yellow'
+  Silver = 'Silver',
+  White = 'White',
+  Yellow = 'Yellow',
 }
 
 export enum Gender {

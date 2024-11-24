@@ -80,6 +80,16 @@ const SelectFormWithClassValidator = () => {
               errorMessage={errors?.currency?.message}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Multi Select Dropdown" />
+            <RHFMultiSelectDropdown
+              fieldName="colors"
+              control={control}
+              options={Object.values(Colors)}
+              label="Which colors do you like ?"
+              errorMessage={errors?.colors?.message}
+            />
+          </Grid>
           <Grid item xs={12}>
             <SubmitButton />
           </Grid>
