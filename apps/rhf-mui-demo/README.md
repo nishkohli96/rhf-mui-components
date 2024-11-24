@@ -2,7 +2,7 @@
 
 **A playground repository to explore and experiment with the form components in this package during development. 🛠️**
 
-#### Live Examples
+### Live Examples
 Explore live examples for all the components included in the package:
 
 👉 [Examples Demo](https://rhf-mui-components-examples.netlify.app/)
