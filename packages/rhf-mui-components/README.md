@@ -12,19 +12,23 @@
 
 ### Documentation 📖
 Access the full documentation for rhf-mui-components, including setup instructions, API references, and examples:
+
 👉 [Documentation Site](https://rhf-mui-components.netlify.app/)
 
 ### Interactive Demos 🎮
 Try out and experiment with the form components in a live environment:
+
 👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
 
 ### CodeSandbox Playground 🛠️
 Dive deeper and experiment with the package in an editable playground on CodeSandbox:
+
 👉 [CodeSandbox Project](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
 
 
 ## Form Components List
-The following is a list of the modules included in this package, along with the components contained within each module:
+
+Below is a comprehensive list of all components included in this package, categorized by module:
 
 - mui
   - [TextField](https://rhf-mui-components.netlify.app/components/mui/RHFTextField)

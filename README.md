@@ -12,14 +12,17 @@
 
 ### Documentation 📖
 Access the full documentation for rhf-mui-components, including setup instructions, API references, and examples:
+
 👉 [Documentation Site](https://rhf-mui-components.netlify.app/)
 
 ### Interactive Demos 🎮
 Try out and experiment with the form components in a live environment:
+
 👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
 
 ### CodeSandbox Playground 🛠️
 Dive deeper and experiment with the package in an editable playground on CodeSandbox:
+
 👉 [CodeSandbox Project](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
 
 ## Setup
