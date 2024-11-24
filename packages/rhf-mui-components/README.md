@@ -8,11 +8,20 @@
 
 **A suite of reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
-You can read the full documentation [here](https://rhf-mui-components.netlify.app/).
+## Explore and Get Started 🚀
 
-To explore and interact with the form components, visit the [examples website](https://rhf-mui-components-examples.netlify.app/).
+### Documentation 📖
+Access the full documentation for rhf-mui-components, including setup instructions, API references, and examples:
+👉 [Documentation Site](https://rhf-mui-components.netlify.app/)
 
-Codesandbox Playground - [https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
+### Interactive Demos 🎮
+Try out and experiment with the form components in a live environment:
+👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
+
+### CodeSandbox Playground 🛠️
+Dive deeper and experiment with the package in an editable playground on CodeSandbox:
+👉 [CodeSandbox Project](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
+
 
 ## Form Components List
 The following is a list of the modules included in this package, along with the components contained within each module:
@@ -22,12 +31,16 @@ The following is a list of the modules included in this package, along with the 
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
   - [Select](https://rhf-mui-components.netlify.app/components/mui/RHFSelect)
   - [Native Select](https://rhf-mui-components.netlify.app/components/mui/RHFNativeSelect)
+  - [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect)
+  - [Multi Select Dropdown](https://rhf-mui-components.netlify.app/components/mui/RHFMultiSelectDropdown)
   - [Checkbox](https://rhf-mui-components.netlify.app/components/mui/RHFCheckbox)
   - [Checkbox Group](https://rhf-mui-components.netlify.app/components/mui/RHFCheckboxGroup)
   - [Radio Group](https://rhf-mui-components.netlify.app/components/mui/RHFRadioGroup)
   - [Rating](https://rhf-mui-components.netlify.app/components/mui/RHFRating)
   - [Slider](https://rhf-mui-components.netlify.app/components/mui/RHFSlider)
   - [Switch](https://rhf-mui-components.netlify.app/components/mui/RHFSwitch)
+  - [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput)
+
 - mui-pickers
   - [Date](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFDatePicker)
   - [Time](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFTimePicker)
@@ -35,6 +48,7 @@ The following is a list of the modules included in this package, along with the 
 - misc
   - [Color Picker](https://rhf-mui-components.netlify.app/components/misc/RHFColorPicker)
   - [Rich Text Editor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor)
+  - [Phone Input](https://rhf-mui-components.netlify.app/components/misc/RHFPhoneInput)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 

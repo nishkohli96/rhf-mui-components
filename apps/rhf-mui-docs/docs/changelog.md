@@ -9,28 +9,28 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.0.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.0)
 
-**Released - 24 Nov, 2024**
+**Released - 25 Nov, 2024**
 
 **New Components 🔥**
 - [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
+- [RHFMultiSelectDropdown](../docs/components/mui/RHFMutiSelectDropdown.mdx)
+- [RHFTagsInput](../docs/components/mui/RHFTagsInput.mdx)
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
 **New Features 🎉**
 - Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components. 
-- Add 'fontSize',
-      'fontFamily',
-      'fontColor',
-      'fontBackgroundColor' options in toolbar for RHFRichTextEditor
+- Add `fontSize`, `fontFamily`, `fontColor`, `fontBackgroundColor` options in the toolbar for [RHFRichTextEditor](../docs/components/misc/RHFRichTextEditor.mdx).
 
 **Enhancements**
-- Added another form with all components with validation done via `registerOptions`
-- Added a checkbox to enable/disable all fields in forms with all components of this package. 
+- Added a new form example containing all components with validation handled through the `registerOptions` prop.
+- Added a checkbox to enable or disable all form fields in the forms that include every component of this package.
+- Version-Specific Documentation.
 
 **Fixes 🛠️**
 - Code optimization
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
-- disable option in checkbox & radiogrop
+- Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`.
 - Update v1 docs.
 
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
