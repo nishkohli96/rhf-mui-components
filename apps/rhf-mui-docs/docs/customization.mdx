@@ -24,14 +24,14 @@ date and time pickers, with `AdapterDayjs` set as the default, following
 [MUI's recommendation](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 Starting with version 2, a new boolean flag, `allLabelsAboveFields`,
-has been introduced to simplify label placement across form components.
-When set to true, this flag ensures that labels are rendered above all form
+also has been introduced to simplify label placement across form components.
+When set to **true**, this flag ensures that labels are rendered above all form
 fields globally, eliminating the need to manually specify `showLabelAboveFormField`
-for each component. If `allLabelsAboveFields` is enabled globally, you can explicitly
+prop for each component. If `allLabelsAboveFields` is enabled globally, you can explicitly
 set `showLabelAboveFormField` to false for a specific component to override
 the default behavior.
 
-### ConfigProvider & DefaultRHFMuiConfig
+### ConfigProvider
 
 To streamline customization, the library provides a `ConfigProvider` component
 and the default values in `DefaultRHFMuiConfig` object, allowing you to 
@@ -60,12 +60,10 @@ and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/) componen
 
 <DefaultConfigValuesTable />
 
-**All of these props are optional**.
-
 ### Usage
 
 ```
-import { ConfigProvider } from '@nish1896/rhf-mui-components';
+import { ConfigProvider, DefaultRHFMuiConfig } from '@nish1896/rhf-mui-components/config';
 ```
 
 Override the default `FormLabel` and `FormHelperText` values by providing
