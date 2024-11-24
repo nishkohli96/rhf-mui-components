@@ -33,18 +33,23 @@ import RHFPhoneInput, { RHFPhoneInputProps } from '@nish1896/rhf-mui-components/
 ```jsx
 <RHFPhoneInput
   fieldName="contactNumber"
+  control={control}
   value={getValues("contactNumber")}
-  setValue={setValue}
   phoneInputProps={{
     defaultCountry: "in",
     preferredCountries: ["in", "us", "au"]
   }}
+  errorMessage={errors?.contactNumber?.message}
 />
 ```
 
 The returned phone value after input is of the type -
 - "+91 99887-76655"
 - "+1 (765) 232-3423"
+
+:::note
+For field validation, make sure to set the minimum length to atleast **6**.
+:::
 
 ### Examples
 - [RHFPhoneInput](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)

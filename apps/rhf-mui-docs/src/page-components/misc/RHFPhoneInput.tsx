@@ -4,11 +4,14 @@ import { PropsDescription } from '@site/src/constants';
 const RHFPhoneInputPropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
+    PropsDescription.control,
+    PropsDescription.registerOptions,
     PropsDescription.value_PhoneInput,
-    PropsDescription.setValue,
     PropsDescription.onValueChange_PhoneInput,
+    PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
+    PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps,

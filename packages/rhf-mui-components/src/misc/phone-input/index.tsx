@@ -7,6 +7,7 @@ import { useContext, ReactNode } from 'react';
 import {
   FieldValues,
   Path,
+  PathValue,
   Controller,
   Control,
   RegisterOptions
@@ -127,7 +128,7 @@ const RHFPhoneInput = <T extends FieldValues>({
     );
   }
 
-  const { handlePhoneValueChange, inputRef, country, setCountry }
+  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
       ...otherPhoneInputProps,
       value,
@@ -153,12 +154,13 @@ const RHFPhoneInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field, fieldState }) => {
-          const isError = Boolean(fieldState.error?.message);
+        defaultValue={inputValue as PathValue<T, Path<T>>}
+        render={({ field }) => {
           return (
             <TextField
               {...field}
               {...rest}
+              value={inputValue}
               autoComplete={fieldName}
               type="tel"
               onChange={e => {
@@ -211,8 +213,9 @@ const RHFPhoneInput = <T extends FieldValues>({
                       }}
                       value={country.iso2}
                       disabled={disabled || hideDropdown}
-                      onChange={e =>
-                        setCountry(e.target.value as CountryIso2)}
+                      onChange={e => {
+                        setCountry(e.target.value as CountryIso2);
+                      }}
                       renderValue={value => (
                         <FlagImage iso2={value} style={{ display: 'flex' }} />
                       )}

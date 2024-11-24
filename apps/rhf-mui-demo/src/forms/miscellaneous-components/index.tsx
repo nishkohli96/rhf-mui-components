@@ -65,17 +65,19 @@ const MiscellaneousComponentsForm = () => {
                   Briefly describe yourself
                 </Typography>
               )}
+              errorMessage={errors?.bio?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="React Palette Color Picker" />
             <RHFColorPicker
-              fieldName="color"
-              value={getValues('favouriteColor') ?? ''}
+              fieldName="favouriteColor"
+              value={getValues('favouriteColor')}
               onValueChange={newColor => {
                 console.log('newColor: ', newColor);
                 setValue('favouriteColor', newColor.hex);
               }}
+              errorMessage={errors?.favouriteColor?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -84,6 +86,7 @@ const MiscellaneousComponentsForm = () => {
               fieldName="contactNumber"
               control={control}
               value={getValues('contactNumber')}
+              errorMessage={errors?.contactNumber?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -99,6 +102,17 @@ const MiscellaneousComponentsForm = () => {
                 defaultCountry: countyCodes[0],
                 preferredCountries: countyCodes.slice(0, 3)
               }}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'Please enter your phone number'
+                },
+                minLength: {
+                  value: 6,
+                  message: 'Minimum 6 characters required'
+                }
+              }}
+              errorMessage={errors?.contactNumber2?.message}
             />
           </Grid>
           <Grid item xs={12}>

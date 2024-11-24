@@ -223,7 +223,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   onValueChange_PhoneInput: {
     name: 'onValueChange',
     description: 'Callback function to get details of input phone number, including the country details.',
-    type: '({ phone, inputValue, country }) => void',
+    type: '({ phone: string, inputValue: string, country: ParsedCountry }) => void',
   },
   value_ColorPicker: {
     name: 'value',
@@ -237,8 +237,9 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   value_PhoneInput: {
     name: 'value',
-    description: 'Input phone number, for example, "+91 99887-76655".',
-    type: 'string',
+    description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
+    type: 'string OR undefined',
+    required: true
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -321,7 +322,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   phoneInputProps: {
     name: 'phoneInputProps',
-    description: 'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
+    description: 'Props to pass in the `usePhoneInput` hook for customization.',
     type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean}',
     hasLinkInType: true
   },
