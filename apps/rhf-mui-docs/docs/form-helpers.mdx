@@ -1,1 +1,54 @@
-#Helpers
+---
+sidebar_position: 5
+sidebar_label: Form Helpers
+title: Form Helpers
+description: Page about the form helper functions exported by this package. 
+---
+
+# Form Helpers
+
+Starting from version 2, a new module named `form-helpers` has been introduced
+in this package. This module provides internal utility functions designed to
+simplify development, saving both time and effort for developers.
+
+Currently, it exports a single function, detailed below.
+
+## fieldNameToLabel
+
+This function generates a user-friendly label for the form field based on its
+`fieldName` prop, eliminating the need for the developer to explicitly
+provide the `label` prop, unless required.
+
+**Importing the Function**
+
+```js
+import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
+```
+
+**Function Signature**
+
+```ts
+function fieldNameToLabel(fieldName: string): string;
+```
+
+### Usage
+
+This function can be extremely useful for generating human-readable validation
+messages for your fields, saving you the effort of manually crafting a custom
+sentence for each field validation. It:
+
+1. Converts camelCase and snake_case into words.
+2. Capitalizes the first letter of each word.
+3. Handles abbreviations when generating the field label.
+
+### Example
+
+**Input and Output**
+
+```js
+import { fieldNameToLabel } from '@your-package-name/form-helpers';
+
+const label1 = fieldNameToLabel('firstName');    // Output: 'First Name'
+const label2 = fieldNameToLabel('email_address'); // Output: 'Email Address'
+const label3 = fieldNameToLabel('IMDBRating');   // Output: 'IMDB Rating'
+```

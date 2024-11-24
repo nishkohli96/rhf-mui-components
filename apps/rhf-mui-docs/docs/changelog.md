@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 7
 sidebar_label: Changelog
 title: Changelog
 description: Introduction and installation of @nish1896/rhf-mui-components package.
@@ -17,6 +17,10 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 **New Features 🎉**
 - Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components. 
+- Add 'fontSize',
+      'fontFamily',
+      'fontColor',
+      'fontBackgroundColor' options in toolbar for RHFRichTextEditor
 
 **Enhancements**
 - Added another form with all components with validation done via `registerOptions`

@@ -1,3 +1,10 @@
+---
+sidebar_position: 6
+sidebar_label: Migration Guide
+title: Migration Guide
+description: Page about the form helper functions exported by this package. 
+---
+
 # Migration Guide
 
 register to control

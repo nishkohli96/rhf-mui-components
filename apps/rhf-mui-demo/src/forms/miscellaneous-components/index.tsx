@@ -55,7 +55,7 @@ const MiscellaneousComponentsForm = () => {
     <FormContainer title="Miscellaneous Components">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <FieldVariantInfo title="CK5 Rich Text Editor" />
             <RHFRichTextEditor
               fieldName="bio"

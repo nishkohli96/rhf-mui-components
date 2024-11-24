@@ -9,6 +9,7 @@
  */
 import {
   Essentials,
+  Font,
   Undo,
   Bold,
   Italic,
@@ -28,6 +29,7 @@ import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 export const DefaultEditorConfig: EditorConfig = {
   plugins: [
     Essentials,
+    Font,
     Undo,
     Bold,
     Italic,
@@ -60,6 +62,11 @@ export const DefaultEditorConfig: EditorConfig = {
       'italic',
       'underline',
       'strikethrough',
+      '|',
+      'fontSize',
+      'fontFamily',
+      'fontColor',
+      'fontBackgroundColor',
       '|',
       'bulletedList',
       'numberedList',
