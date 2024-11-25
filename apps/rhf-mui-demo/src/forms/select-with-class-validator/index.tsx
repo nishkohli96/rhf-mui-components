@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
-import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown'; 
 import { FormSchema } from './validation';
 import {
   FormContainer,
@@ -78,16 +77,6 @@ const SelectFormWithClassValidator = () => {
               valueKey="code"
               label="Choose a currency"
               errorMessage={errors?.currency?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multi Select Dropdown" />
-            <RHFMultiSelectDropdown
-              fieldName="colors"
-              control={control}
-              options={Object.values(Colors)}
-              label="Which colors do you like ?"
-              errorMessage={errors?.colors?.message}
             />
           </Grid>
           <Grid item xs={12}>

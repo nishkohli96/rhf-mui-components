@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
 import {
   FormContainer,
   FormState,
@@ -11,26 +12,30 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
+import { Colors } from '@/types';
 
 type FormSchema = {
   nationality?: string;
   countriesVisited: string[];
   dreamDestinations?: string[];
+  randomNums?: number[];
+  colors?: string[];
 }
 
-const CountrySelectForm = () => {
-  const intialValues: FormSchema = {
+const MultiSelectDropdownForm = () => {
+  const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG']
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
+  const randomNumbers = [23, 65, 78, 53, 67, 90, 88];
   const {
     control,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: intialValues
+    defaultValues: initialValues
   });
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
@@ -98,6 +103,45 @@ const CountrySelectForm = () => {
               errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Multi Select Dropdown with number options" />
+            <RHFMultiSelectDropdown
+              fieldName="randomNums"
+              control={control}
+              options={randomNumbers}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                },
+                validate: {
+                  minItems: value =>
+                    value && value.length >= 2 ? true : 'Select at least 2 numbers',
+                },
+              }}
+              errorMessage={errors?.randomNums?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Multi Select Dropdown" />
+            <RHFMultiSelectDropdown
+              fieldName="colors"
+              control={control}
+              options={Object.values(Colors)}
+              label="Which colors do you like ?"
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                },
+                validate: {
+                  minItems: (value?: string[])  =>
+                    value && value.length >= 3 ? true : 'Select at least 3 colors',
+                },
+              }}
+              errorMessage={errors?.colors?.message}
+            />
+          </Grid>
           <Grid item xs={12}>
             <SubmitButton />
           </Grid>
@@ -110,4 +154,4 @@ const CountrySelectForm = () => {
   );
 };
 
-export default CountrySelectForm;
+export default MultiSelectDropdownForm;

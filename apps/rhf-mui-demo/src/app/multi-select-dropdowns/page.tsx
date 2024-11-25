@@ -3,17 +3,17 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
 import { DocsLinks, SourceCodeLinks } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/country-select'), { ssr: false });
+const ClientForm = dynamic(() => import('@/forms/multi-select-dropdowns'), { ssr: false });
 
-const title = 'Country Select Examples';
-const description = 'Form showcasing the RHFCountrySelect component to select single or multiple countries';
+const title = 'Multi Select Dropdowns';
+const description = 'Showcase of custom select components, RHFCountrySelect and RHFMultiSelectDropdown, designed for single or multiple value selection in forms.';
 
 export const metadata: Metadata = {
   title,
   description
 };
 
-const CountrySelectFormPage = () => {
+const MultiSelectDropdownFormPage = () => {
   const codeLinks = [
     SourceCodeLinks.countrySelect,
   ];
@@ -32,4 +32,4 @@ const CountrySelectFormPage = () => {
   );
 };
 
-export default CountrySelectFormPage;
+export default MultiSelectDropdownFormPage;

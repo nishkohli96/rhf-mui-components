@@ -40,10 +40,4 @@ export class FormSchema {
   @IsString({ each: true })
   @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
   iplTeams!: string[];
-
-  @IsArray()
-  @ArrayMinSize(1, { message: 'Select atleast one option' })
-  @ArrayUnique()
-  @IsString({ each: true })
-  colors!: Colors[]
 }
