@@ -2,6 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
@@ -13,13 +15,15 @@ import {
   SubmitButton
 } from '@/components';
 import { Colors } from '@/types';
+import { IPLTeams } from '@/constants';
 
 type FormSchema = {
   nationality?: string;
   countriesVisited: string[];
   dreamDestinations?: string[];
   randomNums?: number[];
-  colors?: string[];
+  colors?: Colors[];
+  iplTeams?: string[];
 }
 
 const MultiSelectDropdownForm = () => {
@@ -84,8 +88,12 @@ const MultiSelectDropdownForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value =>
-                    value && value.length >= 3 ? true : 'Select at least 3 countries',
+                  minItems: value => {
+                    if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
+                      return value.length >= 3 || 'Select at least 3 countries';
+                    }
+                    return 'Invalid input';
+                  }
                 },
               }}
               valueKey="name"
@@ -104,26 +112,7 @@ const MultiSelectDropdownForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multi Select Dropdown with number options" />
-            <RHFMultiSelectDropdown
-              fieldName="randomNums"
-              control={control}
-              options={randomNumbers}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: 'This field is required'
-                },
-                validate: {
-                  minItems: value =>
-                    value && value.length >= 2 ? true : 'Select at least 2 numbers',
-                },
-              }}
-              errorMessage={errors?.randomNums?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multi Select Dropdown" />
+            <FieldVariantInfo title="Multi Select Dropdown With String Options" />
             <RHFMultiSelectDropdown
               fieldName="colors"
               control={control}
@@ -135,11 +124,79 @@ const MultiSelectDropdownForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value?: string[])  =>
-                    value && value.length >= 3 ? true : 'Select at least 3 colors',
+                  minItems: value => {
+                    if (Array.isArray(value)) {
+                      return value.length >= 2 ? true : 'Select at least 2 colors';
+                    }
+                    return 'Invalid input';
+                  },
                 },
               }}
               errorMessage={errors?.colors?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Multi Select Dropdown with number options and custom rendering for fieldValue" />
+            <RHFMultiSelectDropdown
+              fieldName="randomNums"
+              control={control}
+              options={randomNumbers}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                },
+                validate: {
+                  minItems: value => {
+                    if (Array.isArray(value) && value.every(item => typeof item === 'number')) {
+                      return value.length >= 2 || 'Select at least 2 numbers';
+                    }
+                    return 'Invalid input';
+                  }
+                },
+              }}
+              renderValue={values => (
+                <Stack direction="row" spacing={1}>
+                  {values.map(value => (
+                    <Chip
+                      key={value}
+                      label={value}
+                      color='info'
+                      variant="outlined"
+                    />
+                  ))}
+                </Stack>
+              )}
+              errorMessage={errors?.randomNums?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Multi Select Dropdown With Object Array Options and customized checkbox and formLabel" />
+            <RHFMultiSelectDropdown
+              fieldName="iplTeams"
+              control={control}
+              options={IPLTeams}
+              labelKey='name'
+              valueKey='name'
+              label="Which Teams have won trophy in IPL ?"
+              showLabelAboveFormField
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                },
+                validate: {
+                  minItems: value => {
+                    if (Array.isArray(value)) {
+                      return value.length >= 2 ? true : 'Select at least 2 teams';
+                    }
+                    return 'Invalid input';
+                  },
+                },
+              }}
+              formControlLabelProps={{ sx: { color: 'royalblue' }}}
+              checkboxProps={{ color: 'secondary' }}
+              errorMessage={errors?.iplTeams?.message}
             />
           </Grid>
           <Grid item xs={12}>

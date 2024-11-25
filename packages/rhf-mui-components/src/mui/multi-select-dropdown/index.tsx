@@ -135,8 +135,12 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
             isChecked: boolean,
             value: StringOrNumber
           ) => {
-            const targetValue = value === selectAllOptionValue ? null : value;
+            const numericValue = typeof value === 'string' && !isNaN(Number(value))
+              ? Number(value)
+              : value;
+            const targetValue = numericValue === selectAllOptionValue ? null : numericValue;            
             const fieldValue = handleCheckboxChange(isChecked, targetValue);
+
             setSelectedValues(fieldValue);
             onChange(fieldValue);
             onValueChange?.(targetValue, fieldValue);

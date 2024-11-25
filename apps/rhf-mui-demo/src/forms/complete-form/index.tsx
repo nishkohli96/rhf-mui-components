@@ -9,6 +9,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
@@ -29,9 +30,9 @@ import {
   FormState,
   SubmitButton
 } from '@/components';
+import { CountriesList, IPLTeams, GroceryList } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, Person } from '@/types';
-import { CountriesList, IPLTeams } from '@/constants';
 
 type FormSchema = Person & { disableAllFields?: boolean; }
 
@@ -216,6 +217,28 @@ const CompleteFormWithJoi = () => {
                 }}
                 errorMessage={errors?.countryCode?.message}
                 disabled={areAllFieldsDisabled}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFMultiSelectDropdown
+                fieldName="groceryList"
+                control={control}
+                options={GroceryList}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: 'This field is required'
+                  },
+                  validate: {
+                    minItems: value => {
+                      if (Array.isArray(value)) {
+                        return value.length >= 2 ? true : 'Select at least 2 items';
+                      }
+                      return 'Invalid input';
+                    },
+                  }
+                }}
+                errorMessage={errors?.groceryList?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>

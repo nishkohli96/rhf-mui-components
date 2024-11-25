@@ -30,3 +30,14 @@ export const IPLTeams = [
   { name: 'Royal Challengers Bengalore', abbr: 'RCB' },
   { name: 'Sunrisers Hyderabad', abbr: 'SRH' },
 ];
+
+export const GroceryList = [
+  'Bread',
+  'Biscuits',
+  'Butter',
+  'Cake',
+  'Chips',
+  'Chocolates',
+  'Fruits',
+  'Vegetables'
+];
