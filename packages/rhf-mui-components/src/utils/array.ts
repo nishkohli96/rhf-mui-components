@@ -1,4 +1,4 @@
-import { OptionType, KeyValueOption } from '@/types';
+import { StringOrNumber, OptionType, KeyValueOption } from '@/types';
 import { generateLabelValueErrMsg } from '@/utils';
 
 function isStrNumArray(arr: OptionType[]): boolean {
@@ -18,7 +18,7 @@ export function validateArray(
 }
 
 export function isKeyValueOption(
-  option: string | number | KeyValueOption,
+  option: StringOrNumber | KeyValueOption,
   labelKey?: string,
   valueKey?: string,
 ): option is KeyValueOption {
