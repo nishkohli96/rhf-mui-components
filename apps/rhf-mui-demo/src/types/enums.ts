@@ -8,7 +8,7 @@ export enum Colors {
   Red = 'Red',
   Silver = 'Silver',
   White = 'White',
-  Yellow = 'Yellow',
+  Yellow = 'Yellow'
 }
 
 export enum Gender {

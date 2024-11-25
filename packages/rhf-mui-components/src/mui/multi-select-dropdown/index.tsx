@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from 'react';
+import { Fragment, ReactNode, useState, useContext } from 'react';
 import {
   FieldValues,
   Path,
@@ -14,19 +14,18 @@ import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
-	FormLabelProps,
-	FormControlLabelProps,
-	CheckboxProps,
+  FormLabelProps,
+  FormControlLabelProps,
+  CheckboxProps,
   FormHelperTextProps,
   OptionType,
   SelectProps,
-	StringOrNumber,
+  StringOrNumber,
   StrNumArray
 } from '@/types';
 import { fieldNameToLabel, validateArray, isKeyValueOption } from '@/utils';
 
-type MultiSelectValueType = OptionType[];
-type SelectInputProps = Omit<SelectProps, 'multiple' | 'renderValue' >;
+type SelectInputProps = Omit<SelectProps, 'multiple' | 'renderValue'>;
 
 export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -42,13 +41,13 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   ) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
-	checkboxProps?: CheckboxProps;
+  checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
-  helperText?: React.ReactNode;
-  errorMessage?: React.ReactNode;
+  helperText?: ReactNode;
+  errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-	//renderValue?:
+  renderValue?: (value: StrNumArray) => ReactNode;
 } & SelectInputProps;
 
 const RHFMultiSelectDropdown = <T extends FieldValues>({
@@ -63,30 +62,31 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   label,
   showLabelAboveFormField,
   formLabelProps,
-	checkboxProps,
-	formControlLabelProps,
+  checkboxProps,
+  formControlLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  renderValue,
   ...otherSelectProps
 }: RHFMultiSelectDropdownProps<T>) => {
   validateArray('RHFMultiSelectDropdown', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StrNumArray>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  
-	const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx
   };
 
-	const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
+  const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-	const selectAllLabel = selectAllOptionText ?? 'Select All';
+  const selectAllLabel = selectAllOptionText ?? 'Select All';
   const selectAllOptionValue = '';
 
   const handleCheckboxChange = (
@@ -151,8 +151,13 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               error={isError}
               value={selectedValues}
               multiple
-              renderValue={(selected: MultiSelectValueType) =>
-                selected.join(', ')}
+              renderValue={(selectValues: StrNumArray) => {
+                return (
+                  <Fragment>
+                    {renderValue ? renderValue(selectValues) : selectValues.join(', ')}
+                  </Fragment>
+                );
+              }}
               {...otherSelectProps}
             >
               <MenuItem value={selectAllOptionValue}>
@@ -174,8 +179,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                       )}
                     />
                   }
-									sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-									{...otherFormControlLabelProps}
+                  sx={{ ...appliedFormControlLabelSx, width: '100%' }}
+                  {...otherFormControlLabelProps}
                 />
               </MenuItem>
 
@@ -204,8 +209,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                           )}
                         />
                       }
-											sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-											{...otherFormControlLabelProps}
+                      sx={{ ...appliedFormControlLabelSx, width: '100%' }}
+                      {...otherFormControlLabelProps}
                     />
                   </MenuItem>
                 );
