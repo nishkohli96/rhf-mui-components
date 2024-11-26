@@ -6,7 +6,7 @@
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0c4fc578-ed19-4a5a-a3cd-e59fedcdb689/deploy-status)](https://app.netlify.com/sites/rhf-mui-components/deploys)
 
-**A suite of reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
+**A suite of 15+ reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
 ## Explore and Get Started 🚀
 

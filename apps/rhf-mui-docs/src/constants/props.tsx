@@ -35,13 +35,13 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   labelKey: {
     name: 'labelKey',
-    description: 'The key of object in your array, whose value would be shown as the label in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
+    description: 'The key of object in your array, whose value would be shown as the label in `RHFSelect` or `RHFCheckboxGroup`. Only required when input options is an array of objects.',
     type: 'string',
     required: true
   },
   valueKey: {
     name: 'valueKey',
-    description: 'The key of object in your array, whose value would be actual value of the option selected in `RHFSelect` or `RHFCheckboxGroup`. Only required when options prop is an array of objects.',
+    description: 'The key of object in your array, whose value would be actual value of the option selected in `RHFSelect` or `RHFCheckboxGroup`. Only required when input options is an array of objects.',
     type: 'string',
     required: true
   },

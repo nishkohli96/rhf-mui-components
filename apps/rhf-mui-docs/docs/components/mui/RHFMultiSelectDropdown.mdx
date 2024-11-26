@@ -1,0 +1,60 @@
+---
+sidebar_position: 5
+sidebar_label: Multi Select Dropdown
+title: RHFMultiSelectDropdown
+description: Customizable multi-select field with support for 'Select All' functionality and flexible options as arrays or object arrays. Perfect for dynamic forms and validations.
+---
+
+import { RHFMultiSelectDropdownPropsTable } from '@site/src/page-components';
+
+# RHFMultiSelectDropdown
+
+**RHFMultiSelectDropdown** is an enhanced version of [RHFSelect](./RHFSelect.mdx),
+designed for efficient handling of large datasets. It supports selecting one, multiple,
+or even all options and offers functionality similar to `RHFSelect`.
+This component is ideal for use cases requiring dynamic filtering or managing
+extensive options seamlessly.
+
+### Usage
+
+```js
+import RHFMultiSelectDropdown, { RHFMultiSelectDropdownProps } from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
+```
+
+```jsx
+<RHFMultiSelectDropdown
+  fieldName="countriesVisited"
+  control={control}
+  options={['Azerbaijan', 'Canada', 'India']}
+  errorMessage={errors?.countriesVisited?.message}
+/>
+```
+
+For options as an array of objects:
+
+```jsx
+<RHFMultiSelectDropdown
+  fieldName="countriesVisited"
+  control={control}
+  options={countryList} // imported from RHFCountrySelect
+  labelKey="name"
+  valueKey="name"
+  errorMessage={errors?.countriesVisited?.message}
+/>
+```
+
+:::note
+When using an array of objects for options, both `labelKey` and `valueKey` 
+are required. If either is missing, an error will be thrown.
+:::
+
+### Examples
+- [RHFMultiSelectDropdown](https://rhf-mui-components-examples.netlify.app/multi-select-dropdowns)
+- [Select with Checkmarks](https://mui.com/material-ui/react-select/#checkmarks)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+The `RHFMultiSelectDropdown` interface extends [SelectProps](https://mui.com/material-ui/api/select/) 
+and accepts the following additional props:
+
+<RHFMultiSelectDropdownPropsTable />

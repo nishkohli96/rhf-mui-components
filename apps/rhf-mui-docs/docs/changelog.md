@@ -13,7 +13,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 **New Components 🔥**
 - [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
-- [RHFMultiSelectDropdown](../docs/components/mui/RHFMutiSelectDropdown.mdx)
+- [RHFMultiSelectDropdown](../docs/components/mui/RHFMultiSelectDropdown.mdx)
 - [RHFTagsInput](../docs/components/mui/RHFTagsInput.mdx)
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
