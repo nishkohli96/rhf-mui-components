@@ -221,7 +221,7 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                             checked={
                               isSelectAllOption
                                 ? selectedValues.length === options.length
-                                : selectedValues.includes(option as any)
+                                : selectedValues.includes(option)
                             }
                             {...(isSelectAllOption && {
                               indeterminate:
