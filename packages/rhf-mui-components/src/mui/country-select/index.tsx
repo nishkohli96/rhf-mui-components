@@ -179,7 +179,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               autoHighlight
               blurOnSelect
               disabled={disabled}
-              limitTags={2}
+              limitTags={3}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
               getOptionKey={option => option[valueKey]}
