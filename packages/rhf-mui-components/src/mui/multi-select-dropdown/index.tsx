@@ -6,15 +6,13 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
+import Box from '@mui/material/Box';
 import Autocomplete, {
   AutocompleteProps,
   AutocompleteChangeDetails,
   AutocompleteChangeReason
 } from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -25,13 +23,11 @@ import {
   CheckboxProps,
   FormHelperTextProps,
   OptionType,
-  SelectProps,
   StringOrNumber,
   StrNumArray
 } from '@/types';
 import { fieldNameToLabel, validateArray, isKeyValueOption } from '@/utils';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
+// import Chip from '@mui/material/Chip';
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<OptionType, true, false, false>,
@@ -42,6 +38,7 @@ type AutoCompleteProps = Omit<
   | 'options'
   | 'value'
   | 'defaultValue'
+  | 'multiple'
   | 'onChange'
   | 'getOptionKey'
   | 'getOptionLabel'
@@ -59,8 +56,6 @@ type AutoCompleteTextFieldProps = Omit<
   | 'error'
 >;
 
-type SelectInputProps = Omit<SelectProps, 'multiple' | 'renderValue'>;
-
 export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -73,6 +68,7 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
     targetValue: StringOrNumber | null,
     fieldValue: StrNumArray
   ) => void;
+  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   checkboxProps?: CheckboxProps;
@@ -82,7 +78,8 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   renderValue?: (value: StrNumArray) => ReactNode;
-} & SelectInputProps;
+  textFieldProps?: AutoCompleteTextFieldProps;
+} & AutoCompleteProps;
 
 const RHFMultiSelectDropdown = <T extends FieldValues>({
   fieldName,
@@ -103,7 +100,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   renderValue,
-  ...otherSelectProps
+  textFieldProps,
+  ...otherAutoCompleteProps
 }: RHFMultiSelectDropdownProps<T>) => {
   validateArray('RHFMultiSelectDropdown', options, labelKey, valueKey);
 
@@ -124,18 +122,14 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   const selectAllLabel = selectAllOptionText ?? 'Select All';
   const selectAllOptionValue = '';
 
-  const autoCompleteOptions = [
-    selectAllLabel,
-    ...options
-  ];
+  const autoCompleteOptions = [selectAllLabel, ...options];
 
   const handleCheckboxChange = (
     isChecked: boolean,
     value: StringOrNumber | null
   ) => {
-    console.log('-- Selctd value: ', value);
     /* The event is fired on "Select All" checkbox. */
-    if (!value || (value === selectAllLabel)) {
+    if (!value) {
       if (isChecked) {
         const allValues = options.map((option) =>
           isKeyValueOption(option, labelKey, valueKey)
@@ -161,16 +155,17 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <Fragment>
-        {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>{fieldLabel}</InputLabel>
-        )}
-      </Fragment>
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+        render={({ field: { onChange, ...otherFieldProps } }) => {
+          const changeFieldState = (newValue: StrNumArray) => {
+            setSelectedValues(newValue);
+            onChange(newValue);
+            // onValueChange(newValue)
+          };
+
           return (
             <Autocomplete
               {...otherFieldProps}
@@ -178,30 +173,25 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               fullWidth
               options={autoCompleteOptions}
               value={selectedValues}
-              multiple={true}
+              multiple
               autoHighlight
               disableCloseOnSelect
               onChange={(_, newValue, reason) => {
                 if (reason === 'clear') {
-                  setSelectedValues([]);
-                  onChange([]);
+                  changeFieldState([]);
                 }
-                if(reason === 'removeOption') {
-                  setSelectedValues(newValue as StrNumArray);
-                  onChange(newValue);
+                if (reason === 'removeOption') {
+                  changeFieldState(newValue as StrNumArray);
                 }
               }}
               // disabled={disabled}
               limitTags={2}
-              getOptionLabel={(option: OptionType) =>  {
-                return isKeyValueOption(option, labelKey, valueKey) ? option[`${valueKey}`] : option
-              }}
+              getOptionLabel={(option) =>
+                isKeyValueOption(option, labelKey, valueKey)
+                  ? option[`${valueKey}`]
+                  : option
+              }
               isOptionEqualToValue={(option, value) => {
-                // console.log('295 value: ', value);
-                // return isKeyValueOption(option, labelKey, valueKey)
-                //   ? // @ts-ignore
-                //     option[`${valueKey}`] === value[`${valueKey}`]
-                //   : option === value;
                 const opnValue = isKeyValueOption(option, labelKey, valueKey)
                   ? option[`${valueKey}`]
                   : option;
@@ -209,7 +199,11 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               }}
               renderOption={({ key, ...props }, option: OptionType) => {
                 //console.log('option: ', option);
-                const isObject = isKeyValueOption(option as OptionType, labelKey, valueKey);
+                const isObject = isKeyValueOption(
+                  option as OptionType,
+                  labelKey,
+                  valueKey
+                );
                 const isSelectAllOption = option === selectAllLabel;
 
                 const opnLabel =
@@ -291,7 +285,7 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               }}
               renderInput={(params) => (
                 <TextField
-                  // {...textFieldProps}
+                  {...textFieldProps}
                   {...params}
                   label={!isLabelAboveFormField ? fieldLabel : undefined}
                   error={isError}
@@ -312,7 +306,7 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                   //     })}
                 />
               )}
-              // {...otherAutoCompleteProps}
+              {...otherAutoCompleteProps}
             />
           );
         }}
