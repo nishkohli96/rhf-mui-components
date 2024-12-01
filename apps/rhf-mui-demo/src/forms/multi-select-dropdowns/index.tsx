@@ -21,7 +21,6 @@ type FormSchema = {
   nationality?: string;
   countriesVisited: string[];
   dreamDestinations?: string[];
-  randomNums?: number[];
   colors?: Colors[];
   iplTeams?: string[];
 }
@@ -32,7 +31,6 @@ const MultiSelectDropdownForm = () => {
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
-  const randomNumbers = [23, 65, 78, 53, 67, 90, 88];
   const {
     control,
     handleSubmit,
@@ -111,7 +109,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>
-          {/* <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown With String Options" />
             <RHFMultiSelectDropdown
               fieldName="colors"
@@ -134,42 +132,7 @@ const MultiSelectDropdownForm = () => {
               }}
               errorMessage={errors?.colors?.message}
             />
-          </Grid> */}
-          {/* <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multi Select Dropdown with number options and custom rendering for fieldValue" />
-            <RHFMultiSelectDropdown
-              fieldName="randomNums"
-              control={control}
-              options={randomNumbers}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: 'This field is required'
-                },
-                validate: {
-                  minItems: value => {
-                    if (Array.isArray(value) && value.every(item => typeof item === 'number')) {
-                      return value.length >= 2 || 'Select at least 2 numbers';
-                    }
-                    return 'Invalid input';
-                  }
-                },
-              }}
-              renderValue={values => (
-                <Stack direction="row" spacing={1}>
-                  {values.map(value => (
-                    <Chip
-                      key={value}
-                      label={value}
-                      color='info'
-                      variant="outlined"
-                    />
-                  ))}
-                </Stack>
-              )}
-              errorMessage={errors?.randomNums?.message}
-            />
-          </Grid> */}
+          </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown With Object Array Options and customized checkbox and formLabel" />
             <RHFMultiSelectDropdown
