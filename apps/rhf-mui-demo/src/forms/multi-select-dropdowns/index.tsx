@@ -2,8 +2,6 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
@@ -87,12 +85,15 @@ const MultiSelectDropdownForm = () => {
                 },
                 validate: {
                   minItems: value => {
-                    if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
+                    if (
+                      Array.isArray(value) &&
+                      value.every((item) => typeof item === 'string')
+                    ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
                     return 'Invalid input';
                   }
-                },
+                }
               }}
               valueKey="name"
               preferredCountries={['IN', 'AU', 'JP']}
@@ -100,7 +101,9 @@ const MultiSelectDropdownForm = () => {
               multiple
               showLabelAboveFormField
               label="What are your Dream Destinations?"
-              ChipProps={{ sx: { background: theme => theme.palette.primary.main } }}
+              ChipProps={{
+                sx: { background: theme => theme.palette.primary.main }
+              }}
               helperText={
                 <Typography color="slateblue">
                   Select atleast 3 countries
@@ -124,12 +127,15 @@ const MultiSelectDropdownForm = () => {
                 validate: {
                   minItems: value => {
                     if (Array.isArray(value)) {
-                      return value.length >= 2 ? true : 'Select at least 2 colors';
+                      return value.length >= 2
+                        ? true
+                        : 'Select at least 2 colors';
                     }
                     return 'Invalid input';
-                  },
-                },
+                  }
+                }
               }}
+              getLimitTagsText={more => `+${more} Color(s)`}
               errorMessage={errors?.colors?.message}
             />
           </Grid>
@@ -139,8 +145,8 @@ const MultiSelectDropdownForm = () => {
               fieldName="iplTeams"
               control={control}
               options={IPLTeams}
-              labelKey='name'
-              valueKey='name'
+              labelKey="name"
+              valueKey="name"
               label="Which Teams have won trophy in IPL ?"
               showLabelAboveFormField
               registerOptions={{
@@ -149,16 +155,24 @@ const MultiSelectDropdownForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
-                      return value.length >= 2 ? true : 'Select at least 2 teams';
+                      return value.length >= 2
+                        ? true
+                        : 'Select at least 2 teams';
                     }
                     return 'Invalid input';
-                  },
-                },
+                  }
+                }
               }}
-              formControlLabelProps={{ sx: { color: 'royalblue' }}}
+              formControlLabelProps={{ sx: { color: 'royalblue' } }}
               checkboxProps={{ color: 'secondary' }}
+              ChipProps={{
+                sx: {
+                  bgcolor: '#006699',
+                  color: (theme) => theme.palette.secondary.main
+                }
+              }}
               errorMessage={errors?.iplTeams?.message}
             />
           </Grid>

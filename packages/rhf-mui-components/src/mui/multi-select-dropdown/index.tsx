@@ -132,8 +132,11 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
     ...options,
   ];
 
+  const isSelectAllOption = (option: OptionType): boolean =>
+    option === selectAllLabel;
+
   const renderOptionLabel = (option: OptionType): string =>
-    option === selectAllLabel
+    isSelectAllOption(option)
       ? selectAllLabel
       : valueKey && isKeyValueOption(option, labelKey, valueKey)
         ? option[valueKey]
@@ -200,7 +203,7 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option => renderOptionLabel(option)}
               isOptionEqualToValue={(option, value) => {
-                if (option === selectAllLabel) {
+                if (isSelectAllOption(option)) {
                   return selectedValues.length === options.length;
                 }
                 const opnValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
@@ -208,68 +211,30 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                   : option;
                 return (value as StringArr).includes(opnValue);
               }}
-              renderOption={({ key, ...props }, option) => {
-                const isSelectAllOption = option === selectAllLabel;
-                const opnLabel = renderOptionLabel(option);
-
-                /* Render option when it is an object. */
-                if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
-                  const opnValue = option[`${valueKey}`];
-                  return (
-                    <Box component="li" key={key} {...props}>
-                      <FormControlLabel
-                        label={opnLabel}
-                        control={
-                          <Checkbox
-                            {...checkboxProps}
-                            name={fieldName}
-                            value={opnValue}
-                            checked={selectedValues.includes(opnValue)}
-                            onChange={event => {
-                              const fieldValues = handleCheckboxChange(
-                                event.target.checked,
-                                event.target.value
-                              );
-                              changeFieldState(fieldValues);
-                            }}
-                          />
-                        }
-                        sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                        {...otherFormControlLabelProps}
-                      />
-                    </Box>
-                  );
-                }
-
-                /* Render option when it is a string */
-                const opnValue = isSelectAllOption
-                  ? selectAllOptionValue
-                  : option;
-                const allOptionsSelected = selectedValues.length === options.length;
-                const isIndeterminate = selectedValues.length > 0 && !allOptionsSelected;
+              renderOption={({ key, ...props }, option: OptionType) => {
+                const isSelectAll = isSelectAllOption(option);
+                const label = renderOptionLabel(option);
+                const value = isSelectAll ? selectAllOptionValue : renderOptionLabel(option);
+                const allSelected = selectedValues.length === options.length;
+                const isIndeterminate = selectedValues.length > 0 && !allSelected;
                 return (
                   <Box component="li" key={key} {...props}>
                     <FormControlLabel
-                      label={opnLabel}
+                      label={label}
                       control={
                         <Checkbox
                           {...checkboxProps}
                           name={fieldName}
-                          value={opnValue}
-                          checked={
-                            isSelectAllOption
-                              ? allOptionsSelected
-                              : selectedValues.includes(option as string)
-                          }
-                          {...(isSelectAllOption && {
-                            indeterminate: isIndeterminate
-                          })}
+                          value={value}
+                          checked={isSelectAll ? allSelected : selectedValues.includes(value)}
+                          indeterminate={isSelectAll ? isIndeterminate : undefined}
                           onChange={event => {
-                            const fieldValues = handleCheckboxChange(
-                              event.target.checked,
-                              event.target.value
+                            changeFieldState(
+                              handleCheckboxChange(
+                                event.target.checked,
+                                event.target.value
+                              )
                             );
-                            changeFieldState(fieldValues);
                           }}
                         />
                       }
