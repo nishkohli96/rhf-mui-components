@@ -1,4 +1,4 @@
-import { ReactNode, useState, useContext } from 'react';
+import { ReactNode, useState, useContext, useCallback } from 'react';
 import {
   FieldValues,
   Path,
@@ -127,29 +127,31 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   const selectAllLabel = selectAllOptionText ?? 'Select All';
   const selectAllOptionValue = '';
 
-  const autoCompleteOptions = [selectAllLabel, ...options];
+  const autoCompleteOptions: OptionType[] = [
+    selectAllLabel as OptionType,
+    ...options,
+  ];
 
-  const handleCheckboxChange = (
+  const handleCheckboxChange = useCallback((
     isChecked: boolean,
     value: string | null
   ) => {
     /* The event is fired on "Select All" checkbox. */
     if (!value) {
-      if (isChecked) {
-        const allValues = options.map(option =>
-          isKeyValueOption(option, labelKey, valueKey) && valueKey
-            ? option[valueKey]
-            : option);
-        return allValues as StringArr;
-      }
-      return [];
+      return isChecked
+        ? options.map(option =>
+            valueKey && isKeyValueOption(option, labelKey, valueKey)
+              ? option[valueKey]
+              : option
+          )
+        : [];
     }
 
     /* One of the options is selected */
     return isChecked
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
-  };
+  }, [options, labelKey, valueKey, selectedValues]);
 
   return (
     <FormControl error={isError}>
@@ -191,11 +193,14 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               limitTags={3}
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option =>
-                isKeyValueOption(option, labelKey, valueKey) && valueKey
+                valueKey && isKeyValueOption(option, labelKey, valueKey)
                   ? option[valueKey]
                   : option}
               isOptionEqualToValue={(option, value) => {
-                const opnValue = isKeyValueOption(option, labelKey, valueKey) && valueKey
+                if (option === selectAllLabel) {
+                  return selectedValues.length === options.length;
+                }
+                const opnValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
                   ? option[valueKey]
                   : option;
                 return (value as StringArr).includes(opnValue);
@@ -207,6 +212,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                   const opnValue = isSelectAllOption
                     ? selectAllOptionValue
                     : option;
+                  const allOptionsSelected = selectedValues.length === options.length;
+                  const isIndeterminate = selectedValues.length > 0 && !allOptionsSelected;
                   return (
                     <Box component="li" key={key} {...props}>
                       <FormControlLabel
@@ -218,13 +225,11 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                             value={opnValue}
                             checked={
                               isSelectAllOption
-                                ? selectedValues.length === options.length
+                                ? allOptionsSelected
                                 : selectedValues.includes(option)
                             }
                             {...(isSelectAllOption && {
-                              indeterminate:
-                                selectedValues.length > 0
-                                && selectedValues.length !== options.length
+                              indeterminate: isIndeterminate
                             })}
                             onChange={event => {
                               const fieldValues = handleCheckboxChange(
