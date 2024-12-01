@@ -111,7 +111,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown With String Options" />
             <RHFMultiSelectDropdown
               fieldName="colors"
@@ -134,8 +134,8 @@ const MultiSelectDropdownForm = () => {
               }}
               errorMessage={errors?.colors?.message}
             />
-          </Grid>
-          <Grid item xs={12} md={6}>
+          </Grid> */}
+          {/* <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown with number options and custom rendering for fieldValue" />
             <RHFMultiSelectDropdown
               fieldName="randomNums"
@@ -169,7 +169,7 @@ const MultiSelectDropdownForm = () => {
               )}
               errorMessage={errors?.randomNums?.message}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown With Object Array Options and customized checkbox and formLabel" />
             <RHFMultiSelectDropdown

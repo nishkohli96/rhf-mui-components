@@ -6,6 +6,12 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
+import Autocomplete, {
+  AutocompleteProps,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason
+} from '@mui/material/Autocomplete';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
@@ -24,6 +30,34 @@ import {
   StrNumArray
 } from '@/types';
 import { fieldNameToLabel, validateArray, isKeyValueOption } from '@/utils';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+
+type AutoCompleteProps = Omit<
+  AutocompleteProps<OptionType, true, false, false>,
+  | 'freeSolo'
+  | 'fullWidth'
+  | 'renderInput'
+  | 'renderOption'
+  | 'options'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'getOptionKey'
+  | 'getOptionLabel'
+  | 'isOptionEqualToValue'
+>;
+
+type AutoCompleteTextFieldProps = Omit<
+  TextFieldProps,
+  | 'value'
+  | 'onChange'
+  | 'disabled'
+  | 'inputProps'
+  | 'slotProps'
+  | 'label'
+  | 'error'
+>;
 
 type SelectInputProps = Omit<SelectProps, 'multiple' | 'renderValue'>;
 
@@ -74,7 +108,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   validateArray('RHFMultiSelectDropdown', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StrNumArray>([]);
-  const { allLabelsAboveFields, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields, defaultFormControlLabelSx } =
+    useContext(RHFMuiConfigContext);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -89,17 +124,24 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   const selectAllLabel = selectAllOptionText ?? 'Select All';
   const selectAllOptionValue = '';
 
+  const autoCompleteOptions = [
+    selectAllLabel,
+    ...options
+  ];
+
   const handleCheckboxChange = (
     isChecked: boolean,
     value: StringOrNumber | null
   ) => {
+    console.log('-- Selctd value: ', value);
     /* The event is fired on "Select All" checkbox. */
-    if (!value) {
+    if (!value || (value === selectAllLabel)) {
       if (isChecked) {
-        const allValues = options.map(option =>
+        const allValues = options.map((option) =>
           isKeyValueOption(option, labelKey, valueKey)
             ? option[valueKey ?? '']
-            : option);
+            : option
+        );
         return allValues as StrNumArray;
       }
       return [];
@@ -108,7 +150,7 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
     /* One of the options is selected */
     return isChecked
       ? [...selectedValues, value]
-      : selectedValues.filter(val => val !== value);
+      : selectedValues.filter((val) => val !== value);
   };
 
   return (
@@ -121,84 +163,107 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
       />
       <Fragment>
         {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>
-            {fieldLabel}
-          </InputLabel>
+          <InputLabel id={fieldName}>{fieldLabel}</InputLabel>
         )}
       </Fragment>
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, ...otherFieldProps } }) => {
-          const onCheckboxSelected = (
-            isChecked: boolean,
-            value: StringOrNumber
-          ) => {
-            const numericValue = typeof value === 'string' && !isNaN(Number(value))
-              ? Number(value)
-              : value;
-            const targetValue = numericValue === selectAllOptionValue ? null : numericValue;            
-            const fieldValue = handleCheckboxChange(isChecked, targetValue);
-
-            setSelectedValues(fieldValue);
-            onChange(fieldValue);
-            onValueChange?.(targetValue, fieldValue);
-          };
-
+        render={({ field: { value, onChange, ...otherFieldProps } }) => {
           return (
-            <Select
+            <Autocomplete
               {...otherFieldProps}
               id={fieldName}
-              labelId={isLabelAboveFormField ? undefined : fieldName}
-              label={isLabelAboveFormField ? undefined : fieldLabel}
-              error={isError}
+              fullWidth
+              options={autoCompleteOptions}
               value={selectedValues}
-              multiple
-              renderValue={(selectValues: StrNumArray) => {
-                return (
-                  <Fragment>
-                    {renderValue ? renderValue(selectValues) : selectValues.join(', ')}
-                  </Fragment>
-                );
+              multiple={true}
+              autoHighlight
+              disableCloseOnSelect
+              onChange={(_, newValue, reason) => {
+                if (reason === 'clear') {
+                  setSelectedValues([]);
+                  onChange([]);
+                }
+                if(reason === 'removeOption') {
+                  setSelectedValues(newValue as StrNumArray);
+                  onChange(newValue);
+                }
               }}
-              {...otherSelectProps}
-            >
-              <MenuItem value={selectAllOptionValue}>
-                <FormControlLabel
-                  label={selectAllLabel}
-                  control={
-                    <Checkbox
-                      {...checkboxProps}
-                      name={fieldName}
-                      value={selectAllOptionValue}
-                      checked={selectedValues.length === options.length}
-                      indeterminate={
-                        selectedValues.length > 0
-                        && selectedValues.length !== options.length
-                      }
-                      onChange={event => onCheckboxSelected(
-                        event.target.checked,
-                        event.target.value
-                      )}
-                    />
-                  }
-                  sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                  {...otherFormControlLabelProps}
-                />
-              </MenuItem>
+              // disabled={disabled}
+              limitTags={2}
+              getOptionLabel={(option: OptionType) =>  {
+                return isKeyValueOption(option, labelKey, valueKey) ? option[`${valueKey}`] : option
+              }}
+              isOptionEqualToValue={(option, value) => {
+                // console.log('295 value: ', value);
+                // return isKeyValueOption(option, labelKey, valueKey)
+                //   ? // @ts-ignore
+                //     option[`${valueKey}`] === value[`${valueKey}`]
+                //   : option === value;
+                const opnValue = isKeyValueOption(option, labelKey, valueKey)
+                  ? option[`${valueKey}`]
+                  : option;
+                return (value as StrNumArray).includes(opnValue);
+              }}
+              renderOption={({ key, ...props }, option: OptionType) => {
+                //console.log('option: ', option);
+                const isObject = isKeyValueOption(option as OptionType, labelKey, valueKey);
+                const isSelectAllOption = option === selectAllLabel;
 
-              {options.map(option => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
-                  ? `${option[valueKey ?? '']}`
-                  : option;
-                const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
-                  : option;
-                const isChecked = selectedValues.includes(opnValue);
+                const opnLabel =
+                  typeof option === 'object'
+                    ? option[`${labelKey}`]
+                    : isSelectAllOption
+                    ? selectAllLabel
+                    : option;
+                const opnValue =
+                  typeof option === 'object'
+                    ? option[`${valueKey}`]
+                    : isSelectAllOption
+                    ? selectAllOptionValue
+                    : option;
+
+                if (!isObject) {
+                  return (
+                    <Box component="li" key={key} {...props}>
+                      <FormControlLabel
+                        label={opnLabel}
+                        control={
+                          <Checkbox
+                            {...checkboxProps}
+                            name={fieldName}
+                            value={opnValue}
+                            checked={
+                              isSelectAllOption
+                                ? selectedValues.length === options.length
+                                : selectedValues.includes(option as any)
+                            }
+                            {...(isSelectAllOption && {
+                              indeterminate:
+                                selectedValues.length > 0 &&
+                                selectedValues.length !== options.length
+                            })}
+                            onChange={(event) => {
+                              const fieldValues = handleCheckboxChange(
+                                event.target.checked,
+                                event.target.value
+                              );
+                              console.log('fieldValues: ', fieldValues);
+                              onChange(fieldValues);
+                              setSelectedValues(fieldValues);
+                            }}
+                          />
+                        }
+                        sx={{ ...appliedFormControlLabelSx, width: '100%' }}
+                        {...otherFormControlLabelProps}
+                      />
+                    </Box>
+                  );
+                }
                 return (
-                  <MenuItem key={opnValue} value={opnValue}>
+                  <Box component="li" key={key} {...props}>
                     <FormControlLabel
                       label={opnLabel}
                       control={
@@ -206,20 +271,49 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                           {...checkboxProps}
                           name={fieldName}
                           value={opnValue}
-                          checked={isChecked}
-                          onChange={event => onCheckboxSelected(
-                            event.target.checked,
-                            event.target.value
-                          )}
+                          checked={selectedValues.includes(opnValue)}
+                          onChange={(event) => {
+                            const fieldValues = handleCheckboxChange(
+                              event.target.checked,
+                              event.target.value
+                            );
+                            console.log('fieldValues: ', fieldValues);
+                            setSelectedValues(fieldValues);
+                            onChange(fieldValues);
+                          }}
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       {...otherFormControlLabelProps}
                     />
-                  </MenuItem>
+                  </Box>
                 );
-              })}
-            </Select>
+              }}
+              renderInput={(params) => (
+                <TextField
+                  // {...textFieldProps}
+                  {...params}
+                  label={!isLabelAboveFormField ? fieldLabel : undefined}
+                  error={isError}
+                  // {...(isMuiV6
+                  //   ? {
+                  //       slotProps: {
+                  //         htmlInput: {
+                  //           ...params.inputProps,
+                  //           autoComplete: fieldName
+                  //         }
+                  //       }
+                  //     }
+                  //   : {
+                  //       inputProps: {
+                  //         ...params.inputProps,
+                  //         autoComplete: fieldName
+                  //       }
+                  //     })}
+                />
+              )}
+              // {...otherAutoCompleteProps}
+            />
           );
         }}
       />
