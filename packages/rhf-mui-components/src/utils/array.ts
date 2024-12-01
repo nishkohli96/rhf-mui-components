@@ -20,12 +20,15 @@ export function validateArray(
 export function isKeyValueOption(
   option: StringOrNumber | KeyValueOption,
   labelKey?: string,
-  valueKey?: string,
+  valueKey?: string
 ): option is KeyValueOption {
-  return (
-    typeof option === 'object'
-    && `${labelKey}` in option
-    && `${valueKey}` in option
-  );
+  if (typeof option !== 'object' || option === null) {
+    return false;
+  }
+  if (!labelKey || !valueKey) {
+    return false;
+  }
+  return labelKey in option && valueKey in option;
 }
+
 
