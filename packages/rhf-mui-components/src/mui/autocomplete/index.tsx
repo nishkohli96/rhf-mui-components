@@ -11,15 +11,16 @@ import Autocomplete, {
   AutocompleteChangeDetails,
   AutocompleteChangeReason
 } from '@mui/material/Autocomplete';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
   FormLabelProps,
   FormHelperTextProps,
+  KeyValueOption,
   TrueOrFalse,
   AutocompleteOptionType,
-  KeyValueOption
+  AutoCompleteTextFieldProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -30,7 +31,6 @@ import {
 
 type OmittedAutocompleteProps = Omit<
   AutocompleteProps<AutocompleteOptionType, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
-  | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
   | 'renderOption'
@@ -43,17 +43,6 @@ type OmittedAutocompleteProps = Omit<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'disableCloseOnSelect'
->;
-
-type OmittedTextFieldProps = Omit<
-  TextFieldProps,
-  | 'value'
-  | 'onChange'
-  | 'disabled'
-  | 'inputProps'
-  | 'slotProps'
-  | 'label'
-  | 'error'
 >;
 
 export type RHFAutocompleteProps<T extends FieldValues> = {
@@ -76,7 +65,7 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  textFieldProps?: OmittedTextFieldProps;
+  textFieldProps?: AutoCompleteTextFieldProps;
 } & OmittedAutocompleteProps;
 
 const RHFAutocomplete = <T extends FieldValues>({
@@ -130,12 +119,15 @@ const RHFAutocomplete = <T extends FieldValues>({
 					 * pass back these list of options as the value prop for Autocomplete.
 					 */
           const selectedOptions = multiple
-            ? (value ?? [])
-              .map(val => options.find(opn => valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                ? opn[valueKey] === val : opn === val ))
-            : options.find(opn => valueKey && isKeyValueOption(opn, labelKey, valueKey)
-              ? opn[valueKey] === value
-              : opn === value);
+            ? (value ?? []).map(val =>
+              options.find(opn =>
+                valueKey && isKeyValueOption(opn, labelKey, valueKey)
+                  ? opn[valueKey] === val
+                  : opn === val))
+            : options.find(opn =>
+              valueKey && isKeyValueOption(opn, labelKey, valueKey)
+                ? opn[valueKey] === value
+                : opn === value) ?? null;
           return (
             <Autocomplete
               {...otherFieldProps}

@@ -24,6 +24,7 @@ type AirportInfo = {
 
 type FormSchema = {
   sourceAirport?: string;
+  destinationAirports?: string[]
   nationality?: string;
   countriesVisited: string[];
   dreamDestinations?: string[];
@@ -43,7 +44,8 @@ const airportList = generateAirportNames(100);
 
 const MultiSelectDropdownForm = () => {
   const initialValues: FormSchema = {
-    countriesVisited: ['AU', 'SG']
+    countriesVisited: ['AU', 'SG'],
+    sourceAirport: airportList[2].iataCode
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
@@ -71,75 +73,38 @@ const MultiSelectDropdownForm = () => {
             <RHFAutocomplete
               fieldName="sourceAirport"
               control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
               options={airportList}
               labelKey="name"
               valueKey="iataCode"
-              multiple
+              freeSolo
               errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Required field with customized textfield" />
-            <RHFCountrySelect
-              fieldName="nationality"
-              control={control}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: 'Choose the country of your nationality'
-                }
-              }}
-              textFieldProps={{ variant: 'filled' }}
-              errorMessage={errors?.nationality?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multiple Selection with default values & Preferred Countries" />
-            <RHFCountrySelect
-              fieldName="countriesVisited"
-              control={control}
-              preferredCountries={preferredCountries}
-              multiple
-              errorMessage={errors?.countriesVisited?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multiple Selection with minLength validation, valueKey, filtered Options and ChipProps" />
-            <RHFCountrySelect
-              fieldName="dreamDestinations"
+            <FieldVariantInfo title="Autocomplete accepting multiple options" />
+            <RHFAutocomplete
+              fieldName="destinationAirports"
               control={control}
               registerOptions={{
                 required: {
                   value: true,
                   message: 'This field is required'
-                },
-                validate: {
-                  minItems: value => {
-                    if (
-                      Array.isArray(value)
-                      && value.every(item => typeof item === 'string')
-                    ) {
-                      return value.length >= 3 || 'Select at least 3 countries';
-                    }
-                    return 'Invalid input';
-                  }
                 }
               }}
-              valueKey="name"
-              preferredCountries={['IN', 'AU', 'JP']}
-              countries={filteredCountries}
+              options={airportList}
+              labelKey="name"
+              valueKey="iataCode"
               multiple
+              freeSolo
               showLabelAboveFormField
-              label="What are your Dream Destinations?"
-              ChipProps={{
-                sx: { background: theme => theme.palette.primary.main }
-              }}
-              helperText={
-                <Typography color="slateblue">
-                  Select atleast 3 countries
-                </Typography>
-              }
-              errorMessage={errors?.dreamDestinations?.message}
+              textFieldProps={{ variant: 'standard' }}
+              errorMessage={errors?.destinationAirports?.message}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -204,6 +169,70 @@ const MultiSelectDropdownForm = () => {
                 }
               }}
               errorMessage={errors?.iplTeams?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="CountrySelect with customized textfield" />
+            <RHFCountrySelect
+              fieldName="nationality"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'Choose the country of your nationality'
+                }
+              }}
+              textFieldProps={{ variant: 'filled' }}
+              errorMessage={errors?.nationality?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="CountrySelect - Multiple selection with default values & preferredCountries" />
+            <RHFCountrySelect
+              fieldName="countriesVisited"
+              control={control}
+              preferredCountries={preferredCountries}
+              multiple
+              errorMessage={errors?.countriesVisited?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="CountrySelect - Multiple Selection with minLength validation, valueKey, filtered Options and ChipProps" />
+            <RHFCountrySelect
+              fieldName="dreamDestinations"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                },
+                validate: {
+                  minItems: value => {
+                    if (
+                      Array.isArray(value)
+                      && value.every(item => typeof item === 'string')
+                    ) {
+                      return value.length >= 3 || 'Select at least 3 countries';
+                    }
+                    return 'Invalid input';
+                  }
+                }
+              }}
+              valueKey="name"
+              preferredCountries={['IN', 'AU', 'JP']}
+              countries={filteredCountries}
+              multiple
+              showLabelAboveFormField
+              label="What are your Dream Destinations?"
+              ChipProps={{
+                sx: { background: theme => theme.palette.primary.main }
+              }}
+              helperText={
+                <Typography color="slateblue">
+                  Select atleast 3 countries
+                </Typography>
+              }
+              errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>
           <Grid item xs={12}>
