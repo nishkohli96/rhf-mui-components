@@ -1,4 +1,4 @@
-import { ReactNode, useState, useContext, useCallback } from 'react';
+import { ReactNode, useContext } from 'react';
 import {
   FieldValues,
   Path,
@@ -6,22 +6,17 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
-import Box from '@mui/material/Box';
 import Autocomplete, {
   AutocompleteProps,
   AutocompleteChangeDetails,
   AutocompleteChangeReason
 } from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
   FormLabelProps,
-  FormControlLabelProps,
   FormHelperTextProps,
-  KeyValueOption,
   StringArr,
   TrueOrFalse,
   AutocompleteOptionType
@@ -130,30 +125,22 @@ const RHFAutocomplete = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, ...otherFieldProps } }) => {
+        render={({ field: { value, onChange, ...otherFieldProps } }) => {
           // 	console.log('value: ', value);
 
-          // 	const selectedOptions = options.filter((opn) =>
-          //     valueKey && isKeyValueOption(opn, labelKey, valueKey)
-          // 	? opn[valueKey] === value
-          // 	: opn === value
-          // ).map;
-          // console.log('selectedOptions: ', selectedOptions);
-          // multiple
-          // ? (value ?? [])
-          // .map(val => countrySelectOptions.find(country => country[valueKey] === val))
-          // .filter((country): country is CountryDetails => Boolean(country))
-
+          const selectedOptions = multiple
+            ? value ?? []
+            : value ?? '';
           return (
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
               options={autoCompleteOptions}
               multiple={multiple}
-              // value={selectedOptions}
+              value={selectedOptions}
               autoHighlight
               disableCloseOnSelect={multiple}
-							blurOnSelect={!multiple}
+              blurOnSelect={!multiple}
               fullWidth
               onChange={(event, newValue, reason, details) => {
                 console.log('details: ', details);
@@ -172,15 +159,6 @@ const RHFAutocomplete = <T extends FieldValues>({
                   // onValueChange(newValue, event, reason, details);
                 }
               }}
-              // onChange={(_, newValue, reason, details) => {
-              //   const valueOfClickedItem = details?.option as string | undefined;
-              //   if (reason === 'clear') {
-              //     changeFieldState([], valueOfClickedItem);
-              //   }
-              //   if (reason === 'removeOption') {
-              //     changeFieldState(newValue as StringArr, valueOfClickedItem);
-              //   }
-              // }}
               limitTags={3}
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option => renderOptionLabel(option)}
