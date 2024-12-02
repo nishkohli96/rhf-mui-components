@@ -28,7 +28,7 @@ import {
   isMuiV6
 } from '@/utils';
 
-type AutoCompleteProps = Omit<
+type OmittedAutocompleteProps = Omit<
   AutocompleteProps<AutocompleteOptionType, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
   | 'freeSolo'
   | 'fullWidth'
@@ -45,7 +45,7 @@ type AutoCompleteProps = Omit<
   | 'disableCloseOnSelect'
 >;
 
-type AutoCompleteTextFieldProps = Omit<
+type OmittedTextFieldProps = Omit<
   TextFieldProps,
   | 'value'
   | 'onChange'
@@ -63,10 +63,7 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   options: AutocompleteOptionType[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (
-    fieldValue: StringArr,
-    targetValue?: string
-  ) => void;
+  onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -74,8 +71,8 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  textFieldProps?: AutoCompleteTextFieldProps;
-} & AutoCompleteProps;
+  textFieldProps?: OmittedTextFieldProps;
+} & OmittedAutocompleteProps;
 
 const RHFAutocomplete = <T extends FieldValues>({
   fieldName,
@@ -99,19 +96,23 @@ const RHFAutocomplete = <T extends FieldValues>({
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-
-  const autoCompleteOptions: AutocompleteOptionType[] = [
-    ...options,
-  ];
 
   const renderOptionLabel = (option: AutocompleteOptionType): string =>
     labelKey && isKeyValueOption(option, labelKey, valueKey)
       ? option[labelKey]
       : (option as string);
+
+  const isOptionEqualToValue = (option: AutocompleteOptionType, value: unknown) => {
+    const optionValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
+      ? option[valueKey]
+      : option;
+    return multiple
+      ? (value as StringArr).includes(optionValue)
+      : value === optionValue;
+  };
 
   return (
     <FormControl error={isError}>
@@ -126,8 +127,6 @@ const RHFAutocomplete = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
-          // 	console.log('value: ', value);
-
           const selectedOptions = multiple
             ? value ?? []
             : value ?? '';
@@ -135,16 +134,19 @@ const RHFAutocomplete = <T extends FieldValues>({
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
-              options={autoCompleteOptions}
+              options={options}
               multiple={multiple}
               value={selectedOptions}
               autoHighlight
               disableCloseOnSelect={multiple}
               blurOnSelect={!multiple}
               fullWidth
-              onChange={(event, newValue, reason, details) => {
-                console.log('details: ', details);
-                console.log('newValue: ', newValue);
+              onChange={(
+                event,
+                newValue,
+                reason: AutocompleteChangeReason,
+                details?: AutocompleteChangeDetails<AutocompleteOptionType>
+              ) => {
                 const newValueKey = Array.isArray(newValue)
                   ? (newValue ?? []).map(item =>
                     valueKey && isKeyValueOption(item, labelKey, valueKey)
@@ -153,23 +155,15 @@ const RHFAutocomplete = <T extends FieldValues>({
                   : valueKey && isKeyValueOption(newValue!, labelKey, valueKey)
                     ? newValue[valueKey]
                     : newValue;
-                console.log('newValueKey: ', newValueKey);
+
                 onChange(newValueKey);
-                if (onValueChange) {
-                  // onValueChange(newValue, event, reason, details);
-                }
+                console.log('newValueKey: ', newValueKey);
+                // onValueChange?.(newValueKey as StringArr, details?.option?.[valueKey]);
               }}
               limitTags={3}
               getLimitTagsText={value => `+${value} More`}
-              getOptionLabel={option => renderOptionLabel(option)}
-              isOptionEqualToValue={(option, value) => {
-                const opnValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
-                  ? option[valueKey]
-                  : option;
-                return multiple
-                  ? (value as StringArr).includes(opnValue)
-                  : value === opnValue;
-              }}
+              getOptionLabel={renderOptionLabel}
+              isOptionEqualToValue={isOptionEqualToValue}
               renderInput={params => (
                 <TextField
                   {...textFieldProps}
@@ -182,14 +176,14 @@ const RHFAutocomplete = <T extends FieldValues>({
                         htmlInput: {
                           ...params.inputProps,
                           autoComplete: fieldName
-                        }
-                      }
+                        },
+                      },
                     }
                     : {
                       inputProps: {
                         ...params.inputProps,
                         autoComplete: fieldName
-                      }
+                      },
                     })}
                 />
               )}
