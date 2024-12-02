@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode, SyntheticEvent, useContext } from 'react';
 import {
   FieldValues,
   Path,
@@ -17,10 +17,9 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
   FormLabelProps,
   FormHelperTextProps,
-  StringArr,
   TrueOrFalse,
   AutocompleteOptionType,
-	KeyValueOption
+  KeyValueOption
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -64,7 +63,12 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   options: AutocompleteOptionType[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
+  onValueChange?: (
+		fieldValue: string | string[] | null,
+		event: SyntheticEvent<Element, Event>,
+		reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<AutocompleteOptionType>
+	) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -106,15 +110,6 @@ const RHFAutocomplete = <T extends FieldValues>({
       ? option[labelKey]
       : (option as string);
 
-  const isOptionEqualToValue = (option: AutocompleteOptionType, value: unknown) => {
-    const optionValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
-      ? option[valueKey]
-      : option;
-    return multiple
-      ? (value as StringArr).includes(optionValue)
-      : value === optionValue;
-  };
-
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -128,13 +123,19 @@ const RHFAutocomplete = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
+					/**
+					 * When considering for the case when options is an array of objects,
+					 * the values would be an array or a single "valueKey" from these options.
+					 * So, I need to get back the selected options using these values and then
+					 * pass back these list of options as the value prop for Autocomplete. 
+					 */
           const selectedOptions = multiple
-					? (value ?? [])
-					: options.find(opn => valueKey && isKeyValueOption(opn, labelKey, valueKey)
-					? opn[valueKey] === value
-					: opn === value
-				)
-				console.log('selectedOptions: ', selectedOptions);
+            ? (value ?? [])
+              .map(val => options.find(opn => valueKey && isKeyValueOption(opn, labelKey, valueKey)
+                ? opn[valueKey] === val : opn === val ))
+            : options.find(opn => valueKey && isKeyValueOption(opn, labelKey, valueKey)
+              ? opn[valueKey] === value
+              : opn === value);
           return (
             <Autocomplete
               {...otherFieldProps}
@@ -152,25 +153,21 @@ const RHFAutocomplete = <T extends FieldValues>({
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<AutocompleteOptionType>
               ) => {
-                const newValueKey =
-                  newValue === null
+                const fieldValue = newValue === null
                     ? null
                     : Array.isArray(newValue)
-                    ? (newValue ?? []).map((item) =>
+                      ? (newValue ?? []).map(item =>
                         valueKey && isKeyValueOption(item, labelKey, valueKey)
                           ? item[valueKey]
-                          : item
-                      )
-                    : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
-                    ? newValue[valueKey]
-                    : newValue;
-
-                onChange(newValueKey);
-                console.log('newValueKey: ', newValueKey);
-                // onValueChange?.(newValueKey as StringArr, details?.option?.[valueKey]);
+                          : item)
+                      : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
+                        ? newValue[valueKey]
+                        : newValue;
+                onChange(fieldValue);
+                onValueChange?.(fieldValue, event, reason, details);
               }}
               limitTags={3}
-              getLimitTagsText={(value) => `+${value} More`}
+              getLimitTagsText={value => `+${value} More`}
               getOptionLabel={renderOptionLabel}
               isOptionEqualToValue={(option, value) => {
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
@@ -180,8 +177,7 @@ const RHFAutocomplete = <T extends FieldValues>({
                 }
                 return option === value;
               }}
-              // isOptionEqualToValue={isOptionEqualToValue}
-              renderInput={(params) => (
+              renderInput={params => (
                 <TextField
                   {...textFieldProps}
                   {...params}
@@ -189,19 +185,19 @@ const RHFAutocomplete = <T extends FieldValues>({
                   error={isError}
                   {...(isMuiV6
                     ? {
-                        slotProps: {
-                          htmlInput: {
-                            ...params.inputProps,
-                            autoComplete: fieldName
-                          }
-                        }
-                      }
-                    : {
-                        inputProps: {
+                      slotProps: {
+                        htmlInput: {
                           ...params.inputProps,
                           autoComplete: fieldName
                         }
-                      })}
+                      }
+                    }
+                    : {
+                      inputProps: {
+                        ...params.inputProps,
+                        autoComplete: fieldName
+                      }
+                    })}
                 />
               )}
               {...otherAutoCompleteProps}

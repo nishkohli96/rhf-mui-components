@@ -74,7 +74,7 @@ const MultiSelectDropdownForm = () => {
               options={airportList}
               labelKey="name"
               valueKey="iataCode"
-              // multiple
+              multiple
               errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
