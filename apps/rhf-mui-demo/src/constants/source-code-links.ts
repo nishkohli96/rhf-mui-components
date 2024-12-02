@@ -17,7 +17,7 @@ export const SourceCodeLinks: Record<string, Page> = {
   },
   countrySelect: {
     title: 'Country Select',
-    href: `${commonRoute}/multi-select-dropdowns/index.tsx`
+    href: `${commonRoute}/autocomplete/index.tsx`
   },
   checkboxRadio: {
     title: 'Checkbox & Radio with Zod',

@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-const RHFMultiSelectDropdownPropsTable = () => {
+const RHFMultiAutocompletePropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -26,4 +26,4 @@ const RHFMultiSelectDropdownPropsTable = () => {
   );
 };
 
-export default RHFMultiSelectDropdownPropsTable;
+export default RHFMultiAutocompletePropsTable;

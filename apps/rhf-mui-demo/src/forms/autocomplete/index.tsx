@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
-import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
+import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import {
   FormContainer,
   FormState,
@@ -86,8 +86,8 @@ const MultiSelectDropdownForm = () => {
                 validate: {
                   minItems: value => {
                     if (
-                      Array.isArray(value) &&
-                      value.every((item) => typeof item === 'string')
+                      Array.isArray(value)
+                      && value.every(item => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -114,7 +114,7 @@ const MultiSelectDropdownForm = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown With String Options" />
-            <RHFMultiSelectDropdown
+            <RHFMultiAutocomplete
               fieldName="colors"
               control={control}
               options={Object.values(Colors)}
@@ -141,7 +141,7 @@ const MultiSelectDropdownForm = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Multi Select Dropdown With Object Array Options and customized checkbox and formLabel" />
-            <RHFMultiSelectDropdown
+            <RHFMultiAutocomplete
               fieldName="iplTeams"
               control={control}
               options={IPLTeams}
@@ -155,7 +155,7 @@ const MultiSelectDropdownForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -170,7 +170,7 @@ const MultiSelectDropdownForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: (theme) => theme.palette.secondary.main
+                  color: theme => theme.palette.secondary.main
                 }
               }}
               errorMessage={errors?.iplTeams?.message}

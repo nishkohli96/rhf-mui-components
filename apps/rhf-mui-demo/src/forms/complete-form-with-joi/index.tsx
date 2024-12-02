@@ -10,7 +10,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
-import RHFMultiSelectDropdown from '@nish1896/rhf-mui-components/mui/multi-select-dropdown';
+import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
@@ -173,7 +173,7 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFMultiSelectDropdown
+              <RHFMultiAutocomplete
                 fieldName="groceryList"
                 control={control}
                 options={GroceryList}

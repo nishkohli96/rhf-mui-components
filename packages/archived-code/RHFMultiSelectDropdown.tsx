@@ -27,7 +27,7 @@ import { fieldNameToLabel, validateArray, isKeyValueOption } from '@/utils';
 
 type SelectInputProps = Omit<SelectProps, 'multiple' | 'renderValue'>;
 
-export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
+export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
@@ -50,7 +50,7 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   renderValue?: (value: StrNumArray) => ReactNode;
 } & SelectInputProps;
 
-const RHFMultiSelectDropdown = <T extends FieldValues>({
+const RHFMultiAutocomplete = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -70,8 +70,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   formHelperTextProps,
   renderValue,
   ...otherSelectProps
-}: RHFMultiSelectDropdownProps<T>) => {
-  validateArray('RHFMultiSelectDropdown', options, labelKey, valueKey);
+}: RHFMultiAutocompleteProps<T>) => {
+  validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StrNumArray>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -234,4 +234,4 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   );
 };
 
-export default RHFMultiSelectDropdown;
+export default RHFMultiAutocomplete;

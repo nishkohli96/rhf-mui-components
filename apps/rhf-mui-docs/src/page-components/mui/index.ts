@@ -1,3 +1,4 @@
+export * from './autocomplete';
 export * from './checkbox';
 export * from './inputs';
 export { default as RHFRadioGroupPropsTable } from './radio-group';

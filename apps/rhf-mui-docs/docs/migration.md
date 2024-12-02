@@ -12,7 +12,7 @@ description: Page about the form helper functions exported by this package.
 Version 2 introduces significant enhancements and optimizations for nearly all components from Version 1. In addition to these improvements, the package now includes four new components:
 
 - [RHFCountrySelect](./components/mui/RHFCountrySelect.mdx)
-- [RHFMultiSelectDropdown](./components/mui/RHFMultiSelectDropdown.mdx)
+- [RHFMultiAutocomplete](./components/mui/RHFMultiAutocomplete.mdx)
 - [RHFTagsInput](./components/mui/RHFTagsInput.mdx)
 - [RHFPhoneInput](./components/misc/RHFPhoneInput.mdx)
 

@@ -63,7 +63,7 @@ type AutoCompleteTextFieldProps = Omit<
   | 'error'
 >;
 
-export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
+export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
@@ -87,7 +87,7 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   textFieldProps?: AutoCompleteTextFieldProps;
 } & AutoCompleteProps;
 
-const RHFMultiSelectDropdown = <T extends FieldValues>({
+const RHFMultiAutocomplete = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -107,8 +107,8 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   formHelperTextProps,
   textFieldProps,
   ...otherAutoCompleteProps
-}: RHFMultiSelectDropdownProps<T>) => {
-  validateArray('RHFMultiSelectDropdown', options, labelKey, valueKey);
+}: RHFMultiAutocompleteProps<T>) => {
+  validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StringArr>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx }
@@ -294,4 +294,4 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
   );
 };
 
-export default RHFMultiSelectDropdown;
+export default RHFMultiAutocomplete;

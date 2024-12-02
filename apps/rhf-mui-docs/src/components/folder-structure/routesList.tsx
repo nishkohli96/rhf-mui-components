@@ -8,7 +8,7 @@ const muiComponents = [
   'RHFPasswordInput',
   'RHFSelect',
   'RHFCountrySelect',
-  'RHFMultiSelectDropdown',
+  'RHFMultiAutocomplete',
   'RHFNativeSelect',
   'RHFCheckbox',
   'RHFCheckboxGroup',
@@ -33,7 +33,7 @@ const miscComponents = [
 
 export const newlyAddedComponents = [
   'RHFCountrySelect',
-  'RHFMultiSelectDropdown',
+  'RHFMultiAutocomplete',
   'RHFPhoneInput',
   'RHFTagsInput'
 ]

@@ -36,7 +36,7 @@ Below is a comprehensive list of all components included in this package, catego
   - [Select](https://rhf-mui-components.netlify.app/components/mui/RHFSelect)
   - [Native Select](https://rhf-mui-components.netlify.app/components/mui/RHFNativeSelect)
   - [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect)
-  - [Multi Select Dropdown](https://rhf-mui-components.netlify.app/components/mui/RHFMultiSelectDropdown)
+  - [Multi Autocomplete](https://rhf-mui-components.netlify.app/components/mui/RHFMultiAutocomplete)
   - [Checkbox](https://rhf-mui-components.netlify.app/components/mui/RHFCheckbox)
   - [Checkbox Group](https://rhf-mui-components.netlify.app/components/mui/RHFCheckboxGroup)
   - [Radio Group](https://rhf-mui-components.netlify.app/components/mui/RHFRadioGroup)

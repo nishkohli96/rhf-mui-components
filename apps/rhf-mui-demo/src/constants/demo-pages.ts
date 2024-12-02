@@ -16,8 +16,8 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/select`
   },
   {
-    title: 'Multi Select Dropdowns',
-    href: `${pagePrefix}/multi-select-dropdowns`
+    title: 'Autocomplete',
+    href: `${pagePrefix}/autocomplete`
   },
   {
     title: 'Checkbox & RadioGroup',
