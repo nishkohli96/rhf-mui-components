@@ -44,6 +44,9 @@ type AutoCompleteProps = Omit<
   | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
+  | 'autoHighlight'
+  | 'blurOnSelect'
+  | 'disableCloseOnSelect'
 >;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -167,7 +170,8 @@ const RHFCountrySelect = <T extends FieldValues>({
                 }
               }}
               autoHighlight
-              blurOnSelect
+              blurOnSelect={!multiple}
+              disableCloseOnSelect={multiple}
               fullWidth
               disabled={disabled}
               limitTags={3}

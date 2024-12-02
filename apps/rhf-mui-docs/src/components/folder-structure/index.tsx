@@ -11,13 +11,13 @@ import {
 } from './routesList';
 
 const FolderStructure = ({ v1 }: VersionProps) => {
-  const muiList = v1 
+  const muiList = v1
     ? muiFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
     : muiFoldersList;
 
   const miscList = v1
     ? miscFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
-    : miscFoldersList
+    : miscFoldersList;
 
   return (
     <TreeView

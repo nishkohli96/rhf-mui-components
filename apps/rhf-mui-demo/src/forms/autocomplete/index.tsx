@@ -65,7 +65,7 @@ const MultiSelectDropdownForm = () => {
   }
 
   return (
-    <FormContainer title="Country Select Component with Register Options">
+    <FormContainer title="Autocomplete variations with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid item xs={12} md={6}>
@@ -82,7 +82,6 @@ const MultiSelectDropdownForm = () => {
               options={airportList}
               labelKey="name"
               valueKey="iataCode"
-              freeSolo
               errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
@@ -101,7 +100,6 @@ const MultiSelectDropdownForm = () => {
               labelKey="name"
               valueKey="iataCode"
               multiple
-              freeSolo
               showLabelAboveFormField
               textFieldProps={{ variant: 'standard' }}
               errorMessage={errors?.destinationAirports?.message}

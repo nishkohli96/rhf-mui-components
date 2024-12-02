@@ -31,6 +31,7 @@ import {
 
 type OmittedAutocompleteProps = Omit<
   AutocompleteProps<AutocompleteOptionType, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
+  | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
   | 'renderOption'
@@ -42,6 +43,7 @@ type OmittedAutocompleteProps = Omit<
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
   | 'autoHighlight'
+  | 'blurOnSelect'
   | 'disableCloseOnSelect'
 >;
 
@@ -136,8 +138,8 @@ const RHFAutocomplete = <T extends FieldValues>({
               multiple={multiple}
               value={selectedOptions}
               autoHighlight
-              disableCloseOnSelect={multiple}
               blurOnSelect={!multiple}
+              disableCloseOnSelect={multiple}
               fullWidth
               onChange={(
                 event,

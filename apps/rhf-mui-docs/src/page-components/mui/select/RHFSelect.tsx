@@ -5,7 +5,7 @@ import { VersionProps } from '@site/src/types';
 const RHFSelectPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 
+    ...(!v1
       ? [PropsDescription.control]
       : [PropsDescription.register]
     ),
@@ -13,13 +13,13 @@ const RHFSelectPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    ...(!v1 
+    ...(!v1
       ? []
       : [PropsDescription.defaultValue]
     ),
     PropsDescription.showDefaultOption,
     PropsDescription.defaultOptionText,
-    ...(!v1 
+    ...(!v1
       ? [PropsDescription.onValueChange_Select]
       : [PropsDescription.onValueChange_Select_v1]
     ),

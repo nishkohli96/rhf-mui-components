@@ -5,7 +5,7 @@ import { VersionProps } from '@site/src/types';
 const RHFTextFieldPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 
+    ...(!v1
       ? [PropsDescription.control]
       : [PropsDescription.register]
     ),

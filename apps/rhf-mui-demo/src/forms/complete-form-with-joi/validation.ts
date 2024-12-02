@@ -55,6 +55,7 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Select atleast one country'
     }),
+  hobby: Joi.string().required(),
   groceryList: Joi.array()
     .items(Joi.string().required())
     .min(2)

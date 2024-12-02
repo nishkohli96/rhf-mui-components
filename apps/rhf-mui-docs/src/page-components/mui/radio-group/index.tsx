@@ -15,9 +15,9 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.valueKey,
     ...(!v1
       ? [
-          PropsDescription.onValueChange_RadioGroup,
-          PropsDescription.disabled
-        ]
+        PropsDescription.onValueChange_RadioGroup,
+        PropsDescription.disabled
+      ]
       : [PropsDescription.onValueChange_CheckboxGroup_v1]
     ),
     PropsDescription.label,

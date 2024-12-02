@@ -5,8 +5,8 @@ import { VersionProps } from '@site/src/types';
 const RHFNativeSelectPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? 
-      [PropsDescription.control]
+    ...(!v1
+      ? [PropsDescription.control]
       : [PropsDescription.register]
     ),
     PropsDescription.registerOptions,
@@ -16,11 +16,11 @@ const RHFNativeSelectPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.onValueChange_NativeSelect]
       : [
-          PropsDescription.defaultValue,
-          PropsDescription.showDefaultOption,
-          PropsDescription.defaultOptionText,
-          PropsDescription.onValueChange_Default_v1
-        ]),
+        PropsDescription.defaultValue,
+        PropsDescription.showDefaultOption,
+        PropsDescription.defaultOptionText,
+        PropsDescription.onValueChange_Default_v1
+      ]),
     PropsDescription.label,
     ...(!v1
       ? [PropsDescription.helperText]

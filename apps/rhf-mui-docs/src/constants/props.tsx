@@ -146,7 +146,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   onValueChange_CheckboxGroup: {
     name: 'onValueChange',
-    description: "An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.",
+    description: 'An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.',
     type: '(selectedItemValue, value, event) => void'
   },
   onValueChange_CheckboxGroup_v1: {

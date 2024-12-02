@@ -8,9 +8,9 @@ const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.control,
     ...(!v1
       ? [
-          PropsDescription.registerOptions,
-          PropsDescription.onValueChange_Checkbox
-        ]
+        PropsDescription.registerOptions,
+        PropsDescription.onValueChange_Checkbox
+      ]
       : [PropsDescription.onValueChange_Checkbox_v1]
     ),
     PropsDescription.label,

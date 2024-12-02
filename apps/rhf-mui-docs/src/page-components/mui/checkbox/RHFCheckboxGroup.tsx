@@ -15,9 +15,9 @@ const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.valueKey,
     ...(!v1
       ? [
-          PropsDescription.onValueChange_CheckboxGroup,
-          PropsDescription.disabled
-        ]
+        PropsDescription.onValueChange_CheckboxGroup,
+        PropsDescription.disabled
+      ]
       : [PropsDescription.onValueChange_CheckboxGroup_v1]
     ),
     PropsDescription.label,

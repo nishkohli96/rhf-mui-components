@@ -6,22 +6,22 @@ const RHFSwitchPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    ...(!v1 
+    ...(!v1
       ? [
-          PropsDescription.registerOptions,
-          PropsDescription.onValueChange_Switch
-        ]
+        PropsDescription.registerOptions,
+        PropsDescription.onValueChange_Switch
+      ]
       : [PropsDescription.onValueChange_Default_v1]
     ),
     PropsDescription.label,
     PropsDescription.formControlLabelProps,
-    ...(!v1 
+    ...(!v1
       ? [
-          PropsDescription.helperText,
-          PropsDescription.errorMessage,
-          PropsDescription.hideErrorMessage,
-          PropsDescription.formHelperTextProps
-        ]
+        PropsDescription.helperText,
+        PropsDescription.errorMessage,
+        PropsDescription.hideErrorMessage,
+        PropsDescription.formHelperTextProps
+      ]
       : []
     ),
   ];

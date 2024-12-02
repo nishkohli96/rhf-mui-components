@@ -13,9 +13,9 @@ const RHFSliderPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.onValueChange_Slider]
       : [
-          PropsDescription.defaultValue_Slider,
-          PropsDescription.onValueChange_Slider_v1
-        ]
+        PropsDescription.defaultValue_Slider,
+        PropsDescription.onValueChange_Slider_v1
+      ]
     ),
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,

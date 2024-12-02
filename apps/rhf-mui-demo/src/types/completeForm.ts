@@ -11,6 +11,7 @@ export type Person = {
   agreeTnC: boolean;
   colors: Colors[] | null;
   countries: string[] | null;
+  hobby: string;
   groceryList: string[];
   gender: Gender | null;
   country: string;

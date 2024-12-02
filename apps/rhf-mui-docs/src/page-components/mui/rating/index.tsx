@@ -8,9 +8,9 @@ const RHFRatingPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.control,
     ...(!v1
       ? [
-          PropsDescription.registerOptions,
-          PropsDescription.onValueChange_Rating
-        ]
+        PropsDescription.registerOptions,
+        PropsDescription.onValueChange_Rating
+      ]
       : [PropsDescription.onValueChange_Rating_v1]
     ),
     PropsDescription.label,

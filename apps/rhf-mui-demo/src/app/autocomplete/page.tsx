@@ -5,8 +5,8 @@ import { DocsLinks, SourceCodeLinks } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/autocomplete'), { ssr: false });
 
-const title = 'Multi Select Dropdowns';
-const description = 'Showcase of custom select components, RHFCountrySelect and RHFMultiAutocomplete, designed for single or multiple value selection in forms.';
+const title = 'Autocomplete';
+const description = 'Showcase of Autocomplete components - RHFAutocomplete, RHFMultiAutocomplete and RHFCountrySelect designed for selecting single or multiple values in form.';
 
 export const metadata: Metadata = {
   title,

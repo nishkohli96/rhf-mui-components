@@ -36,7 +36,7 @@ export const newlyAddedComponents = [
   'RHFMultiAutocomplete',
   'RHFPhoneInput',
   'RHFTagsInput'
-]
+];
 
 export const muiFoldersList = muiComponents.map(component => ({
   name: component,

@@ -41,3 +41,12 @@ export const GroceryList = [
   'Fruits',
   'Vegetables'
 ];
+
+export const HobbiesList = [
+  'Singing',
+  'Dancing',
+  'Movies',
+  'Painting',
+  'Reading',
+  'Cooking'
+];

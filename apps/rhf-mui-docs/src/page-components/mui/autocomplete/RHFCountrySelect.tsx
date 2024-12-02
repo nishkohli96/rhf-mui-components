@@ -6,9 +6,9 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-		PropsDescription.label,
-		PropsDescription.countries,
-		PropsDescription.preferredCountries,
+    PropsDescription.label,
+    PropsDescription.countries,
+    PropsDescription.preferredCountries,
     PropsDescription.valueKey_CountrySelect,
     PropsDescription.onValueChange_CountrySelect,
     PropsDescription.showLabelAboveFormField,
@@ -17,7 +17,7 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps,
-		PropsDescription.textFieldProps_CountrySelect
+    PropsDescription.textFieldProps_CountrySelect
   ];
 
   return (

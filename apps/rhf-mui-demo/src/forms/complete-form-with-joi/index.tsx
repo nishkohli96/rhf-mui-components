@@ -9,9 +9,10 @@ import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
-import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
-import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
+import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
+import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
+import RHFCountrySelect from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
 import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
@@ -30,7 +31,7 @@ import {
   FormState,
   SubmitButton
 } from '@/components';
-import { CountriesList, IPLTeams, GroceryList } from '@/constants';
+import { CountriesList, IPLTeams, GroceryList, HobbiesList } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, Person } from '@/types';
 import { JoiFormSchema } from './validation';
@@ -52,6 +53,7 @@ const CompleteFormWithJoi = () => {
     agreeTnC: true,
     colors: null,
     countries: null,
+    hobby: '',
     groceryList: [],
     gender: null,
     country: '',
@@ -164,11 +166,26 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFCountrySelect
-                fieldName="countryCode"
+              <RHFNativeSelect
+                fieldName="favouriteSport"
                 control={control}
-                label="Country Code of Nationality"
-                errorMessage={errors?.countryCode?.message}
+                options={Object.values(Sports)}
+                errorMessage={errors?.favouriteSport?.message}
+                disabled={areAllFieldsDisabled}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFAutocomplete
+                fieldName="hobby"
+                control={control}
+                options={HobbiesList}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: 'This field is required'
+                  }
+                }}
+                errorMessage={errors?.hobby?.message}
                 disabled={areAllFieldsDisabled}
               />
             </Grid>
@@ -181,11 +198,11 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <RHFNativeSelect
-                fieldName="favouriteSport"
+              <RHFCountrySelect
+                fieldName="countryCode"
                 control={control}
-                options={Object.values(Sports)}
-                errorMessage={errors?.favouriteSport?.message}
+                label="Country Code of Nationality"
+                errorMessage={errors?.countryCode?.message}
                 disabled={areAllFieldsDisabled}
               />
             </Grid>
