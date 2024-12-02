@@ -7,7 +7,11 @@ import {
   RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, {
+  AutocompleteProps,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason
+} from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -16,12 +20,11 @@ import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
   FormLabelProps,
   FormControlLabelProps,
-  CheckboxProps,
   FormHelperTextProps,
   KeyValueOption,
-  StringArr,
-  AutocompleteOptionType,
-  AutoCompleteTextFieldProps
+	StringArr,
+	TrueOrFalse,
+	AutocompleteOptionType
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -30,9 +33,8 @@ import {
   isMuiV6
 } from '@/utils';
 
-
 type AutoCompleteProps = Omit<
-  AutocompleteProps<AutocompleteOptionType, true, false, false>,
+  AutocompleteProps<AutocompleteOptionType, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -40,7 +42,6 @@ type AutoCompleteProps = Omit<
   | 'options'
   | 'value'
   | 'defaultValue'
-  | 'multiple'
   | 'onChange'
   | 'getOptionKey'
   | 'getOptionLabel'
@@ -49,14 +50,24 @@ type AutoCompleteProps = Omit<
   | 'disableCloseOnSelect'
 >;
 
-export type RHFMultiAutocompleteProps<T extends FieldValues> = {
+type AutoCompleteTextFieldProps = Omit<
+  TextFieldProps,
+  | 'value'
+  | 'onChange'
+  | 'disabled'
+  | 'inputProps'
+  | 'slotProps'
+  | 'label'
+  | 'error'
+>;
+
+export type RHFAutocompleteProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: AutocompleteOptionType[];
   labelKey?: string;
   valueKey?: string;
-  selectAllOptionText?: string;
   onValueChange?: (
     fieldValue: StringArr,
     targetValue?: string
@@ -64,7 +75,6 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
-  checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
@@ -73,19 +83,18 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   textFieldProps?: AutoCompleteTextFieldProps;
 } & AutoCompleteProps;
 
-const RHFMultiAutocomplete = <T extends FieldValues>({
+const RHFAutocomplete = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
   options,
+	multiple,
   labelKey,
   valueKey,
-  selectAllOptionText,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
-  checkboxProps,
   formControlLabelProps,
   helperText,
   errorMessage,
@@ -93,8 +102,8 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   formHelperTextProps,
   textFieldProps,
   ...otherAutoCompleteProps
-}: RHFMultiAutocompleteProps<T>) => {
-  validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
+}: RHFAutocompleteProps<T>) => {
+  validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StringArr>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx }
@@ -110,38 +119,19 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const selectAllLabel = selectAllOptionText ?? 'Select All';
-  const selectAllOptionValue = '';
-
   const autoCompleteOptions: AutocompleteOptionType[] = [
-    selectAllLabel as AutocompleteOptionType,
     ...options,
   ];
 
-  const isSelectAllOption = (option: AutocompleteOptionType): boolean =>
-    option === selectAllLabel;
-
   const renderOptionLabel = (option: AutocompleteOptionType): string =>
-    isSelectAllOption(option)
-      ? selectAllLabel
-      : valueKey && isKeyValueOption(option, labelKey, valueKey)
-        ? option[valueKey]
-        : (option as string);
+    valueKey && isKeyValueOption(option, labelKey, valueKey)
+      ? option[valueKey]
+      : (option as string);
 
   const handleCheckboxChange = useCallback((
     isChecked: boolean,
     value: string
   ) => {
-    /* The event is fired on "Select All" checkbox. */
-    if (!value || (value === selectAllOptionValue)) {
-      return isChecked
-        ? options.map(option =>
-          valueKey && isKeyValueOption(option, labelKey, valueKey)
-            ? option[valueKey]
-            : option)
-        : [];
-    }
-
     /* One of the options is selected */
     return isChecked
       ? [...selectedValues, value]
@@ -193,53 +183,10 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option => renderOptionLabel(option)}
               isOptionEqualToValue={(option, value) => {
-                if (isSelectAllOption(option)) {
-                  return selectedValues.length === options.length;
-                }
                 const opnValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
                   ? option[valueKey]
                   : option;
                 return (value as StringArr).includes(opnValue);
-              }}
-              renderOption={({ key, ...props }, option: AutocompleteOptionType) => {
-                const isSelectAll = isSelectAllOption(option);
-                const label = renderOptionLabel(option);
-                const value = isSelectAll ? selectAllOptionValue : renderOptionLabel(option);
-                const allSelected = selectedValues.length === options.length;
-                const isIndeterminate = selectedValues.length > 0 && !allSelected;
-                return (
-                  <Box component="li" key={key} {...props}>
-                    <FormControlLabel
-                      label={label}
-                      control={
-                        <Checkbox
-                          {...checkboxProps}
-                          name={fieldName}
-                          value={value}
-                          checked={
-                            isSelectAll
-                              ? allSelected
-                              : selectedValues.includes(value)
-                          }
-                          indeterminate={
-                            isSelectAll ? isIndeterminate : undefined
-                          }
-                          onChange={event =>
-                            changeFieldState(
-                              handleCheckboxChange(
-                                event.target.checked,
-                                event.target.value
-                              ),
-                              event.target.value
-                            )
-                          }
-                        />
-                      }
-                      sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                      {...otherFormControlLabelProps}
-                    />
-                  </Box>
-                );
               }}
               renderInput={params => (
                 <TextField
@@ -280,4 +227,4 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   );
 };
 
-export default RHFMultiAutocomplete;
+export default RHFAutocomplete;

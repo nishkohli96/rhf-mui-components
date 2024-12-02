@@ -5,6 +5,7 @@ import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/For
 import { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 import { RadioProps as MuiRadioProps } from '@mui/material/Radio';
 import{ SelectProps as MuiSelectProps } from '@mui/material/Select';
+import { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
@@ -56,6 +57,33 @@ export type SelectProps = Omit<
   | 'onBlur'
   | 'ref'
 >;
+
+export type AutoCompleteTextFieldProps = Omit<
+  MuiTextFieldProps,
+  | 'value'
+  | 'onChange'
+  | 'disabled'
+  | 'inputProps'
+  | 'slotProps'
+  | 'label'
+  | 'error'
+>;
+
+export type OmittedAutocompleteProps =
+  | 'freeSolo'
+  | 'fullWidth'
+  | 'renderInput'
+  | 'renderOption'
+  | 'options'
+  | 'value'
+  | 'defaultValue'
+  | 'multiple'
+  | 'onChange'
+  | 'getOptionKey'
+  | 'getOptionLabel'
+  | 'isOptionEqualToValue'
+  | 'autoHighlight'
+  | 'disableCloseOnSelect';
 
 export type MuiPickersAdapter = { new (...args: any): any }
 

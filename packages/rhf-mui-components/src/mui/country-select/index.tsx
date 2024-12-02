@@ -13,14 +13,16 @@ import Autocomplete, {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from '@mui/material/Autocomplete';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import {
+  TrueOrFalse,
   CountryDetails,
   CountryISO,
   FormLabelProps,
-  FormHelperTextProps
+  FormHelperTextProps,
+  AutoCompleteTextFieldProps
 } from '@/types';
 import { fieldNameToLabel, isMuiV6, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
@@ -30,7 +32,7 @@ type CountryMenuItemProps = {
 };
 
 type AutoCompleteProps = Omit<
-  AutocompleteProps<CountryDetails, true | false, false, false>,
+  AutocompleteProps<CountryDetails, TrueOrFalse, false, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -43,17 +45,6 @@ type AutoCompleteProps = Omit<
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
 >;
-
-type AutoCompleteTextFieldProps = Omit<
-  TextFieldProps,
-  | 'value'
-  | 'onChange'
-  | 'disabled'
-  | 'inputProps'
-  | 'slotProps'
-  | 'label'
-  | 'error'
->
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
