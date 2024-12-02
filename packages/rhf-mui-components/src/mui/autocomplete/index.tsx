@@ -19,7 +19,8 @@ import {
   FormHelperTextProps,
   StringArr,
   TrueOrFalse,
-  AutocompleteOptionType
+  AutocompleteOptionType,
+	KeyValueOption
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -128,8 +129,12 @@ const RHFAutocomplete = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
           const selectedOptions = multiple
-            ? value ?? []
-            : value ?? '';
+					? (value ?? [])
+					: options.find(opn => valueKey && isKeyValueOption(opn, labelKey, valueKey)
+					? opn[valueKey] === value
+					: opn === value
+				)
+				console.log('selectedOptions: ', selectedOptions);
           return (
             <Autocomplete
               {...otherFieldProps}
@@ -165,10 +170,18 @@ const RHFAutocomplete = <T extends FieldValues>({
                 // onValueChange?.(newValueKey as StringArr, details?.option?.[valueKey]);
               }}
               limitTags={3}
-              getLimitTagsText={value => `+${value} More`}
+              getLimitTagsText={(value) => `+${value} More`}
               getOptionLabel={renderOptionLabel}
-              isOptionEqualToValue={isOptionEqualToValue}
-              renderInput={params => (
+              isOptionEqualToValue={(option, value) => {
+                if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
+                  return (
+                    option[valueKey] === (value as KeyValueOption)[valueKey]
+                  );
+                }
+                return option === value;
+              }}
+              // isOptionEqualToValue={isOptionEqualToValue}
+              renderInput={(params) => (
                 <TextField
                   {...textFieldProps}
                   {...params}
@@ -176,19 +189,19 @@ const RHFAutocomplete = <T extends FieldValues>({
                   error={isError}
                   {...(isMuiV6
                     ? {
-                      slotProps: {
-                        htmlInput: {
+                        slotProps: {
+                          htmlInput: {
+                            ...params.inputProps,
+                            autoComplete: fieldName
+                          }
+                        }
+                      }
+                    : {
+                        inputProps: {
                           ...params.inputProps,
                           autoComplete: fieldName
-                        },
-                      },
-                    }
-                    : {
-                      inputProps: {
-                        ...params.inputProps,
-                        autoComplete: fieldName
-                      },
-                    })}
+                        }
+                      })}
                 />
               )}
               {...otherAutoCompleteProps}

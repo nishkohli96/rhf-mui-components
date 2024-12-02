@@ -176,7 +176,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               getOptionKey={option => option[valueKey]}
               getOptionLabel={option => option.name}
               isOptionEqualToValue={(option, value) =>
-                option[valueKey] === (value as CountryDetails)[valueKey]}
+                option[valueKey] === value[valueKey]}
               renderOption={({ key, ...props }, option) => (
                 <Box
                   component="li"
