@@ -160,7 +160,13 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, ...otherFieldProps } }) => {
+        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+          const selectedOptions = (value ?? []).map(val =>
+            options.find(opn =>
+              valueKey && isKeyValueOption(opn, labelKey, valueKey)
+                ? opn[valueKey] === val
+                : opn === val)).filter((opn): opn is AutocompleteOptionType => Boolean(opn));
+
           const changeFieldState = (
             newValue: StringArr,
             selectedValue?: string
@@ -175,7 +181,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               {...otherFieldProps}
               id={fieldName}
               options={autoCompleteOptions}
-              value={selectedValues}
+              value={selectedOptions}
               fullWidth
               multiple
               autoHighlight
@@ -196,10 +202,12 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 if (isSelectAllOption(option)) {
                   return selectedValues.length === options.length;
                 }
-                const opnValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
-                  ? option[valueKey]
-                  : option;
-                return (value as StringArr).includes(opnValue);
+                if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
+                  return (
+                    option[valueKey] === (value as KeyValueOption)[valueKey]
+                  );
+                }
+                return option === value;
               }}
               renderOption={({ key, ...props }, option: AutocompleteOptionType) => {
                 const isSelectAll = isSelectAllOption(option);

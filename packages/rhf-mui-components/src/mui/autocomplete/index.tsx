@@ -64,11 +64,11 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
-		fieldValue: string | string[] | null,
-		event: SyntheticEvent<Element, Event>,
-		reason: AutocompleteChangeReason,
+    fieldValue: string | string[] | null,
+    event: SyntheticEvent<Element, Event>,
+    reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<AutocompleteOptionType>
-	) => void;
+  ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -123,11 +123,11 @@ const RHFAutocomplete = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
-					/**
+          /**
 					 * When considering for the case when options is an array of objects,
 					 * the values would be an array or a single "valueKey" from these options.
 					 * So, I need to get back the selected options using these values and then
-					 * pass back these list of options as the value prop for Autocomplete. 
+					 * pass back these list of options as the value prop for Autocomplete.
 					 */
           const selectedOptions = multiple
             ? (value ?? [])
@@ -154,15 +154,15 @@ const RHFAutocomplete = <T extends FieldValues>({
                 details?: AutocompleteChangeDetails<AutocompleteOptionType>
               ) => {
                 const fieldValue = newValue === null
-                    ? null
-                    : Array.isArray(newValue)
-                      ? (newValue ?? []).map(item =>
-                        valueKey && isKeyValueOption(item, labelKey, valueKey)
-                          ? item[valueKey]
-                          : item)
-                      : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
-                        ? newValue[valueKey]
-                        : newValue;
+                  ? null
+                  : Array.isArray(newValue)
+                    ? (newValue ?? []).map(item =>
+                      valueKey && isKeyValueOption(item, labelKey, valueKey)
+                        ? item[valueKey]
+                        : item)
+                    : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
+                      ? newValue[valueKey]
+                      : newValue;
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
