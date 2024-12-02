@@ -204,7 +204,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               renderOption={({ key, ...props }, option: AutocompleteOptionType) => {
                 const isSelectAll = isSelectAllOption(option);
                 const label = renderOptionLabel(option);
-                const value = isSelectAll ? selectAllOptionValue : renderOptionLabel(option);
+                const value = isSelectAll
+                  ? selectAllOptionValue
+                  : valueKey && isKeyValueOption(option, labelKey, valueKey)
+                    ? option[valueKey]
+                    : (option as string);
                 const allSelected = selectedValues.length === options.length;
                 const isIndeterminate = selectedValues.length > 0 && !allSelected;
                 return (
