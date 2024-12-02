@@ -72,8 +72,8 @@ export type RHFMultiSelectDropdownProps<T extends FieldValues> = {
   valueKey?: string;
   selectAllOptionText?: string;
   onValueChange?: (
-    targetValue: string | null,
-    fieldValue: StringArr
+    fieldValue: StringArr,
+    targetValue?: string
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -144,10 +144,10 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
 
   const handleCheckboxChange = useCallback((
     isChecked: boolean,
-    value: string | null
+    value: string
   ) => {
     /* The event is fired on "Select All" checkbox. */
-    if (!value) {
+    if (!value || (value === selectAllOptionValue)) {
       return isChecked
         ? options.map(option =>
           valueKey && isKeyValueOption(option, labelKey, valueKey)
@@ -175,10 +175,13 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { onChange, ...otherFieldProps } }) => {
-          const changeFieldState = (newValue: StringArr) => {
+          const changeFieldState = (
+            newValue: StringArr,
+            selectedValue?: string
+          ) => {
             setSelectedValues(newValue);
             onChange(newValue);
-            // onValueChange(newValue)
+            onValueChange?.(newValue, selectedValue)
           };
 
           return (
@@ -191,12 +194,13 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
               multiple
               autoHighlight
               disableCloseOnSelect
-              onChange={(_, newValue, reason) => {
+              onChange={(_, newValue, reason, details) => {
+                const valueOfClickedItem = details?.option as string | undefined;  
                 if (reason === 'clear') {
-                  changeFieldState([]);
+                  changeFieldState([], valueOfClickedItem);
                 }
                 if (reason === 'removeOption') {
-                  changeFieldState(newValue as StringArr);
+                  changeFieldState(newValue as StringArr, valueOfClickedItem);
                 }
               }}
               limitTags={3}
@@ -226,16 +230,23 @@ const RHFMultiSelectDropdown = <T extends FieldValues>({
                           {...checkboxProps}
                           name={fieldName}
                           value={value}
-                          checked={isSelectAll ? allSelected : selectedValues.includes(value)}
-                          indeterminate={isSelectAll ? isIndeterminate : undefined}
-                          onChange={event => {
+                          checked={
+                            isSelectAll
+                              ? allSelected
+                              : selectedValues.includes(value)
+                          }
+                          indeterminate={
+                            isSelectAll ? isIndeterminate : undefined
+                          }
+                          onChange={event =>
                             changeFieldState(
                               handleCheckboxChange(
                                 event.target.checked,
                                 event.target.value
-                              )
-                            );
-                          }}
+                              ),
+                              event.target.value
+                            )
+                          }
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
