@@ -75,7 +75,6 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
-  formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -95,7 +94,6 @@ const RHFAutocomplete = <T extends FieldValues>({
   label,
   showLabelAboveFormField,
   formLabelProps,
-  formControlLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -106,14 +104,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StringArr>([]);
-  const { allLabelsAboveFields, defaultFormControlLabelSx }
-    = useContext(RHFMuiConfigContext);
-
-  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
 
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -124,19 +115,9 @@ const RHFAutocomplete = <T extends FieldValues>({
   ];
 
   const renderOptionLabel = (option: AutocompleteOptionType): string =>
-    valueKey && isKeyValueOption(option, labelKey, valueKey)
-      ? option[valueKey]
+    labelKey && isKeyValueOption(option, labelKey, valueKey)
+      ? option[labelKey]
       : (option as string);
-
-  const handleCheckboxChange = useCallback((
-    isChecked: boolean,
-    value: string
-  ) => {
-    /* One of the options is selected */
-    return isChecked
-      ? [...selectedValues, value]
-      : selectedValues.filter(val => val !== value);
-  }, [options, labelKey, valueKey, selectedValues]);
 
   return (
     <FormControl error={isError}>
@@ -151,34 +132,31 @@ const RHFAutocomplete = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { onChange, ...otherFieldProps } }) => {
-          const changeFieldState = (
-            newValue: StringArr,
-            selectedValue?: string
-          ) => {
-            setSelectedValues(newValue);
-            onChange(newValue);
-            onValueChange?.(newValue, selectedValue)
-          };
+					// const selectedOptions = multiple
+          //   ? (value ?? [])
+					// 	.map(val => countrySelectOptions.find(country => country[valueKey] === val))
+					// 	.filter((country): country is CountryDetails => Boolean(country))
+					// : countrySelectOptions.find(country => country[valueKey] === value) || null;
 
           return (
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
               options={autoCompleteOptions}
+              multiple={multiple}
               value={selectedValues}
-              fullWidth
-              multiple
               autoHighlight
-              disableCloseOnSelect
-              onChange={(_, newValue, reason, details) => {
-                const valueOfClickedItem = details?.option as string | undefined;  
-                if (reason === 'clear') {
-                  changeFieldState([], valueOfClickedItem);
-                }
-                if (reason === 'removeOption') {
-                  changeFieldState(newValue as StringArr, valueOfClickedItem);
-                }
-              }}
+              disableCloseOnSelect={multiple}
+							fullWidth
+              // onChange={(_, newValue, reason, details) => {
+              //   const valueOfClickedItem = details?.option as string | undefined;  
+              //   if (reason === 'clear') {
+              //     changeFieldState([], valueOfClickedItem);
+              //   }
+              //   if (reason === 'removeOption') {
+              //     changeFieldState(newValue as StringArr, valueOfClickedItem);
+              //   }
+              // }}
               limitTags={3}
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option => renderOptionLabel(option)}

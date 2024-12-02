@@ -1,9 +1,11 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { faker } from '@faker-js/faker';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import {
   FormContainer,
@@ -15,7 +17,13 @@ import {
 import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';
 
+type AirportInfo = {
+  iataCode: string; 
+  name: string;
+}
+
 type FormSchema = {
+  sourceAirport?: string;
   nationality?: string;
   countriesVisited: string[];
   dreamDestinations?: string[];
@@ -40,7 +48,18 @@ const MultiSelectDropdownForm = () => {
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
-  function onFormSubmit(formValues) {
+  const generateAirportNames = (count: number) => {
+    const fullNames = new Set<AirportInfo>();
+    while (fullNames.size < count) {
+      fullNames.add(faker.airline.airport());
+    }
+    return Array.from(fullNames);
+  };
+
+  const airportList = generateAirportNames(100);
+  console.log('airportList: ', airportList);
+
+  function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
@@ -48,6 +67,17 @@ const MultiSelectDropdownForm = () => {
     <FormContainer title="Country Select Component with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Autocomplete" />
+            <RHFAutocomplete
+              fieldName="sourceAirport"
+              control={control}
+              options={airportList}
+              labelKey="name"
+              valueKey="iataCode"
+              errorMessage={errors?.sourceAirport?.message}
+            />
+          </Grid>
           <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Required field with customized textfield" />
             <RHFCountrySelect

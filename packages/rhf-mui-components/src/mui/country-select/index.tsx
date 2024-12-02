@@ -32,7 +32,7 @@ type CountryMenuItemProps = {
 };
 
 type AutoCompleteProps = Omit<
-  AutocompleteProps<CountryDetails, TrueOrFalse, false, false>,
+  AutocompleteProps<CountryDetails, TrueOrFalse, TrueOrFalse, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -50,7 +50,6 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  label?: ReactNode;
   countries?: CountryDetails[];
   preferredCountries?: CountryISO[];
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
@@ -60,6 +59,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryDetails>
   ) => void;
+  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
@@ -154,8 +154,8 @@ const RHFCountrySelect = <T extends FieldValues>({
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
-              fullWidth
               options={countrySelectOptions}
+              multiple={multiple}
               value={selectedCountries}
               onChange={(event, newValue, reason, details) => {
                 const newValueKey = Array.isArray(newValue)
@@ -166,9 +166,9 @@ const RHFCountrySelect = <T extends FieldValues>({
                   onValueChange(newValue, event, reason, details);
                 }
               }}
-              multiple={multiple}
               autoHighlight
               blurOnSelect
+              fullWidth
               disabled={disabled}
               limitTags={3}
               getLimitTagsText={more =>
