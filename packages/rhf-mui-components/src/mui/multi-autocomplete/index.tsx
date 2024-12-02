@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -166,7 +166,6 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               valueKey && isKeyValueOption(opn, labelKey, valueKey)
                 ? opn[valueKey] === val
                 : opn === val)).filter((opn): opn is AutocompleteOptionType => Boolean(opn));
-
           const changeFieldState = (
             newValue: StringArr,
             selectedValue?: string
@@ -187,12 +186,20 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               autoHighlight
               disableCloseOnSelect
               onChange={(_, newValue, reason, details) => {
-                const valueOfClickedItem = details?.option as string | undefined;
+                const valueOfClickedItem = details?.option
+                  ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey
+                    ? details.option[valueKey]
+                    : details.option
+                  : undefined;
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
                 if (reason === 'removeOption') {
-                  changeFieldState(newValue as StringArr, valueOfClickedItem);
+                  const fieldValue = newValue.map(opn =>
+                    isKeyValueOption(opn, labelKey, valueKey) && valueKey
+                      ? opn[valueKey]
+                      : opn).filter(opn => opn !== valueOfClickedItem);
+                  changeFieldState(fieldValue as StringArr, valueOfClickedItem);
                 }
               }}
               limitTags={3}

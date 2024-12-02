@@ -18,7 +18,7 @@ import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';
 
 type AirportInfo = {
-  iataCode: string; 
+  iataCode: string;
   name: string;
 }
 
