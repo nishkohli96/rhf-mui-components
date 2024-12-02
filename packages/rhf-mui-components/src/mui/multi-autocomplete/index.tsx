@@ -167,7 +167,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
           ) => {
             setSelectedValues(newValue);
             onChange(newValue);
-            onValueChange?.(newValue, selectedValue)
+            onValueChange?.(newValue, selectedValue);
           };
 
           return (
@@ -181,7 +181,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               autoHighlight
               disableCloseOnSelect
               onChange={(_, newValue, reason, details) => {
-                const valueOfClickedItem = details?.option as string | undefined;  
+                const valueOfClickedItem = details?.option as string | undefined;
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
@@ -231,8 +231,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                                 event.target.value
                               ),
                               event.target.value
-                            )
-                          }
+                            )}
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}

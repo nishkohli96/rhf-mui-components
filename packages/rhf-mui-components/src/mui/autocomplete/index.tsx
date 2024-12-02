@@ -22,9 +22,9 @@ import {
   FormControlLabelProps,
   FormHelperTextProps,
   KeyValueOption,
-	StringArr,
-	TrueOrFalse,
-	AutocompleteOptionType
+  StringArr,
+  TrueOrFalse,
+  AutocompleteOptionType
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -87,7 +87,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   control,
   registerOptions,
   options,
-	multiple,
+  multiple,
   labelKey,
   valueKey,
   onValueChange,
@@ -103,7 +103,6 @@ const RHFAutocomplete = <T extends FieldValues>({
 }: RHFAutocompleteProps<T>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
-  const [selectedValues, setSelectedValues] = useState<StringArr>([]);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
 
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
@@ -132,11 +131,18 @@ const RHFAutocomplete = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { onChange, ...otherFieldProps } }) => {
-					// const selectedOptions = multiple
-          //   ? (value ?? [])
-					// 	.map(val => countrySelectOptions.find(country => country[valueKey] === val))
-					// 	.filter((country): country is CountryDetails => Boolean(country))
-					// : countrySelectOptions.find(country => country[valueKey] === value) || null;
+          // 	console.log('value: ', value);
+
+          // 	const selectedOptions = options.filter((opn) =>
+          //     valueKey && isKeyValueOption(opn, labelKey, valueKey)
+          // 	? opn[valueKey] === value
+          // 	: opn === value
+          // ).map;
+          // console.log('selectedOptions: ', selectedOptions);
+          // multiple
+          // ? (value ?? [])
+          // .map(val => countrySelectOptions.find(country => country[valueKey] === val))
+          // .filter((country): country is CountryDetails => Boolean(country))
 
           return (
             <Autocomplete
@@ -144,12 +150,30 @@ const RHFAutocomplete = <T extends FieldValues>({
               id={fieldName}
               options={autoCompleteOptions}
               multiple={multiple}
-              value={selectedValues}
+              // value={selectedOptions}
               autoHighlight
               disableCloseOnSelect={multiple}
-							fullWidth
+							blurOnSelect={!multiple}
+              fullWidth
+              onChange={(event, newValue, reason, details) => {
+                console.log('details: ', details);
+                console.log('newValue: ', newValue);
+                const newValueKey = Array.isArray(newValue)
+                  ? (newValue ?? []).map(item =>
+                    valueKey && isKeyValueOption(item, labelKey, valueKey)
+                      ? item[valueKey]
+                      : item)
+                  : valueKey && isKeyValueOption(newValue!, labelKey, valueKey)
+                    ? newValue[valueKey]
+                    : newValue;
+                console.log('newValueKey: ', newValueKey);
+                onChange(newValueKey);
+                if (onValueChange) {
+                  // onValueChange(newValue, event, reason, details);
+                }
+              }}
               // onChange={(_, newValue, reason, details) => {
-              //   const valueOfClickedItem = details?.option as string | undefined;  
+              //   const valueOfClickedItem = details?.option as string | undefined;
               //   if (reason === 'clear') {
               //     changeFieldState([], valueOfClickedItem);
               //   }
@@ -164,7 +188,9 @@ const RHFAutocomplete = <T extends FieldValues>({
                 const opnValue = valueKey && isKeyValueOption(option, labelKey, valueKey)
                   ? option[valueKey]
                   : option;
-                return (value as StringArr).includes(opnValue);
+                return multiple
+                  ? (value as StringArr).includes(opnValue)
+                  : value === opnValue;
               }}
               renderInput={params => (
                 <TextField

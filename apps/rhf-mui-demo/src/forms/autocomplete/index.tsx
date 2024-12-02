@@ -31,6 +31,16 @@ type FormSchema = {
   iplTeams?: string[];
 }
 
+const generateAirportNames = (count: number) => {
+  const fullNames = new Set<AirportInfo>();
+  while (fullNames.size < count) {
+    fullNames.add(faker.airline.airport());
+  }
+  return Array.from(fullNames);
+};
+
+const airportList = generateAirportNames(100);
+
 const MultiSelectDropdownForm = () => {
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG']
@@ -48,17 +58,6 @@ const MultiSelectDropdownForm = () => {
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
-  const generateAirportNames = (count: number) => {
-    const fullNames = new Set<AirportInfo>();
-    while (fullNames.size < count) {
-      fullNames.add(faker.airline.airport());
-    }
-    return Array.from(fullNames);
-  };
-
-  const airportList = generateAirportNames(100);
-  console.log('airportList: ', airportList);
-
   function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
@@ -75,6 +74,7 @@ const MultiSelectDropdownForm = () => {
               options={airportList}
               labelKey="name"
               valueKey="iataCode"
+              // multiple
               errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
