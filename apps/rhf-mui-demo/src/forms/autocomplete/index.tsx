@@ -176,7 +176,7 @@ const MultiSelectDropdownForm = () => {
               control={control}
               options={IPLTeams}
               labelKey="name"
-              valueKey="name"
+              valueKey="abbr"
               label="Which Teams have won trophy in IPL ?"
               showLabelAboveFormField
               registerOptions={{

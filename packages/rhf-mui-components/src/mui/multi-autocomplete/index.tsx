@@ -124,8 +124,8 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const renderOptionLabel = (option: AutocompleteOptionType): string =>
     isSelectAllOption(option)
       ? selectAllLabel
-      : valueKey && isKeyValueOption(option, labelKey, valueKey)
-        ? option[valueKey]
+      : labelKey && isKeyValueOption(option, labelKey, valueKey)
+        ? option[labelKey]
         : (option as string);
 
   const handleCheckboxChange = useCallback((

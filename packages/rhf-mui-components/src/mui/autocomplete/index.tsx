@@ -147,12 +147,16 @@ const RHFAutocomplete = <T extends FieldValues>({
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<AutocompleteOptionType>
               ) => {
-                const newValueKey = Array.isArray(newValue)
-                  ? (newValue ?? []).map(item =>
-                    valueKey && isKeyValueOption(item, labelKey, valueKey)
-                      ? item[valueKey]
-                      : item)
-                  : valueKey && isKeyValueOption(newValue!, labelKey, valueKey)
+                const newValueKey =
+                  newValue === null
+                    ? null
+                    : Array.isArray(newValue)
+                    ? (newValue ?? []).map((item) =>
+                        valueKey && isKeyValueOption(item, labelKey, valueKey)
+                          ? item[valueKey]
+                          : item
+                      )
+                    : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
                     ? newValue[valueKey]
                     : newValue;
 
