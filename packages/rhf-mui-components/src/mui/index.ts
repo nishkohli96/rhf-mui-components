@@ -15,6 +15,7 @@ import RHFRating, { RHFRatingProps } from './rating';
 import RHFSelect, { RHFSelectProps } from './select';
 import RHFSlider, { RHFSliderProps } from './slider';
 import RHFSwitch, { RHFSwitchProps } from './switch';
+import RHFTagsInput, { RHFTagsInputProps } from './tags-input';
 import RHFTextField, { RHFTextFieldProps } from './textfield';
 
 export {
@@ -31,6 +32,7 @@ export {
   RHFSlider,
   RHFSwitch,
   RHFTextField,
+  RHFTagsInput,
   countryList
 };
 
@@ -39,8 +41,6 @@ export type {
   RHFCheckboxProps,
   RHFCheckboxGroupProps,
   RHFCountrySelectProps,
-  CountryISO,
-  CountryDetails,
   RHFMultiAutocompleteProps,
   RHFNativeSelectProps,
   RHFPasswordInputProps,
@@ -49,5 +49,8 @@ export type {
   RHFSelectProps,
   RHFSliderProps,
   RHFSwitchProps,
-  RHFTextFieldProps
+  RHFTagsInputProps,
+  RHFTextFieldProps,
+  CountryISO,
+  CountryDetails,
 };

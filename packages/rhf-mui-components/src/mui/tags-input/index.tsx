@@ -1,4 +1,4 @@
-import { useContext, ReactNode, ChangeEvent } from 'react';
+import { ReactNode, KeyboardEvent, ChangeEvent, useState, useContext } from 'react';
 import {
   FieldValues,
   Path,
@@ -6,6 +6,8 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
@@ -21,7 +23,7 @@ type TextFieldInputProps = Omit<
   | 'error'
 >
 
-export type RHFTextFieldProps<T extends FieldValues> = {
+export type RHFTagsInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
@@ -34,9 +36,10 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  maxTags?: number;
 } & TextFieldInputProps;
 
-const RHFTextField = <T extends FieldValues>({
+const RHFTagsInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -48,8 +51,10 @@ const RHFTextField = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  maxTags,
   ...rest
-}: RHFTextFieldProps<T>) => {
+}: RHFTagsInputProps<T>) => {
+  const [inputValue, setInputValue] = useState('');
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -57,6 +62,28 @@ const RHFTextField = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+
+  const handleKeyPress = (
+    event: KeyboardEvent<HTMLTextAreaElement>,
+    onChange: (tags: string[]) => void,
+    value: string[]
+  ) => {
+    if (event.key === 'Enter' && inputValue.trim() !== '') {
+      event.preventDefault();
+      if (!value.includes(inputValue.trim())) {
+        const updatedTags = [...value, inputValue.trim()];
+        if (!maxTags || updatedTags.length <= maxTags) {
+          onChange(updatedTags);
+        }
+      }
+      setInputValue('');
+    }
+  };
+
+  const handleDelete = (tag: string, onChange: (tags: string[]) => void, value: string[]) => {
+    const updatedTags = value.filter(item => item !== tag);
+    onChange(updatedTags);
+  };
 
   return (
     <FormControl error={isError}>
@@ -70,25 +97,34 @@ const RHFTextField = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, ...otherFieldParams } = field;
-          return (
+        render={({ field: { value = [], onChange, ...otherFieldProps } }) => (
+          <Box>
+            {label && (
+              <Box component="label">
+                {label}
+              </Box>
+            )}
             <MuiTextField
-              autoComplete={fieldName}
-              label={!isLabelAboveFormField ? fieldLabel : undefined}
-              value={value ?? ''}
-              onChange={event => {
-                onChange(event);
-                if (onValueChange) {
-                  onValueChange(event.target.value, event);
-                }
-              }}
-              error={isError}
-              {...rest}
-              {...otherFieldParams}
+              {...otherFieldProps}
+              value={inputValue}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+              onKeyDown={e => handleKeyPress(e, onChange, value)}
+              fullWidth
+              multiline
+              error={!!errorMessage}
+              helperText={errorMessage || helperText}
             />
-          );
-        }}
+            <Box mt={1} display="flex" flexWrap="wrap" gap={1}>
+              {value.map((tag: string) => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  onDelete={() => handleDelete(tag, onChange, value)}
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
       />
       <FormHelperText
         error={isError}
@@ -101,4 +137,4 @@ const RHFTextField = <T extends FieldValues>({
   );
 };
 
-export default RHFTextField;
+export default RHFTagsInput;

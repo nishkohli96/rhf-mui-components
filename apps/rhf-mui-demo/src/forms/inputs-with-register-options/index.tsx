@@ -7,6 +7,7 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
+import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import {
   FormContainer,
   GridContainer,
@@ -23,6 +24,7 @@ type FormSchema = {
   password: string;
   confirmPassword: string;
   age?: number;
+  keywords?: string[];
 };
 
 const initialValues: FormSchema = {
@@ -151,6 +153,13 @@ const TextAndPasswordInputForm = () => {
               variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <RHFTagsInput
+              fieldName="keywords"
+              control={control}
+              errorMessage={errors?.keywords?.message}
             />
           </Grid>
           <Grid item xs={12}>

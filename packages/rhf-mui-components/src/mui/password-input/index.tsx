@@ -27,6 +27,7 @@ type InputPasswordProps = Omit<
   | 'name'
   | 'type'
   | 'value'
+  | 'defaultValue'
   | 'onChange'
   | 'error'
   | 'InputProps'
