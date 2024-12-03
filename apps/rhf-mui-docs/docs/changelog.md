@@ -9,7 +9,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.0.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.0)
 
-**Released - 25 Nov, 2024**
+**Released - 4 Dec, 2024**
 
 **New Components 🔥**
 - [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)
@@ -33,6 +33,9 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Checkbox default label now renders with label prop
 - Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`.
 - Update v1 docs.
+
+**Dependencies**
+- Bump [Docusaurus](https://docusaurus.io/) dependencies from `3.5.2` to `3.6.3`
 
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
 
