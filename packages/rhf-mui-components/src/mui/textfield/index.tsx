@@ -74,6 +74,7 @@ const RHFTextField = <T extends FieldValues>({
           const { value, onChange, ...otherFieldParams } = field;
           return (
             <MuiTextField
+              id={fieldName}
               autoComplete={fieldName}
               label={!isLabelAboveFormField ? fieldLabel : undefined}
               value={value ?? ''}

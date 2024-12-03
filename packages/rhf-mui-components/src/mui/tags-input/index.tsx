@@ -64,19 +64,35 @@ const RHFTagsInput = <T extends FieldValues>({
   );
 
   const handleKeyPress = (
-    event: KeyboardEvent<HTMLTextAreaElement>,
-    onChange: (tags: string[]) => void,
+    event: KeyboardEvent<HTMLDivElement>,
     value: string[]
   ) => {
-    if (event.key === 'Enter' && inputValue.trim() !== '') {
+    console.log('event: ', event.target);
+    console.log('event: ', event.currentTarget);
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if (!value.includes(inputValue.trim())) {
-        const updatedTags = [...value, inputValue.trim()];
-        if (!maxTags || updatedTags.length <= maxTags) {
-          onChange(updatedTags);
-        }
-      }
-      setInputValue('');
+      // const input = event.target.value
+      // if (input && !value.includes(input)) {
+      //   const updatedTags = [...value, input];
+      //   if (!maxTags || updatedTags.length <= maxTags) {
+      //     // onChange(updatedTags);
+      //     // event.currentTarget.value = "";
+      //   }
+      // }
+    }
+  };
+
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    value: string[]
+  ) => {
+    if (event.target.value.includes(",")) {
+      const parts = event.target.value.split(",");
+      const newTags = parts
+        .map((tag) => tag.trim())
+        .filter((tag) => tag && !value.includes(tag));
+      // onChange([...value, ...newTags]);
+      event.target.value = "";
     }
   };
 
@@ -97,34 +113,38 @@ const RHFTagsInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value = [], onChange, ...otherFieldProps } }) => (
-          <Box>
-            {label && (
-              <Box component="label">
-                {label}
-              </Box>
-            )}
-            <MuiTextField
-              {...otherFieldProps}
-              value={inputValue}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-              onKeyDown={e => handleKeyPress(e, onChange, value)}
-              fullWidth
+        render={({ field }) => {
+          const { value = [], onChange, ...otherFieldParams } = field;
+          return (
+            <MuiTextField    
+              autoComplete={fieldName}
+              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              onKeyDown={e => {
+                handleKeyPress(e, value);
+              }}
+              onChange={(e) => handleInputChange(e, value)}
+              error={isError}
               multiline
-              error={!!errorMessage}
-              helperText={errorMessage || helperText}
+              minRows={2}
+              maxRows={4}
+              InputProps={{
+                startAdornment: (
+                  <Box>
+                    {value.map((val, idx) => (
+                      <Chip
+                        key={idx}
+                        label={val}
+                        // onDelete={handleDelete}
+                      />
+                    ))}
+                  </Box>
+                )
+              }}
+              {...rest}
+              {...otherFieldParams}    
             />
-            <Box mt={1} display="flex" flexWrap="wrap" gap={1}>
-              {value.map((tag: string) => (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  onDelete={() => handleDelete(tag, onChange, value)}
-                />
-              ))}
-            </Box>
-          </Box>
-        )}
+          );
+        }}
       />
       <FormHelperText
         error={isError}

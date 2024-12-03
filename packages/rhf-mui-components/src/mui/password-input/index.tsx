@@ -99,6 +99,7 @@ const RHFPasswordInput = <T extends FieldValues>({
           const { value, onChange, ...otherFieldParams } = field;
           return (
             <TextField
+              id={fieldName}
               autoComplete={fieldName}
               type={showPassword ? 'text' : 'password'}
               label={!isLabelAboveFormField ? fieldLabel : undefined}
