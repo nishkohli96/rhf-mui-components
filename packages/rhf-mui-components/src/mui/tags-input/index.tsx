@@ -63,37 +63,27 @@ const RHFTagsInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
 
-  const handleKeyPress = (
-    event: KeyboardEvent<HTMLDivElement>,
-    value: string[]
-  ) => {
-    console.log('event: ', event.target);
-    console.log('event: ', event.currentTarget);
-    if (event.key === "Enter" || event.key === ",") {
-      event.preventDefault();
-      // const input = event.target.value
-      // if (input && !value.includes(input)) {
-      //   const updatedTags = [...value, input];
-      //   if (!maxTags || updatedTags.length <= maxTags) {
-      //     // onChange(updatedTags);
-      //     // event.currentTarget.value = "";
-      //   }
-      // }
+  const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
+    let newTag: string | null = null;
+    if (event.key === "Enter") {
+      newTag = inputValue;
+      setInputValue('');
     }
+    return newTag;
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    value: string[]
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (event.target.value.includes(",")) {
-      const parts = event.target.value.split(",");
-      const newTags = parts
-        .map((tag) => tag.trim())
-        .filter((tag) => tag && !value.includes(tag));
-      // onChange([...value, ...newTags]);
-      event.target.value = "";
-    }
+    setInputValue(event.target.value);
+    // let newTags = [];
+    // if (event.target.value.includes(",")) {
+    //   const parts = event.target.value.split(",");
+    //   newTags = parts
+    //     .map((tag) => tag.trim())
+    //     .filter((tag) => tag && !value.includes(tag));
+    //   event.target.value = "";
+    // }
   };
 
   const handleDelete = (tag: string, onChange: (tags: string[]) => void, value: string[]) => {
@@ -119,17 +109,20 @@ const RHFTagsInput = <T extends FieldValues>({
             <MuiTextField    
               autoComplete={fieldName}
               label={!isLabelAboveFormField ? fieldLabel : undefined}
-              onKeyDown={e => {
-                handleKeyPress(e, value);
+              value={inputValue}
+              onKeyDown={event => {
+                const newTag = handleKeyPress(event);
+                if(newTag) {
+                  onChange([...value, newTag]);
+                }
               }}
-              onChange={(e) => handleInputChange(e, value)}
+              onChange={event => handleInputChange(event)}
               error={isError}
               multiline
               minRows={2}
-              maxRows={4}
               InputProps={{
                 startAdornment: (
-                  <Box>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1, width: '100%' }}>
                     {value.map((val, idx) => (
                       <Chip
                         key={idx}
