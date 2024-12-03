@@ -135,6 +135,7 @@ const TextAndPasswordInputForm = () => {
                     value === formValues.password || 'Passwords do not match'
                 }
               }}
+              variant='standard'
               showPasswordIcon={<VisibilityOffTwoToneIcon />}
               hidePasswordIcon={<VisibilityTwoToneIcon />}
               errorMessage={errors?.confirmPassword?.message}
@@ -159,6 +160,7 @@ const TextAndPasswordInputForm = () => {
             <RHFTagsInput
               fieldName="keywords"
               control={control}
+              variant='standard'
               errorMessage={errors?.keywords?.message}
             />
           </Grid>

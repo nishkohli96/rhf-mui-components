@@ -71,6 +71,7 @@ const RHFTagsInput = <T extends FieldValues>({
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     let newTag: string | null = null;
     if (event.key === "Enter") {
+      event.stopPropagation();
       newTag = inputValue;
       setInputValue('');
     }
@@ -128,21 +129,28 @@ const RHFTagsInput = <T extends FieldValues>({
                  * Applying this rule ensures that the Tags always remain
                  * above the input, otherwise there would be a 50% width
                  * occupancy of tags and input area, which would feel very
-                 * awkward to the user.
+                 * awkward to the user. Similarly, padding for InputBase has
+                 * been set to zero, so that the size remain consistent when
+                 * comparing it side-by-side with other fields.
                  */
                 '& .MuiInputBase-root': {
                   display: 'flex',
-                  flexDirection: 'column'
+                  flexDirection: 'column',
+                  padding: theme => `${theme.spacing(2)} ${theme.spacing(1.75)}`,
+                  backgroundColor: 'pink'
+                },
+                '& .MuiInputBase-input': {
+                  padding: 0
                 }
               }}
               InputProps={{
-                ...(value.length > 0 && { startAdornment: (
+                startAdornment: (
                   <Box
                     sx={{
                       display: 'flex',
                       flexWrap: 'wrap',
                       gap: 1,
-                      mt: 1.5,
+                      ...(value.length > 0 && { mb: 1 }),
                       width: '100%',
                       backgroundColor: 'skyblue'
                     }}
@@ -156,7 +164,6 @@ const RHFTagsInput = <T extends FieldValues>({
                     ))}
                   </Box>
                 )
-              })
               }}
               {...rest}
               {...otherFieldParams}    
