@@ -6,10 +6,11 @@ const RHFMultiAutocompletePropsTable = () => {
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    PropsDescription.options,
+    PropsDescription.options_Autocomplete,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    PropsDescription.onValueChange_CountrySelect,
+    PropsDescription.selectAllText,
+    PropsDescription.onValueChange_MultiAutocomplete,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
@@ -18,7 +19,8 @@ const RHFMultiAutocompletePropsTable = () => {
     PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    PropsDescription.formHelperTextProps,
+    PropsDescription.textFieldProps
   ];
 
   return (

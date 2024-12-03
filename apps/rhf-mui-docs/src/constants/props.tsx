@@ -30,18 +30,24 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   options: {
     name: 'options',
     description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: '`string[]` or `number[]` or `object[]`',
+    type: 'string[]\` or \`number[]\` or \`object[]',
+    required: true
+  },
+  options_Autocomplete: {
+    name: 'options',
+    description: 'An array with string or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
+    type: 'string[] or object[]',
     required: true
   },
   labelKey: {
     name: 'labelKey',
-    description: 'The key of object in your array, whose value would be shown as the label in `RHFSelect` or `RHFCheckboxGroup`. Only required when input options is an array of objects.',
+    description: 'The key of object in options array, whose value would be shown as the label in the formfield. Only required when input options is an array of objects.',
     type: 'string',
     required: true
   },
   valueKey: {
     name: 'valueKey',
-    description: 'The key of object in your array, whose value would be actual value of the option selected in `RHFSelect` or `RHFCheckboxGroup`. Only required when input options is an array of objects.',
+    description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield. Only required when input options is an array of objects.',
     type: 'string',
     required: true
   },
@@ -129,10 +135,20 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
     type: '(newValue, event) => void'
   },
+  onValueChange_Autocomplete: {
+    name: 'onValueChange',
+    description: 'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
+    type: '(newValue, event, reason, details?) => void'
+  },
+  onValueChange_MultiAutocomplete: {
+    name: 'onValueChange',
+    description: 'Callback function that returns the latest fieldValue and value of the item selected.',
+    type: '(fieldValue: string[], targetValue?: string) => void'
+  },
   onValueChange_CountrySelect: {
     name: 'onValueChange',
     description: 'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
-    type: '(newValue, event,reason, details?) => void '
+    type: '(newValue, event, reason, details?) => void '
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
@@ -338,14 +354,24 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   valueKey_CountrySelect: {
     name: 'valueKey',
-    description: 'The key to select from each option when returning the value(s) from yhe',
+    description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
     type: '`name` OR `iso` OR `iso3`',
   },
-  textFieldProps_CountrySelect: {
+  textFieldProps: {
     name: 'textFieldProps',
     description: 'Props to customise the Autocomplete Textfield.',
     type: '[TextFieldProps](https://mui.com/material-ui/api/text-field/)',
     hasLinkInType: true
+  },
+  multiple: {
+    name: 'multiple',
+    description: 'Allow selection of single or multiple values for a formfield.',
+    type: 'boolean'
+  },
+  selectAllText: {
+    name: 'selectAllText',
+    description: 'Custom text to render in place of the "Select All" option that enables user to select all available options in the Autocomplete.',
+    type: 'string'
   }
 });
 

@@ -56,7 +56,7 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   options: AutocompleteOptionType[];
   labelKey?: string;
   valueKey?: string;
-  selectAllOptionText?: string;
+  selectAllText?: string;
   onValueChange?: (
     fieldValue: StringArr,
     targetValue?: string
@@ -80,7 +80,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
-  selectAllOptionText,
+  selectAllText,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -110,7 +110,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const selectAllLabel = selectAllOptionText ?? 'Select All';
+  const selectAllLabel = selectAllText ?? 'Select All';
   const selectAllOptionValue = '';
 
   const autoCompleteOptions: AutocompleteOptionType[] = [

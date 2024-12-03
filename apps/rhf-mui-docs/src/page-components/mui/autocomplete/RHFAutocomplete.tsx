@@ -1,15 +1,16 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-const RHFCountrySelectPropsTable = () => {
+const RHFAutocompletePropsTable = () => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    PropsDescription.countries,
-    PropsDescription.preferredCountries,
-    PropsDescription.valueKey_CountrySelect,
-    PropsDescription.onValueChange_CountrySelect,
+    PropsDescription.options_Autocomplete,
+		PropsDescription.multiple,
+    PropsDescription.labelKey,
+    PropsDescription.valueKey,
+    PropsDescription.onValueChange_Autocomplete,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
@@ -17,7 +18,7 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps,
-    PropsDescription.textFieldProps
+		PropsDescription.textFieldProps
   ];
 
   return (
@@ -25,4 +26,4 @@ const RHFCountrySelectPropsTable = () => {
   );
 };
 
-export default RHFCountrySelectPropsTable;
+export default RHFAutocompletePropsTable;
