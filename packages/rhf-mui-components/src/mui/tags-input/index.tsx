@@ -21,6 +21,10 @@ type TextFieldInputProps = Omit<
   | 'defaultValue'
   | 'onChange'
   | 'error'
+  | 'multiline'
+  | 'rows'
+  | 'minRows'
+  | 'maxRows'
 >
 
 export type RHFTagsInputProps<T extends FieldValues> = {
@@ -52,6 +56,7 @@ const RHFTagsInput = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   maxTags,
+  sx: muiTextFieldSx,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const [inputValue, setInputValue] = useState('');
@@ -117,12 +122,31 @@ const RHFTagsInput = <T extends FieldValues>({
                 }
               }}
               onChange={event => handleInputChange(event)}
-              error={isError}
-              multiline
-              minRows={2}
+              sx={{
+                ...muiTextFieldSx,
+                /**
+                 * Applying this rule ensures that the Tags always remain
+                 * above the input, otherwise there would be a 50% width
+                 * occupancy of tags and input area, which would feel very
+                 * awkward to the user.
+                 */
+                '& .MuiInputBase-root': {
+                  display: 'flex',
+                  flexDirection: 'column'
+                }
+              }}
               InputProps={{
-                startAdornment: (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1, width: '100%' }}>
+                ...(value.length > 0 && { startAdornment: (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 1,
+                      mt: 1.5,
+                      width: '100%',
+                      backgroundColor: 'skyblue'
+                    }}
+                  >
                     {value.map((val, idx) => (
                       <Chip
                         key={idx}
@@ -132,6 +156,7 @@ const RHFTagsInput = <T extends FieldValues>({
                     ))}
                   </Box>
                 )
+              })
               }}
               {...rest}
               {...otherFieldParams}    

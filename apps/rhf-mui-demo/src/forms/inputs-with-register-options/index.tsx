@@ -120,7 +120,7 @@ const TextAndPasswordInputForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Password Field with custom icons & validate rule" />
+            {/* <FieldVariantInfo title="Password Field with custom icons & validate rule" /> */}
             <RHFPasswordInput
               fieldName="confirmPassword"
               control={control}
@@ -140,7 +140,7 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
             <RHFTextField
               fieldName="age"
@@ -154,7 +154,7 @@ const TextAndPasswordInputForm = () => {
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={6}>
             <RHFTagsInput
               fieldName="keywords"
