@@ -7,9 +7,10 @@ const muiComponents = [
   'RHFTextField',
   'RHFPasswordInput',
   'RHFSelect',
-  'RHFCountrySelect',
-  'RHFMultiAutocomplete',
   'RHFNativeSelect',
+  'RHFAutocomplete',
+  'RHFMultiAutocomplete',
+  'RHFCountrySelect',
   'RHFCheckbox',
   'RHFCheckboxGroup',
   'RHFRadioGroup',
@@ -32,10 +33,11 @@ const miscComponents = [
 ];
 
 export const newlyAddedComponents = [
-  'RHFCountrySelect',
+  'RHFAutocomplete',
   'RHFMultiAutocomplete',
-  'RHFPhoneInput',
-  'RHFTagsInput'
+  'RHFCountrySelect',
+  'RHFTagsInput',
+  'RHFPhoneInput'
 ];
 
 export const muiFoldersList = muiComponents.map(component => ({

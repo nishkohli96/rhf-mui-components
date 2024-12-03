@@ -1,7 +1,7 @@
 {
   "name": "@nish1896/rhf-mui-components",
   "version": "2.0.0",
-  "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
+  "description": "A suite of 20 reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/ && tsc-alias",
+    "build": "rimraf dist && tsc && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/ && tsc-alias",
     "lint": "eslint --fix ."
   },
   "devDependencies": {

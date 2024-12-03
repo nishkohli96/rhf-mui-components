@@ -12,8 +12,9 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 **Released - 25 Nov, 2024**
 
 **New Components 🔥**
-- [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
+- [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)
 - [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx)
+- [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
 - [RHFTagsInput](../docs/components/mui/RHFTagsInput.mdx)
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
