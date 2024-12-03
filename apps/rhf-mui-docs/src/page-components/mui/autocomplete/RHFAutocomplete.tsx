@@ -7,7 +7,7 @@ const RHFAutocompletePropsTable = () => {
     PropsDescription.control,
     PropsDescription.registerOptions,
     PropsDescription.options_Autocomplete,
-		PropsDescription.multiple,
+    PropsDescription.multiple,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     PropsDescription.onValueChange_Autocomplete,
@@ -18,7 +18,7 @@ const RHFAutocompletePropsTable = () => {
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps,
-		PropsDescription.textFieldProps
+    PropsDescription.textFieldProps
   ];
 
   return (

@@ -30,7 +30,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   options: {
     name: 'options',
     description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[]\` or \`number[]\` or \`object[]',
+    type: 'string[] or number[] or object[]',
     required: true
   },
   options_Autocomplete: {

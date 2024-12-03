@@ -11,7 +11,7 @@ import Chip from '@mui/material/Chip';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps, ChipProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -40,6 +40,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  chipProps?: ChipProps;
   maxTags?: number;
 } & TextFieldInputProps;
 
@@ -55,6 +56,7 @@ const RHFTagsInput = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  chipProps,
   maxTags,
   sx: muiTextFieldSx,
   ...rest
@@ -70,7 +72,7 @@ const RHFTagsInput = <T extends FieldValues>({
 
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     let newTag: string | null = null;
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.stopPropagation();
       newTag = inputValue;
       setInputValue('');
@@ -92,11 +94,6 @@ const RHFTagsInput = <T extends FieldValues>({
     // }
   };
 
-  const handleDelete = (tag: string, onChange: (tags: string[]) => void, value: string[]) => {
-    const updatedTags = value.filter(item => item !== tag);
-    onChange(updatedTags);
-  };
-
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -112,7 +109,7 @@ const RHFTagsInput = <T extends FieldValues>({
         render={({ field }) => {
           const { value = [], onChange, ...otherFieldParams } = field;
           return (
-            <MuiTextField    
+            <MuiTextField
               autoComplete={fieldName}
               label={!isLabelAboveFormField ? fieldLabel : undefined}
               value={inputValue}
@@ -151,22 +148,25 @@ const RHFTagsInput = <T extends FieldValues>({
                       flexWrap: 'wrap',
                       gap: 1,
                       ...(value.length > 0 && { mb: 1 }),
-                      width: '100%',
-                      backgroundColor: 'skyblue'
+                      width: '100%'
                     }}
                   >
                     {value.map((val, idx) => (
                       <Chip
                         key={idx}
                         label={val}
-                        // onDelete={handleDelete}
+                        onDelete={() => {
+                          const tagsList = value.filter(item => item !== val);
+                          onChange(tagsList);
+                        }}
+                        {...chipProps}
                       />
                     ))}
                   </Box>
                 )
               }}
               {...rest}
-              {...otherFieldParams}    
+              {...otherFieldParams}
             />
           );
         }}
