@@ -5,7 +5,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { OptionType } from '@/types';
+import { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -16,7 +16,7 @@ import { FormControl, FormLabel, FormHelperText } from '../common';
 export type RHFCheckboxGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (e: ChangeEvent<HTMLInputElement>, newValue: string) => void;

@@ -1,13 +1,14 @@
+export type TrueOrFalse = true | false;
+
+export type StringArr = string[];
+
 export type StringOrNumber = string | number;
 
 export type StrNumArray = StringOrNumber[]
 
 export type KeyValueOption = Record<string, any>;
 
-export type OptionType = StringOrNumber | KeyValueOption;
+export type StrNumObjOption = StringOrNumber | KeyValueOption;
 
-export type StringArr = string[];
+export type StrObjOption = string | KeyValueOption;
 
-export type AutocompleteOptionType = string | KeyValueOption;
-
-export type TrueOrFalse = true | false;

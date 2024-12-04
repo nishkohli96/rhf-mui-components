@@ -11,7 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, OptionType, SelectProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps, StrNumObjOption, SelectProps } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -19,13 +19,13 @@ import {
   keepLabelAboveFormField,
 } from '@/utils';
 
-type SelectValueType = OptionType | OptionType[];
+type SelectValueType = StrNumObjOption | StrNumObjOption[];
 
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
   showDefaultOption?: boolean;

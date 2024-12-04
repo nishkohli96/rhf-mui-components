@@ -1,13 +1,13 @@
-import { StringOrNumber, OptionType, KeyValueOption } from '@/types';
+import { StringOrNumber, StrNumObjOption, KeyValueOption } from '@/types';
 import { generateLabelValueErrMsg } from '@/utils';
 
-function isStrNumArray(arr: OptionType[]): boolean {
+function isStrNumArray(arr: StrNumObjOption[]): boolean {
   return arr.every(el => typeof el === 'number' || typeof el === 'string');
 }
 
 export function validateArray(
   formElementName: string,
-  options: OptionType[],
+  options: StrNumObjOption[],
   labelKey?: string,
   valueKey?: string,
 ) {

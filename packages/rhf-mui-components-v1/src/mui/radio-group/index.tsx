@@ -6,7 +6,7 @@ import { FormLabelProps } from '@mui/material/FormLabel';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { OptionType } from '@/types';
+import { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -17,7 +17,7 @@ import { FormControl, FormLabel, FormHelperText } from '../common';
 export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;

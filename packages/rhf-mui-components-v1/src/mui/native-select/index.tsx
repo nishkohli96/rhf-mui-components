@@ -9,7 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
 import FormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { OptionType } from '@/types';
+import { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
@@ -22,7 +22,7 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
   defaultValue?: SelectValueType;

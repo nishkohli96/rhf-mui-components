@@ -20,7 +20,7 @@ import {
   FormHelperTextProps,
   KeyValueOption,
   StringArr,
-  AutocompleteOptionType,
+  StrObjOption,
   AutoCompleteTextFieldProps
 } from '@/types';
 import {
@@ -32,7 +32,7 @@ import {
 
 
 type AutoCompleteProps = Omit<
-  AutocompleteProps<AutocompleteOptionType, true, false, false>,
+  AutocompleteProps<StrObjOption, true, false, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -53,7 +53,7 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: AutocompleteOptionType[];
+  options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
   selectAllText?: string;
@@ -115,15 +115,15 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const selectAllLabel = selectAllText ?? 'Select All';
   const selectAllOptionValue = '';
 
-  const autoCompleteOptions: AutocompleteOptionType[] = [
-    selectAllLabel as AutocompleteOptionType,
+  const autoCompleteOptions: StrObjOption[] = [
+    selectAllLabel as StrObjOption,
     ...options,
   ];
 
-  const isSelectAllOption = (option: AutocompleteOptionType): boolean =>
+  const isSelectAllOption = (option: StrObjOption): boolean =>
     option === selectAllLabel;
 
-  const renderOptionLabel = (option: AutocompleteOptionType): string =>
+  const renderOptionLabel = (option: StrObjOption): string =>
     isSelectAllOption(option)
       ? selectAllLabel
       : labelKey && isKeyValueOption(option, labelKey, valueKey)
@@ -168,7 +168,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
             options.find(opn =>
               valueKey && isKeyValueOption(opn, labelKey, valueKey)
                 ? opn[valueKey] === val
-                : opn === val)).filter((opn): opn is AutocompleteOptionType => Boolean(opn));
+                : opn === val)).filter((opn): opn is StrObjOption => Boolean(opn));
           const changeFieldState = (
             newValue: StringArr,
             selectedValue?: string
@@ -219,7 +219,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 }
                 return option === value;
               }}
-              renderOption={({ key, ...props }, option: AutocompleteOptionType) => {
+              renderOption={({ key, ...props }, option: StrObjOption) => {
                 const isSelectAll = isSelectAllOption(option);
                 const label = renderOptionLabel(option);
                 const value = isSelectAll

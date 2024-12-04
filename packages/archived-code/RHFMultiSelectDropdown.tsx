@@ -18,7 +18,7 @@ import {
   FormControlLabelProps,
   CheckboxProps,
   FormHelperTextProps,
-  OptionType,
+  StrNumObjOption,
   SelectProps,
   StringOrNumber,
   StrNumArray
@@ -31,7 +31,7 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
   selectAllText?: string;

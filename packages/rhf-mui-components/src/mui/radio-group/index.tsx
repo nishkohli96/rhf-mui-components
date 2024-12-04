@@ -15,7 +15,7 @@ import {
   FormLabelProps,
   FormControlLabelProps,
   FormHelperTextProps,
-  OptionType,
+  StrObjOption,
   RadioProps
 } from '@/types';
 import {
@@ -35,7 +35,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (

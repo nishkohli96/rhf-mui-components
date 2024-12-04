@@ -19,7 +19,7 @@ import {
   FormHelperTextProps,
   KeyValueOption,
   TrueOrFalse,
-  AutocompleteOptionType,
+  StrObjOption,
   AutoCompleteTextFieldProps
 } from '@/types';
 import {
@@ -30,7 +30,7 @@ import {
 } from '@/utils';
 
 type OmittedAutocompleteProps = Omit<
-  AutocompleteProps<AutocompleteOptionType, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
+  AutocompleteProps<StrObjOption, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -51,14 +51,14 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: AutocompleteOptionType[];
+  options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
     fieldValue: string | string[] | null,
     event: SyntheticEvent<Element, Event>,
     reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<AutocompleteOptionType>
+    details?: AutocompleteChangeDetails<StrObjOption>
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -98,7 +98,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const renderOptionLabel = (option: AutocompleteOptionType): string =>
+  const renderOptionLabel = (option: StrObjOption): string =>
     labelKey && isKeyValueOption(option, labelKey, valueKey)
       ? option[labelKey]
       : (option as string);
@@ -148,7 +148,7 @@ const RHFAutocomplete = <T extends FieldValues>({
                 event,
                 newValue,
                 reason: AutocompleteChangeReason,
-                details?: AutocompleteChangeDetails<AutocompleteOptionType>
+                details?: AutocompleteChangeDetails<StrObjOption>
               ) => {
                 const fieldValue = newValue === null
                   ? null

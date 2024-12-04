@@ -10,7 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
 import { FormLabelText, FormHelperText } from '@/mui/common';
-import { FormHelperTextProps, OptionType } from '@/types';
+import { FormHelperTextProps, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
@@ -26,10 +26,10 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (value: OptionType, event: ChangeEvent<HTMLSelectElement>) => void;
+  onValueChange?: (value: StrNumObjOption, event: ChangeEvent<HTMLSelectElement>) => void;
   label?: ReactNode;
   helperText?: ReactNode;
   errorMessage?: ReactNode;

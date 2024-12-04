@@ -15,8 +15,8 @@ import {
   FormHelperTextProps,
   FormControlLabelProps,
   CheckboxProps,
-  OptionType,
-  StrNumArray
+  StrObjOption,
+  StringArr
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -28,7 +28,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
@@ -127,7 +127,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                         name={fieldName}
                         value={opnValue}
                         checked={(
-                          (value as StrNumArray) ?? []
+                          (value as StringArr) ?? []
                         ).includes(opnValue)}
                         onChange={e => handleChange(e, e.target.checked)}
                       />
@@ -140,7 +140,6 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                 );
               })}
             </Fragment>
-
           );
         }}
       />

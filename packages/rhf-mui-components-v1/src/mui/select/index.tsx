@@ -14,7 +14,7 @@ import MuiSelect, {
   SelectProps,
 } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { OptionType } from '@/types';
+import { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -22,13 +22,13 @@ import {
 } from '@/utils';
 import { FormControl, FormLabel, FormHelperText } from '../common';
 
-type SelectValueType = OptionType | OptionType[];
+type SelectValueType = StrNumObjOption | StrNumObjOption[];
 
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
   register: UseFormRegister<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
   defaultValue?: SelectValueType;
