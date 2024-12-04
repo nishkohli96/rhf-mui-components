@@ -60,6 +60,12 @@ const MiscellaneousComponentsForm = () => {
             <RHFRichTextEditor
               fieldName="bio"
               control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'Please add a bio'
+                }
+              }}
               label={(
                 <Typography color="#ea3677">
                   Briefly describe yourself
