@@ -114,17 +114,16 @@ const CompleteFormWithJoi = () => {
                     message: matchPatternMessage('email')
                   }
                 }}
-                errorMessage={errors?.email?.message}
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.email?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFPasswordInput
                 fieldName="password"
                 control={control}
-                errorMessage={errors?.password?.message}
-                showLabelAboveFormField
                 registerOptions={{
                   required: {
                     value: true,
@@ -140,7 +139,10 @@ const CompleteFormWithJoi = () => {
                     message: matchPatternMessage('password')
                   }
                 }}
+                showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.password?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -154,10 +156,11 @@ const CompleteFormWithJoi = () => {
                   }
                 }}
                 options={Object.values(Colors)}
-                errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.favouriteColor?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -176,10 +179,11 @@ const CompleteFormWithJoi = () => {
                 }}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
-                errorMessage={errors?.sports?.message}
                 multiple
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -200,9 +204,10 @@ const CompleteFormWithJoi = () => {
                 labelKey="name"
                 valueKey="abbr"
                 options={IPLTeams}
-                errorMessage={errors?.iplTeams?.message}
                 multiple
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.iplTeams?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -216,30 +221,31 @@ const CompleteFormWithJoi = () => {
                   }
                 }}
                 options={Object.values(Sports)}
-                errorMessage={errors?.favouriteSport?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFAutocomplete
                 fieldName="hobby"
                 control={control}
-                options={HobbiesList}
                 registerOptions={{
                   required: {
                     value: true,
                     message: 'This field is required'
                   }
                 }}
-                errorMessage={errors?.hobby?.message}
+                options={HobbiesList}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.hobby?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFMultiAutocomplete
                 fieldName="groceryList"
                 control={control}
-                options={GroceryList}
                 registerOptions={{
                   required: {
                     value: true,
@@ -254,71 +260,71 @@ const CompleteFormWithJoi = () => {
                     },
                   }
                 }}
-                errorMessage={errors?.groceryList?.message}
+                options={GroceryList}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.groceryList?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFCountrySelect
                 fieldName="countryCode"
                 control={control}
-                label="Country Code of Nationality"
                 registerOptions={{
                   required: {
                     value: true,
                     message: reqdMessage('countryCode')
                   }
                 }}
-                errorMessage={errors?.countryCode?.message}
+                label="Country Code of Nationality"
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.countryCode?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFCheckbox
                 fieldName="agreeTnC"
                 control={control}
-                label="Agree To Terms & Conditions"
                 registerOptions={{
                   required: {
                     value: true,
                     message: reqdMessage('agreeTnC')
                   }
                 }}
+                label="Agree To Terms & Conditions"
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
                 onValueChange={isChecked => {
                   console.log('Is checked', isChecked);
                 }}
-                errorMessage={errors?.agreeTnC?.message}
                 disabled={areAllFieldsDisabled}
+                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFCheckboxGroup
                 fieldName="colors"
                 control={control}
-                label="Select Color"
-                showLabelAboveFormField
-                options={Object.values(Colors)}
                 registerOptions={{
                   required: {
                     value: true,
                     message: reqdMessage('colors')
                   }
                 }}
-                errorMessage={errors?.colors?.message}
+                label="Select Color"
+                showLabelAboveFormField
+                options={Object.values(Colors)}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.colors?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFCheckboxGroup
                 fieldName="countries"
                 control={control}
-                label="Select Countries"
-                options={CountriesList}
-                labelKey="country"
-                valueKey="code"
                 registerOptions={{
                   required: {
                     value: true,
@@ -329,30 +335,42 @@ const CompleteFormWithJoi = () => {
                       (value?.length ?? 0) >= 4 || minLengthMsg(4)
                   }
                 }}
-                errorMessage={errors?.countries?.message}
+                label="Select Countries"
+                options={CountriesList}
+                labelKey="country"
+                valueKey="code"
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.countries?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRadioGroup
                 fieldName="gender"
                 control={control}
-                options={Object.values(Gender)}
-                row
                 registerOptions={{
                   required: {
                     value: true,
                     message: reqdMessage('gender')
                   }
                 }}
-                errorMessage={errors?.gender?.message}
+                options={Object.values(Gender)}
+                row
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.gender?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRadioGroup
                 fieldName="country"
                 control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('country')
+                  }
+                }}
                 options={CountriesList}
                 labelKey="country"
                 valueKey="code"
@@ -360,14 +378,9 @@ const CompleteFormWithJoi = () => {
                 onValueChange={selectedValue => {
                   alert(`selectedValue: ${selectedValue}`);
                 }}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('country')
-                  }
-                }}
-                errorMessage={errors?.country?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -380,17 +393,14 @@ const CompleteFormWithJoi = () => {
                 }}
                 onValueChange={() => toggleTheme()}
                 helperText="Toggling this changes theme"
-                errorMessage={errors?.darkTheme?.message}
                 disabled={areAllFieldsDisabled}
+                errorMessage={errors?.darkTheme?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFSlider
                 fieldName="age"
                 control={control}
-                label="Age"
-                min={10}
-                max={80}
                 registerOptions={{
                   required: {
                     value: true,
@@ -401,9 +411,13 @@ const CompleteFormWithJoi = () => {
                     min: value => (value && value >= 18) || 'Age must be greater than 18'
                   }
                 }}
+                label="Age"
+                min={10}
+                max={80}
                 helperText="min:10; max:80"
-                errorMessage={errors?.age?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -422,8 +436,9 @@ const CompleteFormWithJoi = () => {
                 }}
                 max={10}
                 showLabelAboveFormField
-                errorMessage={errors?.rating?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.rating?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -453,8 +468,9 @@ const CompleteFormWithJoi = () => {
                 disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                errorMessage={errors?.dob?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -470,8 +486,9 @@ const CompleteFormWithJoi = () => {
                 }}
                 label="Time"
                 ampm={false}
-                errorMessage={errors?.time?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -487,8 +504,9 @@ const CompleteFormWithJoi = () => {
                 }}
                 showLabelAboveFormField
                 ampm={false}
-                errorMessage={errors?.dateTime?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -496,13 +514,14 @@ const CompleteFormWithJoi = () => {
                 fieldName="bgColor"
                 onValueChange={color => setValue('bgColor', color.hex)}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.bgColor?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRichTextEditor
                 fieldName="feedback"
                 control={control}
-                errorMessage={errors?.feedback?.message}
                 registerOptions={{
                   required: {
                     value: true,
@@ -514,13 +533,14 @@ const CompleteFormWithJoi = () => {
                   }
                 }}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.feedback?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFPhoneInput
                 fieldName="phoneNumber"
                 control={control}
-                value={getValues('phoneNumber')}
                 registerOptions={{
                   required: {
                     value: true,
@@ -531,13 +551,15 @@ const CompleteFormWithJoi = () => {
                       (value?.length ?? 0) >= 10 || minLengthMsg(10)
                   }
                 }}
+                value={getValues('phoneNumber')}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{
                   defaultCountry: 'in'
                 }}
-                errorMessage={errors?.phoneNumber?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
             <Grid item xs={12}>

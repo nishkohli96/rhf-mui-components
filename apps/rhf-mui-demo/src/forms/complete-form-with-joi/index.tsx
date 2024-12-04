@@ -115,18 +115,20 @@ const CompleteFormWithJoi = () => {
               <RHFTextField
                 fieldName="email"
                 control={control}
-                errorMessage={errors?.email?.message}
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.email?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFPasswordInput
                 fieldName="password"
                 control={control}
-                errorMessage={errors?.password?.message}
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.password?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -134,10 +136,11 @@ const CompleteFormWithJoi = () => {
                 fieldName="favouriteColor"
                 control={control}
                 options={Object.values(Colors)}
-                errorMessage={errors?.favouriteColor?.message}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.favouriteColor?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -146,10 +149,11 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
-                errorMessage={errors?.sports?.message}
                 multiple
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -160,9 +164,10 @@ const CompleteFormWithJoi = () => {
                 labelKey="name"
                 valueKey="abbr"
                 options={IPLTeams}
-                errorMessage={errors?.sports?.message}
                 multiple
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -170,8 +175,9 @@ const CompleteFormWithJoi = () => {
                 fieldName="favouriteSport"
                 control={control}
                 options={Object.values(Sports)}
-                errorMessage={errors?.favouriteSport?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -185,8 +191,9 @@ const CompleteFormWithJoi = () => {
                     message: 'This field is required'
                   }
                 }}
-                errorMessage={errors?.hobby?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.hobby?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -194,6 +201,7 @@ const CompleteFormWithJoi = () => {
                 fieldName="groceryList"
                 control={control}
                 options={GroceryList}
+                required
                 errorMessage={errors?.groceryList?.message}
               />
             </Grid>
@@ -202,8 +210,9 @@ const CompleteFormWithJoi = () => {
                 fieldName="countryCode"
                 control={control}
                 label="Country Code of Nationality"
-                errorMessage={errors?.countryCode?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.countryCode?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -217,8 +226,8 @@ const CompleteFormWithJoi = () => {
                 onValueChange={isChecked => {
                   console.log('Is checked', isChecked);
                 }}
-                errorMessage={errors?.agreeTnC?.message}
                 disabled={areAllFieldsDisabled}
+                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -228,8 +237,9 @@ const CompleteFormWithJoi = () => {
                 label="Select Color"
                 showLabelAboveFormField
                 options={Object.values(Colors)}
-                errorMessage={errors?.colors?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.colors?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -240,8 +250,9 @@ const CompleteFormWithJoi = () => {
                 options={CountriesList}
                 labelKey="country"
                 valueKey="code"
-                errorMessage={errors?.countries?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.countries?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -250,8 +261,9 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 options={Object.values(Gender)}
                 row
-                errorMessage={errors?.gender?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.gender?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -266,8 +278,9 @@ const CompleteFormWithJoi = () => {
                 onValueChange={selectedValue => {
                   alert(`selectedValue: ${selectedValue}`);
                 }}
-                errorMessage={errors?.country?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -293,18 +306,20 @@ const CompleteFormWithJoi = () => {
                 min={10}
                 max={80}
                 helperText="min:10; max:80"
-                errorMessage={errors?.age?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRating
                 fieldName="rating"
                 control={control}
-                errorMessage={errors?.rating?.message}
                 max={10}
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.rating?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -316,8 +331,9 @@ const CompleteFormWithJoi = () => {
                 disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                errorMessage={errors?.dob?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -326,8 +342,9 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 label="Time"
                 ampm={false}
-                errorMessage={errors?.time?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -336,8 +353,9 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 showLabelAboveFormField
                 ampm={false}
-                errorMessage={errors?.dateTime?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -345,14 +363,16 @@ const CompleteFormWithJoi = () => {
                 fieldName="bgColor"
                 onValueChange={color => setValue('bgColor', color.hex)}
                 disabled={areAllFieldsDisabled}
+                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <RHFRichTextEditor
                 fieldName="feedback"
                 control={control}
-                errorMessage={errors?.feedback?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.feedback?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -365,8 +385,9 @@ const CompleteFormWithJoi = () => {
                 phoneInputProps={{
                   defaultCountry: 'in'
                 }}
-                errorMessage={errors?.phoneNumber?.message}
                 disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
             <Grid item xs={12}>
