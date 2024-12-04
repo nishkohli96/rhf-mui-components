@@ -42,6 +42,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   formLabelProps?: FormLabelProps;
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
+  required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -62,6 +63,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   formLabelProps,
   checkboxProps,
   formControlLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -84,6 +86,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />

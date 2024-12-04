@@ -57,7 +57,6 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   labelKey?: string;
   valueKey?: string;
   selectAllText?: string;
-  required?: boolean;
   onValueChange?: (
     fieldValue: StringArr,
     targetValue?: string
@@ -67,6 +66,7 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   formLabelProps?: FormLabelProps;
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
+  required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -82,13 +82,13 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   labelKey,
   valueKey,
   selectAllText,
-  required,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
   checkboxProps,
   formControlLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,

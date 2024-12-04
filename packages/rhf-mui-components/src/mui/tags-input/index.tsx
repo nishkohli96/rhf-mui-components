@@ -51,6 +51,7 @@ const RHFTagsInput = <T extends FieldValues>({
   label,
   showLabelAboveFormField,
   formLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -58,7 +59,6 @@ const RHFTagsInput = <T extends FieldValues>({
   chipProps,
   disabled,
   sx: muiTextFieldSx,
-  required,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const [inputValue, setInputValue] = useState('');

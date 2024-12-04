@@ -15,6 +15,7 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.valueKey,
     ...(!v1
       ? [
+        PropsDescription.required,
         PropsDescription.onValueChange_RadioGroup,
         PropsDescription.disabled
       ]

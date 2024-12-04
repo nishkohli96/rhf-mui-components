@@ -15,6 +15,7 @@ const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.valueKey,
     ...(!v1
       ? [
+        PropsDescription.required,
         PropsDescription.onValueChange_CheckboxGroup,
         PropsDescription.disabled
       ]

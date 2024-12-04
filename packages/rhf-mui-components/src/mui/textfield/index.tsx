@@ -44,11 +44,11 @@ const RHFTextField = <T extends FieldValues>({
   label,
   showLabelAboveFormField,
   formLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  required,
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);

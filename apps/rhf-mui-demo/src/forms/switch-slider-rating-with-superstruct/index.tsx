@@ -60,7 +60,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               ]}
               step={5}
               label="What is your score in class 10?"
-              showLabelAboveFormField
+              required
               errorMessage={errors?.score?.message}
             />
           </Grid>
@@ -73,6 +73,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               max={8}
               showLabelAboveFormField
               errorMessage={errors?.rating?.message}
+              required
               helperText="Please select atleast 5"
             />
           </Grid>

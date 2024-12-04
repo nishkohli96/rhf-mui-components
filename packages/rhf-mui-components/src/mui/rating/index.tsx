@@ -24,6 +24,7 @@ export type RHFRatingProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   onValueChange?: (
     newValue: number | null,
     event: SyntheticEvent<Element, Event>
@@ -41,6 +42,7 @@ const RHFRating = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  required,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -59,6 +61,7 @@ const RHFRating = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />

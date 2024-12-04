@@ -42,6 +42,7 @@ const CheckboxRadioZodForm = () => {
               control={control}
               options={Object.values(Gender)}
               onValueChange={(e, newVal) => alert(`You selected ${newVal}`)}
+              required
               errorMessage={errors?.gender?.message}
             />
           </Grid>
@@ -54,7 +55,7 @@ const CheckboxRadioZodForm = () => {
               options={CountriesList}
               labelKey="country"
               valueKey="code"
-              showLabelAboveFormField
+              required
               errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>

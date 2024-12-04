@@ -9,6 +9,7 @@ const RHFRatingPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [
         PropsDescription.registerOptions,
+        PropsDescription.required,
         PropsDescription.onValueChange_Rating
       ]
       : [PropsDescription.onValueChange_Rating_v1]

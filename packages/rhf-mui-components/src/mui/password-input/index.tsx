@@ -60,11 +60,11 @@ const RHFPasswordInput = <T extends FieldValues>({
   formLabelProps,
   showPasswordIcon,
   hidePasswordIcon,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  required,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);

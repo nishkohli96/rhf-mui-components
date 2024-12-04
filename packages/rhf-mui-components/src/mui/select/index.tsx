@@ -57,11 +57,11 @@ const RHFSelect = <T extends FieldValues>({
   showLabelAboveFormField,
   formLabelProps,
   multiple,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  required,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);

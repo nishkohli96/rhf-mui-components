@@ -54,7 +54,6 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   options: AutocompleteOptionType[];
   labelKey?: string;
   valueKey?: string;
-  required?: boolean;
   onValueChange?: (
     fieldValue: string | string[] | null,
     event: SyntheticEvent<Element, Event>,
@@ -64,6 +63,7 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -79,11 +79,11 @@ const RHFAutocomplete = <T extends FieldValues>({
   multiple,
   labelKey,
   valueKey,
-  required,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,

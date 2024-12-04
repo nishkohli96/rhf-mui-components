@@ -46,11 +46,11 @@ const RHFNativeSelect = <T extends FieldValues>({
   valueKey,
   onValueChange,
   label,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  required,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);

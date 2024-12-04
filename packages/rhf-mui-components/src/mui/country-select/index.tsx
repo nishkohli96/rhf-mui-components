@@ -56,7 +56,6 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   countries?: CountryDetails[];
   preferredCountries?: CountryISO[];
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
-  required?: boolean;
   onValueChange?: (
     newValue: CountryDetails | CountryDetails[] | null,
     event: SyntheticEvent,
@@ -66,6 +65,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -80,12 +80,12 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   valueKey = 'iso',
-  required,
   disabled,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,

@@ -19,10 +19,11 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
 **New Features 🎉**
-- Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components. 
+- Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components.
+- Added `required` prop for all components to indicate in the formLabel that the field needs to be filled with the relevant value before submission. 
 - Add `fontSize`, `fontFamily`, `fontColor`, `fontBackgroundColor` options in the toolbar for [RHFRichTextEditor](../docs/components/misc/RHFRichTextEditor.mdx).
 
-**Enhancements**
+**Enhancements ✨**
 - Added a new form example containing all components with validation handled through the `registerOptions` prop.
 - Added a checkbox to enable or disable all form fields in the forms that include every component of this package.
 - Version-Specific Documentation.
@@ -31,8 +32,8 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Code optimization
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
-- Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`.
-- Update v1 docs.
+- Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`
+- Update v1 docs
 
 **Dependencies**
 - Bump [Docusaurus](https://docusaurus.io/) dependencies from `3.5.2` to `3.6.3`

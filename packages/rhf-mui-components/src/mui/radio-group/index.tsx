@@ -49,6 +49,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   radioProps?: RadioProps;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
+  required?: boolean;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -68,6 +69,7 @@ const RHFRadioGroup = <T extends FieldValues>({
   formLabelProps,
   radioProps,
   formControlLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -91,6 +93,7 @@ const RHFRadioGroup = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -134,7 +137,6 @@ const RHFRadioGroup = <T extends FieldValues>({
                 );
               })}
             </MuiRadioGroup>
-
           );
         }}
       />

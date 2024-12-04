@@ -11,7 +11,10 @@ const RHFSliderPropsTable = ({ v1 }: VersionProps) => {
     ),
     PropsDescription.registerOptions,
     ...(!v1
-      ? [PropsDescription.onValueChange_Slider]
+      ? [
+        PropsDescription.required,
+        PropsDescription.onValueChange_Slider
+      ]
       : [
         PropsDescription.defaultValue_Slider,
         PropsDescription.onValueChange_Slider_v1
