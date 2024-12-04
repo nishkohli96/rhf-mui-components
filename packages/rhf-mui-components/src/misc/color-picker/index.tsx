@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { FieldValues, Path } from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 import 'react-color-palette/css';

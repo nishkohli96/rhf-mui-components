@@ -177,8 +177,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }}
               label={!isLabelAboveFormField
                 ? <FormLabelText label={fieldLabel} required={required} />
-                : undefined
-              }
+                : undefined}
               error={isError}
               disabled={disabled}
               InputProps={{
