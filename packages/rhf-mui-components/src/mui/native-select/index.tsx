@@ -9,7 +9,7 @@ import {
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormHelperText } from '@/mui/common';
+import { FormLabelText, FormHelperText } from '@/mui/common';
 import { FormHelperTextProps, OptionType } from '@/types';
 import {
   fieldNameToLabel,
@@ -50,17 +50,19 @@ const RHFNativeSelect = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  required,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const SelectFormLabel = <FormLabelText label={fieldLabel} required={required} />;
   const isError = Boolean(errorMessage);
 
   return (
     <FormControl fullWidth error={isError}>
       <InputLabel variant="standard" htmlFor={fieldName} error={isError}>
-        {fieldLabel}
+        {SelectFormLabel}
       </InputLabel>
       <Controller
         name={fieldName}

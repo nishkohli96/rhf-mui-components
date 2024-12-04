@@ -68,6 +68,7 @@ export type AutoCompleteTextFieldProps = Omit<
   | 'inputProps'
   | 'slotProps'
   | 'label'
+  | 'required'
   | 'error'
 >;
 

@@ -9,6 +9,7 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.countries,
     PropsDescription.preferredCountries,
     PropsDescription.valueKey_CountrySelect,
+    PropsDescription.required,
     PropsDescription.onValueChange_CountrySelect,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,

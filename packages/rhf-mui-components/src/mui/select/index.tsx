@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps, OptionType, SelectProps } from '@/types';
 import {
   fieldNameToLabel,
@@ -61,6 +61,7 @@ const RHFSelect = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  required,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
@@ -71,6 +72,7 @@ const RHFSelect = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const SelectFormLabel = <FormLabelText label={fieldLabel} required={required} />;
   const isError = Boolean(errorMessage);
 
   return (
@@ -78,13 +80,14 @@ const RHFSelect = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
       <Fragment>
         {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>
-            {fieldLabel}
+          <InputLabel id={fieldName} >
+            {SelectFormLabel}
           </InputLabel>
         )}
       </Fragment>
@@ -98,7 +101,7 @@ const RHFSelect = <T extends FieldValues>({
               {...otherFieldProps}
               id={fieldName}
               labelId={isLabelAboveFormField ? undefined : fieldName}
-              label={isLabelAboveFormField ? undefined : fieldLabel}
+              label={isLabelAboveFormField ? undefined : SelectFormLabel}
               value={value ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}

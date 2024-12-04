@@ -10,6 +10,7 @@ const RHFMultiAutocompletePropsTable = () => {
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     PropsDescription.selectAllText,
+    PropsDescription.required,
     PropsDescription.onValueChange_MultiAutocomplete,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,

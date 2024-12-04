@@ -15,17 +15,22 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     type: `[UseFormRegister](${ExternalLinks.rhfLinks.register})`,
     hasLinkInType: true
   },
-  registerOptions: {
-    name: 'registerOptions',
-    description: `[Register](${ExternalLinks.rhfLinks.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
-    type: 'RegisterOptions'
-  },
   control: {
     name: 'control',
     description: `The [control](${ExternalLinks.rhfLinks.control}) option yielded on calling the \`useForm\` hook.`,
     required: true,
     type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`,
     hasLinkInType: true
+  },
+  registerOptions: {
+    name: 'registerOptions',
+    description: `[Register](${ExternalLinks.rhfLinks.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
+    type: 'RegisterOptions'
+  },
+  required: {
+    name: 'required',
+    description: 'Indicates that the field is mandatory by adding an asterisk symbol (*) to the `formLabel`. This visual cue helps users quickly identify required fields in the form.',
+    type: 'boolean'
   },
   options: {
     name: 'options',

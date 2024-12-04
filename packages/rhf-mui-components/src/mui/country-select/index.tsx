@@ -15,7 +15,7 @@ import Autocomplete, {
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import {
   TrueOrFalse,
   CountryDetails,
@@ -56,6 +56,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   countries?: CountryDetails[];
   preferredCountries?: CountryISO[];
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
+  required?: boolean;
   onValueChange?: (
     newValue: CountryDetails | CountryDetails[] | null,
     event: SyntheticEvent,
@@ -79,6 +80,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   valueKey = 'iso',
+  required,
   disabled,
   onValueChange,
   label,
@@ -139,6 +141,7 @@ const RHFCountrySelect = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -195,7 +198,11 @@ const RHFCountrySelect = <T extends FieldValues>({
                 <TextField
                   {...textFieldProps}
                   {...params}
-                  label={!isLabelAboveFormField ? fieldLabel : undefined}
+                  label={
+                    !isLabelAboveFormField ? (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    ) : undefined
+                  }
                   error={isError}
                   {...(isMuiV6
                     ? {

@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import {
   FormLabelProps,
   FormControlLabelProps,
@@ -57,6 +57,7 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   labelKey?: string;
   valueKey?: string;
   selectAllText?: string;
+  required?: boolean;
   onValueChange?: (
     fieldValue: StringArr,
     targetValue?: string
@@ -81,6 +82,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   labelKey,
   valueKey,
   selectAllText,
+  required,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -153,6 +155,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -263,7 +266,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 <TextField
                   {...textFieldProps}
                   {...params}
-                  label={!isLabelAboveFormField ? fieldLabel : undefined}
+                  label={
+                    !isLabelAboveFormField ? (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    ) : undefined
+                  }
                   error={isError}
                   {...(isMuiV6
                     ? {

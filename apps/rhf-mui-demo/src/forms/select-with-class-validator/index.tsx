@@ -50,6 +50,7 @@ const SelectFormWithClassValidator = () => {
                   </Typography>
                 ) : undefined
               }
+              required
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -62,6 +63,7 @@ const SelectFormWithClassValidator = () => {
               valueKey="abbr"
               showLabelAboveFormField
               showDefaultOption
+              required
               multiple
               errorMessage={errors?.iplTeams?.message}
               helperText="Select one or more teams"
@@ -76,6 +78,7 @@ const SelectFormWithClassValidator = () => {
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
+              required
               errorMessage={errors?.currency?.message}
             />
           </Grid>

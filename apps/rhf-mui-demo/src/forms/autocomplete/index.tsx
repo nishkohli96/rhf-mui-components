@@ -82,6 +82,7 @@ const MultiSelectDropdownForm = () => {
               options={airportList}
               labelKey="name"
               valueKey="iataCode"
+              required
               errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
@@ -106,7 +107,7 @@ const MultiSelectDropdownForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multi Select Dropdown With String Options" />
+            <FieldVariantInfo title="Multi Autocomplete With String Options" />
             <RHFMultiAutocomplete
               fieldName="colors"
               control={control}
@@ -133,7 +134,7 @@ const MultiSelectDropdownForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Multi Select Dropdown With Object Array Options and customized checkbox and formLabel" />
+            <FieldVariantInfo title="Multi Autocomplete With Object Array Options and customized checkbox and formLabel" />
             <RHFMultiAutocomplete
               fieldName="iplTeams"
               control={control}
@@ -166,6 +167,7 @@ const MultiSelectDropdownForm = () => {
                   color: theme => theme.palette.secondary.main
                 }
               }}
+              required
               errorMessage={errors?.iplTeams?.message}
             />
           </Grid>
@@ -181,6 +183,7 @@ const MultiSelectDropdownForm = () => {
                 }
               }}
               textFieldProps={{ variant: 'filled' }}
+              required
               errorMessage={errors?.nationality?.message}
             />
           </Grid>
@@ -230,6 +233,7 @@ const MultiSelectDropdownForm = () => {
                   Select atleast 3 countries
                 </Typography>
               }
+              required
               errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>

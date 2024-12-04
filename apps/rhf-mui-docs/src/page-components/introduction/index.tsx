@@ -8,7 +8,9 @@ const IntroductionPageTable = ({ v1 }: VersionProps) => {
     ...(v1 ? [PropsDescription.register] : []),
     PropsDescription.control,
     PropsDescription.registerOptions,
-    ...(v1 ? [PropsDescription.setValue] : []),
+    ...(!v1
+      ? [PropsDescription.required, PropsDescription.disabled]
+      : [PropsDescription.setValue]),
     PropsDescription.onValueChange,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
