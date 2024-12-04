@@ -32,7 +32,7 @@ type TextFieldInputProps = Omit<
   | 'rows'
   | 'minRows'
   | 'maxRows'
->
+>;
 
 export type RHFTagsInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -45,6 +45,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   chipProps?: ChipProps;
+  maxVisibleTags?: number;
 } & TextFieldInputProps;
 
 const RHFTagsInput = <T extends FieldValues>({
@@ -63,16 +64,22 @@ const RHFTagsInput = <T extends FieldValues>({
   chipProps,
   disabled,
   sx: muiTextFieldSx,
+  maxVisibleTags = 3,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const [inputValue, setInputValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false); // Track input focus
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
 
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -81,13 +88,14 @@ const RHFTagsInput = <T extends FieldValues>({
   };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
-    let newTag: string | null = null;
     if (event.key === 'Enter') {
-      event.stopPropagation();
-      newTag = inputValue;
-      setInputValue('');
+      event.preventDefault();
+      const newTag = inputValue.trim();
+      if (newTag) {
+        return newTag;
+      }
     }
-    return newTag;
+    return null;
   };
 
   const handlePaste = (
@@ -99,7 +107,7 @@ const RHFTagsInput = <T extends FieldValues>({
     const newTags = pasteData
       .split(/[\s,]+/)
       .filter(tag => tag.trim() && !values.includes(tag.trim()));
-    return ([...values, ...newTags]);
+    return [...values, ...newTags];
   };
 
   return (
@@ -116,12 +124,14 @@ const RHFTagsInput = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value = [], onChange, ...otherFieldParams } = field;
+          const { value = [], onChange } = field;
+          const visibleTags =
+            isFocused || !maxVisibleTags ? value : value.slice(0, maxVisibleTags);
+          
           const triggerChangeEvents = (fieldValue: string[]) => {
             onChange(fieldValue);
             onValueChange?.(fieldValue);
           }
-
           return (
             <MuiTextField
               autoComplete={fieldName}
@@ -131,11 +141,14 @@ const RHFTagsInput = <T extends FieldValues>({
                 ) : undefined
               }
               value={inputValue}
-              onChange={event => handleInputChange(event)}
-              onKeyDown={event => {
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              onChange={handleInputChange}
+              onKeyDown={(event) => {
                 const newTag = handleKeyPress(event);
                 if (newTag) {
                   triggerChangeEvents([...value, newTag]);
+                  setInputValue('');
                 }
               }}
               onPaste={event => {
@@ -144,20 +157,11 @@ const RHFTagsInput = <T extends FieldValues>({
               disabled={disabled}
               sx={{
                 ...muiTextFieldSx,
-                /**
-                 * Applying this rule ensures that the Tags always remain
-                 * above the input, otherwise there would be a 50% width
-                 * occupancy of tags and input area, which would feel very
-                 * awkward to the user. Similarly, padding for InputBase has
-                 * been set to zero, so that the size remain consistent when
-                 * comparing it side-by-side with other fields.
-                 */
                 '& .MuiInputBase-root': {
                   display: 'flex',
                   flexDirection: 'column',
-                  padding: theme =>
+                  padding: (theme) =>
                     `${theme.spacing(2)} ${theme.spacing(1.75)}`,
-                  backgroundColor: 'pink'
                 },
                 '& .MuiInputBase-input': {
                   padding: 0
@@ -170,27 +174,32 @@ const RHFTagsInput = <T extends FieldValues>({
                       display: 'flex',
                       flexWrap: 'wrap',
                       gap: 1,
-                      ...(value.length > 0 && { mb: 1 }),
+                      mb: value.length > 0 ? 1 : 0,
                       width: '100%'
                     }}
                   >
-                    {value.map((val, idx) => (
+                    {visibleTags.map((tag, index) => (
                       <Chip
-                        key={idx}
-                        label={val}
+                        key={index}
+                        label={tag}
                         disabled={disabled}
                         onDelete={() => {
-                          const tagsList = value.filter(item => item !== val);
-                          onChange(tagsList);
+                          const newValues = value.filter((item) => item !== tag);
+                          triggerChangeEvents(newValues);
                         }}
                         {...chipProps}
                       />
                     ))}
+                    {!isFocused && value.length > maxVisibleTags && (
+                      <Chip
+                        label={`+${value.length - maxVisibleTags} more`}
+                        disabled
+                      />
+                    )}
                   </Box>
-                )
+                ),
               }}
               {...rest}
-              {...otherFieldParams}
             />
           );
         }}
