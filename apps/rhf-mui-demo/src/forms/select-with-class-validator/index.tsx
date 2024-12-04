@@ -17,6 +17,8 @@ import {
 import { IPLTeams, Currencies } from '@/constants';
 import { Colors } from '@/types';
 
+const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
+
 const SelectFormWithClassValidator = () => {
   const {
     control,
@@ -67,6 +69,16 @@ const SelectFormWithClassValidator = () => {
               multiple
               errorMessage={errors?.iplTeams?.message}
               helperText="Select one or more teams"
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Select with number options" />
+            <RHFSelect
+              fieldName="randomNum"
+              control={control}
+              options={randomNumbers}
+              errorMessage={errors?.randomNum?.message}
+              required
             />
           </Grid>
           <Grid item xs={12} md={6}>

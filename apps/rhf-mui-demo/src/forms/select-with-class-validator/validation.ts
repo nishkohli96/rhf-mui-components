@@ -1,5 +1,6 @@
 import {
   IsString,
+  IsNumber,
   IsEnum,
   IsArray,
   ArrayMinSize,
@@ -33,6 +34,9 @@ export class FormSchema {
 
   @IsString()
   currency!: string;
+
+  @IsNumber()
+  randomNum!: number;
 
   @IsArray()
   @ArrayMinSize(1, { message: 'Select atleast one option' })
