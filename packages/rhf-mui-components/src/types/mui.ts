@@ -11,6 +11,7 @@ import { ChipProps as MuiChipProps } from '@mui/material/Chip';
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
   | 'children'
+  | 'required'
   | 'error'
 >
 
@@ -91,6 +92,7 @@ export type ChipProps = Omit<
   | 'key'
   | 'label'
   | 'onDelete'
+  | 'disabled'
 >;
 
 export type MuiPickersAdapter = { new (...args: any): any }

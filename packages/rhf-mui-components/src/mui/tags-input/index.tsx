@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps, ChipProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
@@ -41,7 +41,6 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   chipProps?: ChipProps;
-  maxTags?: number;
 } & TextFieldInputProps;
 
 const RHFTagsInput = <T extends FieldValues>({
@@ -57,8 +56,9 @@ const RHFTagsInput = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   chipProps,
-  maxTags,
+  disabled,
   sx: muiTextFieldSx,
+  required,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const [inputValue, setInputValue] = useState('');
@@ -99,6 +99,7 @@ const RHFTagsInput = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -111,15 +112,20 @@ const RHFTagsInput = <T extends FieldValues>({
           return (
             <MuiTextField
               autoComplete={fieldName}
-              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              label={
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
+              }
               value={inputValue}
               onKeyDown={event => {
                 const newTag = handleKeyPress(event);
-                if(newTag) {
+                if (newTag) {
                   onChange([...value, newTag]);
                 }
               }}
               onChange={event => handleInputChange(event)}
+              disabled={disabled}
               sx={{
                 ...muiTextFieldSx,
                 /**
@@ -133,7 +139,8 @@ const RHFTagsInput = <T extends FieldValues>({
                 '& .MuiInputBase-root': {
                   display: 'flex',
                   flexDirection: 'column',
-                  padding: theme => `${theme.spacing(2)} ${theme.spacing(1.75)}`,
+                  padding: theme =>
+                    `${theme.spacing(2)} ${theme.spacing(1.75)}`,
                   backgroundColor: 'pink'
                 },
                 '& .MuiInputBase-input': {
@@ -155,6 +162,7 @@ const RHFTagsInput = <T extends FieldValues>({
                       <Chip
                         key={idx}
                         label={val}
+                        disabled={disabled}
                         onDelete={() => {
                           const tagsList = value.filter(item => item !== val);
                           onChange(tagsList);

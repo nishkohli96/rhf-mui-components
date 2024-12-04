@@ -64,6 +64,8 @@ const TextAndPasswordInputForm = () => {
                   message: reqdMsg('First Name')
                 }
               }}
+              required
+              // showLabelAboveFormField
               errorMessage={errors?.firstName?.message}
             />
           </Grid>
@@ -116,6 +118,7 @@ const TextAndPasswordInputForm = () => {
                   message: minCharMsg(4)
                 }
               }}
+              required
               errorMessage={errors?.password?.message}
             />
           </Grid>
@@ -138,6 +141,8 @@ const TextAndPasswordInputForm = () => {
               variant="standard"
               showPasswordIcon={<VisibilityOffTwoToneIcon />}
               hidePasswordIcon={<VisibilityTwoToneIcon />}
+              showLabelAboveFormField
+              // required
               errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
@@ -160,7 +165,7 @@ const TextAndPasswordInputForm = () => {
             <RHFTagsInput
               fieldName="keywords"
               control={control}
-              variant="standard"
+              // variant="standard"
               errorMessage={errors?.keywords?.message}
               chipProps={{
                 variant: 'outlined',
@@ -170,6 +175,8 @@ const TextAndPasswordInputForm = () => {
                   backgroundColor: theme => theme.palette.secondary.main
                 }
               }}
+              required
+              //showLabelAboveFormField
             />
           </Grid>
           <Grid item xs={12}>

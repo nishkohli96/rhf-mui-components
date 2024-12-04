@@ -5,19 +5,19 @@ import { FormLabelProps } from '@/types';
 
 type Props = {
   label: ReactNode;
-  error: boolean;
   isVisible?: boolean;
+  required?: boolean;
+  error: boolean;
   formLabelProps?: FormLabelProps;
 };
 
-const FormLabel = (props: Props) => {
-  const {
-    label,
-    formLabelProps,
-    error,
-    isVisible
-  } = props;
-
+const FormLabel = ({
+  label,
+  isVisible,
+  required,
+  error,
+  formLabelProps
+}: Props) => {
   const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherLabelProps } = formLabelProps ?? {};
   const appliedLabelSx = {
@@ -30,6 +30,7 @@ const FormLabel = (props: Props) => {
       {isVisible && (
         <MuiFormLabel
           {...otherLabelProps}
+          required={required}
           error={error}
           sx={appliedLabelSx}
         >
