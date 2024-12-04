@@ -1,4 +1,11 @@
-import { ReactNode, KeyboardEvent, ChangeEvent, useState, useContext } from 'react';
+import {
+  ReactNode,
+  ChangeEvent,
+  KeyboardEvent,
+  ClipboardEvent,
+  useState,
+  useContext
+} from 'react';
 import {
   FieldValues,
   Path,
@@ -31,10 +38,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (
-    value: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  onValueChange?: (tags: string[]) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
@@ -70,6 +74,12 @@ const RHFTagsInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
 
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setInputValue(event.target.value);
+  };
+
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     let newTag: string | null = null;
     if (event.key === 'Enter') {
@@ -80,18 +90,16 @@ const RHFTagsInput = <T extends FieldValues>({
     return newTag;
   };
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  const handlePaste = (
+    event: ClipboardEvent<HTMLDivElement>,
+    values: string[]
   ) => {
-    setInputValue(event.target.value);
-    // let newTags = [];
-    // if (event.target.value.includes(",")) {
-    //   const parts = event.target.value.split(",");
-    //   newTags = parts
-    //     .map((tag) => tag.trim())
-    //     .filter((tag) => tag && !value.includes(tag));
-    //   event.target.value = "";
-    // }
+    event.preventDefault();
+    const pasteData = event.clipboardData.getData('text');
+    const newTags = pasteData
+      .split(/[\s,]+/)
+      .filter(tag => tag.trim() && !values.includes(tag.trim()));
+    return ([...values, ...newTags]);
   };
 
   return (
@@ -109,6 +117,11 @@ const RHFTagsInput = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field }) => {
           const { value = [], onChange, ...otherFieldParams } = field;
+          const triggerChangeEvents = (fieldValue: string[]) => {
+            onChange(fieldValue);
+            onValueChange?.(fieldValue);
+          }
+
           return (
             <MuiTextField
               autoComplete={fieldName}
@@ -118,13 +131,16 @@ const RHFTagsInput = <T extends FieldValues>({
                 ) : undefined
               }
               value={inputValue}
+              onChange={event => handleInputChange(event)}
               onKeyDown={event => {
                 const newTag = handleKeyPress(event);
                 if (newTag) {
-                  onChange([...value, newTag]);
+                  triggerChangeEvents([...value, newTag]);
                 }
               }}
-              onChange={event => handleInputChange(event)}
+              onPaste={event => {
+                triggerChangeEvents(handlePaste(event, value));
+              }}
               disabled={disabled}
               sx={{
                 ...muiTextFieldSx,
