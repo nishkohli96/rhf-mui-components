@@ -15,7 +15,7 @@ import {
   PickerChangeHandlerContext,
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
@@ -30,6 +30,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   onValueChange?: (
     newValue: PickerValidDate | null,
     context: PickerChangeHandlerContext<DateValidationError>
@@ -47,6 +48,7 @@ const RHFDatePicker = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  required,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -70,6 +72,7 @@ const RHFDatePicker = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -78,15 +81,20 @@ const RHFDatePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { value, onChange } }) => (
+          render={({ field: { value, onChange, ...fieldProps } }) => (
             <MuiDatePicker
               {...rest}
+              {...fieldProps}
               value={value ?? null}
               onChange={(newValue, context) => {
                 onChange(newValue);
                 onValueChange?.(newValue, context);
               }}
-              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              label={
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
+              }
             />
           )}
         />

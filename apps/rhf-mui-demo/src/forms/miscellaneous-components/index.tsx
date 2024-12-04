@@ -65,6 +65,7 @@ const MiscellaneousComponentsForm = () => {
                   Briefly describe yourself
                 </Typography>
               )}
+              required
               errorMessage={errors?.bio?.message}
             />
           </Grid>
@@ -77,6 +78,7 @@ const MiscellaneousComponentsForm = () => {
                 console.log('newColor: ', newColor);
                 setValue('favouriteColor', newColor.hex);
               }}
+              required
               errorMessage={errors?.favouriteColor?.message}
             />
           </Grid>
@@ -112,6 +114,7 @@ const MiscellaneousComponentsForm = () => {
                   message: 'Minimum 6 characters required'
                 }
               }}
+              required
               errorMessage={errors?.contactNumber2?.message}
             />
           </Grid>

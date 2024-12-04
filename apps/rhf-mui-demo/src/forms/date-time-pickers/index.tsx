@@ -47,6 +47,7 @@ const DateTimePickersForm = () => {
                 disableFuture
                 label="Date of Birth"
                 showLabelAboveFormField
+                required
                 errorMessage={errors?.dob?.message}
               />
             </Grid>
@@ -57,6 +58,7 @@ const DateTimePickersForm = () => {
                 control={control}
                 label="Arrival Time"
                 ampm={false}
+                required
                 errorMessage={errors?.time?.message}
               />
             </Grid>
@@ -67,6 +69,7 @@ const DateTimePickersForm = () => {
                 showLabelAboveFormField
                 label="Date-Time Picker"
                 ampm={false}
+                required
                 errorMessage={errors?.dateOfJourney?.message}
               />
             </Grid>

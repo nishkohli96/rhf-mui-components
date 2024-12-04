@@ -10,7 +10,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 import { DefaultEditorConfig } from './config';
@@ -30,6 +30,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   id?: string;
   editorConfig?: EditorConfig;
   onReady?: (editor: ClassicEditor) => void;
@@ -51,6 +52,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  required,
   id,
   editorConfig,
   onReady,
@@ -75,6 +77,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />

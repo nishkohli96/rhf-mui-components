@@ -8,7 +8,8 @@ const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [
         PropsDescription.control,
-        PropsDescription.registerOptions
+        PropsDescription.registerOptions,
+        PropsDescription.required
       ]
       : [PropsDescription.setValue]
     ),

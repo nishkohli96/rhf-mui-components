@@ -9,7 +9,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.0.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.0)
 
-**Released - 4 Dec, 2024**
+**Released - 5 Dec, 2024**
 
 **New Components 🔥**
 - [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)

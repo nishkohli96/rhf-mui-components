@@ -29,7 +29,7 @@ import {
   UsePhoneInputConfig
 } from 'react-international-phone';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import 'react-international-phone/style.css';
@@ -43,6 +43,7 @@ type PhoneInputChangeReturnValue = {
 type InputTextFieldProps = Omit<
   TextFieldProps,
   | 'name'
+  | 'required'
   | 'value'
   | 'defaultValue'
   | 'onChange'
@@ -60,6 +61,7 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   value?: string;
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
   showLabelAboveFormField?: boolean;
@@ -74,6 +76,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  required,
   value,
   onValueChange,
   label,
@@ -147,6 +150,7 @@ const RHFPhoneInput = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -171,7 +175,10 @@ const RHFPhoneInput = <T extends FieldValues>({
                 field.ref(ref);
                 inputRef.current = ref;
               }}
-              label={!isLabelAboveFormField ? fieldLabel : undefined}
+              label={!isLabelAboveFormField
+                ? <FormLabelText label={fieldLabel} required={required} />
+                : undefined
+              }
               error={isError}
               disabled={disabled}
               InputProps={{

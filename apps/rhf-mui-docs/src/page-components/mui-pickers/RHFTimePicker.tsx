@@ -11,7 +11,10 @@ const RHFTimePickerPropsTable = ({ v1 }: VersionProps) => {
     ),
     PropsDescription.registerOptions,
     ...(!v1
-      ? [PropsDescription.onValueChange_TimePicker]
+      ? [
+        PropsDescription.required,
+        PropsDescription.onValueChange_TimePicker
+      ]
       : [
         PropsDescription.setValue,
         PropsDescription.onValueChange_Pickers_v1

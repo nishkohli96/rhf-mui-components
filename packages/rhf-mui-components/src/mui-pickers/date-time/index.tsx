@@ -15,7 +15,7 @@ import {
   PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
@@ -23,6 +23,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   onValueChange?: (
     newValue: PickerValidDate | null,
     context: PickerChangeHandlerContext<DateTimeValidationError>
@@ -38,6 +39,7 @@ const RHFDateTimePicker = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  required,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -61,6 +63,7 @@ const RHFDateTimePicker = <T extends FieldValues>({
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
       />
@@ -71,14 +74,18 @@ const RHFDateTimePicker = <T extends FieldValues>({
           rules={registerOptions}
           render={({ field: { onChange, value, ...fieldProps } }) => (
             <MuiDateTimePicker
+              {...rest}
               {...fieldProps}
               value={value ?? null}
               onChange={(newValue, context) => {
                 onChange(newValue);
                 onValueChange?.(newValue, context);
               }}
-              label={!isLabelAboveFormField ? fieldLabel : undefined}
-              {...rest}
+              label={
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
+              }
             />
           )}
         />
