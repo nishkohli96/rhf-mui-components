@@ -87,12 +87,32 @@ const RHFTagsInput = <T extends FieldValues>({
     setInputValue(event.target.value);
   };
 
-  const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyPress = (
+    event: KeyboardEvent<HTMLDivElement>,
+    currentTags: string[]
+  ): string[] | null => {
+    /* If inputValue is not empty, handle adding a new tag on 'Enter' */
     if (event.key === 'Enter') {
       event.preventDefault();
       const newTag = inputValue.trim();
       if (newTag) {
-        return newTag;
+        setInputValue('');
+        return [...currentTags, newTag];
+      }
+    }
+
+    /**
+     * If inputValue is empty, handle removing the last tag on 'Backspace'
+     * or 'Delete'.
+     */
+    if (
+      inputValue.trim() === '' &&
+      (event.key === 'Backspace' || event.key === 'Delete')
+    ) {
+      const lastTag = currentTags[currentTags.length - 1];
+      if (lastTag) {
+        const updatedTags = currentTags.slice(0, currentTags.length - 1);
+        return updatedTags;
       }
     }
     return null;
@@ -125,6 +145,7 @@ const RHFTagsInput = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field }) => {
           const { value = [], onChange } = field;
+          const hideInput = disabled && value.length > 0;
           const visibleTags =
             isFocused || !maxVisibleTags ? value : value.slice(0, maxVisibleTags);
           
@@ -145,10 +166,9 @@ const RHFTagsInput = <T extends FieldValues>({
               onBlur={handleBlur}
               onChange={handleInputChange}
               onKeyDown={(event) => {
-                const newTag = handleKeyPress(event);
-                if (newTag) {
-                  triggerChangeEvents([...value, newTag]);
-                  setInputValue('');
+                const newTags = handleKeyPress(event, value);
+                if (newTags) {
+                  triggerChangeEvents(newTags);
                 }
               }}
               onPaste={event => {
@@ -164,7 +184,8 @@ const RHFTagsInput = <T extends FieldValues>({
                     `${theme.spacing(2)} ${theme.spacing(1.75)}`,
                 },
                 '& .MuiInputBase-input': {
-                  padding: 0
+                  padding: 0,
+                  ...(hideInput && { display: 'none' })
                 }
               }}
               InputProps={{
@@ -174,7 +195,7 @@ const RHFTagsInput = <T extends FieldValues>({
                       display: 'flex',
                       flexWrap: 'wrap',
                       gap: 1,
-                      mb: value.length > 0 ? 1 : 0,
+                      mb: (value.length > 0 && !hideInput) ? 1 : 0,
                       width: '100%'
                     }}
                   >
