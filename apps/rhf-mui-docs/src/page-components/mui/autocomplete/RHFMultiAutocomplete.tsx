@@ -6,7 +6,7 @@ const RHFMultiAutocompletePropsTable = () => {
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    PropsDescription.options_Autocomplete,
+    PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     PropsDescription.selectAllText,

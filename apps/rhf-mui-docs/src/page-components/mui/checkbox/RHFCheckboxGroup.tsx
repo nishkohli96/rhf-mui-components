@@ -10,7 +10,7 @@ const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
       ? [PropsDescription.registerOptions]
       : []
     ),
-    PropsDescription.options,
+    PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     ...(!v1
