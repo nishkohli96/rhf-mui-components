@@ -205,7 +205,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                   changeFieldState(fieldValue as StringArr, valueOfClickedItem);
                 }
               }}
-              limitTags={3}
+              limitTags={2}
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option => renderOptionLabel(option)}
               isOptionEqualToValue={(option, value) => {

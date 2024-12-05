@@ -163,7 +163,7 @@ const RHFAutocomplete = <T extends FieldValues>({
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
-              limitTags={3}
+              limitTags={2}
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={renderOptionLabel}
               isOptionEqualToValue={(option, value) => {

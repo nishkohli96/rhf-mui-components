@@ -123,7 +123,7 @@ const TextAndPasswordInputForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            {/* <FieldVariantInfo title="Password Field with custom icons & validate rule" /> */}
+            <FieldVariantInfo title="Password Field with custom icons & validate rule" />
             <RHFPasswordInput
               fieldName="confirmPassword"
               control={control}
@@ -138,15 +138,15 @@ const TextAndPasswordInputForm = () => {
                     value === formValues.password || 'Passwords do not match'
                 }
               }}
-              variant="standard"
+              variant="filled"
               showPasswordIcon={<VisibilityOffTwoToneIcon />}
               hidePasswordIcon={<VisibilityTwoToneIcon />}
               showLabelAboveFormField
-              // required
+              required
               errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
-          {/* <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
             <RHFTextField
               fieldName="age"
@@ -160,13 +160,18 @@ const TextAndPasswordInputForm = () => {
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
-          </Grid> */}
+          </Grid>
           <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Tags Input with styled chips" />
             <RHFTagsInput
               fieldName="keywords"
               control={control}
-              // variant="standard"
-              errorMessage={errors?.keywords?.message}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('keywords')
+                },
+              }}
               chipProps={{
                 variant: 'outlined',
                 sx: {
@@ -176,7 +181,7 @@ const TextAndPasswordInputForm = () => {
                 }
               }}
               required
-              //showLabelAboveFormField
+              errorMessage={errors?.keywords?.message}
             />
           </Grid>
           <Grid item xs={12}>

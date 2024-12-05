@@ -13,6 +13,7 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
@@ -45,7 +46,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   chipProps?: ChipProps;
-  maxVisibleTags?: number;
+  limitTags?: number;
 } & TextFieldInputProps;
 
 const RHFTagsInput = <T extends FieldValues>({
@@ -64,11 +65,13 @@ const RHFTagsInput = <T extends FieldValues>({
   chipProps,
   disabled,
   sx: muiTextFieldSx,
-  maxVisibleTags = 3,
+  variant = 'outlined',
+  limitTags = 2,
   ...rest
 }: RHFTagsInputProps<T>) => {
+  const muiTheme = useTheme();
   const [inputValue, setInputValue] = useState('');
-  const [isFocused, setIsFocused] = useState(false); // Track input focus
+  const [isFocused, setIsFocused] = useState(false);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
 
   const isError = Boolean(errorMessage);
@@ -77,6 +80,20 @@ const RHFTagsInput = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+
+  const getTextFieldPadding = (variant: 'outlined' | 'filled' | 'standard') => {
+    switch (variant) {
+      case 'filled':
+        return (muiTheme.components?.MuiFilledInput?.styleOverrides?.root as Record<string, any>)?.padding
+          ?? '25px 12px 8px';
+      case 'standard':
+        return (muiTheme.components?.MuiInput?.styleOverrides?.root as Record<string, any>)?.padding
+          ?? '4px 0px 5px';
+      default:
+        return (muiTheme.components?.MuiOutlinedInput?.styleOverrides?.root as Record<string, any>)?.padding
+          ?? '16.5px 14px';
+    }
+  };
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
@@ -106,8 +123,8 @@ const RHFTagsInput = <T extends FieldValues>({
      * or 'Delete'.
      */
     if (
-      inputValue.trim() === '' &&
-      (event.key === 'Backspace' || event.key === 'Delete')
+      inputValue.trim() === ''
+      && (event.key === 'Backspace' || event.key === 'Delete')
     ) {
       const lastTag = currentTags[currentTags.length - 1];
       if (lastTag) {
@@ -146,16 +163,17 @@ const RHFTagsInput = <T extends FieldValues>({
         render={({ field }) => {
           const { value = [], onChange } = field;
           const hideInput = disabled && value.length > 0;
-          const visibleTags =
-            isFocused || !maxVisibleTags ? value : value.slice(0, maxVisibleTags);
-          
+          const visibleTags
+            = isFocused || !limitTags ? value : value.slice(0, limitTags);
+
           const triggerChangeEvents = (fieldValue: string[]) => {
             onChange(fieldValue);
             onValueChange?.(fieldValue);
-          }
+          };
           return (
             <MuiTextField
               autoComplete={fieldName}
+              variant={variant}
               label={
                 !isLabelAboveFormField ? (
                   <FormLabelText label={fieldLabel} required={required} />
@@ -165,7 +183,7 @@ const RHFTagsInput = <T extends FieldValues>({
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChange={handleInputChange}
-              onKeyDown={(event) => {
+              onKeyDown={event => {
                 const newTags = handleKeyPress(event, value);
                 if (newTags) {
                   triggerChangeEvents(newTags);
@@ -180,8 +198,7 @@ const RHFTagsInput = <T extends FieldValues>({
                 '& .MuiInputBase-root': {
                   display: 'flex',
                   flexDirection: 'column',
-                  padding: (theme) =>
-                    `${theme.spacing(2)} ${theme.spacing(1.75)}`,
+                  padding: getTextFieldPadding(variant)
                 },
                 '& .MuiInputBase-input': {
                   padding: 0,
@@ -205,15 +222,15 @@ const RHFTagsInput = <T extends FieldValues>({
                         label={tag}
                         disabled={disabled}
                         onDelete={() => {
-                          const newValues = value.filter((item) => item !== tag);
+                          const newValues = value.filter(item => item !== tag);
                           triggerChangeEvents(newValues);
                         }}
                         {...chipProps}
                       />
                     ))}
-                    {!isFocused && value.length > maxVisibleTags && (
+                    {!isFocused && value.length > limitTags && (
                       <Chip
-                        label={`+${value.length - maxVisibleTags} more`}
+                        label={`+${value.length - limitTags} more`}
                         disabled
                       />
                     )}

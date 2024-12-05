@@ -177,7 +177,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               disableCloseOnSelect={multiple}
               fullWidth
               disabled={disabled}
-              limitTags={3}
+              limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
               getOptionKey={option => option[valueKey]}
