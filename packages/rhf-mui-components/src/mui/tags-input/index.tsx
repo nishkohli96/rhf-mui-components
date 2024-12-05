@@ -81,6 +81,12 @@ const RHFTagsInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
 
+  /**
+   * Similar to MuiAutocomplete, if limitTags = -1, show all the
+   * tags in the input, even when it is not focused.
+   */
+  const showAllTags = limitTags === -1;
+
   const getTextFieldPadding = (variant: 'outlined' | 'filled' | 'standard') => {
     switch (variant) {
       case 'filled':
@@ -163,8 +169,9 @@ const RHFTagsInput = <T extends FieldValues>({
         render={({ field }) => {
           const { value = [], onChange } = field;
           const hideInput = disabled && value.length > 0;
-          const visibleTags
-            = isFocused || !limitTags ? value : value.slice(0, limitTags);
+          const visibleTags = showAllTags
+            ? value
+            : isFocused || !limitTags ? value : value.slice(0, limitTags);
 
           const triggerChangeEvents = (fieldValue: string[]) => {
             onChange(fieldValue);
@@ -228,14 +235,14 @@ const RHFTagsInput = <T extends FieldValues>({
                         {...chipProps}
                       />
                     ))}
-                    {!isFocused && value.length > limitTags && (
+                    {!showAllTags && !isFocused && value.length > limitTags && (
                       <Chip
                         label={`+${value.length - limitTags} more`}
                         disabled
                       />
                     )}
                   </Box>
-                ),
+                )
               }}
               {...rest}
             />

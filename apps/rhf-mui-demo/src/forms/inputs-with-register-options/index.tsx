@@ -24,6 +24,7 @@ type FormSchema = {
   password: string;
   confirmPassword: string;
   age?: number;
+  tags?: string[];
   keywords?: string[];
 };
 
@@ -32,7 +33,14 @@ const initialValues: FormSchema = {
   lastName: 'Jr.',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  keywords: [
+    'hello',
+    'world',
+    'foo',
+    'bar',
+    'lorem ipsum'
+  ]
 };
 
 const TextAndPasswordInputForm = () => {
@@ -65,7 +73,6 @@ const TextAndPasswordInputForm = () => {
                 }
               }}
               required
-              // showLabelAboveFormField
               errorMessage={errors?.firstName?.message}
             />
           </Grid>
@@ -162,7 +169,23 @@ const TextAndPasswordInputForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Tags Input with styled chips" />
+            <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed" />
+            <RHFTagsInput
+              fieldName="tags"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('tags')
+                },
+              }}
+              limitTags={4}
+              required
+              errorMessage={errors?.tags?.message}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FieldVariantInfo title="Tags Input with styled chips and all tags visible" />
             <RHFTagsInput
               fieldName="keywords"
               control={control}
@@ -180,6 +203,9 @@ const TextAndPasswordInputForm = () => {
                   backgroundColor: theme => theme.palette.secondary.main
                 }
               }}
+              variant="filled"
+              showLabelAboveFormField
+              limitTags={-1}
               required
               errorMessage={errors?.keywords?.message}
             />
