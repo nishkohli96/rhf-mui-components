@@ -19,6 +19,7 @@ type TextFieldInputProps = Omit<
   | 'defaultValue'
   | 'onChange'
   | 'error'
+  | 'FormHelperTextProps'
 >
 
 export type RHFTextFieldProps<T extends FieldValues> = {

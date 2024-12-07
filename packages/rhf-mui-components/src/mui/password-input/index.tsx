@@ -31,6 +31,7 @@ type InputPasswordProps = Omit<
   | 'onChange'
   | 'error'
   | 'InputProps'
+  | 'FormHelperTextProps'
 >
 
 export type RHFPasswordInputProps<T extends FieldValues> = {

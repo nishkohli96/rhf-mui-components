@@ -94,6 +94,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   textFieldProps,
+  slotProps,
   ChipProps,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteProps<T>) => {
@@ -286,12 +287,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                     {...(!isMuiV5
                       ? {
                         slotProps: {
-                          htmlInput: textFieldInputProps
+                          ...slotProps,
+                          chip: ChipProps
                         }
                       }
-                      : {
-                        inputProps: textFieldInputProps
-                      }
+                      : { ChipProps, slotProps }
                     )}
                   />
                 );

@@ -92,6 +92,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   formHelperTextProps,
   multiple,
   textFieldProps,
+  slotProps,
   ChipProps,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
@@ -218,12 +219,11 @@ const RHFCountrySelect = <T extends FieldValues>({
                     {...(!isMuiV5
                       ? {
                         slotProps: {
-                          htmlInput: textFieldInputProps
+                          ...slotProps,
+                          chip: ChipProps
                         }
                       }
-                      : {
-                        inputProps: textFieldInputProps
-                      }
+                      : { ChipProps, slotProps }
                     )}
                   />
                 );

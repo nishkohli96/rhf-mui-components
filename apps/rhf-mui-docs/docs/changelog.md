@@ -38,10 +38,11 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 ### Compatibility with MUI v6 and above
 Introduced a flag `isMuiV5` in the code to handle the deprecation of the following props when using this package with MUI v6 or above.
 
-| Mui Component | Deprecated Prop | Use Instead | Components Affected |
+| Mui Component | Deprecated Prop in v5 | Use Instead | Components Affected |
 |-|-|-|-|
 |[Autocomplete](https://mui.com/material-ui/api/autocomplete/) | `ChipProps` | `slotProps.chip` | [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx), [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx), [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)|
-|[TextField](https://mui.com/material-ui/api/text-field/)| `inputProps` | `slotProps.htmlInput` | [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx), [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx), [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx) |
+|[TextField](https://mui.com/material-ui/api/text-field/) | `inputProps` | `slotProps.htmlInput` | [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx), [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx), [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx) |
+|[TextField](https://mui.com/material-ui/api/text-field/) | `InputProps` | `slotProps.input` |[RHFPasswordInput](../docs/components/mui/RHFPasswordInput.mdx), [RHFTagsInput](../docs/components/mui/RHFTagsInput.mdx), [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx) |
 
 **Dependencies**
 - Bump [Docusaurus](https://docusaurus.io/) dependencies from `3.5.2` to `3.6.3`

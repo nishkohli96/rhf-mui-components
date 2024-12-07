@@ -89,6 +89,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   textFieldProps,
+  slotProps,
   ChipProps,
   ...otherAutoCompleteProps
 }: RHFAutocompleteProps<T>) => {
@@ -209,8 +210,13 @@ const RHFAutocomplete = <T extends FieldValues>({
                 );
               }}
               {...(!isMuiV5
-                ? { slotProps: { chip: ChipProps } }
-                : { ChipProps }
+                ? {
+                  slotProps: {
+                    ...slotProps,
+                    chip: ChipProps
+                  }
+                }
+                : { ChipProps, slotProps }
               )}
               {...otherAutoCompleteProps}
             />
