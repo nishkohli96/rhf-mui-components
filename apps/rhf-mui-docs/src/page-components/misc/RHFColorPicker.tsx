@@ -6,7 +6,7 @@ const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.value_ColorPicker,
-    ...(!v1 ? [PropsDescription.required]: []),
+    ...(!v1 ? [PropsDescription.required] : []),
     PropsDescription.onValueChange_ColorPicker,
     PropsDescription.disabled,
     PropsDescription.label,

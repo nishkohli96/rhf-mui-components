@@ -7,7 +7,7 @@ const RHFPhoneInputPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    ...(!v1 ? [PropsDescription.required]: []),
+    ...(!v1 ? [PropsDescription.required] : []),
     PropsDescription.value_PhoneInput,
     PropsDescription.required,
     PropsDescription.onValueChange_PhoneInput,

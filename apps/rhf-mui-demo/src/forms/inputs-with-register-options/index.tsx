@@ -181,7 +181,7 @@ const TextAndPasswordInputForm = () => {
               }}
               limitTags={4}
               getLimitTagsText={hiddenTags => (
-                <Typography color='green'>
+                <Typography color="green">
                   {`& ${hiddenTags} More`}
                 </Typography>
               )}

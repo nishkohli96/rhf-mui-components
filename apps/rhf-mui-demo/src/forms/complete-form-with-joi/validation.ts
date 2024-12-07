@@ -5,15 +5,15 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required().min(8),
   favouriteFoods: Joi.array()
-  .items(
-    Joi.string()
-      .required()
-  )
-  .min(2)
-  .required()
-  .messages({
-    'array.base': 'Enter atleast two dishes'
-  }),
+    .items(
+      Joi.string()
+        .required()
+    )
+    .min(2)
+    .required()
+    .messages({
+      'array.base': 'Enter atleast two dishes'
+    }),
   favouriteColor: Joi.string()
     .required()
     .valid(...Object.values(Colors))
