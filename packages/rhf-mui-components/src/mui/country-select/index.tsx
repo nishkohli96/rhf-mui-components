@@ -92,6 +92,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   formHelperTextProps,
   multiple,
   textFieldProps,
+  ChipProps,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -157,6 +158,11 @@ const RHFCountrySelect = <T extends FieldValues>({
             : countrySelectOptions.find(country => country[valueKey] === value) || null;
 
           return (
+            /**
+             * Added ts-ignore as slotProps.chips doesnt
+             * exist in MUI5 for autocomplete
+             */
+            // @ts-ignore
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
@@ -194,24 +200,37 @@ const RHFCountrySelect = <T extends FieldValues>({
                   <CountryMenuItem countryInfo={option} />
                 </Box>
               )}
-              renderInput={params => (
-                <TextField
-                  {...textFieldProps}
-                  {...params}
-                  label={
-                    !isLabelAboveFormField ? (
-                      <FormLabelText label={fieldLabel} required={required} />
-                    ) : undefined
-                  }
-                  error={isError}
-                  {...(isMuiV5
-                    ? {
-                      slotProps: {
-                        htmlInput: { ...params.inputProps, autoComplete: fieldName },
-                      },
+              renderInput={params => {
+                const textFieldInputProps = {
+                  ...params.inputProps,
+                  autoComplete: fieldName
+                };
+                return (
+                  <TextField
+                    {...textFieldProps}
+                    {...params}
+                    label={
+                      !isLabelAboveFormField ? (
+                        <FormLabelText label={fieldLabel} required={required} />
+                      ) : undefined
                     }
-                    : { inputProps: { ...params.inputProps, autoComplete: fieldName } })}
-                />
+                    error={isError}
+                    {...(!isMuiV5
+                      ? {
+                        slotProps: {
+                          htmlInput: textFieldInputProps
+                        }
+                      }
+                      : {
+                        inputProps: textFieldInputProps
+                      }
+                    )}
+                  />
+                );
+              }}
+              {...(!isMuiV5
+                ? { slotProps: { chip: ChipProps } }
+                : { ChipProps }
               )}
               {...otherAutoCompleteProps}
             />

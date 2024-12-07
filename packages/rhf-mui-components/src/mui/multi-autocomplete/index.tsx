@@ -94,6 +94,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   textFieldProps,
+  ChipProps,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteProps<T>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
@@ -179,6 +180,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
           };
 
           return (
+            /**
+             * Added ts-ignore as slotProps.chips doesnt
+             * exist in MUI5 for autocomplete
+             */
+            // @ts-ignore
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
@@ -262,32 +268,37 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                   </Box>
                 );
               }}
-              renderInput={params => (
-                <TextField
-                  {...textFieldProps}
-                  {...params}
-                  label={
-                    !isLabelAboveFormField ? (
-                      <FormLabelText label={fieldLabel} required={required} />
-                    ) : undefined
-                  }
-                  error={isError}
-                  {...(isMuiV5
-                    ? {
-                      slotProps: {
-                        htmlInput: {
-                          ...params.inputProps,
-                          autoComplete: fieldName
+              renderInput={params => {
+                const textFieldInputProps = {
+                  ...params.inputProps,
+                  autoComplete: fieldName
+                };
+                return (
+                  <TextField
+                    {...textFieldProps}
+                    {...params}
+                    label={
+                      !isLabelAboveFormField ? (
+                        <FormLabelText label={fieldLabel} required={required} />
+                      ) : undefined
+                    }
+                    error={isError}
+                    {...(!isMuiV5
+                      ? {
+                        slotProps: {
+                          htmlInput: textFieldInputProps
                         }
                       }
-                    }
-                    : {
-                      inputProps: {
-                        ...params.inputProps,
-                        autoComplete: fieldName
+                      : {
+                        inputProps: textFieldInputProps
                       }
-                    })}
-                />
+                    )}
+                  />
+                );
+              }}
+              {...(!isMuiV5
+                ? { slotProps: { chip: ChipProps } }
+                : { ChipProps }
               )}
               {...otherAutoCompleteProps}
             />

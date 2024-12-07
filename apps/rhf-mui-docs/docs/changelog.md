@@ -11,29 +11,37 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 **Released - 5 Dec, 2024**
 
-**New Components 🔥**
+### **New Components 🔥**
 - [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)
 - [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx)
 - [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)
 - [RHFTagsInput](../docs/components/mui/RHFTagsInput.mdx)
 - [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx)
 
-**New Features 🎉**
+### **New Features 🎉**
 - Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components.
 - Added `required` prop for all components to indicate in the formLabel that the field needs to be filled with the relevant value before submission. 
 - Add `fontSize`, `fontFamily`, `fontColor`, `fontBackgroundColor` options in the toolbar for [RHFRichTextEditor](../docs/components/misc/RHFRichTextEditor.mdx).
 
-**Enhancements ✨**
+### **Enhancements ✨**
 - Added a new form example containing all components with validation handled through the `registerOptions` prop.
 - Added a checkbox to enable or disable all form fields in the forms that include every component of this package.
 - Version-Specific Documentation.
 
-**Fixes 🛠️**
+### **Fixes 🛠️**
 - Code optimization
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
 - Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`
 - Update v1 docs
+
+### Compatibility with MUI v6 and above
+Introduced a flag `isMuiV5` in the code to handle the deprecation of the following props when using this package with MUI v6 or above.
+
+| Mui Component | Deprecated Prop | Use Instead | Components Affected |
+|-|-|-|-|
+|[Autocomplete](https://mui.com/material-ui/api/autocomplete/) | `ChipProps` | `slotProps.chip` | [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx), [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx), [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx)|
+|[TextField](https://mui.com/material-ui/api/text-field/)| `inputProps` | `slotProps.htmlInput` | [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx), [RHFMultiAutocomplete](../docs/components/mui/RHFMultiAutocomplete.mdx), [RHFCountrySelect](../docs/components/mui/RHFCountrySelect.mdx) |
 
 **Dependencies**
 - Bump [Docusaurus](https://docusaurus.io/) dependencies from `3.5.2` to `3.6.3`

@@ -84,7 +84,9 @@ const RHFNativeSelect = <T extends FieldValues>({
               }
             }}
           >
-            <option value="" />
+            <option value="">
+              {''}
+            </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
               const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
