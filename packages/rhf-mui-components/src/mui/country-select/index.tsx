@@ -220,6 +220,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                       ? {
                         slotProps: {
                           ...slotProps,
+                          htmlInput: textFieldInputProps,
                           chip: ChipProps
                         }
                       }

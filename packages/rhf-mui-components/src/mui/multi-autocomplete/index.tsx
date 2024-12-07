@@ -288,6 +288,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                       ? {
                         slotProps: {
                           ...slotProps,
+                          htmlInput: textFieldInputProps,
                           chip: ChipProps
                         }
                       }
@@ -297,7 +298,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 );
               }}
               {...(!isMuiV5
-                ? { slotProps: { chip: ChipProps } }
+                ? {
+                  slotProps: {
+                    chip: ChipProps
+                  }
+                }
                 : { ChipProps }
               )}
               {...otherAutoCompleteProps}
