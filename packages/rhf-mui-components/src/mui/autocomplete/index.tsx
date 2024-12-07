@@ -26,7 +26,7 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isMuiV6
+  isMuiV5
 } from '@/utils';
 
 type OmittedAutocompleteProps = Omit<
@@ -184,7 +184,7 @@ const RHFAutocomplete = <T extends FieldValues>({
                     ) : undefined
                   }
                   error={isError}
-                  {...(isMuiV6
+                  {...(isMuiV5
                     ? {
                       slotProps: {
                         htmlInput: {

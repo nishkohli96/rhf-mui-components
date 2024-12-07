@@ -24,7 +24,7 @@ import {
   FormHelperTextProps,
   AutoCompleteTextFieldProps
 } from '@/types';
-import { fieldNameToLabel, isMuiV6, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, isMuiV5, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
 
 type CountryMenuItemProps = {
@@ -204,7 +204,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                     ) : undefined
                   }
                   error={isError}
-                  {...(isMuiV6
+                  {...(isMuiV5
                     ? {
                       slotProps: {
                         htmlInput: { ...params.inputProps, autoComplete: fieldName },

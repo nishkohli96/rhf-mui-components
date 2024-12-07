@@ -27,7 +27,7 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isMuiV6
+  isMuiV5
 } from '@/utils';
 
 
@@ -272,7 +272,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                     ) : undefined
                   }
                   error={isError}
-                  {...(isMuiV6
+                  {...(isMuiV5
                     ? {
                       slotProps: {
                         htmlInput: {
