@@ -4,6 +4,7 @@ import { Colors, Gender, Sports } from './enums';
 export type Person = {
   email: string;
   password: string;
+  favouriteFoods: string[];
   favouriteColor: Colors | '';
   sports: string[];
   iplTeams: string[];

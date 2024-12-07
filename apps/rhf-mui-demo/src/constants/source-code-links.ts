@@ -44,6 +44,10 @@ export const SourceCodeLinks: Record<string, Page> = {
     href: `${commonRoute}/styled-form-with-reusable-component/StyledTextField.tsx`
   },
   completeForm: {
+    title: 'Complete Form with RegisterOptions',
+    href: `${commonRoute}/complete-form/index.tsx`
+  },
+  completeFormJoi: {
     title: 'Complete Form with Joi',
     href: `${commonRoute}/complete-form-with-joi/index.tsx`
   }

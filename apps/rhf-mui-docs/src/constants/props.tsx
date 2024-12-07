@@ -125,6 +125,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function when the value of a field changes.',
     type: '(value: string, e: ChangeEvent) => void'
   },
+  onValueChange_tagsInput: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns an array of strings.',
+    type: '(tags: string[]) => void'
+  },
   onValueChange_Select: {
     name: 'onValueChange',
     description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
@@ -377,6 +382,22 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'selectAllText',
     description: 'Custom text to render in place of the "Select All" option that enables user to select all available options in the Autocomplete.',
     type: 'string'
+  },
+  ChipProps: {
+    name: 'ChipProps',
+    description: 'Props to customise the `Chip` component for each input tag.',
+    type: '[ChipProps](https://mui.com/material-ui/api/chip/)',
+    hasLinkInType: true
+  },
+  limitTags: {
+    name: 'limitTags',
+    description: 'Maximum number of tags to show when the input is not focused. The default value is `2`. Provide value as `-1` to show all tags.',
+    type: 'number'
+  },
+  getLimitTagsText: {
+    name: 'getLimitTagsText',
+    description: 'The label to display when the tags are truncated',
+    type: '(hiddenTags: number) => ReactNode'
   }
 });
 

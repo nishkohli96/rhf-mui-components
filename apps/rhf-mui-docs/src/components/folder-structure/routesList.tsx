@@ -6,6 +6,7 @@ const miscPrefix = '/misc';
 const muiComponents = [
   'RHFTextField',
   'RHFPasswordInput',
+  'RHFTagsInput',
   'RHFSelect',
   'RHFNativeSelect',
   'RHFAutocomplete',
@@ -16,8 +17,7 @@ const muiComponents = [
   'RHFRadioGroup',
   'RHFSlider',
   'RHFSwitch',
-  'RHFRating',
-  'RHFTagsInput'
+  'RHFRating'
 ];
 
 const muiPickersComponents = [

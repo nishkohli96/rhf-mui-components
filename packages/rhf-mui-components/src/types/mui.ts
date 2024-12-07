@@ -6,7 +6,7 @@ import { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 import { RadioProps as MuiRadioProps } from '@mui/material/Radio';
 import{ SelectProps as MuiSelectProps } from '@mui/material/Select';
 import { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
-import { ChipProps as MuiChipProps } from '@mui/material/Chip';
+import { ChipProps } from '@mui/material/Chip';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
@@ -88,8 +88,8 @@ export type OmittedAutocompleteProps =
   | 'autoHighlight'
   | 'disableCloseOnSelect';
 
-export type ChipProps = Omit<
-  MuiChipProps,
+export type MuiChipProps = Omit<
+  ChipProps,
   | 'key'
   | 'label'
   | 'onDelete'

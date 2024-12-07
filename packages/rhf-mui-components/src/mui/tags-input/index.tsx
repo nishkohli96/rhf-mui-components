@@ -19,7 +19,7 @@ import Chip from '@mui/material/Chip';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, ChipProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -45,8 +45,9 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  chipProps?: ChipProps;
+  ChipProps?: MuiChipProps;
   limitTags?: number;
+  getLimitTagsText?: (hiddenTags: number) => ReactNode;
 } & TextFieldInputProps;
 
 const RHFTagsInput = <T extends FieldValues>({
@@ -62,11 +63,12 @@ const RHFTagsInput = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  chipProps,
+  ChipProps,
   disabled,
   sx: muiTextFieldSx,
   variant = 'outlined',
   limitTags = 2,
+  getLimitTagsText,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
@@ -219,7 +221,7 @@ const RHFTagsInput = <T extends FieldValues>({
                       display: 'flex',
                       flexWrap: 'wrap',
                       gap: 1,
-                      mb: (value.length > 0 && !hideInput) ? 1 : 0,
+                      mb: value.length > 0 && !hideInput ? 1 : 0,
                       width: '100%'
                     }}
                   >
@@ -229,15 +231,20 @@ const RHFTagsInput = <T extends FieldValues>({
                         label={tag}
                         disabled={disabled}
                         onDelete={() => {
-                          const newValues = value.filter(item => item !== tag);
+                          const newValues = value.filter(
+                            item => item !== tag
+                          );
                           triggerChangeEvents(newValues);
                         }}
-                        {...chipProps}
+                        {...ChipProps}
                       />
                     ))}
                     {!showAllTags && !isFocused && value.length > limitTags && (
                       <Chip
-                        label={`+${value.length - limitTags} more`}
+                        label={
+                          getLimitTagsText?.(value.length - limitTags)
+                          ?? `+${value.length - limitTags} more`
+                        }
                         disabled
                       />
                     )}

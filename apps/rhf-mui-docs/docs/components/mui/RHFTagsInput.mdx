@@ -1,8 +1,58 @@
 ---
-sidebar_position: 14
+sidebar_position: 3
 sidebar_label: Tags Input
 title: RHFTagsInput
 description: Enhance your forms with RHFRating, a customizable rating input component for react-hook-form using examples and API details for seamless integration.
 ---
 
+import { RHFTagsInputPropsTable } from '@site/src/page-components';
+
 # RHFTagsInput
+
+**RHFTagsInput** is an customized version of [TextField](https://mui.com/material-ui/react-text-field/)
+designed for entering and managing keyword-based inputs. 
+Each keyword is visually represented as a [Chip](https://mui.com/material-ui/react-chip/),
+offering a cleaner, more interactive experience compared
+to comma-separated values in a standard text field.
+
+### Working
+
+The functionality of `RHFTagsInput` is as follows:
+
+- Users can type a keyword, press **Enter**, and see it rendered
+as a chip, with the input field cleared for the next entry.
+- Pasting comma-separated values automatically generates
+chips for each value.
+- Users can remove a chip by clicking its "x" button.
+- Pressing **Backspace** or **Delete** key when the input is
+empty removes the last chip.
+- When the field is unfocused, only the first two chips are displayed
+by default. This can be customized via the `limitTags` prop, with `-1`
+showing all chips.
+
+
+### Usage
+
+```js
+import RHFTagsInput, { RHFTagsInputProps } from '@nish1896/rhf-mui-components/mui/tags-input';
+```
+
+```jsx
+<RHFTagsInput
+  fieldName="tags"
+  control={control}
+  errorMessage={errors?.tags?.message}
+/>
+```
+
+### Examples
+- [RHFTagsInput](https://rhf-mui-components-examples.netlify.app/textfield-and-passwordinput)
+- [TextField](https://mui.com/material-ui/react-text-field/)
+- [Chip](https://mui.com/material-ui/react-chip/)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+The `RHFTagsInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+and includes the following additional props:
+
+<RHFTagsInputPropsTable />

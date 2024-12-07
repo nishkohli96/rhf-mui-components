@@ -8,6 +8,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
+import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -46,6 +47,7 @@ const CompleteFormWithJoi = () => {
   const initialValues: FormSchema = {
     email: 'hello@example.com',
     password: '',
+    favouriteFoods: ['Rajma Rice'],
     favouriteColor: '',
     sports: [Sports.Badminton],
     iplTeams: [],
@@ -129,6 +131,15 @@ const CompleteFormWithJoi = () => {
                 disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.password?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFTagsInput
+                fieldName="favouriteFoods"
+                control={control}
+                disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>

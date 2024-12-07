@@ -18,6 +18,8 @@ const MultiSelectDropdownFormPage = () => {
     SourceCodeLinks.countrySelect,
   ];
   const docsLinks = [
+    DocsLinks.rhfAutocomplete,
+    DocsLinks.rhfMultiAutocomplete,
     DocsLinks.rhfCountrySelect
   ];
 

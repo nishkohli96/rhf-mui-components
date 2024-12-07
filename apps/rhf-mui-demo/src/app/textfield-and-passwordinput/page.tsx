@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 const TextFieldPage = () => {
   const links = [
     DocsLinks.rhfTextField,
-    DocsLinks.rhfPasswordField
+    DocsLinks.rhfPasswordInput,
+    DocsLinks.rhfTagsInput
   ];
   const codeLinks = [
     SourceCodeLinks.inputs,

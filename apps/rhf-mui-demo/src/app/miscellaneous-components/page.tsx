@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 const MiscellaneousComponentsFormPage = () => {
   const links = [
     DocsLinks.rhfColorPicker,
-    DocsLinks.rhfRichTextEditor
+    DocsLinks.rhfRichTextEditor,
+    DocsLinks.rhfPhoneInput
   ];
   const codeLinks = [
     SourceCodeLinks.miscellaneous,

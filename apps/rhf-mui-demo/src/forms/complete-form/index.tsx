@@ -7,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
+import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -143,6 +144,25 @@ const CompleteFormWithJoi = () => {
                 disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.password?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RHFTagsInput
+                fieldName="favouriteFoods"
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('favouriteFoods')
+                  },
+                  validate: {
+                    minLength: value =>
+                      (value?.length ?? 0) >= 2 || minLengthMsg(2)
+                  }
+                }}
+                disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
             <Grid item xs={12} md={6}>

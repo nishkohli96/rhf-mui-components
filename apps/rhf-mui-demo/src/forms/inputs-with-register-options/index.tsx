@@ -169,7 +169,7 @@ const TextAndPasswordInputForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed" />
+            <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed and custom limit text" />
             <RHFTagsInput
               fieldName="tags"
               control={control}
@@ -180,6 +180,11 @@ const TextAndPasswordInputForm = () => {
                 },
               }}
               limitTags={4}
+              getLimitTagsText={hiddenTags => (
+                <Typography color='green'>
+                  {`& ${hiddenTags} More`}
+                </Typography>
+              )}
               required
               errorMessage={errors?.tags?.message}
             />
@@ -195,7 +200,7 @@ const TextAndPasswordInputForm = () => {
                   message: reqdMsg('keywords')
                 },
               }}
-              chipProps={{
+              ChipProps={{
                 variant: 'outlined',
                 sx: {
                   color: 'white',
