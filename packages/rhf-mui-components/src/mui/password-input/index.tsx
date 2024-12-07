@@ -20,7 +20,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isMuiV5 } from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
@@ -100,7 +100,27 @@ const RHFPasswordInput = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field }) => {
           const { value, onChange, ...otherFieldParams } = field;
+          const endAdornment = {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle Password Visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? HidePasswordIcon : ShowPasswordIcon}
+                </IconButton>
+              </InputAdornment>
+            )
+          };
+
           return (
+            /**
+             * slotProps does not exist on mui v5 textfield, this shall be
+             * patched on migration to v6.
+             */
+            // @ts-ignore
             <TextField
               id={fieldName}
               autoComplete={fieldName}
@@ -118,20 +138,14 @@ const RHFPasswordInput = <T extends FieldValues>({
                 }
               }}
               error={isError}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle Password Visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? HidePasswordIcon : ShowPasswordIcon}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+              {...(!isMuiV5
+                ? {
+                  slotProps: {
+                    input: { endAdornment }
+                  }
+                }
+                : { InputProps: { endAdornment } }
+              )}
               {...rest}
               {...otherFieldParams}
             />

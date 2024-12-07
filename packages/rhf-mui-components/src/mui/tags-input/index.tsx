@@ -20,7 +20,7 @@ import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isMuiV5 } from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -33,6 +33,7 @@ type TextFieldInputProps = Omit<
   | 'rows'
   | 'minRows'
   | 'maxRows'
+  | 'FormHelperTextProps'
 >;
 
 export type RHFTagsInputProps<T extends FieldValues> = {
@@ -179,7 +180,51 @@ const RHFTagsInput = <T extends FieldValues>({
             onChange(fieldValue);
             onValueChange?.(fieldValue);
           };
+
+          const startAdornment = {
+            startAdornment: (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 1,
+                  mb: value.length > 0 && !hideInput ? 1 : 0,
+                  width: '100%'
+                }}
+              >
+                {visibleTags.map((tag, index) => (
+                  <Chip
+                    key={index}
+                    label={tag}
+                    disabled={disabled}
+                    onDelete={() => {
+                      const newValues = value.filter(
+                        item => item !== tag
+                      );
+                      triggerChangeEvents(newValues);
+                    }}
+                    {...ChipProps}
+                  />
+                ))}
+                {!showAllTags && !isFocused && value.length > limitTags && (
+                  <Chip
+                    label={
+                      getLimitTagsText?.(value.length - limitTags)
+                      ?? `+${value.length - limitTags} more`
+                    }
+                    disabled
+                  />
+                )}
+              </Box>
+            )
+          };
+
           return (
+            /**
+             * slotProps does not exist on mui v5 textfield, this shall be
+             * patched on migration to v6.
+             */
+            // @ts-ignore
             <MuiTextField
               autoComplete={fieldName}
               variant={variant}
@@ -214,43 +259,14 @@ const RHFTagsInput = <T extends FieldValues>({
                   ...(hideInput && { display: 'none' })
                 }
               }}
-              InputProps={{
-                startAdornment: (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: 1,
-                      mb: value.length > 0 && !hideInput ? 1 : 0,
-                      width: '100%'
-                    }}
-                  >
-                    {visibleTags.map((tag, index) => (
-                      <Chip
-                        key={index}
-                        label={tag}
-                        disabled={disabled}
-                        onDelete={() => {
-                          const newValues = value.filter(
-                            item => item !== tag
-                          );
-                          triggerChangeEvents(newValues);
-                        }}
-                        {...ChipProps}
-                      />
-                    ))}
-                    {!showAllTags && !isFocused && value.length > limitTags && (
-                      <Chip
-                        label={
-                          getLimitTagsText?.(value.length - limitTags)
-                          ?? `+${value.length - limitTags} more`
-                        }
-                        disabled
-                      />
-                    )}
-                  </Box>
-                )
-              }}
+              {...(!isMuiV5
+                ? {
+                  slotProps: {
+                    input: { startAdornment }
+                  }
+                }
+                : { InputProps: { startAdornment } }
+              )}
               {...rest}
             />
           );
