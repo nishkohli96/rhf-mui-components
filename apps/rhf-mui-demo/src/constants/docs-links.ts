@@ -27,7 +27,7 @@ export const DocsLinks: Record<string, PageInfo> = {
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFAutocomplete`
   },
   rhfMultiAutocomplete: {
-    title: 'RHFAutocomplete',
+    title: 'RHFMultiAutocomplete',
     href: `${ENV_VARS.DOCS_URL}components/mui/rhfMultiAutocomplete`
   },
   rhfCountrySelect: {

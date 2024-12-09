@@ -11,6 +11,7 @@ import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import {
@@ -181,11 +182,6 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
           };
 
           return (
-            /**
-             * Added ts-ignore as slotProps.chips doesnt
-             * exist in MUI5 for autocomplete
-             */
-            // @ts-ignore
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
@@ -195,6 +191,18 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               multiple
               autoHighlight
               disableCloseOnSelect
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...otherChipProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...otherChipProps}
+                      label={renderOptionLabel(option)}
+                      {...ChipProps}
+                    />
+                  );
+                })}
               onChange={(_, newValue, reason, details) => {
                 const valueOfClickedItem = details?.option
                   ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey
@@ -285,24 +293,17 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                     }
                     error={isError}
                     {...(isAboveMuiV5
-                      ? {
+                      && {
                         slotProps: {
-                          ...slotProps,
                           htmlInput: textFieldInputProps,
-                          chip: ChipProps
                         }
                       }
-                      : { ChipProps, slotProps }
                     )}
                   />
                 );
               }}
               {...(isAboveMuiV5
-                ? {
-                  slotProps: {
-                    chip: ChipProps
-                  }
-                }
+                ? { slotProps }
                 : { ChipProps }
               )}
               {...otherAutoCompleteProps}

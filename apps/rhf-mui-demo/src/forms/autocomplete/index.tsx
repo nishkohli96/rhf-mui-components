@@ -226,7 +226,9 @@ const MultiSelectDropdownForm = () => {
               showLabelAboveFormField
               label="What are your Dream Destinations?"
               ChipProps={{
-                sx: { background: theme => theme.palette.primary.main }
+                sx: {
+                  background: theme => theme.palette.primary.main
+                }
               }}
               helperText={
                 <Typography color="slateblue">
