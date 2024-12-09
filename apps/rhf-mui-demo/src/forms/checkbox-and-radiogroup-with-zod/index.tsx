@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
 import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
@@ -35,7 +35,7 @@ const CheckboxRadioZodForm = () => {
     <FormContainer title="Checkbox & Radio Group">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs:12, md: 6 }}>
             <FieldVariantInfo title="Radio Group with onValueChange function" />
             <RHFRadioGroup
               fieldName="gender"
@@ -46,7 +46,7 @@ const CheckboxRadioZodForm = () => {
               errorMessage={errors?.gender?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs:12, md: 6 }}>
             <FieldVariantInfo title="CheckboxGroup with options as an array of objects" />
             <RHFCheckboxGroup
               fieldName="countriesVisited"
@@ -59,7 +59,7 @@ const CheckboxRadioZodForm = () => {
               errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs:12, md: 6 }}>
             <FieldVariantInfo title="Single Checkbox" />
             <RHFCheckbox
               fieldName="agreeTnC"
@@ -68,10 +68,10 @@ const CheckboxRadioZodForm = () => {
               errorMessage={errors?.agreeTnC?.message}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <SubmitButton />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>

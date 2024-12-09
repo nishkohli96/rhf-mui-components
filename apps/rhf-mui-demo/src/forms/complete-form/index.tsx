@@ -1,7 +1,7 @@
 'use client';
 
 import { Path, useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import useTheme from '@mui/material/styles/useTheme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
@@ -91,13 +91,13 @@ const CompleteFormWithJoi = () => {
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <RHFCheckbox
                 fieldName="disableAllFields"
                 control={control}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFTextField
                 fieldName="email"
                 control={control}
@@ -121,7 +121,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.email?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFPasswordInput
                 fieldName="password"
                 control={control}
@@ -146,7 +146,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.password?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFTagsInput
                 fieldName="favouriteFoods"
                 control={control}
@@ -165,7 +165,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFSelect
                 fieldName="favouriteColor"
                 control={control}
@@ -183,7 +183,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.favouriteColor?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFSelect
                 fieldName="sports"
                 control={control}
@@ -206,7 +206,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.sports?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFSelect
                 fieldName="iplTeams"
                 control={control}
@@ -230,7 +230,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.iplTeams?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFNativeSelect
                 fieldName="favouriteSport"
                 control={control}
@@ -246,7 +246,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFAutocomplete
                 fieldName="hobby"
                 control={control}
@@ -262,7 +262,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.hobby?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFMultiAutocomplete
                 fieldName="groceryList"
                 control={control}
@@ -286,7 +286,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.groceryList?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFCountrySelect
                 fieldName="countryCode"
                 control={control}
@@ -302,7 +302,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.countryCode?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFCheckbox
                 fieldName="agreeTnC"
                 control={control}
@@ -323,7 +323,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFCheckboxGroup
                 fieldName="colors"
                 control={control}
@@ -341,7 +341,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.colors?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFCheckboxGroup
                 fieldName="countries"
                 control={control}
@@ -364,7 +364,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.countries?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFRadioGroup
                 fieldName="gender"
                 control={control}
@@ -381,7 +381,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.gender?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFRadioGroup
                 fieldName="country"
                 control={control}
@@ -403,7 +403,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.country?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFSwitch
                 fieldName="darkTheme"
                 control={control}
@@ -417,7 +417,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.darkTheme?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFSlider
                 fieldName="age"
                 control={control}
@@ -440,7 +440,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.age?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFRating
                 fieldName="rating"
                 control={control}
@@ -461,7 +461,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.rating?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFDatePicker
                 fieldName="dob"
                 control={control}
@@ -493,7 +493,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.dob?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFTimePicker
                 fieldName="time"
                 control={control}
@@ -511,7 +511,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.time?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFDateTimePicker
                 fieldName="dateTime"
                 control={control}
@@ -529,7 +529,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.dateTime?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFColorPicker
                 fieldName="bgColor"
                 onValueChange={color => setValue('bgColor', color.hex)}
@@ -538,7 +538,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.bgColor?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFRichTextEditor
                 fieldName="feedback"
                 control={control}
@@ -557,7 +557,7 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.feedback?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFPhoneInput
                 fieldName="phoneNumber"
                 control={control}
@@ -582,10 +582,10 @@ const CompleteFormWithJoi = () => {
                 errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SubmitButton />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />
             </Grid>
           </GridContainer>

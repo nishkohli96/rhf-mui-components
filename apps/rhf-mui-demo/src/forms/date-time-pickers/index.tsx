@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
@@ -39,7 +39,7 @@ const DateTimePickersForm = () => {
       <ConfigProvider dateAdapter={AdapterDayjs}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <FieldVariantInfo title="DatePicker with disabled future" />
               <RHFDatePicker
                 fieldName="dob"
@@ -51,7 +51,7 @@ const DateTimePickersForm = () => {
                 errorMessage={errors?.dob?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <FieldVariantInfo title="TimePicker with 24-Hour Format" />
               <RHFTimePicker
                 fieldName="time"
@@ -62,7 +62,7 @@ const DateTimePickersForm = () => {
                 errorMessage={errors?.time?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs:12, md: 6 }}>
               <RHFDateTimePicker
                 fieldName="dateOfJourney"
                 control={control}
@@ -73,10 +73,10 @@ const DateTimePickersForm = () => {
                 errorMessage={errors?.dateOfJourney?.message}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SubmitButton />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />
             </Grid>
           </GridContainer>

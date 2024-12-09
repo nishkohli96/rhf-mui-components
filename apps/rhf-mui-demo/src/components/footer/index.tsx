@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import AppBar from '@mui/material/AppBar';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -15,8 +15,7 @@ const Footer = () => {
       <Toolbar>
         <Grid container sx={{ padding: '10px' }}>
           <Grid
-            item
-            xs={12}
+            size={12}
             sx={{
               display: 'flex',
               justifyContent: 'center'
@@ -40,7 +39,7 @@ const Footer = () => {
               </Link>
             ))}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography
               variant="body1"
               sx={{ mt: '10px', textAlign: 'center' }}

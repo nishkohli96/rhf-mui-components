@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
 import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
 import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
@@ -47,7 +47,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
     <FormContainer title="Switch, Slider & Rating with Superstruct validation">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs:12, md: 6 }}>
             <FieldVariantInfo title="Slider with label, custom range and marks" />
             <RHFSlider
               fieldName="score"
@@ -64,7 +64,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               errorMessage={errors?.score?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs:12, md: 6 }}>
             <FieldVariantInfo title="Rating with custom maxValue" />
             <RHFRating
               fieldName="rating"
@@ -77,7 +77,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               helperText="Please select atleast 5"
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs:12, md: 6 }}>
             <FieldVariantInfo title="Switch with onValueChange and theme override" />
             <ThemeProvider theme={orangeTheme}>
               <RHFSwitch
@@ -86,10 +86,10 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               />
             </ThemeProvider>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <SubmitButton />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
