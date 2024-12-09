@@ -35,7 +35,7 @@ const CheckboxRadioZodForm = () => {
     <FormContainer title="Checkbox & Radio Group">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Radio Group with onValueChange function" />
             <RHFRadioGroup
               fieldName="gender"
@@ -46,7 +46,7 @@ const CheckboxRadioZodForm = () => {
               errorMessage={errors?.gender?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="CheckboxGroup with options as an array of objects" />
             <RHFCheckboxGroup
               fieldName="countriesVisited"
@@ -59,7 +59,7 @@ const CheckboxRadioZodForm = () => {
               errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single Checkbox" />
             <RHFCheckbox
               fieldName="agreeTnC"

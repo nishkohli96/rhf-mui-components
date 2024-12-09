@@ -61,7 +61,7 @@ const TextAndPasswordInputForm = () => {
     <FormContainer title="TextField & PasswordInput">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation" />
             <RHFTextField
               fieldName="firstName"
@@ -76,7 +76,7 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.firstName?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with min & max length validation" />
             <RHFTextField
               fieldName="lastName"
@@ -94,7 +94,7 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.lastName?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with pattern validation & label above form-field" />
             <RHFTextField
               fieldName="email"
@@ -110,7 +110,7 @@ const TextAndPasswordInputForm = () => {
               showLabelAboveFormField
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Simple Password Field" />
             <RHFPasswordInput
               fieldName="password"
@@ -129,7 +129,7 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.password?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Password Field with custom icons & validate rule" />
             <RHFPasswordInput
               fieldName="confirmPassword"
@@ -153,7 +153,7 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
             <RHFTextField
               fieldName="age"
@@ -168,7 +168,7 @@ const TextAndPasswordInputForm = () => {
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed and custom limit text" />
             <RHFTagsInput
               fieldName="tags"
@@ -189,7 +189,7 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.tags?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Tags Input with styled chips and all tags visible" />
             <RHFTagsInput
               fieldName="keywords"

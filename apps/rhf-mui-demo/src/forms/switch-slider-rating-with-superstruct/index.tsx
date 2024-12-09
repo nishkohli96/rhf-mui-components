@@ -47,7 +47,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
     <FormContainer title="Switch, Slider & Rating with Superstruct validation">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Slider with label, custom range and marks" />
             <RHFSlider
               fieldName="score"
@@ -64,7 +64,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               errorMessage={errors?.score?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Rating with custom maxValue" />
             <RHFRating
               fieldName="rating"
@@ -77,7 +77,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               helperText="Please select atleast 5"
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Switch with onValueChange and theme override" />
             <ThemeProvider theme={orangeTheme}>
               <RHFSwitch

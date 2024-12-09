@@ -58,7 +58,7 @@ export default function StyledReusableComponentForm() {
             <Grid size={12}>
               <FieldVariantInfo title='Custom FormLabel for both text inputs; custom helperText for "firstName" field'/>
             </Grid>
-            <Grid size={{ xs:12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <StyledRHFTextField
                 fieldName="firstName"
                 control={control}
@@ -77,7 +77,7 @@ export default function StyledReusableComponentForm() {
                 errorMessage={errors?.firstName?.message}
               />
             </Grid>
-            <Grid size={{ xs:12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <StyledRHFTextField
                 fieldName="lastName"
                 control={control}

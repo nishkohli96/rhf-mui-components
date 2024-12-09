@@ -38,7 +38,7 @@ const SelectFormWithClassValidator = () => {
     <FormContainer title="Select Component with Class-Validator">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select field with helpertext" />
             <RHFSelect
               fieldName="favouriteColor"
@@ -55,7 +55,7 @@ const SelectFormWithClassValidator = () => {
               required
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multiple Select with options as an array of objects" />
             <RHFSelect
               fieldName="iplTeams"
@@ -71,7 +71,7 @@ const SelectFormWithClassValidator = () => {
               helperText="Select one or more teams"
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Select with number options" />
             <RHFSelect
               fieldName="randomNum"
@@ -81,7 +81,7 @@ const SelectFormWithClassValidator = () => {
               required
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Native select" />
             <RHFNativeSelect
               fieldName="currency"

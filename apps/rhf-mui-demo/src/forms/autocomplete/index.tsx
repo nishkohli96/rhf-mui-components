@@ -68,7 +68,7 @@ const MultiSelectDropdownForm = () => {
     <FormContainer title="Autocomplete variations with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Autocomplete" />
             <RHFAutocomplete
               fieldName="sourceAirport"
@@ -86,7 +86,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Autocomplete accepting multiple options" />
             <RHFAutocomplete
               fieldName="destinationAirports"
@@ -106,7 +106,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.destinationAirports?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multi Autocomplete With String Options" />
             <RHFMultiAutocomplete
               fieldName="colors"
@@ -133,7 +133,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.colors?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multi Autocomplete With Object Array Options and customized checkbox and formLabel" />
             <RHFMultiAutocomplete
               fieldName="iplTeams"
@@ -171,7 +171,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.iplTeams?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="CountrySelect with customized textfield" />
             <RHFCountrySelect
               fieldName="nationality"
@@ -187,7 +187,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.nationality?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="CountrySelect - Multiple selection with default values & preferredCountries" />
             <RHFCountrySelect
               fieldName="countriesVisited"
@@ -197,7 +197,7 @@ const MultiSelectDropdownForm = () => {
               errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
-          <Grid size={{ xs:12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="CountrySelect - Multiple Selection with minLength validation, valueKey, filtered Options and ChipProps" />
             <RHFCountrySelect
               fieldName="dreamDestinations"

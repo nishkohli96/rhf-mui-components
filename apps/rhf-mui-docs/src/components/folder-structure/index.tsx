@@ -3,7 +3,7 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import Link from '@mui/material/Link';
 import { VersionProps } from '@site/src/types';
 import FileView from './FileView';
-import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
+import { FolderIcon, FileIcon } from './Icons';
 import {
   muiFoldersList,
   muiPickersFoldersList,
@@ -48,7 +48,7 @@ const FolderStructure = ({ v1 }: VersionProps) => {
         <TreeItem
           itemId="5"
           label={(
-            <Link href='/customization'>
+            <Link href="/customization">
               config
             </Link>
           )}
@@ -58,7 +58,7 @@ const FolderStructure = ({ v1 }: VersionProps) => {
           <TreeItem
             itemId="6"
             label={(
-              <Link href='/form-helpers'>
+              <Link href="/form-helpers">
                 form-helpers
               </Link>
             )}

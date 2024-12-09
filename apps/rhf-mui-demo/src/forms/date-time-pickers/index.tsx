@@ -39,7 +39,7 @@ const DateTimePickersForm = () => {
       <ConfigProvider dateAdapter={AdapterDayjs}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
-            <Grid size={{ xs:12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="DatePicker with disabled future" />
               <RHFDatePicker
                 fieldName="dob"
@@ -51,7 +51,7 @@ const DateTimePickersForm = () => {
                 errorMessage={errors?.dob?.message}
               />
             </Grid>
-            <Grid size={{ xs:12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="TimePicker with 24-Hour Format" />
               <RHFTimePicker
                 fieldName="time"
@@ -62,7 +62,7 @@ const DateTimePickersForm = () => {
                 errorMessage={errors?.time?.message}
               />
             </Grid>
-            <Grid size={{ xs:12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <RHFDateTimePicker
                 fieldName="dateOfJourney"
                 control={control}
