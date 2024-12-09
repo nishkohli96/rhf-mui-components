@@ -1,5 +1,6 @@
-import { TreeView } from '@mui/x-tree-view/TreeView';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import Link from '@mui/material/Link';
 import { VersionProps } from '@site/src/types';
 import FileView from './FileView';
 import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
@@ -20,46 +21,52 @@ const FolderStructure = ({ v1 }: VersionProps) => {
     : miscFoldersList;
 
   return (
-    <TreeView
+    <SimpleTreeView
       aria-label="rhf-mui-components directory"
-      defaultCollapseIcon={<FolderOpenIcon />}
-      defaultExpandIcon={<FolderIcon />}
-      defaultExpanded={['1']}
+      defaultExpandedItems={['1']}
     >
       <TreeItem
-        nodeId="1"
+        itemId="1"
         label="@nish1896/rhf-mui-components"
-        collapseIcon={<FolderIcon />}
+        slots={{ icon: FolderIcon }}
       >
         <FileView
-          nodeId="2"
+          itemId="2"
           folderName="mui"
           fileList={muiList}
         />
         <FileView
-          nodeId="3"
+          itemId="3"
           folderName="mui-pickers"
           fileList={muiPickersFoldersList}
         />
         <FileView
-          nodeId="4"
+          itemId="4"
           folderName="misc"
           fileList={miscList}
         />
         <TreeItem
-          nodeId="5"
-          label="config"
-          icon={<FileIcon />}
+          itemId="5"
+          label={(
+            <Link href='/customization'>
+              config
+            </Link>
+          )}
+          slots={{ icon: FileIcon }}
         />
         {!v1 && (
           <TreeItem
-            nodeId="6"
-            label="form-helpers"
-            icon={<FileIcon />}
+            itemId="6"
+            label={(
+              <Link href='/form-helpers'>
+                form-helpers
+              </Link>
+            )}
+            slots={{ icon: FileIcon }}
           />
         )}
       </TreeItem>
-    </TreeView>
+    </SimpleTreeView>
   );
 };
 
