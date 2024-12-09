@@ -20,7 +20,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
@@ -138,7 +138,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                 }
               }}
               error={isError}
-              {...(!isMuiV5
+              {...(isAboveMuiV5
                 ? {
                   slotProps: {
                     input: { endAdornment }

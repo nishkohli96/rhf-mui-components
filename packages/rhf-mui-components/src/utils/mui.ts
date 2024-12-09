@@ -6,4 +6,4 @@ import muiPackage from '@mui/material/package.json';
  * in future versions. This flag is ensures that no deprecated props are
  * being passed to any of the components in v6 or above.
  */
-export const isMuiV5 = muiPackage.version.startsWith('5.');
+export const isAboveMuiV5 = !(muiPackage.version.startsWith('5.'));

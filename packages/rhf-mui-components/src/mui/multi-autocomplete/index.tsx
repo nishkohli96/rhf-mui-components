@@ -27,7 +27,7 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isMuiV5
+  isAboveMuiV5
 } from '@/utils';
 
 
@@ -284,7 +284,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                       ) : undefined
                     }
                     error={isError}
-                    {...(!isMuiV5
+                    {...(isAboveMuiV5
                       ? {
                         slotProps: {
                           ...slotProps,
@@ -297,7 +297,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                   />
                 );
               }}
-              {...(!isMuiV5
+              {...(isAboveMuiV5
                 ? {
                   slotProps: {
                     chip: ChipProps

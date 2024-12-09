@@ -20,7 +20,7 @@ import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -259,7 +259,7 @@ const RHFTagsInput = <T extends FieldValues>({
                   ...(hideInput && { display: 'none' })
                 }
               }}
-              {...(!isMuiV5
+              {...(isAboveMuiV5
                 ? {
                   slotProps: {
                     input: { startAdornment }

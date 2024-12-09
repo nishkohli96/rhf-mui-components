@@ -31,7 +31,7 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 import 'react-international-phone/style.css';
 
 type PhoneInputChangeReturnValue = {
@@ -280,7 +280,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                 : undefined}
               error={isError}
               disabled={disabled}
-              {...(!isMuiV5
+              {...(isAboveMuiV5
                 ? {
                   slotProps: {
                     input: { startAdornment }
