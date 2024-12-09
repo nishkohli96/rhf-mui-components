@@ -66,6 +66,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  slotProps,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -100,27 +101,20 @@ const RHFPasswordInput = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field }) => {
           const { value, onChange, ...otherFieldParams } = field;
-          const endAdornment = {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Toggle Password Visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? HidePasswordIcon : ShowPasswordIcon}
-                </IconButton>
-              </InputAdornment>
-            )
-          };
+          const endAdornment = (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="Toggle Password Visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? HidePasswordIcon : ShowPasswordIcon}
+              </IconButton>
+            </InputAdornment>
+          );
 
           return (
-            /**
-             * slotProps does not exist on mui v5 textfield, this shall be
-             * patched on migration to v6.
-             */
-            // @ts-ignore
             <TextField
               id={fieldName}
               autoComplete={fieldName}
@@ -141,6 +135,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
+                    ...slotProps,
                     input: { endAdornment }
                   }
                 }

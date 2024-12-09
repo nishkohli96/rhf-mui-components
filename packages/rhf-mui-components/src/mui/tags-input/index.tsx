@@ -70,6 +70,7 @@ const RHFTagsInput = <T extends FieldValues>({
   variant = 'outlined',
   limitTags = 2,
   getLimitTagsText,
+  slotProps,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
@@ -181,50 +182,43 @@ const RHFTagsInput = <T extends FieldValues>({
             onValueChange?.(fieldValue);
           };
 
-          const startAdornment = {
-            startAdornment: (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: 1,
-                  mb: value.length > 0 && !hideInput ? 1 : 0,
-                  width: '100%'
-                }}
-              >
-                {visibleTags.map((tag, index) => (
-                  <Chip
-                    key={index}
-                    label={tag}
-                    disabled={disabled}
-                    onDelete={() => {
-                      const newValues = value.filter(
-                        item => item !== tag
-                      );
-                      triggerChangeEvents(newValues);
-                    }}
-                    {...ChipProps}
-                  />
-                ))}
-                {!showAllTags && !isFocused && value.length > limitTags && (
-                  <Chip
-                    label={
-                      getLimitTagsText?.(value.length - limitTags)
-                      ?? `+${value.length - limitTags} more`
-                    }
-                    disabled
-                  />
-                )}
-              </Box>
-            )
-          };
+          const startAdornment = (
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                mb: value.length > 0 && !hideInput ? 1 : 0,
+                width: '100%'
+              }}
+            >
+              {visibleTags.map((tag, index) => (
+                <Chip
+                  key={index}
+                  label={tag}
+                  disabled={disabled}
+                  onDelete={() => {
+                    const newValues = value.filter(
+                      item => item !== tag
+                    );
+                    triggerChangeEvents(newValues);
+                  }}
+                  {...ChipProps}
+                />
+              ))}
+              {!showAllTags && !isFocused && value.length > limitTags && (
+                <Chip
+                  label={
+                    getLimitTagsText?.(value.length - limitTags)
+                    ?? `+${value.length - limitTags} more`
+                  }
+                  disabled
+                />
+              )}
+            </Box>
+          );
 
           return (
-            /**
-             * slotProps does not exist on mui v5 textfield, this shall be
-             * patched on migration to v6.
-             */
-            // @ts-ignore
             <MuiTextField
               autoComplete={fieldName}
               variant={variant}
@@ -262,6 +256,7 @@ const RHFTagsInput = <T extends FieldValues>({
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
+                    ...slotProps,
                     input: { startAdornment }
                   }
                 }

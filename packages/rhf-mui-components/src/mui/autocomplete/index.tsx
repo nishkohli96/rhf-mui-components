@@ -136,10 +136,6 @@ const RHFAutocomplete = <T extends FieldValues>({
                 ? opn[valueKey] === value
                 : opn === value) ?? null;
           return (
-            /**
-             * Added ts-ignore as slotProps.chips doesnt
-             * exist in MUI5 for autocomplete
-             */
             // @ts-ignore
             <Autocomplete
               {...otherFieldProps}
@@ -151,6 +147,18 @@ const RHFAutocomplete = <T extends FieldValues>({
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
+              // renderTags={(value, getTagProps) =>
+              //   value.map((option, index) => {
+              //     const { key, ...otherChipProps } = getTagProps({ index });
+              //     return (
+              //       <Chip
+              //         key={key}
+              //         {...otherChipProps}
+              //         label={renderOptionLabel(option)}
+              //         {...ChipProps}
+              //       />
+              //     );
+              //   })}
               onChange={(
                 event,
                 newValue,
