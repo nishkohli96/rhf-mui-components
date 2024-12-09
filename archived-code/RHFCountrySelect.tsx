@@ -20,7 +20,7 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
-import { countryList } from '../rhf-mui-components/src/mui/country-select/countries';
+import { countryList } from '../packages/rhf-mui-components/src/mui/country-select/countries';
 
 type SelectValueType = string;
 
