@@ -30,7 +30,8 @@ import {
   isKeyValueOption,
   isAboveMuiV5
 } from '@/utils';
-
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<StrObjOption, true, false, false>,
@@ -153,6 +154,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
       : selectedValues.filter(val => val !== value);
   }, [options, labelKey, valueKey, selectedValues]);
 
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -191,18 +195,6 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               multiple
               autoHighlight
               disableCloseOnSelect
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...otherChipProps } = getTagProps({ index });
-                  return (
-                    <Chip
-                      key={key}
-                      {...otherChipProps}
-                      label={renderOptionLabel(option)}
-                      {...ChipProps}
-                    />
-                  );
-                })}
               onChange={(_, newValue, reason, details) => {
                 const valueOfClickedItem = details?.option
                   ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey
@@ -234,7 +226,32 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 }
                 return option === value;
               }}
-              renderOption={({ key, ...props }, option: StrObjOption) => {
+              renderInput={params => {
+                const textFieldInputProps = {
+                  ...params.inputProps,
+                  autoComplete: fieldName
+                };
+                return (
+                  <TextField
+                    {...textFieldProps}
+                    {...params}
+                    label={
+                      !isLabelAboveFormField ? (
+                        <FormLabelText label={fieldLabel} required={required} />
+                      ) : undefined
+                    }
+                    error={isError}
+                    {...(isAboveMuiV5
+                      && {
+                        slotProps: {
+                          htmlInput: textFieldInputProps,
+                        }
+                      }
+                    )}
+                  />
+                );
+              }}
+              renderOption={({ key, ...optionProps }, option) => {
                 const isSelectAll = isSelectAllOption(option);
                 const label = renderOptionLabel(option);
                 const value = isSelectAll
@@ -245,7 +262,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 const allSelected = selectedValues.length === options.length;
                 const isIndeterminate = selectedValues.length > 0 && !allSelected;
                 return (
-                  <Box component="li" key={key} {...props}>
+                  <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
                       label={label}
                       control={
@@ -277,31 +294,18 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                   </Box>
                 );
               }}
-              renderInput={params => {
-                const textFieldInputProps = {
-                  ...params.inputProps,
-                  autoComplete: fieldName
-                };
-                return (
-                  <TextField
-                    {...textFieldProps}
-                    {...params}
-                    label={
-                      !isLabelAboveFormField ? (
-                        <FormLabelText label={fieldLabel} required={required} />
-                      ) : undefined
-                    }
-                    error={isError}
-                    {...(isAboveMuiV5
-                      && {
-                        slotProps: {
-                          htmlInput: textFieldInputProps,
-                        }
-                      }
-                    )}
-                  />
-                );
-              }}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...otherChipProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...otherChipProps}
+                      label={renderOptionLabel(option)}
+                      {...ChipProps}
+                    />
+                  );
+                })}
               {...(isAboveMuiV5
                 ? { slotProps }
                 : { ChipProps }
