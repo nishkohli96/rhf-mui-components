@@ -398,6 +398,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'getLimitTagsText',
     description: 'The label to display when the tags are truncated',
     type: '(hiddenTags: number) => ReactNode'
+  },
+  displayFlagOnSelect: {
+    name: 'displayFlagOnSelect',
+    description: 'Show the flag of the selected country alongside its name in the tag. Works only when `multiple` is **true**.',
+    type: 'boolean'
   }
 });
 

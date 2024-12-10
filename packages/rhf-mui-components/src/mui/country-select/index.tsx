@@ -38,6 +38,7 @@ type AutoCompleteProps = Omit<
   | 'fullWidth'
   | 'renderInput'
   | 'renderOption'
+  | 'renderTags'
   | 'options'
   | 'value'
   | 'defaultValue'
@@ -72,6 +73,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
+  displayFlagOnSelect?: boolean;
 } & AutoCompleteProps;
 
 const RHFCountrySelect = <T extends FieldValues>({
@@ -93,6 +95,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   formHelperTextProps,
   multiple,
   textFieldProps,
+  displayFlagOnSelect,
   slotProps,
   ChipProps,
   ...otherAutoCompleteProps
@@ -165,18 +168,6 @@ const RHFCountrySelect = <T extends FieldValues>({
               id={fieldName}
               options={countrySelectOptions}
               multiple={multiple}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...otherChipProps } = getTagProps({ index });
-                  return (
-                    <Chip
-                      key={key}
-                      {...otherChipProps}
-                      label={option.name}
-                      {...ChipProps}
-                    />
-                  );
-                })}
               value={selectedCountries}
               onChange={(event, newValue, reason, details) => {
                 const newValueKey = Array.isArray(newValue)
@@ -199,16 +190,6 @@ const RHFCountrySelect = <T extends FieldValues>({
               getOptionLabel={option => option.name}
               isOptionEqualToValue={(option, value) =>
                 option[valueKey] === value[valueKey]}
-              renderOption={({ key, ...props }, option) => (
-                <Box
-                  component="li"
-                  key={key}
-                  sx={{ display: 'flex', alignItems: 'center' }}
-                  {...props}
-                >
-                  <CountryMenuItem countryInfo={option} />
-                </Box>
-              )}
               renderInput={params => {
                 const textFieldInputProps = {
                   ...params.inputProps,
@@ -234,6 +215,30 @@ const RHFCountrySelect = <T extends FieldValues>({
                   />
                 );
               }}
+              renderOption={({ key, ...props }, option) => (
+                <Box
+                  component="li"
+                  key={key}
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                  {...props}
+                >
+                  <CountryMenuItem countryInfo={option} />
+                </Box>
+              )}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...otherChipProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...otherChipProps}
+                      label={displayFlagOnSelect
+                        ? <CountryMenuItem countryInfo={option} />
+                        : option.name}
+                      {...ChipProps}
+                    />
+                  );
+                })}
               {...(isAboveMuiV5
                 ? { slotProps }
                 : { ChipProps }

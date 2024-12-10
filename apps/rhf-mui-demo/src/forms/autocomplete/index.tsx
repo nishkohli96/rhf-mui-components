@@ -194,6 +194,7 @@ const MultiSelectDropdownForm = () => {
               control={control}
               preferredCountries={preferredCountries}
               multiple
+              displayFlagOnSelect
               errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
