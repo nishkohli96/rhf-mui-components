@@ -194,7 +194,6 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
               fullWidth
               multiple
               autoHighlight
-              disableCloseOnSelect
               onChange={(_, newValue, reason, details) => {
                 const valueOfClickedItem = details?.option
                   ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey
@@ -278,17 +277,16 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                           indeterminate={
                             isSelectAll ? isIndeterminate : undefined
                           }
-                          onChange={event =>
-                            changeFieldState(
-                              handleCheckboxChange(
-                                event.target.checked,
-                                event.target.value
-                              ),
-                              event.target.value
-                            )}
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
+                      onClick={() => {
+                        const isChecked = !selectedValues.includes(value);
+                        changeFieldState(
+                          handleCheckboxChange(isChecked, value),
+                          value
+                        );
+                      }}
                       {...otherFormControlLabelProps}
                     />
                   </Box>
