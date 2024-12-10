@@ -8,13 +8,13 @@
   "scripts": {
     "lib": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
-    "demo": "yarn workspace @nish1896/rhf-mui-components-examples dev",
-    "demo:lint": "yarn workspace @nish1896/rhf-mui-components-examples lint",
-    "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-components-examples build",
-    "demo:start": "yarn workspace @nish1896/rhf-mui-components-examples start",
-    "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
-    "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
-    "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build"
+    "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
+    "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
+    "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-demo build",
+    "demo:start": "yarn workspace @nish1896/rhf-mui-demo start",
+    "docs": "yarn workspace @nish1896/rhf-mui-docs start",
+    "docs:lint": "yarn workspace @nish1896/rhf-mui-docs lint",
+    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
   },
   "keywords": [
     "@nish1896",

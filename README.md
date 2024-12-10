@@ -36,7 +36,7 @@ This will perform the following tasks:
 
 - Install `node_modules` in workspace root
 - Build the `@nish1896/rhf-mui-components` package.
-- Link this package to `@nish1896/rhf-mui-components-examples` repo to test new and existing components
+- Link this package to `@nish1896/rhf-mui-demo` repo to test new and existing components
 
 To apply any changes made to the package, rebuild it by running the command below:
 

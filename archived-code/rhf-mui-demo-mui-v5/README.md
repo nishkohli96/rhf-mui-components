@@ -1,4 +1,4 @@
-# @nish1896/rhf-mui-components-examples
+# @nish1896/rhf-mui-demo
 
 **A playground repository to explore and experiment with the form components in this package during development. 🛠️**
 

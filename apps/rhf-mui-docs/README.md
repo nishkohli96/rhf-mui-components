@@ -1,4 +1,4 @@
-# @nish1896/rhf-mui-components-docs
+# @nish1896/rhf-mui-docs
 
 Comprehensive documentation for [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components), built with [Docusaurus](https://docusaurus.io/).
 
