@@ -10,7 +10,7 @@
 >
 > This is the legacy code for version 1 of the package which is no longer maintained. 
 
-**A suite of 20 reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
+**A suite of reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
 You can read the full documentation [here](https://rhf-mui-components.netlify.app/).
 
