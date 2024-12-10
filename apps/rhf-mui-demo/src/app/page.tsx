@@ -15,7 +15,7 @@ const HomePage = () => {
       <ContentContainer>
         <PageHeading title="@nish1896/rhf-mui-components" />
         <Typography variant="h6" color="steelblue">
-          &quot;A suite 20 of Material-UI and other form components to create and
+          &quot;A suite of 20 Material-UI based form components to create and
           style forms effortlessly within minutes!&quot;
         </Typography>
 
