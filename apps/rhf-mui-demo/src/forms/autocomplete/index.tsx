@@ -87,7 +87,7 @@ const MultiSelectDropdownForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete accepting multiple options" />
+            <FieldVariantInfo title="Autocomplete accepting multiple options and customized chip" />
             <RHFAutocomplete
               fieldName="destinationAirports"
               control={control}
@@ -104,6 +104,13 @@ const MultiSelectDropdownForm = () => {
               showLabelAboveFormField
               textFieldProps={{ variant: 'standard' }}
               errorMessage={errors?.destinationAirports?.message}
+              ChipProps={{
+                sx: {
+                  bgcolor: '#ea3677',
+                  fontWeight: 800,
+                  color: 'white'
+                }
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

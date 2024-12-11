@@ -12,6 +12,7 @@ import Autocomplete, {
   AutocompleteChangeReason
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import {
@@ -20,7 +21,8 @@ import {
   KeyValueOption,
   TrueOrFalse,
   StrObjOption,
-  AutoCompleteTextFieldProps
+  AutoCompleteTextFieldProps,
+  MuiChipProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -45,6 +47,7 @@ type OmittedAutocompleteProps = Omit<
   | 'autoHighlight'
   | 'blurOnSelect'
   | 'disableCloseOnSelect'
+  | 'ChipProps'
 >;
 
 export type RHFAutocompleteProps<T extends FieldValues> = {
@@ -69,6 +72,7 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
+  ChipProps?: MuiChipProps;
 } & OmittedAutocompleteProps;
 
 const RHFAutocomplete = <T extends FieldValues>({
@@ -136,7 +140,6 @@ const RHFAutocomplete = <T extends FieldValues>({
                 ? opn[valueKey] === value
                 : opn === value) ?? null;
           return (
-            // @ts-ignore
             <Autocomplete
               {...otherFieldProps}
               id={fieldName}
@@ -147,18 +150,18 @@ const RHFAutocomplete = <T extends FieldValues>({
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
-              // renderTags={(value, getTagProps) =>
-              //   value.map((option, index) => {
-              //     const { key, ...otherChipProps } = getTagProps({ index });
-              //     return (
-              //       <Chip
-              //         key={key}
-              //         {...otherChipProps}
-              //         label={renderOptionLabel(option)}
-              //         {...ChipProps}
-              //       />
-              //     );
-              //   })}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...otherChipProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...otherChipProps}
+                      label={renderOptionLabel(option)}
+                      {...ChipProps}
+                    />
+                  );
+                })}
               onChange={(
                 event,
                 newValue,

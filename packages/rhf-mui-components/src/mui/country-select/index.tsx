@@ -23,7 +23,8 @@ import {
   CountryISO,
   FormLabelProps,
   FormHelperTextProps,
-  AutoCompleteTextFieldProps
+  AutoCompleteTextFieldProps,
+  MuiChipProps
 } from '@/types';
 import { fieldNameToLabel, isAboveMuiV5, keepLabelAboveFormField } from '@/utils';
 import { countryList } from './countries';
@@ -49,6 +50,7 @@ type AutoCompleteProps = Omit<
   | 'autoHighlight'
   | 'blurOnSelect'
   | 'disableCloseOnSelect'
+  | 'ChipProps'
 >;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -74,6 +76,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   displayFlagOnSelect?: boolean;
+  ChipProps?: MuiChipProps;
 } & AutoCompleteProps;
 
 const RHFCountrySelect = <T extends FieldValues>({

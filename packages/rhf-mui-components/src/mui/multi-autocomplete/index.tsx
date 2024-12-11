@@ -22,7 +22,8 @@ import {
   KeyValueOption,
   StringArr,
   StrObjOption,
-  AutoCompleteTextFieldProps
+  AutoCompleteTextFieldProps,
+  MuiChipProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -49,6 +50,7 @@ type AutoCompleteProps = Omit<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'disableCloseOnSelect'
+  | 'ChipProps'
 >;
 
 export type RHFMultiAutocompleteProps<T extends FieldValues> = {
@@ -74,6 +76,7 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
+  ChipProps?: MuiChipProps;
 } & AutoCompleteProps;
 
 const RHFMultiAutocomplete = <T extends FieldValues>({
