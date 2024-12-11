@@ -10,12 +10,12 @@ const RHFTagsInputPropsTable = () => {
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
-    PropsDescription.errorMessage,
-    PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
     PropsDescription.ChipProps,
     PropsDescription.limitTags,
-    PropsDescription.getLimitTagsText
+    PropsDescription.getLimitTagsText,
+    PropsDescription.errorMessage,
+    PropsDescription.hideErrorMessage,
+    PropsDescription.formHelperTextProps
   ];
 
   return <MarkdownTable rows={tableRows} showType />;

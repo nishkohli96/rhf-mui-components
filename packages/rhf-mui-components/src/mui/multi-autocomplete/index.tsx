@@ -194,6 +194,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
               fullWidth
               multiple
               autoHighlight
+              disableCloseOnSelect
               onChange={(_, newValue, reason, details) => {
                 const valueOfClickedItem = details?.option
                   ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey

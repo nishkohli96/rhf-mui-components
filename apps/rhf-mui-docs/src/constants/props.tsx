@@ -74,13 +74,13 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   formLabelProps: {
     name: 'formLabelProps',
-    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise FormLabel component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
     hasLinkInType: true
   },
   formControlLabelProps: {
     name: 'formControlLabelProps',
-    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise FormControlLabel component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
+    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
   },
@@ -106,7 +106,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   hideErrorMessage: {
     name: 'hideErrorMessage',
-    description: 'Prevent replacing of form HelperText by error message during validation trigger.',
+    description: 'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
     type: 'boolean',
   },
   formHelperTextProps: {
@@ -123,7 +123,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   onValueChange_Inputs: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes.',
-    type: '(value: string, e: ChangeEvent) => void'
+    type: '(value: string, event: ChangeEvent) => void'
   },
   onValueChange_tagsInput: {
     name: 'onValueChange',
@@ -290,7 +290,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   showDefaultOption: {
     name: 'showDefaultOption',
-    description: 'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text cane be changed using the `defaultOptionText` prop.',
+    description: 'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text can be changed using the `defaultOptionText` prop.',
     type: 'boolean'
   },
   defaultOptionText: {
