@@ -198,12 +198,15 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
               multiple
               autoHighlight
               disableCloseOnSelect
-              onChange={(_, newValue, reason, details) => {
+              onChange={(event, newValue, reason, details) => {
                 const valueOfClickedItem = details?.option
                   ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey
                     ? details.option[valueKey]
                     : details.option
                   : undefined;
+                if (reason === 'selectOption'){
+                  event.preventDefault()
+                };
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
