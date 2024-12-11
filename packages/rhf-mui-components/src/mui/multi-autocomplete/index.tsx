@@ -31,8 +31,6 @@ import {
   isKeyValueOption,
   isAboveMuiV5
 } from '@/utils';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<StrObjOption, true, false, false>,
@@ -122,6 +120,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const selectAllLabel = selectAllText ?? 'Select All';
   const selectAllOptionValue = '';
 
+  const allSelected = selectedValues.length === options.length;
+  const isIndeterminate = selectedValues.length > 0 && !allSelected;
+
   const autoCompleteOptions: StrObjOption[] = [
     selectAllLabel as StrObjOption,
     ...options,
@@ -156,9 +157,6 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
   }, [options, labelKey, valueKey, selectedValues]);
-
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
   return (
     <FormControl error={isError}>
@@ -265,8 +263,6 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                   : valueKey && isKeyValueOption(option, labelKey, valueKey)
                     ? option[valueKey]
                     : (option as string);
-                const allSelected = selectedValues.length === options.length;
-                const isIndeterminate = selectedValues.length > 0 && !allSelected;
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
