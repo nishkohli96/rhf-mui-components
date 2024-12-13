@@ -151,14 +151,14 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     isChecked: boolean,
     value: string
   ) => {
-    /* The event is fired on "Select All" checkbox. */
+    /* When "Select All" checkbox is toggled. */
     if (!value || isSelectAllOption(value)) {
       return isChecked
         ? options.map(option => getOptionLabelOrValue(option, valueKey))
         : [];
     }
 
-    /* One of the options is selected */
+    /* When one of the options is selected */
     return isChecked
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
@@ -178,11 +178,13 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
-          const selectedOptions = (value ?? []).map(val =>
-            options.find(opn =>
-              valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                ? opn[valueKey] === val
-                : opn === val)).filter((opn): opn is StrObjOption => Boolean(opn));
+          const selectedOptions = (value ?? [])
+            .map(val =>
+              options.find(opn =>
+                valueKey && isKeyValueOption(opn, labelKey, valueKey)
+                  ? opn[valueKey] === val
+                  : opn === val))
+            .filter((opn): opn is StrObjOption => Boolean(opn));
 
           const changeFieldState = (
             newValue: StringArr,
@@ -204,23 +206,25 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               autoHighlight
               disableCloseOnSelect
               onChange={(_, newValue, reason, details) => {
-                let valueOfClickedItem = details?.option
-                  ? getOptionLabelOrValue(details.option, valueKey)
+                const valueOfClickedItem = details?.option
+                  ? getOptionLabelOrValue(details.option, valueKey) === selectAllText
+                    ? selectAllOptionValue
+                    : getOptionLabelOrValue(details.option, valueKey)
                   : undefined;
-                valueOfClickedItem = valueOfClickedItem === selectAllText ? selectAllOptionValue : valueOfClickedItem;
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
                 /**
                  * "removeOption" reason is being called even after unchecking a checkbox.
                  * This will also be called when a remove chip. I purposely need to check
-                 * that if "SelectAll" option is being removed, then the flow never goes in
-                 * the if block.
+                 * that if "SelectAll" option is being removed, then the flow should not
+                 * go in the if block.
                  */
                 if (reason === 'removeOption' && valueOfClickedItem) {
-                  const fieldValue = newValue.map(opn =>
-                    getOptionLabelOrValue(opn, valueKey)).filter(opn => opn !== valueOfClickedItem);
-                  changeFieldState(fieldValue as StringArr, valueOfClickedItem);
+                  const fieldValue = newValue
+                    .map(opn => getOptionLabelOrValue(opn, valueKey))
+                    .filter(opn => opn !== valueOfClickedItem);
+                  changeFieldState(fieldValue, valueOfClickedItem);
                 }
               }}
               limitTags={2}
@@ -228,7 +232,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               getOptionLabel={option => renderOptionLabel(option)}
               isOptionEqualToValue={(option, value) => {
                 if (isSelectAllOption(option)) {
-                  return selectedValues.length === options.length;
+                  return areAllSelected;
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
