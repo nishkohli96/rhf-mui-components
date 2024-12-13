@@ -279,7 +279,7 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   excludeAlpha: {
     name: 'excludeAlpha',
-    description: 'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is undefined in the input color.',
+    description: 'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is `undefined` in the input color.',
     type: 'boolean'
   },
   value_RichTextEditor: {
