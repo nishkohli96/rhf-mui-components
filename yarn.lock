@@ -10302,10 +10302,10 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-color-palette@7.2.2:
-  version "7.2.2"
-  resolved "https://registry.npmjs.org/react-color-palette/-/react-color-palette-7.2.2.tgz"
-  integrity sha512-SHLPS3JO+xECRtWB14dAgUPranQMDiGWqn2QVPppAzqWhbUtsg2uVTUd3cpiK3OEa66j7xIDGa/RPjCw98D61g==
+react-color-palette@7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/react-color-palette/-/react-color-palette-7.3.0.tgz#2229230b0513ea0bb303c74319f1840c6f0608e0"
+  integrity sha512-GCgz+XEcbyFkq5wVvrPiXp8mUnOI3oObtmOtsZBCpDXgzHcDCJdssW8lTtVXbUqodo6pOw6pwYQRlXpi/ekkzQ==
 
 react-dev-utils@^12.0.1:
   version "12.0.1"

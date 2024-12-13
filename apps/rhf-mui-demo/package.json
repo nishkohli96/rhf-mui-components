@@ -31,7 +31,7 @@
     "moment": "^2.30.1",
     "next": "14.2.16",
     "react": "^18",
-    "react-color-palette": "7.2.2",
+    "react-color-palette": "7.3.0",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-international-phone": "^4.3.0",

@@ -54,7 +54,7 @@ Introduced a flag `isAboveMuiV5` in the code to handle the deprecation of the fo
 |[@mui/material-nextjs](https://www.npmjs.com/package/@mui/material-nextjs)| `5.16.6` | `6.1.9` |
 |[@mui/x-tree-view](https://www.npmjs.com/package/@mui/x-tree-view) | `6.17.0` | `7.23.0` |
 |[@mui/x-date pickers](https://mui.com/x/react-date-pickers/) | `7.23.0` | `7.23.2` |
-
+|[react-color-palette](https://www.npmjs.com/package/react-color-palette) | `7.2.2` | `7.3.0` |
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
 
 **Released - 1 Nov, 2024**

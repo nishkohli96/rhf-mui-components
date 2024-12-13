@@ -23,6 +23,7 @@
     "react-hook-form": ">=7"
 	},
   "exports": {
+    "./package.json": "./package.json",
     "./config": "./config/index.js",
     "./form-helpers": "./form-helpers/index.js",
     "./misc": "./misc/index.js",

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import {
   FieldValues,
   Path,
@@ -6,7 +6,13 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
-import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
+import {
+  ColorPicker as ReactColorPicker,
+  Saturation,
+  Hue,
+  IColor,
+  useColor
+} from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, colorToString } from '@/utils';
@@ -56,9 +62,11 @@ const RHFColorPicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  height = 200,
   ...otherProps
 }: RHFColorPickerProps<T>) => {
   const [color, setColor] = useColor(value ?? defaultColor);
+  const renderHSLView = valueKey === 'hsv';
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -76,22 +84,47 @@ const RHFColorPicker = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field: { onChange } }) => (
-          <ReactColorPicker
-            color={color}
-            onChange={(color: IColor) => {
-              if (!disabled) {
-                setColor(color);
-                const appliedColor
-                  = valueKey === 'hex'
-                    ? color.hex
-                    : colorToString(color[valueKey], excludeAlpha);
-                onChange(appliedColor);
-                onValueChange?.(color);
-              }
-            }}
-            hideInput={disabled ? true : hideInput}
-            {...otherProps}
-          />
+          <Fragment>
+            {renderHSLView ? (
+              <Fragment>
+                <Saturation
+                  height={height}
+                  color={color}
+                  disabled={disabled}
+                  onChange={color => {
+                    if (!disabled) {
+                      setColor(color);
+                      const appliedColor = colorToString(
+                        color[valueKey],
+                        excludeAlpha
+                      );
+                      onChange(appliedColor);
+                      onValueChange?.(color);
+                    }
+                  }}
+                />
+                <Hue color={color} disabled={disabled} onChange={setColor} />
+              </Fragment>
+            ) : (
+              <ReactColorPicker
+                color={color}
+                onChange={color => {
+                  if (!disabled) {
+                    setColor(color);
+                    const appliedColor
+                      = valueKey === 'hex'
+                        ? color.hex
+                        : colorToString(color[valueKey], excludeAlpha);
+                    onChange(appliedColor);
+                    onValueChange?.(color);
+                  }
+                }}
+                height={height}
+                hideInput={disabled ? true : hideInput}
+                {...otherProps}
+              />
+            )}
+          </Fragment>
         )}
       />
       <FormHelperText
