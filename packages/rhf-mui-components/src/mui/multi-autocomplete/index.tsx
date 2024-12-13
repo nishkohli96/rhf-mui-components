@@ -156,7 +156,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     return isChecked
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
-  }, [options, labelKey, valueKey, selectedValues]);
+  }, [options, labelKey, valueKey, selectedValues, selectAllText]);
 
   return (
     <FormControl error={isError}>
@@ -181,7 +181,6 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
             newValue: StringArr,
             selectedValue?: string
           ) => {
-            console.log('newValue: ', newValue);
             onChange(newValue);
             setSelectedValues(newValue);
             onValueChange?.(newValue, selectedValue);
@@ -197,19 +196,23 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               multiple
               autoHighlight
               disableCloseOnSelect
-              onChange={(event, newValue, reason, details) => {
-                const valueOfClickedItem = details?.option
+              onChange={(_, newValue, reason, details) => {
+                let valueOfClickedItem = details?.option
                   ? isKeyValueOption(details.option, labelKey, valueKey) && valueKey
                     ? details.option[valueKey]
                     : details.option
                   : undefined;
-                // if (reason === 'selectOption'){
-                //   event.preventDefault()
-                // };
+                valueOfClickedItem = valueOfClickedItem === selectAllLabel ? selectAllOptionValue : valueOfClickedItem;
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
-                if (reason === 'removeOption') {
+                /**
+                 * "removeOption" reason is being called even after unchecking a checkbox.
+                 * This will also be called when a remove chip. I purposely need to check
+                 * that if "SelectAll" option is being removed, then the flow never goes in
+                 * the if block.
+                 */
+                if (reason === 'removeOption' && valueOfClickedItem) {
                   const fieldValue = newValue.map(opn =>
                     isKeyValueOption(opn, labelKey, valueKey) && valueKey
                       ? opn[valueKey]
@@ -288,10 +291,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                         event.preventDefault();
                         const isChecked = isSelectAll ? !allSelected
                           : !selectedValues.includes(value);
-                        console.log('value: ', value);
-                        console.log('isChecked: ', isChecked);
                         const fieldValue = handleCheckboxChange(isChecked, value);
-                        console.log('fieldValue: ', fieldValue);
                         changeFieldState(
                           fieldValue,
                           value
