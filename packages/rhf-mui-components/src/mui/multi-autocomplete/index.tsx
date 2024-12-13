@@ -1,4 +1,4 @@
-import { ReactNode, useState, useContext, useCallback } from 'react';
+import { ReactNode, useState, useContext, useCallback, useMemo } from 'react';
 import {
   FieldValues,
   Path,
@@ -84,7 +84,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
-  selectAllText,
+  selectAllText = 'Select All',
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -117,22 +117,20 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const selectAllLabel = selectAllText ?? 'Select All';
   const selectAllOptionValue = '';
+  const areAllSelected = selectedValues.length === options.length;
+  const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
-  const allSelected = selectedValues.length === options.length;
-  const isIndeterminate = selectedValues.length > 0 && !allSelected;
-
-  const autoCompleteOptions: StrObjOption[] = [
-    selectAllLabel,
-    ...options,
-  ];
+  const autoCompleteOptions: StrObjOption[] = useMemo(
+    () => [selectAllText, ...options],
+    [options, selectAllText]
+  );
 
   const isSelectAllOption = useCallback(
     (option: StrObjOption) => {
-      return option === selectAllLabel || option === selectAllOptionValue;
+      return option === selectAllText || option === selectAllOptionValue;
     },
-    [selectAllLabel, selectAllOptionValue]
+    [selectAllText, selectAllOptionValue]
   );
 
   const getOptionLabelOrValue = useCallback(
@@ -146,7 +144,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
 
   const renderOptionLabel = (option: StrObjOption): string =>
     isSelectAllOption(option)
-      ? selectAllLabel
+      ? selectAllText
       : getOptionLabelOrValue(option, labelKey);
 
   const handleCheckboxChange = useCallback((
@@ -209,7 +207,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 let valueOfClickedItem = details?.option
                   ? getOptionLabelOrValue(details.option, valueKey)
                   : undefined;
-                valueOfClickedItem = valueOfClickedItem === selectAllLabel ? selectAllOptionValue : valueOfClickedItem;
+                valueOfClickedItem = valueOfClickedItem === selectAllText ? selectAllOptionValue : valueOfClickedItem;
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
@@ -281,7 +279,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                           value={value}
                           checked={
                             isSelectAll
-                              ? allSelected
+                              ? areAllSelected
                               : selectedValues.includes(value)
                           }
                           indeterminate={
@@ -292,7 +290,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       onClick={event => {
                         event.preventDefault();
-                        const isChecked = isSelectAll ? !allSelected
+                        const isChecked = isSelectAll ? !areAllSelected
                           : !selectedValues.includes(value);
                         changeFieldState(
                           handleCheckboxChange(isChecked, value),
