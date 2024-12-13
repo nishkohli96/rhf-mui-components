@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker';
 import Grid from '@mui/material/Grid2';
@@ -40,9 +41,9 @@ const generateAirportNames = (count: number) => {
   return Array.from(fullNames);
 };
 
-const airportList = generateAirportNames(100);
-
 const MultiSelectDropdownForm = () => {
+  const airportList = useMemo(() => generateAirportNames(100), []);
+
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG'],
     sourceAirport: airportList[2].iataCode
