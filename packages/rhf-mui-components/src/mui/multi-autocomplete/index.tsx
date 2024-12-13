@@ -118,8 +118,14 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const isError = Boolean(errorMessage);
 
   const selectAllOptionValue = '';
-  const areAllSelected = selectedValues.length === options.length;
-  const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
+  const { areAllSelected, isIndeterminate } = useMemo(() => {
+    const allSelected = selectedValues.length === options.length;
+    return {
+      areAllSelected: allSelected,
+      isIndeterminate: selectedValues.length > 0 && !allSelected,
+    };
+  }, [selectedValues, options.length]);
+  
 
   const autoCompleteOptions: StrObjOption[] = useMemo(
     () => [selectAllText, ...options],
