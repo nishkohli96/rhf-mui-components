@@ -81,10 +81,10 @@ const RHFColorPicker = <T extends FieldValues>({
             onChange={(color: IColor) => {
               if (!disabled) {
                 setColor(color);
-                const appliedColor =
-                  valueKey === 'hex'
+                const appliedColor
+                  = valueKey === 'hex'
                     ? color.hex
-                    : colorToString(color[valueKey], valueKey, excludeAlpha);
+                    : colorToString(color[valueKey], excludeAlpha);
                 onChange(appliedColor);
                 onValueChange?.(color);
               }
