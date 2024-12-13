@@ -9,7 +9,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.0.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.0)
 
-**Released - 5 Dec, 2024**
+**Released - 14 Dec, 2024**
 
 ### New Components 🔥
 - [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)
@@ -22,6 +22,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Add `allLabelsAboveFields` prop in [ConfigProvider](../docs/customization.mdx) component to set `showLabelAboveFormField` to true for all components.
 - Added `required` prop for all components to indicate in the formLabel that the field needs to be filled with the relevant value before submission. 
 - Add `fontSize`, `fontFamily`, `fontColor`, `fontBackgroundColor` options in the toolbar for [RHFRichTextEditor](../docs/components/misc/RHFRichTextEditor.mdx).
+- Introduce `form-helpers` module which exposes internal utility functions to the developers.
 
 ### Enhancements ✨
 - Added a new form example containing all components with validation handled through the `registerOptions` prop.
@@ -33,7 +34,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
 - Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`
-- Improve implementation for `RHFNativeSelect`.
+- Improve implementation for `RHFNativeSelect` & `RHFColorPicker`. Check [Migration Guide](./migration.md) for more details.
 - Update v1 docs
 
 ### Compatibility with MUI v6 and above

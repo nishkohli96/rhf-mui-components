@@ -102,6 +102,19 @@ Use `FormLabel` instead of `InputLabel`to display label text for the field.
   - `hideErrorMessage`
   - `formHelperTextProps`
 
+**[3. RHFColorPicker](./components/mui/RHFColorPicker.mdx)**
+
+Unlike the previous implementation of v1, the field value is by default handled when user selects a color.
+
+**New Props Added -**
+  - `control`
+  - `registerOptions`
+  - `defaultColor`
+  - `excludeAlpha`
+  - `valueKey`
+
+`onValueChange` prop is now optional.
+
 ### OnValueChange
 
 As previously mentioned, the changed value(s) can now be accessed earlier in the `onValueChange` callback function, followed by the event handler(s) for that component. This ensures that the relevant data is easily accessible without requiring developers to handle unused parameters. For detailed usage, refer to the `onValueChange` function in the API reference section for each component.

@@ -5,9 +5,21 @@ import { VersionProps } from '@site/src/types';
 const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.value_ColorPicker,
-    ...(!v1 ? [PropsDescription.required] : []),
-    PropsDescription.onValueChange_ColorPicker,
+    ...(!v1
+      ? [
+          PropsDescription.control,
+          PropsDescription.registerOptions,
+          PropsDescription.value_ColorPicker,
+          PropsDescription.valueKey_ColorPicker,
+          PropsDescription.defaultColor,
+          PropsDescription.excludeAlpha,
+          PropsDescription.required,
+          PropsDescription.onValueChange_ColorPicker
+        ]
+      : [
+          PropsDescription.value_ColorPicker_v1,
+          PropsDescription.onValueChange_ColorPicker_v1
+        ]),
     PropsDescription.disabled,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField_Default,

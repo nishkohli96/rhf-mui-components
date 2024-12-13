@@ -46,7 +46,8 @@ const MultiSelectDropdownForm = () => {
 
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG'],
-    sourceAirport: airportList[2].iataCode
+    sourceAirport: airportList[2].iataCode,
+    iplTeams: ["MI", "CSK"]
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];

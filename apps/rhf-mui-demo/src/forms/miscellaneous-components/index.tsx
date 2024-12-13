@@ -20,6 +20,7 @@ type FormSchema = {
   contactNumber: string;
   contactNumber2?: string;
   favouriteColor: string;
+  secondFavColor?: string;
   countries: string;
 };
 
@@ -32,7 +33,6 @@ const MiscellaneousComponentsForm = () => {
 
   const {
     control,
-    setValue,
     handleSubmit,
     watch,
     getValues,
@@ -76,16 +76,52 @@ const MiscellaneousComponentsForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="React Palette Color Picker" />
+            <FieldVariantInfo title="Color Picker" />
             <RHFColorPicker
               fieldName="favouriteColor"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
               value={getValues('favouriteColor')}
               onValueChange={newColor => {
                 console.log('newColor: ', newColor);
-                setValue('favouriteColor', newColor.hex);
               }}
               required
+              helperText={(
+                <Typography color={getValues('favouriteColor')}>
+                  Your favouriteColor is being applied on this text.
+                </Typography>
+              )}
               errorMessage={errors?.favouriteColor?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Color Picker return rgb value with defaultColor" />
+            <RHFColorPicker
+              fieldName="secondFavColor"
+              control={control}
+              valueKey='rgb'
+              defaultColor='violet'
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
+              label='Second Favourite Color'
+              value={getValues('secondFavColor')}
+              required
+              excludeAlpha
+              helperText={(
+                <Typography color={getValues('secondFavColor')}>
+                  Your secondFavColor is being applied on this text.
+                </Typography>
+              )}
+              errorMessage={errors?.secondFavColor?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

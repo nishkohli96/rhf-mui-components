@@ -230,7 +230,17 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function which returns the selected date or time value.',
     type: '(newValue: unknown) => void'
   },
+  valueKey_ColorPicker: {
+    name: 'valueKey',
+    description: 'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
+    type: 'hex or rgb or hsv'
+  },
   onValueChange_ColorPicker: {
+    name: 'onValueChange',
+    description: 'Callback function to get the selected color in `hex`, `rgb` or `hsv` format. The color format being set in field value can be configured by the `valueKey` prop.',
+    type: '(color: IColor) => void'
+  },
+  onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description: 'Callback function to get the selected color. Update form state by calling the `setValue` function, and passing the color value in preffered format.',
     type: '(color: IColor) => void',
@@ -253,8 +263,24 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   value_ColorPicker: {
     name: 'value',
-    description: 'Selected color in `RHFColorPicker` component. Default is `#000000` (black).',
+    description: 'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically, else `defaultColor` is selected as the current color.',
+    type: 'string',
+    required: true
+  },
+  value_ColorPicker_v1: {
+    name: 'value',
+    description: 'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically. Defaults to **Black**(`#000000`).',
     type: 'string'
+  },
+  defaultColor: {
+    name: 'defaultColor',
+    description: 'The default color to select when the field is not initialized. The default value **Black**(`#000000`) can be overridden by providing a valid color string, hex, rgb or hsv value.',
+    type: 'string'
+  },
+  excludeAlpha: {
+    name: 'excludeAlpha',
+    description: 'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is undefined in the input color.',
+    type: 'boolean'
   },
   value_RichTextEditor: {
     name: 'value',

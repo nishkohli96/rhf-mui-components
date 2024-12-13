@@ -3,8 +3,9 @@
  * also be used by the end user.
  */
 
-import { fieldNameToLabel } from '@/utils';
+import { colorToString, fieldNameToLabel } from '@/utils';
 
 export {
+  colorToString,
   fieldNameToLabel
 };

@@ -1,19 +1,32 @@
 import { ReactNode } from 'react';
-import { FieldValues, Path } from 'react-hook-form';
+import {
+  FieldValues,
+  Path,
+  Controller,
+  Control,
+  RegisterOptions
+} from 'react-hook-form';
 import { ColorPicker as ReactColorPicker, IColor, useColor } from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, colorToString } from '@/utils';
 import 'react-color-palette/css';
+
+type ColorFormat = keyof IColor;
 
 export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
+  control: Control<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
   value?: string;
+  valueKey?: ColorFormat;
+  defaultColor?: string;
+  excludeAlpha?: boolean;
   required?: boolean;
   height?: number;
   hideAlpha?: boolean;
   hideInput?: (keyof IColor)[] | boolean;
-  onValueChange: (color: IColor) => void;
+  onValueChange?: (color: IColor) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -26,7 +39,12 @@ export type RHFColorPickerProps<T extends FieldValues> = {
 
 const RHFColorPicker = <T extends FieldValues>({
   fieldName,
+  control,
+  registerOptions,
   value,
+  valueKey = 'hex',
+  defaultColor = '#000000',
+  excludeAlpha,
   required,
   hideInput,
   onValueChange,
@@ -40,16 +58,9 @@ const RHFColorPicker = <T extends FieldValues>({
   formHelperTextProps,
   ...otherProps
 }: RHFColorPickerProps<T>) => {
-  const [color, setColor] = useColor(value ?? '#000000');
+  const [color, setColor] = useColor(value ?? defaultColor);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-
-  const handleColorChange = (color: IColor) => {
-    if (!disabled) {
-      setColor(color);
-      onValueChange(color);
-    }
-  };
 
   return (
     <FormControl error={isError}>
@@ -60,11 +71,28 @@ const RHFColorPicker = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <ReactColorPicker
-        color={color}
-        onChange={handleColorChange}
-        hideInput={disabled ? true : hideInput}
-        {...otherProps}
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field: { onChange } }) => (
+          <ReactColorPicker
+            color={color}
+            onChange={(color: IColor) => {
+              if (!disabled) {
+                setColor(color);
+                const appliedColor =
+                  valueKey === 'hex'
+                    ? color.hex
+                    : colorToString(color[valueKey], valueKey, excludeAlpha);
+                onChange(appliedColor);
+                onValueChange?.(color);
+              }
+            }}
+            hideInput={disabled ? true : hideInput}
+            {...otherProps}
+          />
+        )}
       />
       <FormHelperText
         error={isError}
