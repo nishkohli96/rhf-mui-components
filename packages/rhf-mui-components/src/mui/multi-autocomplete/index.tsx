@@ -125,19 +125,16 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
       isIndeterminate: selectedValues.length > 0 && !allSelected,
     };
   }, [selectedValues, options.length]);
-  
+
 
   const autoCompleteOptions: StrObjOption[] = useMemo(
     () => [selectAllText, ...options],
     [options, selectAllText]
   );
 
-  const isSelectAllOption = useCallback(
-    (option: StrObjOption) => {
-      return option === selectAllText || option === selectAllOptionValue;
-    },
-    [selectAllText, selectAllOptionValue]
-  );
+  const isSelectAllOption = useCallback((option: StrObjOption) => {
+    return option === selectAllText;
+  }, [selectAllText]);
 
   const getOptionLabelOrValue = useCallback(
     (option: StrObjOption, key?: string): string => {
@@ -148,9 +145,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     [labelKey, valueKey]
   );
 
-  const renderOptionLabel = (option: StrObjOption): string =>
+  const renderOptionLabel = (option: StrObjOption, getSelectAllValue?: boolean): string =>
     isSelectAllOption(option)
-      ? selectAllText
+      ? getSelectAllValue
+        ? selectAllOptionValue
+        : selectAllText
       : getOptionLabelOrValue(option, labelKey);
 
   const handleCheckboxChange = useCallback((
@@ -158,7 +157,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     value: string
   ) => {
     /* When "Select All" checkbox is toggled. */
-    if (!value || isSelectAllOption(value)) {
+    if (!value || (value === selectAllOptionValue)) {
       return isChecked
         ? options.map(option => getOptionLabelOrValue(option, valueKey))
         : [];
@@ -168,7 +167,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     return isChecked
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
-  }, [options, getOptionLabelOrValue, valueKey, selectedValues, isSelectAllOption]);
+  }, [options, getOptionLabelOrValue, valueKey, selectedValues]);
 
   return (
     <FormControl error={isError}>
@@ -235,7 +234,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}
-              getOptionLabel={option => renderOptionLabel(option)}
+              getOptionLabel={option => renderOptionLabel(option, true)}
               isOptionEqualToValue={(option, value) => {
                 if (isSelectAllOption(option)) {
                   return areAllSelected;
