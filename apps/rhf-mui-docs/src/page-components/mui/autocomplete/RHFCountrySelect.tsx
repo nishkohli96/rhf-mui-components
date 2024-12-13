@@ -19,7 +19,8 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps,
-    PropsDescription.textFieldProps
+    PropsDescription.textFieldProps,
+    PropsDescription.ChipProps
   ];
 
   return (

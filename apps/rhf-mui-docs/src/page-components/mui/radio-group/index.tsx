@@ -6,7 +6,7 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    ...(v1
+    ...(!v1
       ? [PropsDescription.registerOptions]
       : []
     ),
