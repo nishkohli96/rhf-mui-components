@@ -83,13 +83,15 @@ The `disabled` prop has been added to the following components, enabling better 
 
 **[1. RHFNativeSelect](./components/mui/RHFNativeSelect.mdx)**
 
+Use `FormLabel` instead of `InputLabel`to display label text for the field. 
+
 **Removed Props -** 
   - `defaultValue`
   - `showDefaultOption`
-  - `showDefaultOption`
-  - `defaultOptionText`
 
-**Added Props -** 
+**Added Props -**
+  - `showLabelAboveFormField`
+  - `formLabelProps`
   - `helperText`
 
 **[2. RHFSwitch](./components/mui/RHFSwitch.mdx)**

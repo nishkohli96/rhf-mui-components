@@ -6,11 +6,10 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormLabelText, FormHelperText } from '@/mui/common';
-import { FormHelperTextProps, StrNumObjOption } from '@/types';
+import { FormLabel, FormHelperText } from '@/mui/common';
+import { FormHelperTextProps, FormLabelProps, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
@@ -29,7 +28,13 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (value: StrNumObjOption, event: ChangeEvent<HTMLSelectElement>) => void;
+  onValueChange?: (
+    value: StrNumObjOption,
+    event: ChangeEvent<HTMLSelectElement>
+  ) => void;
+  defaultOptionText?: string;
+  showLabelAboveFormField?: boolean;
+  formLabelProps?: FormLabelProps;
   label?: ReactNode;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
@@ -45,25 +50,33 @@ const RHFNativeSelect = <T extends FieldValues>({
   labelKey,
   valueKey,
   onValueChange,
+  defaultOptionText,
+  showLabelAboveFormField,
+  formLabelProps,
   label,
   required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  sx,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const SelectFormLabel = <FormLabelText label={fieldLabel} required={required} />;
   const isError = Boolean(errorMessage);
+  const blankOptionText = defaultOptionText ?? `Select ${fieldName}`;
 
   return (
     <FormControl fullWidth error={isError}>
-      <InputLabel variant="standard" htmlFor={fieldName} error={isError}>
-        {SelectFormLabel}
-      </InputLabel>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={showLabelAboveFormField ?? true}
+        required={required}
+        error={isError}
+        formLabelProps={formLabelProps}
+      />
       <Controller
         name={fieldName}
         control={control}
@@ -83,9 +96,15 @@ const RHFNativeSelect = <T extends FieldValues>({
                 onValueChange(event.target.value, event);
               }
             }}
+            sx={{
+              ...sx,
+              '&.MuiNativeSelect-root': {
+                margin: 0,
+              }
+            }}
           >
             <option value="">
-              {''}
+              {blankOptionText}
             </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);

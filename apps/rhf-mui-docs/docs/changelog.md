@@ -33,6 +33,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
 - Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`
+- Improve implementation for `RHFNativeSelect`.
 - Update v1 docs
 
 ### Compatibility with MUI v6 and above

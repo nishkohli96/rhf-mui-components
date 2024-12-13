@@ -21,7 +21,7 @@ const RHFSliderPropsTable = ({ v1 }: VersionProps) => {
       ]
     ),
     PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,

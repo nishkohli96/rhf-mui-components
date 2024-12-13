@@ -10,7 +10,7 @@ const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.onValueChange_ColorPicker,
     PropsDescription.disabled,
     PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,

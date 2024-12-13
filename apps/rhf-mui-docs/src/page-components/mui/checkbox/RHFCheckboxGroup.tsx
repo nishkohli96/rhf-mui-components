@@ -22,7 +22,10 @@ const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
       : [PropsDescription.onValueChange_CheckboxGroup_v1]
     ),
     PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    ...(!v1
+      ? [PropsDescription.showLabelAboveFormField_Default]
+      : [PropsDescription.showLabelAboveFormField]
+    ),
     PropsDescription.formLabelProps,
     PropsDescription.checkboxProps,
     PropsDescription.formControlLabelProps,

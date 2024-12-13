@@ -129,7 +129,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   ];
 
   const isSelectAllOption = (option: StrObjOption): boolean =>
-    option === selectAllLabel;
+    option === selectAllLabel || option === selectAllOptionValue;
 
   const renderOptionLabel = (option: StrObjOption): string =>
     isSelectAllOption(option)
@@ -143,7 +143,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     value: string
   ) => {
     /* The event is fired on "Select All" checkbox. */
-    if (!value || (value === selectAllOptionValue)) {
+    if (!value || (value === selectAllOptionValue) || (value === selectAllText)) {
       return isChecked
         ? options.map(option =>
           valueKey && isKeyValueOption(option, labelKey, valueKey)
@@ -181,8 +181,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
             newValue: StringArr,
             selectedValue?: string
           ) => {
-            setSelectedValues(newValue);
+            console.log('newValue: ', newValue);
             onChange(newValue);
+            setSelectedValues(newValue);
             onValueChange?.(newValue, selectedValue);
           };
 
@@ -202,9 +203,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                     ? details.option[valueKey]
                     : details.option
                   : undefined;
-                if (reason === 'selectOption'){
-                  event.preventDefault()
-                };
+                // if (reason === 'selectOption'){
+                //   event.preventDefault()
+                // };
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
@@ -283,10 +284,16 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                      onClick={() => {
-                        const isChecked = !selectedValues.includes(value);
+                      onClick={event => {
+                        event.preventDefault();
+                        const isChecked = isSelectAll ? !allSelected
+                          : !selectedValues.includes(value);
+                        console.log('value: ', value);
+                        console.log('isChecked: ', isChecked);
+                        const fieldValue = handleCheckboxChange(isChecked, value);
+                        console.log('fieldValue: ', fieldValue);
                         changeFieldState(
-                          handleCheckboxChange(isChecked, value),
+                          fieldValue,
                           value
                         );
                       }}

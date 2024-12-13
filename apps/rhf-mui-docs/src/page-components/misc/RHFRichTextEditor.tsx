@@ -28,7 +28,7 @@ const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.disabled,
     PropsDescription.label,
     ...(!v1
-      ? [PropsDescription.showLabelAboveFormField_Rte]
+      ? [PropsDescription.showLabelAboveFormField_Default]
       : []
     ),
     PropsDescription.formLabelProps,

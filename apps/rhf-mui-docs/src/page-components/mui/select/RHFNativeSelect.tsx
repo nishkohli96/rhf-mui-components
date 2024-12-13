@@ -5,10 +5,7 @@ import { VersionProps } from '@site/src/types';
 const RHFNativeSelectPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1
-      ? [PropsDescription.control]
-      : [PropsDescription.register]
-    ),
+    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
     PropsDescription.registerOptions,
     PropsDescription.options,
     PropsDescription.labelKey,
@@ -16,24 +13,25 @@ const RHFNativeSelectPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.onValueChange_NativeSelect]
       : [
-        PropsDescription.defaultValue,
-        PropsDescription.showDefaultOption,
-        PropsDescription.defaultOptionText,
-        PropsDescription.onValueChange_Default_v1
-      ]),
+          PropsDescription.defaultValue,
+          PropsDescription.showDefaultOption,
+          PropsDescription.onValueChange_Default_v1
+        ]),
+    PropsDescription.defaultOptionText,
     PropsDescription.label,
     ...(!v1
-      ? [PropsDescription.helperText]
-      : []
-    ),
+      ? [
+          PropsDescription.showLabelAboveFormField_Default,
+          PropsDescription.formLabelProps,
+          PropsDescription.helperText
+        ]
+      : []),
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFNativeSelectPropsTable;

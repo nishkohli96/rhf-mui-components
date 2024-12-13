@@ -89,9 +89,9 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel}) component.`,
     type: 'boolean'
   },
-  showLabelAboveFormField_Rte: {
+  showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
-    description: 'Renders the form label above the rich text editor by default. Set this prop to `false` to hide the label.',
+    description: 'Renders the form label above the field by default. Set this prop to `false` to hide the label.',
     type: 'boolean'
   },
   helperText: {

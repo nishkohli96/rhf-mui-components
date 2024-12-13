@@ -22,7 +22,7 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
       : [PropsDescription.onValueChange_CheckboxGroup_v1]
     ),
     PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.radioProps,
     PropsDescription.formControlLabelProps,
