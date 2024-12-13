@@ -36,8 +36,8 @@ export function colorToString(color: ColorObject, excludeAlpha?: boolean): strin
 
   if (isHSVColor) {
     return shouldExcludeAlpha
-      ? `hsv(${Math.round(color.h!)}, ${Math.round(color.s!)}%, ${Math.round(color.v!)}%)`
-      : `hsva(${Math.round(color.h!)}, ${Math.round(color.s!)}%, ${Math.round(color.v!)}%, ${color.a ?? 1})`;
+      ? `hsl(${Math.round(color.h!)} ${Math.round(color.s!)}% ${Math.round(color.v!)}%)`
+      : `hsl(${Math.round(color.h!)} ${Math.round(color.s!)}% ${Math.round(color.v!)}% / ${color.a ?? 1})`;
   }
 
   throw new Error('Unexpected error processing the color object');

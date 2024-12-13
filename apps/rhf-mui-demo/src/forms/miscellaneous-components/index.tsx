@@ -104,7 +104,7 @@ const MiscellaneousComponentsForm = () => {
             <RHFColorPicker
               fieldName="secondFavColor"
               control={control}
-              valueKey="rgb"
+              valueKey="hsv"
               defaultColor="violet"
               registerOptions={{
                 required: {
@@ -115,7 +115,6 @@ const MiscellaneousComponentsForm = () => {
               label="Second Favourite Color"
               value={getValues('secondFavColor')}
               required
-              excludeAlpha
               helperText={(
                 <Typography color={getValues('secondFavColor')}>
                   Your secondFavColor is being applied on this text.
