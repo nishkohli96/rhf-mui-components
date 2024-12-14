@@ -33,7 +33,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - Code optimization
 - Upgrade MUI Versions
 - Checkbox default label now renders with label prop
-- Add `disable` prop in `RHFCheckboxGroup` & `RHFRadioGroup`
+- Add `disabled` prop in `RHFCheckboxGroup` & `RHFRadioGroup`
 - Improve implementation for `RHFNativeSelect` & `RHFColorPicker`. Check [Migration Guide](./migration.md) for more details.
 - Update v1 docs
 
@@ -47,7 +47,7 @@ Introduced a flag `isAboveMuiV5` in the code to handle the deprecation of the fo
 |[TextField](https://mui.com/material-ui/api/text-field/) | `InputProps` | `slotProps.input` |[RHFPasswordInput](../docs/components/mui/RHFPasswordInput.mdx), [RHFTagsInput](../docs/components/mui/RHFTagsInput.mdx), [RHFPhoneInput](../docs/components/misc/RHFPhoneInput.mdx) |
 
 ### Upgrade Dependencies
-| Package Name | Old Version | New Version |
+| Package Name | Previous Version | Current Version |
 |-|-|-|
 |[Docusaurus](https://docusaurus.io/)| `3.5.2` | `3.6.3` |
 |[@mui/material](https://www.npmjs.com/package/@mui/material), [@mui/icons-material](https://www.npmjs.com/package/@mui/icons-material)| `5.16.7` | `6.1.10` |
@@ -55,6 +55,7 @@ Introduced a flag `isAboveMuiV5` in the code to handle the deprecation of the fo
 |[@mui/x-tree-view](https://www.npmjs.com/package/@mui/x-tree-view) | `6.17.0` | `7.23.0` |
 |[@mui/x-date pickers](https://mui.com/x/react-date-pickers/) | `7.23.0` | `7.23.2` |
 |[react-color-palette](https://www.npmjs.com/package/react-color-palette) | `7.2.2` | `7.3.0` |
+
 ## [1.0.3](https://github.com/nishkohli96/rhf-mui-components/tree/v1.0.3)
 
 **Released - 1 Nov, 2024**

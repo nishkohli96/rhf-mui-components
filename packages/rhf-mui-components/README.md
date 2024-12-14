@@ -33,17 +33,18 @@ Below is a comprehensive list of all components included in this package, catego
 - mui
   - [TextField](https://rhf-mui-components.netlify.app/components/mui/RHFTextField)
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
+  - [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput)
   - [Select](https://rhf-mui-components.netlify.app/components/mui/RHFSelect)
   - [Native Select](https://rhf-mui-components.netlify.app/components/mui/RHFNativeSelect)
+  - [Autocomplete](https://rhf-mui-components.netlify.app/components/mui/RHFAutocomplete)
   - [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect)
   - [Multi Autocomplete](https://rhf-mui-components.netlify.app/components/mui/RHFMultiAutocomplete)
   - [Checkbox](https://rhf-mui-components.netlify.app/components/mui/RHFCheckbox)
   - [Checkbox Group](https://rhf-mui-components.netlify.app/components/mui/RHFCheckboxGroup)
   - [Radio Group](https://rhf-mui-components.netlify.app/components/mui/RHFRadioGroup)
-  - [Rating](https://rhf-mui-components.netlify.app/components/mui/RHFRating)
   - [Slider](https://rhf-mui-components.netlify.app/components/mui/RHFSlider)
   - [Switch](https://rhf-mui-components.netlify.app/components/mui/RHFSwitch)
-  - [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput)
+  - [Rating](https://rhf-mui-components.netlify.app/components/mui/RHFRating)
 
 - mui-pickers
   - [Date](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFDatePicker)

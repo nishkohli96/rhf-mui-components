@@ -48,6 +48,7 @@
     "material-ui",
     "mui",
     "@mui/material",
+    "rhf-mui",
     "form builder",
     "form validation",
     "form components",

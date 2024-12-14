@@ -104,7 +104,7 @@ const MiscellaneousComponentsForm = () => {
             <RHFColorPicker
               fieldName="secondFavColor"
               control={control}
-              valueKey="hsv"
+              valueKey="rgb"
               defaultColor="violet"
               registerOptions={{
                 required: {

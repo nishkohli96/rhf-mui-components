@@ -20,10 +20,19 @@
     "@nish1896",
     "@nish1896/rhf-mui-components",
     "react-hook-form",
-    "rhf-mui",
-    "reusable rhf components",
     "material-ui",
-    "mui"
+    "mui",
+    "@mui/material",
+    "rhf-mui",
+    "form builder",
+    "form validation",
+    "form components",
+    "react ui components",
+    "react forms library",
+    "component library",
+    "hookform",
+    "@hookform/resolvers",
+    "react material components"
   ],
   "homepage": "https://github.com/nishkohli96/eslint-config#readme",
   "repository": {

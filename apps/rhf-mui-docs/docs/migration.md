@@ -9,7 +9,7 @@ description: Page about the form helper functions exported by this package.
 
 ## Why is it Recommended ?
 
-Version 2 introduces significant enhancements and optimizations for nearly all components from Version 1. In addition to these improvements, the package now includes four new components:
+Version 2 introduces significant enhancements and optimizations for nearly all components from Version 1. In addition to these improvements, the package now includes five new components:
 
 - [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)
 - [RHFMultiAutocomplete](./components/mui/RHFMultiAutocomplete.mdx)
@@ -72,6 +72,10 @@ The `registerOptions` prop has been added to improve validation capabilities for
 - [RHFRating](./components/mui/RHFRating.mdx)
 - [RHFRichTextEditor](./components/misc/RHFRichTextEditor.mdx)
 
+### Required Validation
+
+Every field now includes support for the `required` prop. When enabled, it appends an asterisk (*) to the field label, visually signaling that the field requires a valid value. This ensures users are aware of the necessity to provide input.
+
 ### Disabling fields
 
 The `disabled` prop has been added to the following components, enabling better control over form fields:
@@ -79,7 +83,13 @@ The `disabled` prop has been added to the following components, enabling better 
 - [RHFCheckboxGroup](./components/mui/RHFCheckboxGroup.mdx)
 - [RHFRadioGroup](./components/mui/RHFRadioGroup.mdx)
 
-### Component Changes
+### OnValueChange
+
+As previously mentioned, the changed value(s) can now be accessed earlier in the `onValueChange` callback function, followed by the event handler(s) for that component. This ensures that the relevant data is easily accessible without requiring developers to handle unused parameters. For detailed usage, refer to the `onValueChange` function in the API reference section for each component.
+
+## Component Changes
+
+Significant changes have been made to each of the components listed below that enhance its functionality and makes it more compatible with other core components of this package.
 
 **[1. RHFNativeSelect](./components/mui/RHFNativeSelect.mdx)**
 
@@ -102,9 +112,9 @@ Use `FormLabel` instead of `InputLabel`to display label text for the field.
   - `hideErrorMessage`
   - `formHelperTextProps`
 
-**[3. RHFColorPicker](./components/mui/RHFColorPicker.mdx)**
+**[3. RHFColorPicker](./components/misc/RHFColorPicker.mdx)**
 
-Unlike the previous implementation of v1, the field value is by default handled when user selects a color.
+Unlike the previous implementation of v1, the field value is now handled internally whenever the user selects a color.
 
 **New Props Added -**
   - `control`
@@ -113,8 +123,4 @@ Unlike the previous implementation of v1, the field value is by default handled 
   - `excludeAlpha`
   - `valueKey`
 
-`onValueChange` prop is now optional.
-
-### OnValueChange
-
-As previously mentioned, the changed value(s) can now be accessed earlier in the `onValueChange` callback function, followed by the event handler(s) for that component. This ensures that the relevant data is easily accessible without requiring developers to handle unused parameters. For detailed usage, refer to the `onValueChange` function in the API reference section for each component.
+`onValueChange` prop is now optional, but its implementation remains unchanged.
