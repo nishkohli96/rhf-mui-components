@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   description: 'Overview of the Examples Website for RHF-MUI Components'
 };
 
-export default function Home() {
+const HomePage = () => {
   return (
     <main>
       <ContentContainer>
         <PageHeading title="@nish1896/rhf-mui-components" />
         <Typography variant="h6" color="steelblue">
-          &quot;A suite of Material-UI and other form components to create and
+          &quot;A suite of 20 Material-UI based form components to create and
           style forms effortlessly within minutes!&quot;
         </Typography>
 
@@ -39,6 +39,7 @@ export default function Home() {
         </Typography>
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit
+          {' '}
           <Link href={ENV_VARS.DOCS_URL} target="_blank">
             {` ${ENV_VARS.DOCS_URL}.`}
           </Link>
@@ -46,4 +47,6 @@ export default function Home() {
       </ContentContainer>
     </main>
   );
-}
+};
+
+export default HomePage;

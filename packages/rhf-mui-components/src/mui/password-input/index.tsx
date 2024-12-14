@@ -1,40 +1,59 @@
-import { useState, useContext, ChangeEvent, MouseEvent, ReactNode } from 'react';
 import {
-  UseFormRegister,
-  RegisterOptions,
+  useState,
+  useContext,
+  ChangeEvent,
+  MouseEvent,
+  ReactNode
+} from 'react';
+import {
+  FieldValues,
   Path,
-  FieldValues
+  Controller,
+  Control,
+  RegisterOptions
 } from 'react-hook-form';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { FormLabelProps } from '@mui/material/FormLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+
+type InputPasswordProps = Omit<
+  TextFieldProps,
+  | 'name'
+  | 'type'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'error'
+  | 'InputProps'
+  | 'FormHelperTextProps'
+>
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    value: string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
+  formHelperTextProps?: FormHelperTextProps;
+} & InputPasswordProps;
 
-export default function RHFPasswordInput<T extends FieldValues>({
+const RHFPasswordInput = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   onValueChange,
   label,
@@ -42,20 +61,21 @@ export default function RHFPasswordInput<T extends FieldValues>({
   formLabelProps,
   showPasswordIcon,
   hidePasswordIcon,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  slotProps,
   ...rest
-}: RHFPasswordInputProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+}: RHFPasswordInputProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-
-  const { onChange, ...otherRegisterProps } = register(
-    fieldName,
-    registerOptions
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
   );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const [showPassword, setShowPassword] = useState(false);
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;
@@ -70,26 +90,18 @@ export default function RHFPasswordInput<T extends FieldValues>({
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
-      <TextField
-        {...rest}
-        onChange={e => {
-          onChange(e);
-          if(onValueChange) {
-            onValueChange(e);
-          }
-        }}
-        {...otherRegisterProps}
-        autoComplete={fieldName}
-        label={!showLabelAboveFormField ? fieldLabel : undefined}
-        error={isError}
-        type={showPassword ? 'text' : 'password'}
-        InputProps={{
-          endAdornment: (
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange, ...otherFieldParams } = field;
+          const endAdornment = (
             <InputAdornment position="end">
               <IconButton
                 aria-label="Toggle Password Visibility"
@@ -100,7 +112,39 @@ export default function RHFPasswordInput<T extends FieldValues>({
                 {showPassword ? HidePasswordIcon : ShowPasswordIcon}
               </IconButton>
             </InputAdornment>
-          )
+          );
+
+          return (
+            <TextField
+              id={fieldName}
+              autoComplete={fieldName}
+              type={showPassword ? 'text' : 'password'}
+              label={
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
+              }
+              value={value ?? ''}
+              onChange={event => {
+                onChange(event);
+                if (onValueChange) {
+                  onValueChange(event.target.value, event);
+                }
+              }}
+              error={isError}
+              {...(isAboveMuiV5
+                ? {
+                  slotProps: {
+                    ...slotProps,
+                    input: { endAdornment }
+                  }
+                }
+                : { InputProps: { endAdornment } }
+              )}
+              {...rest}
+              {...otherFieldParams}
+            />
+          );
         }}
       />
       <FormHelperText
@@ -108,9 +152,10 @@ export default function RHFPasswordInput<T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
   );
-}
+};
+
+export default RHFPasswordInput;

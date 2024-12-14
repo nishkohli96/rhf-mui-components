@@ -9,7 +9,7 @@ import { RHFColorPickerPropsTable } from '@site/src/page-components';
 
 # RHFColorPicker
 
-`RHFColorPicker` is derived from the [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage) 
+**RHFColorPicker** is derived from the [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage) 
 component of [react-color-palette](https://www.npmjs.com/package/react-color-palette) package.
 
 ```
@@ -32,24 +32,20 @@ The color-picker accepts string value in `hex`, `rgb`, `hsl` or text format, suc
 - `hsl(180 100% 100% / 1)`
 - `cyan`
 
-If an invalid value is provided, the default color `#000000`(black) will be selected.
+If the field value is uninitialized, the default color **Black**(`#000000`) will be selected,
+which can be configured using the `defaultColor` prop.
 
 ```jsx
 <RHFColorPicker
   fieldName='favouriteColor'
+  control={control}
   value={getValues('favouriteColor')}
-  onValueChange={color => setValue('favouriteColor', color.hex)}
+  errorMessage={errors?.favouriteColor?.message}
 />
 ```
 
-:::note
-The `onValueChange` prop is mandatory and allows you to choose the format
-of the selected color value based on your preference. The returned value
-need to be passed to the `setValue` function to update the form state.
-:::
-
-The returned value from `onValueChange` is an object with the equivalent
-hex, rgb and hsv values.
+The returned color value from `onValueChange` prop is an object with the equivalent
+**hex**, **rgb** and **hsv** values.
 
 ```js
 {

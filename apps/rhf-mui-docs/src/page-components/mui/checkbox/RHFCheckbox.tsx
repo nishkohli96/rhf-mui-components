@@ -1,11 +1,18 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-export default function RHFCheckboxPropsTable() {
+const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    PropsDescription.onValueChange_Checkbox,
+    ...(!v1
+      ? [
+        PropsDescription.registerOptions,
+        PropsDescription.onValueChange_Checkbox
+      ]
+      : [PropsDescription.onValueChange_Checkbox_v1]
+    ),
     PropsDescription.label,
     PropsDescription.formControlLabelProps,
     PropsDescription.helperText,
@@ -17,4 +24,6 @@ export default function RHFCheckboxPropsTable() {
   return (
     <MarkdownTable rows={tableRows} showType/>
   );
-}
+};
+
+export default RHFCheckboxPropsTable;

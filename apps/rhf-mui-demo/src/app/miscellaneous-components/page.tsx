@@ -13,10 +13,11 @@ export const metadata: Metadata = {
   description
 };
 
-export default function MiscellaneousComponentsFormPage() {
+const MiscellaneousComponentsFormPage = () => {
   const links = [
     DocsLinks.rhfColorPicker,
-    DocsLinks.rhfRichTextEditor
+    DocsLinks.rhfRichTextEditor,
+    DocsLinks.rhfPhoneInput
   ];
   const codeLinks = [
     SourceCodeLinks.miscellaneous,
@@ -28,8 +29,10 @@ export default function MiscellaneousComponentsFormPage() {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
-}
+};
+
+export default MiscellaneousComponentsFormPage;

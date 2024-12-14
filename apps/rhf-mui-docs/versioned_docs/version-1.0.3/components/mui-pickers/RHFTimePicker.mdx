@@ -1,0 +1,39 @@
+---
+sidebar_position: 2
+sidebar_label: Time
+title: RHFTimePicker
+description: Use RHFTimePicker with react-hook-form to create customizable time input fields. Explore examples and API details for enhanced functionality.
+---
+
+import { RHFTimePickerPropsTable } from '@site/src/page-components';
+
+# RHFTimePicker
+
+**RHFTimePicker** extends the [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
+component to allow users to select time for an event.
+
+### Usage
+
+```js
+import RHFTimePicker, { RHFTimePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/time';
+```
+
+```jsx
+<RHFTimePicker
+  fieldName="wakeUpTime"
+  register={register}
+  setValue={setValue}
+  errorMessage={errors?.wakeUpTime?.message}
+/>
+```
+
+### Examples
+- [RHFTimePicker](https://rhf-mui-components-examples.netlify.app/date-time-pickers)
+- [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+`RHFTimePickerProps` extends [TimePickerProps](https://mui.com/x/api/date-pickers/time-picker/) 
+and accepts the following additional props:
+
+<RHFTimePickerPropsTable v1 />

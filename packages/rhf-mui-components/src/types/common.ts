@@ -1,3 +1,14 @@
-export type KeyValueOption = Record<string, unknown>;
+export type TrueOrFalse = true | false;
 
-export type OptionType = string | number | KeyValueOption;
+export type StringArr = string[];
+
+export type StringOrNumber = string | number;
+
+export type StrNumArray = StringOrNumber[]
+
+export type KeyValueOption = Record<string, any>;
+
+export type StrNumObjOption = StringOrNumber | KeyValueOption;
+
+export type StrObjOption = string | KeyValueOption;
+

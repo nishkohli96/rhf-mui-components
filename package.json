@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Reusable material-ui and other third party components for react-hook-form to minimize your time and effort in creating forms",
   "author": "Nishant Kohli",
   "private": true,
@@ -8,21 +8,31 @@
   "scripts": {
     "lib": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
-    "demo": "yarn workspace @nish1896/rhf-mui-components-examples dev",
-    "demo:lint": "yarn workspace @nish1896/rhf-mui-components-examples lint",
-    "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-components-examples build",
-    "docs": "yarn workspace @nish1896/rhf-mui-components-docs start",
-    "docs:lint": "yarn workspace @nish1896/rhf-mui-components-docs lint",
-    "docs:build": "yarn workspace @nish1896/rhf-mui-components-docs build"
+    "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
+    "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
+    "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-demo build",
+    "demo:start": "yarn workspace @nish1896/rhf-mui-demo start",
+    "docs": "yarn workspace @nish1896/rhf-mui-docs start",
+    "docs:lint": "yarn workspace @nish1896/rhf-mui-docs lint",
+    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
   },
   "keywords": [
     "@nish1896",
     "@nish1896/rhf-mui-components",
     "react-hook-form",
-    "rhf-mui",
-    "reusable rhf components",
     "material-ui",
-    "mui"
+    "mui",
+    "@mui/material",
+    "rhf-mui",
+    "form builder",
+    "form validation",
+    "form components",
+    "react ui components",
+    "react forms library",
+    "component library",
+    "hookform",
+    "@hookform/resolvers",
+    "react material components"
   ],
   "homepage": "https://github.com/nishkohli96/eslint-config#readme",
   "repository": {

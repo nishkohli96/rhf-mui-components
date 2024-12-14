@@ -16,6 +16,10 @@ export const DemoPageLinks: Page[] = [
     href: `${pagePrefix}/select`
   },
   {
+    title: 'Autocomplete',
+    href: `${pagePrefix}/autocomplete`
+  },
+  {
     title: 'Checkbox & RadioGroup',
     href: `${pagePrefix}/checkbox-and-radiogroup`
   },
@@ -38,5 +42,9 @@ export const DemoPageLinks: Page[] = [
   {
     title: 'Complete Form',
     href: `${pagePrefix}/complete-form`
+  },
+  {
+    title: 'Complete Form with Joi',
+    href: `${pagePrefix}/complete-form-joi`
   }
 ];

@@ -13,10 +13,11 @@ export const metadata: Metadata = {
   description
 };
 
-export default function TextFieldPage() {
+const TextFieldPage = () => {
   const links = [
     DocsLinks.rhfTextField,
-    DocsLinks.rhfPasswordField
+    DocsLinks.rhfPasswordInput,
+    DocsLinks.rhfTagsInput
   ];
   const codeLinks = [
     SourceCodeLinks.inputs,
@@ -28,8 +29,10 @@ export default function TextFieldPage() {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
-}
+};
+
+export default TextFieldPage;

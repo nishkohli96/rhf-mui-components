@@ -1,32 +1,19 @@
 import Joi from 'joi';
-import { Moment } from 'moment';
-import { Colors, Gender, Sports } from '@/types';
-
-export type Person = {
-  email: string;
-  password: string;
-  favouriteColor: Colors | '';
-  sports: string[];
-  iplTeams: string[];
-  favouriteSport: Sports | '';
-  agreeTnC: boolean;
-  colors: Colors[] | null;
-  countries: string[] | null;
-  gender: Gender | null;
-  country: string;
-  darkTheme: boolean;
-  age: number;
-  rating: number | null;
-  dob: Moment | null;
-  time: Moment | null;
-  dateTime: Moment | null;
-  bgColor: string;
-  feedback: string;
-};
+import { Colors, Gender, Sports, Person } from '@/types';
 
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required().min(8),
+  favouriteFoods: Joi.array()
+    .items(
+      Joi.string()
+        .required()
+    )
+    .min(2)
+    .required()
+    .messages({
+      'array.base': 'Enter atleast two dishes'
+    }),
   favouriteColor: Joi.string()
     .required()
     .valid(...Object.values(Colors))
@@ -78,6 +65,14 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Select atleast one country'
     }),
+  hobby: Joi.string().required(),
+  groceryList: Joi.array()
+    .items(Joi.string().required())
+    .min(2)
+    .required()
+    .messages({
+      'array.base': 'Select atleast two items'
+    }),
   gender: Joi.string()
     .required()
     .valid(...Object.values(Gender))
@@ -85,6 +80,8 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
       'any.only': 'Select gender'
     }),
   country: Joi.string().required(),
+  countryCode: Joi.string().required(),
+  phoneNumber: Joi.string().required().min(8),
   darkTheme: Joi.boolean().required(),
   age: Joi.number().required().positive(),
   rating: Joi.number().required().min(1).max(5).messages({

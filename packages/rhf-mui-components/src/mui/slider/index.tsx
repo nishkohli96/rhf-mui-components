@@ -1,89 +1,96 @@
-import { useContext, Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import {
-  UseFormRegister,
-  RegisterOptions,
+  FieldValues,
   Path,
-  FieldValues
+  Controller,
+  Control,
+  RegisterOptions
 } from 'react-hook-form';
-import { FormLabelProps } from '@mui/material/FormLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
 import MuiSlider, { SliderProps } from '@mui/material/Slider';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
-import { FormLabel, FormHelperText } from '../common';
+
+type SliderInputProps = Omit<
+  SliderProps,
+  | 'name'
+  | 'value'
+  | 'onChange'
+>;
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  defaultValue: number | number[];
+  required?: boolean;
   onValueChange?: (
-    event: Event,
     value: number | number[],
-    activeThumb: number
+    activeThumb: number,
+    event: Event,
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<SliderProps, 'name' | 'defaultValue'>;
+  formHelperTextProps?: FormHelperTextProps;
+} & SliderInputProps;
 
-export default function RHFSlider<T extends FieldValues>({
+const RHFSlider = <T extends FieldValues>({
   fieldName,
-  defaultValue,
-  register,
+  control,
   registerOptions,
+  required,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
-  min,
-  max,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFSliderProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+}: RHFSliderProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-
-  const { onChange, name } = register(fieldName, registerOptions);
 
   return (
     <Fragment>
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
-      <MuiSlider
-        min={Number(min)}
-        max={Number(max)}
-        defaultValue={defaultValue}
-        name={name}
-        {...rest}
-        onChange={(event, value, activeThumb) => {
-          onChange(event);
-          if(onValueChange) {
-            onValueChange(event, value, activeThumb);
-          }
-        }}
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field: { onChange, value, ...otherFieldProps } }) => (
+          <MuiSlider
+            {...otherFieldProps}
+            {...rest}
+            value={value ?? 0}
+            onChange={(event, value, activeThumb) => {
+              onChange(value);
+              if (onValueChange) {
+                onValueChange(value, activeThumb, event);
+              }
+            }}
+          />
+        )}
       />
       <FormHelperText
         error={isError}
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </Fragment>
   );
-}
+};
+
+export default RHFSlider;

@@ -1,13 +1,24 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-export function RHFRatingPropsTable() {
+const RHFRatingPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    PropsDescription.onValueChange_Rating,
+    ...(!v1
+      ? [
+        PropsDescription.registerOptions,
+        PropsDescription.required,
+        PropsDescription.onValueChange_Rating
+      ]
+      : [PropsDescription.onValueChange_Rating_v1]
+    ),
     PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    ...(!v1
+      ? [PropsDescription.showLabelAboveFormField_Default]
+      : [PropsDescription.showLabelAboveFormField]
+    ),
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,
@@ -16,4 +27,6 @@ export function RHFRatingPropsTable() {
   ];
 
   return <MarkdownTable rows={tableRows} showType />;
-}
+};
+
+export default RHFRatingPropsTable;

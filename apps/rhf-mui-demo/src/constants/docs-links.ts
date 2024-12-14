@@ -6,9 +6,13 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFTextField',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFTextField`
   },
-  rhfPasswordField: {
+  rhfPasswordInput: {
     title: 'RHFPasswordInput',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFPasswordInput`
+  },
+  rhfTagsInput: {
+    title: 'RHFTagsInput',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFTagsInput`
   },
   rhfSelect: {
     title: 'RHFSelect',
@@ -17,6 +21,18 @@ export const DocsLinks: Record<string, PageInfo> = {
   rhfNativeSelect: {
     title: 'RHFNativeSelect',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFNativeSelect`
+  },
+  rhfAutocomplete: {
+    title: 'RHFAutocomplete',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFAutocomplete`
+  },
+  rhfMultiAutocomplete: {
+    title: 'RHFMultiAutocomplete',
+    href: `${ENV_VARS.DOCS_URL}components/mui/rhfMultiAutocomplete`
+  },
+  rhfCountrySelect: {
+    title: 'RHFCountrySelect',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCountrySelect`
   },
   rhfCheckbox: {
     title: 'RHFCheckbox',
@@ -61,5 +77,9 @@ export const DocsLinks: Record<string, PageInfo> = {
   rhfRichTextEditor: {
     title: 'RHFRichTextEditor',
     href: `${ENV_VARS.DOCS_URL}components/misc/RHFRichTextEditor`
+  },
+  rhfPhoneInput: {
+    title: 'RHFPhoneInput',
+    href: `${ENV_VARS.DOCS_URL}components/misc/RHFPhoneInput`
   }
 };

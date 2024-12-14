@@ -1,6 +1,6 @@
 {
-  "name": "@nish1896/rhf-mui-components-docs",
-  "version": "1.0.2",
+  "name": "@nish1896/rhf-mui-docs",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -16,13 +16,13 @@
     "lint": "eslint --fix ."
   },
   "dependencies": {
-    "@docusaurus/core": "3.5.2",
-    "@docusaurus/preset-classic": "3.5.2",
+    "@docusaurus/core": "3.6.3",
+    "@docusaurus/preset-classic": "3.6.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mdx-js/react": "^3.0.0",
-    "@mui/icons-material": "^5.15.19",
-    "@mui/material": "^5.15.19",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
     "class-transformer": "^0.5.1",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
@@ -33,10 +33,10 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.5.2",
-    "@docusaurus/module-type-aliases": "3.5.2",
-    "@docusaurus/tsconfig": "3.5.2",
-    "@docusaurus/types": "3.5.2",
+    "@docusaurus/eslint-plugin": "^3.6.3",
+    "@docusaurus/module-type-aliases": "3.6.3",
+    "@docusaurus/tsconfig": "3.6.3",
+    "@docusaurus/types": "3.6.3",
     "@nish1896/eslint-config": "^2.1.1",
     "eslint": "^8",
     "typescript": "~5.2.2"

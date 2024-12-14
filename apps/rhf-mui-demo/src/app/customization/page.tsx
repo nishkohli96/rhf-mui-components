@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { DocsLinks, SourceCodeLinks, CodeSandboxLinks, ValidationLibLinks } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/styled-form-with-reusable-component'), { ssr: false });
 
@@ -14,10 +14,11 @@ export const metadata: Metadata = {
   description,
 };
 
-export default function CustomizationPage() {
+const CustomizationPage = () => {
   const links = [
     DocsLinks.rhfTextField,
-    DocsLinks.rhfDatePicker
+    DocsLinks.rhfDatePicker,
+    ValidationLibLinks.luxon
   ];
   const codeLinks = [
     SourceCodeLinks.customization,
@@ -29,8 +30,10 @@ export default function CustomizationPage() {
       <PageHeading title={title} />
       <SubHeading title={description} />
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
-}
+};
+
+export default CustomizationPage;

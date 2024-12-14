@@ -1,0 +1,66 @@
+---
+sidebar_position: 6
+sidebar_label: Checkbox Group
+title: RHFCheckboxGroup
+description: Learn how to use RHFCheckboxGroup with react-hook-form to create customizable groups of checkboxes. Explore examples and API details to enhance your forms.
+---
+
+import RHFCheckboxGroupPropsTable from '@site/src/page-components/mui/checkbox/RHFCheckboxGroup';
+
+# RHFCheckboxGroup
+
+The **RHFCheckboxGroup** component renders multiple checkboxes allowing
+the user to select one or more items from a set. It supports both arrays 
+and arrays of objects for options, and each [checkbox](https://mui.com/material-ui/react-checkbox/) 
+can be customized as needed.
+
+### Usage
+
+```js
+import RHFCheckboxGroup, { RHFCheckboxGroupProps } from '@nish1896/rhf-mui-components/mui/checkbox-group';
+```
+
+Example with an array of strings:
+
+```jsx
+<RHFCheckboxGroup
+  fieldName="toDo"
+  control={control}
+  label="Tasks to do"
+  options={['Read Mails', 'Go for a hike', 'Bring groceries']}
+  errorMessage={errors?.toDo?.message}
+/>
+```
+
+Example with an array of objects:
+
+```jsx
+<RHFCheckboxGroup
+  fieldName="countries"
+  control={control}
+  label="Select Countries You've visited"
+  options={[
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'UAE', country: 'United Arab Emirates' }
+  ]}
+  labelKey="country"
+  valueKey="code"
+  errorMessage={errors?.countries?.message}
+/>
+```
+
+:::warning
+When using an array of objects for options, both `labelKey` and `valueKey` 
+are required. If either is missing, an error will be thrown.
+:::
+
+### Examples
+- [RHFCheckboxGroup](https://rhf-mui-components-examples.netlify.app/checkbox-and-radiogroup)
+- [CheckboxGroup](https://mui.com/material-ui/react-checkbox/#formgroup)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+`RHFCheckboxGroupProps` accepts the following props:
+
+<RHFCheckboxGroupPropsTable v1 />

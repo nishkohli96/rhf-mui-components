@@ -1,25 +1,26 @@
-import { Fragment, ReactNode } from 'react';
-import MuiFormHelperText, { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { RHFMuiConfig } from '@/types';
+import { Fragment, ReactNode, useContext } from 'react';
+import MuiFormHelperText from '@mui/material/FormHelperText';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormHelperTextProps } from '@/types';
 
 type Props = {
   error: boolean;
   errorMessage?: ReactNode;
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'error' | 'children'>;
-} & Pick<RHFMuiConfig, 'defaultFormHelperTextSx'>;
+  formHelperTextProps?: FormHelperTextProps;
+};
 
-export function FormHelperText(props: Props) {
+const FormHelperText = (props: Props) => {
   const {
     formHelperTextProps,
-    defaultFormHelperTextSx,
     error,
     errorMessage,
     helperText,
     hideErrorMessage
   } = props;
 
+  const { defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherHelperTextProps } = formHelperTextProps ?? {};
   const appliedHelperTextSx = {
     ...defaultFormHelperTextSx,
@@ -30,6 +31,7 @@ export function FormHelperText(props: Props) {
     <Fragment>
       <MuiFormHelperText
         {...otherHelperTextProps}
+        component="div"
         sx={appliedHelperTextSx}
         error={error}
       >
@@ -37,4 +39,6 @@ export function FormHelperText(props: Props) {
       </MuiFormHelperText>
     </Fragment>
   );
-}
+};
+
+export default FormHelperText;

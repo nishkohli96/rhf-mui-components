@@ -1,84 +1,112 @@
 import { useContext, ReactNode, ChangeEvent } from 'react';
 import {
-  UseFormRegister,
-  Path,
   FieldValues,
+  Path,
+  Controller,
+  Control,
   RegisterOptions
 } from 'react-hook-form';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+
+type TextFieldInputProps = Omit<
+  TextFieldProps,
+  | 'name'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'error'
+  | 'FormHelperTextProps'
+>
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    value: string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<TextFieldProps, 'name' | 'onChange' | 'error' | 'value'>;
+  formHelperTextProps?: FormHelperTextProps;
+} & TextFieldInputProps;
 
-export default function RHFTextField<T extends FieldValues>({
+const RHFTextField = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   onValueChange,
   label,
   showLabelAboveFormField,
   formLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFTextFieldProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+}: RHFTextFieldProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-
-  const { onChange, ...otherRegisterProps } = register(
-    fieldName,
-    registerOptions
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
   );
 
   return (
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
-      <MuiTextField
-        autoComplete={fieldName}
-        {...rest}
-        onChange={e => {
-          onChange(e);
-          if(onValueChange) {
-            onValueChange(e);
-          }
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange, ...otherFieldParams } = field;
+          return (
+            <MuiTextField
+              id={fieldName}
+              autoComplete={fieldName}
+              label={
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
+              }
+              value={value ?? ''}
+              onChange={event => {
+                onChange(event);
+                if (onValueChange) {
+                  onValueChange(event.target.value, event);
+                }
+              }}
+              error={isError}
+              {...rest}
+              {...otherFieldParams}
+            />
+          );
         }}
-        {...otherRegisterProps}
-        label={!showLabelAboveFormField ? fieldLabel : undefined}
-        error={isError}
       />
       <FormHelperText
         error={isError}
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
   );
-}
+};
+
+export default RHFTextField;

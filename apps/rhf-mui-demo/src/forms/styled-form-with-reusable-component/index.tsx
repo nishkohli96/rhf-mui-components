@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
@@ -11,11 +11,11 @@ import {
   FormContainer,
   FieldVariantInfo,
   GridContainer,
-  RenderFormState,
+  FormState,
   SubmitButton,
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
-import { StyledRHFTextField } from './StyledTextField';
+import StyledRHFTextField from './StyledTextField';
 
 type FormSchema = {
   firstName: string;
@@ -31,11 +31,10 @@ const initialValues: FormSchema = {
 
 export default function StyledReusableComponentForm() {
   const {
-    register,
-    setValue,
-    handleSubmit,
+    control,
     watch,
     formState: { errors },
+    handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues,
   });
@@ -56,13 +55,13 @@ export default function StyledReusableComponentForm() {
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FieldVariantInfo title='Custom FormLabel for both text inputs; custom helperText for "firstName" field'/>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <StyledRHFTextField
                 fieldName="firstName"
-                register={register}
+                control={control}
                 registerOptions={{
                   required: {
                     value: true,
@@ -78,10 +77,10 @@ export default function StyledReusableComponentForm() {
                 errorMessage={errors?.firstName?.message}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <StyledRHFTextField
                 fieldName="lastName"
-                register={register}
+                control={control}
                 registerOptions={{
                   minLength: {
                     value: 4,
@@ -95,21 +94,20 @@ export default function StyledReusableComponentForm() {
                 errorMessage={errors?.lastName?.message}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <FieldVariantInfo title="Date Picker with Luxon adapter" />
               <RHFDatePicker
-                register={register}
-                setValue={setValue}
+                control={control}
                 fieldName="dob"
                 label="Date of Birth"
                 disableFuture
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SubmitButton />
             </Grid>
-            <Grid item xs={12}>
-              <RenderFormState formValues={watch()} errors={errors} />
+            <Grid size={12}>
+              <FormState formValues={watch()} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

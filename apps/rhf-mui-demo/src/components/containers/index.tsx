@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 
 type FormContainerProps = {
@@ -8,15 +8,15 @@ type FormContainerProps = {
   children: ReactElement | ReactElement[];
 };
 
-export function ContentContainer({ children }: Pick<FormContainerProps, 'children'>) {
+export const ContentContainer = ({ children }: Pick<FormContainerProps, 'children'>) => {
   return (
     <Box sx={{ padding: { xs: '30px 25px', md: '50px 20px' } }}>
       {children}
     </Box>
   );
-}
+};
 
-export function FormContainer({ title, children }: FormContainerProps) {
+export const FormContainer = ({ title, children }: FormContainerProps) => {
   return (
     <Box sx={{ padding: '10px', border: '1px solid gray' }}>
       <Typography variant="h6" sx={{ mb: '20px' }}>
@@ -25,12 +25,12 @@ export function FormContainer({ title, children }: FormContainerProps) {
       {children}
     </Box>
   );
-}
+};
 
-export function GridContainer({ children }: Pick<FormContainerProps, 'children'>) {
+export const GridContainer = ({ children }: Pick<FormContainerProps, 'children'>) => {
   return (
     <Grid container spacing={2}>
       {children}
     </Grid>
   );
-}
+};

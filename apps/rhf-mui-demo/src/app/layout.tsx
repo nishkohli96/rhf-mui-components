@@ -4,7 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { AppThemeProvider } from '@/theme';
 import { AppBar, Footer } from '@/components';
 import './globals.css';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import DrawerContent from '@/components/drawer';
 
 type RootLayoutProps = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description: 'Examples for RHF-Mui Components'
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -30,14 +30,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <AppThemeProvider>
             <AppBar />
             <Grid container className="content">
-              <Grid item md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
+              <Grid
+                size={{ md: 3 }}
+                sx={{ display: { xs: 'none', md: 'block' } }}
+              >
                 <DrawerContent />
               </Grid>
-              <Grid
-                item
-                xs={12}
-                md={9}
-              >
+              <Grid size={{ xs: 12, md: 9 }}>
                 {children}
               </Grid>
             </Grid>
@@ -47,4 +46,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

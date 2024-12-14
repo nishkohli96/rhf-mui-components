@@ -1,0 +1,69 @@
+---
+sidebar_position: 7
+sidebar_label: Multi Autocomplete
+title: RHFMultiAutocomplete
+description: Customizable multi-select autocomplete with 'Select All' support and flexible options as arrays or object arrays, best used for large datasets.
+---
+
+import { RHFMultiAutocompletePropsTable } from '@site/src/page-components';
+import NewImg from '@site/static/img/new.png';
+
+# RHFMultiAutocomplete<sup><img src={NewImg} alt="NEW" height="40" /></sup>
+
+**RHFMultiAutocomplete** is an enhanced version of [RHFAutocomplete](./RHFAutocomplete.mdx)
+that supports selecting multiple options from the dataset. This component also includes
+a **"Select All"** feature, allowing users to quickly select all available options with a single click.
+
+This feature is particularly useful for scenarios where users need to handle bulk selections,
+such as assigning multiple tags, selecting categories, or choosing items in batch operations.
+The implementation ensures flexibility while maintaining a seamless user experience, with the
+same validation, customization, and styling options as `RHFAutocomplete`.
+
+:::note
+The `freeSolo` prop of **Autocomplete** is not supported for this component.
+:::
+
+### Usage
+
+```js
+import RHFMultiAutocomplete, { RHFMultiAutocompleteProps } from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
+```
+
+```jsx
+<RHFMultiAutocomplete
+  fieldName="countriesVisited"
+  control={control}
+  options={['Azerbaijan', 'Canada', 'India']}
+  errorMessage={errors?.countriesVisited?.message}
+/>
+```
+
+For options as an array of objects:
+
+```jsx
+<RHFMultiAutocomplete
+  fieldName="countriesVisited"
+  control={control}
+  options={countryList} // imported from RHFCountrySelect
+  labelKey="name"
+  valueKey="iso"
+  errorMessage={errors?.countriesVisited?.message}
+/>
+```
+
+:::warning
+When using an array of objects for options, both `labelKey` and `valueKey` 
+are required. If either is missing, an error will be thrown.
+:::
+
+### Examples
+- [RHFMultiAutocomplete](https://rhf-mui-components-examples.netlify.app/autocomplete)
+- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
+- [Autocomplete with Checkboxes](https://mui.com/material-ui/react-autocomplete/#checkboxes)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+The `RHFMultiAutocomplete` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/)
+and accepts the following additional props:
+
+<RHFMultiAutocompletePropsTable />

@@ -7,12 +7,6 @@ export type PageInfo = {
 
 export type Page = PageInfo & { pages?: PageInfo[] };
 
-export type PropDesc = {
-  name: string;
-  description: ReactNode;
-  required: boolean;
-};
-
 export type PropDescV2 = {
   name: string;
   description: ReactNode;

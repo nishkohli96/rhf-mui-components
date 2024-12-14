@@ -15,6 +15,10 @@ export const SourceCodeLinks: Record<string, Page> = {
     title: 'Select',
     href: `${commonRoute}/select-with-class-validator/index.tsx`
   },
+  countrySelect: {
+    title: 'Country Select',
+    href: `${commonRoute}/autocomplete/index.tsx`
+  },
   checkboxRadio: {
     title: 'Checkbox & Radio with Zod',
     href: `${commonRoute}/checkbox-and-radiogroup-with-zod/index.tsx`
@@ -40,6 +44,10 @@ export const SourceCodeLinks: Record<string, Page> = {
     href: `${commonRoute}/styled-form-with-reusable-component/StyledTextField.tsx`
   },
   completeForm: {
+    title: 'Complete Form with RegisterOptions',
+    href: `${commonRoute}/complete-form/index.tsx`
+  },
+  completeFormJoi: {
     title: 'Complete Form with Joi',
     href: `${commonRoute}/complete-form-with-joi/index.tsx`
   }

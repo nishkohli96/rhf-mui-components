@@ -9,7 +9,7 @@ import { RHFRichTextEditorPropsTable } from '@site/src/page-components';
 
 # RHFRichTextEditor
 
-`RHFRichTextEditor` is a powerful and flexible rich text editor designed for 
+**RHFRichTextEditor** is a powerful and flexible rich text editor designed for 
 content creation within forms. It allows users to format text with features 
 like _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_, 
 and more, making it suitable for blog posts, comments, or any content 
@@ -35,8 +35,8 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 ```jsx
 <RHFRichTextEditor
   fieldName='bio'
-  value={getValues('bio')}
-  setValue={setValue}
+  control={control}
+  errorMessage={errors?.bio?.message}
 />
 ```
 
@@ -50,6 +50,16 @@ To customize editor theme, check the [theme customization guide](https://ckedito
 For advanced features like **findAndReplace**, **inserting images**, 
 **markdown support**, and **word count**, refer to [this example](https://github.com/nishkohli96/react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx). 
 For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
+
+:::note
+If your website supports both light and dark themes, styling `CKEditor5` for theme switching
+can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
+To address this, you can override the editor's CSS based on the active theme by
+referring [this gist](https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5).
+
+You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
+for a better understanding.
+:::
 
 ### Examples
 - [RHFRichTextEditor](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)

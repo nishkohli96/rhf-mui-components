@@ -1,59 +1,84 @@
 import { useContext, ReactNode, ChangeEvent } from 'react';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { FormLabelProps } from '@mui/material/FormLabel';
-import Radio, { RadioProps } from '@mui/material/Radio';
+import {
+  FieldValues,
+  Path,
+  Controller,
+  Control,
+  RegisterOptions
+} from 'react-hook-form';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 import MuiRadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { OptionType } from '@/types';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import {
+  FormLabelProps,
+  FormControlLabelProps,
+  FormHelperTextProps,
+  StrObjOption,
+  RadioProps
+} from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption
 } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
+
+type RadioGroupInputProps = Omit<
+  RadioGroupProps,
+  | 'name'
+  | 'value'
+  | 'onChange'
+>;
 
 export type RHFRadioGroupProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
-  options: OptionType[];
+  registerOptions?: RegisterOptions<T, Path<T>>;
+  options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
-  onValueChange?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
+  onValueChange?: (
+    selectedValue: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => void;
+  disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   radioProps?: RadioProps;
-  formControlLabelProps?: Omit<
-    FormControlLabelProps,
-    'control' | 'label' | 'value'
-  >;
+  formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
+  required?: boolean;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<RadioGroupProps, 'name' | 'value' | 'onChange'>;
+  formHelperTextProps?: FormHelperTextProps;
+} & RadioGroupInputProps;
 
-export default function RHFRadioGroup<T extends FieldValues>({
+const RHFRadioGroup = <T extends FieldValues>({
   fieldName,
   control,
+  registerOptions,
   options,
   labelKey,
   valueKey,
   onValueChange,
+  disabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
   radioProps,
   formControlLabelProps,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFRadioGroupProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+}: RHFRadioGroupProps<T>) => {
+  validateArray('RHFRadioGroup', options, labelKey, valueKey);
+
+  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
@@ -63,32 +88,33 @@ export default function RHFRadioGroup<T extends FieldValues>({
     ...sx,
   };
 
-  validateArray('RHFRadioGroup', options, labelKey, valueKey);
-
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      render={({ field }) => {
-        const { onChange, ...otherFieldParams } = field;
-        return (
-          <FormControl error={isError}>
-            <FormLabel
-              label={fieldLabel}
-              isVisible={showLabelAboveFormField ?? true}
-              error={isError}
-              formLabelProps={formLabelProps}
-              defaultFormLabelSx={defaultFormLabelSx}
-            />
+    <FormControl error={isError}>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={showLabelAboveFormField ?? true}
+        required={required}
+        error={isError}
+        formLabelProps={formLabelProps}
+      />
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { onChange, ...otherFieldParams } = field;
+          return (
             <MuiRadioGroup
               {...rest}
               {...otherFieldParams}
-              onChange={(e, value) => {
-                onChange(e);
+              value={field.value ?? ''}
+              onChange={(event, selectedValue) => {
+                onChange(event);
                 if(onValueChange) {
-                  onValueChange(e, value);
+                  onValueChange(selectedValue, event);
                 }
               }}
+              aria-disabled={disabled}
             >
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -104,23 +130,25 @@ export default function RHFRadioGroup<T extends FieldValues>({
                     control={<Radio {...radioProps} />}
                     value={opnValue}
                     label={opnLabel}
+                    disabled={disabled}
                     sx={appliedFormControlLabelSx}
                     {...otherFormControlLabelProps}
                   />
                 );
               })}
             </MuiRadioGroup>
-            <FormHelperText
-              error={isError}
-              errorMessage={errorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              defaultFormHelperTextSx={defaultFormHelperTextSx}
-              formHelperTextProps={formHelperTextProps}
-            />
-          </FormControl>
-        );
-      }}
-    />
+          );
+        }}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        formHelperTextProps={formHelperTextProps}
+      />
+    </FormControl>
   );
-}
+};
+
+export default RHFRadioGroup;

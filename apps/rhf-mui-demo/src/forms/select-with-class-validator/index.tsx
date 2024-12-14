@@ -2,14 +2,14 @@
 
 import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import { FormSchema } from './validation';
 import {
   FormContainer,
-  RenderFormState,
+  FormState,
   GridContainer,
   FieldVariantInfo,
   SubmitButton
@@ -17,14 +17,16 @@ import {
 import { IPLTeams, Currencies } from '@/constants';
 import { Colors } from '@/types';
 
-export default function SelectFormWithClassValidator() {
+const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
+
+const SelectFormWithClassValidator = () => {
   const {
-    register,
+    control,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: { favouriteColor: Colors.Blue },
+    defaultValues: { favouriteColor: Colors.Orange },
     resolver: classValidatorResolver(FormSchema)
   });
 
@@ -36,58 +38,72 @@ export default function SelectFormWithClassValidator() {
     <FormContainer title="Select Component with Class-Validator">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select field with helpertext" />
             <RHFSelect
               fieldName="favouriteColor"
-              defaultValue={Colors.Blue}
-              register={register}
+              control={control}
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
                 watch('favouriteColor') ? (
                   <Typography color={watch('favouriteColor')}>
-                    {`This text is in ${watch('favouriteColor')} color`}
+                    {`Select an option to change selected text color from ${watch('favouriteColor')}`}
                   </Typography>
                 ) : undefined
               }
+              required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multiple Select with options as an array of objects" />
             <RHFSelect
               fieldName="iplTeams"
-              register={register}
+              control={control}
               options={IPLTeams}
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
               showDefaultOption
+              required
               multiple
               errorMessage={errors?.iplTeams?.message}
               helperText="Select one or more teams"
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Select with number options" />
+            <RHFSelect
+              fieldName="randomNum"
+              control={control}
+              options={randomNumbers}
+              errorMessage={errors?.randomNum?.message}
+              required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Native select" />
             <RHFNativeSelect
               fieldName="currency"
-              register={register}
+              control={control}
               options={Currencies}
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
+              required
               errorMessage={errors?.currency?.message}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <SubmitButton />
           </Grid>
-          <Grid item xs={12}>
-            <RenderFormState formValues={watch()} errors={errors} />
+          <Grid size={12}>
+            <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>
     </FormContainer>
   );
-}
+};
+
+export default SelectFormWithClassValidator;

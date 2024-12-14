@@ -22,7 +22,13 @@ const config: Config = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '/'
+          routeBasePath: '/',
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: '2.0',
+            },
+          },
         }
       }
     ]
@@ -54,7 +60,11 @@ const config: Config = {
           href: 'https://github.com/nishkohli96/rhf-mui-components',
           label: 'GitHub',
           position: 'right'
-        }
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+        },
       ]
     },
     footer: {
@@ -81,7 +91,8 @@ const config: Config = {
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.vsDark
+      darkTheme: prismThemes.vsDark,
+      additionalLanguages: ['diff'],
     },
     customFields: {
       githubLink: `

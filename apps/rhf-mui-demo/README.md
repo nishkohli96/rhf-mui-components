@@ -1,7 +1,13 @@
-# @nish1896/rhf-mui-components-examples
+# @nish1896/rhf-mui-demo
 
-**The repo to play around with this package when in development 🛠️.**
+**A playground repository to explore and experiment with the form components in this package during development. 🛠️**
 
-View examples for all the components included in [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components) on [https://rhf-mui-components-examples.netlify.app/](https://rhf-mui-components-examples.netlify.app/).
+### Live Examples
+Explore live examples for all the components included in the package:
 
-To browse the documentation, visit [https://rhf-mui-components.netlify.app](https://rhf-mui-components.netlify.app).
+👉 [Examples Demo](https://rhf-mui-components-examples.netlify.app/)
+
+### Documentation
+Browse comprehensive documentation, setup guides, and API references for @nish1896/rhf-mui-components:
+
+👉 [Documentation Site](https://rhf-mui-components.netlify.app)

@@ -5,10 +5,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import NkLogo from '../../../public/nk-logo.png';
-import { DrawerMenu } from './DrawerMenu';
+import DrawerMenu from './DrawerMenu';
 import { ThemeChangeButton } from '../buttons';
 
-export function AppBar() {
+const AppBar = () => {
   return (
     <Box>
       <MuiAppBar position="static">
@@ -34,12 +34,11 @@ export function AppBar() {
           >
             <Typography variant="h6">RHF-Mui Components</Typography>
           </Box>
-          {/* <IconButton aria-label="Toggle Theme">
-              <DarkModeIcon />
-            </IconButton> */}
           <ThemeChangeButton />
         </Toolbar>
       </MuiAppBar>
     </Box>
   );
-}
+};
+
+export default AppBar;

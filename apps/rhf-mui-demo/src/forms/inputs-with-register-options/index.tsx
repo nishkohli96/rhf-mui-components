@@ -1,17 +1,18 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
+import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
-  RenderFormState,
+  FormState,
   SubmitButton
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
@@ -23,6 +24,8 @@ type FormSchema = {
   password: string;
   confirmPassword: string;
   age?: number;
+  tags?: string[];
+  keywords?: string[];
 };
 
 const initialValues: FormSchema = {
@@ -30,15 +33,22 @@ const initialValues: FormSchema = {
   lastName: 'Jr.',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  keywords: [
+    'hello',
+    'world',
+    'foo',
+    'bar',
+    'lorem ipsum'
+  ]
 };
 
-export default function TextAndPasswordInputForm() {
+const TextAndPasswordInputForm = () => {
   const {
-    register,
-    handleSubmit,
+    control,
     watch,
-    formState: { errors }
+    formState: { errors },
+    handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
@@ -51,25 +61,26 @@ export default function TextAndPasswordInputForm() {
     <FormContainer title="TextField & PasswordInput">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation" />
             <RHFTextField
               fieldName="firstName"
-              register={register}
+              control={control}
               registerOptions={{
                 required: {
                   value: true,
                   message: reqdMsg('First Name')
                 }
               }}
+              required
               errorMessage={errors?.firstName?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with min & max length validation" />
             <RHFTextField
               fieldName="lastName"
-              register={register}
+              control={control}
               registerOptions={{
                 minLength: {
                   value: 4,
@@ -83,11 +94,11 @@ export default function TextAndPasswordInputForm() {
               errorMessage={errors?.lastName?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with pattern validation & label above form-field" />
             <RHFTextField
               fieldName="email"
-              register={register}
+              control={control}
               errorMessage={errors?.email?.message}
               registerOptions={{
                 pattern: {
@@ -99,11 +110,11 @@ export default function TextAndPasswordInputForm() {
               showLabelAboveFormField
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Simple Password Field" />
             <RHFPasswordInput
               fieldName="password"
-              register={register}
+              control={control}
               registerOptions={{
                 required: {
                   value: true,
@@ -114,14 +125,15 @@ export default function TextAndPasswordInputForm() {
                   message: minCharMsg(4)
                 }
               }}
+              required
               errorMessage={errors?.password?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Password Field with custom icons & validate rule" />
             <RHFPasswordInput
               fieldName="confirmPassword"
-              register={register}
+              control={control}
               registerOptions={{
                 required: {
                   value: true,
@@ -133,16 +145,19 @@ export default function TextAndPasswordInputForm() {
                     value === formValues.password || 'Passwords do not match'
                 }
               }}
+              variant="filled"
               showPasswordIcon={<VisibilityOffTwoToneIcon />}
               hidePasswordIcon={<VisibilityTwoToneIcon />}
+              showLabelAboveFormField
+              required
               errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
             <RHFTextField
               fieldName="age"
-              register={register}
+              control={control}
               type="number"
               registerOptions={{
                 valueAsNumber: true
@@ -153,14 +168,63 @@ export default function TextAndPasswordInputForm() {
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed and custom limit text" />
+            <RHFTagsInput
+              fieldName="tags"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('tags')
+                },
+              }}
+              limitTags={4}
+              getLimitTagsText={hiddenTags => (
+                <Typography color="green">
+                  {`& ${hiddenTags} More`}
+                </Typography>
+              )}
+              required
+              errorMessage={errors?.tags?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Tags Input with styled chips and all tags visible" />
+            <RHFTagsInput
+              fieldName="keywords"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('keywords')
+                },
+              }}
+              ChipProps={{
+                variant: 'outlined',
+                sx: {
+                  color: 'white',
+                  variant: 'filled',
+                  backgroundColor: theme => theme.palette.secondary.main
+                }
+              }}
+              variant="filled"
+              showLabelAboveFormField
+              limitTags={-1}
+              required
+              errorMessage={errors?.keywords?.message}
+            />
+          </Grid>
+          <Grid size={12}>
             <SubmitButton />
           </Grid>
-          <Grid item xs={12}>
-            <RenderFormState formValues={watch()} errors={errors} />
+          <Grid size={12}>
+            <FormState formValues={watch()} errors={errors} />
           </Grid>
         </GridContainer>
       </form>
     </FormContainer>
   );
-}
+};
+
+export default TextAndPasswordInputForm;

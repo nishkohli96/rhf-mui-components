@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description
 };
 
-export default function SwitchSliderRatingFormPage() {
+const SwitchSliderRatingFormPage = () => {
   const links = [
     DocsLinks.rhfSwitch,
     DocsLinks.rhfSlider,
@@ -29,8 +29,10 @@ export default function SwitchSliderRatingFormPage() {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
-}
+};
+
+export default SwitchSliderRatingFormPage;

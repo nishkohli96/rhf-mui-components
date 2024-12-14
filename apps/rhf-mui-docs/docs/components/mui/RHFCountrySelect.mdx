@@ -1,0 +1,97 @@
+---
+sidebar_position: 8
+sidebar_label: Country Select
+title: RHFCountrySelect
+description: Customizable autocomplete field that allows user to select one or more countries.
+---
+
+import { RHFCountrySelectPropsTable } from '@site/src/page-components';
+import NewImg from '@site/static/img/new.png';
+
+# RHFCountrySelect<sup><img src={NewImg} alt="NEW" height="40" /></sup>
+
+**RHFCountrySelect** leverages the [Autocomplete](https://mui.com/material-ui/react-autocomplete/) 
+component from Material-UI to enable users to select one or more countries
+from a comprehensive list of 250 options. It offers flexibility in retrieving
+the selected country's value as its name, ISO code, or ISO3 code. Additionally,
+each option is displayed with the respective country's flag, enhancing the
+component's visual appeal and user experience.
+
+### Usage
+
+```js
+import RHFCountrySelect, {
+  RHFCountrySelectProps,
+  CountryISO,
+  CountryDetails,
+  countryList
+} from '@nish1896/rhf-mui-components/mui/country-select';
+```
+
+```jsx
+<RHFCountrySelect
+  fieldName="nationality"
+  control={control}
+  errorMessage={errors?.nationality?.message}
+/>
+```
+
+Each option in the list of 250 countries is represented as an object
+structured as follows:
+
+```js
+{
+  name: 'India',
+  iso: 'IN',
+  iso3: 'IND',
+  emoji: '🇮🇳'
+}
+```
+
+By default, the `iso` key is used to return the value of the selected
+option(s), offering a compact and consistent identifier. The iso key is
+strongly typed as `CountryISO`, ensuring type safety and consistency in
+integration. Additionally, users can choose to retrieve the **_name_** or
+**_iso3_** value(s) of the selected option(s) by specifying the desired key
+through the `valueKey` prop, providing flexibility to suit various use cases.
+
+For developers seeking access to all available country data,
+the complete list of countries is provided via the `countryList` export
+from this module.
+
+The following code snippet demonstrates an advanced use case where users
+can select multiple countries by their names from a predefined list of
+country options. To improve usability, a set of preferred countries is
+prominently displayed at the top of the dropdown. This prioritization
+ensures frequently chosen options are easily accessible, streamlining
+the selection process.
+
+```js
+/* Logic for filtering countries */
+const filteredCountries = countryList.filter(
+  country => ['IN', 'US', 'AU', 'FI', 'UA', 'CN', 'GB', 'JP', 'VN'].includes(country.iso)
+);
+```
+
+```jsx
+<RHFCountrySelect
+  fieldName="dreamDestinations"
+  control={control}
+  valueKey="name"
+  preferredCountries={['IN', 'AU', 'JP']}
+  countries={filteredCountries}
+  multiple
+  errorMessage={errors?.dreamDestinations?.message}
+/>
+```
+
+### Examples
+- [RHFCountrySelect](https://rhf-mui-components-examples.netlify.app/country-select)
+- [Autocomplete - Country Select](https://mui.com/material-ui/react-autocomplete/#country-select)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+The `RHFCountrySelectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+and accepts the following additional props:
+
+<RHFCountrySelectPropsTable />

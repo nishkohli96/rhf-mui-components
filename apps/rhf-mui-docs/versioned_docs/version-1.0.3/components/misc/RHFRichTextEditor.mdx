@@ -1,0 +1,78 @@
+---
+sidebar_position: 2
+sidebar_label: Rich Text Editor
+title: RHFRichTextEditor
+description: RHFTextEditor is a customizable rich text editor for forms, offering formatting options like bold, italic, and lists. Easily integrates with React Hook Form for seamless form handling and validation.
+---
+
+import { RHFRichTextEditorPropsTable } from '@site/src/page-components';
+
+# RHFRichTextEditor
+
+**RHFRichTextEditor** is a powerful and flexible rich text editor designed for 
+content creation within forms. It allows users to format text with features 
+like _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_, 
+and more, making it suitable for blog posts, comments, or any content 
+requiring rich formatting. This component is built on top of 
+[CkEditor](https://ckeditor.com/docs/ckeditor5/latest/index.html),
+a highly customizable editor that supports advanced features like 
+`codeBlocks`, `findAndReplace`, `tables`, and more.
+
+```
+npm i ckeditor5 @ckeditor/ckeditor5-react
+```
+
+```
+yarn add ckeditor5 @ckeditor/ckeditor5-react
+```
+
+## Usage
+
+```js
+import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+```
+
+```jsx
+<RHFRichTextEditor
+  fieldName='bio'
+  value={getValues('bio')}
+  setValue={setValue}
+/>
+```
+
+To reorder formatting options or add advanced features, you can provide
+a custom configuration via the `editorConfig` prop, or override the existing
+configuration by modifying the `DefaultEditorConfig` object. You can check the 
+[default configuration here](https://github.com/nishkohli96/rhf-mui-components/blob/main/packages/rhf-mui-components/src/components/miscellaneous/rich-text-editor/config.ts).
+
+To customize editor theme, check the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
+
+For advanced features like **findAndReplace**, **inserting images**, 
+**markdown support**, and **word count**, refer to [this example](https://github.com/nishkohli96/react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx). 
+For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
+
+:::note
+If your website supports both light and dark themes, styling `CKEditor5` for theme switching
+can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
+To address this, you can override the editor's CSS based on the active theme by
+referring [this gist](https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5).
+
+You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
+for a better understanding.
+:::
+
+### Examples
+- [RHFRichTextEditor](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
+- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
+
+### Alternatives
+I chose CKEditor for its advanced features, customization options and
+support for multiple languages. Although the documentation can be overwhelming, 
+I've provided both basic and advanced configuration options for this component. 
+If you're looking for a simpler solution, you can consider implementing 
+[mui-rte](https://www.npmjs.com/package/mui-rte).
+
+### API
+`RHFRichTextEditorProps` accepts the following props:
+
+<RHFRichTextEditorPropsTable v1 />

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description
 };
 
-export default function CheckboxRadioZodFormPage() {
+const CheckboxRadioZodFormPage = () => {
   const links = [
     DocsLinks.rhfCheckbox,
     DocsLinks.rhfCheckboxGroup,
@@ -30,8 +30,10 @@ export default function CheckboxRadioZodFormPage() {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
-}
+};
+
+export default CheckboxRadioZodFormPage;

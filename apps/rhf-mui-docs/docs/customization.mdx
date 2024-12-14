@@ -18,11 +18,20 @@ All components share at least two common props: [FormLabel](https://mui.com/mate
 and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/). Components like checkboxes or switches 
 also include a [FormControlLabel](https://mui.com/material-ui/api/form-control-label/). 
 These can be preconfigured to apply uniform styles across all components. 
+
 Additionally, there's an option to customize the `dateAdapter` for 
 date and time pickers, with `AdapterDayjs` set as the default, following 
 [MUI's recommendation](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
-### ConfigProvider & DefaultRHFMuiConfig
+Starting with version 2, a new boolean flag, `allLabelsAboveFields`,
+also has been introduced to simplify label placement across form components.
+When set to **true**, this flag ensures that labels are rendered above all form
+fields globally, eliminating the need to manually specify `showLabelAboveFormField`
+prop for each component. If `allLabelsAboveFields` is enabled globally, you can explicitly
+set `showLabelAboveFormField` to false for a specific component to override
+the default behavior.
+
+### ConfigProvider
 
 To streamline customization, the library provides a `ConfigProvider` component
 and the default values in `DefaultRHFMuiConfig` object, allowing you to 
@@ -32,16 +41,29 @@ You can either apply these customizations across all forms by initializing
 `ConfigProvider` at the root level of your application or use it within a 
 specific form as a parent component.
 
-Below are the default values for customization:
+The type definition for `ConfigProvider` is listed below -
+
+```ts
+type RHFMuiConfigInput = {
+  defaultFormLabelSx?: SxProps;
+  defaultFormControlLabelSx?: SxProps;
+  defaultFormHelperTextSx?: SxProps;
+  dateAdapter?: `AdapterDayjs` | `AdapterDateFns` | `AdapterLuxon` | `AdapterMoment`;
+  allLabelsAboveFields?: boolean;
+}
+```
+
+The values listed below represent the default **sx** styles applied to the
+[FormLabel](https://mui.com/material-ui/api/form-label/),
+[FormControlLabel](https://mui.com/material-ui/api/form-control-label/),
+and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/) components.
 
 <DefaultConfigValuesTable />
 
-**All of these props are optional**.
-
 ### Usage
 
-```
-import { ConfigProvider } from '@nish1896/rhf-mui-components';
+```js
+import { ConfigProvider, DefaultRHFMuiConfig } from '@nish1896/rhf-mui-components/config';
 ```
 
 Override the default `FormLabel` and `FormHelperText` values by providing
@@ -59,6 +81,7 @@ Please do install the npm package of the corresponding date library.
   defaultFormControlLabelSx={{ color: '#ea3677', mr: '1rem' }}
   defaultFormHelperTextSx={{ mt: '0.75rem' }}
   dateAdapter={AdapterMoment}
+  allLabelsAboveFields
 >
   <form>
     {/* Form content */}
@@ -67,4 +90,4 @@ Please do install the npm package of the corresponding date library.
 ```
 
 For detailed usage of `ConfigProvider` and extending an existing component,
-refer to [this example](https://rhf-mui-components-examples.netlify.app/examples/customization).
+refer to [this example](https://rhf-mui-components-examples.netlify.app/customization).

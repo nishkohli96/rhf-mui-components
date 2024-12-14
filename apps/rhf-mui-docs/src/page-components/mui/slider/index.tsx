@@ -1,15 +1,27 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-export function RHFSliderPropsTable() {
+const RHFSliderPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    PropsDescription.register,
+    ...(!v1
+      ? [PropsDescription.control]
+      : [PropsDescription.register]
+    ),
     PropsDescription.registerOptions,
-    PropsDescription.defaultValue_Slider,
-    PropsDescription.onValueChange_Slider,
+    ...(!v1
+      ? [
+        PropsDescription.required,
+        PropsDescription.onValueChange_Slider
+      ]
+      : [
+        PropsDescription.defaultValue_Slider,
+        PropsDescription.onValueChange_Slider_v1
+      ]
+    ),
     PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,
@@ -18,4 +30,7 @@ export function RHFSliderPropsTable() {
   ];
 
   return <MarkdownTable rows={tableRows} showType />;
-}
+};
+
+export default RHFSliderPropsTable;
+

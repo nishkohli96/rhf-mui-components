@@ -5,7 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { DemoPageLinks } from '@/constants';
 
-export default function DrawerContent() {
+const Drawer = () => {
   return (
     <Paper
       sx={{
@@ -26,4 +26,6 @@ export default function DrawerContent() {
       </List>
     </Paper>
   );
-}
+};
+
+export default Drawer;

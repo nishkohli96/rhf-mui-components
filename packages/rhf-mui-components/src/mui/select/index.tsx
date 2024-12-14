@@ -1,59 +1,55 @@
 import { useContext, Fragment, ReactNode } from 'react';
 import {
-  UseFormRegister,
-  RegisterOptions,
-  Path,
   FieldValues,
+  Path,
+  Controller,
+  Control,
+  RegisterOptions
 } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
-import { FormLabelProps } from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import MuiSelect, {
-  SelectChangeEvent,
-  SelectProps,
-} from '@mui/material/Select';
+import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { OptionType } from '@/types';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps, StrNumObjOption, SelectProps } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
+  keepLabelAboveFormField,
 } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
 
-type SelectValueType = OptionType | OptionType[];
+type SelectValueType = StrNumObjOption | StrNumObjOption[];
 
 export type RHFSelectProps<T extends FieldValues> = {
   fieldName: Path<T>;
-  register: UseFormRegister<T>;
+  control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: OptionType[];
+  options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
-  defaultValue?: SelectValueType;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
-  onValueChange?: (e: SelectChangeEvent<SelectValueType>) => void;
+  onValueChange?: (
+    newValue: SelectValueType,
+    event: SelectChangeEvent<SelectValueType>,
+    child: ReactNode
+  ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<
-  SelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'defaultValue'
->;
+  formHelperTextProps?: FormHelperTextProps;
+} & SelectProps;
 
-export default function RHFSelect<T extends FieldValues>({
+const RHFSelect = <T extends FieldValues>({
   fieldName,
-  register,
+  control,
   registerOptions,
   options,
   labelKey,
   valueKey,
-  defaultValue,
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -61,77 +57,93 @@ export default function RHFSelect<T extends FieldValues>({
   showLabelAboveFormField,
   formLabelProps,
   multiple,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   ...otherSelectProps
-}: RHFSelectProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
-
-  const { onChange, ...rest } = register(fieldName, registerOptions);
+}: RHFSelectProps<T>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
+
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const SelectFormLabel = <FormLabelText label={fieldLabel} required={required} />;
+  const isError = Boolean(errorMessage);
 
   return (
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField}
+        isVisible={isLabelAboveFormField}
+        required={required}
         error={isError}
         formLabelProps={formLabelProps}
-        defaultFormLabelSx={defaultFormLabelSx}
       />
       <Fragment>
-        {!showLabelAboveFormField && (
-          <InputLabel id={fieldName}>
-            {fieldLabel}
+        {!isLabelAboveFormField && (
+          <InputLabel id={fieldName} >
+            {SelectFormLabel}
           </InputLabel>
         )}
       </Fragment>
-      <MuiSelect
-        id={fieldName}
-        labelId={showLabelAboveFormField ? undefined : fieldName}
-        label={showLabelAboveFormField ? undefined : fieldName}
-        defaultValue={defaultValue ?? ( multiple ? [] : '')}
-        error={isError}
-        multiple={multiple}
-        onChange={e => {
-          onChange(e);
-          if(onValueChange) {
-            onValueChange(e);
-          }
-        }}
-        {...otherSelectProps}
-        {...rest}
-      >
-        <MenuItem
-          value=""
-          disabled
-          sx={{ display: showDefaultOption ? 'block' : 'none' }}
-        >
-          {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
-        </MenuItem>
-        {options.map(option => {
-          const isObject = isKeyValueOption(option, labelKey, valueKey);
-          const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-          const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field: { value, onChange, ...otherFieldProps } }) => {
           return (
-            <MenuItem key={opnValue} value={opnValue}>
-              {opnLabel}
-            </MenuItem>
+            <MuiSelect
+              {...otherFieldProps}
+              id={fieldName}
+              labelId={isLabelAboveFormField ? undefined : fieldName}
+              label={isLabelAboveFormField ? undefined : SelectFormLabel}
+              value={value ?? (multiple ? [] : '')}
+              error={isError}
+              multiple={multiple}
+              onChange={(event, child) => {
+                const selectedValue = event.target.value;
+                onChange(selectedValue);
+                if (onValueChange) {
+                  onValueChange(selectedValue, event, child);
+                }
+              }}
+              {...otherSelectProps}
+            >
+              <MenuItem
+                value=""
+                disabled
+                sx={{ display: showDefaultOption ? 'block' : 'none' }}
+              >
+                {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
+              </MenuItem>
+              {options.map(option => {
+                const isObject = isKeyValueOption(option, labelKey, valueKey);
+                const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
+                const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+                return (
+                  <MenuItem key={opnValue} value={opnValue}>
+                    {opnLabel}
+                  </MenuItem>
+                );
+              })}
+            </MuiSelect>
           );
-        })}
-      </MuiSelect>
+        }}
+      />
       <FormHelperText
         error={isError}
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        defaultFormHelperTextSx={defaultFormHelperTextSx}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
   );
-}
+};
+
+export default RHFSelect;

@@ -9,7 +9,7 @@ import { RHFTimePickerPropsTable } from '@site/src/page-components';
 
 # RHFTimePicker
 
-`RHFTimePicker` extends the [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
+**RHFTimePicker** extends the [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
 component to allow users to select time for an event.
 
 ### Usage
@@ -21,8 +21,7 @@ import RHFTimePicker, { RHFTimePickerProps } from '@nish1896/rhf-mui-components/
 ```jsx
 <RHFTimePicker
   fieldName="wakeUpTime"
-  register={register}
-  setValue={setValue}
+  control={control}
   errorMessage={errors?.wakeUpTime?.message}
 />
 ```

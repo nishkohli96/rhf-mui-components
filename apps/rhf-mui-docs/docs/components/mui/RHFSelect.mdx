@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 sidebar_label: Select
 title: RHFSelect
 description: Learn how to use RHFSelect with react-hook-form for customizable dropdowns that handle both arrays and object arrays. Explore examples and API details to enhance your React forms.
@@ -9,7 +9,7 @@ import { RHFSelectPropsTable } from '@site/src/page-components';
 
 # RHFSelect
 
-`RHFSelect` is an extended version of [Select](https://mui.com/material-ui/react-select/),
+**RHFSelect** is an extended version of [Select](https://mui.com/material-ui/react-select/),
 allowing users to select one or more options. One significant advantage is its 
 ability to _**accept both arrays and arrays of objects**_, making it easier to 
 render options with differing labels and values without custom logic.
@@ -25,7 +25,7 @@ Here’s a basic example with an array of strings:
 ```jsx
 <RHFSelect
   fieldName="color"
-  register={register}
+  control={control}
   options={['Red', 'Blue', 'Orange']}
   errorMessage={errors?.color?.message}
 />
@@ -36,7 +36,7 @@ For options as an array of objects:
 ```jsx
 <RHFSelect
   fieldName="country"
-  register={register}
+  control={control}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
@@ -48,7 +48,7 @@ For options as an array of objects:
 />
 ```
 
-:::note
+:::warning
 When using an array of objects for options, both `labelKey` and `valueKey` 
 are required. If either is missing, an error will be thrown.
 :::

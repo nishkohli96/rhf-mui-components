@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description
 };
 
-export default function SelectWithClassValidatorPage() {
+const SelectWithClassValidatorPage = () => {
   const links = [
     DocsLinks.rhfSelect,
     DocsLinks.rhfNativeSelect,
@@ -29,8 +29,10 @@ export default function SelectWithClassValidatorPage() {
       <PageHeading title={title} />
       <SubHeading title={description}/>
       <ClientForm />
-      <LinksList links={codeLinks} areCodeLinks />
       <LinksList links={links} />
+      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
-}
+};
+
+export default SelectWithClassValidatorPage;

@@ -10,7 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const DrawerContentClient = dynamic(() => import('@/components/drawer'), { ssr: false });
 
-export function DrawerMenu() {
+const DrawerMenu = () => {
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const isPhone = useMediaQuery(theme.breakpoints.down('md'));
@@ -37,4 +37,6 @@ export function DrawerMenu() {
       )}
     </Fragment>
   );
-}
+};
+
+export default DrawerMenu;

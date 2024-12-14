@@ -2,7 +2,7 @@
 
 import ReactJson from 'react-json-view';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';
 
@@ -11,10 +11,10 @@ type RenderFormStateProps<T extends FieldValues> = {
   errors: FieldErrors<T>;
 };
 
-export function RenderFormState<T extends FieldValues>({
+const FormState = <T extends FieldValues>({
   formValues,
   errors
-}: RenderFormStateProps<T>) {
+}: RenderFormStateProps<T>) => {
   /**
    * "errors" object from RHF also has ref, besides type & message.
    * Unfortunately, "react-json-view" has a hard time parsing that
@@ -34,10 +34,10 @@ export function RenderFormState<T extends FieldValues>({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <SubHeading title="Form values & errors in real-time" />
+      <Grid size={12}>
+        <SubHeading title="Form State - Values & Errors" />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Paper>
           <ReactJson
             src={formValues}
@@ -47,7 +47,7 @@ export function RenderFormState<T extends FieldValues>({
           />
         </Paper>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Paper>
           <ReactJson
             src={errObj}
@@ -59,4 +59,6 @@ export function RenderFormState<T extends FieldValues>({
       </Grid>
     </Grid>
   );
-}
+};
+
+export default FormState;

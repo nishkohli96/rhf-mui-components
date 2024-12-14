@@ -1,7 +1,7 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "1.0.3",
-  "description": "Reusable mui components for react-hook-form to minimize your time and effort in creating forms",
+  "version": "2.0.0",
+  "description": "A suite of 20 reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsc && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/ && tsc-alias",
+    "build": "tsc && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/ && tsc-alias",
     "lint": "eslint --fix ."
   },
   "devDependencies": {
@@ -23,7 +23,9 @@
     "react-hook-form": ">=7"
 	},
   "exports": {
+    "./package.json": "./package.json",
     "./config": "./config/index.js",
+    "./form-helpers": "./form-helpers/index.js",
     "./misc": "./misc/index.js",
     "./misc/*": "./misc/*",
     "./mui": "./mui/index.js",
@@ -46,6 +48,7 @@
     "material-ui",
     "mui",
     "@mui/material",
+    "rhf-mui",
     "form builder",
     "form validation",
     "form components",

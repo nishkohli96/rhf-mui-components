@@ -1,12 +1,14 @@
 import {
   IsString,
+  IsNumber,
   IsEnum,
   IsArray,
   ArrayMinSize,
+  ArrayUnique,
   ValidatorConstraint,
   ValidatorConstraintInterface,
   ValidationArguments,
-  Validate
+  Validate,
 } from 'class-validator';
 import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';
@@ -33,8 +35,12 @@ export class FormSchema {
   @IsString()
   currency!: string;
 
+  @IsNumber()
+  randomNum!: number;
+
   @IsArray()
   @ArrayMinSize(1, { message: 'Select atleast one option' })
+  @ArrayUnique()
   @IsString({ each: true })
   @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
   iplTeams!: string[];

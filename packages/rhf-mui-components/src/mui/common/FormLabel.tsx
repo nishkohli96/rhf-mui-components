@@ -1,23 +1,35 @@
-import { Fragment, ReactNode } from 'react';
-import MuiFormLabel, { FormLabelProps } from '@mui/material/FormLabel';
-import { RHFMuiConfig } from '@/types';
+import { Fragment, ReactNode, useContext } from 'react';
+import MuiFormLabel from '@mui/material/FormLabel';
+import { styled } from '@mui/material/styles';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormLabelProps } from '@/types';
 
 type Props = {
   label: ReactNode;
-  error: boolean;
   isVisible?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
-} & Pick<RHFMuiConfig, 'defaultFormLabelSx'>;
+  required?: boolean;
+  error: boolean;
+  formLabelProps?: FormLabelProps;
+};
 
-export function FormLabel(props: Props) {
-  const {
-    label,
-    formLabelProps,
-    defaultFormLabelSx,
-    error,
-    isVisible
-  } = props;
+/**
+ * When label was a typography component, the asterisk was
+ * rendering in a new line, the "StyledFormLabel" component
+ * addresses this issue.
+ */
+const StyledFormLabel = styled(MuiFormLabel)(() => ({
+  display: 'flex',
+  flexDirection: 'row'
+}));
 
+const FormLabel = ({
+  label,
+  isVisible,
+  required,
+  error,
+  formLabelProps
+}: Props) => {
+  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherLabelProps } = formLabelProps ?? {};
   const appliedLabelSx = {
     ...defaultFormLabelSx,
@@ -27,14 +39,17 @@ export function FormLabel(props: Props) {
   return (
     <Fragment>
       {isVisible && (
-        <MuiFormLabel
+        <StyledFormLabel
           {...otherLabelProps}
+          required={required}
           error={error}
           sx={appliedLabelSx}
         >
           {label}
-        </MuiFormLabel>
+        </StyledFormLabel>
       )}
     </Fragment>
   );
-}
+};
+
+export default FormLabel;

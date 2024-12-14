@@ -1,31 +1,48 @@
-import { useContext, ReactNode, SyntheticEvent } from 'react';
-import { Control, Controller, Path, FieldValues } from 'react-hook-form';
-import { FormHelperTextProps } from '@mui/material/FormHelperText';
-import { FormLabelProps } from '@mui/material/FormLabel';
+import { ReactNode, SyntheticEvent } from 'react';
+import {
+  FieldValues,
+  Path,
+  Controller,
+  Control,
+  RegisterOptions
+} from 'react-hook-form';
 import MuiRating, { RatingProps } from '@mui/material/Rating';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
-import { FormControl, FormLabel, FormHelperText } from '../common';
+
+type InputRatingProps = Omit<
+  RatingProps,
+  | 'name'
+  | 'onChange'
+  | 'error'
+  | 'value'
+  | 'defaultValue'
+>
 
 export type RHFRatingProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
+  registerOptions?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   onValueChange?: (
-    e: SyntheticEvent<Element, Event>,
-    newValue: number | null
+    newValue: number | null,
+    event: SyntheticEvent<Element, Event>
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: Omit<FormLabelProps, 'error'>;
+  formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: Omit<FormHelperTextProps, 'children' | 'error'>;
-} & Omit<RatingProps, 'name' | 'onChange' | 'error' | 'value'>;
+  formHelperTextProps?: FormHelperTextProps;
+} & InputRatingProps;
 
-export default function RHFRating<T extends FieldValues>({
+const RHFRating = <T extends FieldValues>({
   fieldName,
   control,
+  registerOptions,
+  required,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -35,47 +52,50 @@ export default function RHFRating<T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFRatingProps<T>) {
-  const { defaultFormLabelSx, defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+}: RHFRatingProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      render={({ field }) => {
-        const { value, onChange, ...otherFieldParams } = field;
-        return (
-          <FormControl error={isError}>
-            <FormLabel
-              label={fieldLabel}
-              isVisible={showLabelAboveFormField}
-              error={isError}
-              formLabelProps={formLabelProps}
-              defaultFormLabelSx={defaultFormLabelSx}
-            />
+    <FormControl error={isError}>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={showLabelAboveFormField ?? true}
+        required={required}
+        error={isError}
+        formLabelProps={formLabelProps}
+      />
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        render={({ field }) => {
+          const { value, onChange, ...otherFieldParams } = field;
+          return (
             <MuiRating
               {...rest}
               {...otherFieldParams}
-              onChange={(e, newValue) => {
+              value={value ?? 0}
+              onChange={(event, newValue) => {
                 onChange(Number(newValue));
                 if(onValueChange) {
-                  onValueChange(e, newValue);
+                  onValueChange(newValue, event);
                 }
               }}
             />
-            <FormHelperText
-              error={isError}
-              errorMessage={errorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              defaultFormHelperTextSx={defaultFormHelperTextSx}
-              formHelperTextProps={formHelperTextProps}
-            />
-          </FormControl>
-        );
-      }}
-    />
+          );
+        }}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={errorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        formHelperTextProps={formHelperTextProps}
+      />
+    </FormControl>
   );
-}
+};
+
+export default RHFRating;
+
