@@ -74,7 +74,6 @@ const CompleteFormWithJoi = () => {
   const {
     control,
     watch,
-    setValue,
     getValues,
     formState: { errors },
     handleSubmit
