@@ -1,9 +1,9 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A suite of 20 reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
-  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
+  "homepage": "https://rhf-mui-components.netlify.app/",
   "repository": {
     "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
   },
@@ -23,24 +23,63 @@
     "react-hook-form": ">=7"
 	},
   "exports": {
-    "./package.json": "./package.json",
-    "./config": "./config/index.js",
-    "./form-helpers": "./form-helpers/index.js",
-    "./misc": "./misc/index.js",
-    "./misc/*": "./misc/*",
-    "./mui": "./mui/index.js",
-    "./mui/*": "./mui/*",
-    "./mui-pickers": "./mui-pickers/index.js",
-    "./mui-pickers/*": "./mui-pickers/*"
+    "./package.json": {
+      "import": "./package.json",
+      "require": "./package.json"
+    },
+    "./config": {
+      "import": "./config/index.js",
+      "require": "./config/index.js",
+      "types": "./config/index.d.ts"
+    },
+    "./form-helpers": {
+      "import": "./form-helpers/index.js",
+      "require": "./form-helpers/index.js",
+      "types": "./form-helpers/index.d.ts"
+    },
+    "./mui": {
+      "import": "./mui/index.js",
+      "require": "./mui/index.js",
+      "types": "./mui/index.d.ts"
+    },
+    "./mui/*": {
+      "import": "./mui/*/index.js",
+      "require": "./mui/*/index.js",
+      "types": "./mui/*/index.d.ts"
+    },
+    "./mui-pickers": {
+      "import": "./mui-pickers/index.js",
+      "require": "./mui-pickers/index.js",
+      "types": "./mui-pickers/index.d.ts"
+    },
+    "./mui-pickers/*": {
+      "import": "./mui-pickers/*/index.js",
+      "require": "./mui-pickers/*/index.js",
+      "types": "./mui-pickers/*/index.d.ts"
+    },
+    "./misc": {
+      "import": "./misc/index.js",
+      "require": "./misc/index.js",
+      "types": "./misc/index.d.ts"
+    },
+    "./misc/*": {
+      "import": "./misc/*/index.js",
+      "require": "./misc/*/index.js",
+      "types": "./misc/*/index.d.ts"
+    }
   },
   "typesVersions": {
     "*": {
-      "./mui": ["mui/index.d.ts"],
-      "./mui-pickers": ["mui-pickers/index.d.ts"],
-      "./misc": ["misc/index.d.ts"]
+      "./mui": ["./mui/index.d.ts"],
+      "./mui/*": ["./mui/*/index.d.ts"],
+      "./mui-pickers": ["./mui-pickers/index.d.ts"],
+      "./mui-pickers/*": ["./mui-pickers/*/index.d.ts"],
+      "./misc": ["./misc/index.d.ts"],
+      "./misc/*": ["./misc/*/index.d.ts"],
+      "./config": ["./config/index.d.ts"],
+      "./form-helpers": ["./form-helpers/index.d.ts"]
     }
   },
-  "types": "./types/index.d.ts",
   "keywords": [
     "@nish1896",
     "@nish1896/rhf-mui-components",

@@ -7,6 +7,12 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 # **What's changed?**
 
+## [2.0.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.1)
+
+**Released - 11 Jan, 2025**
+
+- Update `exports` and `typesVersions` to fix resolution of default imports from the individual folder of a component. 
+
 ## [2.0.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.0)
 
 **Released - 14 Dec, 2024**
