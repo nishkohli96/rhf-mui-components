@@ -8,21 +8,27 @@ import {
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText
+} from '@/mui/common';
 import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
-type TextFieldInputProps = Omit<TextFieldProps, 'type'>
+type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
 
 export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
-    value: string,
+    value: number | null,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
+  showMarkers?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -36,13 +42,14 @@ const RHFNumberInput = <T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  showMarkers,
   formLabelProps,
   required,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-	sx,
+  sx,
   ...rest
 }: RHFNumberInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -71,7 +78,7 @@ const RHFNumberInput = <T extends FieldValues>({
           return (
             <MuiTextField
               id={fieldName}
-							type="number"
+              type="number"
               autoComplete={fieldName}
               label={
                 !isLabelAboveFormField ? (
@@ -79,21 +86,25 @@ const RHFNumberInput = <T extends FieldValues>({
                 ) : undefined
               }
               value={value ?? ''}
-              onChange={event => {
-                onChange(event);
+              onChange={(event) => {
+                const fieldValue =
+                  event.target.value === '' ? null : Number(event.target.value);
+                onChange(fieldValue);
                 if (onValueChange) {
-                  onValueChange(event.target.value, event);
+                  onValueChange(fieldValue, event);
                 }
               }}
               error={isError}
-							sx={{
-								'& input[type=number]': {
-                  MozAppearance: 'textfield',
-                  '&::-webkit-outer-spin-button': { display: 'none' },
-                  '&::-webkit-inner-spin-button': { display: 'none' }
-                },
-								...sx
-							}}
+              sx={{
+                ...(!showMarkers && {
+                  '& input[type=number]': {
+                    MozAppearance: 'textfield',
+                    '&::-webkit-outer-spin-button': { display: 'none' },
+                    '&::-webkit-inner-spin-button': { display: 'none' }
+                  }
+                }),
+                ...sx
+              }}
               {...rest}
               {...otherFieldParams}
             />

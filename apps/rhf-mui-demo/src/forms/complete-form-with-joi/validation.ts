@@ -83,7 +83,8 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   countryCode: Joi.string().required(),
   phoneNumber: Joi.string().required().min(8),
   darkTheme: Joi.boolean().required(),
-  age: Joi.number().required().positive(),
+  age: Joi.number().required().positive().min(10),
+  weight: Joi.number().required().positive().min(10).max(100),
   rating: Joi.number().required().min(1).max(5).messages({
     'number.base': 'Please rate your experience'
   }),

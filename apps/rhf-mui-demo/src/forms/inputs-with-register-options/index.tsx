@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
+import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import {
@@ -155,13 +156,9 @@ const TextAndPasswordInputForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
-            <RHFTextField
+            <RHFNumberInput
               fieldName="age"
               control={control}
-              type="number"
-              registerOptions={{
-                valueAsNumber: true
-              }}
               errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"

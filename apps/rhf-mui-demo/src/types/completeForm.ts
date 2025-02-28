@@ -20,6 +20,7 @@ export type Person = {
   phoneNumber?: string;
   darkTheme: boolean;
   age: number;
+  weight: number;
   rating: number | null;
   dob: Moment | null;
   time: Moment | null;
