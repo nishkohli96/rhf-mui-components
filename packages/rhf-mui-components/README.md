@@ -11,8 +11,8 @@
 ## Features ✨
 
 - Each component is fully functional with just 3-4 props — core logic handled internally.
-- Style individual components or apply global styles via[ConfigProvider](https://rhf-mui-components.netlify.app/customization#configprovider).
-- Includes unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) or [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.netlify.app/customization#configprovider).
+- Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) and [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput), saving development time.
 - Comprehensive docs showcasing multiple variations for each component.
 
 
