@@ -23,7 +23,7 @@ Try out and experiment with the form components in a live environment:
 ### CodeSandbox Playground 🛠️
 Dive deeper and experiment with the package in an editable playground on CodeSandbox:
 
-👉 [CodeSandbox Project](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
+👉 [CodeSandbox Playground](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
 
 
 ## Form Components List
@@ -32,6 +32,7 @@ Below is a comprehensive list of all components included in this package, catego
 
 - mui
   - [TextField](https://rhf-mui-components.netlify.app/components/mui/RHFTextField)
+  - [NumberInput](https://rhf-mui-components.netlify.app/components/mui/RHFNumberInput)
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
   - [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput)
   - [Select](https://rhf-mui-components.netlify.app/components/mui/RHFSelect)

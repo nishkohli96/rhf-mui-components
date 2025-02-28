@@ -125,6 +125,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function when the value of a field changes.',
     type: '(value: string, event: ChangeEvent) => void'
   },
+  onValueChange_numberInput: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
+    type: '(value: number OR null) => void'
+  },
   onValueChange_tagsInput: {
     name: 'onValueChange',
     description: 'An optional callback function that returns an array of strings.',
@@ -313,6 +318,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'Initial value set for `RHFSlider` component on render.',
     type: 'number OR number[]',
     required: true
+  },
+  showMarkers: {
+    name: 'showMarkers',
+    description: 'Show the increment and decrement markers on number input.  Hidden by default.',
+    type: 'boolean'
   },
   showDefaultOption: {
     name: 'showDefaultOption',

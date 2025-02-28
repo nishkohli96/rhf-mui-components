@@ -23,7 +23,7 @@ Try out and experiment with the form components in a live environment:
 ### CodeSandbox Playground 🛠️
 Dive deeper and experiment with the package in an editable playground on CodeSandbox:
 
-👉 [CodeSandbox Project](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
+👉 [CodeSandbox Playground](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
 
 ## Setup
 Run the setup script.

@@ -5,6 +5,7 @@ const miscPrefix = '/misc';
 
 const muiComponents = [
   'RHFTextField',
+  'RHFNumberInput',
   'RHFPasswordInput',
   'RHFTagsInput',
   'RHFSelect',
@@ -37,7 +38,8 @@ export const newlyAddedComponents = [
   'RHFMultiAutocomplete',
   'RHFCountrySelect',
   'RHFTagsInput',
-  'RHFPhoneInput'
+  'RHFPhoneInput',
+  'RHFNumberInput',
 ];
 
 export const muiFoldersList = muiComponents.map(component => ({

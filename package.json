@@ -1,7 +1,7 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
   "version": "2.1.0",
-  "description": "Reusable material-ui and other third party components for react-hook-form to minimize your time and effort in creating forms",
+  "description": "A suite of 20+ reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "private": true,
   "workspaces": ["./apps/*", "./packages/*"],

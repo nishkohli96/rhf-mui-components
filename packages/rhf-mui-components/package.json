@@ -96,6 +96,7 @@
     "component library",
     "hookform",
     "@hookform/resolvers",
-    "react material components"
+    "react material components",
+    "rhf-mui components"
   ]
 }
