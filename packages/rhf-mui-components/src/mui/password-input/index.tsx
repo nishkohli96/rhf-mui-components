@@ -14,24 +14,18 @@ import {
 } from 'react-hook-form';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
-  | 'name'
   | 'type'
-  | 'value'
-  | 'defaultValue'
-  | 'onChange'
-  | 'error'
   | 'InputProps'
-  | 'FormHelperTextProps'
 >
 
 export type RHFPasswordInputProps<T extends FieldValues> = {

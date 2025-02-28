@@ -12,7 +12,9 @@ import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/com
 import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
-export type RHFTextFieldProps<T extends FieldValues> = {
+type TextFieldInputProps = Omit<TextFieldProps, 'type'>
+
+export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
@@ -25,9 +27,9 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & TextFieldProps;
+} & TextFieldInputProps;
 
-const RHFTextField = <T extends FieldValues>({
+const RHFNumberInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -40,8 +42,9 @@ const RHFTextField = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+	sx,
   ...rest
-}: RHFTextFieldProps<T>) => {
+}: RHFNumberInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -68,6 +71,7 @@ const RHFTextField = <T extends FieldValues>({
           return (
             <MuiTextField
               id={fieldName}
+							type="number"
               autoComplete={fieldName}
               label={
                 !isLabelAboveFormField ? (
@@ -82,6 +86,14 @@ const RHFTextField = <T extends FieldValues>({
                 }
               }}
               error={isError}
+							sx={{
+								'& input[type=number]': {
+                  MozAppearance: 'textfield',
+                  '&::-webkit-outer-spin-button': { display: 'none' },
+                  '&::-webkit-inner-spin-button': { display: 'none' }
+                },
+								...sx
+							}}
               {...rest}
               {...otherFieldParams}
             />
@@ -99,4 +111,4 @@ const RHFTextField = <T extends FieldValues>({
   );
 };
 
-export default RHFTextField;
+export default RHFNumberInput;

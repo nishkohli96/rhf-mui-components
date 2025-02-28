@@ -31,7 +31,17 @@ export type FormHelperTextProps = Omit<
   | 'children'
   | 'component'
   | 'error'
->
+>;
+
+export type TextFieldProps = Omit<
+  MuiTextFieldProps,
+  | 'name'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'error'
+  | 'FormHelperTextProps'
+>;
 
 export type CheckboxProps = Omit<
   MuiCheckboxProps,

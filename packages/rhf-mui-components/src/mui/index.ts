@@ -9,6 +9,7 @@ import RHFCountrySelect, {
 } from './country-select';
 import RHFMultiAutocomplete, { RHFMultiAutocompleteProps } from './multi-autocomplete';
 import RHFNativeSelect, { RHFNativeSelectProps } from './native-select';
+import RHFNumberInput, { RHFNumberInputProps } from './number-input';
 import RHFPasswordInput, { RHFPasswordInputProps } from './password-input';
 import RHFRadioGroup, { RHFRadioGroupProps } from './radio-group';
 import RHFRating, { RHFRatingProps } from './rating';
@@ -25,6 +26,7 @@ export {
   RHFCountrySelect,
   RHFMultiAutocomplete,
   RHFNativeSelect,
+  RHFNumberInput,
   RHFPasswordInput,
   RHFRadioGroup,
   RHFRating,
@@ -43,6 +45,7 @@ export type {
   RHFCountrySelectProps,
   RHFMultiAutocompleteProps,
   RHFNativeSelectProps,
+  RHFNumberInputProps,
   RHFPasswordInputProps,
   RHFRadioGroupProps,
   RHFRatingProps,
