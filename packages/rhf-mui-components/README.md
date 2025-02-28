@@ -8,6 +8,14 @@
 
 **A suite of 20 reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
+## Features ✨
+
+- Each component is fully functional with just 3-4 props — core logic handled internally.
+- Style individual components or apply global styles via[ConfigProvider](https://rhf-mui-components.netlify.app/customization#configprovider).
+- Includes unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) or [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput), saving development time.
+- Comprehensive docs showcasing multiple variations for each component.
+
+
 ## Explore and Get Started 🚀
 
 ### Documentation 📖

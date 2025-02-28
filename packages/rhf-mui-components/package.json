@@ -1,7 +1,7 @@
 {
   "name": "@nish1896/rhf-mui-components",
   "version": "2.1.0",
-  "description": "A suite of 20+ reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
+  "description": "A suite of 20+ reusable Material UI components for React Hook Form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
   "repository": {
@@ -97,6 +97,10 @@
     "hookform",
     "@hookform/resolvers",
     "react material components",
-    "rhf-mui components"
+    "rhf",
+    "rhf mui",
+    "rhf-mui components",
+    "rhf mui components",
+    "react forms"
   ]
 }

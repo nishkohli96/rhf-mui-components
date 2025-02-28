@@ -8,8 +8,8 @@ description: Explanation and signature of internal utility functions exported by
 # Form Helpers
 
 Starting from version 2, a new module named `form-helpers` has been introduced
-in this package. This module provides internal utility functions designed to
-simplify development, saving both time and effort for developers.
+in this package. This module provides internal utility functions to manipulate
+field values, saving both time and effort for developers.
 
 ## fieldNameToLabel
 
@@ -38,9 +38,9 @@ sentence for each field validation. It:
 ### Example
 
 ```js
-const label1 = fieldNameToLabel('firstName');    // Output: 'First Name'
+const label1 = fieldNameToLabel('firstName');     // Output: 'First Name'
 const label2 = fieldNameToLabel('email_address'); // Output: 'Email Address'
-const label3 = fieldNameToLabel('IMDBRating');   // Output: 'IMDB Rating'
+const label3 = fieldNameToLabel('IMDBRating');    // Output: 'IMDB Rating'
 ```
 
 ## colorToString
@@ -49,7 +49,8 @@ const label3 = fieldNameToLabel('IMDBRating');   // Output: 'IMDB Rating'
 function colorToString(color: ColorObject, excludeAlpha?: boolean): string;
 ```
 
-Converts a color object in RGB or HSV format into a valid CSS color string.
+Converts a color object in RGB or HSV format into a valid CSS color string,
+best used with [RHFColorPicker](./components/misc/RHFColorPicker.mdx)
 
 ### Usage
 
