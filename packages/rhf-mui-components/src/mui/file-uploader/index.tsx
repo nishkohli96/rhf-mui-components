@@ -89,11 +89,13 @@ const RHFFileUploader = <T extends FieldValues>({
               accept={accept}
               onChange={event => {
                 const fileList = event.target.files;
-                if (fileList && fileList.length > 0) {
-									const files = multiple ? Array.from(fileList) : fileList[0];
-                  onChange(files);
-									onValueChange?.(files, event);
+                if (!fileList || fileList.length === 0) {
+                  onChange(multiple ? [] : null);
+                  return;
                 }
+								const files = multiple ? Array.from(fileList) : fileList[0];
+                onChange(files);
+								onValueChange?.(files, event);
               }}
               multiple={multiple}
               disabled={disabled}

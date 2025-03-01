@@ -1,6 +1,17 @@
 import Joi from 'joi';
 import { Colors, Gender, Sports, Person } from '@/types';
 
+const fileSchema = Joi.object({
+  name: Joi.string().required(),
+  size: Joi.number().required(),
+  type: Joi.string().valid(
+    'image/jpeg',
+    'image/png',
+    'application/pdf'
+  ).required(),
+  lastModified: Joi.number().required()
+});
+
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required().min(8),
@@ -14,6 +25,7 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Enter atleast two dishes'
     }),
+  resume: fileSchema.required(),
   favouriteColor: Joi.string()
     .required()
     .valid(...Object.values(Colors))

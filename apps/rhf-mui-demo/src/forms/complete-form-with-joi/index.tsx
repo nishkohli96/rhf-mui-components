@@ -10,6 +10,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
+import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -84,7 +85,7 @@ const CompleteFormWithJoi = () => {
     resolver: joiResolver(JoiFormSchema)
   });
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
-
+  console.log('resme ', watch('resume'));
   function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
@@ -151,6 +152,15 @@ const CompleteFormWithJoi = () => {
                 disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.favouriteFoods?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RHFFileUploader
+                fieldName='resume'
+                control={control}
+                disabled={areAllFieldsDisabled}
+                required
+                errorMessage={errors?.resume?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

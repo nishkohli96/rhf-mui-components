@@ -27,4 +27,5 @@ export type Person = {
   dateTime: Moment | null;
   bgColor: string;
   feedback: string;
+  resume?: File;
 };
