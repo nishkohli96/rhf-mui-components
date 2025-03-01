@@ -224,6 +224,8 @@ const TextAndPasswordInputForm = () => {
               control={control}
               multiple
               accept='image/*'
+              showFileList
+              showFileSize
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
