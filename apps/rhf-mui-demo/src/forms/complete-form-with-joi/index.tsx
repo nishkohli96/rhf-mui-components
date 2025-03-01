@@ -85,7 +85,8 @@ const CompleteFormWithJoi = () => {
     resolver: joiResolver(JoiFormSchema)
   });
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
-  console.log('resme ', watch('resume'));
+  console.log('resume ', watch('resume'));
+
   function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }

@@ -7,7 +7,7 @@ export type PageInfo = {
 
 export type Page = PageInfo & { pages?: PageInfo[] };
 
-export type PropDescV2 = {
+export type PropsInfo = {
   name: string;
   description: ReactNode;
   type: string;

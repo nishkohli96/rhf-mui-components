@@ -1,7 +1,7 @@
 import { ExternalLinks } from '@site/src/constants';
-import { PropDescV2 } from '@site/src/types';
+import { PropsInfo } from '@site/src/types';
 
-const PropsDescription: Record<string, PropDescV2> = Object.freeze({
+const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   fieldName: {
     name: 'fieldName',
     description: 'React Hook Form requires `name` as a key for the registration process. This is a required prop for all components.',
@@ -134,6 +134,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'onValueChange',
     description: 'An optional callback function that returns an array of strings.',
     type: '(tags: string[]) => void'
+  },
+  onValueChange_FileUploader: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
+    type: '(files: File OR File[] OR null) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
@@ -307,6 +312,46 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     name: 'hidePasswordIcon',
     description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode',
+  },
+  hideFileList: {
+    name: 'hideFileList',
+    description: 'Hide the list of files uploaded in the file uploader component.',
+    type: 'boolean'
+  },
+  accept_FileUploader: {
+    name: 'accept',
+    description: 'The file types to accept in the file uploader component. The default value is `*`.',
+    type: 'string'
+  },
+  multiple_FileUploader: {
+    name: 'multiple',
+    description: 'Allow selection of single or multiple values for a formfield.',
+    type: 'boolean'
+  },
+  maxSize_FileUploader: {
+    name: 'maxSize',
+    description: 'The maximum file size in bytes allowed for each uploaded file.',
+    type: 'number'
+  },
+  showFileSize: {
+    name: 'showFileSize',
+    description: 'Show the file size of the uploaded file(s) in the file uploader component.',
+    type: 'boolean'
+  },
+  renderUploadButton: {
+    name: 'renderUploadButton',
+    description: 'Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
+    type: '(fileInput: ReactNode) => ReactNode'
+  },
+  renderFileItem: {
+    name: 'renderFileItem',
+    description: 'Custom render function to replace the default file item in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
+    type: '(file: File, index: number) => ReactNode'
+  },
+  fullWidth_FileUploader: {
+    name: 'fullWidth',
+    description: 'Set the width of the file uploader component to 100%.',
+    type: 'boolean'
   },
   defaultValue: {
     name: 'defaultValue',

@@ -236,7 +236,7 @@ const InputsWithRegisterForm = () => {
               label="Upload Resume"
               showLabelAboveFormField
               accept="application/pdf"
-              renderUploadButton={(fileInput) => (
+              renderUploadButton={fileInput => (
                 <div style={{ width: '200px' }}>
                   <IconButton component="label" tabIndex={-1}>
                     <UploadFileIcon />

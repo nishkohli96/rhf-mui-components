@@ -20,8 +20,10 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   required?: boolean;
 	hideFileList?: boolean;
   showFileSize?: boolean;
+  renderUploadButton?: (fileInput: ReactNode) => ReactNode;
+  renderFileItem?: (file: File, index: number) => ReactNode;
   onValueChange?: (
-    files: File | File[],
+    files: File | File[] | null,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   label?: ReactNode;
@@ -31,8 +33,6 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  renderUploadButton?: (fileInput: ReactNode) => ReactNode;
-  renderFileItem?: (file: File, index: number) => ReactNode;
   fullWidth?: boolean;
 } & FileInputProps;
 
@@ -45,6 +45,8 @@ const RHFFileUploader = <T extends FieldValues>({
 	maxSize,
   hideFileList = false,
   showFileSize = false,
+  renderUploadButton,
+  renderFileItem,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -54,8 +56,6 @@ const RHFFileUploader = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  renderUploadButton,
-  renderFileItem,
   disabled,
   fullWidth = false,
 }: RHFFileUploaderProps<T>) => {
@@ -89,11 +89,14 @@ const RHFFileUploader = <T extends FieldValues>({
               accept={accept}
               onChange={event => {
                 const fileList = event.target.files;
+                let files;
                 if (!fileList || fileList.length === 0) {
-                  onChange(multiple ? [] : null);
+                  files = multiple ? [] : null;
+                  onChange(files);
+                  onValueChange?.(files, event);
                   return;
                 }
-								const files = multiple ? Array.from(fileList) : fileList[0];
+								files = multiple ? Array.from(fileList) : fileList[0];
                 onChange(files);
 								onValueChange?.(files, event);
               }}

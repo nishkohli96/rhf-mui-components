@@ -1,10 +1,10 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { PropDescV2 } from '@site/src/types';
+import { PropsInfo } from '@site/src/types';
 
 type MarkdownTableProps = {
-  rows: PropDescV2[];
+  rows: PropsInfo[];
   showType?: boolean;
 };
 
