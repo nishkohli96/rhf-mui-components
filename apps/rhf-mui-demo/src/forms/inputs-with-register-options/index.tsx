@@ -9,6 +9,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
+import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
 import {
   FormContainer,
   GridContainer,
@@ -27,6 +28,7 @@ type FormSchema = {
   age?: number;
   tags?: string[];
   keywords?: string[];
+  resume?: File;
 };
 
 const initialValues: FormSchema = {
@@ -58,8 +60,9 @@ const TextAndPasswordInputForm = () => {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
+  console.log('wtagc ', watch('resume'))
   return (
-    <FormContainer title="TextField & PasswordInput">
+    <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -210,6 +213,14 @@ const TextAndPasswordInputForm = () => {
               limitTags={-1}
               required
               errorMessage={errors?.keywords?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="RHFFileUploader" />
+            <RHFFileUploader
+              fieldName="resume"
+              control={control}
+              // multiple
             />
           </Grid>
           <Grid size={12}>
