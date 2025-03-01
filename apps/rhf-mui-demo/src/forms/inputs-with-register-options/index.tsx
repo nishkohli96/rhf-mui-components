@@ -220,7 +220,8 @@ const TextAndPasswordInputForm = () => {
             <RHFFileUploader
               fieldName="resume"
               control={control}
-              // multiple
+              multiple
+              accept='application/pdf'
             />
           </Grid>
           <Grid size={12}>

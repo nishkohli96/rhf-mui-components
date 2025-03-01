@@ -1,4 +1,4 @@
-import { useContext, ReactNode, ChangeEvent } from 'react';
+import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import {
   FieldValues,
   Path,
@@ -6,37 +6,36 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
-  FormLabelText,
   FormHelperText
 } from '@/mui/common';
-import {
-	FormLabelProps,
-	FormHelperTextProps,
-	FileInputProps
-} from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { FormLabelProps, FormHelperTextProps, FileInputProps } from '@/types';
+import { fieldNameToLabel, getFileSize, keepLabelAboveFormField } from '@/utils';
 import HiddenInput from './HiddenInput';
 
 export type RHFFileUploaderProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-	required?: boolean;
+  required?: boolean;
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-	label?: ReactNode;
+  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
-	helperText?: ReactNode;
+  helperText?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
 } & FileInputProps;
@@ -54,8 +53,9 @@ const RHFFileUploader = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-	multiple,
-	disabled,
+  multiple,
+  disabled,
+  accept = '*',
   ...rest
 }: RHFFileUploaderProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -81,39 +81,75 @@ const RHFFileUploader = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field }) => {
           const { value, onChange, ...otherFieldParams } = field;
+          const removeFile = (index: number) => {
+            if (multiple) {
+              const newFiles = value.filter(
+                (_: File, i: number) => i !== index
+              );
+              onChange(newFiles);
+            } else {
+              onChange(null);
+            }
+          };
           return (
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-							disabled={disabled}
-            >
-              Upload files
-              <HiddenInput
-                type="file"
-                onChange={(event) => {
-									const fileList = event.target.files;
-									console.log('fileList: ', fileList);
-									if(fileList && fileList.length > 0) {
-										onChange(multiple ? fileList : fileList[0]);
-									}
-								}}
-                multiple={multiple}
-								disabled={disabled}
-								{...otherFieldParams}
+            <Fragment>
+              <Button
+                id={fieldName}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                disabled={disabled}
+              >
+                Upload files
+                <HiddenInput
+                  type="file"
+                  accept={accept}
+                  onChange={(event) => {
+                    const fileList = event.target.files;
+                    if (fileList && fileList.length > 0) {
+                      onChange(multiple ? Array.from(fileList) : fileList[0]);
+                    }
+                  }}
+                  multiple={multiple}
+                  disabled={disabled}
+                  {...otherFieldParams}
+                />
+              </Button>
+              <FormHelperText
+                error={isError}
+                errorMessage={errorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                formHelperTextProps={formHelperTextProps}
               />
-            </Button>
+              <Box>
+                {value &&
+                  (Array.isArray(value) ? value : [value]).map(
+                    (file: File, index) => (
+                      <Box
+                        key={index}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Typography>
+                          {file.name} ({getFileSize(file.size)})
+                        </Typography>
+                        <IconButton
+                          size="small"
+                          onClick={() => removeFile(index)}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Box>
+                    )
+                  )}
+              </Box>
+            </Fragment>
           );
         }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
   );
