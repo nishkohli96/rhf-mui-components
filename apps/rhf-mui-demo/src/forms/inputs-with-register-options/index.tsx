@@ -18,6 +18,7 @@ import {
   SubmitButton
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
+import Button from '@mui/material/Button';
 
 type FormSchema = {
   firstName: string;
@@ -28,6 +29,7 @@ type FormSchema = {
   age?: number;
   tags?: string[];
   keywords?: string[];
+  pictures?: File[];
   resume?: File;
 };
 
@@ -218,10 +220,26 @@ const TextAndPasswordInputForm = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="RHFFileUploader" />
             <RHFFileUploader
-              fieldName="resume"
+              fieldName="pictures"
               control={control}
               multiple
+              accept='image/*'
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="RHFFileUploader" />
+            <RHFFileUploader
+              fieldName="resume"
+              control={control}
               accept='application/pdf'
+              renderUploadButton={(fileInput) => (
+                <div style={{ background: 'white', width:100}}>
+                  <Button component="label" role={undefined} tabIndex={-1}>
+                    Upload your resume
+                    {fileInput}
+                  </Button>
+                </div>
+              )}
             />
           </Grid>
           <Grid size={12}>

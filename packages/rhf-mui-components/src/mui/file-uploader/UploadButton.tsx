@@ -26,6 +26,7 @@ const UploadButton = ({
       disabled={disabled}
     >
       {`Upload file${multiple ? 's':''}`}
+			{children}
     </Button>
   );
 };
