@@ -12,6 +12,7 @@ import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
+import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 import {
   FormContainer,
   GridContainer,
@@ -219,6 +220,12 @@ const TextAndPasswordInputForm = () => {
               accept="image/*"
               showFileSize
               fullWidth
+              renderFileItem={(file, index) => (
+                <Typography variant="body2">
+                  {index + 1}. {file.name} -{' '}
+                  {getFileSize(file.size, { precision: 2 })}
+                </Typography>
+              )}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

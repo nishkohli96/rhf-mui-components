@@ -9,15 +9,8 @@ import {
 import Box from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import {
-	FormLabelProps,
-	FormHelperTextProps,
-	FileInputProps
-} from '@/types';
-import {
-  fieldNameToLabel,
-  keepLabelAboveFormField
-} from '@/utils';
+import { FormLabelProps, FormHelperTextProps, FileInputProps } from '@/types';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { FileItem, HiddenInput, UploadButton } from './components';
 
 export type RHFFileUploaderProps<T extends FieldValues> = {
@@ -25,6 +18,8 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+	hideFileList?: boolean;
+  showFileSize?: boolean;
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,15 +32,18 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
-	hideFileList?: boolean;
-	showFileSize?: boolean;
-	fullWidth?: boolean;
+  renderFileItem?: (file: File, index: number) => ReactNode;
+  fullWidth?: boolean;
 } & FileInputProps;
 
 const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+	multiple,
+  accept = '*',
+  hideFileList,
+  showFileSize,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -56,12 +54,9 @@ const RHFFileUploader = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   renderUploadButton,
-  multiple,
+  renderFileItem,
   disabled,
-  accept = '*',
-	hideFileList,
-	showFileSize,
-	fullWidth,
+  fullWidth,
   ...rest
 }: RHFFileUploaderProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -104,7 +99,7 @@ const RHFFileUploader = <T extends FieldValues>({
             />
           );
 
-					const removeFile = (index: number) => {
+          const removeFile = (index: number) => {
             if (multiple) {
               const newFiles = value.filter(
                 (_: File, i: number) => i !== index
@@ -136,21 +131,26 @@ const RHFFileUploader = <T extends FieldValues>({
                 formHelperTextProps={formHelperTextProps}
               />
               {!hideFileList && (
-								<Box>
-                {value &&
-                  (Array.isArray(value) ? value : [value]).map(
-                    (file: File, index) => (
-                      <FileItem
-                        key={index}
-                        index={index}
-                        file={file}
-												showFileSize={showFileSize}
-												removeFile={removeFile}
-                      />
-                    )
-                  )}
-              </Box>
-							)}
+                <Box>
+                  {value &&
+                    (Array.isArray(value) ? value : [value]).map(
+                      (file: File, index) => (
+                        <Fragment key={index}>
+                          {renderFileItem ? (
+                            renderFileItem(file, index)
+                          ) : (
+                            <FileItem
+                              index={index}
+                              file={file}
+                              showFileSize={showFileSize}
+                              removeFile={removeFile}
+                            />
+                          )}
+                        </Fragment>
+                      )
+                    )}
+                </Box>
+              )}
             </Fragment>
           );
         }}
