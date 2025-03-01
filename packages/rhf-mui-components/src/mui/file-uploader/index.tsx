@@ -43,8 +43,8 @@ const RHFFileUploader = <T extends FieldValues>({
 	multiple,
   accept = '*',
 	maxSize,
-  hideFileList,
-  showFileSize,
+  hideFileList = false,
+  showFileSize = false,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -57,7 +57,7 @@ const RHFFileUploader = <T extends FieldValues>({
   renderUploadButton,
   renderFileItem,
   disabled,
-  fullWidth,
+  fullWidth = false,
 }: RHFFileUploaderProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
@@ -68,7 +68,7 @@ const RHFFileUploader = <T extends FieldValues>({
   );
 
   return (
-    <FormControl fullWidth={fullWidth ?? false} error={isError}>
+    <FormControl fullWidth={fullWidth} error={isError}>
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
