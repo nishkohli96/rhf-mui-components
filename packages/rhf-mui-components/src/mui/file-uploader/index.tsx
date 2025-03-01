@@ -21,8 +21,8 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
 	hideFileList?: boolean;
   showFileSize?: boolean;
   onValueChange?: (
-    value: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    files: File | File[],
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -42,6 +42,7 @@ const RHFFileUploader = <T extends FieldValues>({
   registerOptions,
 	multiple,
   accept = '*',
+	maxSize,
   hideFileList,
   showFileSize,
   onValueChange,
@@ -57,7 +58,6 @@ const RHFFileUploader = <T extends FieldValues>({
   renderFileItem,
   disabled,
   fullWidth,
-  ...rest
 }: RHFFileUploaderProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
@@ -87,10 +87,12 @@ const RHFFileUploader = <T extends FieldValues>({
             <HiddenInput
               type="file"
               accept={accept}
-              onChange={(event) => {
+              onChange={event => {
                 const fileList = event.target.files;
                 if (fileList && fileList.length > 0) {
-                  onChange(multiple ? Array.from(fileList) : fileList[0]);
+									const files = multiple ? Array.from(fileList) : fileList[0];
+                  onChange(files);
+									onValueChange?.(files, event);
                 }
               }}
               multiple={multiple}
