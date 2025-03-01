@@ -11,7 +11,7 @@ import theme from '@site/src/styles/theme';
 import styles from './index.module.css';
 
 const IntroductionBtn = () => (
-  <HomePageButton text="Get Started" href="/docs/introduction" bgColor="#25C19F" />
+  <HomePageButton text="Get Started" href="/introduction" bgColor="#25C19F" />
 );
 
 const HomepageButtons = () => {

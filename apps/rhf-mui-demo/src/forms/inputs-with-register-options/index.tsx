@@ -44,7 +44,7 @@ const initialValues: FormSchema = {
   keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
-const TextAndPasswordInputForm = () => {
+const InputsWithRegisterForm = () => {
   const {
     control,
     watch,
@@ -258,4 +258,4 @@ const TextAndPasswordInputForm = () => {
   );
 };
 
-export default TextAndPasswordInputForm;
+export default InputsWithRegisterForm;

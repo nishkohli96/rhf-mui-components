@@ -8,8 +8,8 @@ export const DemoPageLinks: Page[] = [
     href: '/'
   },
   {
-    title: 'TextField & PasswordInput',
-    href: `${pagePrefix}/textfield-and-passwordinput`
+    title: 'Inputs',
+    href: `${pagePrefix}/inputs`
   },
   {
     title: 'Select',

@@ -40,7 +40,7 @@ import { Colors, Gender, Sports, Person } from '@/types';
 
 type FormSchema = Person & { disableAllFields?: boolean; }
 
-const CompleteFormWithJoi = () => {
+const CompleteForm = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
 
@@ -638,4 +638,4 @@ const CompleteFormWithJoi = () => {
   );
 };
 
-export default CompleteFormWithJoi;
+export default CompleteForm;

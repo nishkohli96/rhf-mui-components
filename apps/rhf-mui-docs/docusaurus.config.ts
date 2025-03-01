@@ -22,7 +22,7 @@ const config: Config = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '/docs',
+          routeBasePath: '/',
           lastVersion: 'current',
           versions: {
             current: {
