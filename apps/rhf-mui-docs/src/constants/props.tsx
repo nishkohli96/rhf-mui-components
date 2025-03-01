@@ -69,7 +69,12 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   },
   label: {
     name: 'label',
-    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as firstName will be transformed to display "First Name".',
+    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**" using the [fieldNameToLabel](/form-helpers/fieldNameToLabel) function.',
+    type: 'ReactNode'
+  },
+  label_v1: {
+    name: 'label',
+    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
     type: 'ReactNode'
   },
   formLabelProps: {

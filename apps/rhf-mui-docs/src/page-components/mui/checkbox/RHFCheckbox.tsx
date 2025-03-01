@@ -8,12 +8,14 @@ const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.control,
     ...(!v1
       ? [
-        PropsDescription.registerOptions,
-        PropsDescription.onValueChange_Checkbox
-      ]
-      : [PropsDescription.onValueChange_Checkbox_v1]
-    ),
-    PropsDescription.label,
+          PropsDescription.registerOptions,
+          PropsDescription.onValueChange_Checkbox,
+          PropsDescription.label
+        ]
+      : [
+          PropsDescription.onValueChange_Checkbox_v1,
+          PropsDescription.label_v1
+        ]),
     PropsDescription.formControlLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,
@@ -21,9 +23,7 @@ const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFCheckboxPropsTable;

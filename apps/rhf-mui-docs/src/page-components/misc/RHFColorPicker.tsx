@@ -7,21 +7,24 @@ const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.fieldName,
     ...(!v1
       ? [
-        PropsDescription.control,
-        PropsDescription.registerOptions,
-        PropsDescription.value_ColorPicker,
-        PropsDescription.valueKey_ColorPicker,
-        PropsDescription.defaultColor,
-        PropsDescription.excludeAlpha,
-        PropsDescription.required,
-        PropsDescription.onValueChange_ColorPicker
-      ]
+          PropsDescription.control,
+          PropsDescription.registerOptions,
+          PropsDescription.value_ColorPicker,
+          PropsDescription.valueKey_ColorPicker,
+          PropsDescription.defaultColor,
+          PropsDescription.excludeAlpha,
+          PropsDescription.required,
+          PropsDescription.onValueChange_ColorPicker
+        ]
       : [
-        PropsDescription.value_ColorPicker_v1,
-        PropsDescription.onValueChange_ColorPicker_v1
-      ]),
+          PropsDescription.value_ColorPicker_v1,
+          PropsDescription.onValueChange_ColorPicker_v1
+        ]),
     PropsDescription.disabled,
-    PropsDescription.label,
+    ...(!v1
+      ? [PropsDescription.label]
+      : [PropsDescription.label_v1]
+    ),
     PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
@@ -30,9 +33,7 @@ const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFColorPickerPropsTable;

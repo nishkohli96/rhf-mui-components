@@ -8,6 +8,7 @@ const muiComponents = [
   'RHFNumberInput',
   'RHFPasswordInput',
   'RHFTagsInput',
+  'RHFFileUploader',
   'RHFSelect',
   'RHFNativeSelect',
   'RHFAutocomplete',
@@ -40,6 +41,7 @@ export const newlyAddedComponents = [
   'RHFTagsInput',
   'RHFPhoneInput',
   'RHFNumberInput',
+  'RHFFileUploader',
 ];
 
 export const muiFoldersList = muiComponents.map(component => ({

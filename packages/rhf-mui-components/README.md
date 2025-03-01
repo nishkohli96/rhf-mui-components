@@ -12,7 +12,7 @@
 
 - Each component is fully functional with just 3-4 props — core logic handled internally.
 - Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.netlify.app/customization#configprovider).
-- Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) and [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput), saving development time.
+- Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) and [File Uploader](https://rhf-mui-components.netlify.app/components/mui/RHFFileUploader), saving development time.
 - Comprehensive docs showcasing multiple variations for each component.
 
 
@@ -28,11 +28,6 @@ Try out and experiment with the form components in a live environment:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
 
-### CodeSandbox Playground 🛠️
-Dive deeper and experiment with the package in an editable playground on CodeSandbox:
-
-👉 [CodeSandbox Playground](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
-
 
 ## Form Components List
 
@@ -43,6 +38,7 @@ Below is a comprehensive list of all components included in this package, catego
   - [NumberInput](https://rhf-mui-components.netlify.app/components/mui/RHFNumberInput)
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
   - [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput)
+  - [File Uploader](https://rhf-mui-components.netlify.app/components/mui/RHFFileUploader)
   - [Select](https://rhf-mui-components.netlify.app/components/mui/RHFSelect)
   - [Native Select](https://rhf-mui-components.netlify.app/components/mui/RHFNativeSelect)
   - [Autocomplete](https://rhf-mui-components.netlify.app/components/mui/RHFAutocomplete)

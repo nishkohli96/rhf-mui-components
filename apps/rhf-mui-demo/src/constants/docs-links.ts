@@ -18,6 +18,10 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFTagsInput',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFTagsInput`
   },
+  rhfFileUploader: {
+    title: 'RHFFileUploader',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFFileUploader`
+  },
   rhfSelect: {
     title: 'RHFSelect',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFSelect`

@@ -18,7 +18,8 @@ const TextFieldPage = () => {
     DocsLinks.rhfTextField,
     DocsLinks.rhfNumberInput,
     DocsLinks.rhfPasswordInput,
-    DocsLinks.rhfTagsInput
+    DocsLinks.rhfTagsInput,
+    DocsLinks.rhfFileUploader
   ];
   const codeLinks = [
     SourceCodeLinks.inputs,
