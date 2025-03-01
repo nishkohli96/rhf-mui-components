@@ -2,7 +2,9 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -18,7 +20,6 @@ import {
   SubmitButton
 } from '@/components';
 import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
-import Button from '@mui/material/Button';
 
 type FormSchema = {
   firstName: string;
@@ -39,13 +40,7 @@ const initialValues: FormSchema = {
   email: '',
   password: '',
   confirmPassword: '',
-  keywords: [
-    'hello',
-    'world',
-    'foo',
-    'bar',
-    'lorem ipsum'
-  ]
+  keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
 const TextAndPasswordInputForm = () => {
@@ -62,7 +57,7 @@ const TextAndPasswordInputForm = () => {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
-  console.log('wtagc ', watch('resume'))
+  console.log('pictures, resume ', watch(['resume', 'pictures']));
   return (
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -146,7 +141,7 @@ const TextAndPasswordInputForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: v => v && `${v}`.length >= 4 || minCharMsg(4),
+                  minLen: (v) => (v && `${v}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -179,13 +174,11 @@ const TextAndPasswordInputForm = () => {
                 required: {
                   value: true,
                   message: reqdMsg('tags')
-                },
+                }
               }}
               limitTags={4}
-              getLimitTagsText={hiddenTags => (
-                <Typography color="green">
-                  {`& ${hiddenTags} More`}
-                </Typography>
+              getLimitTagsText={(hiddenTags) => (
+                <Typography color="green">{`& ${hiddenTags} More`}</Typography>
               )}
               required
               errorMessage={errors?.tags?.message}
@@ -200,14 +193,14 @@ const TextAndPasswordInputForm = () => {
                 required: {
                   value: true,
                   message: reqdMsg('keywords')
-                },
+                }
               }}
               ChipProps={{
                 variant: 'outlined',
                 sx: {
                   color: 'white',
                   variant: 'filled',
-                  backgroundColor: theme => theme.palette.secondary.main
+                  backgroundColor: (theme) => theme.palette.secondary.main
                 }
               }}
               variant="filled"
@@ -218,28 +211,30 @@ const TextAndPasswordInputForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="RHFFileUploader" />
+            <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
             <RHFFileUploader
               fieldName="pictures"
               control={control}
               multiple
-              accept='image/*'
-              showFileList
+              accept="image/*"
               showFileSize
+              fullWidth
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="RHFFileUploader" />
+            <FieldVariantInfo title="FileUploader with custom button" />
             <RHFFileUploader
               fieldName="resume"
               control={control}
-              accept='application/pdf'
+              label="Upload Resume"
+              showLabelAboveFormField
+              accept="application/pdf"
               renderUploadButton={(fileInput) => (
-                <div style={{ background: 'white', width:100}}>
-                  <Button component="label" role={undefined} tabIndex={-1}>
-                    Upload your resume
+                <div style={{ width: '200px' }}>
+                  <IconButton component="label" tabIndex={-1}>
+                    <UploadFileIcon />
                     {fileInput}
-                  </Button>
+                  </IconButton>
                 </div>
               )}
             />

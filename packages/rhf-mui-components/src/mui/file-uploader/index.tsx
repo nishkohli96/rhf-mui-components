@@ -37,8 +37,9 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
-	showFileList?: boolean;
+	hideFileList?: boolean;
 	showFileSize?: boolean;
+	fullWidth?: boolean;
 } & FileInputProps;
 
 const RHFFileUploader = <T extends FieldValues>({
@@ -58,8 +59,9 @@ const RHFFileUploader = <T extends FieldValues>({
   multiple,
   disabled,
   accept = '*',
-	showFileList,
+	hideFileList,
 	showFileSize,
+	fullWidth,
   ...rest
 }: RHFFileUploaderProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -71,7 +73,7 @@ const RHFFileUploader = <T extends FieldValues>({
   );
 
   return (
-    <FormControl error={isError}>
+    <FormControl fullWidth={fullWidth ?? false} error={isError}>
       <FormLabel
         label={fieldLabel}
         isVisible={isLabelAboveFormField}
@@ -133,7 +135,7 @@ const RHFFileUploader = <T extends FieldValues>({
                 helperText={helperText}
                 formHelperTextProps={formHelperTextProps}
               />
-              {showFileList && (
+              {!hideFileList && (
 								<Box>
                 {value &&
                   (Array.isArray(value) ? value : [value]).map(

@@ -4,12 +4,13 @@ import MuiFormControl from '@mui/material/FormControl';
 type Props = {
   children: ReactElement | ReactElement[];
   error: boolean;
+  fullWidth?: boolean;
 }
 
 const FormControl = (props: Props) => {
-  const { children, error } = props;
+  const { children, error, fullWidth = true } = props;
   return (
-    <MuiFormControl fullWidth error={error}>
+    <MuiFormControl fullWidth={fullWidth} error={error}>
       {children}
     </MuiFormControl>
   );
