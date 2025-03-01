@@ -4,3 +4,5 @@ export type FileInputProps = {
 	disabled?: boolean;
 	maxSize?: number;
 }
+
+export type FileInputError = 'FILE_SIZE_EXCEED' | 'FILE_TYPE_NOT_ALLOWED';

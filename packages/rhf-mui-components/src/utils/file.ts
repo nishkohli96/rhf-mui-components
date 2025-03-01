@@ -1,3 +1,5 @@
+import { FileInputError } from '@/types';
+
 type FileSizeOptions = {
   valueAsNumber?: boolean;
   precision?: number;
@@ -29,4 +31,22 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
 
   const gb = mb / conversionFactor;
   return format(gb, 'GB');
+}
+
+export function processFileList(
+  fileList: FileList,
+  maxSize?: number
+): { files: File[]; error?: FileInputError } {
+  if (!maxSize) {
+    return { files: Array.from(fileList) };
+  }
+  const files = Array.from(fileList);
+  const oversizedFiles = files.filter(file => file.size > maxSize);
+  if (oversizedFiles.length > 0) {
+    return {
+      files: files.filter((file) => file.size <= maxSize),
+      error: 'FILE_SIZE_EXCEED',
+    };
+  }
+  return { files };
 }
