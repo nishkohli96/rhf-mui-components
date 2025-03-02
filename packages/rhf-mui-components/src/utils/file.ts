@@ -17,9 +17,7 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
   /* Utility to remove .0 if no decimal part exists */
   const format = (value: number, unit: string): string => {
     const roundedValue = value.toFixed(precision);
-    const formattedValue = roundedValue.endsWith('.0')
-      ? roundedValue.replace(/\.0$/, '')
-      : roundedValue;
+    const formattedValue = roundedValue.replace(/(\.0+|\.0+0+)$/, '');
     return valueAsNumber ? `${Math.round(value)} ${unit}` : `${formattedValue} ${unit}`;
   };
 
