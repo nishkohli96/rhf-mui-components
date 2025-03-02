@@ -338,6 +338,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'The maximum file size in bytes allowed for each uploaded file.',
     type: 'number'
   },
+  maxFiles: {
+    name: 'maxFiles',
+    description: 'The maximum number of files allowed to be uploaded in the file uploader component. Extra files will be rejected.',
+    type: 'number'
+  },
   showFileSize: {
     name: 'showFileSize',
     description: 'Show the file size of the uploaded file(s) in the file uploader component.',

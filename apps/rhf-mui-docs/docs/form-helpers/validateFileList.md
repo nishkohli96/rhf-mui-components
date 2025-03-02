@@ -18,6 +18,7 @@ function validateFileList(
   fileList: FileList,
   accept?: string
   maxSize?: number,
+  maxFiles?: number;
 ): ProcessFilesResult
 ```
 
@@ -42,6 +43,7 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 
 3. `maxSize`: An optional numeric value (in bytes) that sets the maximum allowed file size. Files exceeding this limit will be rejected.
 
+4. `maxFiles`: Maximum number of files allowed for upload. Any additional files, even if valid, will be added to the `rejectedFiles` array and excluded from the accepted files.
 
 ### Returns
 
@@ -50,6 +52,7 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 - `errors`: A set of validation errors which can be any of:
     - `FILE_SIZE_EXCEEDED`
     - `FILE_TYPE_NOT_ALLOWED`
+    - `FILE_LIMIT_EXCEEDED`
 
 ## Examples
 
@@ -59,11 +62,7 @@ validateFileList(fileList, '*', 5 * 1024 * 1024);
 
 // Allow only image mimetype
 validateFileList(fileList, 'image/*');
-// Output: "1 KB"
 
-getFileSize(10452345, { precision: 2 })
-// Output: "9.97 MB"
-
-getFileSize(10452345, { valueAsNumber: true })
-// Output: "10 MB"
+// Allow at max 3 files
+validateFileList(fileList, undefined, undefined, 3);
 ```

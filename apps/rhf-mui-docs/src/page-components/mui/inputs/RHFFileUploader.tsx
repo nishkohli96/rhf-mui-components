@@ -9,6 +9,7 @@ const RHFFileUploaderPropsTable = () => {
 		PropsDescription.required,
 		PropsDescription.accept_FileUploader,
 		PropsDescription.multiple_FileUploader,
+    PropsDescription.maxFiles,
 		PropsDescription.maxSize_FileUploader,
 		PropsDescription.showFileSize,
 		PropsDescription.hideFileList,

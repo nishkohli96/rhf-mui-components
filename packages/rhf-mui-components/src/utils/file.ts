@@ -49,6 +49,7 @@ export function validateFileList(
   fileList: FileList,
   accept?: string,
   maxSize?: number,
+  maxFiles?: number
 ): ProcessFilesResult {
   const files = Array.from(fileList);
   const acceptedFiles: File[] = [];
@@ -82,11 +83,11 @@ export function validateFileList(
     const fileErrors: FileUploadError[] = [];
 
     if (maxSize && file.size > maxSize) {
-      fileErrors.push('FILE_SIZE_EXCEEDED');
+      fileErrors.push(FileUploadError.sizeExceeded);
     }
 
     if (!isTypeAllowed(file)) {
-      fileErrors.push('FILE_TYPE_NOT_ALLOWED');
+      fileErrors.push(FileUploadError.invalidExtension);
     }
 
     if (fileErrors.length > 0) {
@@ -96,6 +97,13 @@ export function validateFileList(
       acceptedFiles.push(file);
     }
   });
+
+  if (maxFiles && acceptedFiles.length > maxFiles) {
+    const excessFiles = acceptedFiles.slice(maxFiles);
+    acceptedFiles.splice(maxFiles);
+    rejectedFiles.push(...excessFiles);
+    errorsSet.add(FileUploadError.limitExceeded);
+  }
 
   return {
     acceptedFiles,

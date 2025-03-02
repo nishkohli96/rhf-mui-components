@@ -55,8 +55,9 @@ const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  multiple,
   accept = '*',
+  multiple,
+  maxFiles,
   maxSize,
   hideFileList = false,
   showFileSize = false,
@@ -111,6 +112,7 @@ const RHFFileUploader = <T extends FieldValues>({
               fileList,
               accept,
               maxSize,
+              maxFiles
             );
 
             if (

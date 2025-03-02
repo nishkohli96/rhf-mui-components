@@ -3,6 +3,11 @@ export type FileInputProps = {
 	multiple?: boolean;
 	maxSize?: number;
 	disabled?: boolean;
+	maxFiles?: number;
 }
 
-export type FileUploadError = 'FILE_SIZE_EXCEEDED' | 'FILE_TYPE_NOT_ALLOWED';
+export enum FileUploadError {
+  sizeExceeded = 'FILE_SIZE_EXCEEDED',
+  invalidExtension = 'FILE_TYPE_NOT_ALLOWED',
+	limitExceeded = 'FILE_LIMIT_EXCEEDED',
+}
