@@ -9,9 +9,16 @@ import {
 import Box from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, FileInputProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import {
+  FormLabelProps,
+  FormHelperTextProps,
+  FileInputProps,
+  FileUploadError
+} from '@/types';
+import { fieldNameToLabel, keepLabelAboveFormField, validateFileList } from '@/utils';
 import { FileItem, HiddenInput, UploadButton } from './components';
+
+export type { FileUploadError };
 
 export type RHFFileUploaderProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -23,8 +30,13 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
   renderFileItem?: (file: File, index: number) => ReactNode;
   onValueChange?: (
-    files: File | File[] | null,
+    acceptedFiles: File | File[] | null,
     event: ChangeEvent<HTMLInputElement>
+  ) => void;
+  onUploadError?: (
+    errors?: FileUploadError[],
+    rejectedFiles?: File[],
+    event?: ChangeEvent<HTMLInputElement>
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -48,6 +60,7 @@ const RHFFileUploader = <T extends FieldValues>({
   renderUploadButton,
   renderFileItem,
   onValueChange,
+  onUploadError,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -89,16 +102,26 @@ const RHFFileUploader = <T extends FieldValues>({
               accept={accept}
               onChange={event => {
                 const fileList = event.target.files;
-                let files;
                 if (!fileList || fileList.length === 0) {
-                  files = multiple ? [] : null;
+                  const files = multiple ? [] : null;
                   onChange(files);
                   onValueChange?.(files, event);
                   return;
                 }
-								files = multiple ? Array.from(fileList) : fileList[0];
-                onChange(files);
-								onValueChange?.(files, event);
+                const { acceptedFiles, rejectedFiles, errors } = validateFileList(fileList, maxSize);
+                if (errors && errors.length > 0) {
+                  onUploadError?.(errors, rejectedFiles, event);
+                }
+                let selectedFiles;
+                if (multiple) {
+                  selectedFiles = acceptedFiles.length > 0 ? acceptedFiles : null;
+                  onChange(selectedFiles);
+                  onValueChange?.(selectedFiles, event);
+                } else {
+                  selectedFiles = acceptedFiles[0] ?? null
+                  onChange(selectedFiles);
+                  onValueChange?.(selectedFiles, event);
+                }
               }}
               multiple={multiple}
               disabled={disabled}
