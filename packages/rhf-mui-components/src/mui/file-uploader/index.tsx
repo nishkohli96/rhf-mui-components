@@ -15,7 +15,11 @@ import {
   FileInputProps,
   FileUploadError
 } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, validateFileList } from '@/utils';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  validateFileList
+} from '@/utils';
 import { FileItem, HiddenInput, UploadButton } from './components';
 
 export type { FileUploadError };
@@ -25,8 +29,8 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
-	hideFileList?: boolean;
   showFileSize?: boolean;
+  hideFileList?: boolean;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
   renderFileItem?: (file: File, index: number) => ReactNode;
   onValueChange?: (
@@ -34,9 +38,8 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   onUploadError?: (
-    errors?: FileUploadError[],
-    rejectedFiles?: File[],
-    event?: ChangeEvent<HTMLInputElement>
+    errors: FileUploadError[],
+    rejectedFiles: File[],
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -52,9 +55,9 @@ const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-	multiple,
+  multiple,
   accept = '*',
-	maxSize,
+  maxSize,
   hideFileList = false,
   showFileSize = false,
   renderUploadButton,
@@ -70,7 +73,7 @@ const RHFFileUploader = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   disabled,
-  fullWidth = false,
+  fullWidth = false
 }: RHFFileUploaderProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
@@ -96,45 +99,42 @@ const RHFFileUploader = <T extends FieldValues>({
         render={({ field }) => {
           const { value, onChange, ...otherFieldParams } = field;
 
-          const FileInput = () => (
-            <HiddenInput
-              type="file"
-              accept={accept}
-              onChange={event => {
-                const fileList = event.target.files;
-                if (!fileList || fileList.length === 0) {
-                  const files = multiple ? [] : null;
-                  onChange(files);
-                  onValueChange?.(files, event);
-                  return;
-                }
-                const { acceptedFiles, rejectedFiles, errors } = validateFileList(fileList, maxSize);
-                if (errors && errors.length > 0) {
-                  onUploadError?.(errors, rejectedFiles, event);
-                }
-                let selectedFiles;
-                if (multiple) {
-                  selectedFiles = acceptedFiles.length > 0 ? acceptedFiles : null;
-                  onChange(selectedFiles);
-                  onValueChange?.(selectedFiles, event);
-                } else {
-                  selectedFiles = acceptedFiles[0] ?? null
-                  onChange(selectedFiles);
-                  onValueChange?.(selectedFiles, event);
-                }
-              }}
-              multiple={multiple}
-              disabled={disabled}
-              {...otherFieldParams}
-            />
-          );
+          const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+            const fileList = event.target.files;
+            if (!fileList || fileList.length === 0) {
+              onChange(null);
+              onValueChange?.(null, event);
+              return;
+            }
+
+            const { acceptedFiles, rejectedFiles, errors } = validateFileList(
+              fileList,
+              maxSize,
+              accept
+            );
+
+            if (
+              errors &&
+              errors.length > 0 &&
+              rejectedFiles &&
+              rejectedFiles.length > 0
+            ) {
+              onUploadError?.(errors, rejectedFiles);
+            }
+
+            const selectedFiles = multiple
+              ? acceptedFiles.length > 0
+                ? acceptedFiles
+                : null
+              : acceptedFiles[0] ?? null;
+            onChange(selectedFiles);
+            onValueChange?.(selectedFiles, event);
+          };
 
           const removeFile = (index: number) => {
-            if (multiple) {
-              const newFiles = value.filter(
-                (_: File, i: number) => i !== index
-              );
-              onChange(newFiles);
+            if (multiple && Array.isArray(value)) {
+              const newFiles = value.filter((_: File, i: number) => i !== index);
+              onChange(newFiles.length > 0 ? newFiles : null);
             } else {
               onChange(null);
             }
@@ -143,14 +143,30 @@ const RHFFileUploader = <T extends FieldValues>({
           return (
             <Fragment>
               {renderUploadButton ? (
-                renderUploadButton(<FileInput />)
+                renderUploadButton(
+                  <HiddenInput
+                    type="file"
+                    accept={accept}
+                    onChange={handleFileChange}
+                    multiple={multiple}
+                    disabled={disabled}
+                    {...otherFieldParams}
+                  />
+                )
               ) : (
                 <UploadButton
                   fieldName={fieldName}
                   disabled={disabled}
                   multiple={multiple}
                 >
-                  <FileInput />
+                  <HiddenInput
+                    type="file"
+                    accept={accept}
+                    onChange={handleFileChange}
+                    multiple={multiple}
+                    disabled={disabled}
+                    {...otherFieldParams}
+                  />
                 </UploadButton>
               )}
               <FormHelperText
@@ -160,25 +176,24 @@ const RHFFileUploader = <T extends FieldValues>({
                 helperText={helperText}
                 formHelperTextProps={formHelperTextProps}
               />
-              {!hideFileList && (
+              {!hideFileList && value && (
                 <Box>
-                  {value &&
-                    (Array.isArray(value) ? value : [value]).map(
-                      (file: File, index) => (
-                        <Fragment key={index}>
-                          {renderFileItem ? (
-                            renderFileItem(file, index)
-                          ) : (
-                            <FileItem
-                              index={index}
-                              file={file}
-                              showFileSize={showFileSize}
-                              removeFile={removeFile}
-                            />
-                          )}
-                        </Fragment>
-                      )
-                    )}
+                  {(Array.isArray(value) ? value : [value]).map(
+                    (file: File, index) => (
+                      <Fragment key={index}>
+                        {renderFileItem ? (
+                          renderFileItem(file, index)
+                        ) : (
+                          <FileItem
+                            index={index}
+                            file={file}
+                            showFileSize={showFileSize}
+                            removeFile={removeFile}
+                          />
+                        )}
+                      </Fragment>
+                    )
+                  )}
                 </Box>
               )}
             </Fragment>

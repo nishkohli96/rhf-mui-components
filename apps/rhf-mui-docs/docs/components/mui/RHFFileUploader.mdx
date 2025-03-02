@@ -20,7 +20,7 @@ and customizable UI elements such as the upload button and file list items.
 ### Usage
 
 ```js
-import RHFFileUploader, { RHFFileUploaderProps } from '@nish1896/rhf-mui-components/mui/file-uploader';
+import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from '@nish1896/rhf-mui-components/mui/file-uploader';
 ```
 
 Here’s a basic example of the component configured to accept a single file:
@@ -31,6 +31,28 @@ Here’s a basic example of the component configured to accept a single file:
   control={control}
   errorMessage={errors?.resume?.message}
 />
+```
+
+When uploading files via an API, the files are sent within a **FormData** object.
+On a Node.js Express server, you can handle this incoming data using the [Multer](https://www.npmjs.com/package/multer) middleware.
+Here’s an [example](https://github.com/nishkohli96/client-server-libs/blob/main/apps/express-server/src/routes/file/controller.ts)
+illustrating how to handle file uploads with Multer in Express, where I have used
+various [file upload middlewares](https://github.com/nishkohli96/client-server-libs/blob/main/apps/express-server/src/middleware/file-uploader.ts)
+to store data in a dedicated folder based on certain conditions.
+
+```ts
+async function onFormSubmit(formValues: FormSchema) {
+  const formData = new FormData();
+  const { resume, pictures } = formValues;
+
+  /* resume can be null, hence handle the null check */
+  resume && formData.append('resume', resume);
+
+  Array.isArray(pictures) && pictures.forEach(file => {
+    formData.append('pictures', file);
+  });
+  await sendFormData(url, formData);
+}
 ```
 
 ### Advanced Usage

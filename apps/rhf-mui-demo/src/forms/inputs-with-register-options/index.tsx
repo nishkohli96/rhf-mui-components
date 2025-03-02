@@ -54,40 +54,7 @@ const InputsWithRegisterForm = () => {
     defaultValues: initialValues
   });
 
-  async function sendFormData(
-    url: string,
-    formData: FormData,
-    method: 'POST' | 'PUT' = 'POST',
-    headers: Record<string, string> = {}
-  ): Promise<Response> {
-    try {
-      const response = await fetch(url, {
-        method,
-        body: formData,
-        headers: {
-          // Optional headers (you might want to add auth tokens here)
-          ...headers,
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to send form data: ${response.status} ${response.statusText}`);
-      }
-  
-      return response; // Response object (you can extract JSON, text, etc.)
-    } catch (error) {
-      console.error('Error sending form data:', error);
-      throw error;
-    }
-  }
-  
   async function onFormSubmit(formValues: FormSchema) {
-    const formData = new FormData();
-    // @ts-ignore
-    formValues.pictures.forEach((file) => {
-      formData.append('files', file);
-    });
-    await sendFormData('http://localhost:8000/api/file/upload-many', formData);
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
@@ -98,7 +65,7 @@ const InputsWithRegisterForm = () => {
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation" />
-            {/* <RHFTextField
+            <RHFTextField
               fieldName="firstName"
               control={control}
               registerOptions={{
@@ -109,11 +76,11 @@ const InputsWithRegisterForm = () => {
               }}
               required
               errorMessage={errors?.firstName?.message}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with min & max length validation" />
-            {/* <RHFTextField
+            <RHFTextField
               fieldName="lastName"
               control={control}
               registerOptions={{
@@ -127,11 +94,11 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               errorMessage={errors?.lastName?.message}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with pattern validation & label above form-field" />
-            {/* <RHFTextField
+            <RHFTextField
               fieldName="email"
               control={control}
               errorMessage={errors?.email?.message}
@@ -143,11 +110,11 @@ const InputsWithRegisterForm = () => {
               }}
               variant="standard"
               showLabelAboveFormField
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Simple Password Field" />
-            {/* <RHFPasswordInput
+            <RHFPasswordInput
               fieldName="password"
               control={control}
               registerOptions={{
@@ -162,11 +129,11 @@ const InputsWithRegisterForm = () => {
               }}
               required
               errorMessage={errors?.password?.message}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Password Field with custom icons & validate rule" />
-            {/* <RHFPasswordInput
+            <RHFPasswordInput
               fieldName="confirmPassword"
               control={control}
               registerOptions={{
@@ -186,22 +153,22 @@ const InputsWithRegisterForm = () => {
               showLabelAboveFormField
               required
               errorMessage={errors?.confirmPassword?.message}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
-            {/* <RHFNumberInput
+            <RHFNumberInput
               fieldName="age"
               control={control}
               errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed and custom limit text" />
-            {/* <RHFTagsInput
+            <RHFTagsInput
               fieldName="tags"
               control={control}
               registerOptions={{
@@ -216,11 +183,11 @@ const InputsWithRegisterForm = () => {
               )}
               required
               errorMessage={errors?.tags?.message}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Tags Input with styled chips and all tags visible" />
-            {/* <RHFTagsInput
+            <RHFTagsInput
               fieldName="keywords"
               control={control}
               registerOptions={{
@@ -242,24 +209,28 @@ const InputsWithRegisterForm = () => {
               limitTags={-1}
               required
               errorMessage={errors?.keywords?.message}
-            /> */}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
             <RHFFileUploader
               fieldName="pictures"
               control={control}
-              multiple
               accept="image/*"
+              multiple
               showFileSize
               fullWidth
-              maxSize={700*1024}
+              maxSize={800*1024}
               renderFileItem={(file, index) => (
                 <Typography variant="body2">
                   {index + 1}. {file.name} -{' '}
                   {getFileSize(file.size, { precision: 2 })}
                 </Typography>
               )}
+              onUploadError={(errors, rejectedFiles) => {
+                console.log('rejectedFiles: ', rejectedFiles);
+                console.log('errors: ', errors);
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

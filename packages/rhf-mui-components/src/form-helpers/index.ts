@@ -3,10 +3,9 @@
  * which can also be used by the end user.
  */
 
-import { colorToString, getFileSize, fieldNameToLabel } from '@/utils';
-
 export {
+  fieldNameToLabel,
   colorToString,
   getFileSize,
-  fieldNameToLabel
-};
+  validateFileList
+} from '@/utils';

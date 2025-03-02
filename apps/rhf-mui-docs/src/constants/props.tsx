@@ -353,6 +353,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Custom render function to replace the default file item in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
     type: '(file: File, index: number) => ReactNode'
   },
+  onUploadError: {
+    name: 'onUploadError',
+    description: 'Callback function that returns the error message and rejected files when uploaded files fail the validation during upload.',
+    type: '(errors: FileUploadError[], rejectedFiles: File[]) => void'
+  },
   fullWidth_FileUploader: {
     name: 'fullWidth',
     description: 'Set the width of the file uploader component to 100%.',

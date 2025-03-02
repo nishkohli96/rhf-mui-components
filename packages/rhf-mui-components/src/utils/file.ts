@@ -82,7 +82,7 @@ export function validateFileList(
     const fileErrors: FileUploadError[] = [];
 
     if (maxSize && file.size > maxSize) {
-      fileErrors.push('FILE_SIZE_EXCEED');
+      fileErrors.push('FILE_SIZE_EXCEEDED');
     }
 
     if (!isTypeAllowed(file)) {

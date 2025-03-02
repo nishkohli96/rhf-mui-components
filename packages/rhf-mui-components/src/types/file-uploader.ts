@@ -5,4 +5,4 @@ export type FileInputProps = {
 	disabled?: boolean;
 }
 
-export type FileUploadError = 'FILE_SIZE_EXCEED' | 'FILE_TYPE_NOT_ALLOWED';
+export type FileUploadError = 'FILE_SIZE_EXCEEDED' | 'FILE_TYPE_NOT_ALLOWED';
