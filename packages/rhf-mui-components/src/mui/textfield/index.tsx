@@ -6,21 +6,11 @@ import {
   Control,
   RegisterOptions
 } from 'react-hook-form';
-import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
+import MuiTextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
-
-type TextFieldInputProps = Omit<
-  TextFieldProps,
-  | 'name'
-  | 'value'
-  | 'defaultValue'
-  | 'onChange'
-  | 'error'
-  | 'FormHelperTextProps'
->
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -35,7 +25,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & TextFieldInputProps;
+} & TextFieldProps;
 
 const RHFTextField = <T extends FieldValues>({
   fieldName,

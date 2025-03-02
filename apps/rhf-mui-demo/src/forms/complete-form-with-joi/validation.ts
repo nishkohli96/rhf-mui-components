@@ -1,6 +1,17 @@
 import Joi from 'joi';
 import { Colors, Gender, Sports, Person } from '@/types';
 
+const fileSchema = Joi.object({
+  name: Joi.string().required(),
+  size: Joi.number().required(),
+  type: Joi.string().valid(
+    'image/jpeg',
+    'image/png',
+    'application/pdf'
+  ).required(),
+  lastModified: Joi.number().required()
+});
+
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required().min(8),
@@ -14,6 +25,7 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     .messages({
       'array.base': 'Enter atleast two dishes'
     }),
+  resume: fileSchema.required(),
   favouriteColor: Joi.string()
     .required()
     .valid(...Object.values(Colors))
@@ -83,7 +95,8 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   countryCode: Joi.string().required(),
   phoneNumber: Joi.string().required().min(8),
   darkTheme: Joi.boolean().required(),
-  age: Joi.number().required().positive(),
+  age: Joi.number().required().positive().min(10),
+  weight: Joi.number().required().positive().min(10).max(100),
   rating: Joi.number().required().min(1).max(5).messages({
     'number.base': 'Please rate your experience'
   }),

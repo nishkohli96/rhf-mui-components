@@ -12,7 +12,9 @@ const IntroductionPageTable = ({ v1 }: VersionProps) => {
       ? [PropsDescription.required, PropsDescription.disabled]
       : [PropsDescription.setValue]),
     PropsDescription.onValueChange,
-    PropsDescription.label,
+    ...(!v1
+      ? [PropsDescription.label]
+      : [PropsDescription.label_v1]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.formControlLabelProps,

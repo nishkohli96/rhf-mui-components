@@ -6,6 +6,10 @@ export const DocsLinks: Record<string, PageInfo> = {
     title: 'RHFTextField',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFTextField`
   },
+  rhfNumberInput: {
+    title: 'RHFNumberInput',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFNumberInput`
+  },
   rhfPasswordInput: {
     title: 'RHFPasswordInput',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFPasswordInput`
@@ -13,6 +17,10 @@ export const DocsLinks: Record<string, PageInfo> = {
   rhfTagsInput: {
     title: 'RHFTagsInput',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFTagsInput`
+  },
+  rhfFileUploader: {
+    title: 'RHFFileUploader',
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFFileUploader`
   },
   rhfSelect: {
     title: 'RHFSelect',

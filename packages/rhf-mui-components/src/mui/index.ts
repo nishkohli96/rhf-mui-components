@@ -7,8 +7,10 @@ import RHFCountrySelect, {
   CountryDetails,
   countryList
 } from './country-select';
+import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from './file-uploader';
 import RHFMultiAutocomplete, { RHFMultiAutocompleteProps } from './multi-autocomplete';
 import RHFNativeSelect, { RHFNativeSelectProps } from './native-select';
+import RHFNumberInput, { RHFNumberInputProps } from './number-input';
 import RHFPasswordInput, { RHFPasswordInputProps } from './password-input';
 import RHFRadioGroup, { RHFRadioGroupProps } from './radio-group';
 import RHFRating, { RHFRatingProps } from './rating';
@@ -23,8 +25,10 @@ export {
   RHFCheckbox,
   RHFCheckboxGroup,
   RHFCountrySelect,
+  RHFFileUploader,
   RHFMultiAutocomplete,
   RHFNativeSelect,
+  RHFNumberInput,
   RHFPasswordInput,
   RHFRadioGroup,
   RHFRating,
@@ -41,8 +45,11 @@ export type {
   RHFCheckboxProps,
   RHFCheckboxGroupProps,
   RHFCountrySelectProps,
+  RHFFileUploaderProps,
+  FileUploadError,
   RHFMultiAutocompleteProps,
   RHFNativeSelectProps,
+  RHFNumberInputProps,
   RHFPasswordInputProps,
   RHFRadioGroupProps,
   RHFRatingProps,

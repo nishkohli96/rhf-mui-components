@@ -41,7 +41,7 @@ const generateAirportNames = (count: number) => {
   return Array.from(fullNames);
 };
 
-const MultiSelectDropdownForm = () => {
+const AutocompleteForm = () => {
   const airportList = useMemo(() => generateAirportNames(100), []);
 
   const initialValues: FormSchema = {
@@ -261,4 +261,4 @@ const MultiSelectDropdownForm = () => {
   );
 };
 
-export default MultiSelectDropdownForm;
+export default AutocompleteForm;

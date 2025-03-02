@@ -1,7 +1,7 @@
 import { ExternalLinks } from '@site/src/constants';
-import { PropDescV2 } from '@site/src/types';
+import { PropsInfo } from '@site/src/types';
 
-const PropsDescription: Record<string, PropDescV2> = Object.freeze({
+const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   fieldName: {
     name: 'fieldName',
     description: 'React Hook Form requires `name` as a key for the registration process. This is a required prop for all components.',
@@ -69,7 +69,12 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
   },
   label: {
     name: 'label',
-    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as firstName will be transformed to display "First Name".',
+    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**" using the [fieldNameToLabel](/form-helpers/fieldNameToLabel) function.',
+    type: 'ReactNode'
+  },
+  label_v1: {
+    name: 'label',
+    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
     type: 'ReactNode'
   },
   formLabelProps: {
@@ -125,10 +130,20 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'An optional callback function when the value of a field changes.',
     type: '(value: string, event: ChangeEvent) => void'
   },
+  onValueChange_numberInput: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
+    type: '(value: number OR null) => void'
+  },
   onValueChange_tagsInput: {
     name: 'onValueChange',
     description: 'An optional callback function that returns an array of strings.',
     type: '(tags: string[]) => void'
+  },
+  onValueChange_FileUploader: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
+    type: '(files: File OR File[] OR null) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
@@ -303,6 +318,56 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode',
   },
+  hideFileList: {
+    name: 'hideFileList',
+    description: 'Hide the list of files uploaded in the file uploader component.',
+    type: 'boolean'
+  },
+  accept_FileUploader: {
+    name: 'accept',
+    description: 'The file types to accept in the file uploader component. The default value is `*`.',
+    type: 'string'
+  },
+  multiple_FileUploader: {
+    name: 'multiple',
+    description: 'Allow selection of single or multiple values for a formfield.',
+    type: 'boolean'
+  },
+  maxSize_FileUploader: {
+    name: 'maxSize',
+    description: 'The maximum file size in bytes allowed for each uploaded file.',
+    type: 'number'
+  },
+  maxFiles: {
+    name: 'maxFiles',
+    description: 'The maximum number of files allowed to be uploaded in the file uploader component. Extra files will be rejected.',
+    type: 'number'
+  },
+  showFileSize: {
+    name: 'showFileSize',
+    description: 'Show the file size of the uploaded file(s) in the file uploader component.',
+    type: 'boolean'
+  },
+  renderUploadButton: {
+    name: 'renderUploadButton',
+    description: 'Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
+    type: '(fileInput: ReactNode) => ReactNode'
+  },
+  renderFileItem: {
+    name: 'renderFileItem',
+    description: 'Custom render function to replace the default file item in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
+    type: '(file: File, index: number) => ReactNode'
+  },
+  onUploadError: {
+    name: 'onUploadError',
+    description: 'Callback function that returns the error message and rejected files when uploaded files fail the validation during upload.',
+    type: '(errors: FileUploadError[], rejectedFiles: File[]) => void'
+  },
+  fullWidth_FileUploader: {
+    name: 'fullWidth',
+    description: 'Set the width of the file uploader component to 100%.',
+    type: 'boolean'
+  },
   defaultValue: {
     name: 'defaultValue',
     description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
@@ -313,6 +378,11 @@ const PropsDescription: Record<string, PropDescV2> = Object.freeze({
     description: 'Initial value set for `RHFSlider` component on render.',
     type: 'number OR number[]',
     required: true
+  },
+  showMarkers: {
+    name: 'showMarkers',
+    description: 'Show the increment and decrement markers on number input.  Hidden by default.',
+    type: 'boolean'
   },
   showDefaultOption: {
     name: 'showDefaultOption',

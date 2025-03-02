@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-docs",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -16,8 +16,8 @@
     "lint": "eslint --fix ."
   },
   "dependencies": {
-    "@docusaurus/core": "3.6.3",
-    "@docusaurus/preset-classic": "3.6.3",
+    "@docusaurus/core": "3.7.0",
+    "@docusaurus/preset-classic": "3.7.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mdx-js/react": "^3.0.0",
@@ -33,10 +33,10 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.6.3",
-    "@docusaurus/module-type-aliases": "3.6.3",
-    "@docusaurus/tsconfig": "3.6.3",
-    "@docusaurus/types": "3.6.3",
+    "@docusaurus/eslint-plugin": "^3.7.0",
+    "@docusaurus/module-type-aliases": "3.7.0",
+    "@docusaurus/tsconfig": "3.7.0",
+    "@docusaurus/types": "3.7.0",
     "@nish1896/eslint-config": "^2.1.1",
     "eslint": "^8",
     "typescript": "~5.2.2"

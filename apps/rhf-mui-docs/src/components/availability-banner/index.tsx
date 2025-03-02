@@ -10,9 +10,9 @@ const AvailabilityBanner = ({
   version
 }: AvailabilityBannerProps) => {
   return (
-    <Alert severity="info">
-      {`${componentName} is available from version`}
-      {' '}
+    <Alert severity="info" sx={{ mb: '20px' }}>
+      <b>{componentName}</b>
+      {` is available from version `}
       <span>
         <b>
           {version}

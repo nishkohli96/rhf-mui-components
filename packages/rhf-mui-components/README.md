@@ -6,7 +6,15 @@
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0c4fc578-ed19-4a5a-a3cd-e59fedcdb689/deploy-status)](https://app.netlify.com/sites/rhf-mui-components/deploys)
 
-**A suite of 20 reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
+**A suite of 20+ reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
+
+## Features ✨
+
+- Each component is fully functional with just 3-4 props — core logic handled internally.
+- Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.netlify.app/customization#configprovider).
+- Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) and [File Uploader](https://rhf-mui-components.netlify.app/components/mui/RHFFileUploader), saving development time.
+- Comprehensive docs showcasing multiple variations for each component.
+
 
 ## Explore and Get Started 🚀
 
@@ -20,11 +28,6 @@ Try out and experiment with the form components in a live environment:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
 
-### CodeSandbox Playground 🛠️
-Dive deeper and experiment with the package in an editable playground on CodeSandbox:
-
-👉 [CodeSandbox Project](https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l)
-
 
 ## Form Components List
 
@@ -32,8 +35,10 @@ Below is a comprehensive list of all components included in this package, catego
 
 - mui
   - [TextField](https://rhf-mui-components.netlify.app/components/mui/RHFTextField)
+  - [NumberInput](https://rhf-mui-components.netlify.app/components/mui/RHFNumberInput)
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
   - [Tags Input](https://rhf-mui-components.netlify.app/components/mui/RHFTagsInput)
+  - [File Uploader](https://rhf-mui-components.netlify.app/components/mui/RHFFileUploader)
   - [Select](https://rhf-mui-components.netlify.app/components/mui/RHFSelect)
   - [Native Select](https://rhf-mui-components.netlify.app/components/mui/RHFNativeSelect)
   - [Autocomplete](https://rhf-mui-components.netlify.app/components/mui/RHFAutocomplete)

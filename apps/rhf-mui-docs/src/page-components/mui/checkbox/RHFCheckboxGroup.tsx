@@ -6,26 +6,23 @@ const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    ...(!v1
-      ? [PropsDescription.registerOptions]
-      : []
-    ),
+    ...(!v1 ? [PropsDescription.registerOptions] : []),
     PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     ...(!v1
       ? [
-        PropsDescription.required,
-        PropsDescription.onValueChange_CheckboxGroup,
-        PropsDescription.disabled
-      ]
-      : [PropsDescription.onValueChange_CheckboxGroup_v1]
-    ),
-    PropsDescription.label,
-    ...(!v1
-      ? [PropsDescription.showLabelAboveFormField_Default]
-      : [PropsDescription.showLabelAboveFormField]
-    ),
+          PropsDescription.required,
+          PropsDescription.onValueChange_CheckboxGroup,
+          PropsDescription.disabled,
+          PropsDescription.label,
+          PropsDescription.showLabelAboveFormField_Default
+        ]
+      : [
+          PropsDescription.onValueChange_CheckboxGroup_v1,
+          PropsDescription.label_v1,
+          PropsDescription.showLabelAboveFormField
+        ]),
     PropsDescription.formLabelProps,
     PropsDescription.checkboxProps,
     PropsDescription.formControlLabelProps,
@@ -35,9 +32,7 @@ const RHFCheckboxGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFCheckboxGroupPropsTable;

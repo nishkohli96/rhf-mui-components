@@ -7,12 +7,11 @@ const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.fieldName,
     ...(!v1
       ? [
-        PropsDescription.control,
-        PropsDescription.registerOptions,
-        PropsDescription.required
-      ]
-      : [PropsDescription.setValue]
-    ),
+          PropsDescription.control,
+          PropsDescription.registerOptions,
+          PropsDescription.required
+        ]
+      : [PropsDescription.setValue]),
     PropsDescription.id_Rte,
     PropsDescription.editorConfig,
     PropsDescription.onReady_Rte,
@@ -20,17 +19,17 @@ const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.onValueChange_RichTextEditor]
       : [
-        PropsDescription.value_RichTextEditor,
-        PropsDescription.onValueChange_RichTextEditor_v1
-      ]
-    ),
+          PropsDescription.value_RichTextEditor,
+          PropsDescription.onValueChange_RichTextEditor_v1
+        ]),
     PropsDescription.onBlur_Rte,
     PropsDescription.disabled,
-    PropsDescription.label,
     ...(!v1
-      ? [PropsDescription.showLabelAboveFormField_Default]
-      : []
-    ),
+      ? [
+          PropsDescription.label,
+          PropsDescription.showLabelAboveFormField_Default
+        ]
+      : [PropsDescription.label_v1]),
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.onError_Rte,

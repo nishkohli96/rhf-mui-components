@@ -33,7 +33,10 @@ The color-picker accepts string value in `hex`, `rgb`, `hsl` or text format, suc
 - `cyan`
 
 If the field value is uninitialized, the default color **Black**(`#000000`) will be selected,
-which can be configured using the `defaultColor` prop.
+which can be configured using the `defaultColor` prop. Refer to the
+[colorToString](../../form-helpers/colorToString.md) function to convert
+an **RGB** or **HSV** color object into a string, which can be used to
+set the default color for the color picker.
 
 ```jsx
 <RHFColorPicker

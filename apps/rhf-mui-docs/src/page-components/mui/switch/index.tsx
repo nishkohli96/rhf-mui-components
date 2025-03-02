@@ -8,27 +8,27 @@ const RHFSwitchPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.control,
     ...(!v1
       ? [
-        PropsDescription.registerOptions,
-        PropsDescription.onValueChange_Switch
-      ]
-      : [PropsDescription.onValueChange_Default_v1]
+          PropsDescription.registerOptions,
+          PropsDescription.onValueChange_Switch,
+          PropsDescription.label
+        ]
+      : [
+          PropsDescription.onValueChange_Default_v1,
+          PropsDescription.label_v1
+        ]
     ),
-    PropsDescription.label,
     PropsDescription.formControlLabelProps,
     ...(!v1
       ? [
-        PropsDescription.helperText,
-        PropsDescription.errorMessage,
-        PropsDescription.hideErrorMessage,
-        PropsDescription.formHelperTextProps
-      ]
-      : []
-    ),
+          PropsDescription.helperText,
+          PropsDescription.errorMessage,
+          PropsDescription.hideErrorMessage,
+          PropsDescription.formHelperTextProps
+        ]
+      : [])
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFSwitchPropsTable;

@@ -11,7 +11,10 @@ const RHFPhoneInputPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.value_PhoneInput,
     PropsDescription.required,
     PropsDescription.onValueChange_PhoneInput,
-    PropsDescription.label,
+    ...(!v1
+      ? [PropsDescription.label]
+      : [PropsDescription.label_v1]
+    ),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,

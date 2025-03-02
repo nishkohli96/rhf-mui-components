@@ -6,22 +6,21 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    ...(!v1
-      ? [PropsDescription.registerOptions]
-      : []
-    ),
+    ...(!v1 ? [PropsDescription.registerOptions] : []),
     PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     ...(!v1
       ? [
-        PropsDescription.required,
-        PropsDescription.onValueChange_RadioGroup,
-        PropsDescription.disabled
-      ]
-      : [PropsDescription.onValueChange_CheckboxGroup_v1]
-    ),
-    PropsDescription.label,
+          PropsDescription.required,
+          PropsDescription.onValueChange_RadioGroup,
+          PropsDescription.disabled,
+          PropsDescription.label
+        ]
+      : [
+          PropsDescription.onValueChange_CheckboxGroup_v1,
+          PropsDescription.label_v1
+        ]),
     PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.radioProps,
@@ -32,9 +31,7 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFRadioGroupPropsTable;

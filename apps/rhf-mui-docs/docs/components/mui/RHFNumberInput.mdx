@@ -1,0 +1,46 @@
+---
+sidebar_position: 2
+sidebar_label: Number Input
+title: RHFNumberInput
+description: RHFNumberInput is a specialized version of RHFTextField, designed to accept only integer or decimal values as input.
+---
+
+import { RHFNumberInputPropsTable } from '@site/src/page-components';
+import { AvailabilityBanner } from '@site/src/components';
+import NewImg from '@site/static/img/new.png';
+
+# RHFNumberInput<sup><img src={NewImg} alt="NEW" height="40" /></sup>
+
+<AvailabilityBanner componentName="RHFNumberInput" version="2.1" />
+
+**RHFNumberInput** is an enhanced version of the [TextField](https://mui.com/material-ui/react-text-field/)
+component which accepts only **integer** or **float** values. It retains
+the core functionality, styling options, and flexibility of the TextField,
+while seamlessly integrating with react-hook-form for number-specific input handling.
+
+### Usage
+
+```js
+import RHFNumberInput, { RHFNumberInputProps } from '@nish1896/rhf-mui-components/mui/number-input';
+```
+
+To render a fully functional `RHFNumberInput`, you only need 3-4 essential props.
+
+```jsx
+<RHFNumberInput
+  fieldName="age"
+  control={control}
+  errorMessage={errors?.age?.message}
+/>
+```
+
+### Examples
+- [RHFNumberInput](https://rhf-mui-components-examples.netlify.app/textfield-and-passwordinput)
+- [TextField](https://mui.com/material-ui/react-text-field/)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+### API
+The `RHFNumberInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+and includes the following additional props:
+
+<RHFNumberInputPropsTable />

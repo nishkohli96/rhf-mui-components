@@ -2,12 +2,18 @@
 
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
+import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
+import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
+import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 import {
   FormContainer,
   GridContainer,
@@ -26,6 +32,9 @@ type FormSchema = {
   age?: number;
   tags?: string[];
   keywords?: string[];
+  resume?: File;
+  pictures?: File[];
+  documents?: File[];
 };
 
 const initialValues: FormSchema = {
@@ -34,16 +43,10 @@ const initialValues: FormSchema = {
   email: '',
   password: '',
   confirmPassword: '',
-  keywords: [
-    'hello',
-    'world',
-    'foo',
-    'bar',
-    'lorem ipsum'
-  ]
+  keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
-const TextAndPasswordInputForm = () => {
+const InputsWithRegisterForm = () => {
   const {
     control,
     watch,
@@ -57,8 +60,9 @@ const TextAndPasswordInputForm = () => {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
+  console.log('pictures, resume, documents ', watch(['resume', 'pictures', 'documents']));
   return (
-    <FormContainer title="TextField & PasswordInput">
+    <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -140,7 +144,7 @@ const TextAndPasswordInputForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: v => v && `${v}`.length >= 4 || minCharMsg(4),
+                  minLen: v => (v && `${v}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -155,13 +159,9 @@ const TextAndPasswordInputForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
-            <RHFTextField
+            <RHFNumberInput
               fieldName="age"
               control={control}
-              type="number"
-              registerOptions={{
-                valueAsNumber: true
-              }}
               errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
@@ -177,7 +177,7 @@ const TextAndPasswordInputForm = () => {
                 required: {
                   value: true,
                   message: reqdMsg('tags')
-                },
+                }
               }}
               limitTags={4}
               getLimitTagsText={hiddenTags => (
@@ -198,7 +198,7 @@ const TextAndPasswordInputForm = () => {
                 required: {
                   value: true,
                   message: reqdMsg('keywords')
-                },
+                }
               }}
               ChipProps={{
                 variant: 'outlined',
@@ -215,6 +215,70 @@ const TextAndPasswordInputForm = () => {
               errorMessage={errors?.keywords?.message}
             />
           </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Customized label and allow upload of at max 2 pdf files only" />
+            <RHFFileUploader
+              fieldName="documents"
+              control={control}
+              accept=".pdf"
+              multiple
+              label={
+                <Typography color="secondary" sx={{ fontWeight: 600 }}>
+                  <CloudUploadIcon />
+                  {' Upload Documents'}
+                </Typography>
+              }
+              showFileSize
+              fullWidth
+              maxFiles={2}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
+            <RHFFileUploader
+              fieldName="pictures"
+              control={control}
+              accept="image/*"
+              label="Upload Pictures"
+              multiple
+              showFileSize
+              fullWidth
+              renderFileItem={(file, index) => (
+                <Typography variant="body2">
+                  {index + 1}
+                  .
+                  {file.name}
+                  {' '}
+                  -
+                  {' '}
+                  {getFileSize(file.size, { precision: 2 })}
+                </Typography>
+              )}
+              onUploadError={(errors, rejectedFiles) => {
+                alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`);
+                console.log('rejectedFiles: ', rejectedFiles);
+                console.log('errors: ', errors);
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="FileUploader with custom button" />
+            <RHFFileUploader
+              fieldName="resume"
+              control={control}
+              label="Upload Resume"
+              showLabelAboveFormField
+              accept="application/pdf"
+              renderUploadButton={fileInput => (
+                <div style={{ width: '200px' }}>
+                  <IconButton component="label" tabIndex={-1}>
+                    <UploadFileIcon />
+                    {fileInput}
+                  </IconButton>
+                </div>
+              )}
+            />
+          </Grid>
           <Grid size={12}>
             <SubmitButton />
           </Grid>
@@ -227,4 +291,4 @@ const TextAndPasswordInputForm = () => {
   );
 };
 
-export default TextAndPasswordInputForm;
+export default InputsWithRegisterForm;

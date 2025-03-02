@@ -5,22 +5,19 @@ import { VersionProps } from '@site/src/types';
 const RHFTimePickerPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1
-      ? [PropsDescription.control]
-      : [PropsDescription.register]
-    ),
+    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
     PropsDescription.registerOptions,
     ...(!v1
       ? [
-        PropsDescription.required,
-        PropsDescription.onValueChange_TimePicker
-      ]
+          PropsDescription.required,
+          PropsDescription.onValueChange_TimePicker,
+          PropsDescription.label
+        ]
       : [
-        PropsDescription.setValue,
-        PropsDescription.onValueChange_Pickers_v1
-      ]
-    ),
-    PropsDescription.label,
+          PropsDescription.setValue,
+          PropsDescription.onValueChange_Pickers_v1,
+          PropsDescription.label_v1
+        ]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
@@ -29,9 +26,7 @@ const RHFTimePickerPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.formHelperTextProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows} showType />;
 };
 
 export default RHFTimePickerPropsTable;
