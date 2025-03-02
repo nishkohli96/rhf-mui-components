@@ -60,6 +60,7 @@ async function onFormSubmit(formValues: FormSchema) {
 For more advanced scenarios, `RHFFileUploader` can be configured to:
 - Accept **multiple files**.
 - Restrict file types using the `accept` prop, for example, to allow only images (`image/*`).
+- Limit the maximum number of valid files a user can upload
 - Use a **custom upload button** to match your design requirements.
 - Customize the **display of uploaded files**, including file names, sizes, and a remove button.
 
@@ -70,6 +71,14 @@ For more advanced scenarios, `RHFFileUploader` can be configured to:
   multiple
   accept="image/*"
   showFileSize
+  maxFiles={3}
+  maxSize={5 * 1024 * 1024}
+  label={
+    <Typography color="secondary" sx={{ fontWeight: 600 }}>
+      <CloudUploadIcon />
+      {` Upload Photos`}
+    </Typography>
+  }
   renderUploadButton={fileInput => (
     <div style={{ width: '200px' }}>
       <IconButton component="label" tabIndex={-1}>
@@ -84,6 +93,9 @@ For more advanced scenarios, `RHFFileUploader` can be configured to:
       {getFileSize(file.size, { precision: 2 })}
     </Typography>
   )}
+  onUploadError={(errors, rejectedFiles) => {
+    alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`)
+  }}
 />
 ```
 

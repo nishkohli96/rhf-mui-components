@@ -40,19 +40,19 @@ Eg - `rgb(26, 86, 150)`, `hsva(88, 79%, 63%, 1)`
 ## Examples
 
 ```ts
-// RGB color without alpha
+/* RGB color without alpha */
 colorToString({ r: 255, g: 100, b: 50 }, true);
 // Output: "rgb(255, 100, 50)"
 
-// RGB color with alpha
+/* RGB color with alpha */
 colorToString({ r: 255, g: 100, b: 50, a: 0.5 });
 // Output: "rgba(255, 100, 50, 0.5)"
 
-// HSV color without alpha
+/* HSV color without alpha */
 colorToString({ h: 200, s: 75, v: 50 }, true);
 // Output: "hsv(200, 75%, 50%)"
 
-// HSV color with alpha
+/* HSV color with alpha */
 colorToString({ h: 200, s: 75, v: 50, a: 0.8 });
 // Output: "hsva(200, 75%, 50%, 0.8)"
 ```

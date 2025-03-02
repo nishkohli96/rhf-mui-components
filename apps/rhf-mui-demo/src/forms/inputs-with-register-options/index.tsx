@@ -248,6 +248,7 @@ const InputsWithRegisterForm = () => {
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {
+                alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`)
                 console.log('rejectedFiles: ', rejectedFiles);
                 console.log('errors: ', errors);
               }}

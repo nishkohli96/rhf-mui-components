@@ -16,6 +16,9 @@
     "docs:lint": "yarn workspace @nish1896/rhf-mui-docs lint",
     "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
   },
+  "devDependencies": {
+    "turbo": "^2.4.4"
+  },
   "keywords": [
     "@nish1896",
     "@nish1896/rhf-mui-components",
