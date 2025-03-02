@@ -41,5 +41,6 @@
   "repository": {
     "url": "git+https://github.com/nishkohli96/eslint-config.git"
   },
-  "license": "ISC"
+  "packageManager": "yarn@1.22.22",
+  "license": "MIT"
 }

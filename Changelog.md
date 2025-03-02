@@ -9,7 +9,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.1.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.0)
 
-**Released - 2 Mar, 2025**
+**Released - 3 Mar, 2025**
 
 ### New Components 🔥
 - [RHFNumberInput](./apps/rhf-mui-docs/docs/components/mui/RHFNumberInput.mdx)
@@ -18,6 +18,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 ### Features & Enchancements 🎉
 - Export [getFileSize](./apps/rhf-mui-docs/docs/form-helpers/getFileSize.md) & [validateFileList](./apps/rhf-mui-docs/docs/form-helpers/validateFileList.md) functions from `form-helpers`
 - Bump [Docusaurus](https://docusaurus.io/) version from `3.6.3` to `3.7.0`.
+- Add [turbo](https://www.npmjs.com/package/turbo)
 
 ## [2.0.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.1)
 

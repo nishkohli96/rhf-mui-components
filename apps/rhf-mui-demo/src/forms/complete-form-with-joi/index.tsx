@@ -157,7 +157,7 @@ const CompleteFormWithJoi = () => {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <RHFFileUploader
-                fieldName='resume'
+                fieldName="resume"
                 control={control}
                 disabled={areAllFieldsDisabled}
                 required

@@ -56,7 +56,7 @@ const InputsWithRegisterForm = () => {
     defaultValues: initialValues
   });
 
-  async function onFormSubmit(formValues: FormSchema) {
+  function onFormSubmit(formValues: FormSchema) {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
@@ -144,7 +144,7 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: (v) => (v && `${v}`.length >= 4) || minCharMsg(4),
+                  minLen: v => (v && `${v}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -180,8 +180,10 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               limitTags={4}
-              getLimitTagsText={(hiddenTags) => (
-                <Typography color="green">{`& ${hiddenTags} More`}</Typography>
+              getLimitTagsText={hiddenTags => (
+                <Typography color="green">
+                  {`& ${hiddenTags} More`}
+                </Typography>
               )}
               required
               errorMessage={errors?.tags?.message}
@@ -203,7 +205,7 @@ const InputsWithRegisterForm = () => {
                 sx: {
                   color: 'white',
                   variant: 'filled',
-                  backgroundColor: (theme) => theme.palette.secondary.main
+                  backgroundColor: theme => theme.palette.secondary.main
                 }
               }}
               variant="filled"
@@ -223,7 +225,7 @@ const InputsWithRegisterForm = () => {
               label={
                 <Typography color="secondary" sx={{ fontWeight: 600 }}>
                   <CloudUploadIcon />
-                  {` Upload Documents`}
+                  {' Upload Documents'}
                 </Typography>
               }
               showFileSize
@@ -243,12 +245,17 @@ const InputsWithRegisterForm = () => {
               fullWidth
               renderFileItem={(file, index) => (
                 <Typography variant="body2">
-                  {index + 1}. {file.name} -{' '}
+                  {index + 1}
+                  .
+                  {file.name}
+                  {' '}
+                  -
+                  {' '}
                   {getFileSize(file.size, { precision: 2 })}
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {
-                alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`)
+                alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`);
                 console.log('rejectedFiles: ', rejectedFiles);
                 console.log('errors: ', errors);
               }}

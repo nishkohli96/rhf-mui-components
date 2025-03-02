@@ -188,7 +188,7 @@ const CompleteForm = () => {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <RHFFileUploader
-                fieldName='resume'
+                fieldName="resume"
                 control={control}
                 registerOptions={{
                   required: {
