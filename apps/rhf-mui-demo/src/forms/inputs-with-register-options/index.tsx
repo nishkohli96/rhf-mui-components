@@ -60,7 +60,7 @@ const InputsWithRegisterForm = () => {
     alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
   }
 
-  console.log('pictures, resume ', watch(['resume', 'pictures']));
+  console.log('pictures, resume, documents ', watch(['resume', 'pictures', 'documents']));
   return (
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>

@@ -33,6 +33,18 @@ Here’s a basic example of the component configured to accept a single file:
 />
 ```
 
+A file object has the following properties:
+
+```js
+{
+  lastModified: 1738870405923,
+  lastModifiedDate: "Fri Feb 07 2025 01:03:25 GMT+0530 (India Standard Time)",
+  name: "Picture.png",
+  size: 860146,
+  type: "image/png",
+  webkitRelativePath: ""
+}
+```
 When uploading files via an API, the files are sent within a **FormData** object.
 On a Node.js Express server, you can handle this incoming data using the [Multer](https://www.npmjs.com/package/multer) middleware.
 Here’s an [example](https://github.com/nishkohli96/client-server-libs/blob/main/apps/express-server/src/routes/file/controller.ts)
