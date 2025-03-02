@@ -109,8 +109,8 @@ const RHFFileUploader = <T extends FieldValues>({
 
             const { acceptedFiles, rejectedFiles, errors } = validateFileList(
               fileList,
+              accept,
               maxSize,
-              accept
             );
 
             if (

@@ -47,8 +47,8 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
 
 export function validateFileList(
   fileList: FileList,
+  accept?: string,
   maxSize?: number,
-  accept?: string
 ): ProcessFilesResult {
   const files = Array.from(fileList);
   const acceptedFiles: File[] = [];

@@ -21,12 +21,11 @@ import { colorToString } from '@nish1896/rhf-mui-components/form-helpers';
 
 ### Parameters
 
-1. `color: ColorObject` - An object representing color values, which can include:
+1. `color` - An object representing color values, which can include:
 - For RGB: `r` (red), `g` (green), `b` (blue), and optionally `a` (alpha).
 - For HSV: `h` (hue), `s` (saturation), `v` (value), and optionally `a` (alpha).
 
-2. `excludeAlpha?: boolean` - Whether to exclude the alpha channel. If `true`, alpha will be
-excluded when its value is `1` or `undefined`.
+2. `excludeAlpha` - An optional boolean to exclude the alpha channel. If `true`, alpha will be excluded when its value is `1` or `undefined`.
 
 ### Returns
 
