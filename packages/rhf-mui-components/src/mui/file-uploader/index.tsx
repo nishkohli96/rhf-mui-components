@@ -157,9 +157,9 @@ const RHFFileUploader = <T extends FieldValues>({
                 )
               ) : (
                 <UploadButton
+                  label={fieldLabel}
                   fieldName={fieldName}
                   disabled={disabled}
-                  multiple={multiple}
                 >
                   <HiddenInput
                     type="file"

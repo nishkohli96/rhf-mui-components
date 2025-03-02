@@ -1,18 +1,17 @@
 import { ReactNode } from 'react';
 import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 type UploadButtonProps = {
+  label: ReactNode;
   fieldName: string;
   disabled?: boolean;
-	multiple?: boolean;
   children?: ReactNode;
 };
 
 const UploadButton = ({
+  label,
 	fieldName,
 	disabled,
-	multiple,
 	children
 }: UploadButtonProps) => {
   return (
@@ -22,10 +21,10 @@ const UploadButton = ({
       role={undefined}
       variant="contained"
       tabIndex={-1}
-      startIcon={<CloudUploadIcon />}
       disabled={disabled}
+      sx={{ textTransform: 'none' }}
     >
-      {`Upload file${multiple ? 's':''}`}
+      {label}
 			{children}
     </Button>
   );

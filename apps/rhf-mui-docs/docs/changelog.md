@@ -9,14 +9,15 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 ## [2.1.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.0)
 
-**Released - 2 Mar, 2025**
+**Released - 3 Mar, 2025**
 
 ### New Components 🔥
 - [RHFNumberInput](../docs/components/mui/RHFNumberInput.mdx)
 - [RHFFileUploader](../docs/components/mui/RHFFileUploader.mdx)
 
-### Features & Enchancements 🎉
-- Expose new function [getFileSize](./) in `form-helpers`
+### New Helper functions 🎉
+- [getFileSize](./form-helpers/getFileSize.md)
+- [validateFileList](./form-helpers/validateFileList.md)
 
 ## [2.0.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.1)
 

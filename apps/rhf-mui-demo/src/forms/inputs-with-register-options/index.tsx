@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -31,8 +32,9 @@ type FormSchema = {
   age?: number;
   tags?: string[];
   keywords?: string[];
-  pictures?: File[];
   resume?: File;
+  pictures?: File[];
+  documents?: File[];
 };
 
 const initialValues: FormSchema = {
@@ -212,15 +214,33 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Customized label and allow upload of at max 2 pdf files only" />
+            <RHFFileUploader
+              fieldName="documents"
+              control={control}
+              accept=".pdf"
+              multiple
+              label={
+                <Typography color="secondary" sx={{ fontWeight: 600 }}>
+                  <CloudUploadIcon />
+                  {` Upload Documents`}
+                </Typography>
+              }
+              showFileSize
+              fullWidth
+              maxFiles={2}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
             <RHFFileUploader
               fieldName="pictures"
               control={control}
               accept="image/*"
+              label="Upload Pictures"
               multiple
               showFileSize
               fullWidth
-              maxSize={800*1024}
               renderFileItem={(file, index) => (
                 <Typography variant="body2">
                   {index + 1}. {file.name} -{' '}

@@ -16,7 +16,7 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 - [RHFFileUploader](./apps/rhf-mui-docs/docs/components/mui/RHFFileUploader.mdx)
 
 ### Features & Enchancements 🎉
-- [getFileSize](./apps/rhf-mui-docs/docs/) function in `form-helpers`
+- Export [getFileSize](./apps/rhf-mui-docs/docs/form-helpers/getFileSize.md) & [validateFileList](./apps/rhf-mui-docs/docs/form-helpers/validateFileList.md) functions from `form-helpers`
 - Bump [Docusaurus](https://docusaurus.io/) version from `3.6.3` to `3.7.0`.
 
 ## [2.0.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.0.1)
