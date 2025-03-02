@@ -11,7 +11,7 @@ description: Function to convert a color object in RGB or HSV format into a vali
 function colorToString(color: ColorObject, excludeAlpha?: boolean): string;
 ```
 
-Converts a color object in RGB or HSV format into a valid CSS color string, best used with [RHFColorPicker](./components/misc/RHFColorPicker.mdx)
+Converts a color object in RGB or HSV format into a valid CSS color string, best used with [RHFColorPicker](./components/misc/RHFColorPicker.mdx).
 
 ## Usage
 
@@ -19,7 +19,7 @@ Converts a color object in RGB or HSV format into a valid CSS color string, best
 import { colorToString } from '@nish1896/rhf-mui-components/form-helpers';
 ```
 
-**Parameters:**
+### Parameters
 
 1. `color: ColorObject` - An object representing color values, which can include:
 - For RGB: `r` (red), `g` (green), `b` (blue), and optionally `a` (alpha).
@@ -28,14 +28,15 @@ import { colorToString } from '@nish1896/rhf-mui-components/form-helpers';
 2. `excludeAlpha?: boolean` - Whether to exclude the alpha channel. If `true`, alpha will be
 excluded when its value is `1` or `undefined`.
 
-**Returns:**
+### Returns
 
 A string representation of the color in CSS-compatible rgb, rgba, hsv, or hsva format.
+
 Eg - `rgb(26, 86, 150)`, `hsva(88, 79%, 63%, 1)`
 
-**Throws:**
+### Error
 
-**Error**: If the input object is neither a valid RGB nor HSV color.
+- If the input object is neither a valid RGB nor HSV color.
 
 ## Examples
 

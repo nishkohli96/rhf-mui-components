@@ -2,7 +2,7 @@
 sidebar_position: 1
 sidebar_label: fieldNameToLabel
 title: fieldNameToLabel
-description: Defination and usage of a function to generate user-friendly label from a string in camelCase or snake_case.
+description: Definition and usage of a function to generate user-friendly label from a string in camelCase or snake_case.
 ---
 
 # fieldNameToLabel
@@ -26,6 +26,10 @@ sentence for each field validation. It:
 1. Converts **camelCase** and **snake_case** into words.
 2. Capitalizes the first letter of each word.
 3. Handles abbreviations when generating the field label.
+
+### Parameters
+
+1. `fieldName`: The input string for generating a meaningful label. 
 
 ## Example
 

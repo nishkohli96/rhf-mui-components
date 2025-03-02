@@ -6,14 +6,22 @@ type FileSizeOptions = {
 };
 
 export function getFileSize(size: number, options?: FileSizeOptions): string {
-  if (size < 0) return 'Invalid size';
+  if (size < 0) {
+    throw new Error('Invalid file size. It must be a positive number.');
+  }
   if (size === 0) return '0 bytes';
 
   const { valueAsNumber = false, precision = 1 } = options ?? {};
   const conversionFactor = 1024;
 
-  const format = (value: number, unit: string): string =>
-    valueAsNumber ? `${value} ${unit}` : `${value.toFixed(precision)} ${unit}`;
+  /* Utility to remove .0 if no decimal part exists */
+  const format = (value: number, unit: string): string => {
+    const roundedValue = value.toFixed(precision);
+    const formattedValue = roundedValue.endsWith('.0')
+      ? roundedValue.replace(/\.0$/, '')
+      : roundedValue;
+    return valueAsNumber ? `${Math.round(value)} ${unit}` : `${formattedValue} ${unit}`;
+  };
 
   if (size < conversionFactor) {
     return `${size} bytes`;
