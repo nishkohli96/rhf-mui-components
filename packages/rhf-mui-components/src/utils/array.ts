@@ -1,4 +1,4 @@
-import { StringOrNumber, StrNumObjOption, KeyValueOption } from '@/types';
+import type { StringOrNumber, StrNumObjOption, KeyValueOption } from '@/types';
 import { generateLabelValueErrMsg } from '@/utils';
 
 function isStrNumArray(arr: StrNumObjOption[]): boolean {

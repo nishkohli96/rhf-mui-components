@@ -1,17 +1,20 @@
-import { useContext, Fragment, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { useContext, Fragment } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import type { SelectChangeEvent } from '@mui/material/Select';
+import MuiSelect from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, StrNumObjOption, SelectProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps, StrNumObjOption, SelectProps } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,

@@ -1,15 +1,17 @@
-import { useContext, ReactNode, ChangeEvent } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
+import { useContext } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {

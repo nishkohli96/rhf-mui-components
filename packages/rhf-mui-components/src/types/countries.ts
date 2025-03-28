@@ -5,4 +5,4 @@ export type CountryDetails = {
   iso: CountryISO;
   iso3: string;
   emoji: string;
-}
+};

@@ -1,19 +1,19 @@
-import { SxProps } from '@mui/system';
-import { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
-import { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
-import { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
-import { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
-import { RadioProps as MuiRadioProps } from '@mui/material/Radio';
-import{ SelectProps as MuiSelectProps } from '@mui/material/Select';
-import { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
-import { ChipProps } from '@mui/material/Chip';
+import type { SxProps } from '@mui/system';
+import type { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
+import type { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
+import type { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
+import type { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
+import type { RadioProps as MuiRadioProps } from '@mui/material/Radio';
+import type{ SelectProps as MuiSelectProps } from '@mui/material/Select';
+import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
+import type { ChipProps } from '@mui/material/Chip';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
   | 'children'
   | 'required'
   | 'error'
->
+>;
 
 export type FormControlLabelProps = Omit<
   MuiFormControlLabelProps,
@@ -106,7 +106,7 @@ export type MuiChipProps = Omit<
   | 'disabled'
 >;
 
-export type MuiPickersAdapter = { new (...args: any): any }
+export type MuiPickersAdapter = new (...args: any) => any;
 
 export type RHFMuiConfigInput = {
   defaultFormLabelSx?: SxProps;
@@ -114,7 +114,7 @@ export type RHFMuiConfigInput = {
   defaultFormHelperTextSx?: SxProps;
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
-}
+};
 
 export type RHFMuiConfig = {
   defaultFormLabelSx: SxProps;
@@ -122,4 +122,4 @@ export type RHFMuiConfig = {
   defaultFormHelperTextSx: SxProps;
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
-}
+};

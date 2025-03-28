@@ -7,15 +7,17 @@ type FileSizeOptions = {
 
 type ProcessFilesResult = {
   acceptedFiles: File[];
-  rejectedFiles?: File[]; 
+  rejectedFiles?: File[];
   errors?: FileUploadError[];
-}
+};
 
 export function getFileSize(size: number, options?: FileSizeOptions): string {
   if (size < 0) {
     throw new Error('Invalid file size. It must be a positive number.');
   }
-  if (size === 0) return '0 bytes';
+  if (size === 0) {
+    return '0 bytes';
+  }
 
   const { valueAsNumber = false, precision = 1 } = options ?? {};
   const conversionFactor = 1024;
@@ -59,15 +61,17 @@ export function validateFileList(
   /* Parse the accept string into an array of acceptable types/extensions */
   const acceptedTypes = (accept ?? '')
     .split(',')
-    .map((type) => type.trim().toLowerCase());
+    .map(type => type.trim().toLowerCase());
 
   const isTypeAllowed = (file: File) => {
-    if (!accept) return true;
+    if (!accept) {
+      return true;
+    }
 
     const fileExtension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
     const fileType = file.type.toLowerCase();
 
-    return acceptedTypes.some((acceptedType) => {
+    return acceptedTypes.some(acceptedType => {
       if (acceptedType.startsWith('.')) {
         return fileExtension === acceptedType;
       } else if (acceptedType.endsWith('/*')) {

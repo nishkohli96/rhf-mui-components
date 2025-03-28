@@ -1,14 +1,16 @@
-import { ReactNode, SyntheticEvent } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
-import MuiRating, { RatingProps } from '@mui/material/Rating';
+import type { RatingProps } from '@mui/material/Rating';
+import MuiRating from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
 type InputRatingProps = Omit<
@@ -18,7 +20,7 @@ type InputRatingProps = Omit<
   | 'error'
   | 'value'
   | 'defaultValue'
->
+>;
 
 export type RHFRatingProps<T extends FieldValues> = {
   fieldName: Path<T>;

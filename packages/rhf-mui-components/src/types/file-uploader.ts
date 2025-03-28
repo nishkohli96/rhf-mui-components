@@ -4,7 +4,7 @@ export type FileInputProps = {
 	maxSize?: number;
 	disabled?: boolean;
 	maxFiles?: number;
-}
+};
 
 export enum FileUploadError {
   sizeExceeded = 'FILE_SIZE_EXCEEDED',

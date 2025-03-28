@@ -1,22 +1,26 @@
-import { useContext, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { useContext } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {
-  TimePicker as MuiTimePicker,
+import type {
   TimePickerProps,
   PickerValidDate,
   TimeValidationError,
   PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
+import {
+  TimePicker as MuiTimePicker
+} from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type TimePickerInputProps = Omit<

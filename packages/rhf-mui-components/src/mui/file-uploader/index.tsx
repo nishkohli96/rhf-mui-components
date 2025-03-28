@@ -1,15 +1,17 @@
-import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
+import { useContext, Fragment } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import {
+import type {
   FormLabelProps,
   FormHelperTextProps,
   FileInputProps,
@@ -116,10 +118,10 @@ const RHFFileUploader = <T extends FieldValues>({
             );
 
             if (
-              errors &&
-              errors.length > 0 &&
-              rejectedFiles &&
-              rejectedFiles.length > 0
+              errors
+              && errors.length > 0
+              && rejectedFiles
+              && rejectedFiles.length > 0
             ) {
               onUploadError?.(errors, rejectedFiles);
             }

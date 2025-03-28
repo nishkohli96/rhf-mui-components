@@ -3,7 +3,7 @@
  * https://github.com/dr5hn/countries-states-cities-database/blob/master/json/countries.json
  */
 
-import { CountryDetails } from '@/types';
+import type { CountryDetails } from '@/types';
 
 /* Total - 250 Records */
 export const countryList: readonly CountryDetails[] = [

@@ -1,22 +1,24 @@
-import { useContext, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { useContext } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {
-  DatePicker as MuiDatePicker,
-  DatePickerProps,
+import type { DatePickerProps,
   PickerValidDate,
   DateValidationError,
-  PickerChangeHandlerContext,
+  PickerChangeHandlerContext } from '@mui/x-date-pickers';
+import {
+  DatePicker as MuiDatePicker
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type DatePickerInputProps = Omit<
@@ -24,7 +26,7 @@ type DatePickerInputProps = Omit<
   | 'value'
   | 'onChange'
   | 'label'
->
+>;
 
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;

@@ -1,20 +1,20 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import {
   ColorPicker as ReactColorPicker,
   Saturation,
   Hue,
-  IColor,
-  useColor
+  useColor,
+  type IColor
 } from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, colorToString } from '@/utils';
 import 'react-color-palette/css';
 

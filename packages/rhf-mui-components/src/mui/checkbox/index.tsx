@@ -1,16 +1,18 @@
-import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
+import { useContext, Fragment } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/mui/common';
-import { FormControlLabelProps, FormHelperTextProps, CheckboxProps } from '@/types';
+import type { FormControlLabelProps, FormHelperTextProps, CheckboxProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
