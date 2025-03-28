@@ -7,6 +7,15 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 # **What's changed?**
 
+## [2.1.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.1)
+
+**Released - 30 Mar, 2025**
+
+### Upgrade Dependencies
+
+| Name | Version |
+|[eslint](https://www.npmjs.com/package/eslint)| `8.57.1` to `9.23.0` |
+
 ## [2.1.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.0)
 
 **Released - 3 Mar, 2025**
