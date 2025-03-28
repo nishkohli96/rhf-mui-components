@@ -1,17 +1,14 @@
-import type { ReactNode, ChangeEvent } from 'react';
-import { useContext } from 'react';
+import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import type { RadioGroupProps } from '@mui/material/RadioGroup';
-import MuiRadioGroup from '@mui/material/RadioGroup';
+import MuiRadioGroup, { type RadioGroupProps } from '@mui/material/RadioGroup';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import type {

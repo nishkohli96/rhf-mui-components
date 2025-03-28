@@ -1,21 +1,23 @@
-import type { ReactNode, SyntheticEvent } from 'react';
-import { useContext, useMemo } from 'react';
+import {
+  useContext,
+  useMemo,
+  type ReactNode,
+  type SyntheticEvent
+} from 'react';
 import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import type {
-  AutocompleteProps,
-  AutocompleteChangeDetails,
-  AutocompleteChangeReason,
+import Autocomplete, {
+  type AutocompleteProps,
+  type AutocompleteChangeDetails,
+  type AutocompleteChangeReason,
 } from '@mui/material/Autocomplete';
-import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';

@@ -1,10 +1,8 @@
-import type { ReactNode, ChangeEvent } from 'react';
-import { useContext } from 'react';
+import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';

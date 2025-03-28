@@ -3,12 +3,10 @@ import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import type { RatingProps } from '@mui/material/Rating';
-import MuiRating from '@mui/material/Rating';
+import MuiRating, { type RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';

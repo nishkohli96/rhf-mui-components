@@ -8,10 +8,13 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
-import type { NativeSelectProps } from '@mui/material/NativeSelect';
-import NativeSelect from '@mui/material/NativeSelect';
+import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
 import { FormLabel, FormHelperText } from '@/mui/common';
-import type { FormHelperTextProps, FormLabelProps, StrNumObjOption } from '@/types';
+import type {
+  FormHelperTextProps,
+  FormLabelProps,
+  StrNumObjOption
+} from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

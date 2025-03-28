@@ -1,26 +1,29 @@
-import type { ReactNode,
-  ChangeEvent,
-  KeyboardEvent,
-  ClipboardEvent } from 'react';
 import {
   useState,
-  useContext
+  useContext,
+  type ReactNode,
+  type ChangeEvent,
+  type KeyboardEvent,
+  type ClipboardEvent
 } from 'react';
 import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import type { TextFieldProps } from '@mui/material/TextField';
-import MuiTextField from '@mui/material/TextField';
+import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText
+} from '@/mui/common';
 import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
