@@ -11,6 +11,10 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 **Released - 30 Mar, 2025**
 
+## Fixes & Enhancements
+- Internal optimization to reduce bundle size
+- Correct `fieldLabelText` logic in [RHFSelect](https://rhf-mui-components.netlify.app/components/mui/rhfselect)
+
 ### Upgrade Dependencies
 
 | Name | Version |

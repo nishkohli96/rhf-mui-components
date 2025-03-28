@@ -81,8 +81,14 @@ const RHFSelect = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const SelectFormLabel = <FormLabelText label={fieldLabel} required={required} />;
+  const fieldLabelText = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? fieldLabelText;
+  const SelectFormLabel = (
+    <FormLabelText
+      label={fieldLabel}
+      required={required}
+    />
+  );
   const isError = Boolean(errorMessage);
 
   return (
@@ -129,12 +135,16 @@ const RHFSelect = <T extends FieldValues>({
                 disabled
                 sx={{ display: showDefaultOption ? 'block' : 'none' }}
               >
-                {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
+                {defaultOptionText ?? `Select ${fieldLabelText}`}
               </MenuItem>
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-                const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+                const opnValue = isObject
+                  ? `${option[valueKey ?? '']}`
+                  : option;
+                const opnLabel = isObject
+                  ? `${option[labelKey ?? '']}`
+                  : option;
                 return (
                   <MenuItem key={opnValue} value={opnValue}>
                     {opnLabel}
