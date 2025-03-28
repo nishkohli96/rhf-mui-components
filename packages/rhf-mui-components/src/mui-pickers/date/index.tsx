@@ -1,20 +1,18 @@
-import type { ReactNode } from 'react';
-import { useContext } from 'react';
+import { useContext, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import type { DatePickerProps,
-  PickerValidDate,
-  DateValidationError,
-  PickerChangeHandlerContext } from '@mui/x-date-pickers';
 import {
-  DatePicker as MuiDatePicker
+  DatePicker as MuiDatePicker,
+  type DatePickerProps,
+  type PickerValidDate,
+  type DateValidationError,
+  type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
@@ -34,7 +32,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   onValueChange?: (
-    newValue: PickerValidDate | null,
+    newValue: PickerValidDate,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
   label?: ReactNode;

@@ -1,22 +1,18 @@
-import type { ReactNode } from 'react';
-import { useContext } from 'react';
+import { useContext, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import type {
-  TimePickerProps,
-  PickerValidDate,
-  TimeValidationError,
-  PickerChangeHandlerContext
-} from '@mui/x-date-pickers';
 import {
-  TimePicker as MuiTimePicker
+  TimePicker as MuiTimePicker,
+  type TimePickerProps,
+  type PickerValidDate,
+  type TimeValidationError,
+  type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
@@ -36,7 +32,7 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   onValueChange?: (
-    newValue: PickerValidDate | null,
+    newValue: PickerValidDate,
     context: PickerChangeHandlerContext<TimeValidationError>
   ) => void;
   label?: ReactNode;
