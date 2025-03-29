@@ -14,11 +14,8 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 ## Fixes & Enhancements
 - Internal optimization to reduce bundle size
 - Correct `fieldLabelText` logic in [RHFSelect](https://rhf-mui-components.netlify.app/components/mui/rhfselect)
+- Use [@nish1896/eslint-flat-config](https://www.npmjs.com/package/@nish1896/eslint-flat-config) in `@nish1896/rhf-mui-components` package.
 
-### Upgrade Dependencies
-
-| Name | Version |
-|[eslint](https://www.npmjs.com/package/eslint)| `8.57.1` to `9.23.0` |
 
 ## [2.1.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.0)
 
