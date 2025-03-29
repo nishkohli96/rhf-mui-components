@@ -1,15 +1,19 @@
-import { ReactNode, ChangeEvent } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
-import NativeSelect, { NativeSelectProps } from '@mui/material/NativeSelect';
+import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
 import { FormLabel, FormHelperText } from '@/mui/common';
-import { FormHelperTextProps, FormLabelProps, StrNumObjOption } from '@/types';
+import type {
+  FormHelperTextProps,
+  FormLabelProps,
+  StrNumObjOption
+} from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

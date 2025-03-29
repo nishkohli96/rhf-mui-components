@@ -3,34 +3,34 @@
  * https://react-international-phone.vercel.app/docs/Advanced%20Usage/useWithUiLibs
  */
 
-import { useContext, ReactNode } from 'react';
+import { useContext, type ReactNode } from 'react';
 import {
-  FieldValues,
-  Path,
-  PathValue,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type PathValue,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import {
-  CountryData,
-  CountryIso2,
   defaultCountries,
   FlagImage,
   parseCountry,
-  ParsedCountry,
   usePhoneInput,
-  UsePhoneInputConfig
+  type CountryData,
+  type CountryIso2,
+  type ParsedCountry,
+  type UsePhoneInputConfig
 } from 'react-international-phone';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 import 'react-international-phone/style.css';
 

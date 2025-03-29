@@ -1,20 +1,26 @@
-import { ReactNode, useState, useContext, useCallback, useMemo } from 'react';
 import {
-  FieldValues,
-  Path,
+  useState,
+  useContext,
+  useCallback,
+  useMemo,
+  type ReactNode
+} from 'react';
+import {
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, { type AutocompleteProps } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import {
+import type {
   FormLabelProps,
   FormControlLabelProps,
   CheckboxProps,

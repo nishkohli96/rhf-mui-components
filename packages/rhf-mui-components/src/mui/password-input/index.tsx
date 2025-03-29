@@ -1,16 +1,16 @@
 import {
   useState,
   useContext,
-  ChangeEvent,
-  MouseEvent,
-  ReactNode
+  type ChangeEvent,
+  type MouseEvent,
+  type ReactNode
 } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -19,14 +19,14 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
   | 'type'
   | 'InputProps'
->
+>;
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;

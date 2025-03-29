@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type FormLabelTextProps = {
   label: ReactNode;
   required?: boolean;
-}
+};
 
 const FormLabelText = ({ label, required }: FormLabelTextProps) => {
   return (

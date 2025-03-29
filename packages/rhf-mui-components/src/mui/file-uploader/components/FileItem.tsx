@@ -12,12 +12,12 @@ type FileItemProps = {
 };
 
 const FileItem = ({
-	index,
-	file,
+  index,
+  file,
   showFileSize,
-	removeFile
+  removeFile
 }: FileItemProps) => {
-  const fileText = `${file.name} ${showFileSize ? `(${getFileSize(file.size)})`: ''}`;
+  const fileText = `${file.name} ${showFileSize ? `(${getFileSize(file.size)})` : ''}`;
   return (
     <Box
       display="flex"

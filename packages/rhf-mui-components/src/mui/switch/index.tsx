@@ -1,16 +1,21 @@
-import { useContext, Fragment, ReactNode, ChangeEvent } from 'react';
 import {
-  FieldValues,
-  Path,
+  useContext,
+  Fragment,
+  type ReactNode,
+  type ChangeEvent
+} from 'react';
+import {
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import Switch, { type SwitchProps } from '@mui/material/Switch';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/mui/common';
-import { FormControlLabelProps, FormHelperTextProps } from '@/types';
+import type { FormControlLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {

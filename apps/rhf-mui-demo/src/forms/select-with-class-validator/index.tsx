@@ -65,6 +65,12 @@ const SelectFormWithClassValidator = () => {
               valueKey="abbr"
               showLabelAboveFormField
               showDefaultOption
+              defaultOptionText='Select IPL teams'
+              label={
+                <Typography variant="body1" color="success">
+                  Select your favourite IPL teams
+                </Typography>
+              }
               required
               multiple
               errorMessage={errors?.iplTeams?.message}

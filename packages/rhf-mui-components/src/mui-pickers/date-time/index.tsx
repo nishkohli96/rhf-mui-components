@@ -1,22 +1,22 @@
-import { useContext, ReactNode } from 'react';
+import { useContext, type ReactNode } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   DateTimePicker as MuiDateTimePicker,
-  DateTimePickerProps,
-  PickerValidDate,
-  DateTimeValidationError,
-  PickerChangeHandlerContext
+  type DateTimePickerProps,
+  type PickerValidDate,
+  type DateTimeValidationError,
+  type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
@@ -25,9 +25,10 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   onValueChange?: (
-    newValue: PickerValidDate | null,
+    newValue: PickerValidDate,
     context: PickerChangeHandlerContext<DateTimeValidationError>
-  ) => void; showLabelAboveFormField?: boolean;
+  ) => void;
+  showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;

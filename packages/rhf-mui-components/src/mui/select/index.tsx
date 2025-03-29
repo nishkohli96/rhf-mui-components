@@ -1,17 +1,27 @@
-import { useContext, Fragment, ReactNode } from 'react';
+import { useContext, Fragment, type ReactNode } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import MuiSelect, { type SelectChangeEvent } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, StrNumObjOption, SelectProps } from '@/types';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText
+} from '@/mui/common';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  StrNumObjOption,
+  SelectProps
+} from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
@@ -71,8 +81,14 @@ const RHFSelect = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const SelectFormLabel = <FormLabelText label={fieldLabel} required={required} />;
+  const fieldLabelText = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? fieldLabelText;
+  const SelectFormLabel = (
+    <FormLabelText
+      label={fieldLabel}
+      required={required}
+    />
+  );
   const isError = Boolean(errorMessage);
 
   return (
@@ -119,12 +135,16 @@ const RHFSelect = <T extends FieldValues>({
                 disabled
                 sx={{ display: showDefaultOption ? 'block' : 'none' }}
               >
-                {showDefaultOption ? defaultOptionText ?? `Select ${fieldLabel}` : ''}
+                {defaultOptionText ?? `Select ${fieldLabelText}`}
               </MenuItem>
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-                const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+                const opnValue = isObject
+                  ? `${option[valueKey ?? '']}`
+                  : option;
+                const opnLabel = isObject
+                  ? `${option[labelKey ?? '']}`
+                  : option;
                 return (
                   <MenuItem key={opnValue} value={opnValue}>
                     {opnLabel}

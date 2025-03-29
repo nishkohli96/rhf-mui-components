@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import Button from '@mui/material/Button';
 
 type UploadButtonProps = {
@@ -10,9 +10,9 @@ type UploadButtonProps = {
 
 const UploadButton = ({
   label,
-	fieldName,
-	disabled,
-	children
+  fieldName,
+  disabled,
+  children
 }: UploadButtonProps) => {
   return (
     <Button
@@ -25,7 +25,7 @@ const UploadButton = ({
       sx={{ textTransform: 'none' }}
     >
       {label}
-			{children}
+      {children}
     </Button>
   );
 };

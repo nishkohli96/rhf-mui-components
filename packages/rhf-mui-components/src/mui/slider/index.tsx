@@ -1,14 +1,14 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
-import MuiSlider, { SliderProps } from '@mui/material/Slider';
+import MuiSlider, { type SliderProps } from '@mui/material/Slider';
 import { FormLabel, FormHelperText } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
 type SliderInputProps = Omit<

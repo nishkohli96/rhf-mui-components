@@ -1,10 +1,10 @@
-import { useContext, ReactNode, ChangeEvent } from 'react';
+import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
-  FieldValues,
-  Path,
   Controller,
-  Control,
-  RegisterOptions
+  type FieldValues,
+  type Path,
+  type Control,
+  type RegisterOptions
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -14,7 +14,7 @@ import {
   FormLabelText,
   FormHelperText
 } from '@/mui/common';
-import { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
@@ -86,9 +86,9 @@ const RHFNumberInput = <T extends FieldValues>({
                 ) : undefined
               }
               value={value ?? ''}
-              onChange={(event) => {
-                const fieldValue =
-                  event.target.value === '' ? null : Number(event.target.value);
+              onChange={event => {
+                const fieldValue
+                  = event.target.value === '' ? null : Number(event.target.value);
                 onChange(fieldValue);
                 if (onValueChange) {
                   onValueChange(fieldValue, event);

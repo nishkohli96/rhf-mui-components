@@ -7,6 +7,16 @@ description: Introduction and installation of @nish1896/rhf-mui-components packa
 
 # **What's changed?**
 
+## [2.1.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.1)
+
+**Released - 30 Mar, 2025**
+
+## Fixes & Enhancements
+- Internal optimization to reduce bundle size
+- Correct `fieldLabelText` logic in [RHFSelect](https://rhf-mui-components.netlify.app/components/mui/rhfselect)
+- Use [@nish1896/eslint-flat-config](https://www.npmjs.com/package/@nish1896/eslint-flat-config) in `@nish1896/rhf-mui-components` package.
+
+
 ## [2.1.0](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.0)
 
 **Released - 3 Mar, 2025**
