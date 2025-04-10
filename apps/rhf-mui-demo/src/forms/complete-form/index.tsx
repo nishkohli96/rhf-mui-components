@@ -37,6 +37,7 @@ import {
 import { CountriesList, IPLTeams, GroceryList, HobbiesList } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, Person } from '@/types';
+import { printJSONObject } from '@/utils';
 
 type FormSchema = Person & { disableAllFields?: boolean; }
 
@@ -70,7 +71,7 @@ const CompleteForm = () => {
   }
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   return (

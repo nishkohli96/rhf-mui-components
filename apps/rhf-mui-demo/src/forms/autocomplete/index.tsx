@@ -17,6 +17,7 @@ import {
 } from '@/components';
 import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';
+import { printJSONObject } from '@/utils';
 
 type AirportInfo = {
   iataCode: string;
@@ -63,7 +64,7 @@ const AutocompleteForm = () => {
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   return (

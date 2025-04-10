@@ -21,7 +21,7 @@ import {
   FormState,
   SubmitButton
 } from '@/components';
-import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
+import { reqdMsg, minCharMsg, maxCharMsg, printJSONObject } from '@/utils';
 
 type FormSchema = {
   firstName: string;
@@ -57,7 +57,7 @@ const InputsWithRegisterForm = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   console.log('pictures, resume, documents ', watch(['resume', 'pictures', 'documents']));

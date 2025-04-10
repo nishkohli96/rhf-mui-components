@@ -14,7 +14,7 @@ import {
   FormState,
   SubmitButton,
 } from '@/components';
-import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
+import { reqdMsg, minCharMsg, maxCharMsg, printJSONObject } from '@/utils';
 import StyledRHFTextField from './StyledTextField';
 
 type FormSchema = {
@@ -40,7 +40,7 @@ export default function StyledReusableComponentForm() {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
   return (
     <FormContainer title="TextField & PasswordInput">

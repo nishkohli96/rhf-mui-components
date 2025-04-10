@@ -37,6 +37,7 @@ import {
 import { CountriesList, IPLTeams, GroceryList, HobbiesList } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, Person } from '@/types';
+import { printJSONObject } from '@/utils';
 import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
@@ -88,7 +89,7 @@ const CompleteFormWithJoi = () => {
   console.log('resume ', watch('resume'));
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   return (

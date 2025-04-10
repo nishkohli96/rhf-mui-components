@@ -14,6 +14,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
+import { printJSONObject } from '@/utils';
 
 type FormSchema = {
   bio: string;
@@ -48,7 +49,7 @@ const MiscellaneousComponentsForm = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   return (

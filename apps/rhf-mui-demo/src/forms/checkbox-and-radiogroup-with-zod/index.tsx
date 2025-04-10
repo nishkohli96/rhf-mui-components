@@ -15,6 +15,7 @@ import {
 } from '@/components';
 import { CountriesList } from '@/constants';
 import { Gender } from '@/types';
+import { printJSONObject } from '@/utils';
 import { formSchema, PersonInfo } from './validation';
 
 const CheckboxRadioZodForm = () => {
@@ -28,7 +29,7 @@ const CheckboxRadioZodForm = () => {
   });
 
   function onFormSubmit(formValues: PersonInfo) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   return (
