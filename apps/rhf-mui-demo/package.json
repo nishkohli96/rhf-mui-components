@@ -36,6 +36,7 @@
     "react-hook-form": "^7.53.0",
     "react-international-phone": "^4.3.0",
     "react-json-view": "^1.21.3",
+    "react-toastify": "^11.0.5",
     "sharp": "^0.33.5",
     "superstruct": "^2.0.2",
     "yup": "^1.4.0",

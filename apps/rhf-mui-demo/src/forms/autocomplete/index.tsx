@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
+import { toast } from 'react-toastify';
 import {
   FormContainer,
   FormState,
@@ -64,7 +65,7 @@ const AutocompleteForm = () => {
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
+    toast.success(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
   }
 
   return (

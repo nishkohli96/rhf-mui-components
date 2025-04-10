@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { AppThemeProvider } from '@/theme';
-import { AppBar, Footer } from '@/components';
-import './globals.css';
 import Grid from '@mui/material/Grid2';
-import DrawerContent from '@/components/drawer';
+import { ToastContainer } from 'react-toastify';
+import { AppThemeProvider } from '@/theme';
+import { AppBar, Drawer, Footer } from '@/components';
+import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -34,13 +34,19 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 size={{ md: 3 }}
                 sx={{ display: { xs: 'none', md: 'block' } }}
               >
-                <DrawerContent />
+                <Drawer />
               </Grid>
               <Grid size={{ xs: 12, md: 9 }}>
                 {children}
               </Grid>
             </Grid>
             <Footer />
+            <ToastContainer
+              autoClose={10000}
+              limit={1}
+              closeButton
+              style={{ fontSize: '1rem' }}
+            />
           </AppThemeProvider>
         </AppRouterCacheProvider>
       </body>
