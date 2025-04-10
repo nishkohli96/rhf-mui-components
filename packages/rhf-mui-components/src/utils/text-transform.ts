@@ -1,5 +1,3 @@
-/* eslint-disable no-inline-comments */
-
 /**
  * Function to generate easy-to-read form labels from a given string.
  *

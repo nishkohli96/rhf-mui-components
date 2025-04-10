@@ -9,12 +9,12 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/ && tsc-alias",
+    "build": "tsc && tsc-alias && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
-    "@nish1896/eslint-flat-config": "^2.0.0",
+    "@nish1896/eslint-flat-config": "^2.0.2",
     "eslint": "^9.23.0",
     "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.13"

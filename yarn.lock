@@ -3212,6 +3212,21 @@
     globals "^16.0.0"
     typescript-eslint "^8.28.0"
 
+"@nish1896/eslint-flat-config@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@nish1896/eslint-flat-config/-/eslint-flat-config-2.0.2.tgz#9e8cfdda505287a388f3fe8d048044e802748504"
+  integrity sha512-+I6QaUMipAntQFU7x9ecEt0TEX+6AmniqwUaRszEaxVyBv3qL63asxUpcVpQoHRhoIk62hyi9DZXrpoHok4uWg==
+  dependencies:
+    "@stylistic/eslint-plugin-js" "^4.2.0"
+    "@stylistic/eslint-plugin-jsx" "^4.2.0"
+    "@stylistic/eslint-plugin-plus" "^4.2.0"
+    "@stylistic/eslint-plugin-ts" "^4.2.0"
+    eslint-plugin-jsx-a11y "^6.10.2"
+    eslint-plugin-react "^7.37.4"
+    eslint-plugin-react-hooks "^5.2.0"
+    globals "^16.0.0"
+    typescript-eslint "^8.28.0"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
