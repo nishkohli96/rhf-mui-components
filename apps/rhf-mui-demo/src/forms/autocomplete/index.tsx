@@ -18,7 +18,7 @@ import {
 } from '@/components';
 import { Colors } from '@/types';
 import { IPLTeams } from '@/constants';
-import { printJSONObject } from '@/utils';
+import { printJSONObject, showToastMessage } from '@/utils';
 
 type AirportInfo = {
   iataCode: string;
@@ -65,7 +65,7 @@ const AutocompleteForm = () => {
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   function onFormSubmit(formValues: FormSchema) {
-    toast.success(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
+    showToastMessage(printJSONObject(formValues));
   }
 
   return (
