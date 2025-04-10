@@ -1,5 +1,5 @@
-import { Moment } from 'moment';
-import { Colors, Gender, Sports } from './enums';
+import { type Moment } from 'moment';
+import { type Colors, type Gender, type Sports } from './enums';
 
 export type Person = {
   email: string;

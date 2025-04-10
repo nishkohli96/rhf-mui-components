@@ -28,6 +28,7 @@ import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import { toast } from 'react-toastify';
 import {
   FormContainer,
   GridContainer,
@@ -36,11 +37,12 @@ import {
 } from '@/components';
 import { CountriesList, IPLTeams, GroceryList, HobbiesList } from '@/constants';
 import { useThemeContext } from '@/theme';
-import { Colors, Gender, Sports, Person } from '@/types';
+import { Colors, Gender, Sports, type Person } from '@/types';
+import { showToastMessage } from '@/utils';
 import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
-type FormSchema = Person & { disableAllFields?: boolean; }
+type FormSchema = Person & { disableAllFields?: boolean };
 
 const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
@@ -88,7 +90,7 @@ const CompleteFormWithJoi = () => {
   console.log('resume ', watch('resume'));
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (
@@ -309,7 +311,7 @@ const CompleteFormWithJoi = () => {
                 valueKey="code"
                 row
                 onValueChange={selectedValue => {
-                  alert(`selectedValue: ${selectedValue}`);
+                  toast.info(`selectedValue: ${selectedValue}`);
                 }}
                 disabled={areAllFieldsDisabled}
                 required

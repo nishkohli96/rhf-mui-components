@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+		"next/typescript",
+    "@nish1896/eslint-config/js",
+    "@nish1896/eslint-config/next-ts",
+    "@nish1896/eslint-config/next"
+  ]
+}

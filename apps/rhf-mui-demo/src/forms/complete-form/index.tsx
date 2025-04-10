@@ -1,6 +1,6 @@
 'use client';
 
-import { Path, useForm } from 'react-hook-form';
+import { type Path, useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import useTheme from '@mui/material/styles/useTheme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -28,6 +28,7 @@ import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
+import { toast } from 'react-toastify';
 import {
   FormContainer,
   GridContainer,
@@ -36,9 +37,10 @@ import {
 } from '@/components';
 import { CountriesList, IPLTeams, GroceryList, HobbiesList } from '@/constants';
 import { useThemeContext } from '@/theme';
-import { Colors, Gender, Sports, Person } from '@/types';
+import { Colors, Gender, Sports, type Person } from '@/types';
+import { showToastMessage } from '@/utils';
 
-type FormSchema = Person & { disableAllFields?: boolean; }
+type FormSchema = Person & { disableAllFields?: boolean };
 
 const CompleteForm = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
@@ -70,7 +72,7 @@ const CompleteForm = () => {
   }
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (
@@ -432,7 +434,7 @@ const CompleteForm = () => {
                 valueKey="code"
                 row
                 onValueChange={selectedValue => {
-                  alert(`selectedValue: ${selectedValue}`);
+                  toast.info(`selectedValue: ${selectedValue}`);
                 }}
                 disabled={areAllFieldsDisabled}
                 required

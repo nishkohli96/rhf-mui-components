@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import { defaultCountries, parseCountry, CountryIso2 } from 'react-international-phone';
+import { defaultCountries, parseCountry, type CountryIso2 } from 'react-international-phone';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
@@ -14,6 +14,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
+import { showToastMessage } from '@/utils';
 
 type FormSchema = {
   bio: string;
@@ -48,7 +49,7 @@ const MiscellaneousComponentsForm = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (

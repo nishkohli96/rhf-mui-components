@@ -4,10 +4,11 @@ import { useForm } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid2';
+import { orange } from '@mui/material/colors';
 import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
 import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
 import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
-import { FormSchema, formSchema } from './validation';
+import { type FormSchema, formSchema } from './validation';
 import {
   FormContainer,
   FormState,
@@ -15,7 +16,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { orange } from '@mui/material/colors';
+import { showToastMessage } from '@/utils';
 
 const orangeTheme = createTheme({
   palette: {
@@ -40,7 +41,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (

@@ -13,3 +13,7 @@ export function maxCharMsg(max: number) {
 export function pageDescriptionMsg(fieldName: string) {
   return `Input props and usage of ${fieldName}`;
 }
+
+export function printJSONObject(obj: object | string) {
+  return JSON.stringify(obj, null, 2);
+}

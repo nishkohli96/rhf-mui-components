@@ -14,6 +14,7 @@ import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
 import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
+import { toast } from 'react-toastify';
 import {
   FormContainer,
   GridContainer,
@@ -21,7 +22,7 @@ import {
   FormState,
   SubmitButton
 } from '@/components';
-import { reqdMsg, minCharMsg, maxCharMsg } from '@/utils';
+import { reqdMsg, minCharMsg, maxCharMsg, showToastMessage } from '@/utils';
 
 type FormSchema = {
   firstName: string;
@@ -57,7 +58,7 @@ const InputsWithRegisterForm = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   console.log('pictures, resume, documents ', watch(['resume', 'pictures', 'documents']));
@@ -144,7 +145,7 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: v => (v && `${v}`.length >= 4) || minCharMsg(4),
+                  minLen: v => (v && `${String(v)}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -255,7 +256,7 @@ const InputsWithRegisterForm = () => {
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {
-                alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`);
+                toast.error(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`);
                 console.log('rejectedFiles: ', rejectedFiles);
                 console.log('errors: ', errors);
               }}

@@ -1,7 +1,7 @@
 'use client';
 
 import Typography from '@mui/material/Typography';
-import MuiLink, { LinkProps } from '@mui/material/Link';
+import MuiLink, { type LinkProps } from '@mui/material/Link';
 
 type PageHeadingProps = {
   title: string;

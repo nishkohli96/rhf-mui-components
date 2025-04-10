@@ -1,6 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { type Dayjs } from 'dayjs';
 import Grid from '@mui/material/Grid2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
@@ -14,7 +15,7 @@ import {
   FieldVariantInfo,
   SubmitButton,
 } from '@/components';
-import { Dayjs } from 'dayjs';
+import { showToastMessage } from '@/utils';
 
 type FormSchema = {
   dob: Dayjs;
@@ -31,7 +32,7 @@ const DateTimePickersForm = () => {
   } = useForm<FormSchema>();
 
   function onFormSubmit(formValues) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (

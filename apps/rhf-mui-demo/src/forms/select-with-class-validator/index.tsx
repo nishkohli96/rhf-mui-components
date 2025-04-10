@@ -16,6 +16,7 @@ import {
 } from '@/components';
 import { IPLTeams, Currencies } from '@/constants';
 import { Colors } from '@/types';
+import { showToastMessage } from '@/utils';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
 
@@ -31,7 +32,7 @@ const SelectFormWithClassValidator = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n\n ${JSON.stringify(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (
@@ -65,7 +66,7 @@ const SelectFormWithClassValidator = () => {
               valueKey="abbr"
               showLabelAboveFormField
               showDefaultOption
-              defaultOptionText='Select IPL teams'
+              defaultOptionText="Select IPL teams"
               label={
                 <Typography variant="body1" color="success">
                   Select your favourite IPL teams

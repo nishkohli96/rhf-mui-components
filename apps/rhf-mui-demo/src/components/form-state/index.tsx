@@ -1,7 +1,7 @@
 'use client';
 
 import ReactJson from 'react-json-view';
-import { FieldErrors, FieldValues } from 'react-hook-form';
+import { type FieldErrors, type FieldValues } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';

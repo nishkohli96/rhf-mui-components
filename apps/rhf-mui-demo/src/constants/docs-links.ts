@@ -1,4 +1,4 @@
-import { PageInfo } from '@/types';
+import { type PageInfo } from '@/types';
 import { ENV_VARS } from './env-vars';
 
 export const DocsLinks: Record<string, PageInfo> = {
