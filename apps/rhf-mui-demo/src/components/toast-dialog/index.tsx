@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import { ToastContentProps, toast } from 'react-toastify';
+import { ToastContentProps } from 'react-toastify';
 
 type CustomNotificationProps = ToastContentProps<{
   content: string;
@@ -8,15 +8,14 @@ type CustomNotificationProps = ToastContentProps<{
 
 const ToastDialog = ({
   data,
-  toastProps,
 }: CustomNotificationProps) => {
   return (
-    <div className="flex flex-col w-full">
+    <div>
       <Typography variant='h6' component='h6' color='success'>
         {data.title ?? 'Form Submitted with values:'}
       </Typography>
-      <Typography variant='body1'>
-        {data.content}
+      <Typography component='div'>
+        <pre>{data.content}</pre>
       </Typography>
     </div>
   );

@@ -16,7 +16,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { printJSONObject } from '@/utils';
+import { showToastMessage } from '@/utils';
 
 const orangeTheme = createTheme({
   palette: {
@@ -41,7 +41,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (

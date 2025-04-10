@@ -14,7 +14,7 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { printJSONObject } from '@/utils';
+import { showToastMessage } from '@/utils';
 
 type FormSchema = {
   bio: string;
@@ -49,7 +49,7 @@ const MiscellaneousComponentsForm = () => {
   });
 
   function onFormSubmit(formValues: FormSchema) {
-    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (

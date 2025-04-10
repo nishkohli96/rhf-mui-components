@@ -9,7 +9,8 @@
 - Add disclaimer for using latest version of **CKEditor5** in [RHFRichTextEditor](https://rhf-mui-components.netlify.app/components/misc/rhfrichtexteditor).
 - Verify compatability with [MUI](https://mui.com/material-ui/) v7.
 - Use `h2` instead of `h3` for main sub-headings, like **Usage**, **API** etc.
-- Prettify print of `formValues` in examples website.
+- Prettify print of `formValues` in [toast](https://fkhadra.github.io/react-toastify/introduction) in **rhf-mui-demo**.
+
 
 ## [2.1.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.1)
 

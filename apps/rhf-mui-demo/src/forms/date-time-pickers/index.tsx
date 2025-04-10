@@ -15,7 +15,7 @@ import {
   FieldVariantInfo,
   SubmitButton,
 } from '@/components';
-import { printJSONObject } from '@/utils';
+import { showToastMessage } from '@/utils';
 
 type FormSchema = {
   dob: Dayjs;
@@ -32,7 +32,7 @@ const DateTimePickersForm = () => {
   } = useForm<FormSchema>();
 
   function onFormSubmit(formValues) {
-    alert(`Form Submitted with values: \n ${printJSONObject(formValues)}`);
+    showToastMessage(formValues);
   }
 
   return (
