@@ -2,6 +2,7 @@
   "extends": [
     "plugin:@docusaurus/recommended",
     "@nish1896/eslint-config/js",
-    "@nish1896/eslint-config/react"
+    "@nish1896/eslint-config/ts",
+    "@nish1896/eslint-config/jsx"
   ]
 }

@@ -10,7 +10,7 @@
 - Verify compatability with [MUI](https://mui.com/material-ui/) v7.
 - Use `h2` instead of `h3` for main sub-headings, like **Usage**, **API** etc.
 - Prettify print of `formValues` in [toast](https://fkhadra.github.io/react-toastify/introduction) in **rhf-mui-demo**.
-
+- Upgrade eslint-configs and lint all workspaces
 
 ## [2.1.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.1)
 
