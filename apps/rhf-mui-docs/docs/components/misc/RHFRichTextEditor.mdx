@@ -18,12 +18,19 @@ requiring rich formatting. This component is built on top of
 a highly customizable editor that supports advanced features like 
 `codeBlocks`, `findAndReplace`, `tables`, and more.
 
+:::warning
+The latest versions of [CkEditor](https://ckeditor.com/) require a paid license key.
+Therefore, we will use the free version of this package.
+
+To use the latest version, refer to the [Use Latest Version section](#with-latest-version).
+:::
+
 ```
-npm i ckeditor5 @ckeditor/ckeditor5-react
+npm i ckeditor5@43.0.0 @ckeditor/ckeditor5-react@9.0.0
 ```
 
 ```
-yarn add ckeditor5 @ckeditor/ckeditor5-react
+yarn add ckeditor5@43.0.0 @ckeditor/ckeditor5-react@9.0.0
 ```
 
 ## Usage
@@ -61,18 +68,47 @@ You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5
 for a better understanding.
 :::
 
-### Examples
+### With Latest Version
+
+The latest version of **CKEditor5** requires a paid license key. To continue accessing the
+newest features of the editor while preserving the underlying form logic, update your code
+as follows:​
+
+1.  **Obtain a License Key**: Acquire a commercial license key from the [CKEditor Pricing Page](https://ckeditor.com/pricing/).
+
+2.  **Update Your CKEditor 5 Configuration**: Incorporate the licenseKey into your editor configuration:
+
+    ```jsx
+    import RHFRichTextEditor, { DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+
+    <RHFRichTextEditor
+      fieldName='bio'
+      control={control}
+      editorConfig={{
+        licenseKey: 'YOUR_LICENSE_KEY',
+        ...DefaultEditorConfig,
+      }}
+      errorMessage={errors?.bio?.message}
+    />
+    ```
+
+    Replace **'YOUR_LICENSE_KEY'** with the license key you've obtained. Additionally you can 
+    also configure your own [editor settings](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html#configuring-editor-settings) 
+    in favor of the default configuration.
+
+
+## Examples
 - [RHFRichTextEditor](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
 - [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
 
-### Alternatives
+## Alternatives
 I chose CKEditor for its advanced features, customization options and
 support for multiple languages. Although the documentation can be overwhelming, 
 I've provided both basic and advanced configuration options for this component. 
 If you're looking for a simpler solution, you can consider implementing 
 [mui-rte](https://www.npmjs.com/package/mui-rte).
 
-### API
+## API
 `RHFRichTextEditorProps` accepts the following props:
 
 <RHFRichTextEditorPropsTable />

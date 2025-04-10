@@ -1,10 +1,3 @@
----
-sidebar_position: 7
-sidebar_label: Changelog
-title: Changelog
-description: Introduction and installation of @nish1896/rhf-mui-components package.
----
-
 # **What's changed?**
 
 ## [2.1.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.1)
