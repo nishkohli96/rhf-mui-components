@@ -11,6 +11,8 @@
 - Use `h2` instead of `h3` for main sub-headings, like **Usage**, **API** etc.
 - Pretty print `formValues` in [toast](https://fkhadra.github.io/react-toastify/introduction) in **rhf-mui-demo**.
 - Upgrade eslint-configs and lint all workspaces
+- Fix Footer Content Positioning
+
 
 ## [2.1.1](https://github.com/nishkohli96/rhf-mui-components/tree/v2.1.1)
 
