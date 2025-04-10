@@ -31,7 +31,7 @@ These additions expand the package's utility, making it a compelling upgrade for
 
 :::caution
 **Deprecation of Version 1**<br/>
-Given these improvements and the resolution of key limitations, Version 1 will NO LONGER receive updates. Developers are encouraged to upgrade to Version 2 to benefit from these enhancements and new features. 
+Given these improvements and the resolution of key limitations, Version 1 will **NO LONGER** receive updates. Developers are encouraged to upgrade to Version 2 to benefit from these enhancements and new features. 
 :::
 
 ## Code Changes
@@ -87,7 +87,7 @@ The `disabled` prop has been added to the following components, enabling better 
 
 As previously mentioned, the changed value(s) can now be accessed earlier in the `onValueChange` callback function, followed by the event handler(s) for that component. This ensures that the relevant data is easily accessible without requiring developers to handle unused parameters. For detailed usage, refer to the `onValueChange` function in the API reference section for each component.
 
-## Component Changes
+## Component-Specific Updates
 
 Significant changes have been made to each of the components listed below that enhance its functionality and makes it more compatible with other core components of this package.
 

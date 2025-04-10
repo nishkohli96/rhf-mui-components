@@ -47,9 +47,9 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 
 ### Returns
 
-- `acceptedFiles`: A list of accepted files.
-- `rejectedFiles`: A list of rejected files.
-- `errors`: A set of validation errors which can be any of:
+1. `acceptedFiles`: A list of accepted files.
+2. `rejectedFiles`: A list of rejected files.
+3. `errors`: A set of validation errors which can be any of:
     - `FILE_SIZE_EXCEEDED`
     - `FILE_TYPE_NOT_ALLOWED`
     - `FILE_LIMIT_EXCEEDED`
