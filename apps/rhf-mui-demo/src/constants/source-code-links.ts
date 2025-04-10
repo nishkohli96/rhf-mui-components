@@ -1,5 +1,5 @@
 import { ENV_VARS } from './env-vars';
-import { Page } from '@/types';
+import { type Page } from '@/types';
 
 const sandboxPath = ENV_VARS.SANDBOX_URL;
 const sandboxRoute = `${sandboxPath}?file=/src/forms`;

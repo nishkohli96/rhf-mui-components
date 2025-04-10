@@ -6,8 +6,8 @@ import {
   ArrayMinSize,
   ArrayUnique,
   ValidatorConstraint,
-  ValidatorConstraintInterface,
-  ValidationArguments,
+  type ValidatorConstraintInterface,
+  type ValidationArguments,
   Validate,
 } from 'class-validator';
 import { Colors } from '@/types';

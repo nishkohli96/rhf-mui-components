@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import RHFCountrySelect, { countryList, CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import {
@@ -22,17 +22,17 @@ import { showToastMessage } from '@/utils';
 type AirportInfo = {
   iataCode: string;
   name: string;
-}
+};
 
 type FormSchema = {
   sourceAirport?: string;
-  destinationAirports?: string[]
+  destinationAirports?: string[];
   nationality?: string;
   countriesVisited: string[];
   dreamDestinations?: string[];
   colors?: Colors[];
   iplTeams?: string[];
-}
+};
 
 const generateAirportNames = (count: number) => {
   const fullNames = new Set<AirportInfo>();

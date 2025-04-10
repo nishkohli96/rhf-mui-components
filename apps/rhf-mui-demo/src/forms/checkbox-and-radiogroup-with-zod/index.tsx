@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid2';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
 import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
+import { toast } from 'react-toastify';
 import {
   FormContainer,
   FormState,
@@ -16,7 +17,7 @@ import {
 import { CountriesList } from '@/constants';
 import { Gender } from '@/types';
 import { showToastMessage } from '@/utils';
-import { formSchema, PersonInfo } from './validation';
+import { formSchema, type PersonInfo } from './validation';
 
 const CheckboxRadioZodForm = () => {
   const {
@@ -42,7 +43,7 @@ const CheckboxRadioZodForm = () => {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-              onValueChange={newVal => alert(`You selected ${newVal}`)}
+              onValueChange={newVal => toast.info(`You selected ${newVal}`)}
               required
               errorMessage={errors?.gender?.message}
             />

@@ -8,7 +8,7 @@ import { orange } from '@mui/material/colors';
 import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
 import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
 import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
-import { FormSchema, formSchema } from './validation';
+import { type FormSchema, formSchema } from './validation';
 import {
   FormContainer,
   FormState,

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { PageInfo } from '@/types';
+import { type PageInfo } from '@/types';
 
 type LinksListProps = {
   links: PageInfo[];

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { PaletteMode } from '@mui/material';
+import { type PaletteMode } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,7 @@ interface ThemeContextProps {
 
 const ThemeContext = createContext<ThemeContextProps>({
   currentTheme: 'dark',
-  toggleTheme: () => {},
+  toggleTheme: () => { /* no-op */ },
 });
 
 export const useThemeContext = () => useContext(ThemeContext);

@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Colors, Gender, Sports, Person } from '@/types';
+import { Colors, Gender, Sports, type Person } from '@/types';
 
 const fileSchema = Joi.object({
   name: Joi.string().required(),

@@ -1,3 +1,3 @@
-export * from './completeForm';
+export type * from './completeForm';
 export * from './enums';
-export * from './options';
+export type * from './options';

@@ -42,7 +42,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             </Grid>
             <Footer />
             <ToastContainer
-              autoClose={10000}
+              autoClose={3000}
               limit={1}
               closeButton
               style={{ fontSize: '1rem' }}

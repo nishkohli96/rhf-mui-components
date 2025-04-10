@@ -1,4 +1,4 @@
-import { PageInfo } from '@/types';
+import { type PageInfo } from '@/types';
 
 export const ValidationLibLinks: Record<string, PageInfo> = {
   classValidator: {
