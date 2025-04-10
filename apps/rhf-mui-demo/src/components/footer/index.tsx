@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Grid container sx={{ padding: '10px' }}>
+        <Grid container sx={{ padding: '10px', flexGrow: 1, }}>
           <Grid
             size={12}
             sx={{
