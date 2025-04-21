@@ -228,9 +228,11 @@ const RHFTagsInput = <T extends FieldValues>({
               autoComplete={fieldName}
               variant={variant}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
               value={inputValue}
               onFocus={handleFocus}

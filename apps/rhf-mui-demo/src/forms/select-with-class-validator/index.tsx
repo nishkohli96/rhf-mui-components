@@ -47,11 +47,13 @@ const SelectFormWithClassValidator = () => {
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
-                watch('favouriteColor') ? (
-                  <Typography color={watch('favouriteColor')}>
-                    {`Select an option to change selected text color from ${watch('favouriteColor')}`}
-                  </Typography>
-                ) : undefined
+                watch('favouriteColor')
+                  ? (
+                    <Typography color={watch('favouriteColor')}>
+                      {`Select an option to change selected text color from ${watch('favouriteColor')}`}
+                    </Typography>
+                  )
+                  : undefined
               }
               required
             />

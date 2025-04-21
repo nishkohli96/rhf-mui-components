@@ -114,9 +114,11 @@ const RHFPasswordInput = <T extends FieldValues>({
               autoComplete={fieldName}
               type={showPassword ? 'text' : 'password'}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
               value={value ?? ''}
               onChange={event => {

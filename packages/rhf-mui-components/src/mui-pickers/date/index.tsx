@@ -17,7 +17,11 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import {
+  fieldNameToLabel,
+  generateDateAdapterErrMsg,
+  keepLabelAboveFormField,
+} from '@/utils';
 
 type DatePickerInputProps = Omit<
   DatePickerProps<PickerValidDate>,
@@ -60,6 +64,10 @@ const RHFDatePicker = <T extends FieldValues>({
   ...rest
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  if(!dateAdapter) {
+    throw new Error(generateDateAdapterErrMsg('RHFDatePicker'));
+  }
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -91,9 +99,11 @@ const RHFDatePicker = <T extends FieldValues>({
                 onValueChange?.(newValue, context);
               }}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
             />
           )}

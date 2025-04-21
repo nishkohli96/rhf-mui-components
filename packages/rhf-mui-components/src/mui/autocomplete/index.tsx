@@ -211,9 +211,11 @@ const RHFAutocomplete = <T extends FieldValues>({
                     {...textFieldProps}
                     {...params}
                     label={
-                      !isLabelAboveFormField ? (
-                        <FormLabelText label={fieldLabel} required={required} />
-                      ) : undefined
+                      !isLabelAboveFormField
+                        ? (
+                          <FormLabelText label={fieldLabel} required={required} />
+                        )
+                        : undefined
                     }
                     error={isError}
                     {...(isAboveMuiV5
