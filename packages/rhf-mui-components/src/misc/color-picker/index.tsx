@@ -85,45 +85,47 @@ const RHFColorPicker = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field: { onChange } }) => (
           <Fragment>
-            {renderHSLView ? (
-              <Fragment>
-                <Saturation
-                  height={height}
+            {renderHSLView
+              ? (
+                <Fragment>
+                  <Saturation
+                    height={height}
+                    color={color}
+                    disabled={disabled}
+                    onChange={color => {
+                      if (!disabled) {
+                        setColor(color);
+                        const appliedColor = colorToString(
+                          color[valueKey],
+                          excludeAlpha
+                        );
+                        onChange(appliedColor);
+                        onValueChange?.(color);
+                      }
+                    }}
+                  />
+                  <Hue color={color} disabled={disabled} onChange={setColor} />
+                </Fragment>
+              )
+              : (
+                <ReactColorPicker
                   color={color}
-                  disabled={disabled}
                   onChange={color => {
                     if (!disabled) {
                       setColor(color);
-                      const appliedColor = colorToString(
-                        color[valueKey],
-                        excludeAlpha
-                      );
+                      const appliedColor
+                      = valueKey === 'hex'
+                        ? color.hex
+                        : colorToString(color[valueKey], excludeAlpha);
                       onChange(appliedColor);
                       onValueChange?.(color);
                     }
                   }}
+                  height={height}
+                  hideInput={disabled ? true : hideInput}
+                  {...otherProps}
                 />
-                <Hue color={color} disabled={disabled} onChange={setColor} />
-              </Fragment>
-            ) : (
-              <ReactColorPicker
-                color={color}
-                onChange={color => {
-                  if (!disabled) {
-                    setColor(color);
-                    const appliedColor
-                      = valueKey === 'hex'
-                        ? color.hex
-                        : colorToString(color[valueKey], excludeAlpha);
-                    onChange(appliedColor);
-                    onValueChange?.(color);
-                  }
-                }}
-                height={height}
-                hideInput={disabled ? true : hideInput}
-                {...otherProps}
-              />
-            )}
+              )}
           </Fragment>
         )}
       />

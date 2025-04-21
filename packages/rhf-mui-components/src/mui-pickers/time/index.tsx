@@ -99,9 +99,11 @@ const RHFTimePicker = <T extends FieldValues>({
                 onValueChange?.(newValue, context);
               }}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
             />
           )}

@@ -149,33 +149,35 @@ const RHFFileUploader = <T extends FieldValues>({
 
           return (
             <Fragment>
-              {renderUploadButton ? (
-                renderUploadButton(
-                  <HiddenInput
-                    type="file"
-                    accept={accept}
-                    onChange={handleFileChange}
-                    multiple={multiple}
-                    disabled={disabled}
-                    {...otherFieldParams}
-                  />
+              {renderUploadButton
+                ? (
+                  renderUploadButton(
+                    <HiddenInput
+                      type="file"
+                      accept={accept}
+                      onChange={handleFileChange}
+                      multiple={multiple}
+                      disabled={disabled}
+                      {...otherFieldParams}
+                    />
+                  )
                 )
-              ) : (
-                <UploadButton
-                  label={fieldLabel}
-                  fieldName={fieldName}
-                  disabled={disabled}
-                >
-                  <HiddenInput
-                    type="file"
-                    accept={accept}
-                    onChange={handleFileChange}
-                    multiple={multiple}
+                : (
+                  <UploadButton
+                    label={fieldLabel}
+                    fieldName={fieldName}
                     disabled={disabled}
-                    {...otherFieldParams}
-                  />
-                </UploadButton>
-              )}
+                  >
+                    <HiddenInput
+                      type="file"
+                      accept={accept}
+                      onChange={handleFileChange}
+                      multiple={multiple}
+                      disabled={disabled}
+                      {...otherFieldParams}
+                    />
+                  </UploadButton>
+                )}
               <FormHelperText
                 error={isError}
                 errorMessage={errorMessage}
@@ -188,16 +190,18 @@ const RHFFileUploader = <T extends FieldValues>({
                   {(Array.isArray(value) ? value : [value]).map(
                     (file: File, index) => (
                       <Fragment key={index}>
-                        {renderFileItem ? (
-                          renderFileItem(file, index)
-                        ) : (
-                          <FileItem
-                            index={index}
-                            file={file}
-                            showFileSize={showFileSize}
-                            removeFile={removeFile}
-                          />
-                        )}
+                        {renderFileItem
+                          ? (
+                            renderFileItem(file, index)
+                          )
+                          : (
+                            <FileItem
+                              index={index}
+                              file={file}
+                              showFileSize={showFileSize}
+                              removeFile={removeFile}
+                            />
+                          )}
                       </Fragment>
                     )
                   )}

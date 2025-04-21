@@ -262,9 +262,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                     {...textFieldProps}
                     {...params}
                     label={
-                      !isLabelAboveFormField ? (
-                        <FormLabelText label={fieldLabel} required={required} />
-                      ) : undefined
+                      !isLabelAboveFormField
+                        ? (
+                          <FormLabelText label={fieldLabel} required={required} />
+                        )
+                        : undefined
                     }
                     error={isError}
                     {...(isAboveMuiV5
@@ -305,7 +307,8 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       onClick={event => {
                         event.preventDefault();
-                        const isChecked = isSelectAll ? !areAllSelected
+                        const isChecked = isSelectAll
+                          ? !areAllSelected
                           : !selectedValues.includes(value);
                         changeFieldState(
                           handleCheckboxChange(isChecked, value),

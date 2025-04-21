@@ -81,9 +81,11 @@ const RHFNumberInput = <T extends FieldValues>({
               type="number"
               autoComplete={fieldName}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
               value={value ?? ''}
               onChange={event => {
