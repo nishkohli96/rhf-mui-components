@@ -19,7 +19,3 @@ export function fieldNameToLabel(str: string) {
   return result;
 }
 
-
-export function generateLabelValueErrMsg(formElement: string) {
-  return `Provide "labelKey" & "valueKey" props in ${formElement} if options are an array of objects.`;
-}
