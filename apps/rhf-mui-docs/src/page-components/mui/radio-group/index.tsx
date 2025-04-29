@@ -1,6 +1,6 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { VersionProps } from '@site/src/types';
+import { type VersionProps } from '@site/src/types';
 
 const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
@@ -12,15 +12,15 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.valueKey,
     ...(!v1
       ? [
-          PropsDescription.required,
-          PropsDescription.onValueChange_RadioGroup,
-          PropsDescription.disabled,
-          PropsDescription.label
-        ]
+        PropsDescription.required,
+        PropsDescription.onValueChange_RadioGroup,
+        PropsDescription.disabled,
+        PropsDescription.label
+      ]
       : [
-          PropsDescription.onValueChange_CheckboxGroup_v1,
-          PropsDescription.label_v1
-        ]),
+        PropsDescription.onValueChange_CheckboxGroup_v1,
+        PropsDescription.label_v1
+      ]),
     PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.radioProps,

@@ -1,6 +1,6 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { VersionProps } from '@site/src/types';
+import { type VersionProps } from '@site/src/types';
 
 const RHFPasswordInputPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [

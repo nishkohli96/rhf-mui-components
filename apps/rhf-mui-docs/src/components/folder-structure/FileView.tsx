@@ -9,7 +9,7 @@ type FileViewProps = {
     name: string;
     path: string;
   }[];
-}
+};
 
 const FileView = ({
   itemId,
