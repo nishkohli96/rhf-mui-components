@@ -1,5 +1,5 @@
 import { type PageInfo } from '@/types';
-import { ENV_VARS } from './env-vars';
+import { ENV_VARS } from './environment';
 
 export const DocsLinks: Record<string, PageInfo> = {
   rhfTextField: {
@@ -91,3 +91,6 @@ export const DocsLinks: Record<string, PageInfo> = {
     href: `${ENV_VARS.DOCS_URL}components/misc/RHFPhoneInput`
   }
 };
+
+export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
+export const docsLink = 'https://rhf-mui-components.netlify.app/';
