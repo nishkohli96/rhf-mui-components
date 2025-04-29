@@ -33,7 +33,7 @@ Try out and experiment with the form components in a live environment:
 
 Below is a comprehensive list of all components included in this package, categorized by module:
 
-- mui
+- **mui**
   - [TextField](https://rhf-mui-components.netlify.app/components/mui/RHFTextField)
   - [NumberInput](https://rhf-mui-components.netlify.app/components/mui/RHFNumberInput)
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
@@ -51,11 +51,11 @@ Below is a comprehensive list of all components included in this package, catego
   - [Switch](https://rhf-mui-components.netlify.app/components/mui/RHFSwitch)
   - [Rating](https://rhf-mui-components.netlify.app/components/mui/RHFRating)
 
-- mui-pickers
+- **mui-pickers**
   - [Date](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFDatePicker)
   - [Time](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFTimePicker)
   - [DateTime](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFDateTimePicker)
-- misc
+- **misc**
   - [Color Picker](https://rhf-mui-components.netlify.app/components/misc/RHFColorPicker)
   - [Rich Text Editor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor)
   - [Phone Input](https://rhf-mui-components.netlify.app/components/misc/RHFPhoneInput)
