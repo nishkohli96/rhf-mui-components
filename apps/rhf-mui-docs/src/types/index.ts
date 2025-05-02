@@ -1,3 +1,3 @@
 export * from './enums';
-export * from './options';
-export * from './version-props';
+export type * from './options';
+export type * from './version-props';

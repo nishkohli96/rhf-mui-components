@@ -1,6 +1,6 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { VersionProps } from '@site/src/types';
+import { type VersionProps } from '@site/src/types';
 
 const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
@@ -8,14 +8,14 @@ const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.control,
     ...(!v1
       ? [
-          PropsDescription.registerOptions,
-          PropsDescription.onValueChange_Checkbox,
-          PropsDescription.label
-        ]
+        PropsDescription.registerOptions,
+        PropsDescription.onValueChange_Checkbox,
+        PropsDescription.label
+      ]
       : [
-          PropsDescription.onValueChange_Checkbox_v1,
-          PropsDescription.label_v1
-        ]),
+        PropsDescription.onValueChange_Checkbox_v1,
+        PropsDescription.label_v1
+      ]),
     PropsDescription.formControlLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,

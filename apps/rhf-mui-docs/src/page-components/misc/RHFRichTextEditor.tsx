@@ -1,16 +1,16 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { VersionProps } from '@site/src/types';
+import { type VersionProps } from '@site/src/types';
 
 const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1
       ? [
-          PropsDescription.control,
-          PropsDescription.registerOptions,
-          PropsDescription.required
-        ]
+        PropsDescription.control,
+        PropsDescription.registerOptions,
+        PropsDescription.required
+      ]
       : [PropsDescription.setValue]),
     PropsDescription.id_Rte,
     PropsDescription.editorConfig,
@@ -19,16 +19,16 @@ const RHFRichTextEditorPropsTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.onValueChange_RichTextEditor]
       : [
-          PropsDescription.value_RichTextEditor,
-          PropsDescription.onValueChange_RichTextEditor_v1
-        ]),
+        PropsDescription.value_RichTextEditor,
+        PropsDescription.onValueChange_RichTextEditor_v1
+      ]),
     PropsDescription.onBlur_Rte,
     PropsDescription.disabled,
     ...(!v1
       ? [
-          PropsDescription.label,
-          PropsDescription.showLabelAboveFormField_Default
-        ]
+        PropsDescription.label,
+        PropsDescription.showLabelAboveFormField_Default
+      ]
       : [PropsDescription.label_v1]),
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
