@@ -19,7 +19,6 @@
     "@mui/material": "^6.1.10",
     "@mui/material-nextjs": "^6.1.9",
     "@mui/x-date-pickers": "^7.23.2",
-    "@mui/x-tree-view": "^7.23.0",
     "@faker-js/faker": "^9.2.0",
     "ckeditor5": "^43.0.0",
     "class-transformer": "^0.5.1",
