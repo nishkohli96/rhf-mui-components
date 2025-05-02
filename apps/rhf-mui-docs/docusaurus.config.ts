@@ -48,12 +48,12 @@ const config: Config = {
       items: [
         {
           href: 'https://rhf-mui-components-examples.netlify.app/',
-          label: 'Examples',
+          label: 'Playground',
           position: 'right'
         },
         {
-          href: 'https://codesandbox.io/p/devbox/rhf-mui-components-examples-y8lj9l',
-          label: 'Playground',
+          href: 'https://github.com/nishkohli96/rhf-mui-examples',
+          label: 'Code Repository',
           position: 'right'
         },
         {
