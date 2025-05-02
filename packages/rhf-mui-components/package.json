@@ -20,9 +20,9 @@
     "tsc-alias": "^1.8.15"
   },
   "peerDependencies": {
-    "@mui/icons-material": ">=5",
-    "@mui/material": ">=5",
-    "react-hook-form": ">=7"
+    "@mui/icons-material": "^5.0.0 || ^6.0.0",
+    "@mui/material": "^5.0.0 || ^6.0.0",
+    "react-hook-form": "^7.0.0"
 	},
   "exports": {
     "./package.json": {

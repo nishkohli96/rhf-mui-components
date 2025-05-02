@@ -28,6 +28,11 @@ Try out and experiment with the form components in a live environment:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
 
+### Sample Apps 🛠️
+Clone this repo to explore real-world usage of the package with [Next.js](https://nextjs.org/) and MUI [v5](https://v5.mui.com/material-ui/), [v6](https://v6.mui.com/material-ui/), and [v7](https://v7.mui.com/material-ui/). Each version is set up in its own example app for easy testing and comparison:
+
+👉 [Cloneable Example Repo](https://github.com/nishkohli96/rhf-mui-examples)
+
 
 ## Form Components List
 
