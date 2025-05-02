@@ -1,4 +1,4 @@
-import { PaletteMode } from '@mui/material';
+import { type PaletteMode } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { LightThemePalette, DarkThemePalette } from './palette';
 
@@ -27,10 +27,10 @@ let themeMode = 'dark';
 if (typeof window !== 'undefined') {
   themeMode
     = localStorage.getItem('theme')
-    ?? (window.matchMedia
-      && window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light');
+      ?? (window.matchMedia
+        && window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light');
   localStorage.setItem('theme', themeMode);
 }
 

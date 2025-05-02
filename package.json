@@ -1,10 +1,13 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "A suite of 20+ reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "private": true,
-  "workspaces": ["./apps/*", "./packages/*"],
+  "workspaces": [
+    "./apps/*",
+    "./packages/*"
+  ],
   "scripts": {
     "lib": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
@@ -17,7 +20,7 @@
     "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
   },
   "devDependencies": {
-    "turbo": "^2.4.4"
+    "turbo": "^2.5.2"
   },
   "keywords": [
     "@nish1896",
@@ -42,5 +45,6 @@
     "url": "git+https://github.com/nishkohli96/eslint-config.git"
   },
   "packageManager": "yarn@1.22.22",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

@@ -1,5 +1,5 @@
 import { ExternalLinks } from '@site/src/constants';
-import { PropsInfo } from '@site/src/types';
+import { type PropsInfo } from '@site/src/types';
 
 const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   fieldName: {

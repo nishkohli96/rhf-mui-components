@@ -1,7 +1,7 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { PropsInfo } from '@site/src/types';
+import { type PropsInfo } from '@site/src/types';
 
 type MarkdownTableProps = {
   rows: PropsInfo[];
