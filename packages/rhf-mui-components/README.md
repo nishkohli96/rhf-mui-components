@@ -28,12 +28,17 @@ Try out and experiment with the form components in a live environment:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.netlify.app/)
 
+### Sample Apps 🛠️
+Clone this repo to explore real-world usage of the package with [Next.js](https://nextjs.org/) and MUI [v5](https://v5.mui.com/material-ui/), [v6](https://v6.mui.com/material-ui/), and [v7](https://v7.mui.com/material-ui/). Each version is set up in its own example app for easy testing and comparison:
+
+👉 [Cloneable Example Repo](https://github.com/nishkohli96/rhf-mui-examples)
+
 
 ## Form Components List
 
 Below is a comprehensive list of all components included in this package, categorized by module:
 
-- mui
+- **mui**
   - [TextField](https://rhf-mui-components.netlify.app/components/mui/RHFTextField)
   - [NumberInput](https://rhf-mui-components.netlify.app/components/mui/RHFNumberInput)
   - [PasswordInput](https://rhf-mui-components.netlify.app/components/mui/RHFPasswordInput)
@@ -51,11 +56,11 @@ Below is a comprehensive list of all components included in this package, catego
   - [Switch](https://rhf-mui-components.netlify.app/components/mui/RHFSwitch)
   - [Rating](https://rhf-mui-components.netlify.app/components/mui/RHFRating)
 
-- mui-pickers
+- **mui-pickers**
   - [Date](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFDatePicker)
   - [Time](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFTimePicker)
   - [DateTime](https://rhf-mui-components.netlify.app/components/mui-pickers/RHFDateTimePicker)
-- misc
+- **misc**
   - [Color Picker](https://rhf-mui-components.netlify.app/components/misc/RHFColorPicker)
   - [Rich Text Editor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor)
   - [Phone Input](https://rhf-mui-components.netlify.app/components/misc/RHFPhoneInput)
