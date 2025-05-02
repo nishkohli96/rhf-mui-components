@@ -20,7 +20,7 @@
     "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
   },
   "devDependencies": {
-    "turbo": "^2.4.4"
+    "turbo": "^2.5.2"
   },
   "keywords": [
     "@nish1896",
