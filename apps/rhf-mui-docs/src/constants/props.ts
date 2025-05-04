@@ -325,7 +325,13 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   },
   accept_FileUploader: {
     name: 'accept',
-    description: 'The file types to accept in the file uploader component. The default value is `*`.',
+    description: 'The file types to accept in the file uploader component. Eg: `image/*` or `.pdf,.docx`.',
+    type: 'string'
+  },
+  accept_FileUploader_v2: {
+    name: 'accept',
+    description: 'The file types to accept in the file uploader component.  Eg: `image/*` or `.pdf,.docx`.',
+    required: true,
     type: 'string'
   },
   multiple_FileUploader: {
