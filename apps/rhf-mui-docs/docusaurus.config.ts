@@ -1,6 +1,7 @@
+import 'dotenv/config';
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import type { ThemeConfig } from '@docusaurus/preset-classic';
 
 const config: Config = {
   url: 'https://rhf-mui-components.github.io',
@@ -32,6 +33,15 @@ const config: Config = {
         }
       }
     ]
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID,
+        anonymizeIP: true,
+      },
+    ],
   ],
   themeConfig: {
     colorMode: {
@@ -101,7 +111,7 @@ const config: Config = {
         </a>
       `
     }
-  } satisfies Preset.ThemeConfig
+  } satisfies ThemeConfig
 };
 
 export default config;

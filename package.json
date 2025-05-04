@@ -17,7 +17,8 @@
     "demo:start": "yarn workspace @nish1896/rhf-mui-demo start",
     "docs": "yarn workspace @nish1896/rhf-mui-docs start",
     "docs:lint": "yarn workspace @nish1896/rhf-mui-docs lint",
-    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
+    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build",
+    "docs:prod": "yarn workspace @nish1896/rhf-mui-docs prod"
   },
   "devDependencies": {
     "turbo": "^2.5.2"
