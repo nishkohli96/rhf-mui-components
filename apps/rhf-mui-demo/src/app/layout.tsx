@@ -8,8 +8,8 @@ import {
   defaultPageDescription,
   defaultPageKeywords
 } from '@/constants';
-import { AppThemeProvider } from '@/theme';
 import { AppBar, Drawer, FirebaseAnalytics, Footer } from '@/components';
+import { AppThemeProvider } from '@/theme';
 import './globals.css';
 
 type RootLayoutProps = {
@@ -46,7 +46,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               </Grid>
             </Grid>
             <Footer />
-            <FirebaseAnalytics />
+            {/* <FirebaseAnalytics /> */}
             <ToastContainer
               autoClose={3000}
               limit={1}

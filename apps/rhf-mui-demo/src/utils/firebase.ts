@@ -6,8 +6,7 @@ const firebaseApp = initializeApp(ENV_VARS.firebaseConfig);
 
 const analyticsPromise = typeof window !== 'undefined'
   ? isSupported().then(supported =>
-      supported ? getAnalytics(firebaseApp) : undefined
-    )
+    supported ? getAnalytics(firebaseApp) : undefined)
   : Promise.resolve(undefined);
 
 export async function logFirebaseEvent(

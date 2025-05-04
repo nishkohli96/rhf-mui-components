@@ -12,8 +12,8 @@ export default function FirebaseAnalytics() {
       console.log('pathname: ', pathname);
       const trackAnalytics = async () => {
         await logFirebaseEvent('page_view', {
-					page_location: pathname
-				});
+          page_location: pathname
+        });
       };
       trackAnalytics();
     }
