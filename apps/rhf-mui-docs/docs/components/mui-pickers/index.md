@@ -11,6 +11,10 @@ Many forms require date or time input from users, such as entering a date of bir
 
 The date and time pickers provided are derived from [Mui X Pickers](https://mui.com/x/react-date-pickers/). Please follow the [installation guide](https://mui.com/x/react-date-pickers/getting-started/) and review the [base concepts](https://mui.com/x/react-date-pickers/base-concepts/)  to begin integrating these components. Each picker component comes wrapped with a [LocalizationProvider](https://mui.com/x/api/date-pickers/localization-provider/).
 
+:::info
+This package is compatible with Mui X Pickers **v6**, **v7** and **v8**.
+:::
+
 To use date and time pickers, you need to provide a default `dateAdapter` 
 using the [ConfigProvider](../../customization) component. This can be done at the root level of your application, especially if it includes multiple forms with date and time pickers. To view the list of available libraries, refer [this page](https://mui.com/x/react-date-pickers/base-concepts/#available-libraries).
 
