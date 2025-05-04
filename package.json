@@ -11,6 +11,7 @@
   "scripts": {
     "lib": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
+    "lib:pack": "sh pack-pkg.sh",
     "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
     "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-demo build",
