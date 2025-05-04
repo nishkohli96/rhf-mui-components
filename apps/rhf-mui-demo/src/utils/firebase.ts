@@ -1,13 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-import { ENV_VARS } from '@/constants';
+import { ENV_VARS, defaultPageTitle } from '@/constants';
 
 const firebaseApp = initializeApp(ENV_VARS.firebaseConfig);
 
-const analyticsPromise = typeof window !== 'undefined'
-  ? isSupported().then(supported =>
-    supported ? getAnalytics(firebaseApp) : undefined)
-  : Promise.resolve(undefined);
+const analyticsPromise
+  = typeof window !== 'undefined'
+    ? isSupported().then(supported =>
+      supported ? getAnalytics(firebaseApp) : undefined)
+    : Promise.resolve(undefined);
 
 export async function logFirebaseEvent(
   eventName: string = 'page_view',
@@ -17,4 +18,8 @@ export async function logFirebaseEvent(
   if (analytics) {
     logEvent(analytics, eventName, eventParams);
   }
+}
+
+export function getPageTitle(title: string) {
+  return `${title} | ${defaultPageTitle}`;
 }
