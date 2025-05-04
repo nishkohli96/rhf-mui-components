@@ -25,6 +25,7 @@
     "class-validator": "^0.14.1",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
+    "firebase": "^11.6.1",
     "joi": "^17.13.1",
     "luxon": "^3.4.4",
     "moment": "^2.30.1",
