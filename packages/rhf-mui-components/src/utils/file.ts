@@ -59,9 +59,11 @@ export function validateFileList(
   const errorsSet = new Set<FileUploadError>();
 
   /* Parse the accept string into an array of acceptable types/extensions */
-  const acceptedTypes = (accept ?? '')
-    .split(',')
-    .map(type => type.trim().toLowerCase());
+  const acceptedTypes = accept
+    ? accept
+        .split(',')
+        .map(type => type.trim().toLowerCase())
+    : [];
 
   const isTypeAllowed = (file: File) => {
     if (!accept) {
@@ -115,3 +117,4 @@ export function validateFileList(
     errors: Array.from(errorsSet),
   };
 }
+
