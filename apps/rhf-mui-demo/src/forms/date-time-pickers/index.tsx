@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { type Dayjs } from 'dayjs';
 import Grid from '@mui/material/Grid2';
@@ -15,7 +16,8 @@ import {
   FieldVariantInfo,
   SubmitButton,
 } from '@/components';
-import { showToastMessage } from '@/utils';
+import { formSubmitEventName } from '@/constants';
+import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type FormSchema = {
   dob: Dayjs;
@@ -24,6 +26,7 @@ type FormSchema = {
 };
 
 const DateTimePickersForm = () => {
+  const pathName = usePathname();
   const {
     control,
     handleSubmit,
@@ -31,7 +34,8 @@ const DateTimePickersForm = () => {
     formState: { errors },
   } = useForm<FormSchema>();
 
-  function onFormSubmit(formValues) {
+  async function onFormSubmit(formValues) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

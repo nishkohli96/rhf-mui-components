@@ -4,21 +4,21 @@ import { Fragment, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function FirebaseAnalytics() {
-  const pathname = usePathname();
+  const pathName = usePathname();
 
   useEffect(() => {
-    if (!pathname) {
+    if (!pathName) {
       return;
     }
     (async () => {
       try {
         const { logFirebaseEvent } = await import('@/utils');
-        await logFirebaseEvent('page_view', { pathname });
+        await logFirebaseEvent('page_view', { pathName });
       } catch (error) {
         console.error('Failed to log Firebase page_view event:', error);
       }
     })();
-  }, [pathname]);
+  }, [pathName]);
 
   return <Fragment />;
 }

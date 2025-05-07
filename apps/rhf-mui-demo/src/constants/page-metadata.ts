@@ -73,4 +73,4 @@ export const pageMetadata: Record<string, Metadata> = {
   }
 };
 
-export const forSubmittedEvent = 'form_submit';
+export const formSubmitEventName = 'form_submit';
