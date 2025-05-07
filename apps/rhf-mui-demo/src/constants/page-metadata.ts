@@ -72,3 +72,5 @@ export const pageMetadata: Record<string, Metadata> = {
       'Form utilizing RHFSwitch, RHFSlider & RHFRating components with validation managed by Superstruct.'
   }
 };
+
+export const forSubmittedEvent = 'form_submit';

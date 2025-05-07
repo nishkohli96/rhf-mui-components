@@ -13,7 +13,7 @@ export default function FirebaseAnalytics() {
     (async () => {
       try {
         const { logFirebaseEvent } = await import('@/utils');
-        await logFirebaseEvent('page_view', { page_location: pathname });
+        await logFirebaseEvent('page_view', { pathname });
       } catch (error) {
         console.error('Failed to log Firebase page_view event:', error);
       }
