@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "2.1.4",
+  "version": "3.0.0",
   "description": "A suite of 20+ reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "private": true,
@@ -11,13 +11,15 @@
   "scripts": {
     "lib": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
+    "lib:pack": "sh pack-pkg.sh",
     "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
     "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-demo build",
     "demo:start": "yarn workspace @nish1896/rhf-mui-demo start",
     "docs": "yarn workspace @nish1896/rhf-mui-docs start",
     "docs:lint": "yarn workspace @nish1896/rhf-mui-docs lint",
-    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build"
+    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build",
+    "docs:prod": "yarn workspace @nish1896/rhf-mui-docs prod"
   },
   "devDependencies": {
     "turbo": "^2.5.2"

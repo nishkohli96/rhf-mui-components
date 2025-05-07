@@ -6,7 +6,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import NkLogo from '../../../public/nk-logo.png';
 import DrawerMenu from './DrawerMenu';
-import { ThemeChangeButton } from '../buttons';
+import {
+  DocsButton,
+  GithubButton,
+  ThemeChangeButton
+} from '../buttons';
 
 const AppBar = () => {
   return (
@@ -34,6 +38,8 @@ const AppBar = () => {
           >
             <Typography variant="h6">RHF-Mui Components</Typography>
           </Box>
+          <DocsButton />
+          <GithubButton />
           <ThemeChangeButton />
         </Toolbar>
       </MuiAppBar>

@@ -1,0 +1,83 @@
+---
+sidebar_position: 1
+sidebar_label: Color Picker
+title: RHFColorPicker
+description: A customizable color picker for your forms with example and API details for seamless functionality.
+---
+
+import { RHFColorPickerPropsTable } from '@site/src/page-components';
+
+# RHFColorPicker
+
+**RHFColorPicker** is derived from the [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage) 
+component of [react-color-palette](https://www.npmjs.com/package/react-color-palette) package.
+
+```
+npm install react-color-palette
+```
+
+```
+yarn add react-color-palette
+```
+
+### Usage
+
+```js
+import RHFColorPicker, { RHFColorPickerProps } from '@nish1896/rhf-mui-components/misc/color-picker';
+```
+
+The color-picker accepts string value in `hex`, `rgb`, `hsl` or text format, such as:
+- `#00ffff`
+- `rgb(0 255 255)`
+- `hsl(180 100% 100% / 1)`
+- `cyan`
+
+If the field value is uninitialized, the default color **Black**(`#000000`) will be selected,
+which can be configured using the `defaultColor` prop. Refer to the
+[colorToString](../../form-helpers/colorToString.md) function to convert
+an **RGB** or **HSV** color object into a string, which can be used to
+set the default color for the color picker.
+
+```jsx
+<RHFColorPicker
+  fieldName='favouriteColor'
+  control={control}
+  value={getValues('favouriteColor')}
+  errorMessage={errors?.favouriteColor?.message}
+/>
+```
+
+The returned color value from `onValueChange` prop is an object with the equivalent
+**hex**, **rgb** and **hsv** values.
+
+```js
+{
+  hex: '#00ffff',
+  hsv: {
+    a: 1,
+    h: 180,
+    s: 100,
+    v: 100
+  },
+  rgb: {
+    a: 1,
+    b: 255,
+    g: 255,
+    r: 0
+  }
+}
+```
+
+## Examples
+- [RHFColorPicker](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
+- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
+
+## Alternatives
+If this package doesn't meet your requirements, consider the
+[react-color](https://www.npmjs.com/package/react-color) package.
+
+## API
+`RHFColorPickerProps` extends the props of [ColorPicker](https://www.npmjs.com/package/react-color-palette#api)
+and accepts the following additional props:
+
+<RHFColorPickerPropsTable />

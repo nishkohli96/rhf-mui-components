@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -16,7 +17,8 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { showToastMessage } from '@/utils';
+import { formSubmitEventName } from '@/constants';
+import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 const orangeTheme = createTheme({
   palette: {
@@ -27,6 +29,7 @@ const orangeTheme = createTheme({
 });
 
 const SwitchSliderRatingFormWithSuperstruct = () => {
+  const pathName = usePathname();
   const initialValues = {
     score: 20,
   };
@@ -40,7 +43,8 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
     resolver: superstructResolver(formSchema)
   });
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

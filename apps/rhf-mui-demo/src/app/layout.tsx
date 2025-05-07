@@ -3,8 +3,13 @@ import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import Grid from '@mui/material/Grid2';
 import { ToastContainer } from 'react-toastify';
+import {
+  defaultPageTitle,
+  defaultPageDescription,
+  defaultPageKeywords
+} from '@/constants';
+import { AppBar, Drawer, FirebaseAnalytics, Footer } from '@/components';
 import { AppThemeProvider } from '@/theme';
-import { AppBar, Drawer, Footer } from '@/components';
 import './globals.css';
 
 type RootLayoutProps = {
@@ -12,14 +17,14 @@ type RootLayoutProps = {
 };
 
 const inter = Inter({ subsets: ['latin'] });
-const defaultTitle = 'RHF-Mui Components';
 
 export const metadata: Metadata = {
   title: {
-    template: `%s | ${defaultTitle}`,
-    default: defaultTitle
+    template: `%s | ${defaultPageTitle}`,
+    default: defaultPageTitle
   },
-  description: 'Examples for RHF-Mui Components'
+  description: defaultPageDescription,
+  keywords: defaultPageKeywords
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
@@ -41,6 +46,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               </Grid>
             </Grid>
             <Footer />
+            <FirebaseAnalytics />
             <ToastContainer
               autoClose={3000}
               limit={1}

@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -14,7 +15,8 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { showToastMessage } from '@/utils';
+import { formSubmitEventName } from '@/constants';
+import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type FormSchema = {
   bio: string;
@@ -26,6 +28,7 @@ type FormSchema = {
 };
 
 const MiscellaneousComponentsForm = () => {
+  const pathName = usePathname();
   const initialValues = {
     favouriteColor: 'hsl(201 100% 73% / 1)',
     contactNumber: '+1 (765) 232-3423',
@@ -48,7 +51,8 @@ const MiscellaneousComponentsForm = () => {
     return countyCodes.includes(iso2);
   });
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

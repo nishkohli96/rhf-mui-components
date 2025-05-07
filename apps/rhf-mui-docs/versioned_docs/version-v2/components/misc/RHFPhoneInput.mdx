@@ -1,0 +1,65 @@
+---
+sidebar_position: 3
+sidebar_label: Phone Input
+title: RHFPhoneInput
+description: Documentation and API for a customizable phone input components with international number support.
+---
+
+import { RHFPhoneInputPropsTable } from '@site/src/page-components';
+import { AvailabilityBanner } from '@site/src/components';
+
+# RHFPhoneInput
+
+<AvailabilityBanner componentName="RHFPhoneInput" version="2.0" />
+
+The **RHFPhoneInput** component is based on [react-international-phone](https://www.npmjs.com/package/react-international-phone),
+a React library that simplifies handling international phone inputs.
+It integrates seamlessly with Material-UI, utilizing the [Textfield](https://mui.com/material-ui/react-text-field/)
+component with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
+API from `react-international-phone` to enables users in selecting
+their country and input phone numbers in the specific format.
+
+```
+npm i react-international-phone
+```
+
+```
+yarn add react-international-phone
+```
+
+### Usage
+
+```js
+import RHFPhoneInput, { RHFPhoneInputProps } from '@nish1896/rhf-mui-components/misc/phone-input';
+```
+
+```jsx
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  value={getValues("contactNumber")}
+  phoneInputProps={{
+    defaultCountry: "in",
+    preferredCountries: ["in", "us", "au"]
+  }}
+  errorMessage={errors?.contactNumber?.message}
+/>
+```
+
+The returned phone value after input is of the type -
+- "+91 99887-76655"
+- "+1 (765) 232-3423"
+
+:::note
+For field validation, make sure to set the minimum length to atleast **6**.
+:::
+
+## Examples
+- [RHFPhoneInput](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
+- [PhoneInput](https://react-international-phone-storybook.vercel.app/?path=/story/phoneinput--default)
+
+## API
+`RHFPhoneInput` extends the props of [TextField](https://mui.com/material-ui/api/text-field/)
+and accepts the following additional props:
+
+<RHFPhoneInputPropsTable />

@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import Grid from '@mui/material/Grid2';
@@ -14,13 +15,14 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { IPLTeams, Currencies } from '@/constants';
+import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
-import { showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
 
 const SelectFormWithClassValidator = () => {
+  const pathName = usePathname();
   const {
     control,
     handleSubmit,
@@ -31,7 +33,8 @@ const SelectFormWithClassValidator = () => {
     resolver: classValidatorResolver(FormSchema)
   });
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

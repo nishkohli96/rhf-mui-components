@@ -1,4 +1,4 @@
-import { ENV_VARS } from './env-vars';
+import { ENV_VARS } from './environment';
 import { type Page } from '@/types';
 
 const sandboxPath = ENV_VARS.SANDBOX_URL;

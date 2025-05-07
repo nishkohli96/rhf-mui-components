@@ -1,13 +1,9 @@
-import type { Metadata } from 'next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { ENV_VARS } from '@/constants';
+import { ENV_VARS, pageMetadata } from '@/constants';
 import { ContentContainer, PageHeading } from '@/components';
 
-export const metadata: Metadata = {
-  title: 'Introduction',
-  description: 'Overview of the Examples Website for RHF-MUI Components'
-};
+export const metadata = pageMetadata.home;
 
 const HomePage = () => {
   return (

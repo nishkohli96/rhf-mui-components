@@ -1,6 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid2';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
@@ -14,12 +15,13 @@ import {
   FieldVariantInfo,
   SubmitButton
 } from '@/components';
-import { CountriesList } from '@/constants';
+import { CountriesList, formSubmitEventName } from '@/constants';
 import { Gender } from '@/types';
-import { showToastMessage } from '@/utils';
+import { showToastMessage, logFirebaseEvent } from '@/utils';
 import { formSchema, type PersonInfo } from './validation';
 
 const CheckboxRadioZodForm = () => {
+  const pathName = usePathname();
   const {
     control,
     handleSubmit,
@@ -29,7 +31,8 @@ const CheckboxRadioZodForm = () => {
     resolver: zodResolver(formSchema)
   });
 
-  function onFormSubmit(formValues: PersonInfo) {
+  async function onFormSubmit(formValues: PersonInfo) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-demo",
-  "version": "2.1.4",
+  "version": "3.0.0",
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
@@ -19,13 +19,13 @@
     "@mui/material": "^6.1.10",
     "@mui/material-nextjs": "^6.1.9",
     "@mui/x-date-pickers": "^7.23.2",
-    "@mui/x-tree-view": "^7.23.0",
     "@faker-js/faker": "^9.2.0",
     "ckeditor5": "^43.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
+    "firebase": "^11.6.1",
     "joi": "^17.13.1",
     "luxon": "^3.4.4",
     "moment": "^2.30.1",

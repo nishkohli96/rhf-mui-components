@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-docs",
-  "version": "2.1.4",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -10,6 +10,7 @@
     "deploy": "USE_SSH=true GIT_USER=nishkohli96 docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
+    "prod": "docusaurus build && docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
@@ -17,14 +18,17 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
+    "@docusaurus/plugin-google-gtag": "3.7.0",
     "@docusaurus/preset-classic": "3.7.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mdx-js/react": "^3.0.0",
     "@mui/icons-material": "^6.1.10",
     "@mui/material": "^6.1.10",
+    "@mui/x-tree-view": "^7.29.1",
     "class-transformer": "^0.5.1",
     "clsx": "^2.0.0",
+    "dotenv": "^16.5.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

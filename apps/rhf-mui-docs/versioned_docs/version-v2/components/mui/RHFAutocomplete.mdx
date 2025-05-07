@@ -1,0 +1,71 @@
+---
+sidebar_position: 8
+sidebar_label: Autocomplete
+title: RHFAutocomplete
+description: Customizable autocomplete component for efficient searching in large datasets, supporting array or object-array options.
+---
+
+import { RHFAutocompletePropsTable } from '@site/src/page-components';
+import { AvailabilityBanner } from '@site/src/components';
+
+# RHFAutocomplete
+
+<AvailabilityBanner componentName="RHFAutocomplete" version="2.0" />
+
+**RHFAutocomplete** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/),
+designed for searching and selecting an option from large datasets. Similar to
+[RHFSelect](./RHFSelect.mdx), it supports selecting single or multiple options and
+accepts options as an array of strings or an array of objects. This component is ideal
+for use cases requiring dynamic filtering or managing extensive options seamlessly.
+
+:::note
+Due to the complexity of supporting arbitrary values in the Autocomplete while ensuring
+existing functionality remains unaffected, this component currently does **not** support
+the `freeSolo` prop of **Autocomplete**. This means users are restricted to selecting
+values exclusively from the dataset provided in the `options` prop, and cannot enter custom
+values.
+:::
+
+## Usage
+
+```js
+import RHFAutocomplete, { RHFAutocompleteProps } from '@nish1896/rhf-mui-components/mui/autocomplete';
+```
+
+```jsx
+<RHFAutocomplete
+  fieldName="countriesVisited"
+  control={control}
+  options={['Azerbaijan', 'Canada', 'India']}
+  errorMessage={errors?.countriesVisited?.message}
+/>
+```
+
+For options as an array of objects:
+
+```jsx
+<RHFAutocomplete
+  fieldName="countriesVisited"
+  control={control}
+  options={countryList} // imported from RHFCountrySelect
+  labelKey="name"
+  valueKey="name"
+  errorMessage={errors?.countriesVisited?.message}
+/>
+```
+
+:::warning
+When using an array of objects for options, both `labelKey` and `valueKey` 
+are required. If either is missing, an error will be thrown.
+:::
+
+## Examples
+- [RHFAutocomplete](https://rhf-mui-components-examples.netlify.app/autocomplete)
+- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+## API
+The `RHFAutocomplete` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+and accepts the following additional props:
+
+<RHFAutocompletePropsTable />

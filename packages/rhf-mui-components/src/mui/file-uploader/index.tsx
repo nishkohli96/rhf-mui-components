@@ -60,7 +60,7 @@ const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  accept = '*',
+  accept,
   multiple,
   maxFiles,
   maxSize,

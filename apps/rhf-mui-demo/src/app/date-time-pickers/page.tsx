@@ -1,17 +1,10 @@
-import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/date-time-pickers'), { ssr: false });
 
-const title = 'Date & Time Pickers';
-const description = 'A form using RHFDatePicker, RHFTimePicker & RHFDateTimePicker components.';
-
-export const metadata: Metadata = {
-  title,
-  description
-};
+export const metadata = pageMetadata.dateTimePickers;
 
 const DateTimePickerFormPage = () => {
   const links = [
@@ -26,8 +19,8 @@ const DateTimePickerFormPage = () => {
 
   return (
     <ContentContainer>
-      <PageHeading title={title} />
-      <SubHeading title={description}/>
+      <PageHeading title={metadata.title as string} />
+      <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />

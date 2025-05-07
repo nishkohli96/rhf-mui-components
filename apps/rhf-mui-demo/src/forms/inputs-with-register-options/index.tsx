@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
@@ -22,7 +23,14 @@ import {
   FormState,
   SubmitButton
 } from '@/components';
-import { reqdMsg, minCharMsg, maxCharMsg, showToastMessage } from '@/utils';
+import { formSubmitEventName } from '@/constants';
+import {
+  reqdMsg,
+  minCharMsg,
+  maxCharMsg,
+  showToastMessage,
+  logFirebaseEvent
+} from '@/utils';
 
 type FormSchema = {
   firstName: string;
@@ -48,6 +56,7 @@ const initialValues: FormSchema = {
 };
 
 const InputsWithRegisterForm = () => {
+  const pathName = usePathname();
   const {
     control,
     watch,
@@ -57,7 +66,8 @@ const InputsWithRegisterForm = () => {
     defaultValues: initialValues
   });
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 
