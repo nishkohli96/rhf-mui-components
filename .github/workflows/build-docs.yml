@@ -4,6 +4,8 @@ jobs:
   build-docs:
     name: Build Docs
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}
     steps:
       - uses: actions/checkout@v4
         with:
