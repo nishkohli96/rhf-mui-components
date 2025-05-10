@@ -133,11 +133,11 @@ const RHFAutocomplete = <T extends FieldValues>({
         rules={registerOptions}
         render={({ field: { value, onChange, ...otherFieldProps } }) => {
           /**
-					 * When considering for the case when options is an array of objects,
-					 * the values would be an array or a single "valueKey" from these options.
-					 * So, I need to get back the selected options using these values and then
-					 * pass back these list of options as the value prop for Autocomplete.
-					 */
+           * When considering for the case when options is an array of objects,
+           * the values would be an array or a single "valueKey" from these options.
+           * So, I need to get back the selected options using these values and then
+           * pass back these list of options as the value prop for Autocomplete.
+           */
           const selectedOptions = multiple
             ? (value ?? []).map(val =>
               options.find(opn =>

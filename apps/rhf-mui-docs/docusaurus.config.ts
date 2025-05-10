@@ -63,7 +63,7 @@ const config: Config = {
         },
         {
           href: 'https://github.com/nishkohli96/rhf-mui-examples',
-          label: 'Code Repository',
+          label: 'Code Examples',
           position: 'right'
         },
         {
