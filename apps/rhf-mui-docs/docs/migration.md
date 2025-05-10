@@ -7,7 +7,18 @@ description: Page about the form helper functions exported by this package.
 
 # Migration Guide
 
-## Why is it Recommended ?
+## Migrate to v3
+
+**Version 3** introduces compatibility with [MUI v7](https://v7.mui.com/material-ui/) and [@mui/x-date-pickers v8](https://mui.com/x/react-date-pickers/), while maintaining backward compatibility with MUI [v5](https://v5.mui.com/material-ui/) and [v6](https://v6.mui.com/material-ui/), and @mui/x-date-pickers [v6](https://v6.mui.com/x/react-date-pickers/) and [v7](https://v7.mui.com/x/react-date-pickers/).
+
+If your project has been upgraded to @mui/material v7, it is recommended to update this package to version 3 for optimal compatibility.
+
+Refer to the official migration guides for [@mui/material](https://mui.com/material-ui/migration/upgrade-to-v7/) and [@mui/x-date-pickers](https://mui.com/x/.migration/migration-pickers-v7/) for detailed upgrade instructions.
+
+
+## Migrate to v2
+
+**Why is it Recommended ?**
 
 Version 2 introduces significant enhancements and optimizations for nearly all components from Version 1. In addition to these improvements, the package now includes five new components:
 
@@ -34,11 +45,11 @@ These additions expand the package's utility, making it a compelling upgrade for
 Given these improvements and the resolution of key limitations, Version 1 will **NO LONGER** receive updates. Developers are encouraged to upgrade to Version 2 to benefit from these enhancements and new features. 
 :::
 
-## Code Changes
+### Code Changes
 
 Version 2 introduces updates and enhancements to various components, aligning them with the `control` prop from the `useForm` hook for consistent and optimized functionality. While the majority of props for each component remain unchanged, the updates made to the affected props are minimal yet highly impactful. Below are the detailed changes:
 
-### Migration to control Prop
+#### Migration to control Prop
 
 The following components now use the `control` prop instead of `register`:
 
@@ -61,7 +72,7 @@ The following components now use the `control` prop instead of `register`:
 />
 ```
 
-### Enhanced Validation
+#### Enhanced Validation
 
 The `registerOptions` prop has been added to improve validation capabilities for:
 
@@ -72,22 +83,22 @@ The `registerOptions` prop has been added to improve validation capabilities for
 - [RHFRating](./components/mui/RHFRating.mdx)
 - [RHFRichTextEditor](./components/misc/RHFRichTextEditor.mdx)
 
-### Required Validation
+#### Required Validation
 
 Every field now includes support for the `required` prop. When enabled, it appends an asterisk (*) to the field label, visually signaling that the field requires a valid value. This ensures users are aware of the necessity to provide input.
 
-### Disabling fields
+#### Disabling fields
 
 The `disabled` prop has been added to the following components, enabling better control over form fields:
 
 - [RHFCheckboxGroup](./components/mui/RHFCheckboxGroup.mdx)
 - [RHFRadioGroup](./components/mui/RHFRadioGroup.mdx)
 
-### OnValueChange
+#### OnValueChange
 
 As previously mentioned, the changed value(s) can now be accessed earlier in the `onValueChange` callback function, followed by the event handler(s) for that component. This ensures that the relevant data is easily accessible without requiring developers to handle unused parameters. For detailed usage, refer to the `onValueChange` function in the API reference section for each component.
 
-## Component-Specific Updates
+### Component-Specific Updates
 
 Significant changes have been made to each of the components listed below that enhance its functionality and makes it more compatible with other core components of this package.
 

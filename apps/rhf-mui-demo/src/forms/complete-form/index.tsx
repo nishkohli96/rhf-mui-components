@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { type Path, useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import useTheme from '@mui/material/styles/useTheme';
@@ -35,14 +36,21 @@ import {
   FormState,
   SubmitButton
 } from '@/components';
-import { CountriesList, IPLTeams, GroceryList, HobbiesList } from '@/constants';
+import {
+  CountriesList,
+  IPLTeams,
+  GroceryList,
+  HobbiesList,
+  formSubmitEventName,
+} from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
 const CompleteForm = () => {
+  const pathName = usePathname();
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
 
@@ -71,7 +79,8 @@ const CompleteForm = () => {
     return `The value for ${fieldName} must match the pattern specified.`;
   }
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

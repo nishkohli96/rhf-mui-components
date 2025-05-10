@@ -1,17 +1,10 @@
-import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
-import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/complete-form'), { ssr: false });
 
-const title = 'Complete Form with Register Options';
-const description = 'A complete form showcasing all components from this package with appropriate validations.';
-
-export const metadata: Metadata = {
-  title,
-  description
-};
+export const metadata = pageMetadata.completeForm;
 
 const CompleteFormPage = () => {
   const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
@@ -21,8 +14,8 @@ const CompleteFormPage = () => {
   ];
   return (
     <ContentContainer>
-      <PageHeading title={title} />
-      <SubHeading title={description}/>
+      <PageHeading title={metadata.title as string} />
+      <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />

@@ -1,13 +1,22 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 
-const RHFFileUploaderPropsTable = () => {
+type RHFFileUploaderPropsTableProps = {
+  v2?: boolean;
+};
+
+const RHFFileUploaderPropsTable = ({
+  v2
+}: RHFFileUploaderPropsTableProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
     PropsDescription.required,
-    PropsDescription.accept_FileUploader,
+    ...(!v2
+      ? [PropsDescription.accept_FileUploader]
+      : [PropsDescription.accept_FileUploader_v2]
+    ),
     PropsDescription.multiple_FileUploader,
     PropsDescription.maxFiles,
     PropsDescription.maxSize_FileUploader,

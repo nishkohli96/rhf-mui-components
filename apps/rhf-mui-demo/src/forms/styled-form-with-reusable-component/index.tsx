@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -14,7 +15,14 @@ import {
   FormState,
   SubmitButton,
 } from '@/components';
-import { reqdMsg, minCharMsg, maxCharMsg, showToastMessage } from '@/utils';
+import { formSubmitEventName } from '@/constants';
+import {
+  reqdMsg,
+  minCharMsg,
+  maxCharMsg,
+  showToastMessage,
+  logFirebaseEvent,
+} from '@/utils';
 import StyledRHFTextField from './StyledTextField';
 
 type FormSchema = {
@@ -30,6 +38,7 @@ const initialValues: FormSchema = {
 };
 
 export default function StyledReusableComponentForm() {
+  const pathName = usePathname();
   const {
     control,
     watch,
@@ -39,7 +48,8 @@ export default function StyledReusableComponentForm() {
     defaultValues: initialValues,
   });
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
   return (

@@ -1,0 +1,138 @@
+---
+sidebar_position: 5
+sidebar_label: File Uploader
+title: RHFFileUploader
+description: RHFFileUploader is a customizable file upload component for React Hook Form, supporting single and multi-file uploads with validation, and listing the files uploaded along with their size.
+---
+
+import { RHFFileUploaderPropsTable } from '@site/src/page-components';
+import { AvailabilityBanner } from '@site/src/components';
+import NewImg from '@site/static/img/new.png';
+
+# RHFFileUploader<sup><img src={NewImg} alt="NEW" height="40" /></sup>
+
+<AvailabilityBanner componentName="RHFFileUploader" version="2.1" />
+
+**RHFFileUploader** component is a flexible and easy-to-use file input field built
+supporting both single and multi-file uploads, optional file type and size validation,
+and customizable UI elements such as the upload button and file list items.
+
+## Usage
+
+```js
+import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from '@nish1896/rhf-mui-components/mui/file-uploader';
+```
+
+Here’s a basic example of the component configured to accept a single file:
+
+```jsx
+<RHFFileUploader
+  fieldName="resume"
+  control={control}
+  errorMessage={errors?.resume?.message}
+/>
+```
+
+A file object has the following properties:
+
+```js
+{
+  lastModified: 1738870405923,
+  lastModifiedDate: "Fri Feb 07 2025 01:03:25 GMT+0530 (India Standard Time)",
+  name: "Picture.png",
+  size: 860146,
+  type: "image/png",
+  webkitRelativePath: ""
+}
+```
+When uploading files via an API, the files are sent within a **FormData** object.
+On a Node.js Express server, you can handle this incoming data using the [Multer](https://www.npmjs.com/package/multer) middleware.
+Here’s an [example](https://github.com/nishkohli96/client-server-libs/blob/main/apps/express-server/src/routes/file/controller.ts)
+illustrating how to handle file uploads with Multer in Express, where I have used
+various [file upload middlewares](https://github.com/nishkohli96/client-server-libs/blob/main/apps/express-server/src/middleware/file-uploader.ts)
+to store data in a dedicated folder based on certain conditions.
+
+```ts
+async function onFormSubmit(formValues: FormSchema) {
+  const formData = new FormData();
+  const { resume, pictures } = formValues;
+
+  /* resume can be null, hence handle the null check */
+  resume && formData.append('resume', resume);
+
+  Array.isArray(pictures) && pictures.forEach(file => {
+    formData.append('pictures', file);
+  });
+  await sendFormData(url, formData);
+}
+```
+
+### Advanced Usage
+
+For more advanced scenarios, `RHFFileUploader` can be configured to:
+- Accept **multiple files**.
+- Restrict file types using the `accept` prop, for example, to allow only images (`image/*`).
+- Limit the maximum number of valid files a user can upload
+- Use a **custom upload button** to match your design requirements.
+- Customize the **display of uploaded files**, including file names, sizes, and a remove button.
+
+```jsx
+<RHFFileUploader
+  fieldName="pictures"
+  control={control}
+  multiple
+  accept="image/*"
+  showFileSize
+  maxFiles={3}
+  maxSize={5 * 1024 * 1024}
+  label={
+    <Typography color="secondary" sx={{ fontWeight: 600 }}>
+      <CloudUploadIcon />
+      {` Upload Photos`}
+    </Typography>
+  }
+  renderUploadButton={fileInput => (
+    <div style={{ width: '200px' }}>
+      <IconButton component="label" tabIndex={-1}>
+        <UploadFileIcon />
+        {fileInput}
+      </IconButton>
+    </div>
+  )}
+  renderFileItem={(file, index) => (
+    <Typography variant="body2">
+      {index + 1}. {file.name}
+      {getFileSize(file.size, { precision: 2 })}
+    </Typography>
+  )}
+  onUploadError={(errors, rejectedFiles) => {
+    alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`)
+  }}
+/>
+```
+
+The `renderUploadButton` prop allows you to render a **custom upload button**,
+with the `fileInput` (the hidden file input) provided as its child.
+
+Similarly, the `renderFileItem` prop lets you customize how each uploaded
+file is displayed in the file list.
+
+:::note
+Make sure to add the `component="label"` prop to your custom
+`Button` or `IconButton` component to ensure the file input is triggered correctly,
+as file dialogs can only be opened via label elements or direct interaction with file inputs.
+
+Additionally, add `tabIndex={-1}` to the button to exclude it from the
+tab order, keeping focus management limited to the hidden file input
+itself for better accessibility.
+:::
+
+## Examples
+- [RHFFileUploader](https://rhf-mui-components-examples.netlify.app/inputs)
+- [File Upload](https://mui.com/material-ui/react-button/#file-upload)
+- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+
+## API
+The `RHFFileUploader` accepts the following props:
+
+<RHFFileUploaderPropsTable v2 />

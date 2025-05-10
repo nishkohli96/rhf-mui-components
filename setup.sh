@@ -1,5 +1,14 @@
 # Install Dependencies & Build Package
 echo "🏁 Initiating Setup..."
+
+# Check for yarn
+if ! command -v yarn &> /dev/null; then
+  echo "📦 yarn not found. Installing..."
+  npm install -g yarn@1.22.22
+else
+  echo "✅ yarn is globally installed."
+fi
+
 echo "Installing Dependencies & Building Package 🛠️"
 yarn
 yarn lib

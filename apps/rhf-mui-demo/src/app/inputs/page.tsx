@@ -1,17 +1,10 @@
-import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
-
-const title = 'Inputs';
-const description = 'Form utilizing RHFTextField, RHFPasswordInput, RHFNumberInput, RHFTagsInput and RHFFileUploader with validation managed via react-hook-form\'s register options.';
+import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/inputs-with-register-options'), { ssr: false });
 
-export const metadata: Metadata = {
-  title,
-  description
-};
+export const metadata = pageMetadata.inputs;
 
 const TextFieldPage = () => {
   const links = [
@@ -28,8 +21,8 @@ const TextFieldPage = () => {
 
   return (
     <ContentContainer>
-      <PageHeading title={title} />
-      <SubHeading title={description}/>
+      <PageHeading title={metadata.title as string} />
+      <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />

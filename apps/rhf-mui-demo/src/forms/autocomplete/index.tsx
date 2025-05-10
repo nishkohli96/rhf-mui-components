@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker';
 import Grid from '@mui/material/Grid2';
@@ -16,8 +17,8 @@ import {
   SubmitButton
 } from '@/components';
 import { Colors } from '@/types';
-import { IPLTeams } from '@/constants';
-import { showToastMessage } from '@/utils';
+import { IPLTeams, formSubmitEventName } from '@/constants';
+import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 type AirportInfo = {
   iataCode: string;
@@ -44,6 +45,7 @@ const generateAirportNames = (count: number) => {
 
 const AutocompleteForm = () => {
   const airportList = useMemo(() => generateAirportNames(100), []);
+  const pathName = usePathname();
 
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG'],
@@ -63,7 +65,8 @@ const AutocompleteForm = () => {
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
-  function onFormSubmit(formValues: FormSchema) {
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 
