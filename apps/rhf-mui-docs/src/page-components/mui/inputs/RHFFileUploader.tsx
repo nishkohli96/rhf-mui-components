@@ -3,7 +3,7 @@ import { PropsDescription } from '@site/src/constants';
 
 type RHFFileUploaderPropsTableProps = {
   v2?: boolean;
-}
+};
 
 const RHFFileUploaderPropsTable = ({
   v2

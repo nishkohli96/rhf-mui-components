@@ -61,8 +61,8 @@ export function validateFileList(
   /* Parse the accept string into an array of acceptable types/extensions */
   const acceptedTypes = accept
     ? accept
-        .split(',')
-        .map(type => type.trim().toLowerCase())
+      .split(',')
+      .map(type => type.trim().toLowerCase())
     : [];
 
   const isTypeAllowed = (file: File) => {
