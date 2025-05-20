@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",
+    "@nish1896/rhf-mui-components": "workspace:*",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",

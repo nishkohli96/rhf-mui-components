@@ -9,17 +9,17 @@
     "./packages/*"
   ],
   "scripts": {
-    "lib": "yarn workspace @nish1896/rhf-mui-components build",
-    "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
+    "lib": "pnpm -F @nish1896/rhf-mui-components run build",
+    "lib:lint": "pnpm -F @nish1896/rhf-mui-components run lint",
     "lib:pack": "sh pack-pkg.sh",
-    "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
-    "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
-    "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-demo build",
-    "demo:start": "yarn workspace @nish1896/rhf-mui-demo start",
-    "docs": "yarn workspace @nish1896/rhf-mui-docs start",
-    "docs:lint": "yarn workspace @nish1896/rhf-mui-docs lint",
-    "docs:build": "yarn workspace @nish1896/rhf-mui-docs build",
-    "docs:prod": "yarn workspace @nish1896/rhf-mui-docs prod"
+    "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
+    "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
+    "demo:build": "pnpm lib && pnpm -F @nish1896/rhf-mui-demo run build",
+    "demo:start": "pnpm -F @nish1896/rhf-mui-demo run start",
+    "docs": "pnpm -F @nish1896/rhf-mui-docs run start",
+    "docs:lint": "pnpm -F @nish1896/rhf-mui-docs run lint",
+    "docs:build": "pnpm -F @nish1896/rhf-mui-docs run build",
+    "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
   },
   "devDependencies": {
     "turbo": "^2.5.2"
@@ -46,6 +46,6 @@
   "repository": {
     "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "pnpm@10.11.0",
   "license": "MIT"
 }
