@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A suite of 20+ reusable mui components for react-hook-form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "private": true,
@@ -42,11 +42,10 @@
     "@hookform/resolvers",
     "react material components"
   ],
-  "homepage": "https://github.com/nishkohli96/eslint-config#readme",
+  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
   "repository": {
-    "url": "git+https://github.com/nishkohli96/eslint-config.git"
+    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
   },
   "packageManager": "yarn@1.22.22",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }

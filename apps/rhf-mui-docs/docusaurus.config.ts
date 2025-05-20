@@ -4,11 +4,11 @@ import type { Config } from '@docusaurus/types';
 import type { ThemeConfig } from '@docusaurus/preset-classic';
 
 const config: Config = {
+  title: '@nish1896/rhf-mui-components',
   url: 'https://rhf-mui-components.github.io',
   baseUrl: '/',
   projectName: '@nish1896/rhf-mui-components',
   organizationName: 'nish1896',
-  title: '@nish1896/rhf-mui-components',
   tagline: 'Create and Style forms effortlessly within minutes!',
   favicon: 'img/favicon.ico',
   trailingSlash: false,
