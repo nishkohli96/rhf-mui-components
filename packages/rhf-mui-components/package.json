@@ -13,17 +13,35 @@
     "lint": "eslint --fix ."
   },
   "devDependencies": {
-    "@nish1896/eslint-flat-config": "^2.0.4",
-    "eslint": "^9.25.0",
+    "@ckeditor/ckeditor5-core": "43.3.1",
+    "@ckeditor/ckeditor5-react": "9.0.0",
+    "@ckeditor/ckeditor5-utils": "43.3.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
+    "@mui/system": "^7.1.0",
+    "@mui/x-date-pickers": "^8.3.1",
+    "@nish1896/eslint-flat-config": "^2.0.5",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "ckeditor5": "43.3.1",
+    "eslint": "^9.27.0",
+    "react": "^19.1.0",
+    "react-color-palette": "7.3.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.53.0",
+    "react-international-phone": "^4.3.0",
     "rimraf": "^6.0.1",
-    "tsc-alias": "^1.8.15"
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
-	},
+  },
   "exports": {
     "./package.json": {
       "import": "./package.json",
@@ -72,14 +90,30 @@
   },
   "typesVersions": {
     "*": {
-      "./mui": ["./mui/index.d.ts"],
-      "./mui/*": ["./mui/*/index.d.ts"],
-      "./mui-pickers": ["./mui-pickers/index.d.ts"],
-      "./mui-pickers/*": ["./mui-pickers/*/index.d.ts"],
-      "./misc": ["./misc/index.d.ts"],
-      "./misc/*": ["./misc/*/index.d.ts"],
-      "./config": ["./config/index.d.ts"],
-      "./form-helpers": ["./form-helpers/index.d.ts"]
+      "./mui": [
+        "./mui/index.d.ts"
+      ],
+      "./mui/*": [
+        "./mui/*/index.d.ts"
+      ],
+      "./mui-pickers": [
+        "./mui-pickers/index.d.ts"
+      ],
+      "./mui-pickers/*": [
+        "./mui-pickers/*/index.d.ts"
+      ],
+      "./misc": [
+        "./misc/index.d.ts"
+      ],
+      "./misc/*": [
+        "./misc/*/index.d.ts"
+      ],
+      "./config": [
+        "./config/index.d.ts"
+      ],
+      "./form-helpers": [
+        "./form-helpers/index.d.ts"
+      ]
     }
   },
   "keywords": [

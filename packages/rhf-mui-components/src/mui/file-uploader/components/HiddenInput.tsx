@@ -10,6 +10,6 @@ const HiddenInput = styled('input')({
   left: 0,
   whiteSpace: 'nowrap',
   width: 1,
-});
+}) as React.ComponentType<React.InputHTMLAttributes<HTMLInputElement>>;;
 
 export default HiddenInput;
