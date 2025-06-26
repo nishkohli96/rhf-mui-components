@@ -50,19 +50,19 @@ const SelectFormWithClassValidator = () => {
               options={Object.values(Colors)}
               errorMessage={errors?.favouriteColor?.message}
               helperText={
-                watch('favouriteColor')
-                  ? (
-                    <Typography color={watch('favouriteColor')}>
-                      {`Select an option to change selected text color from ${watch('favouriteColor')}`}
-                    </Typography>
-                  )
-                  : undefined
+                watch('favouriteColor') ? (
+                  <Typography color={watch('favouriteColor')}>
+                    {`Select an option to change selected text color from ${watch(
+                      'favouriteColor'
+                    )}`}
+                  </Typography>
+                ) : undefined
               }
               required
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multiple Select with options as an array of objects" />
+            <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render fucntion and disabled options" />
             <RHFSelect
               fieldName="iplTeams"
               control={control}
@@ -70,12 +70,17 @@ const SelectFormWithClassValidator = () => {
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
-              showDefaultOption
               defaultOptionText="Select IPL teams"
               label={
                 <Typography variant="body1" color="success">
                   Select your favourite IPL teams
                 </Typography>
+              }
+              renderOption={(option) => (
+                <span>{`${option.name} (${option.abbr})`}</span>
+              )}
+              shouldDisableOption={option =>
+                ['CSK', 'MI'].includes(option.abbr)
               }
               required
               multiple
@@ -89,6 +94,7 @@ const SelectFormWithClassValidator = () => {
               fieldName="randomNum"
               control={control}
               options={randomNumbers}
+              showDefaultOption
               errorMessage={errors?.randomNum?.message}
               required
             />
