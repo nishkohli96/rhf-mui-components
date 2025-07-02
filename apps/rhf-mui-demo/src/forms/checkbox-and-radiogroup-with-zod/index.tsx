@@ -62,7 +62,6 @@ const CheckboxRadioZodForm = () => {
               valueKey="code"
               required
               errorMessage={errors?.countriesVisited?.message}
-              onBlur={e=> console.log('CheckboxGroup onBlur', e.target.value)} 
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
