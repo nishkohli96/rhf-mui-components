@@ -95,7 +95,7 @@ const RHFPasswordInput = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur:rhfOnBlur, ...otherFieldParams } = field;
+          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           const endAdornment = (
             <InputAdornment position="end">
               <IconButton

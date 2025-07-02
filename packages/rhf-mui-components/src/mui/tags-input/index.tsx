@@ -177,7 +177,7 @@ const RHFTagsInput = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value = [], onChange, onBlur:rhfOnBlur } = field;
+          const { value = [], onChange, onBlur: rhfOnBlur } = field;
           const hideInput = disabled && value.length > 0;
           const visibleTags = showAllTags
             ? value

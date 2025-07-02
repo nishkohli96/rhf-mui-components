@@ -64,6 +64,7 @@ const RHFNativeSelect = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   sx,
+  onBlur,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
@@ -85,7 +86,7 @@ const RHFNativeSelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, value, ...rest } }) => (
+        render={({ field: { onChange, value, onBlur: rhfOnBlur, ...rest } }) => (
           <NativeSelect
             {...otherNativeSelectProps}
             {...rest}
@@ -99,6 +100,10 @@ const RHFNativeSelect = <T extends FieldValues>({
               if (onValueChange) {
                 onValueChange(event.target.value, event);
               }
+            }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              onBlur?.(blurEvent);
             }}
             sx={{
               ...sx,

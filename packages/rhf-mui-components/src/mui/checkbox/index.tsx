@@ -45,6 +45,7 @@ const RHFCheckbox = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...rest
 }: RHFCheckboxProps<T>) => {
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -64,7 +65,7 @@ const RHFCheckbox = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, ...otherFieldParams } = field;
+          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           return (
             <FormControlLabel
               control={
@@ -77,6 +78,10 @@ const RHFCheckbox = <T extends FieldValues>({
                     if(onValueChange) {
                       onValueChange(checked, event);
                     }
+                  }}
+                  onBlur={blurEvent => {
+                    rhfOnBlur();
+                    onBlur?.(blurEvent);
                   }}
                 />
               }

@@ -65,7 +65,7 @@ const RHFTextField = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur:rhfOnBlur, ...otherFieldParams } = field;
+          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           return (
             <MuiTextField
               id={fieldName}

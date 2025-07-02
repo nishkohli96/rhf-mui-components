@@ -64,7 +64,7 @@ const RHFSwitch = <T extends FieldValues>({
       control={control}
       rules={registerOptions}
       render={({ field }) => {
-        const { value, onChange, onBlur:rhfOnBlur, ...otherFieldParams } = field;
+        const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
         return (
           <Fragment>
             <FormControlLabel
@@ -79,10 +79,12 @@ const RHFSwitch = <T extends FieldValues>({
                       onValueChange(isChecked, event);
                     }
                   }}
-                  onBlur={blurEvent => {{
-                    rhfOnBlur();
-                    onBlur?.(blurEvent);
-                  }}}
+                  onBlur={blurEvent => {
+                    {
+                      rhfOnBlur();
+                      onBlur?.(blurEvent);
+                    }
+                  }}
                 />
               }
               label={fieldLabel}
