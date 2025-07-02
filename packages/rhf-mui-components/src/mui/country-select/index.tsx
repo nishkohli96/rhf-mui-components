@@ -106,6 +106,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   displayFlagOnSelect,
   slotProps,
   ChipProps,
+  onBlur,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -163,7 +164,7 @@ const RHFCountrySelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
           const selectedCountries = multiple
             ? (value ?? [])
               .map(val => countrySelectOptions.find(country => country[valueKey] === val))
@@ -185,6 +186,10 @@ const RHFCountrySelect = <T extends FieldValues>({
                 if (onValueChange) {
                   onValueChange(newValue, event, reason, details);
                 }
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
               autoHighlight
               blurOnSelect={!multiple}

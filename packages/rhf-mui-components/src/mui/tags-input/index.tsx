@@ -76,6 +76,7 @@ const RHFTagsInput = <T extends FieldValues>({
   limitTags = 2,
   getLimitTagsText,
   slotProps,
+  onBlur,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
@@ -176,7 +177,7 @@ const RHFTagsInput = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value = [], onChange } = field;
+          const { value = [], onChange, onBlur: rhfOnBlur } = field;
           const hideInput = disabled && value.length > 0;
           const visibleTags = showAllTags
             ? value
@@ -236,7 +237,11 @@ const RHFTagsInput = <T extends FieldValues>({
               }
               value={inputValue}
               onFocus={handleFocus}
-              onBlur={handleBlur}
+              onBlur={blurEvent => {
+                handleBlur();
+                rhfOnBlur();
+                onBlur?.(blurEvent);
+              }}
               onChange={handleInputChange}
               onKeyDown={event => {
                 const newTags = handleKeyPress(event, value);

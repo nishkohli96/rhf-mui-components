@@ -74,6 +74,7 @@ const RHFRadioGroup = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...rest
 }: RHFRadioGroupProps<T>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
@@ -102,17 +103,21 @@ const RHFRadioGroup = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { onChange, ...otherFieldParams } = field;
+          const { onChange, onBlur: rhfOnBlur, value, ...otherFieldParams } = field;
           return (
             <MuiRadioGroup
               {...rest}
               {...otherFieldParams}
-              value={field.value ?? ''}
+              value={value ?? ''}
               onChange={(event, selectedValue) => {
                 onChange(event);
                 if(onValueChange) {
                   onValueChange(selectedValue, event);
                 }
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
               aria-disabled={disabled}
             >
