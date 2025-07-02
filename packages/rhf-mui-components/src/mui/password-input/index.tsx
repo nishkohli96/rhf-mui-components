@@ -61,6 +61,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   slotProps,
+  onBlur,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -94,7 +95,7 @@ const RHFPasswordInput = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, ...otherFieldParams } = field;
+          const { value, onChange, onBlur:rhfOnBlur, ...otherFieldParams } = field;
           const endAdornment = (
             <InputAdornment position="end">
               <IconButton
@@ -123,9 +124,11 @@ const RHFPasswordInput = <T extends FieldValues>({
               value={value ?? ''}
               onChange={event => {
                 onChange(event);
-                if (onValueChange) {
-                  onValueChange(event.target.value, event);
-                }
+                onValueChange?.(event.target.value, event);
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
               error={isError}
               {...(isAboveMuiV5

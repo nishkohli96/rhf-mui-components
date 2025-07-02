@@ -40,6 +40,7 @@ const RHFTextField = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -64,7 +65,7 @@ const RHFTextField = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, ...otherFieldParams } = field;
+          const { value, onChange, onBlur:rhfOnBlur, ...otherFieldParams } = field;
           return (
             <MuiTextField
               id={fieldName}
@@ -79,9 +80,11 @@ const RHFTextField = <T extends FieldValues>({
               value={value ?? ''}
               onChange={event => {
                 onChange(event);
-                if (onValueChange) {
-                  onValueChange(event.target.value, event);
-                }
+                onValueChange?.(event.target.value, event);
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
               error={isError}
               {...rest}

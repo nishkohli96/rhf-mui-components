@@ -45,6 +45,7 @@ const RHFSwitch = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...rest
 }: RHFSwitchProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -63,7 +64,7 @@ const RHFSwitch = <T extends FieldValues>({
       control={control}
       rules={registerOptions}
       render={({ field }) => {
-        const { value, onChange, ...otherFieldParams } = field;
+        const { value, onChange, onBlur:rhfOnBlur, ...otherFieldParams } = field;
         return (
           <Fragment>
             <FormControlLabel
@@ -78,6 +79,10 @@ const RHFSwitch = <T extends FieldValues>({
                       onValueChange(isChecked, event);
                     }
                   }}
+                  onBlur={blurEvent => {{
+                    rhfOnBlur();
+                    onBlur?.(blurEvent);
+                  }}}
                 />
               }
               label={fieldLabel}
