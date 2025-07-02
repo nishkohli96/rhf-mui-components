@@ -51,6 +51,7 @@ const RHFRating = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...rest
 }: RHFRatingProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -70,7 +71,7 @@ const RHFRating = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, ...otherFieldParams } = field;
+          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           return (
             <MuiRating
               {...rest}
@@ -81,6 +82,10 @@ const RHFRating = <T extends FieldValues>({
                 if(onValueChange) {
                   onValueChange(newValue, event);
                 }
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
             />
           );

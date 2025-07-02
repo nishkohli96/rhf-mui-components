@@ -72,6 +72,7 @@ const RHFSelect = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
@@ -111,7 +112,7 @@ const RHFSelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
           return (
             <MuiSelect
               {...otherFieldProps}
@@ -129,6 +130,10 @@ const RHFSelect = <T extends FieldValues>({
                 }
               }}
               {...otherSelectProps}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
+              }}
             >
               <MenuItem
                 value=""
