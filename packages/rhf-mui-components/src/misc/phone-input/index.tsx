@@ -90,6 +90,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   disabled,
   phoneInputProps,
   slotProps,
+  onBlur,
   ...rest
 }: RHFPhoneInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -268,6 +269,10 @@ const RHFPhoneInput = <T extends FieldValues>({
               inputRef={ref => {
                 field.ref(ref);
                 inputRef.current = ref;
+              }}
+              onBlur={blurEvent => {
+                field.onBlur();
+                onBlur?.(blurEvent);
               }}
               label={!isLabelAboveFormField
                 ? <FormLabelText label={fieldLabel} required={required} />
