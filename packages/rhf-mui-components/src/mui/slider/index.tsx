@@ -50,6 +50,7 @@ const RHFSlider = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onBlur,
   ...rest
 }: RHFSliderProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -68,7 +69,7 @@ const RHFSlider = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, value, ...otherFieldProps } }) => (
+        render={({ field: { onChange, value, onBlur: rhfOnBlur, ...otherFieldProps } }) => (
           <MuiSlider
             {...otherFieldProps}
             {...rest}
@@ -78,6 +79,10 @@ const RHFSlider = <T extends FieldValues>({
               if (onValueChange) {
                 onValueChange(value, activeThumb, event);
               }
+            }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              onBlur?.(blurEvent);
             }}
           />
         )}

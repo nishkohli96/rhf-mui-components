@@ -104,6 +104,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   textFieldProps,
   slotProps,
   ChipProps,
+  onBlur,
   ...otherAutoCompleteProps
 }: RHFAutocompleteProps<T>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
@@ -131,7 +132,7 @@ const RHFAutocomplete = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
           /**
            * When considering for the case when options is an array of objects,
            * the values would be an array or a single "valueKey" from these options.
@@ -189,6 +190,10 @@ const RHFAutocomplete = <T extends FieldValues>({
                       : newValue;
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}

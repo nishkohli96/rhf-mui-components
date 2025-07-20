@@ -66,7 +66,6 @@ export type SelectProps = Omit<
   | 'onChange'
   | 'value'
   | 'defaultValue'
-  | 'onBlur'
   | 'ref'
 >;
 

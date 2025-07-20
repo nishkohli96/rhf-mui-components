@@ -105,6 +105,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   textFieldProps,
   slotProps,
   ChipProps,
+  onBlur,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteProps<T>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
@@ -188,7 +189,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, ...otherFieldProps } }) => {
+        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
           const selectedOptions = (value ?? [])
             .map(val =>
               options.find(opn =>
@@ -237,6 +238,10 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                     .filter(opn => opn !== valueOfClickedItem);
                   changeFieldState(fieldValue, valueOfClickedItem);
                 }
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}

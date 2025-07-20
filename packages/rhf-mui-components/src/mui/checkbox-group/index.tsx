@@ -52,6 +52,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  onBlur?: (event: React.FocusEvent<HTMLButtonElement, Element>) => void;
 };
 
 const RHFCheckboxGroup = <T extends FieldValues>({
@@ -72,7 +73,8 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   helperText,
   errorMessage,
   hideErrorMessage,
-  formHelperTextProps
+  formHelperTextProps,
+  onBlur,
 }: RHFCheckboxGroupProps<T>) => {
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
@@ -100,7 +102,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange } = field;
+          const { value, onChange, onBlur: rhfOnBlur } = field;
           const handleChange = (
             event: ChangeEvent<HTMLInputElement>,
             checked: boolean
@@ -135,6 +137,10 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                           (value as StringArr) ?? []
                         ).includes(opnValue)}
                         onChange={e => handleChange(e, e.target.checked)}
+                        onBlur={blurEvent => {
+                          rhfOnBlur();
+                          onBlur?.(blurEvent);
+                        }}
                       />
                     }
                     label={`${opnLabel}`}
