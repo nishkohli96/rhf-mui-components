@@ -36,6 +36,8 @@ export type RHFSelectProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: StrNumObjOption[];
+  renderOption?: (option: StrNumObjOption) => ReactNode;
+  shouldDisableOption?: (option: StrNumObjOption) => boolean;
   labelKey?: string;
   valueKey?: string;
   showDefaultOption?: boolean;
@@ -58,6 +60,8 @@ const RHFSelect = <T extends FieldValues>({
   control,
   registerOptions,
   options,
+  renderOption,
+  shouldDisableOption,
   labelKey,
   valueKey,
   showDefaultOption,
@@ -146,8 +150,12 @@ const RHFSelect = <T extends FieldValues>({
                   ? `${option[labelKey ?? '']}`
                   : option;
                 return (
-                  <MenuItem key={opnValue} value={opnValue}>
-                    {opnLabel}
+                  <MenuItem
+                    key={opnValue}
+                    value={opnValue}
+                    disabled={shouldDisableOption?.(option)}
+                  >
+                    {renderOption?.(option) ?? opnLabel}
                   </MenuItem>
                 );
               })}
