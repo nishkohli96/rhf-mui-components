@@ -9,6 +9,9 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   DatePicker as MuiDatePicker,
+  MobileDatePicker,
+  StaticDatePicker,
+  DesktopDatePicker,
   type DatePickerProps,
   type PickerValidDate,
   type DateValidationError,
@@ -16,7 +19,11 @@ import {
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
+import {
+  MuiDateTimePickerView,
+  type FormLabelProps,
+  type FormHelperTextProps,
+} from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
@@ -46,6 +53,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  pickerView?: MuiDateTimePickerView;
 } & DatePickerInputProps;
 
 const RHFDatePicker = <T extends FieldValues>({
@@ -61,6 +69,7 @@ const RHFDatePicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  pickerView = MuiDateTimePickerView.RESPONSIVE,
   ...rest
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -74,6 +83,13 @@ const RHFDatePicker = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
+
+  const PickerComponent = {
+    desktop: DesktopDatePicker,
+    mobile: MobileDatePicker,
+    static: StaticDatePicker,
+    responsive: MuiDatePicker
+  }[pickerView];
 
   return (
     <FormControl error={isError}>
@@ -90,7 +106,7 @@ const RHFDatePicker = <T extends FieldValues>({
           control={control}
           rules={registerOptions}
           render={({ field: { value, onChange, ...fieldProps } }) => (
-            <MuiDatePicker
+            <PickerComponent
               {...rest}
               {...fieldProps}
               value={value ?? null}
@@ -99,11 +115,9 @@ const RHFDatePicker = <T extends FieldValues>({
                 onValueChange?.(newValue, context);
               }}
               label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
               }
             />
           )}

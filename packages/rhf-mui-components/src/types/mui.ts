@@ -122,3 +122,10 @@ export type RHFMuiConfig = {
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
 };
+
+export enum MuiDateTimePickerView {
+  DESKTOP = 'desktop',
+  MOBILE = 'mobile',
+  STATIC = 'static',
+  RESPONSIVE = 'responsive'
+}
