@@ -9,26 +9,52 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   TimePicker as MuiTimePicker,
+  MobileTimePicker,
+  StaticTimePicker,
+  DesktopTimePicker,
   type TimePickerProps,
+  type MobileTimePickerProps,
+  type StaticTimePickerProps,
+  type DesktopTimePickerProps,
   type PickerValidDate,
   type TimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
+import { MuiDateTimePickerView, type FormLabelProps, type FormHelperTextProps } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField
 } from '@/utils';
 
-type TimePickerInputProps = Omit<
-  TimePickerProps<PickerValidDate>,
-  | 'value'
-  | 'onChange'
-  | 'label'
->;
+type ViewSpecificProps =
+  | {
+      pickerView: MuiDateTimePickerView.DESKTOP;
+      pickerProps?: Omit<
+        DesktopTimePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >;
+    }
+  | {
+      pickerView: MuiDateTimePickerView.MOBILE;
+      pickerProps?: Omit<
+        MobileTimePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >;
+    }
+  | {
+      pickerView: MuiDateTimePickerView.STATIC;
+      pickerProps?: Omit<StaticTimePickerProps, 'value' | 'onChange'>;
+    }
+  | {
+      pickerView?: MuiDateTimePickerView.RESPONSIVE;
+      pickerProps?: Omit<
+        TimePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >;
+    };
 
 export type RHFTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -46,7 +72,7 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & TimePickerInputProps;
+} & ViewSpecificProps;
 
 const RHFTimePicker = <T extends FieldValues>({
   fieldName,
@@ -61,7 +87,8 @@ const RHFTimePicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  ...rest
+  pickerView = MuiDateTimePickerView.RESPONSIVE,
+  pickerProps = {},
 }: RHFTimePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
@@ -74,6 +101,13 @@ const RHFTimePicker = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
+
+  const PickerComponent = {
+    desktop: DesktopTimePicker,
+    mobile: MobileTimePicker,
+    static: StaticTimePicker,
+    responsive: MuiTimePicker
+  }[pickerView];
 
   return (
     <FormControl error={isError}>
@@ -90,8 +124,8 @@ const RHFTimePicker = <T extends FieldValues>({
           control={control}
           rules={registerOptions}
           render={({ field: { onChange, value, ...fieldProps } }) => (
-            <MuiTimePicker
-              {...rest}
+            <PickerComponent
+              {...pickerProps}
               {...fieldProps}
               value={value || null}
               onChange={(newValue, context) => {
