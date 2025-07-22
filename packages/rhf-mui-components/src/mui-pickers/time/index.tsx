@@ -29,21 +29,25 @@ import {
   keepLabelAboveFormField
 } from '@/utils';
 
-type DesktopTimePickerProps = Omit<MuiDesktopTimePickerProps<PickerValidDate>,
-        'value' | 'onChange' | 'label'
-      >
+type DesktopTimePickerProps = Omit<
+  MuiDesktopTimePickerProps<PickerValidDate>,
+  'value' | 'onChange' | 'label'
+>;
 
-type MobileTimePickerProps = Omit<MuiMobileTimePickerProps<PickerValidDate>,
-        'value' | 'onChange' | 'label'
-      >
+type MobileTimePickerProps = Omit<
+  MuiMobileTimePickerProps<PickerValidDate>,
+  'value' | 'onChange' | 'label'
+>;
 
-type StaticTimePickerProps = Omit<MuiStaticTimePickerProps,
-        'value' | 'onChange' 
-        >
+type StaticTimePickerProps = Omit<
+  MuiStaticTimePickerProps,
+  'value' | 'onChange'
+>;
 
-type TimePickerProps = Omit<MuiTimePickerProps<PickerValidDate>,
-        'value' | 'onChange' | 'label'
-      >
+type TimePickerProps = Omit<
+  MuiTimePickerProps<PickerValidDate>,
+  'value' | 'onChange' | 'label'
+>;
 
 type ViewSpecificProps =
   | {

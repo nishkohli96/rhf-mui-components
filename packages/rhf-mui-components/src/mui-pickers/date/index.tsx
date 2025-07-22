@@ -41,18 +41,18 @@ type ViewSpecificProps =
         'value' | 'onChange' | 'label'
       >;
     }
-  | {
+    | {
       pickerView: MuiDateTimePickerView.MOBILE;
       pickerProps?: Omit<
         MobileDatePickerProps<PickerValidDate>,
         'value' | 'onChange' | 'label'
       >;
     }
-  | {
+    | {
       pickerView: MuiDateTimePickerView.STATIC;
       pickerProps?: Omit<StaticDatePickerProps, 'value' | 'onChange'>;
     }
-  | {
+    | {
       pickerView?: MuiDateTimePickerView.RESPONSIVE;
       pickerProps?: Omit<
         DatePickerProps<PickerValidDate>,
@@ -137,9 +137,11 @@ const RHFDatePicker = <T extends FieldValues>({
                 onValueChange?.(newValue, context);
               }}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
             />
           )}
