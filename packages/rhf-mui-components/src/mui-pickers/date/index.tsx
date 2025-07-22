@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  DatePicker as MuiDatePicker,
+  DatePicker,
   MobileDatePicker,
   StaticDatePicker,
   DesktopDatePicker,
@@ -110,7 +110,7 @@ const RHFDatePicker = <T extends FieldValues>({
     desktop: DesktopDatePicker,
     mobile: MobileDatePicker,
     static: StaticDatePicker,
-    responsive: MuiDatePicker
+    responsive: DatePicker
   }[pickerView];
 
   return (

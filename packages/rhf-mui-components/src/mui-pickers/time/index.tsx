@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  TimePicker as MuiTimePicker,
+  TimePicker,
   MobileTimePicker,
   StaticTimePicker,
   DesktopTimePicker,
@@ -148,7 +148,7 @@ const RHFTimePicker = <T extends FieldValues>({
               case MuiDateTimePickerView.STATIC:
                 return <StaticTimePicker {...(pickerProps as StaticTimePickerProps)} {...commonProps} />;
               default:
-                return <MuiTimePicker {...(pickerProps as TimePickerProps)} {...commonProps} />;
+                return <TimePicker {...(pickerProps as TimePickerProps)} {...commonProps} />;
             }
           }}
         />
