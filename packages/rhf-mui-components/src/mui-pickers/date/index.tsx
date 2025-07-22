@@ -13,6 +13,9 @@ import {
   StaticDatePicker,
   DesktopDatePicker,
   type DatePickerProps,
+  type DesktopDatePickerProps,
+  type MobileDatePickerProps,
+  type StaticDatePickerProps,
   type PickerValidDate,
   type DateValidationError,
   type PickerChangeHandlerContext
@@ -30,12 +33,32 @@ import {
   keepLabelAboveFormField,
 } from '@/utils';
 
-type DatePickerInputProps = Omit<
-  DatePickerProps<PickerValidDate>,
-  | 'value'
-  | 'onChange'
-  | 'label'
->;
+type ViewSpecificProps =
+  | {
+      pickerView: MuiDateTimePickerView.DESKTOP;
+      pickerProps?: Omit<
+        DesktopDatePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >;
+    }
+  | {
+      pickerView: MuiDateTimePickerView.MOBILE;
+      pickerProps?: Omit<
+        MobileDatePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >;
+    }
+  | {
+      pickerView: MuiDateTimePickerView.STATIC;
+      pickerProps?: Omit<StaticDatePickerProps, 'value' | 'onChange'>;
+    }
+  | {
+      pickerView?: MuiDateTimePickerView.RESPONSIVE;
+      pickerProps?: Omit<
+        DatePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >;
+    };
 
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -53,8 +76,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  pickerView?: MuiDateTimePickerView;
-} & DatePickerInputProps;
+} & ViewSpecificProps;
 
 const RHFDatePicker = <T extends FieldValues>({
   fieldName,
@@ -70,7 +92,7 @@ const RHFDatePicker = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   pickerView = MuiDateTimePickerView.RESPONSIVE,
-  ...rest
+  pickerProps = {},
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
@@ -107,7 +129,7 @@ const RHFDatePicker = <T extends FieldValues>({
           rules={registerOptions}
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <PickerComponent
-              {...rest}
+              {...pickerProps}
               {...fieldProps}
               value={value ?? null}
               onChange={(newValue, context) => {
