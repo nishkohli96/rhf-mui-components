@@ -41,18 +41,18 @@ type ViewSpecificProps =
         'value' | 'onChange' | 'label'
       >;
     }
-    | {
+  | {
       pickerView: MuiDateTimePickerView.MOBILE;
       pickerProps?: Omit<
         MobileDatePickerProps<PickerValidDate>,
         'value' | 'onChange' | 'label'
       >;
     }
-    | {
+  | {
       pickerView: MuiDateTimePickerView.STATIC;
       pickerProps?: Omit<StaticDatePickerProps, 'value' | 'onChange'>;
     }
-    | {
+  | {
       pickerView?: MuiDateTimePickerView.RESPONSIVE;
       pickerProps?: Omit<
         DatePickerProps<PickerValidDate>,

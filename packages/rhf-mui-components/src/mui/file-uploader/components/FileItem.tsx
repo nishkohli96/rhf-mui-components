@@ -5,10 +5,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { getFileSize } from '@/utils';
 
 type FileItemProps = {
-	index: number;
-	file: File;
+  index: number;
+  file: File;
   showFileSize?: boolean;
-	removeFile: (index: number) => void;
+  removeFile: (index: number) => void;
 };
 
 const FileItem = ({
