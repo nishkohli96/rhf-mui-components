@@ -12,10 +12,10 @@ import {
   MobileTimePicker,
   StaticTimePicker,
   DesktopTimePicker,
-  type TimePickerProps,
-  type MobileTimePickerProps,
-  type StaticTimePickerProps,
-  type DesktopTimePickerProps,
+  type TimePickerProps as MuiTimePickerProps,
+  type MobileTimePickerProps as MuiMobileTimePickerProps,
+  type StaticTimePickerProps as MuiStaticTimePickerProps,
+  type DesktopTimePickerProps as MuiDesktopTimePickerProps,
   type PickerValidDate,
   type TimeValidationError,
   type PickerChangeHandlerContext
@@ -29,31 +29,38 @@ import {
   keepLabelAboveFormField
 } from '@/utils';
 
+type DesktopTimePickerProps = Omit<MuiDesktopTimePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >
+
+type MobileTimePickerProps = Omit<MuiMobileTimePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >
+
+type StaticTimePickerProps = Omit<MuiStaticTimePickerProps,
+        'value' | 'onChange' 
+        >
+
+type TimePickerProps = Omit<MuiTimePickerProps<PickerValidDate>,
+        'value' | 'onChange' | 'label'
+      >
+
 type ViewSpecificProps =
   | {
       pickerView: MuiDateTimePickerView.DESKTOP;
-      pickerProps?: Omit<
-        DesktopTimePickerProps<PickerValidDate>,
-        'value' | 'onChange' | 'label'
-      >;
+      pickerProps?: DesktopTimePickerProps;
     }
   | {
       pickerView: MuiDateTimePickerView.MOBILE;
-      pickerProps?: Omit<
-        MobileTimePickerProps<PickerValidDate>,
-        'value' | 'onChange' | 'label'
-      >;
+      pickerProps?: MobileTimePickerProps;
     }
   | {
       pickerView: MuiDateTimePickerView.STATIC;
-      pickerProps?: Omit<StaticTimePickerProps, 'value' | 'onChange'>;
+      pickerProps?: StaticTimePickerProps;
     }
   | {
       pickerView?: MuiDateTimePickerView.RESPONSIVE;
-      pickerProps?: Omit<
-        TimePickerProps<PickerValidDate>,
-        'value' | 'onChange' | 'label'
-      >;
+      pickerProps?: TimePickerProps;
     };
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -91,7 +98,7 @@ const RHFTimePicker = <T extends FieldValues>({
   pickerProps = {},
 }: RHFTimePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  if(!dateAdapter) {
+  if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFTimePicker'));
   }
 
@@ -101,13 +108,6 @@ const RHFTimePicker = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-
-  const PickerComponent = {
-    desktop: DesktopTimePicker,
-    mobile: MobileTimePicker,
-    static: StaticTimePicker,
-    responsive: MuiTimePicker
-  }[pickerView];
 
   return (
     <FormControl error={isError}>
@@ -123,24 +123,30 @@ const RHFTimePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { onChange, value, ...fieldProps } }) => (
-            <PickerComponent
-              {...pickerProps}
-              {...fieldProps}
-              value={value || null}
-              onChange={(newValue, context) => {
+          render={({ field: { onChange, value, ...fieldProps } }) => {
+            const commonProps = {
+              ...fieldProps,
+              value: value ?? null,
+              onChange: (newValue: PickerValidDate, context: PickerChangeHandlerContext<TimeValidationError>) => {
                 onChange(newValue);
                 onValueChange?.(newValue, context);
-              }}
-              label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
-              }
-            />
-          )}
+              },
+              label: !isLabelAboveFormField
+                ? <FormLabelText label={fieldLabel} required={required} />
+                : undefined,
+            };
+
+            switch (pickerView) {
+              case MuiDateTimePickerView.DESKTOP:
+                return <DesktopTimePicker {...(pickerProps as DesktopTimePickerProps)} {...commonProps} />;
+              case MuiDateTimePickerView.MOBILE:
+                return <MobileTimePicker {...(pickerProps as MobileTimePickerProps)} {...commonProps} />;
+              case MuiDateTimePickerView.STATIC:
+                return <StaticTimePicker {...(pickerProps as StaticTimePickerProps)} {...commonProps} />;
+              default:
+                return <MuiTimePicker {...(pickerProps as TimePickerProps)} {...commonProps} />;
+            }
+          }}
         />
       </LocalizationProvider>
       <FormHelperText
