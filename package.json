@@ -47,8 +47,5 @@
     "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
   },
   "packageManager": "pnpm@10.14.0",
-  "license": "MIT",
-  "dependencies": {
-    "rhf-mui-components": "link:../../Library/pnpm/global/5/node_modules/@nish1896/rhf-mui-components"
-  }
+  "license": "MIT"
 }

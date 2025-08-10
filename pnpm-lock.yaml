@@ -10,10 +10,6 @@ overrides:
 importers:
 
   .:
-    dependencies:
-      rhf-mui-components:
-        specifier: link:../../Library/pnpm/global/5/node_modules/@nish1896/rhf-mui-components
-        version: link:../../Library/pnpm/global/5/node_modules/@nish1896/rhf-mui-components
     devDependencies:
       turbo:
         specifier: ^2.5.2
@@ -52,8 +48,8 @@ importers:
         specifier: ^7.23.2
         version: 7.29.3(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(react@18.3.1))(@mui/material@6.4.11(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@7.1.0(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(date-fns@3.6.0)(dayjs@1.11.13)(luxon@3.6.1)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nish1896/rhf-mui-components':
-        specifier: workspace:*
-        version: link:../../packages/rhf-mui-components
+        specifier: link:../../packages/rhf-mui-components/dist
+        version: link:../../packages/rhf-mui-components/dist
       ckeditor5:
         specifier: ^43.0.0
         version: 43.3.1
@@ -11861,7 +11857,7 @@ snapshots:
   '@types/react-router@5.1.20':
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.3.21
+      '@types/react': 19.1.4
 
   '@types/react-transition-group@4.4.12(@types/react@18.3.21)':
     dependencies:

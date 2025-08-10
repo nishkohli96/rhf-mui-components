@@ -25,19 +25,17 @@ echo "Installing Dependencies & Building Package 🛠️"
 pnpm install
 pnpm --filter "$PKG_NAME" run lib
 
-# Link the package globally
-echo "Linking Package Globally... 🔗"
-cd "$PKG_PATH/dist"
-pnpm link
-cd -
+echo "Linking Package @nish1896/rhf-mui-demo workspace. 🔗"
+cd "./apps/rhf-mui-demo"
+pnpm add "../../$PKG_PATH/dist"
 
-# Link to all consuming apps
-CONSUMER_APPS=("apps/rhf-mui-demo")
-for app in "${CONSUMER_APPS[@]}"; do
-  echo "Linking $PKG_NAME in $app..."
-  cd "$app"
-  pnpm link "$PKG_NAME"
-  cd -
-done
+# # Link to all consuming apps
+# CONSUMER_APPS=("apps/rhf-mui-demo")
+# for app in "${CONSUMER_APPS[@]}"; do
+#   echo "Linking $PKG_NAME in $app..."
+#   cd "$app"
+#   pnpm link "$PKG_NAME"
+#   cd -
+# done
 
 echo "✅ Setup Complete! 🎉🎉🎉"
