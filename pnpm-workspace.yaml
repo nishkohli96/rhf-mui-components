@@ -1,3 +1,5 @@
 packages:
   - packages/*
   - apps/*
+overrides:
+  rhf-mui-components: link:../../Library/pnpm/global/5/node_modules/@nish1896/rhf-mui-components
