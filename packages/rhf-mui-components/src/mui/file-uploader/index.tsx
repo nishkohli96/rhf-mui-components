@@ -34,6 +34,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  selectedFiles?: File[];
   showFileSize?: boolean;
   hideFileList?: boolean;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
@@ -60,6 +61,7 @@ const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  selectedFiles = [],
   accept,
   multiple,
   maxFiles,
@@ -106,15 +108,15 @@ const RHFFileUploader = <T extends FieldValues>({
           const { value, onChange, ...otherFieldParams } = field;
 
           const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-            const fileList = event.target.files;
-            if (!fileList || fileList.length === 0) {
+            const newlyUploadedFiles = event.target.files;
+            if (!newlyUploadedFiles || newlyUploadedFiles.length === 0) {
               onChange(null);
               onValueChange?.(null, event);
               return;
             }
 
             const { acceptedFiles, rejectedFiles, errors } = validateFileList(
-              fileList,
+              newlyUploadedFiles,
               accept,
               maxSize,
               maxFiles

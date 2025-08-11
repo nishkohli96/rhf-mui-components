@@ -38,6 +38,7 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
+  shouldDisableOption?: (option: StrObjOption) => boolean;
   onValueChange?: (
     selectedValue: string,
     event: ChangeEvent<HTMLInputElement>,
@@ -62,6 +63,7 @@ const RHFRadioGroup = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
+  shouldDisableOption,
   onValueChange,
   disabled,
   label,
@@ -129,13 +131,15 @@ const RHFRadioGroup = <T extends FieldValues>({
                 const opnLabel = isObject
                   ? `${option[labelKey ?? '']}`
                   : option;
+                const isOptionDisabled = shouldDisableOption?.(option) ?? disabled;
                 return (
                   <FormControlLabel
                     key={idx}
                     control={<Radio {...radioProps} />}
                     value={opnValue}
                     label={opnLabel}
-                    disabled={disabled}
+                    disabled={isOptionDisabled}
+                    aria-disabled={isOptionDisabled}
                     sx={appliedFormControlLabelSx}
                     {...otherFormControlLabelProps}
                   />

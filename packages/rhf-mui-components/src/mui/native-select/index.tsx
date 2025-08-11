@@ -32,6 +32,7 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
+  shouldDisableOption?: (option: StrNumObjOption) => boolean;
   onValueChange?: (
     value: StrNumObjOption,
     event: ChangeEvent<HTMLSelectElement>
@@ -53,6 +54,7 @@ const RHFNativeSelect = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
+  shouldDisableOption,
   onValueChange,
   defaultOptionText,
   showLabelAboveFormField,
@@ -119,8 +121,9 @@ const RHFNativeSelect = <T extends FieldValues>({
               const isObject = isKeyValueOption(option, labelKey, valueKey);
               const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
               const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+              const isOptionDisabled = shouldDisableOption?.(option);
               return (
-                <option key={opnValue} value={opnValue}>
+                <option key={opnValue} value={opnValue} disabled={isOptionDisabled} aria-disabled={isOptionDisabled}>
                   {opnLabel}
                 </option>
               );

@@ -36,6 +36,7 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   options: StrObjOption[];
   labelKey?: string;
   valueKey?: string;
+  shouldDisableOption?: (option: StrObjOption) => boolean;
   onValueChange?: (
     selectedItemValue: string,
     newValue: string[],
@@ -62,6 +63,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   options,
   labelKey,
   valueKey,
+  shouldDisableOption,
   onValueChange,
   disabled,
   label,
@@ -125,6 +127,8 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                 const opnLabel = isObject
                   ? `${option[labelKey ?? '']}`
                   : option;
+                const isOptionChecked = ((value as StringArr) ?? []).includes(opnValue);
+                const isOptionDisabled = shouldDisableOption?.(option);
                 return (
                   <FormControlLabel
                     key={idx}
@@ -133,9 +137,10 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                         {...checkboxProps}
                         name={fieldName}
                         value={opnValue}
-                        checked={(
-                          (value as StringArr) ?? []
-                        ).includes(opnValue)}
+                        checked={isOptionChecked}
+                        aria-checked={isOptionChecked}
+                        disabled={isOptionDisabled}
+                        aria-disabled={isOptionDisabled}
                         onChange={e => handleChange(e, e.target.checked)}
                         onBlur={blurEvent => {
                           rhfOnBlur();
