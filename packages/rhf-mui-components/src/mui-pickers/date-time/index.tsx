@@ -29,32 +29,32 @@ import {
   keepLabelAboveFormField
 } from '@/utils';
 
-type ViewSpecificProps =
-  | {
-      pickerView: MuiDateTimePickerView.DESKTOP;
-      pickerProps?: Omit<
-        DesktopDateTimePickerProps<PickerValidDate>,
+type ViewSpecificProps
+  = | {
+    pickerView: MuiDateTimePickerView.DESKTOP;
+    pickerProps?: Omit<
+      DesktopDateTimePickerProps<PickerValidDate>,
         'value' | 'onChange' | 'label'
-      >;
-    }
+    >;
+  }
   | {
-      pickerView: MuiDateTimePickerView.MOBILE;
-      pickerProps?: Omit<
-        MobileDateTimePickerProps<PickerValidDate>,
+    pickerView: MuiDateTimePickerView.MOBILE;
+    pickerProps?: Omit<
+      MobileDateTimePickerProps<PickerValidDate>,
         'value' | 'onChange' | 'label'
-      >;
-    }
+    >;
+  }
   | {
-      pickerView: MuiDateTimePickerView.STATIC;
-      pickerProps?: Omit<StaticDateTimePickerProps, 'value' | 'onChange'>;
-    }
+    pickerView: MuiDateTimePickerView.STATIC;
+    pickerProps?: Omit<StaticDateTimePickerProps, 'value' | 'onChange'>;
+  }
   | {
-      pickerView?: MuiDateTimePickerView.RESPONSIVE;
-      pickerProps?: Omit<
-        DateTimePickerProps<PickerValidDate>,
+    pickerView?: MuiDateTimePickerView.RESPONSIVE;
+    pickerProps?: Omit<
+      DateTimePickerProps<PickerValidDate>,
         'value' | 'onChange' | 'label'
-      >;
-    };
+    >;
+  };
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;

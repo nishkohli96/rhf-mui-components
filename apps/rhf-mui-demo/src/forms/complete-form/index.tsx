@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { type Path, useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
-import useTheme from '@mui/material/styles/useTheme';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -531,11 +531,11 @@ const CompleteForm = () => {
                   }
                 }}
                 label="Date of Birth"
-                format="DD MMM YYYY"
-                disableFuture
+                // format="DD MMM YYYY"
+                // disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                disabled={areAllFieldsDisabled}
+                // disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.dob?.message}
               />
@@ -552,8 +552,8 @@ const CompleteForm = () => {
                   valueAsDate: true,
                 }}
                 label="Time"
-                ampm={false}
-                disabled={areAllFieldsDisabled}
+                // ampm={false}
+                // disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.time?.message}
               />
@@ -570,8 +570,8 @@ const CompleteForm = () => {
                   valueAsDate: true,
                 }}
                 showLabelAboveFormField
-                ampm={false}
-                disabled={areAllFieldsDisabled}
+                // ampm={false}
+                // disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.dateTime?.message}
               />

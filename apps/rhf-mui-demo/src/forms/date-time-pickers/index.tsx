@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { type Dayjs } from 'dayjs';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
@@ -49,7 +49,7 @@ const DateTimePickersForm = () => {
               <RHFDatePicker
                 fieldName="dob"
                 control={control}
-                disableFuture
+                // disableFuture
                 label="Date of Birth"
                 showLabelAboveFormField
                 required
@@ -62,7 +62,7 @@ const DateTimePickersForm = () => {
                 fieldName="time"
                 control={control}
                 label="Arrival Time"
-                ampm={false}
+                // ampm={false}
                 required
                 errorMessage={errors?.time?.message}
               />
@@ -73,7 +73,7 @@ const DateTimePickersForm = () => {
                 control={control}
                 showLabelAboveFormField
                 label="Date-Time Picker"
-                ampm={false}
+                // ampm={false}
                 required
                 errorMessage={errors?.dateOfJourney?.message}
               />

@@ -49,23 +49,23 @@ type TimePickerProps = Omit<
   'value' | 'onChange' | 'label'
 >;
 
-type ViewSpecificProps =
+type ViewSpecificProps
+  = | {
+    pickerView: MuiDateTimePickerView.DESKTOP;
+    pickerProps?: DesktopTimePickerProps;
+  }
   | {
-      pickerView: MuiDateTimePickerView.DESKTOP;
-      pickerProps?: DesktopTimePickerProps;
-    }
+    pickerView: MuiDateTimePickerView.MOBILE;
+    pickerProps?: MobileTimePickerProps;
+  }
   | {
-      pickerView: MuiDateTimePickerView.MOBILE;
-      pickerProps?: MobileTimePickerProps;
-    }
+    pickerView: MuiDateTimePickerView.STATIC;
+    pickerProps?: StaticTimePickerProps;
+  }
   | {
-      pickerView: MuiDateTimePickerView.STATIC;
-      pickerProps?: StaticTimePickerProps;
-    }
-  | {
-      pickerView?: MuiDateTimePickerView.RESPONSIVE;
-      pickerProps?: TimePickerProps;
-    };
+    pickerView?: MuiDateTimePickerView.RESPONSIVE;
+    pickerProps?: TimePickerProps;
+  };
 
 export type RHFTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;

@@ -81,21 +81,21 @@ export type AutoCompleteTextFieldProps = Omit<
   | 'error'
 >;
 
-export type OmittedAutocompleteProps =
-  | 'freeSolo'
-  | 'fullWidth'
-  | 'renderInput'
-  | 'renderOption'
-  | 'options'
-  | 'value'
-  | 'defaultValue'
-  | 'multiple'
-  | 'onChange'
-  | 'getOptionKey'
-  | 'getOptionLabel'
-  | 'isOptionEqualToValue'
-  | 'autoHighlight'
-  | 'disableCloseOnSelect';
+export type OmittedAutocompleteProps
+  = | 'freeSolo'
+    | 'fullWidth'
+    | 'renderInput'
+    | 'renderOption'
+    | 'options'
+    | 'value'
+    | 'defaultValue'
+    | 'multiple'
+    | 'onChange'
+    | 'getOptionKey'
+    | 'getOptionLabel'
+    | 'isOptionEqualToValue'
+    | 'autoHighlight'
+    | 'disableCloseOnSelect';
 
 export type MuiChipProps = Omit<
   ChipProps,

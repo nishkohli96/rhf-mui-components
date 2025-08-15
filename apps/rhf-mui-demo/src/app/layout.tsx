@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { ToastContainer } from 'react-toastify';
 import {
   defaultPageTitle,

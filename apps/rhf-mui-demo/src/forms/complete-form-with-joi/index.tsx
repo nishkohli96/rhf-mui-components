@@ -3,8 +3,8 @@
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import Grid from '@mui/material/Grid2';
-import useTheme from '@mui/material/styles/useTheme';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -371,11 +371,11 @@ const CompleteFormWithJoi = () => {
                 fieldName="dob"
                 control={control}
                 label="Date of Birth"
-                format="DD MMM YYYY"
-                disableFuture
+                // format="DD MMM YYYY"
+                // disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                disabled={areAllFieldsDisabled}
+                // disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.dob?.message}
               />
@@ -385,8 +385,8 @@ const CompleteFormWithJoi = () => {
                 fieldName="time"
                 control={control}
                 label="Time"
-                ampm={false}
-                disabled={areAllFieldsDisabled}
+                // ampm={false}
+                // disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.time?.message}
               />
@@ -396,8 +396,8 @@ const CompleteFormWithJoi = () => {
                 fieldName="dateTime"
                 control={control}
                 showLabelAboveFormField
-                ampm={false}
-                disabled={areAllFieldsDisabled}
+                // ampm={false}
+                // disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.dateTime?.message}
               />
