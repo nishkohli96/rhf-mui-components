@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,10 +24,22 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@nish1896/rhf-mui-components/*": ["../../packages/rhf-mui-components/dist/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "@nish1896/rhf-mui-components/*": [
+        "../../packages/rhf-mui-components/dist/*"
+      ]
+    },
+    "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../rhf-mui-components unused code/next components/features.ts", "../rhf-mui-components unused code/next components/props-desc.tsx", "../rhf-mui-components unused code/next components/types-desc.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
