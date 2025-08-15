@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
 import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/complete-form'), { ssr: false });
+// const ClientForm = dynamic(() => import('@/forms/complete-form'), { ssr: false });
 
 export const metadata = pageMetadata.completeForm;
 
@@ -16,7 +16,7 @@ const CompleteFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      {/* <ClientForm /> */}
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

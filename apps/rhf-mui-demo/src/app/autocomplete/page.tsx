@@ -1,8 +1,6 @@
-import dynamic from 'next/dynamic';
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
 import { DocsLinks, SourceCodeLinks, pageMetadata } from '@/constants';
-
-const ClientForm = dynamic(() => import('@/forms/autocomplete'), { ssr: false });
+import AutocompleteForm from '@/forms/autocomplete';
 
 export const metadata = pageMetadata.autocomplete;
 
@@ -20,7 +18,7 @@ const MultiSelectDropdownFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      <AutocompleteForm />
       <LinksList links={docsLinks} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

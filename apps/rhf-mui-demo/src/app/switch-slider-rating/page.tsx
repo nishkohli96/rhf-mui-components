@@ -8,8 +8,7 @@ import {
   ValidationLibLinks
 } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/switch-slider-rating-with-superstruct'), { ssr: false });
-
+// const ClientForm = dynamic(() => import('@/forms/switch-slider-rating-with-superstruct'), { ssr: false });
 
 export const metadata = pageMetadata.switchSliderRating;
 
@@ -28,7 +27,7 @@ const SwitchSliderRatingFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      {/* <ClientForm /> */}
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

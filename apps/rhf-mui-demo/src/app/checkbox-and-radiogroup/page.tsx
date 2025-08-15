@@ -8,8 +8,7 @@ import {
   ValidationLibLinks
 } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/checkbox-and-radiogroup-with-zod'), { ssr: false });
-
+// const ClientForm = dynamic(() => import('@/forms/checkbox-and-radiogroup-with-zod'), { ssr: false });
 
 export const metadata = pageMetadata.checkboxAndRadio;
 
@@ -29,7 +28,7 @@ const CheckboxRadioZodFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      {/* <ClientForm /> */}
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

@@ -8,7 +8,7 @@ import {
   ValidationLibLinks
 } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/select-with-class-validator'), { ssr: false });
+// const ClientForm = dynamic(() => import('@/forms/select-with-class-validator'), { ssr: false });
 
 export const metadata = pageMetadata.select;
 
@@ -27,7 +27,7 @@ const SelectWithClassValidatorPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      {/* <ClientForm /> */}
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

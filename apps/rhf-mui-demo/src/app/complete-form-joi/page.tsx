@@ -8,7 +8,7 @@ import {
   ValidationLibLinks
 } from '@/constants';
 
-const ClientForm = dynamic(() => import('@/forms/complete-form-with-joi'), { ssr: false });
+// const ClientForm = dynamic(() => import('@/forms/complete-form-with-joi'), { ssr: false });
 
 export const metadata = pageMetadata.completeFormJoi;
 
@@ -22,7 +22,7 @@ const CompleteFormWithJoiPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      {/* <ClientForm /> */}
       <LinksList links={[...links, ValidationLibLinks.joi]} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
