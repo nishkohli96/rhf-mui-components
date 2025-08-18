@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A suite of 20+ reusable Material UI components for React Hook Form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
@@ -24,7 +24,7 @@
     "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
-	},
+  },
   "exports": {
     "./package.json": {
       "import": "./package.json",
@@ -73,14 +73,30 @@
   },
   "typesVersions": {
     "*": {
-      "./mui": ["./mui/index.d.ts"],
-      "./mui/*": ["./mui/*/index.d.ts"],
-      "./mui-pickers": ["./mui-pickers/index.d.ts"],
-      "./mui-pickers/*": ["./mui-pickers/*/index.d.ts"],
-      "./misc": ["./misc/index.d.ts"],
-      "./misc/*": ["./misc/*/index.d.ts"],
-      "./config": ["./config/index.d.ts"],
-      "./form-helpers": ["./form-helpers/index.d.ts"]
+      "./mui": [
+        "./mui/index.d.ts"
+      ],
+      "./mui/*": [
+        "./mui/*/index.d.ts"
+      ],
+      "./mui-pickers": [
+        "./mui-pickers/index.d.ts"
+      ],
+      "./mui-pickers/*": [
+        "./mui-pickers/*/index.d.ts"
+      ],
+      "./misc": [
+        "./misc/index.d.ts"
+      ],
+      "./misc/*": [
+        "./misc/*/index.d.ts"
+      ],
+      "./config": [
+        "./config/index.d.ts"
+      ],
+      "./form-helpers": [
+        "./form-helpers/index.d.ts"
+      ]
     }
   },
   "keywords": [

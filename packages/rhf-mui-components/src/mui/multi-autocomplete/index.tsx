@@ -113,6 +113,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   const [selectedValues, setSelectedValues] = useState<StringArr>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx }
     = useContext(RHFMuiConfigContext);
+  const shouldHideSelectAllOptions = options.length === 0 || options.length === 1;
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -134,10 +135,12 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   }, [selectedValues, options.length]);
 
 
-  const autoCompleteOptions: StrObjOption[] = useMemo(
-    () => [selectAllText, ...options],
-    [options, selectAllText]
-  );
+  const autoCompleteOptions: StrObjOption[] = useMemo(() => {
+    if (shouldHideSelectAllOptions) {
+      return options;
+    }
+    return [selectAllText, ...options];
+  }, [options, selectAllText]);
 
   const isSelectAllOption = useCallback((option: StrObjOption) => {
     return option === selectAllText;
@@ -265,6 +268,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 return (
                   <TextField
                     {...textFieldProps}
+                    {...(selectedOptions.length > 0 && {
+                      placeholder: undefined
+                    })}
                     {...params}
                     label={
                       !isLabelAboveFormField
@@ -274,13 +280,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                         : undefined
                     }
                     error={isError}
-                    {...(isAboveMuiV5
-                      && {
-                        slotProps: {
-                          htmlInput: textFieldInputProps,
-                        }
+                    {...(isAboveMuiV5 && {
+                      slotProps: {
+                        htmlInput: textFieldInputProps
                       }
-                    )}
+                    })}
                   />
                 );
               }}
