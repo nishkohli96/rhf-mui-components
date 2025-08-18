@@ -126,6 +126,7 @@ const AutocompleteForm = () => {
               control={control}
               options={Object.values(Colors)}
               label="Which colors do you like ?"
+              textFieldProps={{ placeholder: 'Select colors' }}
               registerOptions={{
                 required: {
                   value: true,
