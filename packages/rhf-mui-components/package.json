@@ -24,7 +24,7 @@
     "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
-	},
+  },
   "exports": {
     "./package.json": {
       "import": "./package.json",
@@ -73,14 +73,30 @@
   },
   "typesVersions": {
     "*": {
-      "./mui": ["./mui/index.d.ts"],
-      "./mui/*": ["./mui/*/index.d.ts"],
-      "./mui-pickers": ["./mui-pickers/index.d.ts"],
-      "./mui-pickers/*": ["./mui-pickers/*/index.d.ts"],
-      "./misc": ["./misc/index.d.ts"],
-      "./misc/*": ["./misc/*/index.d.ts"],
-      "./config": ["./config/index.d.ts"],
-      "./form-helpers": ["./form-helpers/index.d.ts"]
+      "./mui": [
+        "./mui/index.d.ts"
+      ],
+      "./mui/*": [
+        "./mui/*/index.d.ts"
+      ],
+      "./mui-pickers": [
+        "./mui-pickers/index.d.ts"
+      ],
+      "./mui-pickers/*": [
+        "./mui-pickers/*/index.d.ts"
+      ],
+      "./misc": [
+        "./misc/index.d.ts"
+      ],
+      "./misc/*": [
+        "./misc/*/index.d.ts"
+      ],
+      "./config": [
+        "./config/index.d.ts"
+      ],
+      "./form-helpers": [
+        "./form-helpers/index.d.ts"
+      ]
     }
   },
   "keywords": [
