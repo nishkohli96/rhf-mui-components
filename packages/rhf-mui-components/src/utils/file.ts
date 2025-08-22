@@ -48,7 +48,7 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
 }
 
 export function validateFileList(
-  fileList: FileList,
+  fileList: FileList | File[],
   accept?: string,
   maxSize?: number,
   maxFiles?: number

@@ -34,7 +34,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
-  selectedFiles?: File[];
+  uploadedFiles?: File[];
   showFileSize?: boolean;
   hideFileList?: boolean;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
@@ -61,7 +61,7 @@ const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  selectedFiles = [],
+  uploadedFiles = [],
   accept,
   multiple,
   maxFiles,
@@ -114,9 +114,9 @@ const RHFFileUploader = <T extends FieldValues>({
               onValueChange?.(null, event);
               return;
             }
-
+            const allUploadedFiles = [...uploadedFiles, ...Array.from(newlyUploadedFiles)];
             const { acceptedFiles, rejectedFiles, errors } = validateFileList(
-              newlyUploadedFiles,
+              allUploadedFiles,
               accept,
               maxSize,
               maxFiles
@@ -137,7 +137,15 @@ const RHFFileUploader = <T extends FieldValues>({
                 : null
               : acceptedFiles[0] ?? null;
             onChange(selectedFiles);
-            onValueChange?.(selectedFiles, event);
+            /**
+             * For onValueChange, I will be sending the newly uploaded files,
+             * which are valid, as per the validation rules defined by the developer.
+             */
+            if(uploadedFiles.length > 0) {
+              onValueChange?.(acceptedFiles.slice(uploadedFiles.length - 1), event);
+            } else {
+              onValueChange?.(acceptedFiles, event);
+            }
           };
 
           const removeFile = (index: number) => {
