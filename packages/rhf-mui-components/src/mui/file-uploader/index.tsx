@@ -1,5 +1,6 @@
 import {
   useContext,
+  useState,
   Fragment,
   type ReactNode,
   type ChangeEvent
@@ -34,7 +35,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
-  selectedFiles?: File[];
+  uploadedFiles?: File[];
   showFileSize?: boolean;
   hideFileList?: boolean;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
@@ -55,13 +56,14 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   fullWidth?: boolean;
+  enableDragAndDrop?: boolean;
 } & FileInputProps;
 
 const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  selectedFiles = [],
+  uploadedFiles = [],
   accept,
   multiple,
   maxFiles,
@@ -81,8 +83,10 @@ const RHFFileUploader = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   disabled,
-  fullWidth = false
+  fullWidth = false,
+  enableDragAndDrop = true,
 }: RHFFileUploaderProps<T>) => {
+  const [isDragging, setIsDragging] = useState(false);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -90,6 +94,7 @@ const RHFFileUploader = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const DropZoneWrapper = enableDragAndDrop ? Box : Fragment;
 
   return (
     <FormControl fullWidth={fullWidth} error={isError}>
@@ -107,37 +112,65 @@ const RHFFileUploader = <T extends FieldValues>({
         render={({ field }) => {
           const { value, onChange, ...otherFieldParams } = field;
 
-          const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-            const newlyUploadedFiles = event.target.files;
-            if (!newlyUploadedFiles || newlyUploadedFiles.length === 0) {
+          const processFiles = (
+            files: FileList | File[] | null,
+            event: ChangeEvent<HTMLInputElement>
+          ) => {
+            if (!files || files.length === 0) {
               onChange(null);
               onValueChange?.(null, event);
               return;
             }
-
+            const allUploadedFiles = [...uploadedFiles, ...Array.from(files)];
             const { acceptedFiles, rejectedFiles, errors } = validateFileList(
-              newlyUploadedFiles,
+              allUploadedFiles,
               accept,
               maxSize,
               maxFiles
             );
-
-            if (
-              errors
-              && errors.length > 0
-              && rejectedFiles
-              && rejectedFiles.length > 0
-            ) {
+            if (errors?.length && rejectedFiles?.length) {
               onUploadError?.(errors, rejectedFiles);
             }
-
             const selectedFiles = multiple
               ? acceptedFiles.length > 0
                 ? acceptedFiles
                 : null
               : acceptedFiles[0] ?? null;
             onChange(selectedFiles);
-            onValueChange?.(selectedFiles, event);
+
+            /**
+             * For onValueChange, I will be sending the newly uploaded files,
+             * which are valid, as per the validation rules defined by the developer.
+             */
+            if(uploadedFiles.length > 0) {
+              onValueChange?.(acceptedFiles.slice(uploadedFiles.length - 1), event);
+            } else {
+              onValueChange?.(acceptedFiles, event);
+            }
+          };
+
+          const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+            processFiles(event.target.files, event);
+          };
+
+          const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+            event.preventDefault();
+            setIsDragging(false);
+            if (disabled) {
+              return;
+            }
+            processFiles(event.dataTransfer.files, event);
+          };
+
+          const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+            event.preventDefault();
+            if (!disabled) {
+              setIsDragging(true);
+            }
+          };
+
+          const handleDragLeave = () => {
+            setIsDragging(false);
           };
 
           const removeFile = (index: number) => {
@@ -151,35 +184,55 @@ const RHFFileUploader = <T extends FieldValues>({
 
           return (
             <Fragment>
-              {renderUploadButton
-                ? (
-                  renderUploadButton(
-                    <HiddenInput
-                      type="file"
-                      accept={accept}
-                      onChange={handleFileChange}
-                      multiple={multiple}
-                      disabled={disabled}
-                      {...otherFieldParams}
-                    />
+              <DropZoneWrapper
+                onDragOver={enableDragAndDrop ? handleDragOver : undefined}
+                onDragLeave={enableDragAndDrop ? handleDragLeave : undefined}
+                onDrop={enableDragAndDrop ? handleDrop : undefined}
+                sx={
+                  enableDragAndDrop
+                    ? {
+                      border: '2px dashed',
+                      borderColor: isDragging ? 'primary.main' : 'grey.400',
+                      borderRadius: 2,
+                      p: 2,
+                      textAlign: 'center',
+                      transition: 'border-color 0.2s ease-in-out',
+                      mb: 2,
+                      cursor: disabled ? 'not-allowed' : 'pointer',
+                    }
+                    : undefined
+                }
+              >
+                {renderUploadButton
+                  ? (
+                    renderUploadButton(
+                      <HiddenInput
+                        type="file"
+                        accept={accept}
+                        onChange={handleFileChange}
+                        multiple={multiple}
+                        disabled={disabled}
+                        {...otherFieldParams}
+                      />
+                    )
                   )
-                )
-                : (
-                  <UploadButton
-                    label={fieldLabel}
-                    fieldName={fieldName}
-                    disabled={disabled}
-                  >
-                    <HiddenInput
-                      type="file"
-                      accept={accept}
-                      onChange={handleFileChange}
-                      multiple={multiple}
+                  : (
+                    <UploadButton
+                      label={fieldLabel}
+                      fieldName={fieldName}
                       disabled={disabled}
-                      {...otherFieldParams}
-                    />
-                  </UploadButton>
-                )}
+                    >
+                      <HiddenInput
+                        type="file"
+                        accept={accept}
+                        onChange={handleFileChange}
+                        multiple={multiple}
+                        disabled={disabled}
+                        {...otherFieldParams}
+                      />
+                    </UploadButton>
+                  )}
+              </DropZoneWrapper>
               <FormHelperText
                 error={isError}
                 errorMessage={errorMessage}

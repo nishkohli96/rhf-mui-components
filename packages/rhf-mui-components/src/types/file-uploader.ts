@@ -1,6 +1,7 @@
 export type FileInputProps = {
   accept?: string;
   multiple?: boolean;
+  /* in bytes */
   maxSize?: number;
   disabled?: boolean;
   maxFiles?: number;
