@@ -6,7 +6,10 @@ import { type Dayjs } from 'dayjs';
 import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
-import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
+import {
+  RHFDatePicker,
+  RHFMobileDatePicker
+} from '@nish1896/rhf-mui-components/mui-pickers/date';
 import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 import {
@@ -21,6 +24,7 @@ import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type FormSchema = {
   dob: Dayjs;
+  dobFather: Dayjs;
   time: Dayjs;
   dateOfJourney: Dayjs;
 };
@@ -49,9 +53,19 @@ const DateTimePickersForm = () => {
               <RHFDatePicker
                 fieldName="dob"
                 control={control}
-                // disableFuture
+                disableFuture
                 label="Date of Birth"
                 showLabelAboveFormField
+                required
+                errorMessage={errors?.dob?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="MobileDatePicker with disabled future" />
+              <RHFMobileDatePicker
+                fieldName="dobFather"
+                control={control}
+                label="Father's Date of Birth"
                 required
                 errorMessage={errors?.dob?.message}
               />

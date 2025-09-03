@@ -1,15 +1,13 @@
-import RHFDatePicker, { type RHFDatePickerProps } from './date';
+export * from './date';
 import RHFDateTimePicker, { type RHFDateTimePickerProps } from './date-time';
 import RHFTimePicker, { type RHFTimePickerProps } from './time';
 
 export {
-  RHFDatePicker,
   RHFDateTimePicker,
   RHFTimePicker
 };
 
 export type {
-  RHFDatePickerProps,
   RHFTimePickerProps,
   RHFDateTimePickerProps
 };
