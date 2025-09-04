@@ -31,6 +31,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -44,6 +45,7 @@ const RHFTextField = <T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   required,
   helperText,
@@ -64,36 +66,41 @@ const RHFTextField = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={formLabelProps}
-      />
+      {hideLabel ? <></> : (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          formLabelProps={formLabelProps}
+        />
+      )}
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+          const {
+            value,
+            onChange,
+            onBlur: rhfOnBlur,
+            ...otherFieldParams
+          } = field;
           return (
             <MuiTextField
               id={fieldName}
               autoComplete={autoComplete}
               label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !hideLabel && !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
               }
               value={value ?? ''}
-              onChange={event => {
+              onChange={(event) => {
                 onChange(event);
                 onValueChange?.(event.target.value, event);
               }}
-              onBlur={blurEvent => {
+              onBlur={(blurEvent) => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
