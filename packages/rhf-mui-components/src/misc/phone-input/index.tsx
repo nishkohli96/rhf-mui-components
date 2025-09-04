@@ -29,7 +29,13 @@ import {
   type UsePhoneInputConfig
 } from 'react-international-phone';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue
+} from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 import 'react-international-phone/style.css';
@@ -91,6 +97,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   phoneInputProps,
   slotProps,
   onBlur,
+  autoComplete,
   ...rest
 }: RHFPhoneInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -260,7 +267,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               {...field}
               {...rest}
               value={inputValue}
-              autoComplete={fieldName}
+              autoComplete={autoComplete ?? defaultAutocompleteValue}
               type="tel"
               onChange={e => {
                 handlePhoneValueChange(e);

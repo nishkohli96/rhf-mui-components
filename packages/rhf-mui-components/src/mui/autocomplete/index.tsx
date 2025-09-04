@@ -22,8 +22,9 @@ import {
   FormControl,
   FormLabel,
   FormLabelText,
-  FormHelperText
-} from '@/mui/common';
+  FormHelperText,
+  defaultAutocompleteValue,
+} from '@/common';
 import type {
   FormLabelProps,
   FormHelperTextProps,
@@ -209,12 +210,15 @@ const RHFAutocomplete = <T extends FieldValues>({
               renderInput={params => {
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete: fieldName
+                  autoComplete: textFieldProps?.autoComplete ?? defaultAutocompleteValue
                 };
                 return (
                   <TextField
                     {...textFieldProps}
                     {...params}
+                    autoComplete={
+                      textFieldProps?.autoComplete ?? defaultAutocompleteValue
+                    }
                     label={
                       !isLabelAboveFormField
                         ? (
@@ -231,8 +235,7 @@ const RHFAutocomplete = <T extends FieldValues>({
                       }
                       : {
                         inputProps: textFieldInputProps
-                      }
-                    )}
+                      })}
                   />
                 );
               }}

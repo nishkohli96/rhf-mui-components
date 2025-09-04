@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText
-} from '@/mui/common';
+} from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 

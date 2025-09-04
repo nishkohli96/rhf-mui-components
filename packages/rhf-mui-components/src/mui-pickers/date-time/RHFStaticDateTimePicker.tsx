@@ -19,7 +19,7 @@ import {
   FormControl,
   FormLabel,
   FormHelperText
-} from '@/mui/common';
+} from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import {
   fieldNameToLabel,

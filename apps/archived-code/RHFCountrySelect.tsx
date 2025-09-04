@@ -17,7 +17,7 @@ import MuiSelect, {
 } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
 import { CountryDetails } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 import { countryList } from '../../packages/rhf-mui-components/src/mui/country-select/countries';

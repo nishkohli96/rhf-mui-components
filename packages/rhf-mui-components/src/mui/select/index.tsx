@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText
-} from '@/mui/common';
+} from '@/common';
 import type {
   FormLabelProps,
   FormHelperTextProps,

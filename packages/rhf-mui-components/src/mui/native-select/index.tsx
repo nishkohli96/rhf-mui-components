@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
 import type {
   FormHelperTextProps,
   FormLabelProps,
@@ -67,6 +67,7 @@ const RHFNativeSelect = <T extends FieldValues>({
   formHelperTextProps,
   sx,
   onBlur,
+  autoComplete,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
@@ -92,6 +93,7 @@ const RHFNativeSelect = <T extends FieldValues>({
           <NativeSelect
             {...otherNativeSelectProps}
             {...rest}
+            autoComplete={autoComplete ?? defaultAutocompleteValue}
             value={value ?? ''}
             inputProps={{
               name: fieldName,

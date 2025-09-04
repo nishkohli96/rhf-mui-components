@@ -19,7 +19,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue
+} from '@/common';
 import type {
   FormLabelProps,
   FormControlLabelProps,
@@ -263,7 +269,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               renderInput={params => {
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete: fieldName
+                  autoComplete: textFieldProps?.autoComplete ?? defaultAutocompleteValue
                 };
                 return (
                   <TextField
@@ -272,6 +278,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                       placeholder: undefined
                     })}
                     {...params}
+                    autoComplete={
+                      textFieldProps?.autoComplete ?? defaultAutocompleteValue
+                    }
                     label={
                       !isLabelAboveFormField
                         ? (
