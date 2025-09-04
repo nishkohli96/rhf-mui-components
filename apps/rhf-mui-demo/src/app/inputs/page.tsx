@@ -1,8 +1,6 @@
-import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
-
-// const ClientForm = dynamic(() => import('@/forms/inputs-with-register-options'), { ssr: false });
+import InputsWithRegisterForm from '@/forms/inputs-with-register-options';
 
 export const metadata = pageMetadata.inputs;
 
@@ -23,7 +21,7 @@ const TextFieldPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      {/* <ClientForm /> */}
+      <InputsWithRegisterForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

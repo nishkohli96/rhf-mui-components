@@ -152,7 +152,7 @@ const RHFFileUploader = <T extends FieldValues>({
           const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
             processFiles(event.target.files, event);
           };
-
+          // @ts-ignore
           const handleDrop = (event: DragEvent<HTMLDivElement>) => {
             event.preventDefault();
             setIsDragging(false);
@@ -162,6 +162,7 @@ const RHFFileUploader = <T extends FieldValues>({
             processFiles(event.dataTransfer.files, event);
           };
 
+          // @ts-ignore
           const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
             event.preventDefault();
             if (!disabled) {

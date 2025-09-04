@@ -10,8 +10,8 @@ import {
   RHFDatePicker,
   RHFMobileDatePicker
 } from '@nish1896/rhf-mui-components/mui-pickers/date';
-import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
-import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import { RHFTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/time';
+import { RHFDateTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 import {
   FormContainer,
   FormState,
@@ -61,13 +61,13 @@ const DateTimePickersForm = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="MobileDatePicker with disabled future" />
+              <FieldVariantInfo title="MobileDatePicker" />
               <RHFMobileDatePicker
                 fieldName="dobFather"
                 control={control}
                 label="Father's Date of Birth"
                 required
-                errorMessage={errors?.dob?.message}
+                errorMessage={errors?.dobFather?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -76,7 +76,7 @@ const DateTimePickersForm = () => {
                 fieldName="time"
                 control={control}
                 label="Arrival Time"
-                // ampm={false}
+                ampm={false}
                 required
                 errorMessage={errors?.time?.message}
               />
@@ -87,7 +87,7 @@ const DateTimePickersForm = () => {
                 control={control}
                 showLabelAboveFormField
                 label="Date-Time Picker"
-                // ampm={false}
+                ampm={false}
                 required
                 errorMessage={errors?.dateOfJourney?.message}
               />

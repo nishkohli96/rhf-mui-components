@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
@@ -7,8 +6,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-
-// const ClientForm = dynamic(() => import('@/forms/switch-slider-rating-with-superstruct'), { ssr: false });
+import SwitchSliderRatingFormWithSuperstruct from '@/forms/switch-slider-rating-with-superstruct';
 
 export const metadata = pageMetadata.switchSliderRating;
 
@@ -27,7 +25,7 @@ const SwitchSliderRatingFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      {/* <ClientForm /> */}
+      <SwitchSliderRatingFormWithSuperstruct />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
@@ -7,8 +6,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-
-// const ClientForm = dynamic(() => import('@/forms/select-with-class-validator'), { ssr: false });
+import SelectFormWithClassValidator from '@/forms/select-with-class-validator';
 
 export const metadata = pageMetadata.select;
 
@@ -27,7 +25,7 @@ const SelectWithClassValidatorPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      {/* <ClientForm /> */}
+      <SelectFormWithClassValidator />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

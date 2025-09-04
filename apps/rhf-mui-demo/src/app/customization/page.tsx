@@ -7,8 +7,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-
-// const ClientForm = dynamic(() => import('@/forms/styled-form-with-reusable-component'), { ssr: false });
+import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component';
 
 export const metadata = pageMetadata.customization;
 
@@ -27,7 +26,7 @@ const CustomizationPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
-      {/* <ClientForm /> */}
+      <StyledReusableComponentForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
