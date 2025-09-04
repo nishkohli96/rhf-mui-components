@@ -38,7 +38,8 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isAboveMuiV5
+  isAboveMuiV5,
+  isMuiV7AndAbove
 } from '@/utils';
 
 type OmittedAutocompleteProps = Omit<

@@ -3,7 +3,7 @@
  * https://react-international-phone.vercel.app/docs/Advanced%20Usage/useWithUiLibs
  */
 
-import { useContext, type ReactNode } from 'react';
+import { useContext, useMemo, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -155,6 +155,94 @@ const RHFPhoneInput = <T extends FieldValues>({
       forceDialCode: hideDropdown ?? forceDialCode
     });
 
+  const startAdornment = useMemo(
+    () => (
+      <InputAdornment
+        position="start"
+        style={{ marginRight: '2px', marginLeft: '-8px' }}
+      >
+        <Select
+          MenuProps={{
+            style: {
+              height: '300px',
+              width: '360px',
+              top: '10px',
+              left: '-34px'
+            },
+            transformOrigin: {
+              vertical: 'top',
+              horizontal: 'left'
+            }
+          }}
+          sx={{
+            width: 'max-content',
+            fieldset: { display: 'none' },
+            '&.Mui-focused:has(div[aria-expanded="false"])': {
+              fieldset: { display: 'block' }
+            },
+            '.MuiSelect-select': {
+              padding: '8px',
+              paddingRight: '24px !important'
+            },
+            svg: { right: 0 }
+          }}
+          value={country.iso2}
+          disabled={disabled || hideDropdown}
+          onChange={e => setCountry(e.target.value as CountryIso2)}
+          renderValue={value => (
+            <FlagImage iso2={value} style={{ display: 'flex' }} />
+          )}
+        >
+          {countriesToListAtTop.map(c => {
+            const countryInfo = parseCountry(c);
+            return (
+              <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                <FlagImage
+                  iso2={countryInfo.iso2}
+                  style={{ marginRight: '8px' }}
+                />
+                <Typography marginRight="8px">
+                  {countryInfo.name}
+                </Typography>
+                <Typography color="gray">
+                  +
+                  {countryInfo.dialCode}
+                </Typography>
+              </MenuItem>
+            );
+          })}
+          {countriesToListAtTop.length > 0 && <Divider />}
+          {countriesToList.map(c => {
+            const countryInfo = parseCountry(c);
+            return (
+              <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                <FlagImage
+                  iso2={countryInfo.iso2}
+                  style={{ marginRight: '8px' }}
+                />
+                <Typography marginRight="8px">
+                  {countryInfo.name}
+                </Typography>
+                <Typography color="gray">
+                  +
+                  {countryInfo.dialCode}
+                </Typography>
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </InputAdornment>
+    ),
+    [
+      country.iso2,
+      disabled,
+      hideDropdown,
+      countriesToList,
+      countriesToListAtTop,
+      setCountry
+    ]
+  );
+
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -170,97 +258,6 @@ const RHFPhoneInput = <T extends FieldValues>({
         rules={registerOptions}
         defaultValue={inputValue as PathValue<T, Path<T>>}
         render={({ field }) => {
-          const startAdornment = (
-            <InputAdornment
-              position="start"
-              style={{ marginRight: '2px', marginLeft: '-8px' }}
-            >
-              <Select
-                MenuProps={{
-                  style: {
-                    height: '300px',
-                    width: '360px',
-                    top: '10px',
-                    left: '-34px'
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'left'
-                  }
-                }}
-                sx={{
-                  width: 'max-content',
-                  fieldset: {
-                    display: 'none'
-                  },
-                  '&.Mui-focused:has(div[aria-expanded="false"])': {
-                    fieldset: {
-                      display: 'block'
-                    }
-                  },
-                  '.MuiSelect-select': {
-                    padding: '8px',
-                    paddingRight: '24px !important'
-                  },
-                  svg: {
-                    right: 0
-                  }
-                }}
-                value={country.iso2}
-                disabled={disabled || hideDropdown}
-                onChange={e => {
-                  setCountry(e.target.value as CountryIso2);
-                }}
-                renderValue={value => (
-                  <FlagImage iso2={value} style={{ display: 'flex' }} />
-                )}
-              >
-                {countriesToListAtTop.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem
-                      key={countryInfo.iso2}
-                      value={countryInfo.iso2}
-                    >
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-                {countriesToListAtTop.length > 0 && <Divider />}
-                {countriesToList.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem
-                      key={countryInfo.iso2}
-                      value={countryInfo.iso2}
-                    >
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </InputAdornment>
-          );
 
           return (
             <TextField
