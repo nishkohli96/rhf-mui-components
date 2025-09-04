@@ -97,7 +97,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   phoneInputProps,
   slotProps,
   onBlur,
-  autoComplete,
+  autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFPhoneInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -267,7 +267,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               {...field}
               {...rest}
               value={inputValue}
-              autoComplete={autoComplete ?? defaultAutocompleteValue}
+              autoComplete={autoComplete}
               type="tel"
               onChange={e => {
                 handlePhoneValueChange(e);

@@ -18,7 +18,13 @@ import TextField from '@mui/material/TextField';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue
+} from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
@@ -62,6 +68,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   formHelperTextProps,
   slotProps,
   onBlur,
+  autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -112,7 +119,7 @@ const RHFPasswordInput = <T extends FieldValues>({
           return (
             <TextField
               id={fieldName}
-              autoComplete={fieldName}
+              autoComplete={autoComplete}
               type={showPassword ? 'text' : 'password'}
               label={
                 !isLabelAboveFormField

@@ -267,20 +267,22 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 return option === value;
               }}
               renderInput={params => {
+                const {
+                  autoComplete = defaultAutocompleteValue,
+                  ...otherTextFieldProps
+                } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete: textFieldProps?.autoComplete ?? defaultAutocompleteValue
+                  autoComplete,
                 };
                 return (
                   <TextField
-                    {...textFieldProps}
+                    {...otherTextFieldProps}
                     {...(selectedOptions.length > 0 && {
                       placeholder: undefined
                     })}
                     {...params}
-                    autoComplete={
-                      textFieldProps?.autoComplete ?? defaultAutocompleteValue
-                    }
+                    autoComplete={autoComplete}
                     label={
                       !isLabelAboveFormField
                         ? (

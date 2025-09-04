@@ -208,17 +208,19 @@ const RHFAutocomplete = <T extends FieldValues>({
                 return option === value;
               }}
               renderInput={params => {
+                const {
+                  autoComplete = defaultAutocompleteValue,
+                  ...otherTextFieldProps
+                } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete: textFieldProps?.autoComplete ?? defaultAutocompleteValue
+                  autoComplete,
                 };
                 return (
                   <TextField
-                    {...textFieldProps}
+                    {...otherTextFieldProps}
                     {...params}
-                    autoComplete={
-                      textFieldProps?.autoComplete ?? defaultAutocompleteValue
-                    }
+                    autoComplete={autoComplete}
                     label={
                       !isLabelAboveFormField
                         ? (

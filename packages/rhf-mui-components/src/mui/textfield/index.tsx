@@ -8,8 +8,18 @@ import {
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue
+} from '@/common';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  TextFieldProps
+} from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
@@ -41,6 +51,7 @@ const RHFTextField = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -69,7 +80,7 @@ const RHFTextField = <T extends FieldValues>({
           return (
             <MuiTextField
               id={fieldName}
-              autoComplete={fieldName}
+              autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
                   ? (

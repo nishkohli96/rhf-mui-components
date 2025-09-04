@@ -22,10 +22,19 @@ import {
   FormControl,
   FormLabel,
   FormLabelText,
-  FormHelperText
+  FormHelperText,
+  defaultAutocompleteValue
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  MuiChipProps
+} from '@/types';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  isAboveMuiV5
+} from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -77,6 +86,7 @@ const RHFTagsInput = <T extends FieldValues>({
   getLimitTagsText,
   slotProps,
   onBlur,
+  autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
@@ -226,7 +236,7 @@ const RHFTagsInput = <T extends FieldValues>({
 
           return (
             <MuiTextField
-              autoComplete={fieldName}
+              autoComplete={autoComplete}
               variant={variant}
               label={
                 !isLabelAboveFormField

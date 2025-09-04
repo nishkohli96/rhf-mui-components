@@ -67,7 +67,7 @@ const RHFNativeSelect = <T extends FieldValues>({
   formHelperTextProps,
   sx,
   onBlur,
-  autoComplete,
+  autoComplete = defaultAutocompleteValue,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
@@ -93,7 +93,7 @@ const RHFNativeSelect = <T extends FieldValues>({
           <NativeSelect
             {...otherNativeSelectProps}
             {...rest}
-            autoComplete={autoComplete ?? defaultAutocompleteValue}
+            autoComplete={autoComplete}
             value={value ?? ''}
             inputProps={{
               name: fieldName,
