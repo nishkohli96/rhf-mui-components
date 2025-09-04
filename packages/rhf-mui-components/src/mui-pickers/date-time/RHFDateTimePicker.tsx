@@ -8,52 +8,39 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  MobileDatePicker,
-  type MobileDatePickerProps,
+  DateTimePicker,
+  type DateTimePickerProps,
   type PickerValidDate,
-  type DateValidationError,
+  type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText
-} from '@/mui/common';
+import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
-  keepLabelAboveFormField,
+  keepLabelAboveFormField
 } from '@/utils';
 
-type MobileDatePickerInputProps = Omit<
-  MobileDatePickerProps<PickerValidDate>,
-  | 'value'
-  | 'onChange'
-  | 'label'
->;
-
-export type RHFMobileDatePickerProps<T extends FieldValues> = {
+export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   onValueChange?: (
     newValue: PickerValidDate,
-    context: PickerChangeHandlerContext<DateValidationError>
+    context: PickerChangeHandlerContext<DateTimeValidationError>
   ) => void;
-  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & MobileDatePickerInputProps;
+} & Omit<DateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
-const RHFMobileDatePicker = <T extends FieldValues>({
+const RHFDateTimePicker = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -67,10 +54,10 @@ const RHFMobileDatePicker = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ...rest
-}: RHFMobileDatePickerProps<T>) => {
+}: RHFDateTimePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
-    throw new Error(generateDateAdapterErrMsg('RHFMobileDatePicker'));
+    throw new Error(generateDateAdapterErrMsg('RHFDateTimePicker'));
   }
 
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -94,8 +81,8 @@ const RHFMobileDatePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { value, onChange, ...fieldProps } }) => (
-            <MobileDatePicker
+          render={({ field: { onChange, value, ...fieldProps } }) => (
+            <DateTimePicker
               {...rest}
               {...fieldProps}
               value={value ?? null}
@@ -125,4 +112,4 @@ const RHFMobileDatePicker = <T extends FieldValues>({
   );
 };
 
-export default RHFMobileDatePicker;
+export default RHFDateTimePicker;
