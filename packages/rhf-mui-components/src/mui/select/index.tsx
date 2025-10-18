@@ -20,7 +20,7 @@ import {
 import type {
   FormLabelProps,
   FormHelperTextProps,
-  StrNumObjOption,
+  StringOrNumber,
   SelectProps
 } from '@/types';
 import {
@@ -30,7 +30,7 @@ import {
   keepLabelAboveFormField,
 } from '@/utils';
 
-export type BaseOption = string | number | Record<string, any>;
+export type BaseOption = StringOrNumber | Record<string, any>;
 type SelectValueType = BaseOption | BaseOption[];
 
 export type RHFSelectProps<
@@ -48,7 +48,7 @@ export type RHFSelectProps<
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (
-    newValue: string | string[],
+    newValue: StringOrNumber | StringOrNumber[],
     event: SelectChangeEvent<SelectValueType>,
     child: ReactNode
   ) => void;
@@ -134,7 +134,7 @@ const RHFSelect = <
               error={isError}
               multiple={multiple}
               onChange={(event, child) => {
-                const selectedValue = event.target.value as string[];
+                const selectedValue = event.target.value as StringOrNumber | StringOrNumber[];
                 onChange(selectedValue);
                 if (onValueChange) {
                   onValueChange(selectedValue, event, child);
@@ -153,14 +153,14 @@ const RHFSelect = <
               >
                 {defaultOptionText ?? `Select ${fieldLabelText}`}
               </MenuItem>
-              {options.map((option) => {
+              {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue: string | number = isObject
+                const opnValue: StringOrNumber = isObject
                   ? `${option[valueKey ?? '']}`
                   : option;
-                const opnLabel: string | number = isObject
+                const opnLabel = isObject
                   ? `${option[labelKey ?? '']}`
-                  : option;
+                  : String(option);
                 return (
                   <MenuItem
                     key={opnValue}
