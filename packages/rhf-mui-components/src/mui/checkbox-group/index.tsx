@@ -20,8 +20,8 @@ import type {
   FormHelperTextProps,
   FormControlLabelProps,
   CheckboxProps,
-  StrObjOption,
-  StringArr
+  StrNumObjOption,
+  StringOrNumber
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -29,14 +29,18 @@ import {
   isKeyValueOption
 } from '@/utils';
 
-export type RHFCheckboxGroupProps<T extends FieldValues> = {
+export type RHFCheckboxGroupProps<
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrObjOption[];
+  options: Option[];
+  renderOption?: (option: Option) => ReactNode;
+  shouldDisableOption?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
-  shouldDisableOption?: (option: StrObjOption) => boolean;
   onValueChange?: (
     selectedItemValue: string,
     newValue: string[],
@@ -56,14 +60,18 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   onBlur?: (event: React.FocusEvent<HTMLButtonElement, Element>) => void;
 };
 
-const RHFCheckboxGroup = <T extends FieldValues>({
+const RHFCheckboxGroup = <
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption
+>({
   fieldName,
   control,
   registerOptions,
   options,
+  renderOption,
+  shouldDisableOption,
   labelKey,
   valueKey,
-  shouldDisableOption,
   onValueChange,
   disabled,
   label,
@@ -77,7 +85,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
-}: RHFCheckboxGroupProps<T>) => {
+}: RHFCheckboxGroupProps<T, Option>) => {
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -121,13 +129,13 @@ const RHFCheckboxGroup = <T extends FieldValues>({
             <Fragment>
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
-                  ? `${option[valueKey ?? '']}`
+                const opnValue: StringOrNumber = isObject
+                  ? `${option[valueKey!]}`
                   : option;
                 const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
-                  : option;
-                const isOptionChecked = ((value as StringArr) ?? []).includes(opnValue);
+                  ? `${option[labelKey!]}`
+                  : String(option);
+                const isOptionChecked = ((value as StringOrNumber[]) ?? []).includes(opnValue);
                 const isOptionDisabled = shouldDisableOption?.(option);
                 return (
                   <FormControlLabel
@@ -148,7 +156,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                         }}
                       />
                     }
-                    label={`${opnLabel}`}
+                    label={renderOption?.(option) ?? opnLabel}
                     sx={appliedFormControlLabelSx}
                     disabled={disabled}
                     {...otherFormControlLabelProps}

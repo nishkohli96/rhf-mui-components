@@ -157,10 +157,10 @@ const RHFSelect = <
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue: StringOrNumber = isObject
-                  ? `${option[valueKey ?? '']}`
+                  ? `${option[valueKey!]}`
                   : option;
                 const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
+                  ? `${option[labelKey!]}`
                   : String(option);
                 return (
                   <MenuItem

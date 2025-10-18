@@ -15,9 +15,10 @@ export function isKeyValueOption(
 }
 
 export function generateLabelValueErrMsg(formElement: string) {
-  return `Provide "labelKey" & "valueKey" props in ${formElement} if options are an array of objects.`;
+  return `Missing "labelKey" and "valueKey" for ${formElement}. These props are required when options are arrays of objects.`;
 }
 
 export function generateDateAdapterErrMsg(formElement: string) {
-  return `Missing "dateAdapter" for ${formElement}. Please wrap your component tree with "ConfigProvider dateAdapter={...}>" to use this component.`;
+  return `Missing "dateAdapter" for ${formElement}. Wrap your component tree with <ConfigProvider dateAdapter={...}> to enable date and time picker functionality.`;
 }
+

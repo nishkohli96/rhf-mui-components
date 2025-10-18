@@ -98,7 +98,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
       if (isChecked) {
         const allValues = options.map(option =>
           isKeyValueOption(option, labelKey, valueKey)
-            ? option[valueKey ?? '']
+            ? option[valueKey!]
             : option);
         return allValues as StrNumArray;
       }
@@ -191,10 +191,10 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue = isObject
-                  ? `${option[valueKey ?? '']}`
+                  ? `${option[valueKey!]}`
                   : option;
                 const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
+                  ? `${option[labelKey!]}`
                   : option;
                 const isChecked = selectedValues.includes(opnValue);
                 return (

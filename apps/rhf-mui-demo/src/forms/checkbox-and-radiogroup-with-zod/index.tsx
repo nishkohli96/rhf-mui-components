@@ -60,6 +60,7 @@ const CheckboxRadioZodForm = () => {
               options={CountriesList}
               labelKey="country"
               valueKey="code"
+              renderOption={opn => `${opn.country} (${opn.code})`}
               required
               errorMessage={errors?.countriesVisited?.message}
             />
