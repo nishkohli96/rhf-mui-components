@@ -30,21 +30,25 @@ import {
   keepLabelAboveFormField,
 } from '@/utils';
 
-type SelectValueType = StrNumObjOption | StrNumObjOption[];
+export type BaseOption = string | number | Record<string, any>;
+type SelectValueType = BaseOption | BaseOption[];
 
-export type RHFSelectProps<T extends FieldValues> = {
+export type RHFSelectProps<
+  T extends FieldValues,
+  Option extends BaseOption = BaseOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrNumObjOption[];
-  renderOption?: (option: StrNumObjOption) => ReactNode;
-  shouldDisableOption?: (option: StrNumObjOption) => boolean;
+  options: Option[];
+  renderOption?: (option: Option) => ReactNode;
+  shouldDisableOption?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (
-    newValue: SelectValueType,
+    newValue: string | string[],
     event: SelectChangeEvent<SelectValueType>,
     child: ReactNode
   ) => void;
@@ -56,7 +60,10 @@ export type RHFSelectProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
 } & SelectProps;
 
-const RHFSelect = <T extends FieldValues>({
+const RHFSelect = <
+  T extends FieldValues,
+  Option extends BaseOption = BaseOption
+>({
   fieldName,
   control,
   registerOptions,
@@ -80,7 +87,7 @@ const RHFSelect = <T extends FieldValues>({
   onBlur,
   autoComplete = defaultAutocompleteValue,
   ...otherSelectProps
-}: RHFSelectProps<T>) => {
+}: RHFSelectProps<T, Option>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -91,10 +98,7 @@ const RHFSelect = <T extends FieldValues>({
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
   const SelectFormLabel = (
-    <FormLabelText
-      label={fieldLabel}
-      required={required}
-    />
+    <FormLabelText label={fieldLabel} required={required} />
   );
   const isError = Boolean(errorMessage);
 
@@ -109,16 +113,16 @@ const RHFSelect = <T extends FieldValues>({
       />
       <Fragment>
         {!isLabelAboveFormField && (
-          <InputLabel id={fieldName} >
-            {SelectFormLabel}
-          </InputLabel>
+          <InputLabel id={fieldName}>{SelectFormLabel}</InputLabel>
         )}
       </Fragment>
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
+        render={({
+          field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
+        }) => {
           return (
             <MuiSelect
               {...otherFieldProps}
@@ -130,14 +134,14 @@ const RHFSelect = <T extends FieldValues>({
               error={isError}
               multiple={multiple}
               onChange={(event, child) => {
-                const selectedValue = event.target.value;
+                const selectedValue = event.target.value as string[];
                 onChange(selectedValue);
                 if (onValueChange) {
                   onValueChange(selectedValue, event, child);
                 }
               }}
               {...otherSelectProps}
-              onBlur={blurEvent => {
+              onBlur={(blurEvent) => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
@@ -149,12 +153,12 @@ const RHFSelect = <T extends FieldValues>({
               >
                 {defaultOptionText ?? `Select ${fieldLabelText}`}
               </MenuItem>
-              {options.map(option => {
+              {options.map((option) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
+                const opnValue: string | number = isObject
                   ? `${option[valueKey ?? '']}`
                   : option;
-                const opnLabel = isObject
+                const opnLabel: string | number = isObject
                   ? `${option[labelKey ?? '']}`
                   : option;
                 return (
