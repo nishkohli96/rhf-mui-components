@@ -66,15 +66,17 @@ const RHFTextField = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      {hideLabel ? <></> : (
-        <FormLabel
-          label={fieldLabel}
-          isVisible={isLabelAboveFormField}
-          required={required}
-          error={isError}
-          formLabelProps={formLabelProps}
-        />
-      )}
+      {hideLabel
+        ? <></>
+        : (
+          <FormLabel
+            label={fieldLabel}
+            isVisible={isLabelAboveFormField}
+            required={required}
+            error={isError}
+            formLabelProps={formLabelProps}
+          />
+        )}
       <Controller
         name={fieldName}
         control={control}
@@ -91,16 +93,18 @@ const RHFTextField = <T extends FieldValues>({
               id={fieldName}
               autoComplete={autoComplete}
               label={
-                !hideLabel && !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !hideLabel && !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
               value={value ?? ''}
-              onChange={(event) => {
+              onChange={event => {
                 onChange(event);
                 onValueChange?.(event.target.value, event);
               }}
-              onBlur={(blurEvent) => {
+              onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}

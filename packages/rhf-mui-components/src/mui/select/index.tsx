@@ -113,7 +113,9 @@ const RHFSelect = <
       />
       <Fragment>
         {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>{SelectFormLabel}</InputLabel>
+          <InputLabel id={fieldName}>
+            {SelectFormLabel}
+          </InputLabel>
         )}
       </Fragment>
       <Controller
@@ -141,7 +143,7 @@ const RHFSelect = <
                 }
               }}
               {...otherSelectProps}
-              onBlur={(blurEvent) => {
+              onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
