@@ -21,7 +21,9 @@ import type {
   FormLabelProps,
   FormHelperTextProps,
   StringOrNumber,
-  SelectProps
+  SelectProps,
+  StrNumObjOption,
+  SelectValueType
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -30,12 +32,9 @@ import {
   keepLabelAboveFormField,
 } from '@/utils';
 
-export type BaseOption = StringOrNumber | Record<string, any>;
-type SelectValueType = BaseOption | BaseOption[];
-
 export type RHFSelectProps<
   T extends FieldValues,
-  Option extends BaseOption = BaseOption
+  Option extends StrNumObjOption = StrNumObjOption
 > = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -62,7 +61,7 @@ export type RHFSelectProps<
 
 const RHFSelect = <
   T extends FieldValues,
-  Option extends BaseOption = BaseOption
+  Option extends StrNumObjOption = StrNumObjOption
 >({
   fieldName,
   control,

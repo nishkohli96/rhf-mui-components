@@ -10,5 +10,7 @@ export type KeyValueOption = Record<string, any>;
 
 export type StrNumObjOption = StringOrNumber | KeyValueOption;
 
+export type SelectValueType = StrNumObjOption | StrNumObjOption[];
+
 export type StrObjOption = string | KeyValueOption;
 

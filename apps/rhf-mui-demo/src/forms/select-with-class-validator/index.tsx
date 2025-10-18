@@ -108,6 +108,12 @@ const SelectFormWithClassValidator = () => {
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
+              shouldDisableOption={opn => opn.code === 'INR'}
+              renderOption={opn => (
+                <>{`${opn.code} - ${opn.name} `}</>
+              )}
+              defaultOptionText="Select currency"
+              showLabelAboveFormField
               required
               errorMessage={errors?.currency?.message}
             />
