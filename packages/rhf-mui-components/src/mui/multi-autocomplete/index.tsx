@@ -41,7 +41,8 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isAboveMuiV5
+  isAboveMuiV5,
+  isMuiV7AndAbove
 } from '@/utils';
 
 type MultiAutoCompleteProps<Option> = Omit<
@@ -346,18 +347,38 @@ const RHFMultiAutocomplete = <
                   </Box>
                 );
               }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...otherChipProps } = getTagProps({ index });
-                  return (
-                    <Chip
-                      key={key}
-                      {...otherChipProps}
-                      label={renderOptionLabel(option)}
-                      {...ChipProps}
-                    />
-                  );
-                })}
+              {...(isMuiV7AndAbove
+                ? ({
+                  renderValue: (value, getItemProps) =>
+                    value.map((option, index) => {
+                      const { key, ...itemProps } = getItemProps({ index });
+                      const optionLabel = getOptionLabelOrValue(option, labelKey);
+                      return (
+                        <Chip
+                          key={key}
+                          label={optionLabel}
+                          variant="outlined"
+                          {...itemProps}
+                        />
+                      );
+                    }),
+                } as Partial<AutocompleteProps<Option, true, false, false>>)
+                : ({
+                  renderTags: (value, getTagProps) =>
+                    value.map((option, index) => {
+                      const { key, ...otherChipProps } = getTagProps({ index });
+                      const optionLabel = getOptionLabelOrValue(option, labelKey);
+                      return (
+                        <Chip
+                          key={key}
+                          {...otherChipProps}
+                          label={optionLabel}
+                          {...ChipProps}
+                        />
+                      );
+                    }),
+                } as Partial<AutocompleteProps<Option, true, false, false>>))
+              }
               {...(isAboveMuiV5
                 ? { slotProps }
                 : { ChipProps }
