@@ -1,10 +1,4 @@
-import {
-  useState,
-  useContext,
-  useCallback,
-  useMemo,
-  type ReactNode
-} from 'react';
+import { useContext, useCallback, useMemo, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -13,7 +7,9 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, { type AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, {
+  type AutocompleteProps
+} from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -75,10 +71,7 @@ export type RHFMultiAutocompleteProps<
   labelKey?: string;
   valueKey?: string;
   selectAllText?: string;
-  onValueChange?: (
-    fieldValue: StringArr,
-    targetValue?: string
-  ) => void;
+  onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -123,74 +116,92 @@ const RHFMultiAutocomplete = <
 }: RHFMultiAutocompleteProps<T, Option>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
 
-  const [selectedValues, setSelectedValues] = useState<StringArr>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx }
     = useContext(RHFMuiConfigContext);
-  const shouldHideSelectAllOptions = options.length === 0 || options.length === 1;
-
-  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
 
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
   const selectAllOptionValue = '';
-  const { areAllSelected, isIndeterminate } = useMemo(() => {
-    const allSelected = selectedValues.length === options.length;
-    return {
-      areAllSelected: allSelected,
-      isIndeterminate: selectedValues.length > 0 && !allSelected,
-    };
-  }, [selectedValues, options.length]);
 
+  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
+  const appliedFormControlLabelSx = { ...defaultFormControlLabelSx, ...sx };
 
-  const autoCompleteOptions: Option[] = useMemo(() => {
-    if (shouldHideSelectAllOptions) {
-      return options;
-    }
-    return [selectAllText as Option, ...options];
-  }, [options, selectAllText]);
-
-  const isSelectAllOption = useCallback((option: Option) => {
-    return option === selectAllText;
-  }, [selectAllText]);
+  const isSelectAllOption = useCallback(
+    (option: Option) => option === selectAllText,
+    [selectAllText]
+  );
 
   const getOptionLabelOrValue = useCallback(
-    (option: StrObjOption, key?: string): string => {
-      return key && isKeyValueOption(option, labelKey, valueKey)
+    (option: StrObjOption, key?: string) =>
+      key && isKeyValueOption(option, labelKey, valueKey)
         ? option[key]
-        : (option as string);
-    },
+        : (option as string),
     [labelKey, valueKey]
   );
 
-  const renderOptionLabel = (option: Option, getSelectAllValue?: boolean): string =>
-    isSelectAllOption(option)
-      ? getSelectAllValue
-        ? selectAllOptionValue
-        : selectAllText
-      : getOptionLabelOrValue(option, labelKey);
+  const renderOptionLabel = useCallback(
+    (option: Option, getSelectAllValue?: boolean) =>
+      isSelectAllOption(option)
+        ? getSelectAllValue
+          ? selectAllOptionValue
+          : selectAllText
+        : getOptionLabelOrValue(option, labelKey),
+    [isSelectAllOption, getOptionLabelOrValue, labelKey, selectAllText]
+  );
 
-  const handleCheckboxChange = useCallback((
-    isChecked: boolean,
-    value: string
-  ) => {
-    /* When "Select All" checkbox is toggled. */
-    if (!value || (value === selectAllOptionValue)) {
-      return isChecked
-        ? options.map(option => getOptionLabelOrValue(option, valueKey))
-        : [];
-    }
+  const autoCompleteOptions: Option[] = useMemo(() => {
+    return options.length <= 1
+      ? options
+      : [selectAllText as Option, ...options];
+  }, [options, selectAllText]);
 
-    /* When one of the options is selected */
-    return isChecked
-      ? [...selectedValues, value]
-      : selectedValues.filter(val => val !== value);
-  }, [options, getOptionLabelOrValue, valueKey, selectedValues]);
+  const renderChips = useCallback(
+    (value: Option[], getProps: any) =>
+      value.map((option, index) => {
+        const { key, ...itemProps } = getProps({ index });
+        const optionLabel = getOptionLabelOrValue(option, labelKey);
+        return (
+          <Chip
+            key={key}
+            label={optionLabel}
+            variant="outlined"
+            {...itemProps}
+          />
+        );
+      }),
+    [getOptionLabelOrValue, labelKey]
+  );
+
+  const isOptionEqualToValue = useCallback(
+    (option: Option, value: Option) => {
+      if (isSelectAllOption(option)) {
+        return false;
+      }
+      if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
+        return option[valueKey] === (value as KeyValueOption)[valueKey];
+      }
+      return option === value;
+    },
+    [isSelectAllOption, valueKey, labelKey]
+  );
+
+  const handleCheckboxChange = useCallback(
+    (currentValue: StringArr, optionValue: string, checked: boolean) => {
+      /* When "Select All" checkbox is toggled. */
+      if (!optionValue || optionValue === selectAllOptionValue) {
+        return checked
+          ? options.map(opt => getOptionLabelOrValue(opt, valueKey))
+          : [];
+      }
+      /* When one of the options is selected */
+      return checked
+        ? [...currentValue, optionValue]
+        : currentValue.filter(val => val !== optionValue);
+    },
+    [options, getOptionLabelOrValue, valueKey]
+  );
 
   return (
     <FormControl error={isError}>
@@ -205,23 +216,32 @@ const RHFMultiAutocomplete = <
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
-          const selectedOptions = (value ?? [])
-            .map(val =>
-              options.find(opn =>
-                valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                  ? opn[valueKey] === val
-                  : opn === val))
-            .filter((opn): opn is Option => Boolean(opn));
+        render={({
+          field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
+        }) => {
+          const selectedValues: StringArr = Array.isArray(value) ? value : [];
+          const areAllSelected = selectedValues.length === options.length;
+          const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
-          const changeFieldState = (
-            newValue: StringArr,
-            selectedValue?: string
-          ) => {
-            onChange(newValue);
-            setSelectedValues(newValue);
-            onValueChange?.(newValue, selectedValue);
-          };
+          const selectedOptions = useMemo(
+            () =>
+              selectedValues
+                .map(val =>
+                  options.find(op =>
+                    valueKey && isKeyValueOption(op, labelKey, valueKey)
+                      ? op[valueKey] === val
+                      : op === val))
+                .filter((op): op is Option => Boolean(op)),
+            [selectedValues, options, labelKey, valueKey]
+          );
+
+          const changeFieldState = useCallback(
+            (newValues: StringArr, selectedValue?: string) => {
+              onChange(newValues);
+              onValueChange?.(newValues, selectedValue);
+            },
+            [onChange, onValueChange]
+          );
 
           return (
             <Autocomplete
@@ -229,8 +249,8 @@ const RHFMultiAutocomplete = <
               id={fieldName}
               options={autoCompleteOptions}
               value={selectedOptions}
-              fullWidth
               multiple
+              fullWidth
               autoHighlight
               disableCloseOnSelect
               onChange={(_, newValue, reason, details) => {
@@ -239,6 +259,7 @@ const RHFMultiAutocomplete = <
                     ? selectAllOptionValue
                     : getOptionLabelOrValue(details.option, valueKey)
                   : undefined;
+
                 if (reason === 'clear') {
                   changeFieldState([], valueOfClickedItem);
                 }
@@ -250,8 +271,8 @@ const RHFMultiAutocomplete = <
                  */
                 if (reason === 'removeOption' && valueOfClickedItem) {
                   const fieldValue = newValue
-                    .map(opn => getOptionLabelOrValue(opn, valueKey))
-                    .filter(opn => opn !== valueOfClickedItem);
+                    .map(op => getOptionLabelOrValue(op, valueKey))
+                    .filter(op => op !== valueOfClickedItem);
                   changeFieldState(fieldValue, valueOfClickedItem);
                 }
               }}
@@ -260,35 +281,22 @@ const RHFMultiAutocomplete = <
                 onBlur?.(blurEvent);
               }}
               limitTags={2}
-              getLimitTagsText={value => `+${value} More`}
+              getLimitTagsText={v => `+${v} More`}
               getOptionLabel={option => renderOptionLabel(option, true)}
-              isOptionEqualToValue={(option, value) => {
-                if (isSelectAllOption(option)) {
-                  return areAllSelected;
-                }
-                if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
-                  return (
-                    option[valueKey] === (value as KeyValueOption)[valueKey]
-                  );
-                }
-                return option === value;
-              }}
+              isOptionEqualToValue={isOptionEqualToValue}
               renderInput={params => {
                 const {
                   autoComplete = defaultAutocompleteValue,
                   ...otherTextFieldProps
                 } = textFieldProps ?? {};
-                const textFieldInputProps = {
-                  ...params.inputProps,
-                  autoComplete,
-                };
+                const inputProps = { ...params.inputProps, autoComplete };
                 return (
                   <TextField
                     {...otherTextFieldProps}
+                    {...params}
                     {...(selectedOptions.length > 0 && {
                       placeholder: undefined
                     })}
-                    {...params}
                     autoComplete={autoComplete}
                     label={
                       !isLabelAboveFormField
@@ -298,33 +306,31 @@ const RHFMultiAutocomplete = <
                         : undefined
                     }
                     error={isError}
-                    {...(isAboveMuiV5 && {
-                      slotProps: {
-                        htmlInput: textFieldInputProps
-                      }
-                    })}
+                    {...(isAboveMuiV5
+                      ? { slotProps: { htmlInput: inputProps } }
+                      : {})}
                   />
                 );
               }}
               renderOption={({ key, ...optionProps }, option) => {
                 const isSelectAll = isSelectAllOption(option);
-                const label = renderOptionLabel(option);
-                const value = isSelectAll
+                const optionLabel = renderOptionLabel(option);
+                const optionValue = isSelectAll
                   ? selectAllOptionValue
                   : getOptionLabelOrValue(option, valueKey);
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
-                      label={label}
+                      label={optionLabel}
                       control={
                         <Checkbox
                           {...checkboxProps}
                           name={fieldName}
-                          value={value}
+                          value={optionValue}
                           checked={
                             isSelectAll
                               ? areAllSelected
-                              : selectedValues.includes(value)
+                              : selectedValues.includes(optionValue)
                           }
                           indeterminate={
                             isSelectAll ? isIndeterminate : undefined
@@ -332,14 +338,18 @@ const RHFMultiAutocomplete = <
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                      onClick={event => {
-                        event.preventDefault();
-                        const isChecked = isSelectAll
+                      onClick={e => {
+                        e.preventDefault();
+                        const checked = isSelectAll
                           ? !areAllSelected
-                          : !selectedValues.includes(value);
+                          : !selectedValues.includes(optionValue);
                         changeFieldState(
-                          handleCheckboxChange(isChecked, value),
-                          value
+                          handleCheckboxChange(
+                            selectedValues,
+                            optionValue,
+                            checked
+                          ),
+                          optionValue
                         );
                       }}
                       {...otherFormControlLabelProps}
@@ -348,41 +358,13 @@ const RHFMultiAutocomplete = <
                 );
               }}
               {...(isMuiV7AndAbove
-                ? ({
-                  renderValue: (value, getItemProps) =>
-                    value.map((option, index) => {
-                      const { key, ...itemProps } = getItemProps({ index });
-                      const optionLabel = getOptionLabelOrValue(option, labelKey);
-                      return (
-                        <Chip
-                          key={key}
-                          label={optionLabel}
-                          variant="outlined"
-                          {...itemProps}
-                        />
-                      );
-                    }),
-                } as Partial<AutocompleteProps<Option, true, false, false>>)
-                : ({
-                  renderTags: (value, getTagProps) =>
-                    value.map((option, index) => {
-                      const { key, ...otherChipProps } = getTagProps({ index });
-                      const optionLabel = getOptionLabelOrValue(option, labelKey);
-                      return (
-                        <Chip
-                          key={key}
-                          {...otherChipProps}
-                          label={optionLabel}
-                          {...ChipProps}
-                        />
-                      );
-                    }),
-                } as Partial<AutocompleteProps<Option, true, false, false>>))
-              }
-              {...(isAboveMuiV5
-                ? { slotProps }
-                : { ChipProps }
-              )}
+                ? ({ renderValue: renderChips } as Partial<
+                  AutocompleteProps<Option, true, false, false>
+                >)
+                : ({ renderTags: renderChips } as Partial<
+                  AutocompleteProps<Option, true, false, false>
+                >))}
+              {...(isAboveMuiV5 ? { slotProps } : { ChipProps })}
               {...otherAutoCompleteProps}
             />
           );
