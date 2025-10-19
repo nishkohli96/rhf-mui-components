@@ -9,11 +9,11 @@ import muiPackage from '@mui/material/package.json';
 const isMuiV5 = muiPackage.version.startsWith('5.');
 export const isAboveMuiV5 = !isMuiV5;
 
+export const isMuiV6 = muiPackage.version.startsWith('6.');
+
 /**
  * From version 7, renderTags prop of Autocomplete has been deprecated, in
  * favour of renderValue. Using this flag, I can conditionally use the
  * correct prop based on the MUI version.
  */
-export const isMuiV6 = muiPackage.version.startsWith('6.');
-
 export const isMuiV7AndAbove = !isMuiV6 && !isAboveMuiV5;

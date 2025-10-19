@@ -42,8 +42,8 @@ import {
   isMuiV7AndAbove
 } from '@/utils';
 
-type OmittedAutocompleteProps = Omit<
-  AutocompleteProps<StrObjOption, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
+type OmittedAutocompleteProps<Option> = Omit<
+  AutocompleteProps<Option, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -61,11 +61,14 @@ type OmittedAutocompleteProps = Omit<
   | 'ChipProps'
 >;
 
-export type RHFAutocompleteProps<T extends FieldValues> = {
+export type RHFAutocompleteProps<
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrObjOption[];
+  options: Option[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
@@ -84,9 +87,12 @@ export type RHFAutocompleteProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
-} & OmittedAutocompleteProps;
+} & OmittedAutocompleteProps<Option>;
 
-const RHFAutocomplete = <T extends FieldValues>({
+const RHFAutocomplete = <
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+>({
   fieldName,
   control,
   registerOptions,
@@ -108,7 +114,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   ChipProps,
   onBlur,
   ...otherAutoCompleteProps
-}: RHFAutocompleteProps<T>) => {
+}: RHFAutocompleteProps<T, Option>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -116,7 +122,7 @@ const RHFAutocomplete = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const renderOptionLabel = (option: StrObjOption): string =>
+  const renderOptionLabel = (option: string | Option): string =>
     labelKey && isKeyValueOption(option, labelKey, valueKey)
       ? option[labelKey]
       : (option as string);
@@ -147,6 +153,7 @@ const RHFAutocomplete = <T extends FieldValues>({
                 valueKey && isKeyValueOption(opn, labelKey, valueKey)
                   ? opn[valueKey] === val
                   : opn === val))
+              .filter((opn): opn is Option => Boolean(opn))
             : options.find(opn =>
               valueKey && isKeyValueOption(opn, labelKey, valueKey)
                 ? opn[valueKey] === value
