@@ -44,8 +44,8 @@ import {
   isAboveMuiV5
 } from '@/utils';
 
-type AutoCompleteProps = Omit<
-  AutocompleteProps<StrObjOption, true, false, false>,
+type MultiAutoCompleteProps<Option> = Omit<
+  AutocompleteProps<Option, true, false, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -63,11 +63,14 @@ type AutoCompleteProps = Omit<
   | 'ChipProps'
 >;
 
-export type RHFMultiAutocompleteProps<T extends FieldValues> = {
+export type RHFMultiAutocompleteProps<
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrObjOption[];
+  options: Option[];
   labelKey?: string;
   valueKey?: string;
   selectAllText?: string;
@@ -87,9 +90,12 @@ export type RHFMultiAutocompleteProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
-} & AutoCompleteProps;
+} & MultiAutoCompleteProps<Option>;
 
-const RHFMultiAutocomplete = <T extends FieldValues>({
+const RHFMultiAutocomplete = <
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+>({
   fieldName,
   control,
   registerOptions,
@@ -113,7 +119,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   ChipProps,
   onBlur,
   ...otherAutoCompleteProps
-}: RHFMultiAutocompleteProps<T>) => {
+}: RHFMultiAutocompleteProps<T, Option>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StringArr>([]);
@@ -141,14 +147,14 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   }, [selectedValues, options.length]);
 
 
-  const autoCompleteOptions: StrObjOption[] = useMemo(() => {
+  const autoCompleteOptions: Option[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {
       return options;
     }
-    return [selectAllText, ...options];
+    return [selectAllText as Option, ...options];
   }, [options, selectAllText]);
 
-  const isSelectAllOption = useCallback((option: StrObjOption) => {
+  const isSelectAllOption = useCallback((option: Option) => {
     return option === selectAllText;
   }, [selectAllText]);
 
@@ -161,7 +167,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
     [labelKey, valueKey]
   );
 
-  const renderOptionLabel = (option: StrObjOption, getSelectAllValue?: boolean): string =>
+  const renderOptionLabel = (option: Option, getSelectAllValue?: boolean): string =>
     isSelectAllOption(option)
       ? getSelectAllValue
         ? selectAllOptionValue
@@ -205,7 +211,7 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 valueKey && isKeyValueOption(opn, labelKey, valueKey)
                   ? opn[valueKey] === val
                   : opn === val))
-            .filter((opn): opn is StrObjOption => Boolean(opn));
+            .filter((opn): opn is Option => Boolean(opn));
 
           const changeFieldState = (
             newValue: StringArr,
