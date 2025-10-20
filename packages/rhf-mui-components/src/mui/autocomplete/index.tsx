@@ -1,5 +1,6 @@
 import {
   useContext,
+  useMemo,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -147,17 +148,22 @@ const RHFAutocomplete = <
            * So, I need to get back the selected options using these values and then
            * pass back these list of options as the value prop for Autocomplete.
            */
-          const selectedOptions = multiple
-            ? (value ?? []).map(val =>
-              options.find(opn =>
-                valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                  ? opn[valueKey] === val
-                  : opn === val))
-              .filter((opn): opn is Option => Boolean(opn))
-            : options.find(opn =>
+          const selectedOptions = useMemo(() => {
+            if (multiple) {
+              return (value ?? [])
+                .map(val =>
+                  options.find(opn =>
+                    valueKey && isKeyValueOption(opn, labelKey, valueKey)
+                      ? opn[valueKey] === val
+                      : opn === val))
+                .filter((opn): opn is Option => Boolean(opn));
+            }
+            return options.find(opn =>
               valueKey && isKeyValueOption(opn, labelKey, valueKey)
                 ? opn[valueKey] === value
                 : opn === value) ?? null;
+          }, [value, options, valueKey, labelKey, multiple]);
+
           return (
             <Autocomplete
               {...otherFieldProps}
