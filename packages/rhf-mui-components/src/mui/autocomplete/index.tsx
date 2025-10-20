@@ -76,7 +76,7 @@ export type RHFAutocompleteProps<
     fieldValue: string | string[] | null,
     event: SyntheticEvent<Element, Event>,
     reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<StrObjOption>
+    details?: AutocompleteChangeDetails<Option>
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -181,16 +181,17 @@ const RHFAutocomplete = <
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<Option>
               ) => {
-                const fieldValue = newValue === null
-                  ? null
-                  : Array.isArray(newValue)
-                    ? (newValue ?? []).map(item =>
+                const fieldValue = multiple
+                  ? (newValue as Option[] | null)?.map((item) =>
                       valueKey && isKeyValueOption(item, labelKey, valueKey)
                         ? item[valueKey]
-                        : item)
-                    : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
-                      ? newValue[valueKey]
-                      : newValue;
+                        : item
+                    ) ?? []
+                  : newValue === null
+                  ? null
+                  : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
+                  ? (newValue as KeyValueOption)[valueKey]
+                  : newValue;
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
