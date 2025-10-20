@@ -175,23 +175,11 @@ const RHFAutocomplete = <
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...otherChipProps } = getTagProps({ index });
-                  return (
-                    <Chip
-                      key={key}
-                      {...otherChipProps}
-                      label={renderOptionLabel(option)}
-                      {...ChipProps}
-                    />
-                  );
-                })}
               onChange={(
                 event,
                 newValue,
                 reason: AutocompleteChangeReason,
-                details?: AutocompleteChangeDetails<StrObjOption>
+                details?: AutocompleteChangeDetails<Option>
               ) => {
                 const fieldValue = newValue === null
                   ? null
@@ -228,7 +216,7 @@ const RHFAutocomplete = <
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete,
+                  autoComplete
                 };
                 return (
                   <TextField
@@ -255,6 +243,51 @@ const RHFAutocomplete = <
                   />
                 );
               }}
+              {...(isMuiV7AndAbove
+                ? {
+                  ...(multiple
+                    ? {
+                      renderValue: (value: Option[], getItemProps) => {
+                        return value.map((option, index) => {
+                          const { key, ...itemProps } = getItemProps({
+                            index
+                          });
+                          const optionLabel = renderOptionLabel(option);
+                          return (
+                            <Chip
+                              variant="outlined"
+                              label={optionLabel}
+                              key={key}
+                              {...itemProps}
+                            />
+                          );
+                        });
+                      }
+                    } as Partial<AutocompleteProps<Option, true, false, false>>
+                    : {
+                      renderValue: (value, getItemProps) => {
+                        const optionLabel = renderOptionLabel(value);
+                        return <Chip label={optionLabel} {...getItemProps()} />;
+                      }
+                    }) as Partial<AutocompleteProps<Option, false, false, false>>
+                }
+                : ({
+                  renderTags: (value: Option[], getTagProps) =>
+                    value.map((option, index) => {
+                      const { key, ...otherChipProps } = getTagProps({
+                        index
+                      });
+                      const optionLabel = renderOptionLabel(option);
+                      return (
+                        <Chip
+                          key={key}
+                          {...otherChipProps}
+                          label={optionLabel}
+                          {...ChipProps}
+                        />
+                      );
+                    })
+                }))}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
@@ -262,8 +295,7 @@ const RHFAutocomplete = <
                     chip: ChipProps
                   }
                 }
-                : { ChipProps, slotProps }
-              )}
+                : { ChipProps, slotProps })}
               {...otherAutoCompleteProps}
             />
           );
