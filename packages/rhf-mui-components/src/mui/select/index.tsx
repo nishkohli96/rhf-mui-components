@@ -41,7 +41,7 @@ export type RHFSelectProps<
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
   renderOption?: (option: Option) => ReactNode;
-  shouldDisableOption?: (option: Option) => boolean;
+  getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
   showDefaultOption?: boolean;
@@ -68,7 +68,7 @@ const RHFSelect = <
   registerOptions,
   options,
   renderOption,
-  shouldDisableOption,
+  getOptionDisabled,
   labelKey,
   valueKey,
   showDefaultOption,
@@ -166,7 +166,7 @@ const RHFSelect = <
                   <MenuItem
                     key={opnValue}
                     value={opnValue}
-                    disabled={shouldDisableOption?.(option)}
+                    disabled={getOptionDisabled?.(option)}
                   >
                     {renderOption?.(option) ?? opnLabel}
                   </MenuItem>

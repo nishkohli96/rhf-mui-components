@@ -35,7 +35,7 @@ export type RHFNativeSelectProps<
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
   renderOption?: (option: Option) => ReactNode;
-  shouldDisableOption?: (option: Option) => boolean;
+  getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
@@ -61,7 +61,7 @@ const RHFNativeSelect = <
   registerOptions,
   options,
   renderOption,
-  shouldDisableOption,
+  getOptionDisabled,
   labelKey,
   valueKey,
   onValueChange,
@@ -134,7 +134,7 @@ const RHFNativeSelect = <
               const isObject = isKeyValueOption(option, labelKey, valueKey);
               const opnValue: StringOrNumber = isObject ? `${option[valueKey!]}` : option;
               const opnLabel: string = isObject ? `${option[labelKey!]}` : String(option);
-              const isOptionDisabled = shouldDisableOption?.(option);
+              const isOptionDisabled = getOptionDisabled?.(option);
               return (
                 <option
                   key={opnValue}

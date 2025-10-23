@@ -79,7 +79,7 @@ const SelectFormWithClassValidator = () => {
               renderOption={(option) => (
                 <span>{`${option.name} (${option.abbr})`}</span>
               )}
-              shouldDisableOption={option =>
+              getOptionDisabled={option =>
                 ['CSK', 'MI'].includes(option.abbr)
               }
               required
@@ -108,7 +108,7 @@ const SelectFormWithClassValidator = () => {
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
-              shouldDisableOption={opn => opn.code === 'INR'}
+              getOptionDisabled={opn => opn.code === 'INR'}
               renderOption={opn => (
                 <>{`${opn.code} - ${opn.name} `}</>
               )}

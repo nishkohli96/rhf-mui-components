@@ -38,7 +38,7 @@ export type RHFCheckboxGroupProps<
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
   renderOption?: (option: Option) => ReactNode;
-  shouldDisableOption?: (option: Option) => boolean;
+  getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
@@ -69,7 +69,7 @@ const RHFCheckboxGroup = <
   registerOptions,
   options,
   renderOption,
-  shouldDisableOption,
+  getOptionDisabled,
   labelKey,
   valueKey,
   onValueChange,
@@ -136,7 +136,7 @@ const RHFCheckboxGroup = <
                   ? `${option[labelKey!]}`
                   : String(option);
                 const isOptionChecked = ((value as StringOrNumber[]) ?? []).includes(opnValue);
-                const isOptionDisabled = shouldDisableOption?.(option);
+                const isOptionDisabled = getOptionDisabled?.(option);
                 return (
                   <FormControlLabel
                     key={idx}

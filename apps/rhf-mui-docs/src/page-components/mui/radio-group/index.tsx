@@ -2,7 +2,7 @@ import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type VersionProps } from '@site/src/types';
 
-const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
+const RHFRadioGroupPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -12,15 +12,21 @@ const RHFRadioGroupPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.valueKey,
     ...(!v1
       ? [
-        PropsDescription.required,
-        PropsDescription.onValueChange_RadioGroup,
-        PropsDescription.disabled,
-        PropsDescription.label
-      ]
+          PropsDescription.required,
+          PropsDescription.onValueChange_RadioGroup,
+          PropsDescription.disabled,
+          ...(v4AndAbove
+            ? [
+                PropsDescription.renderOption,
+                PropsDescription.getOptionDisabled
+              ]
+            : []),
+          PropsDescription.label
+        ]
       : [
-        PropsDescription.onValueChange_CheckboxGroup_v1,
-        PropsDescription.label_v1
-      ]),
+          PropsDescription.onValueChange_CheckboxGroup_v1,
+          PropsDescription.label_v1
+        ]),
     PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.radioProps,

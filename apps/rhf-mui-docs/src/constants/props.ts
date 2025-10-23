@@ -120,6 +120,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
   },
+  renderOption: {
+    name: 'renderOption',
+    description: 'Render the option content',
+    type: 'function (option) => ReactNode'
+  },
   onValueChange_Default_v1: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
@@ -416,6 +421,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     name: 'disabled',
     description: 'A `boolean` value to enable or disable editing of the form field.',
     type: 'boolean'
+  },
+  getOptionDisabled: {
+    name: 'getOptionDisabled',
+    description: 'Function to dynamically disable specific option(s) based on custom logic.',
+    type: 'function(option: Value) => boolean'
   },
   editorConfig: {
     name: 'editorConfig',

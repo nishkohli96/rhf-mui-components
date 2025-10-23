@@ -41,7 +41,7 @@ export type RHFRadioGroupProps<
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
   renderOption?: (option: Option) => ReactNode;
-  shouldDisableOption?: (option: Option) => boolean;
+  getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
@@ -70,7 +70,7 @@ const RHFRadioGroup = <
   registerOptions,
   options,
   renderOption,
-  shouldDisableOption,
+  getOptionDisabled,
   labelKey,
   valueKey,
   onValueChange,
@@ -146,7 +146,7 @@ const RHFRadioGroup = <
                   ? `${option[labelKey!]}`
                   : String(option);
                 const isOptionDisabled
-                  = shouldDisableOption?.(option) ?? disabled;
+                  = getOptionDisabled?.(option) ?? disabled;
                 return (
                   <FormControlLabel
                     key={idx}
