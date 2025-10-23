@@ -175,6 +175,7 @@ const RHFAutocomplete = <
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
+              // @ts-ignore
               onChange={(
                 event,
                 newValue,
@@ -182,16 +183,15 @@ const RHFAutocomplete = <
                 details?: AutocompleteChangeDetails<Option>
               ) => {
                 const fieldValue = multiple
-                  ? (newValue as Option[] | null)?.map((item) =>
-                      valueKey && isKeyValueOption(item, labelKey, valueKey)
-                        ? item[valueKey]
-                        : item
-                    ) ?? []
+                  ? (newValue as Option[] | null)?.map(item =>
+                    valueKey && isKeyValueOption(item, labelKey, valueKey)
+                      ? item[valueKey]
+                      : item) ?? []
                   : newValue === null
-                  ? null
-                  : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
-                  ? (newValue as KeyValueOption)[valueKey]
-                  : newValue;
+                    ? null
+                    : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
+                      ? (newValue as KeyValueOption)[valueKey]
+                      : newValue;
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
