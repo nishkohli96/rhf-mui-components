@@ -1,0 +1,6 @@
+position: 6
+label: Migration Guide
+collapsible: true
+collapsed: true
+customProps:
+  description: Detailed guide for smooth migration from different versions of this package.
