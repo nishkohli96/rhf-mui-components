@@ -41,7 +41,7 @@
     "@docusaurus/module-type-aliases": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
-    "@nish1896/eslint-config": "^3.0.4",
+    "@nish1896/eslint-config": "^3.0.9",
     "eslint": "^8",
     "typescript": "~5.2.2"
   },
