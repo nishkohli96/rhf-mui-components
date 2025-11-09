@@ -96,7 +96,12 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   },
   showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
-    description: 'Renders the form label above the field by default. Set this prop to `false` to hide the label.',
+    description: 'Renders the form label above the field by default.',
+    type: 'boolean'
+  },
+  hideLabel: {
+    name: 'hideLabel',
+    description: 'Hides both the `FormLabel` text and the component’s default label, enabling you to render a fully custom form label component instead.',
     type: 'boolean'
   },
   helperText: {

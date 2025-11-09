@@ -29,6 +29,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   showMarkers?: boolean;
   maxDecimalPlaces?: number;
   stepAmount?: number;
@@ -45,6 +46,7 @@ const RHFNumberInput = <T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  hideLabel,
   showMarkers,
   maxDecimalPlaces,
   stepAmount = 1,
@@ -71,13 +73,17 @@ const RHFNumberInput = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={formLabelProps}
-      />
+      {hideLabel
+        ? <></>
+        : (
+          <FormLabel
+            label={fieldLabel}
+            isVisible={isLabelAboveFormField}
+            required={required}
+            error={isError}
+            formLabelProps={formLabelProps}
+          />
+        )}
       <Controller
         name={fieldName}
         control={control}
@@ -90,42 +96,46 @@ const RHFNumberInput = <T extends FieldValues>({
               type="number"
               autoComplete={autoComplete}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !hideLabel && !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
               value={value ?? ''}
-              onChange={(event) => {
+              onChange={event => {
                 const inputValue = event.target.value;
-                const decimalPattern =
-                  maxDecimalPlaces !== undefined
+                const decimalPattern
+                  = maxDecimalPlaces !== undefined
                     ? new RegExp(`^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`)
                     : /^\d*(\.\d*)?$/;
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
-                  const fieldValue =
-                    inputValue === '' ? null : Number(inputValue);
+                  const fieldValue
+                    = inputValue === '' ? null : Number(inputValue);
                   onChange(fieldValue);
                   onValueChange?.(fieldValue, event);
                 }
               }}
-              onBlur={(blurEvent) => {
+              onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              {...(isAboveMuiV5 ? {
-                slotProps: {
-                  ...slotProps,
-                  htmlInput: {
-                    ...slotProps?.htmlInput,
-                    step: stepAmount
+              {...(isAboveMuiV5
+                ? {
+                  slotProps: {
+                    ...slotProps,
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      step: stepAmount
+                    }
                   }
                 }
-              }: {
-                inputProps: {
-                  ...inputProps,
-                  step: stepAmount
-                }
-              })}
+                : {
+                  inputProps: {
+                    ...inputProps,
+                    step: stepAmount
+                  }
+                })}
               error={isError}
               sx={{
                 ...(!showMarkers && {

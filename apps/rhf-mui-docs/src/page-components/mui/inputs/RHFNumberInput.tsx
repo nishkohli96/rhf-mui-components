@@ -13,6 +13,7 @@ const RHFNumberInputPropsTable = ({ v4AndAbove }: VersionProps) => {
       : []),
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
+    ...(v4AndAbove ? [PropsDescription.hideLabel]: []),
     PropsDescription.formLabelProps,
     PropsDescription.showMarkers,
     PropsDescription.errorMessage,

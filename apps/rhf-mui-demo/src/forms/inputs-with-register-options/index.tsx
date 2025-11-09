@@ -176,6 +176,7 @@ const InputsWithRegisterForm = () => {
               errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
+              hideLabel
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>

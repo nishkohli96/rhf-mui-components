@@ -43,6 +43,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
@@ -58,6 +59,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   showPasswordIcon,
   hidePasswordIcon,
@@ -90,13 +92,17 @@ const RHFPasswordInput = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={formLabelProps}
-      />
+      {hideLabel
+        ? <></>
+        : (
+          <FormLabel
+            label={fieldLabel}
+            isVisible={isLabelAboveFormField}
+            required={required}
+            error={isError}
+            formLabelProps={formLabelProps}
+          />
+        )}
       <Controller
         name={fieldName}
         control={control}
@@ -122,7 +128,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               autoComplete={autoComplete}
               type={showPassword ? 'text' : 'password'}
               label={
-                !isLabelAboveFormField
+                !hideLabel && !isLabelAboveFormField
                   ? (
                     <FormLabelText label={fieldLabel} required={required} />
                   )
