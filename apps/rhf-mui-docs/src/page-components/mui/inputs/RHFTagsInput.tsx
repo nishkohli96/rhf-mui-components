@@ -1,7 +1,8 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { type VersionProps } from '@site/src/types';
 
-const RHFTagsInputPropsTable = () => {
+const RHFTagsInputPropsTable = ({ v4AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -9,6 +10,7 @@ const RHFTagsInputPropsTable = () => {
     PropsDescription.onValueChange_tagsInput,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
+    ...(v4AndAbove ? [PropsDescription.hideLabel]: []),
     PropsDescription.formLabelProps,
     PropsDescription.ChipProps,
     PropsDescription.limitTags,

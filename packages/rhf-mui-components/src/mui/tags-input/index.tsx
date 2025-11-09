@@ -56,6 +56,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (tags: string[]) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -72,6 +73,7 @@ const RHFTagsInput = <T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   required,
   helperText,
@@ -175,13 +177,17 @@ const RHFTagsInput = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={formLabelProps}
-      />
+      {hideLabel
+        ? <></>
+        : (
+          <FormLabel
+            label={fieldLabel}
+            isVisible={isLabelAboveFormField}
+            required={required}
+            error={isError}
+            formLabelProps={formLabelProps}
+          />
+        )}
       <Controller
         name={fieldName}
         control={control}
@@ -239,7 +245,7 @@ const RHFTagsInput = <T extends FieldValues>({
               autoComplete={autoComplete}
               variant={variant}
               label={
-                !isLabelAboveFormField
+                !hideLabel && !isLabelAboveFormField
                   ? (
                     <FormLabelText label={fieldLabel} required={required} />
                   )

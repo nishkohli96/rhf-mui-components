@@ -50,6 +50,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   helperText?: ReactNode;
@@ -76,6 +77,7 @@ const RHFFileUploader = <T extends FieldValues>({
   onUploadError,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   required,
   helperText,
@@ -98,13 +100,17 @@ const RHFFileUploader = <T extends FieldValues>({
 
   return (
     <FormControl fullWidth={fullWidth} error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={formLabelProps}
-      />
+      {hideLabel
+        ? <></>
+        : (
+          <FormLabel
+            label={fieldLabel}
+            isVisible={isLabelAboveFormField}
+            required={required}
+            error={isError}
+            formLabelProps={formLabelProps}
+          />
+        )}
       <Controller
         name={fieldName}
         control={control}

@@ -1,13 +1,11 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-
-type RHFFileUploaderPropsTableProps = {
-  v2?: boolean;
-};
+import { type VersionProps } from '@site/src/types';
 
 const RHFFileUploaderPropsTable = ({
-  v2
-}: RHFFileUploaderPropsTableProps) => {
+  v2,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -29,6 +27,7 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.disabled,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
+    ...(v4AndAbove ? [PropsDescription.hideLabel]: []),
     PropsDescription.formLabelProps,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
