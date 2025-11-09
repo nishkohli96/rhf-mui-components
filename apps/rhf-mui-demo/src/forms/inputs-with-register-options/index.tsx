@@ -39,6 +39,7 @@ type FormSchema = {
   password: string;
   confirmPassword: string;
   age?: number;
+  weight?: number;
   tags?: string[];
   keywords?: string[];
   resume?: File;
@@ -176,6 +177,24 @@ const InputsWithRegisterForm = () => {
               variant="filled"
               placeholder="What is your age?"
               helperText={<Typography color="seagreen">Optional</Typography>}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Number Input with decimal place limit and stepAmount" />
+            <RHFNumberInput
+              fieldName="weight"
+              control={control}
+              errorMessage={errors?.weight?.message}
+              variant="filled"
+              maxDecimalPlaces={4}
+              placeholder="Enter your weight"
+              stepAmount={2}
+              showMarkers
+              helperText={(
+                <Typography color="seagreen">
+                  Press Arrow Up/Down keys to update input value
+                </Typography>
+              )}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

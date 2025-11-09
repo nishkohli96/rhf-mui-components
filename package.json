@@ -16,7 +16,7 @@
     "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
     "demo:build": "pnpm lib && pnpm -F @nish1896/rhf-mui-demo run build",
     "demo:start": "pnpm -F @nish1896/rhf-mui-demo run start",
-    "docs": "pnpm -F @nish1896/rhf-mui-docs run start",
+    "doc": "pnpm -F @nish1896/rhf-mui-docs run start",
     "docs:lint": "pnpm -F @nish1896/rhf-mui-docs run lint",
     "docs:build": "pnpm -F @nish1896/rhf-mui-docs run build",
     "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"

@@ -395,6 +395,16 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Show the increment and decrement markers on number input.  Hidden by default.',
     type: 'boolean'
   },
+  maxDecimalPlaces: {
+    name: 'maxDecimalPlaces',
+    description: 'Limits how many digits a user can enter after the decimal point',
+    type: 'number'
+  },
+  stepAmount: {
+    name: 'stepAmount',
+    description: 'The amount to increase/decrease value when using arrow keys or input steppers',
+    type: 'number'
+  },
   showDefaultOption: {
     name: 'showDefaultOption',
     description: 'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text can be changed using the `defaultOptionText` prop.',

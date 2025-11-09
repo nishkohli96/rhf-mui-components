@@ -16,7 +16,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
 type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
 
@@ -30,6 +30,8 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   ) => void;
   showLabelAboveFormField?: boolean;
   showMarkers?: boolean;
+  maxDecimalPlaces?: number;
+  stepAmount?: number;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
@@ -44,6 +46,8 @@ const RHFNumberInput = <T extends FieldValues>({
   label,
   showLabelAboveFormField,
   showMarkers,
+  maxDecimalPlaces,
+  stepAmount = 1,
   formLabelProps,
   required,
   helperText,
@@ -53,6 +57,8 @@ const RHFNumberInput = <T extends FieldValues>({
   sx,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  slotProps,
+  inputProps,
   ...rest
 }: RHFNumberInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -84,23 +90,42 @@ const RHFNumberInput = <T extends FieldValues>({
               type="number"
               autoComplete={autoComplete}
               label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
               }
               value={value ?? ''}
-              onChange={event => {
-                const fieldValue
-                  = event.target.value === '' ? null : Number(event.target.value);
-                onChange(fieldValue);
-                onValueChange?.(fieldValue, event);
+              onChange={(event) => {
+                const inputValue = event.target.value;
+                const decimalPattern =
+                  maxDecimalPlaces !== undefined
+                    ? new RegExp(`^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`)
+                    : /^\d*(\.\d*)?$/;
+                if (inputValue === '' || decimalPattern.test(inputValue)) {
+                  const fieldValue =
+                    inputValue === '' ? null : Number(inputValue);
+                  onChange(fieldValue);
+                  onValueChange?.(fieldValue, event);
+                }
               }}
-              onBlur={blurEvent => {
+              onBlur={(blurEvent) => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
+              {...(isAboveMuiV5 ? {
+                slotProps: {
+                  ...slotProps,
+                  htmlInput: {
+                    ...slotProps?.htmlInput,
+                    step: stepAmount
+                  }
+                }
+              }: {
+                inputProps: {
+                  ...inputProps,
+                  step: stepAmount
+                }
+              })}
               error={isError}
               sx={{
                 ...(!showMarkers && {
