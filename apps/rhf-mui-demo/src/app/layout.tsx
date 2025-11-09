@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import Grid from '@mui/material/Grid';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -8,7 +8,7 @@ import {
   defaultPageDescription,
   defaultPageKeywords
 } from '@/constants';
-import { AppBar, Drawer, FirebaseAnalytics, Footer } from '@/components';
+import { AppBar, ConfigProviderWrapper, Drawer, FirebaseAnalytics, Footer } from '@/components';
 import { AppThemeProvider } from '@/theme';
 import './globals.css';
 
@@ -42,7 +42,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 <Drawer />
               </Grid>
               <Grid size={{ xs: 12, md: 9 }}>
+                <ConfigProviderWrapper>
                 {children}
+                </ConfigProviderWrapper>
               </Grid>
             </Grid>
             <Footer />
