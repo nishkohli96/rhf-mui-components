@@ -16,6 +16,10 @@ const RHFSelectPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     ...(!v1 ? [] : [PropsDescription.defaultValue]),
     PropsDescription.showDefaultOption,
     PropsDescription.defaultOptionText,
+    ...(v4AndAbove
+      ? [PropsDescription.customOnChange_Select]
+      : []
+    ),
     ...(!v1
       ? [PropsDescription.onValueChange_Select]
       : [PropsDescription.onValueChange_Select_v1]),

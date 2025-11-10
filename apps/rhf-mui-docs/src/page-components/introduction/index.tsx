@@ -2,7 +2,7 @@ import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type VersionProps } from '@site/src/types';
 
-const IntroductionPageTable = ({ v1 }: VersionProps) => {
+const IntroductionPageTable = ({ v1, v4AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(v1 ? [PropsDescription.register] : []),
@@ -11,6 +11,10 @@ const IntroductionPageTable = ({ v1 }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.required, PropsDescription.disabled]
       : [PropsDescription.setValue]),
+    ...(v4AndAbove
+      ? [PropsDescription.customOnChange]
+      : []
+    ),
     PropsDescription.onValueChange,
     ...(!v1
       ? [PropsDescription.label]

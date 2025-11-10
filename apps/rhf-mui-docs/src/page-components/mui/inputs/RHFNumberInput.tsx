@@ -7,6 +7,10 @@ const RHFNumberInputPropsTable = ({ v4AndAbove }: VersionProps) => {
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
+    ...(v4AndAbove
+      ? [PropsDescription.customOnChange_Inputs]
+      : []
+    ),
     PropsDescription.onValueChange_numberInput,
     ...(v4AndAbove
       ? [PropsDescription.maxDecimalPlaces, PropsDescription.stepAmount]

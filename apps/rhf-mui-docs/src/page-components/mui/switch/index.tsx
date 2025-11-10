@@ -2,13 +2,19 @@ import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type VersionProps } from '@site/src/types';
 
-const RHFSwitchPropsTable = ({ v1 }: VersionProps) => {
+const RHFSwitchPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     ...(!v1
+      ? [PropsDescription.registerOptions]
+      : []),
+    ...(v4AndAbove
+      ? [PropsDescription.customOnChange_Cbx_Switch]
+      : []
+    ),
+    ...(!v1
       ? [
-        PropsDescription.registerOptions,
         PropsDescription.onValueChange_Switch,
         PropsDescription.label
       ]

@@ -62,6 +62,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     required: true,
     type: '(name: string, value: unknown, config?: Object) => void'
   },
+  customOnChange: {
+    name: 'customOnChange',
+    description: 'An optional callback function to **override** the default `onChange` behavior of the form field. This invalidates the usage of `onValueChange` function. **rhfOnChange(newValue)** must be called to update the field value in form state.',
+    type: '(rhfOnChange, event, ...args) => void'
+  },
   onValueChange: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
@@ -129,6 +134,21 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     name: 'renderOption',
     description: 'Render the option content',
     type: 'function (option) => ReactNode'
+  },
+  customOnChange_Inputs: {
+    name: 'customOnChange',
+    description: 'Override the default `onChange` behavior of the input. You must pass the updated `event.target.value` to the **rhfOnChange** function to update the field value.',
+    type: '(rhfOnChange, event) => void'
+  },
+  customOnChange_Select: {
+    name: 'customOnChange',
+    description: 'Override the default `onChange` behavior of the select component. You must pass the updated `event.target.value` to the **rhfOnChange** function to update the field value.',
+    type: '(rhfOnChange, event) => void'
+  },
+  customOnChange_Cbx_Switch: {
+    name: 'customOnChange',
+    description: 'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `event.target.checked` value to the **rhfOnChange** function to toggle the field.',
+    type: '(rhfOnChange, event) => void'
   },
   onValueChange_Default_v1: {
     name: 'onValueChange',

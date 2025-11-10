@@ -10,6 +10,10 @@ const RHFTextFieldPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
       : [PropsDescription.register]
     ),
     PropsDescription.registerOptions,
+    ...(v4AndAbove
+      ? [PropsDescription.customOnChange_Inputs]
+      : []
+    ),
     ...(!v1
       ? [PropsDescription.onValueChange_Inputs]
       : [PropsDescription.onValueChange_Default_v1]),

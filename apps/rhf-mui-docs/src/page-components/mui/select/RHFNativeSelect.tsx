@@ -10,6 +10,10 @@ const RHFNativeSelectPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
+    ...(v4AndAbove
+      ? [PropsDescription.customOnChange_Select]
+      : []
+    ),
     ...(!v1
       ? [PropsDescription.onValueChange_NativeSelect]
       : [

@@ -38,6 +38,10 @@ export type RHFNativeSelectProps<
   getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
+  customOnChange?: (
+    rhfOnChange: (value: Option | Option[]) => void,
+    event: ChangeEvent<HTMLSelectElement>
+  ) => void;
   onValueChange?: (
     value: StringOrNumber | StringOrNumber[],
     event: ChangeEvent<HTMLSelectElement>
@@ -64,6 +68,7 @@ const RHFNativeSelect = <
   getOptionDisabled,
   labelKey,
   valueKey,
+  customOnChange,
   onValueChange,
   defaultOptionText,
   showLabelAboveFormField,
@@ -111,6 +116,10 @@ const RHFNativeSelect = <
               id: fieldName
             }}
             onChange={event => {
+              if(customOnChange) {
+                customOnChange(onChange, event);
+                return;
+              }
               onChange(event.target.value);
               if (onValueChange) {
                 onValueChange(event.target.value, event);

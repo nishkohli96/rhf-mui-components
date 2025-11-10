@@ -24,6 +24,10 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  customOnChange?: (
+    rhfOnChange: (value: number) => void,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onValueChange?: (
     value: number | null,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -43,6 +47,7 @@ const RHFNumberInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  customOnChange,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -104,6 +109,10 @@ const RHFNumberInput = <T extends FieldValues>({
               }
               value={value ?? ''}
               onChange={event => {
+                if (customOnChange) {
+                  customOnChange(onChange, event);
+                  return;
+                }
                 const inputValue = event.target.value;
                 const decimalPattern
                   = maxDecimalPlaces !== undefined
