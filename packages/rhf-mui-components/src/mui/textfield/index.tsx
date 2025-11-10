@@ -26,6 +26,10 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  customOnChange?: (
+    rhfOnChange: (value: string) => void,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -42,6 +46,7 @@ const RHFTextField = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  customOnChange,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -101,7 +106,11 @@ const RHFTextField = <T extends FieldValues>({
               }
               value={value ?? ''}
               onChange={event => {
-                onChange(event);
+                if (customOnChange) {
+                  customOnChange(onChange, event);
+                  return;
+                }
+                onChange(event.target.value);
                 onValueChange?.(event.target.value, event);
               }}
               onBlur={blurEvent => {

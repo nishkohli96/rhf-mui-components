@@ -38,6 +38,10 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  customOnChange?: (
+    rhfOnChange: (value: string) => void,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -56,6 +60,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  customOnChange,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -136,6 +141,10 @@ const RHFPasswordInput = <T extends FieldValues>({
               }
               value={value ?? ''}
               onChange={event => {
+                if (customOnChange) {
+                  customOnChange(onChange, event);
+                  return;
+                }
                 onChange(event);
                 onValueChange?.(event.target.value, event);
               }}
