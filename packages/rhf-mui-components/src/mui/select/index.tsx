@@ -46,6 +46,11 @@ export type RHFSelectProps<
   valueKey?: string;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
+  customOnChange?: (
+    rhfOnChange: (value: Option | Option[]) => void,
+    event: SelectChangeEvent<SelectValueType>,
+    child: ReactNode
+  ) => void;
   onValueChange?: (
     newValue: StringOrNumber | StringOrNumber[],
     event: SelectChangeEvent<SelectValueType>,
@@ -73,6 +78,7 @@ const RHFSelect = <
   valueKey,
   showDefaultOption,
   defaultOptionText,
+  customOnChange,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -135,6 +141,10 @@ const RHFSelect = <
               error={isError}
               multiple={multiple}
               onChange={(event, child) => {
+                if(customOnChange) {
+                  customOnChange(onChange, event, child);
+                  return;
+                }
                 const selectedValue = event.target.value as StringOrNumber | StringOrNumber[];
                 onChange(selectedValue);
                 if (onValueChange) {
