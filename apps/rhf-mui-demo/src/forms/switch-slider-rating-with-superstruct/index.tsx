@@ -28,10 +28,12 @@ const orangeTheme = createTheme({
   }
 });
 
+const sliderMinimumValue = 30;
+
 const SwitchSliderRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
   const initialValues = {
-    score: 20,
+    score: sliderMinimumValue,
   };
   const {
     control,
@@ -64,8 +66,15 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
                 { value: 50, label: '50' }
               ]}
               step={5}
+              customOnChange={(rhfOnChange, value) => {
+                if(value as number < sliderMinimumValue) {
+                  return;
+                }
+                rhfOnChange(value);
+              }}
               label="What is your score in class 10?"
               required
+              helperText={`customOnChange handler will prevent you from sliding below ${sliderMinimumValue}`}
               errorMessage={errors?.score?.message}
             />
           </Grid>

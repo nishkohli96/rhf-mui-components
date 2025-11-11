@@ -23,6 +23,12 @@ export type RHFSliderProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  customOnChange?: (
+    rhfOnChange: (newValue: number | number[]) => void,
+    value: number | number[],
+    activeThumb: number,
+    event: Event
+  ) => void;
   onValueChange?: (
     value: number | number[],
     activeThumb: number,
@@ -42,6 +48,7 @@ const RHFSlider = <T extends FieldValues>({
   control,
   registerOptions,
   required,
+  customOnChange,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -75,6 +82,10 @@ const RHFSlider = <T extends FieldValues>({
             {...rest}
             value={value ?? 0}
             onChange={(event, value, activeThumb) => {
+              if(customOnChange) {
+                customOnChange(onChange, value, activeThumb, event);
+                return;
+              }
               onChange(value);
               if (onValueChange) {
                 onValueChange(value, activeThumb, event);

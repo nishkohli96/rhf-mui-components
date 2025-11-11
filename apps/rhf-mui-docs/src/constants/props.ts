@@ -150,6 +150,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `event.target.checked` value to the **rhfOnChange** function to toggle the field.',
     type: '(rhfOnChange, event) => void'
   },
+  customOnChange_Slider: {
+    name: 'customOnChange',
+    description: 'Override the default `onChange` behavior of the slider, which can enable you to prevent the slider from going below a certain threshold.',
+    type: '(rhfOnChange, value: number OR number[], activeThumb: number, event) => void'
+  },
   onValueChange_Default_v1: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
