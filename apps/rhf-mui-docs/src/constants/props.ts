@@ -160,6 +160,26 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Overrides the default `onChange` behavior of the **Rating** component, allowing you to enforce a minimum rating value and prevent users from selecting a value below the defined threshold.',
     type: '(rhfOnChange, newValue: number OR null, event) => void'
   },
+  onTagAdd: {
+    name: 'onTagAdd',
+    description: 'Callback function triggered whenever a new tag is added by pressing **Enter**. If the result is `false`, the tag addition is prevented. If a string is returned, that value is added as the new tag instead of the original input.',
+    type: '(newTag: string, currentTags: string[]) => boolean OR string OR void'
+  },
+  onTagDelete: {
+    name: 'onTagDelete',
+    description: 'Callback function triggered when a tag is removed from the input. If the result is `false`, the tag deletion is prevented.',
+    type: '(deletedTag: string, currentTags: string[]) => boolean OR string OR void'
+  },
+  onTagPaste: {
+    name: 'onTagPaste',
+    description: 'Callback function called when a string or comma-separated values are pasted into the input field. You can modify the pasted tags or prevent the paste action by returning `false`.',
+    type: '(pastedTags: string, currentTags: string[]) => boolean OR string OR void'
+  },
+  delimiter: {
+    name: 'delimiter',
+    description: 'Specifies the character used to split multiple tags entered or pasted at once (e.g., `\',\'` or `\';\'`).',
+    type: 'string'
+  },
   onValueChange_Default_v1: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',

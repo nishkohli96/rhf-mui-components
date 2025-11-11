@@ -57,6 +57,19 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (tags: string[]) => void;
+  onTagAdd?: (
+    newTag: string,
+    currentTags: string[]
+  ) => boolean | string | void;
+  onTagDelete?: (
+    deletedTag: string,
+    currentTags: string[]
+  ) => boolean | void;
+  onTagPaste?: (
+    pastedTags: string[],
+    currentTags: string[]
+  ) => string[] | boolean | void;
+  delimiter?: string;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
@@ -72,6 +85,10 @@ const RHFTagsInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
+  onTagAdd,
+  onTagDelete,
+  onTagPaste,
+  delimiter = ',',
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -142,10 +159,21 @@ const RHFTagsInput = <T extends FieldValues>({
       if (event.key === 'Enter') {
         event.preventDefault();
         if (trimmed) {
-          triggerChangeEvents([...value, trimmed], onChange);
+          const result = onTagAdd?.(trimmed, value);
+          /* Block addition */
+          if (result === false) {
+            return;
+          }
+          const finalTag = typeof result === 'string' ? result : trimmed;
+          triggerChangeEvents([...value, finalTag], onChange);
           setInputValue('');
         }
       } else if (!trimmed && ['Backspace', 'Delete'].includes(event.key)) {
+        const deletedTag = value[value.length - 1];
+        const shouldDelete = onTagDelete?.(deletedTag, value);
+        if (shouldDelete === false) {
+          return;
+        }
         triggerChangeEvents(value.slice(0, -1), onChange);
       }
     },
@@ -153,12 +181,25 @@ const RHFTagsInput = <T extends FieldValues>({
   );
 
   const handlePaste = useCallback(
-    (event: ClipboardEvent<HTMLDivElement>, value: string[], onChange: (...event: any[]) => void) => {
+    (
+      event: ClipboardEvent<HTMLDivElement>,
+      value: string[],
+      onChange: (...event: any[]) => void
+    ) => {
       event.preventDefault();
       const pasteData = event.clipboardData.getData('text');
-      const newTags = pasteData
-        .split(/[\s,]+/)
+      const delimiterPattern = new RegExp(`[\\s${delimiter}]+`);
+      let newTags = pasteData
+        .split(delimiterPattern)
         .filter(tag => tag.trim() && !value.includes(tag.trim()));
+      /* External hook for paste validation/modification */
+      const result = onTagPaste?.(newTags, value);
+      if (result === false) {
+        return;
+      }
+      if (Array.isArray(result)) {
+        newTags = result;
+      }
       triggerChangeEvents([...value, ...newTags], onChange);
     },
     [triggerChangeEvents]
@@ -204,8 +245,13 @@ const RHFTagsInput = <T extends FieldValues>({
                     key={index}
                     label={tag}
                     disabled={disabled}
-                    onDelete={() =>
-                      triggerChangeEvents(value.filter(t => t !== tag), onChange)}
+                    onDelete={() => {
+                      const shouldDelete = onTagDelete?.(tag, value);
+                      if (shouldDelete === false) {
+                        return;
+                      }
+                      triggerChangeEvents(value.filter(t => t !== tag), onChange);
+                    }}
                     {...ChipProps}
                   />
                 ))}

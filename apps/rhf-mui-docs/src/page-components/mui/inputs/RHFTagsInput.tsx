@@ -7,10 +7,18 @@ const RHFTagsInputPropsTable = ({ v4AndAbove }: VersionProps) => {
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
+    ...(v4AndAbove
+      ? [
+          PropsDescription.onTagAdd,
+          PropsDescription.onTagDelete,
+          PropsDescription.onTagPaste,
+          PropsDescription.delimiter
+        ]
+      : []),
     PropsDescription.onValueChange_tagsInput,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
-    ...(v4AndAbove ? [PropsDescription.hideLabel]: []),
+    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     PropsDescription.formLabelProps,
     PropsDescription.ChipProps,
     PropsDescription.limitTags,

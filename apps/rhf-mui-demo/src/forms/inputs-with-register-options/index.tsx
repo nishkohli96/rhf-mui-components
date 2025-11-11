@@ -155,7 +155,8 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: v => (v && `${String(v)}`.length >= 4) || minCharMsg(4),
+                  minLen: (v) =>
+                    (v && `${String(v)}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -191,15 +192,15 @@ const InputsWithRegisterForm = () => {
               placeholder="Enter your weight"
               stepAmount={2}
               showMarkers
-              helperText={(
+              helperText={
                 <Typography color="seagreen">
                   Press Arrow Up/Down keys to update input value
                 </Typography>
-              )}
+              }
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed and custom limit text" />
+            <FieldVariantInfo title="Tags Input with upto 4 visible tags, and custom onTagAdd, onTagDelete and onTagPaste events" />
             <RHFTagsInput
               fieldName="tags"
               control={control}
@@ -210,17 +211,42 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               limitTags={4}
-              getLimitTagsText={hiddenTags => (
-                <Typography color="green">
-                  {`& ${hiddenTags} More`}
-                </Typography>
+              onTagAdd={(newTag, currentTags) => {
+                if (newTag.length < 3) {
+                  return false;
+                }
+                if (
+                  currentTags
+                    .map((t) => t.toLowerCase())
+                    .includes(newTag.toLowerCase())
+                ) {
+                  return false;
+                }
+              }}
+              onTagDelete={(deletedTag) => {
+                if (deletedTag.length === 4) {
+                  return false;
+                }
+              }}
+              onTagPaste={(pastedTags, currentTags) => {
+                const filteredTags = pastedTags.filter(
+                  (t) =>
+                    t.length >= 3 &&
+                    !currentTags
+                      .map((at) => at.toLowerCase())
+                      .includes(t.toLowerCase())
+                );
+                return filteredTags;
+              }}
+              getLimitTagsText={(hiddenTags) => (
+                <Typography color="green">{`& ${hiddenTags} More`}</Typography>
               )}
               required
               errorMessage={errors?.tags?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Tags Input with styled chips and all tags visible" />
+            <FieldVariantInfo title="Tags Input with styled chips, custom delimiter and all tags visible" />
             <RHFTagsInput
               fieldName="keywords"
               control={control}
@@ -235,9 +261,10 @@ const InputsWithRegisterForm = () => {
                 sx: {
                   color: 'white',
                   variant: 'filled',
-                  backgroundColor: theme => theme.palette.secondary.main
+                  backgroundColor: (theme) => theme.palette.secondary.main
                 }
               }}
+              delimiter="|"
               variant="filled"
               showLabelAboveFormField
               limitTags={-1}
@@ -275,17 +302,16 @@ const InputsWithRegisterForm = () => {
               fullWidth
               renderFileItem={(file, index) => (
                 <Typography variant="body2">
-                  {index + 1}
-                  .
-                  {file.name}
-                  {' '}
-                  -
-                  {' '}
+                  {index + 1}.{file.name} -{' '}
                   {getFileSize(file.size, { precision: 2 })}
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {
-                toast.error(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`);
+                toast.error(
+                  `${
+                    rejectedFiles.length
+                  } file(s) were rejected as ${errors.join(' ,')}`
+                );
                 console.log('rejectedFiles: ', rejectedFiles);
                 console.log('errors: ', errors);
               }}
@@ -299,7 +325,7 @@ const InputsWithRegisterForm = () => {
               label="Upload Resume"
               showLabelAboveFormField
               accept="application/pdf"
-              renderUploadButton={fileInput => (
+              renderUploadButton={(fileInput) => (
                 <div style={{ width: '200px' }}>
                   <IconButton component="label" tabIndex={-1}>
                     <UploadFileIcon />
