@@ -180,6 +180,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Specifies the character used to split multiple tags entered or pasted at once (e.g., `\',\'` or `\';\'`).',
     type: 'string'
   },
+  maxTags: {
+    name: 'maxTags',
+    description: 'Specifies the maximum number of tags that can be added to the input. Once the limit is reached, no further tags can be added.',
+    type: 'number'
+  },
   onValueChange_Default_v1: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',

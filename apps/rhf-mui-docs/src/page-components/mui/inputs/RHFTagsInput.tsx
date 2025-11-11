@@ -12,7 +12,8 @@ const RHFTagsInputPropsTable = ({ v4AndAbove }: VersionProps) => {
           PropsDescription.onTagAdd,
           PropsDescription.onTagDelete,
           PropsDescription.onTagPaste,
-          PropsDescription.delimiter
+          PropsDescription.delimiter,
+          PropsDescription.maxTags
         ]
       : []),
     PropsDescription.onValueChange_tagsInput,

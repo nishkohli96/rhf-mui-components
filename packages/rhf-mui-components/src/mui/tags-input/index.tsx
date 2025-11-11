@@ -70,6 +70,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
     currentTags: string[]
   ) => string[] | boolean | void;
   delimiter?: string;
+  maxTags?: number;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
@@ -89,6 +90,7 @@ const RHFTagsInput = <T extends FieldValues>({
   onTagDelete,
   onTagPaste,
   delimiter = ',',
+  maxTags,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -159,14 +161,36 @@ const RHFTagsInput = <T extends FieldValues>({
       if (event.key === 'Enter') {
         event.preventDefault();
         if (trimmed) {
-          const result = onTagAdd?.(trimmed, value);
-          /* Block addition */
-          if (result === false) {
+          /* Split input by delimiter and filter valid tags */
+          const newTags = trimmed
+            .split(delimiter)
+            .map(tag => tag.trim())
+            .filter(tag => tag && !value.includes(tag));
+          if (!newTags.length) {
             return;
           }
-          const finalTag = typeof result === 'string' ? result : trimmed;
-          triggerChangeEvents([...value, finalTag], onChange);
-          setInputValue('');
+
+          /* Allow external hook to modify or block additions */
+          const processedTags: string[] = [];
+          for (const tag of newTags) {
+            /* Check if max limit reached */
+            if (
+              maxTags !== undefined
+              && value.length + processedTags.length >= maxTags
+            ) {
+              break;
+            }
+            const result = onTagAdd?.(tag, value);
+            if (result !== false) {
+              const finalTag = typeof result === 'string' ? result : tag;
+              processedTags.push(finalTag);
+            }
+          }
+
+          if (processedTags.length) {
+            triggerChangeEvents([...value, ...processedTags], onChange);
+            setInputValue('');
+          }
         }
       } else if (!trimmed && ['Backspace', 'Delete'].includes(event.key)) {
         const deletedTag = value[value.length - 1];
@@ -200,7 +224,17 @@ const RHFTagsInput = <T extends FieldValues>({
       if (Array.isArray(result)) {
         newTags = result;
       }
-      triggerChangeEvents([...value, ...newTags], onChange);
+      /* Enforce maxTags limit */
+      if (maxTags !== undefined) {
+        const remainingSlots = Math.max(maxTags - value.length, 0);
+        if (remainingSlots === 0) {
+          return;
+        }
+        newTags = newTags.slice(0, remainingSlots);
+      }
+      if (newTags.length > 0) {
+        triggerChangeEvents([...value, ...newTags], onChange);
+      }
     },
     [triggerChangeEvents]
   );
