@@ -25,6 +25,11 @@ export type RHFRatingProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  customOnChange?: (
+    rhfOnChange: (newValue: number | null) => void,
+    newValue: number | null,
+    event: SyntheticEvent<Element, Event>
+  ) => void;
   onValueChange?: (
     newValue: number | null,
     event: SyntheticEvent<Element, Event>
@@ -43,6 +48,7 @@ const RHFRating = <T extends FieldValues>({
   control,
   registerOptions,
   required,
+  customOnChange,
   onValueChange,
   label,
   showLabelAboveFormField,
@@ -78,7 +84,11 @@ const RHFRating = <T extends FieldValues>({
               {...otherFieldParams}
               value={value ?? 0}
               onChange={(event, newValue) => {
-                onChange(Number(newValue));
+                if(customOnChange) {
+                  customOnChange(onChange, newValue, event);
+                  return;
+                }
+                onChange(newValue);
                 if(onValueChange) {
                   onValueChange(newValue, event);
                 }

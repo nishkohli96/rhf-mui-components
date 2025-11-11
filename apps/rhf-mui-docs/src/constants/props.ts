@@ -155,6 +155,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Override the default `onChange` behavior of the slider, which can enable you to prevent the slider from going below a certain threshold.',
     type: '(rhfOnChange, value: number OR number[], activeThumb: number, event) => void'
   },
+  customOnChange_Rating: {
+    name: 'customOnChange',
+    description: 'Overrides the default `onChange` behavior of the **Rating** component, allowing you to enforce a minimum rating value and prevent users from selecting a value below the defined threshold.',
+    type: '(rhfOnChange, newValue: number OR null, event) => void'
+  },
   onValueChange_Default_v1: {
     name: 'onValueChange',
     description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',

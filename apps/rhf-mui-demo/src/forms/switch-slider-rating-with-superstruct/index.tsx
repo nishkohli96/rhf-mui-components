@@ -29,6 +29,8 @@ const orangeTheme = createTheme({
 });
 
 const sliderMinimumValue = 30;
+const minRating = 5;
+const maxRating = 8;
 
 const SwitchSliderRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
@@ -79,16 +81,22 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Rating with custom maxValue" />
+            <FieldVariantInfo title="Rating with custom maxValue & customOnChange" />
             <RHFRating
               fieldName="rating"
               control={control}
-              label="How much would you rate us out of 8 stars?"
-              max={8}
+              label={`How much would you rate us out of ${maxRating} stars?`}
+              max={maxRating}
               showLabelAboveFormField
               errorMessage={errors?.rating?.message}
               required
-              helperText="Please select atleast 5"
+              helperText={`Please select atleast ${minRating}`}
+              customOnChange={(rhfOnChange, value) => {
+                if(value && value < minRating) {
+                  return;
+                }
+                rhfOnChange(value);
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
