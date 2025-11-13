@@ -41,6 +41,12 @@ export type RHFCheckboxGroupProps<
   getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
+  customOnChange?: (
+    rhfOnChange: (newValues: string[] | number[]) => void,
+    event: ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+    currentValues: string[] | number[] | undefined
+  ) => void;
   onValueChange?: (
     selectedItemValue: string,
     newValue: string[],
@@ -72,6 +78,7 @@ const RHFCheckboxGroup = <
   getOptionDisabled,
   labelKey,
   valueKey,
+  customOnChange,
   onValueChange,
   disabled,
   label,
@@ -117,6 +124,10 @@ const RHFCheckboxGroup = <
             event: ChangeEvent<HTMLInputElement>,
             checked: boolean
           ) => {
+            if(customOnChange) {
+              customOnChange(onChange, event, checked, value);
+              return;
+            }
             const newValue = checked
               ? [...(value ?? []), event.target.value]
               : value!.filter((v: string) => v !== event.target.value);

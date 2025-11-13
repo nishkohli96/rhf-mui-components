@@ -150,6 +150,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `event.target.checked` value to the **rhfOnChange** function to toggle the field.',
     type: '(rhfOnChange, event) => void'
   },
+  customOnChange_CheckboxGroup: {
+    name: 'customOnChange',
+    description: 'Callback function that allows custom logic to be executed whenever a checkbox value changes. You can use this to implement conditional selection, logging, or side effects before or after updating the form value.',
+    type: '(rhfOnChange: newValues => void, event, checked, currentValues) => void'
+  },
   customOnChange_Slider: {
     name: 'customOnChange',
     description: 'Override the default `onChange` behavior of the slider, which can enable you to prevent the slider from going below a certain threshold.',
