@@ -44,6 +44,11 @@ export type RHFRadioGroupProps<
   getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
+  customOnChange?: (
+    rhfOnChange: (value: string) => void,
+    event: ChangeEvent<HTMLInputElement>,
+    selectedValue: string
+  ) => void;
   onValueChange?: (
     selectedValue: string,
     event: ChangeEvent<HTMLInputElement>
@@ -73,6 +78,7 @@ const RHFRadioGroup = <
   getOptionDisabled,
   labelKey,
   valueKey,
+  customOnChange,
   onValueChange,
   disabled,
   label,
@@ -126,6 +132,10 @@ const RHFRadioGroup = <
               {...otherFieldParams}
               value={value ?? ''}
               onChange={(event, selectedValue) => {
+                if(customOnChange) {
+                  customOnChange(onChange, event, selectedValue);
+                  return;
+                }
                 onChange(event);
                 if(onValueChange) {
                   onValueChange(selectedValue, event);

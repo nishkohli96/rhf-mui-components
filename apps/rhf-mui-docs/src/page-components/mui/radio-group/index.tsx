@@ -10,9 +10,10 @@ const RHFRadioGroupPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
+    ...(!v1 ? [PropsDescription.required] : []),
+    ...(v4AndAbove ? [PropsDescription.customOnChange_RadioGroup] : []),
     ...(!v1
       ? [
-          PropsDescription.required,
           PropsDescription.onValueChange_RadioGroup,
           PropsDescription.disabled,
           ...(v4AndAbove

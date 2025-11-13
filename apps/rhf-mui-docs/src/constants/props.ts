@@ -160,6 +160,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Overrides the default `onChange` behavior of the **Rating** component, allowing you to enforce a minimum rating value and prevent users from selecting a value below the defined threshold.',
     type: '(rhfOnChange, newValue: number OR null, event) => void'
   },
+  customOnChange_RadioGroup: {
+    name: 'customOnChange',
+    description: 'Override the default `onChange` behavior of the radio group. You must pass the selected value to the **rhfOnChange** function to update the field value.',
+    type: '(rhfOnChange, event, selectedValue) => void'
+  },
   onTagAdd: {
     name: 'onTagAdd',
     description: 'Callback function triggered whenever a new tag is added by pressing **Enter**. If the result is `false`, the tag addition is prevented. If a string is returned, that value is added as the new tag instead of the original input.',

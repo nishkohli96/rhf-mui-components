@@ -51,7 +51,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             <FirebaseAnalytics />
             <ToastContainer
               autoClose={3000}
-              limit={1}
+              limit={3}
               closeButton
               style={{ fontSize: '1rem' }}
             />
