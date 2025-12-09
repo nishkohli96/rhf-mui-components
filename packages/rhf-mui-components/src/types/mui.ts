@@ -67,6 +67,7 @@ export type SelectProps = Omit<
   | 'value'
   | 'defaultValue'
   | 'ref'
+  | 'displayEmpty'
 >;
 
 export type AutoCompleteTextFieldProps = Omit<
