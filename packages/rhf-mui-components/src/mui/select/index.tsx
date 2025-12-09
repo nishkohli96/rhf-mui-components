@@ -38,7 +38,19 @@ export type RHFSelectProps<T extends FieldValues> = {
   options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
+  /**
+   * @deprecated
+   * This prop will be removed in the next major update. 
+   * Use `placeholder` prop instead to show placeholder text when
+   * no option is selected.
+   */
   showDefaultOption?: boolean;
+  /**
+   * @deprecated
+   * This prop will be removed in the next major update. 
+   * Use `placeholder` prop instead to show placeholder text when
+   * no option is selected.
+   */
   defaultOptionText?: string;
   onValueChange?: (
     newValue: SelectValueType,
@@ -149,12 +161,13 @@ const RHFSelect = <T extends FieldValues>({
                   onBlur?.(blurEvent);
                 }}
                 renderValue={value => {
-                  if (Array.isArray(value)) {
-                    return value.length
-                      ? renderValue?.(value) ?? value.join(', ')
-                      : placeholder ?? '';
+                  if (showPlaceholder) {
+                    return placeholder;
                   }
-                  return value !== '' ? renderValue?.(value) ?? value : placeholder ?? '';
+                  if (multiple) {
+                    return renderValue?.(value) ?? value.join(', ');
+                  }
+                  return renderValue?.(value) ?? value;
                 }}
               >
                 <MenuItem
