@@ -48,7 +48,6 @@ type OmittedAutocompleteProps<Option> = Omit<
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
-  | 'renderOption'
   | 'options'
   | 'value'
   | 'defaultValue'

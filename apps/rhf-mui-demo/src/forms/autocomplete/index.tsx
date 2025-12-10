@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker';
 import Grid from '@mui/material/Grid';
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -38,6 +39,7 @@ type FormSchema = {
 const generateAirportNames = (count: number) => {
   const fullNames = new Set<AirportInfo>();
   while (fullNames.size < count) {
+    const t = faker.airline.airport()
     fullNames.add(faker.airline.airport());
   }
   return Array.from(fullNames);
@@ -88,6 +90,22 @@ const AutocompleteForm = () => {
               options={airportList}
               labelKey="name"
               valueKey="iataCode"
+              renderOption={({ key, ...props }, option) => (
+                <Box
+                  component="li"
+                  key={key}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start !important',
+                    alignItems: 'flex-start !important'
+                  }}
+                  {...props}
+                >
+                  <Typography color="primary">{option.name}</Typography>
+                  <Typography color="secondary">{option.iataCode}</Typography>
+                </Box>
+              )}
               required
               errorMessage={errors?.sourceAirport?.message}
             />
@@ -133,7 +151,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -143,7 +161,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              getLimitTagsText={more => `+${more} Color(s)`}
+              getLimitTagsText={(more) => `+${more} Color(s)`}
               helperText="Select at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
               errorMessage={errors?.colors?.message}
@@ -165,7 +183,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -180,7 +198,7 @@ const AutocompleteForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: theme => theme.palette.secondary.main
+                  color: (theme) => theme.palette.secondary.main
                 }
               }}
               required
@@ -225,10 +243,10 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (
-                      Array.isArray(value)
-                      && value.every(item => typeof item === 'string')
+                      Array.isArray(value) &&
+                      value.every((item) => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -244,7 +262,7 @@ const AutocompleteForm = () => {
               label="What are your Dream Destinations?"
               ChipProps={{
                 sx: {
-                  background: theme => theme.palette.primary.main
+                  background: (theme) => theme.palette.primary.main
                 }
               }}
               helperText={
