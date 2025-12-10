@@ -44,19 +44,7 @@ export type RHFSelectProps<
   getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
-  /**
-   * @deprecated
-   * This prop will be removed in the next major update.
-   * Use `placeholder` prop instead to show placeholder text when
-   * no option is selected.
-   */
   showDefaultOption?: boolean;
-  /**
-   * @deprecated
-   * This prop will be removed in the next major update.
-   * Use `placeholder` prop instead to show placeholder text when
-   * no option is selected.
-   */
   defaultOptionText?: string;
   customOnChange?: (
     rhfOnChange: (value: Option | Option[]) => void,
@@ -148,64 +136,73 @@ const RHFSelect = <
             : SelectFormLabel;
           const labelId = isLabelAboveFormField ? undefined : fieldName;
           return (
-             <Fragment>
+            <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
                 <InputLabel id={fieldName}>
                   {SelectFormLabel}
                 </InputLabel>
               )}
-            <MuiSelect
-              {...otherFieldProps}
-              id={fieldName}
-              autoComplete={autoComplete}
-              labelId={labelId}
-              label={selectLabelProp}
-              value={value ?? (multiple ? [] : '')}
-              error={isError}
-              multiple={multiple}
-              onChange={(event, child) => {
-                if(customOnChange) {
-                  customOnChange(onChange, event, child);
-                  return;
-                }
-                const selectedValue = event.target.value as StringOrNumber | StringOrNumber[];
-                onChange(selectedValue);
-                if (onValueChange) {
-                  onValueChange(selectedValue, event, child);
-                }
-              }}
-              {...otherSelectProps}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-            >
-              <MenuItem
-                value=""
-                disabled
-                sx={{ display: showDefaultOption ? 'block' : 'none' }}
+              <MuiSelect
+                {...otherFieldProps}
+                id={fieldName}
+                autoComplete={autoComplete}
+                labelId={labelId}
+                label={selectLabelProp}
+                value={value ?? (multiple ? [] : '')}
+                error={isError}
+                multiple={multiple}
+                onChange={(event, child) => {
+                  if(customOnChange) {
+                    customOnChange(onChange, event, child);
+                    return;
+                  }
+                  const selectedValue = event.target.value as StringOrNumber | StringOrNumber[];
+                  onChange(selectedValue);
+                  if (onValueChange) {
+                    onValueChange(selectedValue, event, child);
+                  }
+                }}
+                {...otherSelectProps}
+                onBlur={blurEvent => {
+                  rhfOnBlur();
+                  onBlur?.(blurEvent);
+                }}
+                renderValue={value => {
+                  if (showPlaceholder) {
+                    return placeholder;
+                  }
+                  if (multiple) {
+                    return renderValue?.(value) ?? value.join(', ');
+                  }
+                  return renderValue?.(value) ?? value;
+                }}
               >
-                {defaultOptionText ?? `Select ${fieldLabelText}`}
-              </MenuItem>
-              {options.map(option => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue: StringOrNumber = isObject
-                  ? `${option[valueKey!]}`
-                  : option;
-                const opnLabel = isObject
-                  ? `${option[labelKey!]}`
-                  : String(option);
-                return (
-                  <MenuItem
-                    key={opnValue}
-                    value={opnValue}
-                    disabled={getOptionDisabled?.(option)}
-                  >
-                    {renderOption?.(option) ?? opnLabel}
-                  </MenuItem>
-                );
-              })}
-            </MuiSelect>
+                <MenuItem
+                  value=""
+                  disabled
+                  sx={{ display: showDefaultOption ? 'block' : 'none' }}
+                >
+                  {defaultOptionText ?? `Select ${fieldLabelText}`}
+                </MenuItem>
+                {options.map(option => {
+                  const isObject = isKeyValueOption(option, labelKey, valueKey);
+                  const opnValue: StringOrNumber = isObject
+                    ? `${option[valueKey!]}`
+                    : option;
+                  const opnLabel = isObject
+                    ? `${option[labelKey!]}`
+                    : String(option);
+                  return (
+                    <MenuItem
+                      key={opnValue}
+                      value={opnValue}
+                      disabled={getOptionDisabled?.(option)}
+                    >
+                      {renderOption?.(option) ?? opnLabel}
+                    </MenuItem>
+                  );
+                })}
+              </MuiSelect>
             </Fragment>
           );
         }}

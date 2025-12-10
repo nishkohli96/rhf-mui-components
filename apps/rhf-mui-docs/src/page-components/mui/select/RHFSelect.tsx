@@ -37,7 +37,6 @@ const RHFSelectPropsTable = ({
     <MarkdownTable
       rows={tableRows}
       showType
-      deprecatedKeys={['showDefaultOption', 'defaultOptionText']}
     />
   );
 };
