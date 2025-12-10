@@ -161,6 +161,29 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
+              renderOptionLabel={(option, selectAllText) => (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    textTransform: 'capitalize'
+                  }}
+                >
+                  {option !== selectAllText && (
+                    <Box
+                      sx={{
+                        width: 12,
+                        height: 12,
+                        borderRadius: '50%',
+                        border: '1px solid #ccc',
+                        backgroundColor: option,
+                      }}
+                    />
+                  )}
+                  <span>{option}</span>
+                </Box>
+              )}
               getLimitTagsText={(more) => `+${more} Color(s)`}
               helperText="Select at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}

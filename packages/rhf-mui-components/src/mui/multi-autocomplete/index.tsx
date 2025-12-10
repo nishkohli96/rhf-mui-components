@@ -8,6 +8,7 @@ import {
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Autocomplete, {
+  AutocompleteRenderOptionState,
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -84,6 +85,11 @@ export type RHFMultiAutocompleteProps<
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
+  renderOptionLabel?: (
+    option: Option,
+    selectAllText: string,
+    state: AutocompleteRenderOptionState
+  ) => ReactNode;
 } & MultiAutoCompleteProps<Option>;
 
 const RHFMultiAutocomplete = <
@@ -111,6 +117,7 @@ const RHFMultiAutocomplete = <
   textFieldProps,
   slotProps,
   ChipProps,
+  renderOptionLabel,
   onBlur,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteProps<T, Option>) => {
@@ -141,7 +148,7 @@ const RHFMultiAutocomplete = <
     [labelKey, valueKey]
   );
 
-  const renderOptionLabel = useCallback(
+  const displayOptionLabel = useCallback(
     (option: Option, getSelectAllValue?: boolean) =>
       isSelectAllOption(option)
         ? getSelectAllValue
@@ -282,7 +289,7 @@ const RHFMultiAutocomplete = <
               }}
               limitTags={2}
               getLimitTagsText={v => `+${v} More`}
-              getOptionLabel={option => renderOptionLabel(option, true)}
+              getOptionLabel={option => displayOptionLabel(option, true)}
               isOptionEqualToValue={isOptionEqualToValue}
               renderInput={params => {
                 const {
@@ -312,16 +319,16 @@ const RHFMultiAutocomplete = <
                   />
                 );
               }}
-              renderOption={({ key, ...optionProps }, option) => {
+              renderOption={({ key, ...optionProps }, option, state) => {
                 const isSelectAll = isSelectAllOption(option);
-                const optionLabel = renderOptionLabel(option);
+                const optionLabel = displayOptionLabel(option);
                 const optionValue = isSelectAll
                   ? selectAllOptionValue
                   : getOptionLabelOrValue(option, valueKey);
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
-                      label={optionLabel}
+                      label={renderOptionLabel?.(option, selectAllText, state) ?? optionLabel}
                       control={
                         <Checkbox
                           {...checkboxProps}

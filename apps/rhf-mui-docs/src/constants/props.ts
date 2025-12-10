@@ -82,6 +82,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
     type: 'ReactNode'
   },
+  renderOptionLabel: {
+    name: 'renderOptionLabel',
+    description: 'Render the option label content corresponding to each checkbox. The `selectAllText` parameter can be used to ensure that your option logic does not affect the "Select All" option.',
+    type: '(option, selectAllText, state) => ReactNode'
+  },
   placeholder_Select: {
     name: 'placeholder',
     description: 'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
