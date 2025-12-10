@@ -40,14 +40,14 @@ export type RHFSelectProps<T extends FieldValues> = {
   valueKey?: string;
   /**
    * @deprecated
-   * This prop will be removed in the next major update. 
+   * This prop will be removed in the next major update.
    * Use `placeholder` prop instead to show placeholder text when
    * no option is selected.
    */
   showDefaultOption?: boolean;
   /**
    * @deprecated
-   * This prop will be removed in the next major update. 
+   * This prop will be removed in the next major update.
    * Use `placeholder` prop instead to show placeholder text when
    * no option is selected.
    */
@@ -126,11 +126,9 @@ const RHFSelect = <T extends FieldValues>({
               || value === ''
               || (multiple && Array.isArray(value) && !value.length);
           const showPlaceholder = isValueEmpty && Boolean(placeholder);
-          const selectLabelProp = isLabelAboveFormField
+          const selectLabelProp = isLabelAboveFormField || isValueEmpty
             ? undefined
-            : isValueEmpty
-              ? undefined
-              : SelectFormLabel;
+            : SelectFormLabel;
           const labelId = isLabelAboveFormField ? undefined : fieldName;
           return (
             <Fragment>
