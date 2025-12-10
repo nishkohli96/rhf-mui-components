@@ -70,6 +70,8 @@ const SelectFormWithClassValidator = () => {
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
+              placeholder="Choose IPL teams"
+              showDefaultOption
               defaultOptionText="Select IPL teams"
               label={
                 <Typography variant="body1" color="success">

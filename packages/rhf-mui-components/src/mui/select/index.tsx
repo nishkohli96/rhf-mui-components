@@ -44,7 +44,19 @@ export type RHFSelectProps<
   getOptionDisabled?: (option: Option) => boolean;
   labelKey?: string;
   valueKey?: string;
+  /**
+   * @deprecated
+   * This prop will be removed in the next major update.
+   * Use `placeholder` prop instead to show placeholder text when
+   * no option is selected.
+   */
   showDefaultOption?: boolean;
+  /**
+   * @deprecated
+   * This prop will be removed in the next major update.
+   * Use `placeholder` prop instead to show placeholder text when
+   * no option is selected.
+   */
   defaultOptionText?: string;
   customOnChange?: (
     rhfOnChange: (value: Option | Option[]) => void,
@@ -62,6 +74,7 @@ export type RHFSelectProps<
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  placeholder?: string;
 } & SelectProps;
 
 const RHFSelect = <
@@ -91,6 +104,8 @@ const RHFSelect = <
   formHelperTextProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  renderValue,
+  placeholder,
   ...otherSelectProps
 }: RHFSelectProps<T, Option>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
@@ -116,13 +131,6 @@ const RHFSelect = <
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <Fragment>
-        {!isLabelAboveFormField && (
-          <InputLabel id={fieldName}>
-            {SelectFormLabel}
-          </InputLabel>
-        )}
-      </Fragment>
       <Controller
         name={fieldName}
         control={control}
@@ -130,13 +138,28 @@ const RHFSelect = <
         render={({
           field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
         }) => {
+          const isValueEmpty
+            = !value
+              || value === ''
+              || (multiple && Array.isArray(value) && !value.length);
+          const showPlaceholder = isValueEmpty && Boolean(placeholder);
+          const selectLabelProp = isLabelAboveFormField || isValueEmpty
+            ? undefined
+            : SelectFormLabel;
+          const labelId = isLabelAboveFormField ? undefined : fieldName;
           return (
+             <Fragment>
+              {!isLabelAboveFormField && !showPlaceholder && (
+                <InputLabel id={fieldName}>
+                  {SelectFormLabel}
+                </InputLabel>
+              )}
             <MuiSelect
               {...otherFieldProps}
               id={fieldName}
               autoComplete={autoComplete}
-              labelId={isLabelAboveFormField ? undefined : fieldName}
-              label={isLabelAboveFormField ? undefined : SelectFormLabel}
+              labelId={labelId}
+              label={selectLabelProp}
               value={value ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}
@@ -183,6 +206,7 @@ const RHFSelect = <
                 );
               })}
             </MuiSelect>
+            </Fragment>
           );
         }}
       />

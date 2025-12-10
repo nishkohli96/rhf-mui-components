@@ -15,6 +15,15 @@
 - Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) and [File Uploader](https://rhf-mui-components.netlify.app/components/mui/RHFFileUploader), saving development time.
 - Comprehensive docs showcasing multiple variations for each component.
 
+---
+
+## 🚀 **Version 4 Coming Soon!**
+
+A major upgrade is on the way — bringing **additional customization features, performance improvements, and deeper MUI integration**.  
+
+Stay tuned for the **v4 release**!
+
+---
 
 ## Explore and Get Started 🚀
 
