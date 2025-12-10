@@ -5,6 +5,10 @@
 ![NPM Downloads Per Month](https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063)
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0c4fc578-ed19-4a5a-a3cd-e59fedcdb689/deploy-status)](https://app.netlify.com/sites/rhf-mui-components/deploys)
+![v4 Coming Soon](https://img.shields.io/badge/v4%20Coming%20Soon-Advanced%20Customization%20%26%20Enhancements-ffc300?style=for-the-badge)
+
+A major upgrade is in progress — featuring **more powerful customization**, **polished developer experience**, and **new enhancements across components**.
+
 
 **A suite of 20+ reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
@@ -15,6 +19,15 @@
 - Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.netlify.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.netlify.app/components/mui/RHFCountrySelect) and [File Uploader](https://rhf-mui-components.netlify.app/components/mui/RHFFileUploader), saving development time.
 - Comprehensive docs showcasing multiple variations for each component.
 
+---
+
+## 🚀 **Version 4 Coming Soon!**
+
+A major upgrade is on the way — bringing **additional customization features, performance improvements, and deeper MUI integration**.  
+
+Stay tuned for the **v4 release**!
+
+---
 
 ## Explore and Get Started 🚀
 

@@ -2,7 +2,7 @@ import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type VersionProps } from '@site/src/types';
 
-const RHFSelectPropsTable = ({ v1 }: VersionProps) => {
+const RHFSelectPropsTable = ({ v1, v3_1AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1
@@ -25,6 +25,10 @@ const RHFSelectPropsTable = ({ v1 }: VersionProps) => {
     ),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
+    ...(v3_1AndAbove
+      ? [PropsDescription.placeholder_Select]
+      : []
+    ),
     PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
@@ -32,7 +36,11 @@ const RHFSelectPropsTable = ({ v1 }: VersionProps) => {
   ];
 
   return (
-    <MarkdownTable rows={tableRows} showType/>
+    <MarkdownTable
+      rows={tableRows}
+      showType
+      deprecatedKeys={['showDefaultOption', 'defaultOptionText']}
+    />
   );
 };
 
