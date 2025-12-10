@@ -38,7 +38,19 @@ export type RHFSelectProps<T extends FieldValues> = {
   options: StrNumObjOption[];
   labelKey?: string;
   valueKey?: string;
+  /**
+   * @deprecated
+   * This prop will be removed in the next major update.
+   * Use `placeholder` prop instead to show placeholder text when
+   * no option is selected.
+   */
   showDefaultOption?: boolean;
+  /**
+   * @deprecated
+   * This prop will be removed in the next major update.
+   * Use `placeholder` prop instead to show placeholder text when
+   * no option is selected.
+   */
   defaultOptionText?: string;
   onValueChange?: (
     newValue: SelectValueType,
@@ -51,6 +63,7 @@ export type RHFSelectProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  placeholder?: string;
 } & SelectProps;
 
 const RHFSelect = <T extends FieldValues>({
@@ -73,6 +86,8 @@ const RHFSelect = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  renderValue,
+  placeholder,
   ...otherSelectProps
 }: RHFSelectProps<T>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
@@ -101,62 +116,81 @@ const RHFSelect = <T extends FieldValues>({
         error={isError}
         formLabelProps={formLabelProps}
       />
-      <Fragment>
-        {!isLabelAboveFormField && (
-          <InputLabel id={fieldName} >
-            {SelectFormLabel}
-          </InputLabel>
-        )}
-      </Fragment>
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
         render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
+          const isValueEmpty
+            = !value
+              || value === ''
+              || (multiple && Array.isArray(value) && !value.length);
+          const showPlaceholder = isValueEmpty && Boolean(placeholder);
+          const selectLabelProp = isLabelAboveFormField || isValueEmpty
+            ? undefined
+            : SelectFormLabel;
+          const labelId = isLabelAboveFormField ? undefined : fieldName;
           return (
-            <MuiSelect
-              {...otherFieldProps}
-              id={fieldName}
-              labelId={isLabelAboveFormField ? undefined : fieldName}
-              label={isLabelAboveFormField ? undefined : SelectFormLabel}
-              value={value ?? (multiple ? [] : '')}
-              error={isError}
-              multiple={multiple}
-              onChange={(event, child) => {
-                const selectedValue = event.target.value;
-                onChange(selectedValue);
-                if (onValueChange) {
-                  onValueChange(selectedValue, event, child);
-                }
-              }}
-              {...otherSelectProps}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-            >
-              <MenuItem
-                value=""
-                disabled
-                sx={{ display: showDefaultOption ? 'block' : 'none' }}
+            <Fragment>
+              {!isLabelAboveFormField && !showPlaceholder && (
+                <InputLabel id={fieldName}>
+                  {SelectFormLabel}
+                </InputLabel>
+              )}
+              <MuiSelect
+                {...otherFieldProps}
+                id={fieldName}
+                labelId={labelId}
+                label={selectLabelProp}
+                value={value ?? (multiple ? [] : '')}
+                error={isError}
+                multiple={multiple}
+                displayEmpty={isValueEmpty}
+                onChange={(event, child) => {
+                  const selectedValue = event.target.value;
+                  onChange(selectedValue);
+                  if (onValueChange) {
+                    onValueChange(selectedValue, event, child);
+                  }
+                }}
+                {...otherSelectProps}
+                onBlur={blurEvent => {
+                  rhfOnBlur();
+                  onBlur?.(blurEvent);
+                }}
+                renderValue={value => {
+                  if (showPlaceholder) {
+                    return placeholder;
+                  }
+                  if (multiple) {
+                    return renderValue?.(value) ?? value.join(', ');
+                  }
+                  return renderValue?.(value) ?? value;
+                }}
               >
-                {defaultOptionText ?? `Select ${fieldLabelText}`}
-              </MenuItem>
-              {options.map(option => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
-                  ? `${option[valueKey ?? '']}`
-                  : option;
-                const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
-                  : option;
-                return (
-                  <MenuItem key={opnValue} value={opnValue}>
-                    {opnLabel}
-                  </MenuItem>
-                );
-              })}
-            </MuiSelect>
+                <MenuItem
+                  value=""
+                  disabled
+                  sx={{ display: showDefaultOption ? 'block' : 'none' }}
+                >
+                  {defaultOptionText ?? `Select ${fieldLabelText}`}
+                </MenuItem>
+                {options.map(option => {
+                  const isObject = isKeyValueOption(option, labelKey, valueKey);
+                  const opnValue = isObject
+                    ? `${option[valueKey ?? '']}`
+                    : option;
+                  const opnLabel = isObject
+                    ? `${option[labelKey ?? '']}`
+                    : option;
+                  return (
+                    <MenuItem key={opnValue} value={opnValue}>
+                      {opnLabel}
+                    </MenuItem>
+                  );
+                })}
+              </MuiSelect>
+            </Fragment>
           );
         }}
       />

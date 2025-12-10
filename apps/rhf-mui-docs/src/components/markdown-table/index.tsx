@@ -6,9 +6,10 @@ import { type PropsInfo } from '@site/src/types';
 type MarkdownTableProps = {
   rows: PropsInfo[];
   showType?: boolean;
+  deprecatedKeys?: string[];
 };
 
-const MarkdownTable = ({ rows, showType }: MarkdownTableProps) => {
+const MarkdownTable = ({ rows, showType, deprecatedKeys }: MarkdownTableProps) => {
   const primaryColor = '#4FC3F7';
   let tableHeaderRow = '|Name';
   let tableHeaderCol = '|-';
@@ -24,8 +25,11 @@ const MarkdownTable = ({ rows, showType }: MarkdownTableProps) => {
     .map(row => {
       const { name, required, description, type, hasLinkInType } = row;
       const styledName = `<span style="color: ${primaryColor}; font-weight:500">${name}</span>`;
-
+      const isDeprecated = deprecatedKeys?.includes(name);
       let rowContent = `|${styledName}`;
+      if(isDeprecated) {
+        rowContent += ' ***(Deprecated)***';
+      }
       if(showType) {
         rowContent += `|${hasLinkInType ? type : `\`${type}\``}`;
       }
