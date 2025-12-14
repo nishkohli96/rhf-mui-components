@@ -167,14 +167,39 @@ const RHFSelect = <
                   rhfOnBlur();
                   onBlur?.(blurEvent);
                 }}
-                renderValue={value => {
+                renderValue={(value: SelectValueType) => {
                   if (showPlaceholder) {
                     return placeholder;
                   }
-                  if (multiple) {
-                    return renderValue?.(value) ?? value.join(', ');
+                  /* For multiple options */
+                  if (Array.isArray(value)) {
+                    const labels = value.map((val) => {
+                      const match = options.find((op) =>
+                        isKeyValueOption(op, labelKey, valueKey)
+                          ? `${op[valueKey!]}` === `${val}`
+                          : op === val
+                      );
+                      return isKeyValueOption(match!, labelKey, valueKey)
+                        ? match[labelKey!]
+                        : match;
+                    });
+                    return renderValue?.(value) ?? labels.join(', ');
                   }
-                  return renderValue?.(value) ?? value;
+
+                  /* For single option */
+                  const match = options.find((op) =>
+                    isKeyValueOption(op, labelKey, valueKey)
+                      ? `${op[valueKey!]}` === `${value}`
+                      : op === value
+                  );
+                  const optionLabel = isKeyValueOption(
+                    match!,
+                    labelKey,
+                    valueKey
+                  )
+                    ? match[labelKey!]
+                    : match;
+                  return renderValue?.(value) ?? optionLabel;
                 }}
               >
                 <MenuItem
