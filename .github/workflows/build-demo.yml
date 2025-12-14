@@ -11,8 +11,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
+          cache: pnpm
       - name: Setup App
         run: sh setup.sh
       - name: Build Next App
-        run: yarn demo:build
+        run: pnpm demo:build
