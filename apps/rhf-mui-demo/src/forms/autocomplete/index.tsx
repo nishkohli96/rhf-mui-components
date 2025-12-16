@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
@@ -86,6 +87,52 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
+              // @ts-ignore
+              renderOption={(props, option: AirportInfo) => {
+                const { key, ...optionProps } = props;
+                return (
+                  <Box
+                    key={key}
+                    component="li"
+                    {...optionProps}
+                    sx={{
+                      px: 1.25,
+                      py: 0.5,
+                      borderRadius: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      textAlign: 'left',
+                      // 🔥 CRITICAL OVERRIDE
+                      '&.MuiAutocomplete-option': {
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start'
+                      },
+                      minHeight: 'unset !important',
+                      '&:hover': {
+                        backgroundColor: 'action.hover'
+                      },
+                      '&[aria-selected="true"]': {
+                        backgroundColor: 'action.selected'
+                      }
+                    }}
+                  >
+                    <Box
+                      sx={{ fontSize: 14, fontWeight: 600, lineHeight: 1.2 }}
+                    >
+                      {option.name}
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: 1.2,
+                        color: 'text.secondary'
+                      }}
+                    >
+                      {option.iataCode}
+                    </Box>
+                  </Box>
+                );
+              }}
               labelKey="name"
               valueKey="iataCode"
               required
@@ -133,7 +180,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -143,7 +190,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              getLimitTagsText={more => `+${more} Color(s)`}
+              getLimitTagsText={(more) => `+${more} Color(s)`}
               helperText="Select at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
               errorMessage={errors?.colors?.message}
@@ -165,7 +212,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -180,7 +227,7 @@ const AutocompleteForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: theme => theme.palette.secondary.main
+                  color: (theme) => theme.palette.secondary.main
                 }
               }}
               required
@@ -225,10 +272,10 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (
-                      Array.isArray(value)
-                      && value.every(item => typeof item === 'string')
+                      Array.isArray(value) &&
+                      value.every((item) => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -244,7 +291,7 @@ const AutocompleteForm = () => {
               label="What are your Dream Destinations?"
               ChipProps={{
                 sx: {
-                  background: theme => theme.palette.primary.main
+                  background: (theme) => theme.palette.primary.main
                 }
               }}
               helperText={
