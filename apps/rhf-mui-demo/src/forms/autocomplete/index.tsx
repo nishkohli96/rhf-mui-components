@@ -89,12 +89,10 @@ const AutocompleteForm = () => {
               options={airportList}
               // @ts-ignore
               renderOption={(props, option: AirportInfo) => {
-                const { key, ...optionProps } = props;
                 return (
                   <Box
-                    key={key}
                     component="li"
-                    {...optionProps}
+                    {...props}
                     sx={{
                       px: 1.25,
                       py: 0.5,
@@ -180,7 +178,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -190,7 +188,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              getLimitTagsText={(more) => `+${more} Color(s)`}
+              getLimitTagsText={more => `+${more} Color(s)`}
               helperText="Select at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
               errorMessage={errors?.colors?.message}
@@ -212,7 +210,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -227,7 +225,7 @@ const AutocompleteForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: (theme) => theme.palette.secondary.main
+                  color: theme => theme.palette.secondary.main
                 }
               }}
               required
@@ -272,10 +270,10 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (
-                      Array.isArray(value) &&
-                      value.every((item) => typeof item === 'string')
+                      Array.isArray(value)
+                      && value.every(item => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -291,7 +289,7 @@ const AutocompleteForm = () => {
               label="What are your Dream Destinations?"
               ChipProps={{
                 sx: {
-                  background: (theme) => theme.palette.primary.main
+                  background: theme => theme.palette.primary.main
                 }
               }}
               helperText={

@@ -152,12 +152,11 @@ const RHFSelect = <T extends FieldValues>({
                   }
                   /* For multiple options */
                   if (Array.isArray(value)) {
-                    const labels = value.map((val) => {
-                      const match = options.find((op) =>
+                    const labels = value.map(val => {
+                      const match = options.find(op =>
                         isKeyValueOption(op, labelKey, valueKey)
                           ? `${op[valueKey!]}` === `${val}`
-                          : op === val
-                      );
+                          : op === val);
                       return isKeyValueOption(match!, labelKey, valueKey)
                         ? match[labelKey!]
                         : match;
@@ -166,11 +165,10 @@ const RHFSelect = <T extends FieldValues>({
                   }
 
                   /* For single option */
-                  const match = options.find((op) =>
+                  const match = options.find(op =>
                     isKeyValueOption(op, labelKey, valueKey)
                       ? `${op[valueKey!]}` === `${value}`
-                      : op === value
-                  );
+                      : op === value);
                   const optionLabel = isKeyValueOption(
                     match!,
                     labelKey,
