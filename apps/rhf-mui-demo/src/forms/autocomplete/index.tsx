@@ -76,7 +76,7 @@ const AutocompleteForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete" />
+            <FieldVariantInfo title="Autocomplete with custom renderOption" />
             <RHFAutocomplete
               fieldName="sourceAirport"
               control={control}
