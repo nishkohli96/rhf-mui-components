@@ -1,6 +1,7 @@
 import {
   useContext,
   Fragment,
+  type FocusEvent,
   type ReactNode,
   type ChangeEvent
 } from 'react';
@@ -20,27 +21,30 @@ import type {
   FormHelperTextProps,
   FormControlLabelProps,
   CheckboxProps,
-  StrObjOption,
+  OptionValue
 } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
-  isKeyValueOption
+  isKeyValueOption,
+  coerceValue
 } from '@/utils';
 
 export type RHFCheckboxGroupProps<
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option,
+  LabelKey extends string | undefined = undefined,
+  ValueKey extends string | undefined = undefined,
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
-    selectedItemValue: string,
-    newValue: string[],
+    selectedItemValue: OptionValue<Option, ValueKey>,
+    newValue: OptionValue<Option, ValueKey>[],
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   disabled?: boolean;
@@ -54,12 +58,14 @@ export type RHFCheckboxGroupProps<
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  onBlur?: (event: React.FocusEvent<HTMLButtonElement, Element>) => void;
+  onBlur?: (event: FocusEvent<HTMLButtonElement, Element>) => void;
 };
 
 const RHFCheckboxGroup = <
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option,
+  LabelKey extends string | undefined = undefined,
+  ValueKey extends string | undefined = undefined
 >({
     fieldName,
     control,
@@ -80,7 +86,8 @@ const RHFCheckboxGroup = <
     hideErrorMessage,
     formHelperTextProps,
     onBlur
-  }: RHFCheckboxGroupProps<T, Option>) => {
+  }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
+  // @ts-ignore
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -107,29 +114,39 @@ const RHFCheckboxGroup = <
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur } = field;
+          const {
+            value = [],
+            onChange,
+            onBlur: rhfOnBlur
+          } = field as {
+            value: OptionValue<Option, ValueKey>[];
+            onChange: (v: OptionValue<Option, ValueKey>[]) => void;
+            onBlur: () => void;
+          };
           const handleChange = (
             event: ChangeEvent<HTMLInputElement>,
-            checked: boolean
+            checked: boolean,
+            optionValue: OptionValue<Option, ValueKey>
           ) => {
+            const normalized = coerceValue(event.target.value, optionValue);
             const newValue = checked
-              ? [...(value ?? []), event.target.value]
-              : value!.filter((v: string) => v !== event.target.value);
+              ? [...value, normalized]
+              : value.filter(v => v !== normalized);
             onChange(newValue);
-            if (onValueChange) {
-              onValueChange(event.target.value, newValue, event);
-            }
+            onValueChange?.(normalized, newValue, event);
           };
           return (
             <Fragment>
               {options.map((option, idx) => {
+                // @ts-ignore
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue: string = isObject
-                  ? option[valueKey ?? '']
+                const opnValue = isObject
+                  ? option[valueKey!]
                   : option;
-                const opnLabel: string = isObject
-                  ? `${option[labelKey ?? '']}`
-                  : option;
+                const opnLabel = isObject
+                  ? String(option[labelKey!])
+                  : String(option);
+                const checked = value.includes(opnValue);
                 return (
                   <FormControlLabel
                     key={idx}
@@ -138,10 +155,8 @@ const RHFCheckboxGroup = <
                         {...checkboxProps}
                         name={fieldName}
                         value={opnValue}
-                        checked={((value as string[]) ?? []).includes(
-                          opnValue
-                        )}
-                        onChange={e => handleChange(e, e.target.checked)}
+                        checked={checked}
+                        onChange={e => handleChange(e, e.target.checked, opnValue)}
                         onBlur={blurEvent => {
                           rhfOnBlur();
                           onBlur?.(blurEvent);

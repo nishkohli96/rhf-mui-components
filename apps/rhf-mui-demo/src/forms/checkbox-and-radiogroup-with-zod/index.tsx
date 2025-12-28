@@ -48,7 +48,7 @@ const CheckboxRadioZodForm = () => {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-              onValueChange={newVal => toast.info(`You selected ${newVal}`)}
+              onValueChange={(newVal) => toast.info(`You selected ${newVal}`)}
               required
               errorMessage={errors?.gender?.message}
             />
@@ -71,7 +71,7 @@ const CheckboxRadioZodForm = () => {
             <RHFCheckboxGroup
               fieldName="marks"
               control={control}
-              options={['10', '20', '30', '40', '50']}
+              options={[10, 20, 30, 40, 50]}
               required
               errorMessage={errors?.marks?.message}
             />

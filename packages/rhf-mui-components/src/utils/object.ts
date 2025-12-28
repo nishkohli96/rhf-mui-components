@@ -1,4 +1,4 @@
-import type { StringOrNumber, KeyValueOption } from '@/types';
+import type { StringOrNumber, KeyValueOption, OptionPrimitive } from '@/types';
 
 export function isKeyValueOption(
   option: StringOrNumber | KeyValueOption,
@@ -20,4 +20,17 @@ export function generateLabelValueErrMsg(formElement: string) {
 
 export function generateDateAdapterErrMsg(formElement: string) {
   return `Missing "dateAdapter" for ${formElement}. Please wrap your component tree with "ConfigProvider dateAdapter={...}>" to configure it.`;
+}
+
+/**
+ * Utility to coerce string values from form elements to either string
+ * or number based on the example value.
+ */
+export function coerceValue<V extends OptionPrimitive>(
+  raw: string,
+  example: V
+): V {
+  return typeof example === 'number'
+    ? (Number(raw) as V)
+    : (raw as V);
 }
