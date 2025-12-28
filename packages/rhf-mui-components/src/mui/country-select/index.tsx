@@ -231,12 +231,23 @@ const RHFCountrySelect = <T extends FieldValues>({
                     }
                     error={isError}
                     {...(isAboveMuiV5
-                      && {
+                      ? {
                         slotProps: {
+                          ...textFieldProps?.slotProps,
+                          input: {
+                            ...params?.InputProps,
+                            ...textFieldProps?.slotProps?.input,
+                          },
                           htmlInput: textFieldInputProps,
-                        }
+                        },
                       }
-                    )}
+                      : {
+                        InputProps: {
+                          ...params.InputProps,
+                          ...textFieldProps?.InputProps,
+                        },
+                        inputProps: textFieldInputProps,
+                      })}
                   />
                 );
               }}
