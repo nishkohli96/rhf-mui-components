@@ -20,6 +20,8 @@ import { Gender } from '@/types';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import { formSchema, type PersonInfo } from './validation';
 
+type CandidateInfo = PersonInfo & { marks: number[] };
+
 const CheckboxRadioZodForm = () => {
   const pathName = usePathname();
   const {
@@ -27,11 +29,11 @@ const CheckboxRadioZodForm = () => {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<PersonInfo>({
+  } = useForm<CandidateInfo>({
     resolver: zodResolver(formSchema)
   });
 
-  async function onFormSubmit(formValues: PersonInfo) {
+  async function onFormSubmit(formValues: CandidateInfo) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
@@ -62,6 +64,16 @@ const CheckboxRadioZodForm = () => {
               valueKey="code"
               required
               errorMessage={errors?.countriesVisited?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="CheckboxGroup with options as an array of numbers" />
+            <RHFCheckboxGroup
+              fieldName="marks"
+              control={control}
+              options={['10', '20', '30', '40', '50']}
+              required
+              errorMessage={errors?.marks?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

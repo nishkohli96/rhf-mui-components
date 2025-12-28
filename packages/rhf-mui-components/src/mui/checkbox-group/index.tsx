@@ -21,7 +21,6 @@ import type {
   FormControlLabelProps,
   CheckboxProps,
   StrObjOption,
-  StringArr
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -29,11 +28,14 @@ import {
   isKeyValueOption
 } from '@/utils';
 
-export type RHFCheckboxGroupProps<T extends FieldValues> = {
+export type RHFCheckboxGroupProps<
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrObjOption[];
+  options: Option[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
@@ -55,7 +57,10 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   onBlur?: (event: React.FocusEvent<HTMLButtonElement, Element>) => void;
 };
 
-const RHFCheckboxGroup = <T extends FieldValues>({
+const RHFCheckboxGroup = <
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+>({
   fieldName,
   control,
   registerOptions,
@@ -74,8 +79,8 @@ const RHFCheckboxGroup = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  onBlur,
-}: RHFCheckboxGroupProps<T>) => {
+  onBlur
+}: RHFCheckboxGroupProps<T, Option>) => {
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -111,7 +116,7 @@ const RHFCheckboxGroup = <T extends FieldValues>({
               ? [...(value ?? []), event.target.value]
               : value!.filter((v: string) => v !== event.target.value);
             onChange(newValue);
-            if(onValueChange) {
+            if (onValueChange) {
               onValueChange(event.target.value, newValue, event);
             }
           };
@@ -119,8 +124,8 @@ const RHFCheckboxGroup = <T extends FieldValues>({
             <Fragment>
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
-                  ? `${option[valueKey ?? '']}`
+                const opnValue: string = isObject
+                  ? option[valueKey ?? '']
                   : option;
                 const opnLabel = isObject
                   ? `${option[labelKey ?? '']}`
@@ -133,11 +138,11 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                         {...checkboxProps}
                         name={fieldName}
                         value={opnValue}
-                        checked={(
-                          (value as StringArr) ?? []
-                        ).includes(opnValue)}
-                        onChange={e => handleChange(e, e.target.checked)}
-                        onBlur={blurEvent => {
+                        checked={((value as string[]) ?? []).includes(
+                          opnValue
+                        )}
+                        onChange={(e) => handleChange(e, e.target.checked)}
+                        onBlur={(blurEvent) => {
                           rhfOnBlur();
                           onBlur?.(blurEvent);
                         }}

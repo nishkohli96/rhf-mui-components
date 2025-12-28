@@ -14,5 +14,8 @@ export const formSchema = z.object({
   countriesVisited: z.array(z.string(), {
     message: 'Select atleast one country'
   }),
+  marks: z.array(z.number(), {
+    message: 'Select at least one mark'
+  }),
   agreeTnC: z.boolean({ message: 'Please Agree to T&C' })
 });

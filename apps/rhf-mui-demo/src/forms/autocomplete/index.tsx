@@ -87,10 +87,10 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
-              // @ts-ignore
-              renderOption={(props, option: AirportInfo) => {
+              renderOption={({ key, ...props }, option) => {
                 return (
                   <Box
+                    key={key}
                     component="li"
                     {...props}
                     sx={{
