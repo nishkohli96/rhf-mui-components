@@ -22,32 +22,36 @@ import type {
   FormHelperTextProps,
   StrNumObjOption,
   SelectProps,
-  StringOrNumber
+  OptionValue
 } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
   keepLabelAboveFormField,
+  getOptionValue,
+  normalizeSelectValue,
 } from '@/utils';
 
-type SelectValueType = StrNumObjOption | StrNumObjOption[];
 
 export type RHFSelectProps<
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option,
+  LabelKey extends string | undefined = undefined,
+  ValueKey extends string | undefined = undefined,
+  Value = OptionValue<Option, ValueKey>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (
-    newValue: SelectValueType,
-    event: SelectChangeEvent<SelectValueType>,
+    newValue: Value | Value[],
+    event: SelectChangeEvent<Value | Value[]>,
     child: ReactNode
   ) => void;
   showLabelAboveFormField?: boolean;
@@ -61,7 +65,9 @@ export type RHFSelectProps<
 
 const RHFSelect = <
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends string | undefined = undefined,
+  ValueKey extends string | undefined = undefined,
 >({
     fieldName,
     control,
@@ -86,7 +92,7 @@ const RHFSelect = <
     renderValue,
     placeholder,
     ...otherSelectProps
-  }: RHFSelectProps<T, Option>) => {
+  }: RHFSelectProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -96,10 +102,11 @@ const RHFSelect = <
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
+  const isError = Boolean(errorMessage);
+
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
   );
-  const isError = Boolean(errorMessage);
 
   return (
     <FormControl error={isError}>
@@ -114,9 +121,8 @@ const RHFSelect = <
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({
-          field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
-        }) => {
+        render={({ field }) => {
+          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } = field;
           const isValueEmpty
             = !value
               || value === ''
@@ -125,6 +131,7 @@ const RHFSelect = <
           const selectLabelProp
             = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
           const labelId = isLabelAboveFormField ? undefined : fieldName;
+
           return (
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
@@ -144,10 +151,18 @@ const RHFSelect = <
                 displayEmpty={isValueEmpty}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
-                  onChange(selectedValue);
-                  if (onValueChange) {
-                    onValueChange(selectedValue, event, child);
-                  }
+                  const normalized = normalizeSelectValue(
+                    selectedValue,
+                    options,
+                    labelKey,
+                    valueKey
+                  );
+                  onChange(normalized);
+                  onValueChange?.(
+                    normalized,
+                    event,
+                    child
+                  );
                 }}
                 {...otherSelectProps}
                 onBlur={blurEvent => {
@@ -197,14 +212,14 @@ const RHFSelect = <
                 </MenuItem>
                 {options.map(option => {
                   const isObject = isKeyValueOption(option, labelKey, valueKey);
-                  const opnValue = isObject
-                    ? `${option[valueKey ?? '']}`
-                    : option;
+                  const opnValue = getOptionValue<Option, ValueKey>(
+                    option,
+                    valueKey
+                  );
                   const opnLabel = isObject
-                    ? `${option[labelKey!]}`
+                    ? String(option[labelKey!])
                     : String(option);
                   return (
-                    // @ts-ignore
                     <MenuItem key={opnValue} value={opnValue}>
                       {opnLabel}
                     </MenuItem>

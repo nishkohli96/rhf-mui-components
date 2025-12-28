@@ -57,3 +57,36 @@ export function getOptionValue<
 
   return option as OptionValue<Option, VK>;
 }
+
+export function normalizeSelectValue<
+  Option,
+  ValueKey extends string | undefined
+>(
+  raw: string | string[],
+  options: Option[],
+  labelKey?: string,
+  valueKey?: ValueKey
+): OptionValue<Option, ValueKey> | OptionValue<Option, ValueKey>[] {
+  const normalizeOne = (val: string) => {
+    const match = options.find(op =>
+      isKeyValueOption(op, labelKey, valueKey)
+        ? `${(op as Record<string, StringOrNumber>)[valueKey!]}` === val
+        : `${op}` === val);
+
+    if (!match) {
+      return val as OptionValue<Option, ValueKey>;
+    }
+
+    if (isKeyValueOption(match, labelKey, valueKey)) {
+      return (match as Record<string, StringOrNumber>)[
+        valueKey!
+      ] as OptionValue<Option, ValueKey>;
+    }
+
+    return match as OptionValue<Option, ValueKey>;
+  };
+
+  return Array.isArray(raw)
+    ? raw.map(normalizeOne)
+    : normalizeOne(raw);
+}
