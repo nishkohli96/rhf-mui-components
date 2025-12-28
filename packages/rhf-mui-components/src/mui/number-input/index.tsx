@@ -12,7 +12,8 @@ import {
   FormControl,
   FormLabel,
   FormLabelText,
-  FormHelperText
+  FormHelperText,
+  defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
@@ -51,6 +52,7 @@ const RHFNumberInput = <T extends FieldValues>({
   formHelperTextProps,
   sx,
   onBlur,
+  autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFNumberInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -80,7 +82,7 @@ const RHFNumberInput = <T extends FieldValues>({
             <MuiTextField
               id={fieldName}
               type="number"
-              autoComplete={fieldName}
+              autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
                   ? (

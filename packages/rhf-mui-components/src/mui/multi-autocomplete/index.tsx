@@ -20,7 +20,13 @@ import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue
+} from '@/common';
 import type {
   FormLabelProps,
   FormControlLabelProps,
@@ -264,13 +270,17 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                 return option === value;
               }}
               renderInput={params => {
+                const {
+                  autoComplete = defaultAutocompleteValue,
+                  ...otherTextFieldProps
+                } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete: fieldName
+                  autoComplete
                 };
                 return (
                   <TextField
-                    {...textFieldProps}
+                    {...otherTextFieldProps}
                     {...(selectedOptions.length > 0 && {
                       placeholder: undefined
                     })}

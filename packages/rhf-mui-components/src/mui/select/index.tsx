@@ -14,7 +14,8 @@ import {
   FormControl,
   FormLabel,
   FormLabelText,
-  FormHelperText
+  FormHelperText,
+  defaultAutocompleteValue
 } from '@/common';
 import type {
   FormLabelProps,
@@ -74,6 +75,7 @@ const RHFSelect = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  autoComplete = defaultAutocompleteValue,
   renderValue,
   placeholder,
   ...otherSelectProps
@@ -128,6 +130,7 @@ const RHFSelect = <T extends FieldValues>({
               <MuiSelect
                 {...otherFieldProps}
                 id={fieldName}
+                autoComplete={autoComplete}
                 labelId={labelId}
                 label={selectLabelProp}
                 value={value ?? (multiple ? [] : '')}
