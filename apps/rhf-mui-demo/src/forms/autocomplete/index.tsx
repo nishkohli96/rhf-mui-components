@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker';
 import Grid from '@mui/material/Grid';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -77,7 +77,7 @@ const AutocompleteForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete" />
+            <FieldVariantInfo title="Autocomplete with custom renderOption" />
             <RHFAutocomplete
               fieldName="sourceAirport"
               control={control}
@@ -88,6 +88,50 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
+              // @ts-ignore
+              renderOption={(props, option: AirportInfo) => {
+                return (
+                  <Box
+                    component="li"
+                    {...props}
+                    sx={{
+                      px: 1.25,
+                      py: 0.5,
+                      borderRadius: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      textAlign: 'left',
+                      // 🔥 CRITICAL OVERRIDE
+                      '&.MuiAutocomplete-option': {
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start'
+                      },
+                      minHeight: 'unset !important',
+                      '&:hover': {
+                        backgroundColor: 'action.hover'
+                      },
+                      '&[aria-selected="true"]': {
+                        backgroundColor: 'action.selected'
+                      }
+                    }}
+                  >
+                    <Box
+                      sx={{ fontSize: 14, fontWeight: 600, lineHeight: 1.2 }}
+                    >
+                      {option.name}
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: 1.2,
+                        color: 'text.secondary'
+                      }}
+                    >
+                      {option.iataCode}
+                    </Box>
+                  </Box>
+                );
+              }}
               labelKey="name"
               valueKey="iataCode"
               renderOption={({ key, ...props }, option) => (

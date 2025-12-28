@@ -75,8 +75,6 @@ export type AutoCompleteTextFieldProps = Omit<
   | 'value'
   | 'onChange'
   | 'disabled'
-  | 'inputProps'
-  | 'slotProps'
   | 'label'
   | 'required'
   | 'error'

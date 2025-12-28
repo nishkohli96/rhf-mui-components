@@ -18,6 +18,7 @@ import Autocomplete, {
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
@@ -113,6 +114,7 @@ const RHFAutocomplete = <
   slotProps,
   ChipProps,
   onBlur,
+  loading,
   ...otherAutoCompleteProps
 }: RHFAutocompleteProps<T, Option>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
@@ -170,6 +172,7 @@ const RHFAutocomplete = <
               options={options}
               multiple={multiple}
               value={selectedOptions}
+              loading={loading}
               autoHighlight
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
@@ -234,10 +237,40 @@ const RHFAutocomplete = <
                     {...(isAboveMuiV5
                       ? {
                         slotProps: {
+                          ...textFieldProps?.slotProps,
+                          input: {
+                            ...params?.InputProps,
+                            ...textFieldProps?.slotProps?.input,
+                            endAdornment: (
+                              <>
+                                {loading
+                                  ? (
+                                    <CircularProgress
+                                      color="inherit"
+                                      size={20}
+                                    />
+                                  )
+                                  : <></>}
+                                {params.InputProps.endAdornment}
+                              </>
+                            )
+                          },
                           htmlInput: textFieldInputProps
                         }
                       }
                       : {
+                        InputProps: {
+                          ...params.InputProps,
+                          ...textFieldProps?.InputProps,
+                          endAdornment: (
+                            <>
+                              {loading && (
+                                <CircularProgress color="inherit" size={20} />
+                              )}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
+                        },
                         inputProps: textFieldInputProps
                       })}
                   />
