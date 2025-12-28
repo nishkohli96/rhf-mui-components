@@ -201,10 +201,10 @@ const RHFAutocomplete = <T extends FieldValues, Option extends StrObjOption>({
                       ? (newValue ?? []).map(item =>
                         valueKey && isKeyValueOption(item, labelKey, valueKey)
                           ? item[valueKey]
-                          : item)
+                          : item as string)
                       : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
-                        : newValue;
+                        : newValue as string;
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}

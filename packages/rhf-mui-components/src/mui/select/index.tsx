@@ -154,7 +154,8 @@ const RHFSelect = <
                   rhfOnBlur();
                   onBlur?.(blurEvent);
                 }}
-                renderValue={(value: SelectValueType) => {
+                // @ts-ignore
+                renderValue={value => {
                   if (showPlaceholder) {
                     return placeholder;
                   }
@@ -196,13 +197,14 @@ const RHFSelect = <
                 </MenuItem>
                 {options.map(option => {
                   const isObject = isKeyValueOption(option, labelKey, valueKey);
-                  const opnValue: StringOrNumber = isObject
+                  const opnValue = isObject
                     ? `${option[valueKey ?? '']}`
                     : option;
                   const opnLabel = isObject
                     ? `${option[labelKey!]}`
                     : String(option);
                   return (
+                    // @ts-ignore
                     <MenuItem key={opnValue} value={opnValue}>
                       {opnLabel}
                     </MenuItem>

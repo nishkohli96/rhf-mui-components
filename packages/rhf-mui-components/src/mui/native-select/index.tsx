@@ -128,6 +128,7 @@ const RHFNativeSelect = <
             </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
+              // @ts-ignore
               const opnValue: StringOrNumber = isObject
                 ? `${option[valueKey ?? '']}`
                 : option;

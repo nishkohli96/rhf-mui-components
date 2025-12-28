@@ -134,6 +134,7 @@ const RHFRadioGroup = <
             >
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
+                // @ts-ignore
                 const opnValue: string = isObject
                   ? `${option[valueKey ?? '']}`
                   : option;

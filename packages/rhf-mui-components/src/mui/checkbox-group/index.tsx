@@ -27,7 +27,8 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  coerceValue
+  coerceValue,
+  getOptionValue
 } from '@/utils';
 
 export type RHFCheckboxGroupProps<
@@ -87,7 +88,6 @@ const RHFCheckboxGroup = <
     formHelperTextProps,
     onBlur
   }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
-  // @ts-ignore
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -138,11 +138,8 @@ const RHFCheckboxGroup = <
           return (
             <Fragment>
               {options.map((option, idx) => {
-                // @ts-ignore
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
-                  ? option[valueKey!]
-                  : option;
+                const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);

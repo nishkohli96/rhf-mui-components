@@ -1,18 +1,22 @@
-import type { StringOrNumber, KeyValueOption, OptionPrimitive } from '@/types';
+import type { StringOrNumber, KeyValueOption, OptionPrimitive, OptionValue } from '@/types';
 
-export function isKeyValueOption(
-  option: StringOrNumber | KeyValueOption,
-  labelKey?: string,
-  valueKey?: string
-): option is KeyValueOption {
-  if (typeof option !== 'object' || option === null) {
+export function isKeyValueOption<LK extends string, VK extends string>(
+  option: unknown,
+  labelKey?: LK,
+  valueKey?: VK
+): option is Record<LK, string> & Record<VK, StringOrNumber> {
+  if (typeof option !== 'object' || option === null || !labelKey || !valueKey) {
     return false;
   }
-  if (!labelKey || !valueKey) {
-    return false;
-  }
-  return labelKey in option && valueKey in option;
+
+  const obj = option as Record<string, unknown>;
+
+  return (
+    typeof obj[labelKey] === 'string'
+    && (typeof obj[valueKey] === 'string' || typeof obj[valueKey] === 'number')
+  );
 }
+
 
 export function generateLabelValueErrMsg(formElement: string) {
   return `Provide "labelKey" & "valueKey" props in ${formElement} if options are an array of objects.`;
@@ -33,4 +37,23 @@ export function coerceValue<V extends OptionPrimitive>(
   return typeof example === 'number'
     ? (Number(raw) as V)
     : (raw as V);
+}
+
+
+export function getOptionValue<
+  Option,
+  VK extends string | undefined
+>(
+  option: Option,
+  valueKey?: VK
+): OptionValue<Option, VK> {
+  if (
+    valueKey
+    && typeof option === 'object'
+    && option !== null
+  ) {
+    return (option as Record<string, unknown>)[valueKey] as OptionValue<Option, VK>;
+  }
+
+  return option as OptionValue<Option, VK>;
 }
