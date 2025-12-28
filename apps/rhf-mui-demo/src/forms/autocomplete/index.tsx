@@ -88,11 +88,11 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
-              // @ts-ignore
-              renderOption={(props, option: AirportInfo) => {
+              renderOption={({ key, ...props }, option) => {
                 return (
                   <Box
                     component="li"
+                    key={key}
                     {...props}
                     sx={{
                       px: 1.25,
@@ -134,22 +134,6 @@ const AutocompleteForm = () => {
               }}
               labelKey="name"
               valueKey="iataCode"
-              renderOption={({ key, ...props }, option) => (
-                <Box
-                  component="li"
-                  key={key}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start !important',
-                    alignItems: 'flex-start !important'
-                  }}
-                  {...props}
-                >
-                  <Typography color="primary">{option.name}</Typography>
-                  <Typography color="secondary">{option.iataCode}</Typography>
-                </Box>
-              )}
               required
               errorMessage={errors?.sourceAirport?.message}
             />

@@ -65,9 +65,6 @@ importers:
       dayjs:
         specifier: ^1.11.18
         version: 1.11.19
-      dist:
-        specifier: link:../../packages/rhf-mui-components/dist
-        version: link:../../packages/rhf-mui-components/dist
       firebase:
         specifier: ^12.2.1
         version: 12.6.0
