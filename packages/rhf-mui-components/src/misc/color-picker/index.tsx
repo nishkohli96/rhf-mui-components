@@ -13,7 +13,7 @@ import {
   useColor,
   type IColor
 } from 'react-color-palette';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, colorToString } from '@/utils';
 import 'react-color-palette/css';

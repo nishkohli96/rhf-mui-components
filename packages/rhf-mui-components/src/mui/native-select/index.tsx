@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabel, FormHelperText } from '@/common';
 import type {
   FormHelperTextProps,
   FormLabelProps,

@@ -23,7 +23,7 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText
-} from '@/mui/common';
+} from '@/common';
 import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
