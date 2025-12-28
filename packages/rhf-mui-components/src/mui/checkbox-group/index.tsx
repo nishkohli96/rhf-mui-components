@@ -61,26 +61,26 @@ const RHFCheckboxGroup = <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption
 >({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  onValueChange,
-  disabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  checkboxProps,
-  formControlLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  onBlur
-}: RHFCheckboxGroupProps<T, Option>) => {
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    onValueChange,
+    disabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    checkboxProps,
+    formControlLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    onBlur
+  }: RHFCheckboxGroupProps<T, Option>) => {
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -127,7 +127,7 @@ const RHFCheckboxGroup = <
                 const opnValue: string = isObject
                   ? option[valueKey ?? '']
                   : option;
-                const opnLabel = isObject
+                const opnLabel: string = isObject
                   ? `${option[labelKey ?? '']}`
                   : option;
                 return (
@@ -141,14 +141,14 @@ const RHFCheckboxGroup = <
                         checked={((value as string[]) ?? []).includes(
                           opnValue
                         )}
-                        onChange={(e) => handleChange(e, e.target.checked)}
-                        onBlur={(blurEvent) => {
+                        onChange={e => handleChange(e, e.target.checked)}
+                        onBlur={blurEvent => {
                           rhfOnBlur();
                           onBlur?.(blurEvent);
                         }}
                       />
                     }
-                    label={`${opnLabel}`}
+                    label={opnLabel}
                     sx={appliedFormControlLabelSx}
                     disabled={disabled}
                     {...otherFormControlLabelProps}

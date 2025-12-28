@@ -12,6 +12,7 @@ import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
 import type {
   FormHelperTextProps,
   FormLabelProps,
+  StringOrNumber,
   StrNumObjOption
 } from '@/types';
 import {
@@ -25,15 +26,18 @@ type InputNativeSelectProps = Omit<
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value'
 >;
 
-export type RHFNativeSelectProps<T extends FieldValues> = {
+export type RHFNativeSelectProps<
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrNumObjOption[];
+  options: Option[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
-    value: StrNumObjOption,
+    value: StringOrNumber | StringOrNumber[],
     event: ChangeEvent<HTMLSelectElement>
   ) => void;
   defaultOptionText?: string;
@@ -46,28 +50,31 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
 } & InputNativeSelectProps;
 
-const RHFNativeSelect = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  onValueChange,
-  defaultOptionText,
-  showLabelAboveFormField,
-  formLabelProps,
-  label,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  sx,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  ...otherNativeSelectProps
-}: RHFNativeSelectProps<T>) => {
+const RHFNativeSelect = <
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption
+>({
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    onValueChange,
+    defaultOptionText,
+    showLabelAboveFormField,
+    formLabelProps,
+    label,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    sx,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    ...otherNativeSelectProps
+  }: RHFNativeSelectProps<T, Option>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -87,7 +94,9 @@ const RHFNativeSelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, value, onBlur: rhfOnBlur, ...rest } }) => (
+        render={({
+          field: { onChange, value, onBlur: rhfOnBlur, ...rest }
+        }) => (
           <NativeSelect
             {...otherNativeSelectProps}
             {...rest}
@@ -110,7 +119,7 @@ const RHFNativeSelect = <T extends FieldValues>({
             sx={{
               ...sx,
               '&.MuiNativeSelect-root': {
-                margin: 0,
+                margin: 0
               }
             }}
           >
@@ -119,8 +128,12 @@ const RHFNativeSelect = <T extends FieldValues>({
             </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
-              const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-              const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+              const opnValue: StringOrNumber = isObject
+                ? `${option[valueKey ?? '']}`
+                : option;
+              const opnLabel: string = isObject
+                ? `${option[labelKey ?? '']}`
+                : String(option);
               return (
                 <option key={opnValue} value={opnValue}>
                   {opnLabel}

@@ -107,6 +107,17 @@ const SelectFormWithClassValidator = () => {
               errorMessage={errors?.currency?.message}
             />
           </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Native select with number options" />
+            <RHFNativeSelect
+              fieldName="ageGroup"
+              control={control}
+              options={[10, 20, 30, 40, 50]}
+              label="Choose an age group"
+              required
+              errorMessage={errors?.ageGroup?.message}
+            />
+          </Grid>
           <Grid size={12}>
             <SubmitButton />
           </Grid>

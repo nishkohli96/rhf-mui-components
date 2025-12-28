@@ -31,16 +31,19 @@ type RadioGroupInputProps = Omit<
   | 'onChange'
 >;
 
-export type RHFRadioGroupProps<T extends FieldValues> = {
+export type RHFRadioGroupProps<
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrObjOption[];
+  options: Option[];
   labelKey?: string;
   valueKey?: string;
   onValueChange?: (
     selectedValue: string,
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   disabled?: boolean;
   label?: ReactNode;
@@ -55,28 +58,31 @@ export type RHFRadioGroupProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
 } & RadioGroupInputProps;
 
-const RHFRadioGroup = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  onValueChange,
-  disabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  radioProps,
-  formControlLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  onBlur,
-  ...rest
-}: RHFRadioGroupProps<T>) => {
+const RHFRadioGroup = <
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption
+>({
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    onValueChange,
+    disabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    radioProps,
+    formControlLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    onBlur,
+    ...rest
+  }: RHFRadioGroupProps<T, Option>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -86,7 +92,7 @@ const RHFRadioGroup = <T extends FieldValues>({
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
-    ...sx,
+    ...sx
   };
 
   return (
@@ -103,7 +109,12 @@ const RHFRadioGroup = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { onChange, onBlur: rhfOnBlur, value, ...otherFieldParams } = field;
+          const {
+            onChange,
+            onBlur: rhfOnBlur,
+            value,
+            ...otherFieldParams
+          } = field;
           return (
             <MuiRadioGroup
               {...rest}
@@ -111,7 +122,7 @@ const RHFRadioGroup = <T extends FieldValues>({
               value={value ?? ''}
               onChange={(event, selectedValue) => {
                 onChange(event);
-                if(onValueChange) {
+                if (onValueChange) {
                   onValueChange(selectedValue, event);
                 }
               }}
@@ -123,12 +134,12 @@ const RHFRadioGroup = <T extends FieldValues>({
             >
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
+                const opnValue: string = isObject
                   ? `${option[valueKey ?? '']}`
                   : option;
                 const opnLabel = isObject
                   ? `${option[labelKey ?? '']}`
-                  : option;
+                  : String(option);
                 return (
                   <FormControlLabel
                     key={idx}
