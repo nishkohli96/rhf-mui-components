@@ -1,4 +1,4 @@
-import type { StringOrNumber, KeyValueOption, OptionPrimitive, OptionValue } from '@/types';
+import type { StringOrNumber, OptionPrimitive, OptionValue } from '@/types';
 
 export function isKeyValueOption<LK extends string, VK extends string>(
   option: unknown,
@@ -8,27 +8,16 @@ export function isKeyValueOption<LK extends string, VK extends string>(
   if (typeof option !== 'object' || option === null || !labelKey || !valueKey) {
     return false;
   }
-
   const obj = option as Record<string, unknown>;
-
   return (
     typeof obj[labelKey] === 'string'
     && (typeof obj[valueKey] === 'string' || typeof obj[valueKey] === 'number')
   );
 }
 
-
-export function generateLabelValueErrMsg(formElement: string) {
-  return `Provide "labelKey" & "valueKey" props in ${formElement} if options are an array of objects.`;
-}
-
-export function generateDateAdapterErrMsg(formElement: string) {
-  return `Missing "dateAdapter" for ${formElement}. Please wrap your component tree with "ConfigProvider dateAdapter={...}>" to configure it.`;
-}
-
 /**
- * Utility to coerce string values from form elements to either string
- * or number based on the example value.
+ * Utility to cast string values from form element onChange event to either
+ * string or number based on the typeof item of its options prop.
  */
 export function coerceValue<V extends OptionPrimitive>(
   raw: string,
@@ -39,7 +28,10 @@ export function coerceValue<V extends OptionPrimitive>(
     : (raw as V);
 }
 
-
+/**
+ * Get the value of an option based on the valueKey. If valueKey is not provided,
+ * return the option itself.
+ */
 export function getOptionValue<
   Option,
   VK extends string | undefined
@@ -54,10 +46,12 @@ export function getOptionValue<
   ) {
     return (option as Record<string, unknown>)[valueKey] as OptionValue<Option, VK>;
   }
-
   return option as OptionValue<Option, VK>;
 }
 
+/**
+ * Normalize the raw value(s) from select input to match the type of option values.
+ */
 export function normalizeSelectValue<
   Option,
   ValueKey extends string | undefined
@@ -72,7 +66,6 @@ export function normalizeSelectValue<
       isKeyValueOption(op, labelKey, valueKey)
         ? `${(op as Record<string, StringOrNumber>)[valueKey!]}` === val
         : `${op}` === val);
-
     if (!match) {
       return val as OptionValue<Option, ValueKey>;
     }
@@ -82,7 +75,6 @@ export function normalizeSelectValue<
         valueKey!
       ] as OptionValue<Option, ValueKey>;
     }
-
     return match as OptionValue<Option, ValueKey>;
   };
 

@@ -33,12 +33,15 @@ import {
   normalizeSelectValue,
 } from '@/utils';
 
+type SelectValue<Value, Multiple extends boolean> =
+  Multiple extends true ? Value[] : Value;
 
 export type RHFSelectProps<
   T extends FieldValues,
   Option,
   LabelKey extends string | undefined = undefined,
   ValueKey extends string | undefined = undefined,
+  Multiple extends boolean = false,
   Value = OptionValue<Option, ValueKey>
 > = {
   fieldName: Path<T>;
@@ -47,11 +50,12 @@ export type RHFSelectProps<
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
+  multiple?: Multiple;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   onValueChange?: (
-    newValue: Value | Value[],
-    event: SelectChangeEvent<Value | Value[]>,
+    newValue: SelectValue<Value, Multiple>,
+    event: SelectChangeEvent<SelectValue<Value, Multiple>>,
     child: ReactNode
   ) => void;
   showLabelAboveFormField?: boolean;
@@ -68,6 +72,7 @@ const RHFSelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends string | undefined = undefined,
   ValueKey extends string | undefined = undefined,
+  Multiple extends boolean = false
 >({
     fieldName,
     control,
@@ -75,13 +80,13 @@ const RHFSelect = <
     options,
     labelKey,
     valueKey,
+    multiple,
     showDefaultOption,
     defaultOptionText,
     onValueChange,
     label,
     showLabelAboveFormField,
     formLabelProps,
-    multiple,
     required,
     helperText,
     errorMessage,
@@ -92,7 +97,7 @@ const RHFSelect = <
     renderValue,
     placeholder,
     ...otherSelectProps
-  }: RHFSelectProps<T, Option, LabelKey, ValueKey>) => {
+  }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -156,11 +161,13 @@ const RHFSelect = <
                     options,
                     labelKey,
                     valueKey
-                  );
+                  ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
                   onChange(normalized);
                   onValueChange?.(
                     normalized,
-                    event,
+                    event as SelectChangeEvent<
+                      SelectValue<OptionValue<Option, ValueKey>, Multiple>
+                    >,
                     child
                   );
                 }}
