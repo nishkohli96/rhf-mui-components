@@ -156,15 +156,15 @@ const RHFSelect = <
                 displayEmpty={isValueEmpty}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
-                  const normalized = normalizeSelectValue(
+                  const normalizedValue = normalizeSelectValue(
                     selectedValue,
                     options,
                     labelKey,
                     valueKey
                   ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
-                  onChange(normalized);
+                  onChange(normalizedValue);
                   onValueChange?.(
-                    normalized,
+                    normalizedValue,
                     event as SelectChangeEvent<
                       SelectValue<OptionValue<Option, ValueKey>, Multiple>
                     >,

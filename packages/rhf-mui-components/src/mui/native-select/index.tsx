@@ -18,6 +18,7 @@ import type {
 import {
   fieldNameToLabel,
   isKeyValueOption,
+  normalizeSelectValue,
   validateArray
 } from '@/utils';
 
@@ -107,12 +108,19 @@ const RHFNativeSelect = <
               id: fieldName
             }}
             onChange={event => {
-              onChange(event.target.value);
+              const selectedValue = event.target.value;
+              const normalizedValue = normalizeSelectValue(
+                selectedValue,
+                options,
+                labelKey,
+                valueKey
+              );
+              onChange(normalizedValue);
               if (onValueChange) {
-                onValueChange(event.target.value, event);
+                onValueChange(normalizedValue, event);
               }
             }}
-            onBlur={blurEvent => {
+            onBlur={(blurEvent) => {
               rhfOnBlur();
               onBlur?.(blurEvent);
             }}
@@ -123,15 +131,12 @@ const RHFNativeSelect = <
               }
             }}
           >
-            <option value="">
-              {blankOptionText}
-            </option>
-            {options.map(option => {
+            <option value="">{blankOptionText}</option>
+            {options.map((option) => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
-              // @ts-ignore
-              const opnValue: StringOrNumber = isObject
-                ? `${option[valueKey ?? '']}`
-                : option;
+              const opnValue = isObject
+                ? option[valueKey ?? '']
+                : (option as StringOrNumber);
               const opnLabel: string = isObject
                 ? `${option[labelKey ?? '']}`
                 : String(option);

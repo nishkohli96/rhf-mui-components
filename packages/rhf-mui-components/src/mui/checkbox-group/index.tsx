@@ -21,7 +21,8 @@ import type {
   FormHelperTextProps,
   FormControlLabelProps,
   CheckboxProps,
-  OptionValue
+  OptionValue,
+  StrObjOption
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -33,7 +34,7 @@ import {
 
 export type RHFCheckboxGroupProps<
   T extends FieldValues,
-  Option,
+  Option extends StrObjOption = StrObjOption,
   LabelKey extends string | undefined = undefined,
   ValueKey extends string | undefined = undefined,
 > = {
@@ -64,7 +65,7 @@ export type RHFCheckboxGroupProps<
 
 const RHFCheckboxGroup = <
   T extends FieldValues,
-  Option,
+  Option extends StrObjOption = StrObjOption,
   LabelKey extends string | undefined = undefined,
   ValueKey extends string | undefined = undefined
 >({
