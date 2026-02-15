@@ -3,6 +3,7 @@ import { Gender } from '@/types';
 
 export type PersonInfo = {
   gender: Gender;
+  ageGroup: number;
   countriesVisited: string[];
   agreeTnC: boolean;
 };
@@ -11,6 +12,7 @@ export const formSchema = z.object({
   gender: z.enum([Gender.Male, Gender.Female, Gender.Others], {
     message: 'Choose your gender'
   }),
+  ageGroup: z.number({ message: 'Select age group' }),
   countriesVisited: z.array(z.string(), {
     message: 'Select atleast one country'
   }),

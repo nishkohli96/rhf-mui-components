@@ -15,13 +15,15 @@ import type {
   FormLabelProps,
   FormControlLabelProps,
   FormHelperTextProps,
-  StrObjOption,
-  RadioProps
+  StrNumObjOption,
+  RadioProps,
+  OptionValue
 } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
-  isKeyValueOption
+  isKeyValueOption,
+  normalizeSelectValue
 } from '@/utils';
 
 type RadioGroupInputProps = Omit<
@@ -33,7 +35,7 @@ type RadioGroupInputProps = Omit<
 
 export type RHFRadioGroupProps<
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrNumObjOption = StrNumObjOption
 > = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -60,7 +62,7 @@ export type RHFRadioGroupProps<
 
 const RHFRadioGroup = <
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrNumObjOption = StrNumObjOption
 >({
     fieldName,
     control,
@@ -121,9 +123,15 @@ const RHFRadioGroup = <
               {...otherFieldParams}
               value={value ?? ''}
               onChange={(event, selectedValue) => {
-                onChange(event);
+                const normalizedValue = normalizeSelectValue(
+                  selectedValue,
+                  options,
+                  labelKey,
+                  valueKey
+                ) as OptionValue<Option, string>;
+                onChange(normalizedValue);
                 if (onValueChange) {
-                  onValueChange(selectedValue, event);
+                  onValueChange(normalizedValue, event);
                 }
               }}
               onBlur={blurEvent => {

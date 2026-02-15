@@ -210,13 +210,14 @@ const RHFSelect = <
                   return renderValue?.(value) ?? optionLabel;
                 }}
               >
-                <MenuItem
-                  value=""
-                  disabled
-                  sx={{ display: showDefaultOption ? 'block' : 'none' }}
-                >
-                  {defaultOptionText ?? `Select ${fieldLabelText}`}
-                </MenuItem>
+                {showDefaultOption && (
+                  <MenuItem
+                    value=""
+                    disabled
+                  >
+                    {defaultOptionText ?? `Select ${fieldLabelText}`}
+                  </MenuItem>
+                )}
                 {options.map(option => {
                   const isObject = isKeyValueOption(option, labelKey, valueKey);
                   const opnValue = getOptionValue<Option, ValueKey>(

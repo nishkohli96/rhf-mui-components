@@ -120,7 +120,7 @@ const RHFNativeSelect = <
                 onValueChange(normalizedValue, event);
               }
             }}
-            onBlur={(blurEvent) => {
+            onBlur={blurEvent => {
               rhfOnBlur();
               onBlur?.(blurEvent);
             }}
@@ -131,8 +131,10 @@ const RHFNativeSelect = <
               }
             }}
           >
-            <option value="">{blankOptionText}</option>
-            {options.map((option) => {
+            <option value="">
+              {blankOptionText}
+            </option>
+            {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
               const opnValue = isObject
                 ? option[valueKey ?? '']

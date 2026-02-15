@@ -22,6 +22,16 @@ import { formSchema, type PersonInfo } from './validation';
 
 type CandidateInfo = PersonInfo & { marks: number[] };
 
+const ageGroupOptions = [
+  { ageGroup: '1-10', minAge: 1 },
+  { ageGroup: '11-20', minAge: 11 },
+  { ageGroup: '21-30', minAge: 21 },
+  { ageGroup: '31-40', minAge: 31 },
+  { ageGroup: '41-50', minAge: 41 },
+  { ageGroup: '51-60', minAge: 51 },
+  { ageGroup: '61+', minAge: 61 },
+]
+
 const CheckboxRadioZodForm = () => {
   const pathName = usePathname();
   const {
@@ -49,6 +59,18 @@ const CheckboxRadioZodForm = () => {
               control={control}
               options={Object.values(Gender)}
               onValueChange={(newVal) => toast.info(`You selected ${newVal}`)}
+              required
+              errorMessage={errors?.gender?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Radio Group with options as an array of objects" />
+            <RHFRadioGroup
+              fieldName="ageGroup"
+              control={control}
+              options={ageGroupOptions}
+              labelKey="ageGroup"
+              valueKey="minAge"
               required
               errorMessage={errors?.gender?.message}
             />
