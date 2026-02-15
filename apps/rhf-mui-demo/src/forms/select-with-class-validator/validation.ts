@@ -32,6 +32,12 @@ export class FormSchema {
   @IsEnum(Colors, { message: 'Select a color' })
   favouriteColor!: Colors;
 
+  @IsArray()
+  @ArrayMinSize(1, { message: 'Select atleast one option' })
+  @ArrayUnique()
+  @IsString({ each: true })
+  languages!: string[];
+
   @IsString()
   currency!: string;
 

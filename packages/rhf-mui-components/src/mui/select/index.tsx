@@ -179,7 +179,15 @@ const RHFSelect = <
                 // @ts-ignore
                 renderValue={value => {
                   if (showPlaceholder) {
-                    return placeholder;
+                    return (
+                      <MenuItem
+                        value=""
+                        disabled
+                        sx={{ p: 0 }}
+                      >
+                        {placeholder}
+                      </MenuItem>
+                    );
                   }
                   /* For multiple options */
                   if (Array.isArray(value)) {
