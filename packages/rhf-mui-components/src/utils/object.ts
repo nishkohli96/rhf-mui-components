@@ -64,8 +64,8 @@ export function normalizeSelectValue<
   const normalizeOne = (val: string) => {
     const match = options.find(op =>
       isKeyValueOption(op, labelKey, valueKey)
-        ? (op as Record<string, StringOrNumber>)[valueKey!] === val
-        : op === val);
+        ? String((op as Record<string, StringOrNumber>)[valueKey!]) === val
+        : String(op) === val);
     if (!match) {
       return val as OptionValue<Option, ValueKey>;
     }
