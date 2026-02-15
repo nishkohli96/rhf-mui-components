@@ -186,7 +186,7 @@ const RHFSelect = <
                     const labels = value.map(val => {
                       const match = options.find(op =>
                         isKeyValueOption(op, labelKey, valueKey)
-                          ? `${op[valueKey!]}` === `${val}`
+                          ? op[valueKey!] === val
                           : op === val);
                       return isKeyValueOption(match!, labelKey, valueKey)
                         ? match[labelKey!]

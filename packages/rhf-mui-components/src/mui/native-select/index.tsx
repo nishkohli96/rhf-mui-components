@@ -13,10 +13,11 @@ import type {
   FormHelperTextProps,
   FormLabelProps,
   StringOrNumber,
-  StrNumObjOption
+  StrNumObjOption,
 } from '@/types';
 import {
   fieldNameToLabel,
+  getOptionValue,
   isKeyValueOption,
   normalizeSelectValue,
   validateArray
@@ -29,14 +30,16 @@ type InputNativeSelectProps = Omit<
 
 export type RHFNativeSelectProps<
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends string | undefined = undefined,
+  ValueKey extends string | undefined = undefined
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
     value: StringOrNumber | StringOrNumber[],
     event: ChangeEvent<HTMLSelectElement>
@@ -53,7 +56,9 @@ export type RHFNativeSelectProps<
 
 const RHFNativeSelect = <
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends string | undefined = undefined,
+  ValueKey extends string | undefined = undefined,
 >({
     fieldName,
     control,
@@ -75,7 +80,7 @@ const RHFNativeSelect = <
     onBlur,
     autoComplete = defaultAutocompleteValue,
     ...otherNativeSelectProps
-  }: RHFNativeSelectProps<T, Option>) => {
+  }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -116,9 +121,7 @@ const RHFNativeSelect = <
                 valueKey
               );
               onChange(normalizedValue);
-              if (onValueChange) {
-                onValueChange(normalizedValue, event);
-              }
+              onValueChange?.(normalizedValue, event);
             }}
             onBlur={blurEvent => {
               rhfOnBlur();
@@ -136,11 +139,12 @@ const RHFNativeSelect = <
             </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
-              const opnValue = isObject
-                ? option[valueKey ?? '']
-                : (option as StringOrNumber);
-              const opnLabel: string = isObject
-                ? `${option[labelKey ?? '']}`
+              const opnValue = getOptionValue<Option, ValueKey>(
+                option,
+                valueKey
+              );
+              const opnLabel = isObject
+                ? String(option[labelKey!])
                 : String(option);
               return (
                 <option key={opnValue} value={opnValue}>
