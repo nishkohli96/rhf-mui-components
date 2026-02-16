@@ -39,8 +39,8 @@ type SelectValue<Value, Multiple extends boolean> =
 export type RHFSelectProps<
   T extends FieldValues,
   Option,
-  LabelKey extends string | undefined = undefined,
-  ValueKey extends string | undefined = undefined,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false,
   Value = OptionValue<Option, ValueKey>
 > = {
@@ -70,8 +70,8 @@ export type RHFSelectProps<
 const RHFSelect = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends string | undefined = undefined,
-  ValueKey extends string | undefined = undefined,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false
 >({
     fieldName,
