@@ -38,7 +38,7 @@ type SelectValue<Value, Multiple extends boolean> =
 
 export type RHFSelectProps<
   T extends FieldValues,
-  Option,
+  Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false,

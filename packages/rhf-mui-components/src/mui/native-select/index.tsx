@@ -83,13 +83,14 @@ const RHFNativeSelect = <
     sx,
     onBlur,
     autoComplete = defaultAutocompleteValue,
+    placeholder,
     ...otherNativeSelectProps
   }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-  const blankOptionText = defaultOptionText ?? `Select ${fieldName}`;
+  const blankOptionText = defaultOptionText ?? placeholder ?? '';
 
   return (
     <FormControl fullWidth error={isError}>
@@ -138,11 +139,9 @@ const RHFNativeSelect = <
               }
             }}
           >
-            {defaultOptionText && (
-              <option value="">
-                {blankOptionText}
-              </option>
-            )}
+            <option value="" disabled>
+              {blankOptionText}
+            </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
               const opnValue = getOptionValue<Option, ValueKey>(

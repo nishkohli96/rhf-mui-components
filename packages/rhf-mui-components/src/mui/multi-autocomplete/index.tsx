@@ -66,14 +66,16 @@ type MultiAutoCompleteProps<Option> = Omit<
 
 export type RHFMultiAutocompleteProps<
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   selectAllText?: string;
   onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
   label?: ReactNode;
@@ -92,7 +94,9 @@ export type RHFMultiAutocompleteProps<
 
 const RHFMultiAutocomplete = <
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
     fieldName,
     control,
@@ -118,7 +122,7 @@ const RHFMultiAutocomplete = <
     onBlur,
     loading,
     ...otherAutoCompleteProps
-  }: RHFMultiAutocompleteProps<T, Option>) => {
+  }: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
 
   const [selectedValues, setSelectedValues] = useState<StringArr>([]);
@@ -161,7 +165,7 @@ const RHFMultiAutocomplete = <
   );
 
   const getOptionLabelOrValue = useCallback(
-    (option: Option, key?: string): string => {
+    (option: Option, key?: LabelKey | ValueKey): string => {
       return key && isKeyValueOption(option, labelKey, valueKey)
         ? option[key]
         : (option as string);

@@ -63,14 +63,16 @@ type OmittedAutocompleteProps<Option> = Omit<
 
 export type RHFAutocompleteProps<
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
     fieldValue: string | string[] | null,
     event: SyntheticEvent<Element, Event>,
@@ -89,30 +91,35 @@ export type RHFAutocompleteProps<
   ChipProps?: MuiChipProps;
 } & OmittedAutocompleteProps<Option>;
 
-const RHFAutocomplete = <T extends FieldValues, Option extends StrObjOption>({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  multiple,
-  labelKey,
-  valueKey,
-  onValueChange,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  onBlur,
-  loading,
-  ...otherAutoCompleteProps
-}: RHFAutocompleteProps<T, Option>) => {
+const RHFAutocomplete = <
+  T extends FieldValues,
+  Option extends StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>({
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    multiple,
+    labelKey,
+    valueKey,
+    onValueChange,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    onBlur,
+    loading,
+    ...otherAutoCompleteProps
+  }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -201,10 +208,11 @@ const RHFAutocomplete = <T extends FieldValues, Option extends StrObjOption>({
                       ? (newValue ?? []).map(item =>
                         valueKey && isKeyValueOption(item, labelKey, valueKey)
                           ? item[valueKey]
-                          : item as string)
-                      : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
+                          : (item as string))
+                      : valueKey
+                        && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
-                        : newValue as string;
+                        : (newValue as string);
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}

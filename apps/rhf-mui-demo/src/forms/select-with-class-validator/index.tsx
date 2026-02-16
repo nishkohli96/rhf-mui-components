@@ -135,6 +135,7 @@ const SelectFormWithClassValidator = () => {
               control={control}
               options={[10, 20, 30, 40, 50]}
               label="Choose an age group"
+              placeholder="Select age group"
               required
               errorMessage={errors?.ageGroup?.message}
             />
