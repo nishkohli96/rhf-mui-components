@@ -1,3 +1,7 @@
+/**
+ * TODO
+ * Add showDefaultOption prop from v4
+ */
 import type { ReactNode, ChangeEvent } from 'react';
 import {
   Controller,
@@ -31,8 +35,8 @@ type InputNativeSelectProps = Omit<
 export type RHFNativeSelectProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends string | undefined = undefined,
-  ValueKey extends string | undefined = undefined
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 > = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -57,8 +61,8 @@ export type RHFNativeSelectProps<
 const RHFNativeSelect = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends string | undefined = undefined,
-  ValueKey extends string | undefined = undefined,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 >({
     fieldName,
     control,
@@ -134,9 +138,11 @@ const RHFNativeSelect = <
               }
             }}
           >
-            <option value="">
-              {blankOptionText}
-            </option>
+            {defaultOptionText && (
+              <option value="">
+                {blankOptionText}
+              </option>
+            )}
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
               const opnValue = getOptionValue<Option, ValueKey>(
