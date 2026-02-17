@@ -23,7 +23,8 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  normalizeSelectValue
+  normalizeSelectValue,
+  getOptionValue
 } from '@/utils';
 
 type RadioGroupInputProps = Omit<
@@ -35,14 +36,16 @@ type RadioGroupInputProps = Omit<
 
 export type RHFRadioGroupProps<
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
     selectedValue: string,
     event: ChangeEvent<HTMLInputElement>
@@ -62,7 +65,9 @@ export type RHFRadioGroupProps<
 
 const RHFRadioGroup = <
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
     fieldName,
     control,
@@ -84,7 +89,7 @@ const RHFRadioGroup = <
     formHelperTextProps,
     onBlur,
     ...rest
-  }: RHFRadioGroupProps<T, Option>) => {
+  }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -112,9 +117,9 @@ const RHFRadioGroup = <
         rules={registerOptions}
         render={({ field }) => {
           const {
+            value,
             onChange,
             onBlur: rhfOnBlur,
-            value,
             ...otherFieldParams
           } = field;
           return (
@@ -142,12 +147,9 @@ const RHFRadioGroup = <
             >
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                // @ts-ignore
-                const opnValue: string = isObject
-                  ? `${option[valueKey ?? '']}`
-                  : option;
+                const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
                 const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
+                  ? String(option[labelKey!])
                   : String(option);
                 return (
                   <FormControlLabel

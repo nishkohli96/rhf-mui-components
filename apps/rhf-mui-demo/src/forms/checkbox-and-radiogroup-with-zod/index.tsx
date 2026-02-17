@@ -70,7 +70,7 @@ const CheckboxRadioZodForm = () => {
               labelKey="ageGroup"
               valueKey="minAge"
               required
-              errorMessage={errors?.gender?.message}
+              errorMessage={errors?.ageGroup?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

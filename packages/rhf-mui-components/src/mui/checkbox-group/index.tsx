@@ -124,6 +124,7 @@ const RHFCheckboxGroup = <
             onChange: (v: OptionValue<Option, ValueKey>[]) => void;
             onBlur: () => void;
           };
+
           const handleChange = (
             event: ChangeEvent<HTMLInputElement>,
             checked: boolean,
@@ -136,6 +137,7 @@ const RHFCheckboxGroup = <
             onChange(newValue);
             onValueChange?.(normalized, newValue, event);
           };
+
           return (
             <Fragment>
               {options.map((option, idx) => {
