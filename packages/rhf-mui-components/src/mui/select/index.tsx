@@ -176,7 +176,6 @@ const RHFSelect = <
                   rhfOnBlur();
                   onBlur?.(blurEvent);
                 }}
-                // @ts-ignore
                 renderValue={value => {
                   if (showPlaceholder) {
                     return (
@@ -200,7 +199,11 @@ const RHFSelect = <
                         ? match[labelKey!]
                         : match;
                     });
-                    return renderValue?.(value) ?? labels.join(', ');
+                    return (
+                      <Fragment>
+                        {renderValue?.(value) ?? labels.join(', ')}
+                      </Fragment>
+                    );
                   }
 
                   /* For single option */
@@ -215,7 +218,11 @@ const RHFSelect = <
                   )
                     ? match[labelKey!]
                     : match;
-                  return renderValue?.(value) ?? optionLabel;
+                  return (
+                    <Fragment>
+                      {renderValue?.(value) ?? optionLabel}
+                    </Fragment>
+                  );
                 }}
               >
                 {showDefaultOption && (
