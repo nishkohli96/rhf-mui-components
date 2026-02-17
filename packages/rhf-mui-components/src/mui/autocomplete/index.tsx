@@ -244,13 +244,9 @@ const RHFAutocomplete = <
                   <TextField
                     {...otherTextFieldProps}
                     {...params}
-                    label={
-                      !isLabelAboveFormField
-                        ? (
-                          <FormLabelText label={fieldLabel} required={required} />
-                        )
-                        : undefined
-                    }
+                    {...(!isLabelAboveFormField && (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    ))}
                     error={isError}
                     {...(isAboveMuiV5
                       ? {
@@ -261,16 +257,12 @@ const RHFAutocomplete = <
                             ...textFieldProps?.slotProps?.input,
                             endAdornment: (
                               <>
-                                {loading
-                                  ? (
-                                    <CircularProgress
-                                      color="inherit"
-                                      size={20}
-                                    />
-                                  )
-                                  : (
-                                    <></>
-                                  )}
+                                {loading && (
+                                  <CircularProgress
+                                    color="inherit"
+                                    size={20}
+                                  />
+                                )}
                                 {params.InputProps.endAdornment}
                               </>
                             )

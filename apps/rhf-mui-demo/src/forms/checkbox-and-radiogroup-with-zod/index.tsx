@@ -16,11 +16,9 @@ import {
   SubmitButton
 } from '@/components';
 import { CountriesList, formSubmitEventName } from '@/constants';
-import { Gender } from '@/types';
+import { Colors, Gender } from '@/types';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import { formSchema, type PersonInfo } from './validation';
-
-type CandidateInfo = PersonInfo & { marks: number[] };
 
 const ageGroupOptions = [
   { ageGroup: '1-10', minAge: 1 },
@@ -39,11 +37,11 @@ const CheckboxRadioZodForm = () => {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<CandidateInfo>({
+  } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema)
   });
 
-  async function onFormSubmit(formValues: CandidateInfo) {
+  async function onFormSubmit(formValues: PersonInfo) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
@@ -73,6 +71,18 @@ const CheckboxRadioZodForm = () => {
               valueKey="minAge"
               required
               errorMessage={errors?.gender?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="CheckboxGroup with options as an array of strings" />
+            <RHFCheckboxGroup
+              fieldName="favouriteColors"
+              label="Select your favourite colors"
+              control={control}
+              options={Object.values(Colors)}
+              formControlLabelProps={{ sx: { color: 'orange' } }}
+              required
+              errorMessage={errors?.favouriteColors?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

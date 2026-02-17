@@ -35,8 +35,8 @@ import {
 export type RHFCheckboxGroupProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends string | undefined = undefined,
-  ValueKey extends string | undefined = undefined,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -66,8 +66,8 @@ export type RHFCheckboxGroupProps<
 const RHFCheckboxGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends string | undefined = undefined,
-  ValueKey extends string | undefined = undefined
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
     fieldName,
     control,

@@ -1,10 +1,12 @@
 import * as z from 'zod';
-import { Gender } from '@/types';
+import { Colors, Gender } from '@/types';
 
 export type PersonInfo = {
   gender: Gender;
   ageGroup: number;
+  favouriteColors: Colors[];
   countriesVisited: string[];
+  marks: number[];
   agreeTnC: boolean;
 };
 
@@ -13,6 +15,10 @@ export const formSchema = z.object({
     message: 'Choose your gender'
   }),
   ageGroup: z.number({ message: 'Select age group' }),
+  favouriteColors: z.array(z.nativeEnum(Colors), {
+    message: 'Select at least one color',
+    invalid_type_error: 'Invalid color selection'
+  }),
   countriesVisited: z.array(z.string(), {
     message: 'Select atleast one country'
   }),
