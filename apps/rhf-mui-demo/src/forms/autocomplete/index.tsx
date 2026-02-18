@@ -3,7 +3,8 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -200,10 +201,53 @@ const AutocompleteForm = () => {
               }}
               options={pokemonList}
               labelKey="name"
-              valueKey="url"
+              valueKey="id"
               multiple
               showLabelAboveFormField
               loading={loading}
+              renderOption={({ key, ...props }, option) => {
+                return (
+                  <Box
+                    key={key}
+                    component="li"
+                    {...props}
+                    sx={{
+                      px: 1.25,
+                      py: 0.5,
+                      borderRadius: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      textAlign: 'left',
+                      '&.MuiAutocomplete-option': {
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start'
+                      },
+                      minHeight: 'unset !important',
+                      '&:hover': {
+                        backgroundColor: 'action.hover'
+                      },
+                      '&[aria-selected="true"]': {
+                        backgroundColor: 'action.selected'
+                      }
+                    }}
+                  >
+                    <Box
+                      sx={{ fontSize: 14, fontWeight: 600, lineHeight: 1.2 }}
+                    >
+                      {option.name}
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: 1.2,
+                        color: 'text.secondary'
+                      }}
+                    >
+                      {option.id}
+                    </Box>
+                  </Box>
+                );
+              }}
               slotProps={{
                 listbox: {
                   onScroll: (event) => {
