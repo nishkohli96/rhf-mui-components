@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { faker } from '@faker-js/faker'
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -212,39 +212,22 @@ const AutocompleteForm = () => {
                     component="li"
                     {...props}
                     sx={{
-                      px: 1.25,
-                      py: 0.5,
-                      borderRadius: 1,
                       display: 'flex',
-                      flexDirection: 'column',
-                      textAlign: 'left',
-                      '&.MuiAutocomplete-option': {
-                        alignItems: 'flex-start',
-                        justifyContent: 'flex-start'
-                      },
-                      minHeight: 'unset !important',
-                      '&:hover': {
-                        backgroundColor: 'action.hover'
-                      },
-                      '&[aria-selected="true"]': {
-                        backgroundColor: 'action.selected'
-                      }
+                      alignItems: 'center',
+                      gap: 1.5,
+                      py: 1
                     }}
                   >
-                    <Box
-                      sx={{ fontSize: 14, fontWeight: 600, lineHeight: 1.2 }}
-                    >
+                    <Image
+                      src={option.image}
+                      alt={option.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <Typography>
                       {option.name}
-                    </Box>
-                    <Box
-                      sx={{
-                        fontSize: 12,
-                        lineHeight: 1.2,
-                        color: 'text.secondary'
-                      }}
-                    >
-                      {option.id}
-                    </Box>
+                    </Typography>
                   </Box>
                 );
               }}
