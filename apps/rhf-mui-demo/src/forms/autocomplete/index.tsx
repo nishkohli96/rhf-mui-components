@@ -61,7 +61,8 @@ const AutocompleteForm = () => {
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG'],
     sourceAirport: airportList[2].iataCode,
-    iplTeams: ['MI', 'CSK']
+    iplTeams: ['MI', 'CSK'],
+    colors: [Colors.Pink, Colors.Green]
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];

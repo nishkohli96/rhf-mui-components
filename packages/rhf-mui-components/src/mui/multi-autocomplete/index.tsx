@@ -1,5 +1,4 @@
 import {
-  useState,
   useContext,
   useCallback,
   useMemo,
@@ -127,7 +126,6 @@ const RHFMultiAutocomplete = <
   }: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
 
-  const [selectedValues, setSelectedValues] = useState<StringArr>([]);
   const { allLabelsAboveFields, defaultFormControlLabelSx }
     = useContext(RHFMuiConfigContext);
   const shouldHideSelectAllOptions
@@ -142,15 +140,7 @@ const RHFMultiAutocomplete = <
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-
   const selectAllOptionValue = '';
-  const { areAllSelected, isIndeterminate } = useMemo(() => {
-    const allSelected = selectedValues.length === options.length;
-    return {
-      areAllSelected: allSelected,
-      isIndeterminate: selectedValues.length > 0 && !allSelected
-    };
-  }, [selectedValues, options.length]);
 
   const autoCompleteOptions: Option[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {
@@ -185,23 +175,6 @@ const RHFMultiAutocomplete = <
         : selectAllText
       : getOptionLabelOrValue(option, labelKey);
 
-  const handleCheckboxChange = useCallback(
-    (isChecked: boolean, value: string) => {
-      /* When "Select All" checkbox is toggled. */
-      if (!value || value === selectAllOptionValue) {
-        return isChecked
-          ? options.map(option => getOptionLabelOrValue(option, valueKey))
-          : [];
-      }
-
-      /* When one of the options is selected */
-      return isChecked
-        ? [...selectedValues, value]
-        : selectedValues.filter(val => val !== value);
-    },
-    [options, getOptionLabelOrValue, valueKey, selectedValues]
-  );
-
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -218,6 +191,7 @@ const RHFMultiAutocomplete = <
         render={({
           field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
         }) => {
+          const selectedValues: StringArr = value ?? [];
           const selectedOptions = (value ?? [])
             .map(val =>
               options.find(opn =>
@@ -225,14 +199,30 @@ const RHFMultiAutocomplete = <
                   ? opn[valueKey] === val
                   : opn === val))
             .filter((opn): opn is Option => Boolean(opn));
+          const areAllSelected = selectedValues.length === options.length;
+          const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
           const changeFieldState = (
             newValue: StringArr,
             selectedValue?: string
           ) => {
             onChange(newValue);
-            setSelectedValues(newValue);
             onValueChange?.(newValue, selectedValue);
+          };
+
+          const handleCheckboxChange = (isChecked: boolean, value: string) => {
+            /* When "Select All" checkbox is toggled. */
+            if (!value || value === selectAllOptionValue) {
+              return isChecked
+                ? options.map((option) =>
+                    getOptionLabelOrValue(option, valueKey)
+                  )
+                : [];
+            }
+            /* When one of the options is selected */
+            return isChecked
+              ? [...selectedValues, value]
+              : selectedValues.filter((val) => val !== value);
           };
 
           return (
