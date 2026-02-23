@@ -147,7 +147,7 @@ const RHFMultiAutocomplete = <
       return options;
     }
     return [selectAllText as Option, ...options];
-  }, [options, selectAllText]);
+  }, [options, selectAllText, shouldHideSelectAllOptions]);
 
   const isSelectAllOption = useCallback(
     (option: Option) => {
@@ -202,29 +202,6 @@ const RHFMultiAutocomplete = <
           const areAllSelected = selectedValues.length === options.length;
           const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
-          const changeFieldState = (
-            newValue: StringArr,
-            selectedValue?: string
-          ) => {
-            onChange(newValue);
-            onValueChange?.(newValue, selectedValue);
-          };
-
-          const handleCheckboxChange = (isChecked: boolean, value: string) => {
-            /* When "Select All" checkbox is toggled. */
-            if (!value || value === selectAllOptionValue) {
-              return isChecked
-                ? options.map((option) =>
-                    getOptionLabelOrValue(option, valueKey)
-                  )
-                : [];
-            }
-            /* When one of the options is selected */
-            return isChecked
-              ? [...selectedValues, value]
-              : selectedValues.filter((val) => val !== value);
-          };
-
           return (
             <Autocomplete
               {...otherFieldProps}
@@ -236,28 +213,29 @@ const RHFMultiAutocomplete = <
               multiple
               autoHighlight
               disableCloseOnSelect
-              onChange={(_, newValue, reason, details) => {
-                const valueOfClickedItem = details?.option
-                  ? getOptionLabelOrValue(details.option, valueKey)
-                  === selectAllText
-                    ? selectAllOptionValue
-                    : getOptionLabelOrValue(details.option, valueKey)
-                  : undefined;
-                if (reason === 'clear') {
-                  changeFieldState([], valueOfClickedItem);
+              onChange={(_, newSelectedOptions, reason, details) => {
+                const clickedOption = details?.option;
+                if (!clickedOption) {
+                  onChange([]);
+                  onValueChange?.([]);
+                  return;
                 }
-                /**
-                 * "removeOption" reason is being called even after unchecking a checkbox.
-                 * This will also be called when a remove chip. I purposely need to check
-                 * that if "SelectAll" option is being removed, then the flow should not
-                 * go in the if block.
-                 */
-                if (reason === 'removeOption' && valueOfClickedItem) {
-                  const fieldValue = newValue
-                    .map(opn => getOptionLabelOrValue(opn, valueKey))
-                    .filter(opn => opn !== valueOfClickedItem);
-                  changeFieldState(fieldValue, valueOfClickedItem);
+                const isSelectAll = isSelectAllOption(clickedOption);
+                if (isSelectAll) {
+                  const allValues = options.map(option => getOptionLabelOrValue(option, valueKey));
+                  const areAllCurrentlySelected = (value ?? []).length === options.length;
+                  const finalValue = areAllCurrentlySelected ? [] : allValues;
+                  onChange(finalValue);
+                  onValueChange?.(finalValue, selectAllOptionValue);
+                  return;
                 }
+                const finalValue = newSelectedOptions.map(option =>
+                  getOptionLabelOrValue(option, valueKey));
+                onChange(finalValue);
+                onValueChange?.(
+                  finalValue,
+                  getOptionLabelOrValue(clickedOption, valueKey)
+                );
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -345,16 +323,17 @@ const RHFMultiAutocomplete = <
                   />
                 );
               }}
-              renderOption={({ key, ...optionProps }, option) => {
+              renderOption={(optionProps, option) => {
                 const isSelectAll = isSelectAllOption(option);
                 const label = renderOptionLabel(option);
                 const value = isSelectAll
                   ? selectAllOptionValue
                   : getOptionLabelOrValue(option, valueKey);
                 return (
-                  <Box component="li" key={key} {...optionProps}>
+                  <Box component="li" {...optionProps}>
                     <FormControlLabel
                       label={label}
+                      onClick={e => e.preventDefault()}
                       control={
                         <Checkbox
                           {...checkboxProps}
@@ -371,16 +350,6 @@ const RHFMultiAutocomplete = <
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                      onClick={event => {
-                        event.preventDefault();
-                        const isChecked = isSelectAll
-                          ? !areAllSelected
-                          : !selectedValues.includes(value);
-                        changeFieldState(
-                          handleCheckboxChange(isChecked, value),
-                          value
-                        );
-                      }}
                       {...otherFormControlLabelProps}
                     />
                   </Box>
