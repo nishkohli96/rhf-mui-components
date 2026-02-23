@@ -490,6 +490,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Custom text to render in place of the "Select All" option that enables user to select all available options in the Autocomplete.',
     type: 'string'
   },
+  hideSelectAllOption: {
+    name: 'hideSelectAllOption',
+    description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2.0` and above.',
+    type: 'boolean'
+  },
   ChipProps: {
     name: 'ChipProps',
     description: 'Props to customise the `Chip` component for each input tag.',

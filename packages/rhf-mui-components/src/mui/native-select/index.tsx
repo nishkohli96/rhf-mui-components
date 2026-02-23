@@ -1,3 +1,7 @@
+/**
+ * TODO
+ * Add showDefaultOption prop from v4
+ */
 import type { ReactNode, ChangeEvent } from 'react';
 import {
   Controller,
@@ -8,15 +12,18 @@ import {
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormLabel, FormHelperText } from '@/mui/common';
+import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
 import type {
   FormHelperTextProps,
   FormLabelProps,
-  StrNumObjOption
+  StringOrNumber,
+  StrNumObjOption,
 } from '@/types';
 import {
   fieldNameToLabel,
+  getOptionValue,
   isKeyValueOption,
+  normalizeSelectValue,
   validateArray
 } from '@/utils';
 
@@ -25,15 +32,20 @@ type InputNativeSelectProps = Omit<
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value'
 >;
 
-export type RHFNativeSelectProps<T extends FieldValues> = {
+export type RHFNativeSelectProps<
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrNumObjOption[];
-  labelKey?: string;
-  valueKey?: string;
+  options: Option[];
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
-    value: StrNumObjOption,
+    value: StringOrNumber | StringOrNumber[],
     event: ChangeEvent<HTMLSelectElement>
   ) => void;
   defaultOptionText?: string;
@@ -46,32 +58,39 @@ export type RHFNativeSelectProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
 } & InputNativeSelectProps;
 
-const RHFNativeSelect = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  onValueChange,
-  defaultOptionText,
-  showLabelAboveFormField,
-  formLabelProps,
-  label,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  sx,
-  onBlur,
-  ...otherNativeSelectProps
-}: RHFNativeSelectProps<T>) => {
+const RHFNativeSelect = <
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+>({
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    onValueChange,
+    defaultOptionText,
+    showLabelAboveFormField,
+    formLabelProps,
+    label,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    sx,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    placeholder,
+    ...otherNativeSelectProps
+  }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-  const blankOptionText = defaultOptionText ?? `Select ${fieldName}`;
+  const blankOptionText = defaultOptionText ?? placeholder ?? '';
 
   return (
     <FormControl fullWidth error={isError}>
@@ -86,20 +105,28 @@ const RHFNativeSelect = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, value, onBlur: rhfOnBlur, ...rest } }) => (
+        render={({
+          field: { onChange, value, onBlur: rhfOnBlur, ...rest }
+        }) => (
           <NativeSelect
             {...otherNativeSelectProps}
             {...rest}
+            autoComplete={autoComplete}
             value={value ?? ''}
             inputProps={{
               name: fieldName,
               id: fieldName
             }}
             onChange={event => {
-              onChange(event.target.value);
-              if (onValueChange) {
-                onValueChange(event.target.value, event);
-              }
+              const selectedValue = event.target.value;
+              const normalizedValue = normalizeSelectValue(
+                selectedValue,
+                options,
+                labelKey,
+                valueKey
+              );
+              onChange(normalizedValue);
+              onValueChange?.(normalizedValue, event);
             }}
             onBlur={blurEvent => {
               rhfOnBlur();
@@ -108,17 +135,22 @@ const RHFNativeSelect = <T extends FieldValues>({
             sx={{
               ...sx,
               '&.MuiNativeSelect-root': {
-                margin: 0,
+                margin: 0
               }
             }}
           >
-            <option value="">
+            <option value="" disabled>
               {blankOptionText}
             </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
-              const opnValue = isObject ? `${option[valueKey ?? '']}` : option;
-              const opnLabel = isObject ? `${option[labelKey ?? '']}` : option;
+              const opnValue = getOptionValue<Option, ValueKey>(
+                option,
+                valueKey
+              );
+              const opnLabel = isObject
+                ? String(option[labelKey!])
+                : String(option);
               return (
                 <option key={opnValue} value={opnValue}>
                   {opnLabel}

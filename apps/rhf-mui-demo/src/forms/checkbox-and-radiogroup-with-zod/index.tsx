@@ -16,9 +16,19 @@ import {
   SubmitButton
 } from '@/components';
 import { CountriesList, formSubmitEventName } from '@/constants';
-import { Gender } from '@/types';
+import { Colors, Gender } from '@/types';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import { formSchema, type PersonInfo } from './validation';
+
+const ageGroupOptions = [
+  { ageGroup: '1-10', minAge: 1 },
+  { ageGroup: '11-20', minAge: 11 },
+  { ageGroup: '21-30', minAge: 21 },
+  { ageGroup: '31-40', minAge: 31 },
+  { ageGroup: '41-50', minAge: 41 },
+  { ageGroup: '51-60', minAge: 51 },
+  { ageGroup: '61+', minAge: 61 },
+]
 
 const CheckboxRadioZodForm = () => {
   const pathName = usePathname();
@@ -46,9 +56,33 @@ const CheckboxRadioZodForm = () => {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-              onValueChange={newVal => toast.info(`You selected ${newVal}`)}
+              onValueChange={(newVal) => toast.info(`You selected ${newVal}`)}
               required
               errorMessage={errors?.gender?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Radio Group with options as an array of objects" />
+            <RHFRadioGroup
+              fieldName="ageGroup"
+              control={control}
+              options={ageGroupOptions}
+              labelKey="ageGroup"
+              valueKey="minAge"
+              required
+              errorMessage={errors?.ageGroup?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="CheckboxGroup with options as an array of strings" />
+            <RHFCheckboxGroup
+              fieldName="favouriteColors"
+              label="Select your favourite colors"
+              control={control}
+              options={Object.values(Colors)}
+              formControlLabelProps={{ sx: { color: 'orange' } }}
+              required
+              errorMessage={errors?.favouriteColors?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -62,6 +96,16 @@ const CheckboxRadioZodForm = () => {
               valueKey="code"
               required
               errorMessage={errors?.countriesVisited?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="CheckboxGroup with options as an array of numbers" />
+            <RHFCheckboxGroup
+              fieldName="marks"
+              control={control}
+              options={[10, 20, 30, 40, 50]}
+              required
+              errorMessage={errors?.marks?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

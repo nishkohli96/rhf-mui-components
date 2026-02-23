@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -20,6 +21,7 @@ import {
 import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { fetchPokemons, Pokemon } from './pokeApi';
 
 type AirportInfo = {
   iataCode: string;
@@ -34,7 +36,10 @@ type FormSchema = {
   dreamDestinations?: string[];
   colors?: Colors[];
   iplTeams?: string[];
+  pokemons?: string[];
 };
+
+const LIMIT = 50;
 
 const generateAirportNames = (count: number) => {
   const fullNames = new Set<AirportInfo>();
@@ -45,13 +50,19 @@ const generateAirportNames = (count: number) => {
 };
 
 const AutocompleteForm = () => {
+  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
 
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG'],
     sourceAirport: airportList[2].iataCode,
-    iplTeams: ['MI', 'CSK']
+    iplTeams: ['MI', 'CSK'],
+    colors: [Colors.Pink, Colors.Green]
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
@@ -66,10 +77,24 @@ const AutocompleteForm = () => {
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
+  const loadPokemons = useCallback(async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
+    const data = await fetchPokemons(LIMIT, offset);
+    setPokemonList((prev) => [...prev, ...data.results]);
+    setHasMore(!!data.next);
+    setOffset((prev) => prev + LIMIT);
+    setLoading(false);
+  }, [offset, hasMore, loading]);
+
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
+
+  useEffect(() => {
+    loadPokemons();
+  }, []);
 
   return (
     <FormContainer title="Autocomplete variations with Register Options">
@@ -87,10 +112,10 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
-              // @ts-ignore
-              renderOption={(props, option: AirportInfo) => {
+              renderOption={({ key, ...props }, option) => {
                 return (
                   <Box
+                    key={key}
                     component="li"
                     {...props}
                     sx={{
@@ -165,6 +190,66 @@ const AutocompleteForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Autocomplete fetching options from API and appending more options on scrolling" />
+            <RHFAutocomplete
+              fieldName="pokemons"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
+              options={pokemonList}
+              labelKey="name"
+              valueKey="id"
+              multiple
+              showLabelAboveFormField
+              loading={loading}
+              renderOption={({ key, ...props }, option) => {
+                return (
+                  <Box
+                    key={key}
+                    component="li"
+                    {...props}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.5,
+                      py: 1
+                    }}
+                  >
+                    <Image
+                      src={option.image}
+                      alt={option.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <Typography>
+                      {option.name}
+                    </Typography>
+                  </Box>
+                );
+              }}
+              slotProps={{
+                listbox: {
+                  onScroll: (event) => {
+                    const listboxNode = event.currentTarget;
+                    const scrollBottom =
+                      listboxNode.scrollTop + listboxNode.clientHeight >=
+                      listboxNode.scrollHeight - 5;
+                    if (scrollBottom && !loading) {
+                      loadPokemons();
+                    }
+                  }
+                }
+              }}
+              textFieldProps={{ variant: 'standard' }}
+              errorMessage={errors?.pokemons?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multi Autocomplete With String Options" />
             <RHFMultiAutocomplete
               fieldName="colors"
@@ -178,7 +263,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -188,7 +273,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              getLimitTagsText={more => `+${more} Color(s)`}
+              getLimitTagsText={(more) => `+${more} Color(s)`}
               helperText="Select at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
               errorMessage={errors?.colors?.message}
@@ -210,7 +295,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -225,7 +310,7 @@ const AutocompleteForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: theme => theme.palette.secondary.main
+                  color: (theme) => theme.palette.secondary.main
                 }
               }}
               required
@@ -270,10 +355,10 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: value => {
+                  minItems: (value) => {
                     if (
-                      Array.isArray(value)
-                      && value.every(item => typeof item === 'string')
+                      Array.isArray(value) &&
+                      value.every((item) => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -289,7 +374,7 @@ const AutocompleteForm = () => {
               label="What are your Dream Destinations?"
               ChipProps={{
                 sx: {
-                  background: theme => theme.palette.primary.main
+                  background: (theme) => theme.palette.primary.main
                 }
               }}
               helperText={

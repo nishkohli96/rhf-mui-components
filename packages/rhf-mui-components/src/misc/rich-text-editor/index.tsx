@@ -10,7 +10,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 import { DefaultEditorConfig } from './config';

@@ -13,7 +13,7 @@ import {
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type {
   FormLabelProps,
   FormHelperTextProps,

@@ -1,21 +1,31 @@
-import type { StrNumObjOption } from '@/types';
+import type { OptionPrimitive } from '@/types';
 import { generateLabelValueErrMsg } from '@/utils';
 
-function isStrNumArray(arr: StrNumObjOption[]): boolean {
-  return arr.every(el => typeof el === 'number' || typeof el === 'string');
+function isPrimitiveArray(
+  options: readonly unknown[]
+): options is OptionPrimitive[] {
+  return options.every(
+    opt => typeof opt === 'string' || typeof opt === 'number'
+  );
 }
 
-export function validateArray(
+export function validateArray<
+  Option,
+  LabelKey extends string | undefined,
+  ValueKey extends string | undefined
+>(
   formElementName: string,
-  options: StrNumObjOption[],
-  labelKey?: string,
-  valueKey?: string,
-) {
+  options: Option[],
+  labelKey?: LabelKey,
+  valueKey?: ValueKey
+): void {
   if (!Array.isArray(options)) {
-    throw new Error(`The "options" prop of ${formElementName} must be an array.`);
+    throw new Error(
+      `The "options" prop of ${formElementName} must be an array.`
+    );
   }
-  const isScalarArr = isStrNumArray(options);
-  if (!isScalarArr && (!labelKey || !valueKey)) {
+  const isPrimitive = isPrimitiveArray(options as unknown[]);
+  if (!isPrimitive && (!labelKey || !valueKey)) {
     throw new Error(generateLabelValueErrMsg(formElementName));
   }
 }

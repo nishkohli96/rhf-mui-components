@@ -21,7 +21,13 @@ import Autocomplete, {
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/mui/common';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue
+} from '@/common';
 import type {
   TrueOrFalse,
   CountryDetails,
@@ -204,13 +210,17 @@ const RHFCountrySelect = <T extends FieldValues>({
               isOptionEqualToValue={(option, value) =>
                 option[valueKey] === value[valueKey]}
               renderInput={params => {
+                const {
+                  autoComplete = defaultAutocompleteValue,
+                  ...otherTextFieldProps
+                } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...params.inputProps,
-                  autoComplete: fieldName
+                  autoComplete
                 };
                 return (
                   <TextField
-                    {...textFieldProps}
+                    {...otherTextFieldProps}
                     {...params}
                     label={
                       !isLabelAboveFormField
@@ -221,12 +231,23 @@ const RHFCountrySelect = <T extends FieldValues>({
                     }
                     error={isError}
                     {...(isAboveMuiV5
-                      && {
+                      ? {
                         slotProps: {
+                          ...textFieldProps?.slotProps,
+                          input: {
+                            ...params?.InputProps,
+                            ...textFieldProps?.slotProps?.input,
+                          },
                           htmlInput: textFieldInputProps,
-                        }
+                        },
                       }
-                    )}
+                      : {
+                        InputProps: {
+                          ...params.InputProps,
+                          ...textFieldProps?.InputProps,
+                        },
+                        inputProps: textFieldInputProps,
+                      })}
                   />
                 );
               }}

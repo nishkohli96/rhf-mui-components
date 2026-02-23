@@ -1,6 +1,7 @@
 import {
   useContext,
   Fragment,
+  type FocusEvent,
   type ReactNode,
   type ChangeEvent
 } from 'react';
@@ -14,31 +15,38 @@ import {
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type {
   FormLabelProps,
   FormHelperTextProps,
   FormControlLabelProps,
   CheckboxProps,
-  StrObjOption,
-  StringArr
+  OptionValue,
+  StrNumObjOption
 } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
-  isKeyValueOption
+  isKeyValueOption,
+  coerceValue,
+  getOptionValue
 } from '@/utils';
 
-export type RHFCheckboxGroupProps<T extends FieldValues> = {
+export type RHFCheckboxGroupProps<
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  options: StrObjOption[];
-  labelKey?: string;
-  valueKey?: string;
+  options: Option[];
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
-    selectedItemValue: string,
-    newValue: string[],
+    selectedItemValue: OptionValue<Option, ValueKey>,
+    newValue: OptionValue<Option, ValueKey>[],
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   disabled?: boolean;
@@ -52,30 +60,35 @@ export type RHFCheckboxGroupProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  onBlur?: (event: React.FocusEvent<HTMLButtonElement, Element>) => void;
+  onBlur?: (event: FocusEvent<HTMLButtonElement, Element>) => void;
 };
 
-const RHFCheckboxGroup = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  onValueChange,
-  disabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  checkboxProps,
-  formControlLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  onBlur,
-}: RHFCheckboxGroupProps<T>) => {
+const RHFCheckboxGroup = <
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>({
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    onValueChange,
+    disabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    checkboxProps,
+    formControlLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    onBlur
+  }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -102,29 +115,38 @@ const RHFCheckboxGroup = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur } = field;
+          const {
+            value = [],
+            onChange,
+            onBlur: rhfOnBlur
+          } = field as {
+            value: OptionValue<Option, ValueKey>[];
+            onChange: (v: OptionValue<Option, ValueKey>[]) => void;
+            onBlur: () => void;
+          };
+
           const handleChange = (
             event: ChangeEvent<HTMLInputElement>,
-            checked: boolean
+            checked: boolean,
+            optionValue: OptionValue<Option, ValueKey>
           ) => {
+            const normalized = coerceValue(event.target.value, optionValue);
             const newValue = checked
-              ? [...(value ?? []), event.target.value]
-              : value!.filter((v: string) => v !== event.target.value);
+              ? [...value, normalized]
+              : value.filter(v => v !== normalized);
             onChange(newValue);
-            if(onValueChange) {
-              onValueChange(event.target.value, newValue, event);
-            }
+            onValueChange?.(normalized, newValue, event);
           };
+
           return (
             <Fragment>
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = isObject
-                  ? `${option[valueKey ?? '']}`
-                  : option;
+                const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
                 const opnLabel = isObject
-                  ? `${option[labelKey ?? '']}`
-                  : option;
+                  ? String(option[labelKey!])
+                  : String(option);
+                const checked = value.includes(opnValue);
                 return (
                   <FormControlLabel
                     key={idx}
@@ -133,17 +155,15 @@ const RHFCheckboxGroup = <T extends FieldValues>({
                         {...checkboxProps}
                         name={fieldName}
                         value={opnValue}
-                        checked={(
-                          (value as StringArr) ?? []
-                        ).includes(opnValue)}
-                        onChange={e => handleChange(e, e.target.checked)}
+                        checked={checked}
+                        onChange={e => handleChange(e, e.target.checked, opnValue)}
                         onBlur={blurEvent => {
                           rhfOnBlur();
                           onBlur?.(blurEvent);
                         }}
                       />
                     }
-                    label={`${opnLabel}`}
+                    label={opnLabel}
                     sx={appliedFormControlLabelSx}
                     disabled={disabled}
                     {...otherFormControlLabelProps}

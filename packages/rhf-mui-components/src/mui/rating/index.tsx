@@ -7,7 +7,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
-import { FormControl, FormLabel, FormHelperText } from '@/mui/common';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel } from '@/utils';
 
