@@ -1,7 +1,8 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { VersionProps } from '@site/src/types';
 
-const RHFMultiAutocompletePropsTable = () => {
+const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -10,6 +11,7 @@ const RHFMultiAutocompletePropsTable = () => {
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     PropsDescription.selectAllText,
+    ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption] : []),
     PropsDescription.required,
     PropsDescription.onValueChange_MultiAutocomplete,
     PropsDescription.label,

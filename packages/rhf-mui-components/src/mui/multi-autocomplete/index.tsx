@@ -90,6 +90,7 @@ export type RHFMultiAutocompleteProps<
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
+  hideSelectAllOption?: boolean;
 } & MultiAutoCompleteProps<Option>;
 
 const RHFMultiAutocomplete = <
@@ -121,6 +122,7 @@ const RHFMultiAutocomplete = <
     ChipProps,
     onBlur,
     loading,
+    hideSelectAllOption,
     ...otherAutoCompleteProps
   }: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
@@ -129,7 +131,7 @@ const RHFMultiAutocomplete = <
   const { allLabelsAboveFields, defaultFormControlLabelSx }
     = useContext(RHFMuiConfigContext);
   const shouldHideSelectAllOptions
-    = options.length === 0 || options.length === 1;
+    = hideSelectAllOption || (options.length === 0 || options.length === 1);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
