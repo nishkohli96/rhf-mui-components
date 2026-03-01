@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "A suite of 20+ reusable Material UI components for React Hook Form to minimize your time and effort in creating and styling forms",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@nish1896/eslint-flat-config": "^2.0.4",
-    "eslint": "^9.25.0",
+    "@nish1896/eslint-flat-config": "^3.1.1",
+    "eslint": "^9.39.2",
     "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.15"
   },

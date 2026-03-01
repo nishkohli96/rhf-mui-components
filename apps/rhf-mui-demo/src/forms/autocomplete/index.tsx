@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -21,7 +21,7 @@ import {
 import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
-import { fetchPokemons, Pokemon } from './pokeApi';
+import { fetchPokemons, type Pokemon } from './pokeApi';
 
 type AirportInfo = {
   iataCode: string;
@@ -78,12 +78,14 @@ const AutocompleteForm = () => {
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   const loadPokemons = useCallback(async () => {
-    if (loading || !hasMore) return;
+    if (loading || !hasMore) {
+      return;
+    }
     setLoading(true);
     const data = await fetchPokemons(LIMIT, offset);
-    setPokemonList((prev) => [...prev, ...data.results]);
+    setPokemonList(prev => [...prev, ...data.results]);
     setHasMore(!!data.next);
-    setOffset((prev) => prev + LIMIT);
+    setOffset(prev => prev + LIMIT);
     setLoading(false);
   }, [offset, hasMore, loading]);
 
@@ -94,7 +96,7 @@ const AutocompleteForm = () => {
 
   useEffect(() => {
     loadPokemons();
-  }, []);
+  }, [loadPokemons]);
 
   return (
     <FormContainer title="Autocomplete variations with Register Options">
@@ -234,11 +236,11 @@ const AutocompleteForm = () => {
               }}
               slotProps={{
                 listbox: {
-                  onScroll: (event) => {
+                  onScroll: event => {
                     const listboxNode = event.currentTarget;
-                    const scrollBottom =
-                      listboxNode.scrollTop + listboxNode.clientHeight >=
-                      listboxNode.scrollHeight - 5;
+                    const scrollBottom
+                      = listboxNode.scrollTop + listboxNode.clientHeight
+                        >= listboxNode.scrollHeight - 5;
                     if (scrollBottom && !loading) {
                       loadPokemons();
                     }
@@ -263,7 +265,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -273,7 +275,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              getLimitTagsText={(more) => `+${more} Color(s)`}
+              getLimitTagsText={more => `+${more} Color(s)`}
               helperText="Select at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
               errorMessage={errors?.colors?.message}
@@ -295,7 +297,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -310,7 +312,7 @@ const AutocompleteForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: (theme) => theme.palette.secondary.main
+                  color: theme => theme.palette.secondary.main
                 }
               }}
               required
@@ -355,10 +357,10 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (
-                      Array.isArray(value) &&
-                      value.every((item) => typeof item === 'string')
+                      Array.isArray(value)
+                      && value.every(item => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -374,7 +376,7 @@ const AutocompleteForm = () => {
               label="What are your Dream Destinations?"
               ChipProps={{
                 sx: {
-                  background: (theme) => theme.palette.primary.main
+                  background: theme => theme.palette.primary.main
                 }
               }}
               helperText={

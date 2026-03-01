@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const POKE_API_BASE = 'https://pokeapi.co/api/v2/pokemon';
-const POKEMON_IMAGE_BASE =
-  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
+const POKEMON_IMAGE_BASE
+  = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
 
 export interface PokemonInfo {
   name: string;
@@ -37,7 +37,7 @@ export const fetchPokemons = async (
     params: { limit, offset }
   });
   const { results, ...otherData } = response.data ?? {};
-  const pokemonsList = (results ?? []).map((pokemon) => {
+  const pokemonsList = (results ?? []).map(pokemon => {
     const id = pokemon.url.split('/').filter(Boolean).pop();
     return {
       id: Number(id),
