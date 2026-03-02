@@ -96,7 +96,7 @@ const AutocompleteForm = () => {
 
   useEffect(() => {
     loadPokemons();
-  }, [loadPokemons]);
+  }, []);
 
   return (
     <FormContainer title="Autocomplete variations with Register Options">
