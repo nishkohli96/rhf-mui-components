@@ -14,6 +14,9 @@ const config: Config = {
   trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  customFields: {
+    EXAMPLES_URL: process.env.DOCUSAURUS_EXAMPLES_URL,
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en']

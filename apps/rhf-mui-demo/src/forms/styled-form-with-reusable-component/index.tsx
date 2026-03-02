@@ -16,6 +16,7 @@ import {
   SubmitButton,
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
+import { Colors } from '@/types';
 import {
   reqdMsg,
   minCharMsg,
@@ -24,11 +25,13 @@ import {
   logFirebaseEvent,
 } from '@/utils';
 import StyledRHFTextField from './StyledTextField';
+import SelectField from './SelectField';
 
 type FormSchema = {
   firstName: string;
   lastName: string;
   dob: Date | null;
+  favouriteColor?: Colors;
 };
 
 const initialValues: FormSchema = {
@@ -36,6 +39,11 @@ const initialValues: FormSchema = {
   lastName: '',
   dob: null
 };
+
+const colorOptions = Object.values(Colors).map((color) => ({
+  value: color,
+  label: color.charAt(0).toUpperCase() + color.slice(1)
+}));
 
 export default function StyledReusableComponentForm() {
   const pathName = usePathname();
@@ -111,6 +119,17 @@ export default function StyledReusableComponentForm() {
                 fieldName="dob"
                 label="Date of Birth"
                 disableFuture
+              />
+            </Grid>
+            <Grid size={6}>
+              <FieldVariantInfo title="Customized RHFSelect" />
+              <SelectField
+                control={control}
+                fieldName="favouriteColor"
+                label="Favourite Color"
+                options={colorOptions}
+                labelKey="label"
+                valueKey="value"
               />
             </Grid>
             <Grid size={12}>
