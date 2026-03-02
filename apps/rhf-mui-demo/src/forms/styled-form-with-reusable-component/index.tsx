@@ -25,7 +25,7 @@ import {
   logFirebaseEvent,
 } from '@/utils';
 import StyledRHFTextField from './StyledTextField';
-import SelectField from './SelectField';
+import StyledSelect from './StyledSelect';
 
 type FormSchema = {
   firstName: string;
@@ -123,7 +123,7 @@ export default function StyledReusableComponentForm() {
             </Grid>
             <Grid size={6}>
               <FieldVariantInfo title="Customized RHFSelect" />
-              <SelectField
+              <StyledSelect
                 control={control}
                 fieldName="favouriteColor"
                 label="Favourite Color"

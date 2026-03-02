@@ -11,7 +11,7 @@ const poppins = Poppins({
   weight: '500'
 });
 
-type SelectFieldProps<
+type StyledSelectProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -22,7 +22,7 @@ type SelectFieldProps<
   'showLabelAboveFormField'
 >;
 
-const SelectField = <
+const StyledSelect = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -30,7 +30,7 @@ const SelectField = <
   Multiple extends boolean = false
 >({
   ...rest
-}: SelectFieldProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+}: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   return (
     <RHFSelect<T, Option, LabelKey, ValueKey, Multiple>
       showLabelAboveFormField
@@ -45,4 +45,4 @@ const SelectField = <
   );
 };
 
-export default SelectField;
+export default StyledSelect;
