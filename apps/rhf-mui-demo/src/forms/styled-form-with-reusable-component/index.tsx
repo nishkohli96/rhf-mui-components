@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
@@ -23,15 +24,18 @@ import {
   maxCharMsg,
   showToastMessage,
   logFirebaseEvent,
+  generateAirportNames,
 } from '@/utils';
 import StyledRHFTextField from './StyledTextField';
 import StyledSelect from './StyledSelect';
+import StyledAutocomplete from './StyledAutocomplete';
 
 type FormSchema = {
   firstName: string;
   lastName: string;
   dob: Date | null;
   favouriteColor?: Colors;
+  airports?: string[];
 };
 
 const initialValues: FormSchema = {
@@ -55,6 +59,7 @@ export default function StyledReusableComponentForm() {
   } = useForm<FormSchema>({
     defaultValues: initialValues,
   });
+  const airportList = useMemo(() => generateAirportNames(100), []);
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -122,7 +127,7 @@ export default function StyledReusableComponentForm() {
               />
             </Grid>
             <Grid size={6}>
-              <FieldVariantInfo title="Customized RHFSelect" />
+              <FieldVariantInfo title="Customized RHFSelect with a custom font family applied on form label text" />
               <StyledSelect
                 control={control}
                 fieldName="favouriteColor"
@@ -130,6 +135,21 @@ export default function StyledReusableComponentForm() {
                 options={colorOptions}
                 labelKey="label"
                 valueKey="value"
+              />
+            </Grid>
+            <Grid size={6}>
+              <FieldVariantInfo title="Customized RHFAutocomplete with styled helpertext" />
+              <StyledAutocomplete
+                control={control}
+                fieldName="airports"
+                label="Airports"
+                textFieldProps={{
+                  placeholder: 'Select Airport(s) You\'ve travelled to'
+                }}
+                options={airportList}
+                labelKey="name"
+                helperText="You can select multiple airports"
+                valueKey="iataCode"
               />
             </Grid>
             <Grid size={12}>

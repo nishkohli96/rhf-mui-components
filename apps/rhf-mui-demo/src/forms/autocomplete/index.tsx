@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { faker } from '@faker-js/faker';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -20,13 +19,8 @@ import {
 } from '@/components';
 import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
-
-type AirportInfo = {
-  iataCode: string;
-  name: string;
-};
 
 type FormSchema = {
   sourceAirport?: string;
@@ -40,14 +34,6 @@ type FormSchema = {
 };
 
 const LIMIT = 50;
-
-const generateAirportNames = (count: number) => {
-  const fullNames = new Set<AirportInfo>();
-  while (fullNames.size < count) {
-    fullNames.add(faker.airline.airport());
-  }
-  return Array.from(fullNames);
-};
 
 const AutocompleteForm = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);

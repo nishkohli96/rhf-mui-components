@@ -255,9 +255,13 @@ const RHFAutocomplete = <
                   <TextField
                     {...otherTextFieldProps}
                     {...params}
-                    {...(!isLabelAboveFormField && (
-                      <FormLabelText label={fieldLabel} required={required} />
-                    ))}
+                    label={
+                      !isLabelAboveFormField
+                        ? (
+                          <FormLabelText label={fieldLabel} required={required} />
+                        )
+                        : undefined
+                    }
                     error={isError}
                     {...(isAboveMuiV5
                       ? {

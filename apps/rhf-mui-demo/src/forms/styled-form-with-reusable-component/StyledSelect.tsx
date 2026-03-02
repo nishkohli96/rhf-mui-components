@@ -32,7 +32,7 @@ const StyledSelect = <
   ...rest
 }: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   return (
-    <RHFSelect<T, Option, LabelKey, ValueKey, Multiple>
+    <RHFSelect
       showLabelAboveFormField
       formLabelProps={{
         sx: {
