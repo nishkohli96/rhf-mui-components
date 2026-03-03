@@ -21,6 +21,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn
+      - name: Build package
+        run: yarn build
       - name: Publish package on npm
         run: npm publish
         working-directory: packages/rhf-mui-components/dist
