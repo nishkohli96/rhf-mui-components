@@ -6,9 +6,9 @@
  * - RHFMultiAutocomplete
  */
 
-import { FieldValues } from 'react-hook-form';
+import { type FieldValues } from 'react-hook-form';
 import RHFAutocomplete, {
-	RHFAutocompleteProps
+  type RHFAutocompleteProps
 } from '@nish1896/rhf-mui-components/mui/autocomplete';
 import type { StrObjOption } from '@nish1896/rhf-mui-components/types';
 
@@ -25,17 +25,17 @@ const StyledAutocomplete = <
 	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 >({
-	...rest
-}: StyledAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
-	return (
-		<RHFAutocomplete
-			formHelperTextProps={{
-				sx: { fontColor: theme => theme.palette.info.main }
-			}}
-			multiple
-			{...rest}
-		/>
-	);
+    ...rest
+  }: StyledAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+  return (
+    <RHFAutocomplete
+      formHelperTextProps={{
+        sx: { fontColor: theme => theme.palette.info.main }
+      }}
+      multiple
+      {...rest}
+    />
+  );
 };
 
 export default StyledAutocomplete;

@@ -44,7 +44,7 @@ const initialValues: FormSchema = {
   dob: null
 };
 
-const colorOptions = Object.values(Colors).map((color) => ({
+const colorOptions = Object.values(Colors).map(color => ({
   value: color,
   label: color.charAt(0).toUpperCase() + color.slice(1)
 }));

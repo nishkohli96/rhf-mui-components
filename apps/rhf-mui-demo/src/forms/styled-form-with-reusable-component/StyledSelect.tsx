@@ -6,15 +6,15 @@
  * - RHFNativeSelect
  * - RHFCheckboxGroup
  * - RHFRadioGroup
- * 
+ *
  * The only difference being that for all the above components, "multiple" generic
  * prop would not be included in the type definition of the styled component.
  */
 
-import { FieldValues } from 'react-hook-form';
+import { type FieldValues } from 'react-hook-form';
 import { Poppins } from 'next/font/google';
 import RHFSelect, {
-  RHFSelectProps
+  type RHFSelectProps
 } from '@nish1896/rhf-mui-components/mui/select';
 import type { StrNumObjOption } from '@nish1896/rhf-mui-components/types';
 
@@ -42,8 +42,8 @@ const StyledSelect = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false
 >({
-  ...rest
-}: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+    ...rest
+  }: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   return (
     <RHFSelect
       showLabelAboveFormField
