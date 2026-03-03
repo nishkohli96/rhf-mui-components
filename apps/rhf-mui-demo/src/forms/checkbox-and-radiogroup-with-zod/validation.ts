@@ -1,15 +1,6 @@
 import * as z from 'zod';
 import { Colors, Gender } from '@/types';
 
-export type PersonInfo = {
-  gender: Gender;
-  ageGroup: number;
-  favouriteColors: Colors[];
-  countriesVisited: string[];
-  marks: number[];
-  agreeTnC: boolean;
-};
-
 export const formSchema = z.object({
   gender: z.enum([Gender.Male, Gender.Female, Gender.Others], {
     message: 'Choose your gender'
@@ -27,3 +18,5 @@ export const formSchema = z.object({
   }),
   agreeTnC: z.boolean({ message: 'Please Agree to T&C' })
 });
+
+export type PersonInfo = z.infer<typeof formSchema>;
