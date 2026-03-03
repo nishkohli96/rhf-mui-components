@@ -1,3 +1,19 @@
+/**
+ * The below code snippet illustrates how to create a reusable styled Textfield
+ * component using RHFTextField, which can be used throughout the application.
+ * 
+ * In this example, the component accepts all the props of RHFTextField except
+ * 'variant' and 'showLabelAboveFormField', which are set to specific values
+ * to maintain consistent styling across the application.
+ * Additionally, it includes a custom error message component that displays an
+ * error icon alongside the error message when there is an error.
+ * 
+ * A similar approach can be taken to create reusable styled components for:
+ * - RHFNumberInput
+ * - RHFTagsInput
+ * - RHFPasswordInput
+ */
+
 import { Fragment, type ReactNode } from 'react';
 import { type FieldValues } from 'react-hook-form';
 import Typography from '@mui/material/Typography';

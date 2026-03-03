@@ -1,5 +1,12 @@
+/**
+ * The below code snippet illustrates how to create a reusable styled Autocomplete
+ * component using RHFAutocomplete, which can be used throughout the application.
+ *
+ * A similar approach can be taken to create reusable styled components for:
+ * - RHFMultiAutocomplete
+ */
+
 import { FieldValues } from 'react-hook-form';
-import { Poppins } from 'next/font/google';
 import RHFAutocomplete, {
 	RHFAutocompleteProps
 } from '@nish1896/rhf-mui-components/mui/autocomplete';
