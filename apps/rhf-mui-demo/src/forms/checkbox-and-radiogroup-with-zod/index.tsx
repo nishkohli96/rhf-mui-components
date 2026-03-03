@@ -28,7 +28,7 @@ const ageGroupOptions = [
   { ageGroup: '41-50', minAge: 41 },
   { ageGroup: '51-60', minAge: 51 },
   { ageGroup: '61+', minAge: 61 },
-]
+];
 
 const CheckboxRadioZodForm = () => {
   const pathName = usePathname();
@@ -56,7 +56,7 @@ const CheckboxRadioZodForm = () => {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-              onValueChange={(newVal) => toast.info(`You selected ${newVal}`)}
+              onValueChange={newVal => toast.info(`You selected ${newVal}`)}
               required
               errorMessage={errors?.gender?.message}
             />

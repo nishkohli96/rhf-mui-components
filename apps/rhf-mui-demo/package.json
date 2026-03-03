@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-demo",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
@@ -41,10 +41,10 @@
     "sharp": "^0.33.5",
     "superstruct": "^2.0.2",
     "yup": "^1.4.0",
-    "zod": "^3.23.8"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@nish1896/eslint-config": "^3.0.4",
+    "@nish1896/eslint-config": "^3.0.10",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20",
     "@types/react": "^18",

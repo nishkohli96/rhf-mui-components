@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useContext,
   useMemo,
   type ReactNode,
@@ -97,29 +98,29 @@ const RHFAutocomplete = <
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
-    fieldName,
-    control,
-    registerOptions,
-    options,
-    multiple,
-    labelKey,
-    valueKey,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    required,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    textFieldProps,
-    slotProps,
-    ChipProps,
-    onBlur,
-    loading,
-    ...otherAutoCompleteProps
-  }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+  fieldName,
+  control,
+  registerOptions,
+  options,
+  multiple,
+  labelKey,
+  valueKey,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  required,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  textFieldProps,
+  slotProps,
+  ChipProps,
+  onBlur,
+  loading,
+  ...otherAutoCompleteProps
+}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -127,10 +128,27 @@ const RHFAutocomplete = <
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const renderOptionLabel = (option: Option | string): string =>
-    labelKey && isKeyValueOption(option, labelKey, valueKey)
-      ? option[labelKey]
-      : (option as string);
+  const optionsMap = useMemo(() => {
+    if (!valueKey) {
+      return null;
+    }
+
+    const map = new Map<Option[ValueKey], Option>();
+    for (const option of options) {
+      if (isKeyValueOption(option, labelKey, valueKey)) {
+        map.set(option[valueKey], option);
+      }
+    }
+    return map;
+  }, [options, valueKey, labelKey]);
+
+  const renderOptionLabel = useCallback(
+    (option: Option | string): string =>
+      labelKey && isKeyValueOption(option, labelKey, valueKey)
+        ? option[labelKey]
+        : (option as string),
+    [labelKey, valueKey]
+  );
 
   return (
     <FormControl error={isError}>
@@ -148,29 +166,22 @@ const RHFAutocomplete = <
         render={({
           field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
         }) => {
-          /**
-           * When considering for the case when options is an array of objects,
-           * the values would be an array or a single "valueKey" from these options.
-           * So, I need to get back the selected options using these values and then
-           * pass back these list of options as the value prop for Autocomplete.
-           */
-          const selectedOptions = useMemo(() => {
-            if (multiple) {
-              return (value ?? [])
-                .map(val =>
-                  options.find(opn =>
-                    valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                      ? opn[valueKey] === val
-                      : opn === val))
-                .filter((opn): opn is Option => Boolean(opn));
-            }
-            return (
-              options.find(opn =>
-                valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                  ? opn[valueKey] === value
-                  : opn === value) ?? null
-            );
-          }, [value, options, valueKey, labelKey, multiple]);
+          let selectedOptions;
+          if (multiple) {
+            selectedOptions = (value ?? []).flatMap(val => {
+              const option = optionsMap
+                ? optionsMap.get(val)
+                : options.find(opn => opn === val);
+              return option ? [option] : [];
+            });
+          } else {
+            selectedOptions = value === null || value === undefined
+              ? null
+              : optionsMap
+                ? optionsMap.get(value) ?? null
+                : options.find(opn => opn === value) ?? null;
+          }
+
           return (
             <Autocomplete
               {...otherFieldProps}
@@ -244,9 +255,13 @@ const RHFAutocomplete = <
                   <TextField
                     {...otherTextFieldProps}
                     {...params}
-                    {...(!isLabelAboveFormField && (
-                      <FormLabelText label={fieldLabel} required={required} />
-                    ))}
+                    label={
+                      !isLabelAboveFormField
+                        ? (
+                          <FormLabelText label={fieldLabel} required={required} />
+                        )
+                        : undefined
+                    }
                     error={isError}
                     {...(isAboveMuiV5
                       ? {

@@ -21,8 +21,8 @@ export type OptionPrimitive = string | number;
 export type OptionValue<
   Option,
   ValueKey extends string | undefined
-> =
-  Option extends OptionPrimitive
+>
+  = Option extends OptionPrimitive
     ? Option
     : ValueKey extends keyof Option
       ? Option[ValueKey] extends OptionPrimitive

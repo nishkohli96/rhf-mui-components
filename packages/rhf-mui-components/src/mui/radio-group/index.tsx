@@ -69,27 +69,27 @@ const RHFRadioGroup = <
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
-    fieldName,
-    control,
-    registerOptions,
-    options,
-    labelKey,
-    valueKey,
-    onValueChange,
-    disabled,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    radioProps,
-    formControlLabelProps,
-    required,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    onBlur,
-    ...rest
-  }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
+  fieldName,
+  control,
+  registerOptions,
+  options,
+  labelKey,
+  valueKey,
+  onValueChange,
+  disabled,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  radioProps,
+  formControlLabelProps,
+  required,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  onBlur,
+  ...rest
+}: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);

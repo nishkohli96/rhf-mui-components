@@ -33,8 +33,8 @@ import {
   normalizeSelectValue,
 } from '@/utils';
 
-type SelectValue<Value, Multiple extends boolean> =
-  Multiple extends true ? Value[] : Value;
+type SelectValue<Value, Multiple extends boolean>
+  = Multiple extends true ? Value[] : Value;
 
 export type RHFSelectProps<
   T extends FieldValues,
@@ -74,30 +74,30 @@ const RHFSelect = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false
 >({
-    fieldName,
-    control,
-    registerOptions,
-    options,
-    labelKey,
-    valueKey,
-    multiple,
-    showDefaultOption,
-    defaultOptionText,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    required,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    onBlur,
-    autoComplete = defaultAutocompleteValue,
-    renderValue,
-    placeholder,
-    ...otherSelectProps
-  }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+  fieldName,
+  control,
+  registerOptions,
+  options,
+  labelKey,
+  valueKey,
+  multiple,
+  showDefaultOption,
+  defaultOptionText,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  required,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  onBlur,
+  autoComplete = defaultAutocompleteValue,
+  renderValue,
+  placeholder,
+  ...otherSelectProps
+}: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);

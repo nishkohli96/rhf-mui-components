@@ -1,24 +1,14 @@
 import * as z from 'zod';
 import { Colors, Gender } from '@/types';
 
-export type PersonInfo = {
-  gender: Gender;
-  ageGroup: number;
-  favouriteColors: Colors[];
-  countriesVisited: string[];
-  marks: number[];
-  agreeTnC: boolean;
-};
-
 export const formSchema = z.object({
   gender: z.enum([Gender.Male, Gender.Female, Gender.Others], {
     message: 'Choose your gender'
   }),
   ageGroup: z.number({ message: 'Select age group' }),
-  favouriteColors: z.array(z.nativeEnum(Colors), {
-    message: 'Select at least one color',
-    invalid_type_error: 'Invalid color selection'
-  }),
+  favouriteColors: z
+    .array(z.enum(Colors))
+    .min(1, { message: 'Select at least one color' }),
   countriesVisited: z.array(z.string(), {
     message: 'Select atleast one country'
   }),
@@ -27,3 +17,5 @@ export const formSchema = z.object({
   }),
   agreeTnC: z.boolean({ message: 'Please Agree to T&C' })
 });
+
+export type PersonInfo = z.infer<typeof formSchema>;
