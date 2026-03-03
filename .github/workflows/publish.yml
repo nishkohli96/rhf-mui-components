@@ -1,9 +1,9 @@
 name: Publish package on npm
 
-on: [push]
-  # push:
-  #   tags:
-  #     - 'v*'
+on:
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   id-token: write
@@ -21,5 +21,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: yarn
-      # - run: npm publish
-      #   working-directory: packages/rhf-mui-components/dist
+      - name: Publish package on npm
+        run: npm publish
+        working-directory: packages/rhf-mui-components/dist

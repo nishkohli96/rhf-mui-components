@@ -31,6 +31,8 @@
     "material-ui",
     "mui",
     "@mui/material",
+    "mui-v7",
+    "rhf",
     "rhf-mui",
     "form builder",
     "form validation",
@@ -40,7 +42,9 @@
     "component library",
     "hookform",
     "@hookform/resolvers",
-    "react material components"
+    "react material components",
+    "react-form",
+    "mui-components"
   ],
   "homepage": "https://github.com/nishkohli96/eslint-config#readme",
   "repository": {

@@ -106,7 +106,9 @@
     "material-ui",
     "mui",
     "@mui/material",
+    "rhf",
     "rhf-mui",
+    "mui-v7",
     "form builder",
     "form validation",
     "form components",
@@ -120,6 +122,8 @@
     "rhf mui",
     "rhf-mui components",
     "rhf mui components",
-    "react forms"
+    "react forms",
+    "react-form",
+    "mui-components"
   ]
 }
