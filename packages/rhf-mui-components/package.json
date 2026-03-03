@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsup && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
+    "build": "tsdown && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
   "sideEffects": false,
@@ -19,7 +19,7 @@
     "@nish1896/eslint-flat-config": "^3.1.1",
     "eslint": "^9.39.2",
     "rimraf": "^6.0.1",
-    "tsup": "^8.5.1"
+    "tsdown": "^0.20.3"
   },
   "peerDependencies": {
     "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
