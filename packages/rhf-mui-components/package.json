@@ -5,13 +5,15 @@
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
   "repository": {
-    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
+    "type": "git",
+    "url": "https://github.com/nishkohli96/rhf-mui-components"
   },
   "license": "MIT",
   "scripts": {
     "build": "tsc && tsc-alias && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
+  "sideEffects": false,
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@nish1896/eslint-flat-config": "^3.0.3",
@@ -29,6 +31,11 @@
     "./package.json": {
       "import": "./package.json",
       "require": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.js"
     },
     "./config": {
       "import": "./config/index.js",
@@ -100,30 +107,20 @@
     }
   },
   "keywords": [
-    "@nish1896",
-    "@nish1896/rhf-mui-components",
     "react-hook-form",
-    "material-ui",
     "mui",
-    "@mui/material",
-    "rhf",
-    "rhf-mui",
+    "material-ui",
     "mui-v7",
-    "form builder",
+    "mui-v6",
+    "mui-v5",
+    "react forms",
     "form validation",
     "form components",
-    "react ui components",
-    "react forms library",
+    "typescript",
     "component library",
-    "hookform",
-    "@hookform/resolvers",
-    "react material components",
-    "rhf",
-    "rhf mui",
-    "rhf-mui components",
-    "rhf mui components",
-    "react forms",
-    "react-form",
-    "mui-components"
+    "react ui",
+    "mui components",
+    "react form library",
+    "rhf"
   ]
 }
