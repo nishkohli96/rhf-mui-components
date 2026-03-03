@@ -6,10 +6,9 @@ export const formSchema = z.object({
     message: 'Choose your gender'
   }),
   ageGroup: z.number({ message: 'Select age group' }),
-  favouriteColors: z.array(z.nativeEnum(Colors), {
-    message: 'Select at least one color',
-    invalid_type_error: 'Invalid color selection'
-  }),
+  favouriteColors: z
+    .array(z.enum(Colors))
+    .min(1, { message: 'Select at least one color' }),
   countriesVisited: z.array(z.string(), {
     message: 'Select atleast one country'
   }),
