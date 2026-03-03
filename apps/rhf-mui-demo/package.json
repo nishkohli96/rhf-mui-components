@@ -41,7 +41,7 @@
     "sharp": "^0.33.5",
     "superstruct": "^2.0.2",
     "yup": "^1.4.0",
-    "zod": "^3.23.8"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@nish1896/eslint-config": "^3.0.10",
