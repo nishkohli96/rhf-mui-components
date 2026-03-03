@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc && tsc-alias && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
+    "build": "tsup && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
   "sideEffects": false,
@@ -19,7 +19,7 @@
     "@nish1896/eslint-flat-config": "^3.1.1",
     "eslint": "^9.39.2",
     "rimraf": "^6.0.1",
-    "tsc-alias": "^1.8.15"
+    "tsup": "^8.5.1"
   },
   "peerDependencies": {
     "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
@@ -33,49 +33,40 @@
       "require": "./package.json"
     },
     ".": {
-      "types": "./index.d.ts",
       "import": "./index.js",
       "require": "./index.js"
     },
     "./config": {
       "import": "./config/index.js",
-      "require": "./config/index.js",
-      "types": "./config/index.d.ts"
+      "require": "./config/index.js"
     },
     "./form-helpers": {
       "import": "./form-helpers/index.js",
-      "require": "./form-helpers/index.js",
-      "types": "./form-helpers/index.d.ts"
+      "require": "./form-helpers/index.js"
     },
     "./mui": {
       "import": "./mui/index.js",
-      "require": "./mui/index.js",
-      "types": "./mui/index.d.ts"
+      "require": "./mui/index.js"
     },
     "./mui/*": {
       "import": "./mui/*/index.js",
-      "require": "./mui/*/index.js",
-      "types": "./mui/*/index.d.ts"
+      "require": "./mui/*/index.js"
     },
     "./mui-pickers": {
       "import": "./mui-pickers/index.js",
-      "require": "./mui-pickers/index.js",
-      "types": "./mui-pickers/index.d.ts"
+      "require": "./mui-pickers/index.js"
     },
     "./mui-pickers/*": {
       "import": "./mui-pickers/*/index.js",
-      "require": "./mui-pickers/*/index.js",
-      "types": "./mui-pickers/*/index.d.ts"
+      "require": "./mui-pickers/*/index.js"
     },
     "./misc": {
       "import": "./misc/index.js",
-      "require": "./misc/index.js",
-      "types": "./misc/index.d.ts"
+      "require": "./misc/index.js"
     },
     "./misc/*": {
       "import": "./misc/*/index.js",
-      "require": "./misc/*/index.js",
-      "types": "./misc/*/index.d.ts"
+      "require": "./misc/*/index.js"
     }
   },
   "typesVersions": {

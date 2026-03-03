@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import {
