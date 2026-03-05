@@ -29,75 +29,21 @@
     "react-hook-form": "^7.0.0"
   },
   "exports": {
-    "./package.json": {
-      "import": "./package.json",
-      "require": "./package.json"
-    },
-    ".": {
-      "import": "./index.js",
-      "require": "./index.js"
-    },
-    "./config": {
-      "import": "./config/index.js",
-      "require": "./config/index.js"
-    },
-    "./form-helpers": {
-      "import": "./form-helpers/index.js",
-      "require": "./form-helpers/index.js"
-    },
-    "./mui": {
-      "import": "./mui/index.js",
-      "require": "./mui/index.js"
-    },
-    "./mui/*": {
-      "import": "./mui/*/index.js",
-      "require": "./mui/*/index.js"
-    },
-    "./mui-pickers": {
-      "import": "./mui-pickers/index.js",
-      "require": "./mui-pickers/index.js"
-    },
-    "./mui-pickers/*": {
-      "import": "./mui-pickers/*/index.js",
-      "require": "./mui-pickers/*/index.js"
-    },
-    "./misc": {
-      "import": "./misc/index.js",
-      "require": "./misc/index.js"
-    },
-    "./misc/*": {
-      "import": "./misc/*/index.js",
-      "require": "./misc/*/index.js"
-    }
+    "./package.json": "./package.json",
+
+    ".": "./index.js",
+
+    "./config": "./config/index.js",
+    "./form-helpers": "./form-helpers/index.js",
+
+    "./mui": "./mui/index.js",
+    "./mui/*": "./mui/*/index.js",
+    "./mui-pickers": "./mui-pickers/index.js",
+    "./mui-pickers/*": "./mui-pickers/*/index.js",
+    "./misc": "./misc/index.js",
+    "./misc/*": "./misc/*/index.js"
   },
-  "typesVersions": {
-    "*": {
-      "./mui": [
-        "./mui/index.d.ts"
-      ],
-      "./mui/*": [
-        "./mui/*/index.d.ts"
-      ],
-      "./mui-pickers": [
-        "./mui-pickers/index.d.ts"
-      ],
-      "./mui-pickers/*": [
-        "./mui-pickers/*/index.d.ts"
-      ],
-      "./misc": [
-        "./misc/index.d.ts"
-      ],
-      "./misc/*": [
-        "./misc/*/index.d.ts"
-      ],
-      "./config": [
-        "./config/index.d.ts"
-      ],
-      "./form-helpers": [
-        "./form-helpers/index.d.ts"
-      ]
-    }
-  },
+  "types": "./index.d.ts",
   "keywords": [
     "react-hook-form",
     "mui",
