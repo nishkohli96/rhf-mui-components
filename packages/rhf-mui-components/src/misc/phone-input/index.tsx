@@ -3,6 +3,8 @@
  * https://react-international-phone.vercel.app/docs/Advanced%20Usage/useWithUiLibs
  */
 
+'use client';
+
 import { useContext, type ReactNode } from 'react';
 import {
   Controller,
