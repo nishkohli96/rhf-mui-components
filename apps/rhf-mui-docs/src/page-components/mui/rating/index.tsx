@@ -12,15 +12,15 @@ const RHFRatingPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     ...(v4AndAbove ? [PropsDescription.customOnChange_Rating] : []),
     ...(!v1
       ? [
-          PropsDescription.onValueChange_Rating,
-          PropsDescription.label,
-          PropsDescription.showLabelAboveFormField_Default
-        ]
+        PropsDescription.onValueChange_Rating,
+        PropsDescription.label,
+        PropsDescription.showLabelAboveFormField_Default
+      ]
       : [
-          PropsDescription.onValueChange_Rating_v1,
-          PropsDescription.label_v1,
-          PropsDescription.showLabelAboveFormField
-        ]),
+        PropsDescription.onValueChange_Rating_v1,
+        PropsDescription.label_v1,
+        PropsDescription.showLabelAboveFormField
+      ]),
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,

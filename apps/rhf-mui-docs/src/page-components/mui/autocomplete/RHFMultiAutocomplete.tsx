@@ -15,7 +15,7 @@ const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove, v4AndAbove }: VersionPro
     PropsDescription.required,
     PropsDescription.onValueChange_MultiAutocomplete,
     PropsDescription.label,
-    ...(v4AndAbove ? [PropsDescription.renderOptionLabel]: []),
+    ...(v4AndAbove ? [PropsDescription.renderOptionLabel] : []),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.checkboxProps,

@@ -14,20 +14,20 @@ const RHFRadioGroupPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     ...(v4AndAbove ? [PropsDescription.customOnChange_RadioGroup] : []),
     ...(!v1
       ? [
-          PropsDescription.onValueChange_RadioGroup,
-          PropsDescription.disabled,
-          ...(v4AndAbove
-            ? [
-                PropsDescription.renderOption,
-                PropsDescription.getOptionDisabled
-              ]
-            : []),
-          PropsDescription.label
-        ]
+        PropsDescription.onValueChange_RadioGroup,
+        PropsDescription.disabled,
+        ...(v4AndAbove
+          ? [
+            PropsDescription.renderOption,
+            PropsDescription.getOptionDisabled
+          ]
+          : []),
+        PropsDescription.label
+      ]
       : [
-          PropsDescription.onValueChange_CheckboxGroup_v1,
-          PropsDescription.label_v1
-        ]),
+        PropsDescription.onValueChange_CheckboxGroup_v1,
+        PropsDescription.label_v1
+      ]),
     PropsDescription.showLabelAboveFormField_Default,
     PropsDescription.formLabelProps,
     PropsDescription.radioProps,

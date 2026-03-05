@@ -27,7 +27,7 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.disabled,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
-    ...(v4AndAbove ? [PropsDescription.hideLabel]: []),
+    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     PropsDescription.formLabelProps,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,

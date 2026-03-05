@@ -15,13 +15,13 @@ const RHFCheckboxPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     ),
     ...(!v1
       ? [
-          PropsDescription.onValueChange_Checkbox,
-          PropsDescription.label
-        ]
+        PropsDescription.onValueChange_Checkbox,
+        PropsDescription.label
+      ]
       : [
-          PropsDescription.onValueChange_Checkbox_v1,
-          PropsDescription.label_v1
-        ]),
+        PropsDescription.onValueChange_Checkbox_v1,
+        PropsDescription.label_v1
+      ]),
     PropsDescription.formControlLabelProps,
     PropsDescription.helperText,
     PropsDescription.errorMessage,
