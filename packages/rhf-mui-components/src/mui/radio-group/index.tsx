@@ -46,8 +46,8 @@ export type RHFRadioGroupProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-labelKey?: LabelKey;
-valueKey?: ValueKey;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
   customOnChange?: (
@@ -140,11 +140,11 @@ const RHFRadioGroup = <
               {...otherFieldParams}
               value={value ?? ''}
               onChange={(event, selectedValue) => {
-if(customOnChange) {
+                if(customOnChange) {
                   customOnChange(onChange, event, selectedValue);
                   return;
-                }                
-const normalizedValue = normalizeSelectValue(
+                }
+                const normalizedValue = normalizeSelectValue(
                   selectedValue,
                   options,
                   labelKey,
@@ -167,7 +167,7 @@ const normalizedValue = normalizeSelectValue(
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                  const isOptionDisabled
+                const isOptionDisabled
                   = getOptionDisabled?.(option) ?? disabled;
                 return (
                   <FormControlLabel

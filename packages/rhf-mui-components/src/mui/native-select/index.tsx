@@ -45,8 +45,8 @@ export type RHFNativeSelectProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-labelKey?: LabelKey;
-valueKey?: ValueKey;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
   customOnChange?: (
@@ -130,11 +130,11 @@ const RHFNativeSelect = <
               id: fieldName
             }}
             onChange={event => {
-if(customOnChange) {
+              if(customOnChange) {
                 customOnChange(onChange, event);
                 return;
-              }              
-const selectedValue = event.target.value;
+              }
+              const selectedValue = event.target.value;
               const normalizedValue = normalizeSelectValue(
                 selectedValue,
                 options,
@@ -167,7 +167,7 @@ const selectedValue = event.target.value;
               const opnLabel = isObject
                 ? String(option[labelKey!])
                 : String(option);
-                              const isOptionDisabled = getOptionDisabled?.(option);
+              const isOptionDisabled = getOptionDisabled?.(option);
               return (
                 <option
                   key={opnValue}

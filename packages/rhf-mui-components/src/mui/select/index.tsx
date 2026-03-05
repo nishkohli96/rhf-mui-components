@@ -168,11 +168,11 @@ const RHFSelect = <
                 error={isError}
                 multiple={multiple}
                 onChange={(event, child) => {
-if(customOnChange) {
+                  if(customOnChange) {
                     customOnChange(onChange, event, child);
                     return;
-                  }                  
-const selectedValue = event.target.value;
+                  }
+                  const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(
                     selectedValue,
                     options,

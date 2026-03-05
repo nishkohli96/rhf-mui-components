@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Autocomplete, {
-  AutocompleteRenderOptionState,
+  type AutocompleteRenderOptionState,
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';

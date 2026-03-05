@@ -44,8 +44,8 @@ export type RHFCheckboxGroupProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-labelKey?: LabelKey;
-valueKey?: ValueKey;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
   customOnChange?: (
@@ -143,11 +143,11 @@ const RHFCheckboxGroup = <
             checked: boolean,
             optionValue: OptionValue<Option, ValueKey>
           ) => {
-if(customOnChange) {
+            if(customOnChange) {
               customOnChange(onChange, event, checked, value);
               return;
-            }            
-const normalized = coerceValue(event.target.value, optionValue);
+            }
+            const normalized = coerceValue(event.target.value, optionValue);
             const newValue = checked
               ? [...value, normalized]
               : value.filter(v => v !== normalized);
@@ -164,7 +164,7 @@ const normalized = coerceValue(event.target.value, optionValue);
                   ? String(option[labelKey!])
                   : String(option);
                 const checked = value.includes(opnValue);
-                                const isOptionDisabled = getOptionDisabled?.(option);
+                const isOptionDisabled = getOptionDisabled?.(option);
                 return (
                   <FormControlLabel
                     key={idx}
@@ -174,8 +174,8 @@ const normalized = coerceValue(event.target.value, optionValue);
                         name={fieldName}
                         value={opnValue}
                         checked={checked}
-                                                aria-checked={checked}
-                                                 disabled={isOptionDisabled}
+                        aria-checked={checked}
+                        disabled={isOptionDisabled}
                         aria-disabled={isOptionDisabled}
                         onChange={e => handleChange(e, e.target.checked, opnValue)}
                         onBlur={blurEvent => {
