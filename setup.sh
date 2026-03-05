@@ -13,6 +13,9 @@ echo "Installing Dependencies & Building Package 🛠️"
 yarn
 yarn lib
 
+# Globally install rimraf
+npm i -g rimraf
+
 # Link the package
 echo "Linking Package... 🔗"
 cd packages/rhf-mui-components/dist

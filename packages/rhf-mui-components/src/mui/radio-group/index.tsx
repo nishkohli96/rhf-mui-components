@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,

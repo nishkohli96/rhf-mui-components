@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
@@ -10,16 +10,17 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc && tsc-alias && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
+    "build": "tsdown && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
+  "type": "module",
   "sideEffects": false,
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@nish1896/eslint-flat-config": "^3.1.1",
     "eslint": "^9.39.2",
     "rimraf": "^6.0.1",
-    "tsc-alias": "^1.8.15"
+    "tsdown": "^0.20.3"
   },
   "peerDependencies": {
     "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
@@ -28,84 +29,18 @@
     "react-hook-form": "^7.0.0"
   },
   "exports": {
-    "./package.json": {
-      "import": "./package.json",
-      "require": "./package.json"
-    },
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.js",
-      "require": "./index.js"
-    },
-    "./config": {
-      "import": "./config/index.js",
-      "require": "./config/index.js",
-      "types": "./config/index.d.ts"
-    },
-    "./form-helpers": {
-      "import": "./form-helpers/index.js",
-      "require": "./form-helpers/index.js",
-      "types": "./form-helpers/index.d.ts"
-    },
-    "./mui": {
-      "import": "./mui/index.js",
-      "require": "./mui/index.js",
-      "types": "./mui/index.d.ts"
-    },
-    "./mui/*": {
-      "import": "./mui/*/index.js",
-      "require": "./mui/*/index.js",
-      "types": "./mui/*/index.d.ts"
-    },
-    "./mui-pickers": {
-      "import": "./mui-pickers/index.js",
-      "require": "./mui-pickers/index.js",
-      "types": "./mui-pickers/index.d.ts"
-    },
-    "./mui-pickers/*": {
-      "import": "./mui-pickers/*/index.js",
-      "require": "./mui-pickers/*/index.js",
-      "types": "./mui-pickers/*/index.d.ts"
-    },
-    "./misc": {
-      "import": "./misc/index.js",
-      "require": "./misc/index.js",
-      "types": "./misc/index.d.ts"
-    },
-    "./misc/*": {
-      "import": "./misc/*/index.js",
-      "require": "./misc/*/index.js",
-      "types": "./misc/*/index.d.ts"
-    }
+    "./package.json": "./package.json",
+    ".": "./index.js",
+    "./config": "./config/index.js",
+    "./form-helpers": "./form-helpers/index.js",
+    "./mui": "./mui/index.js",
+    "./mui/*": "./mui/*/index.js",
+    "./mui-pickers": "./mui-pickers/index.js",
+    "./mui-pickers/*": "./mui-pickers/*/index.js",
+    "./misc": "./misc/index.js",
+    "./misc/*": "./misc/*/index.js"
   },
-  "typesVersions": {
-    "*": {
-      "./mui": [
-        "./mui/index.d.ts"
-      ],
-      "./mui/*": [
-        "./mui/*/index.d.ts"
-      ],
-      "./mui-pickers": [
-        "./mui-pickers/index.d.ts"
-      ],
-      "./mui-pickers/*": [
-        "./mui-pickers/*/index.d.ts"
-      ],
-      "./misc": [
-        "./misc/index.d.ts"
-      ],
-      "./misc/*": [
-        "./misc/*/index.d.ts"
-      ],
-      "./config": [
-        "./config/index.d.ts"
-      ],
-      "./form-helpers": [
-        "./form-helpers/index.d.ts"
-      ]
-    }
-  },
+  "types": "./index.d.ts",
   "keywords": [
     "react-hook-form",
     "mui",

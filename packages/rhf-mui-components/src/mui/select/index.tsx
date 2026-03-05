@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext, Fragment, type ReactNode } from 'react';
 import {
   Controller,

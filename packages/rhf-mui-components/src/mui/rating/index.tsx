@@ -1,3 +1,5 @@
+'use client';
+
 import type { ReactNode, SyntheticEvent } from 'react';
 import {
   Controller,

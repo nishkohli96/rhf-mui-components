@@ -2,6 +2,9 @@
  * TODO
  * Add showDefaultOption prop from v4
  */
+
+'use client';
+
 import type { ReactNode, ChangeEvent } from 'react';
 import {
   Controller,
