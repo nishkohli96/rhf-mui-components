@@ -1,17 +1,20 @@
 {
   "name": "@nish1896/rhf-mui-components",
   "version": "4.0.0",
-  "description": "A suite of 20+ reusable Material UI components for React Hook Form to minimize your time and effort in creating and styling forms",
+  "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
   "repository": {
-    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
+    "type": "git",
+    "url": "https://github.com/nishkohli96/rhf-mui-components"
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc && tsc-alias && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
+    "build": "tsdown && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
+  "type": "module",
+  "sideEffects": false,
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "43.3.0",
     "@ckeditor/ckeditor5-react": "9.0.0",
@@ -22,11 +25,11 @@
     "@mui/material": "^7.3.2",
     "@mui/system": "^7.3.2",
     "@mui/x-date-pickers": "^8.11.1",
-    "@nish1896/eslint-flat-config": "^3.0.3",
+    "@nish1896/eslint-flat-config": "^3.1.1",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "ckeditor5": "43.3.0",
-    "eslint": "^9.34.0",
+    "eslint": "^9.39.2",
     "react": "^19.1.1",
     "react-color-palette": "7.3.1",
     "react-dom": "^19.1.1",
@@ -34,6 +37,7 @@
     "react-international-phone": "^4.6.0",
     "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.16",
+    "tsdown": "^0.20.3",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
@@ -43,100 +47,33 @@
     "react-hook-form": "^7.0.0"
   },
   "exports": {
-    "./package.json": {
-      "import": "./package.json",
-      "require": "./package.json"
-    },
-    "./config": {
-      "import": "./config/index.js",
-      "require": "./config/index.js",
-      "types": "./config/index.d.ts"
-    },
-    "./form-helpers": {
-      "import": "./form-helpers/index.js",
-      "require": "./form-helpers/index.js",
-      "types": "./form-helpers/index.d.ts"
-    },
-    "./mui": {
-      "import": "./mui/index.js",
-      "require": "./mui/index.js",
-      "types": "./mui/index.d.ts"
-    },
-    "./mui/*": {
-      "import": "./mui/*/index.js",
-      "require": "./mui/*/index.js",
-      "types": "./mui/*/index.d.ts"
-    },
-    "./mui-pickers": {
-      "import": "./mui-pickers/index.js",
-      "require": "./mui-pickers/index.js",
-      "types": "./mui-pickers/index.d.ts"
-    },
-    "./mui-pickers/*": {
-      "import": "./mui-pickers/*/index.js",
-      "require": "./mui-pickers/*/index.js",
-      "types": "./mui-pickers/*/index.d.ts"
-    },
-    "./misc": {
-      "import": "./misc/index.js",
-      "require": "./misc/index.js",
-      "types": "./misc/index.d.ts"
-    },
-    "./misc/*": {
-      "import": "./misc/*/index.js",
-      "require": "./misc/*/index.js",
-      "types": "./misc/*/index.d.ts"
-    }
+    "./package.json": "./package.json",
+    ".": "./index.js",
+    "./config": "./config/index.js",
+    "./form-helpers": "./form-helpers/index.js",
+    "./mui": "./mui/index.js",
+    "./mui/*": "./mui/*/index.js",
+    "./mui-pickers": "./mui-pickers/index.js",
+    "./mui-pickers/*": "./mui-pickers/*/index.js",
+    "./misc": "./misc/index.js",
+    "./misc/*": "./misc/*/index.js"
   },
-  "typesVersions": {
-    "*": {
-      "./mui": [
-        "./mui/index.d.ts"
-      ],
-      "./mui/*": [
-        "./mui/*/index.d.ts"
-      ],
-      "./mui-pickers": [
-        "./mui-pickers/index.d.ts"
-      ],
-      "./mui-pickers/*": [
-        "./mui-pickers/*/index.d.ts"
-      ],
-      "./misc": [
-        "./misc/index.d.ts"
-      ],
-      "./misc/*": [
-        "./misc/*/index.d.ts"
-      ],
-      "./config": [
-        "./config/index.d.ts"
-      ],
-      "./form-helpers": [
-        "./form-helpers/index.d.ts"
-      ]
-    }
-  },
+  "types": "./index.d.ts",
   "keywords": [
-    "@nish1896",
-    "@nish1896/rhf-mui-components",
     "react-hook-form",
-    "material-ui",
     "mui",
-    "@mui/material",
-    "rhf-mui",
-    "form builder",
+    "material-ui",
+    "mui-v7",
+    "mui-v6",
+    "mui-v5",
+    "react forms",
     "form validation",
     "form components",
-    "react ui components",
-    "react forms library",
+    "typescript",
     "component library",
-    "hookform",
-    "@hookform/resolvers",
-    "react material components",
-    "rhf",
-    "rhf mui",
-    "rhf-mui components",
-    "rhf mui components",
-    "react forms"
+    "react ui",
+    "mui components",
+    "react form library",
+    "rhf"
   ]
 }

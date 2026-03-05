@@ -1,3 +1,5 @@
+'use client';
+
 import {
   useState,
   useContext,
@@ -27,16 +29,8 @@ import {
   FormHelperText,
   defaultAutocompleteValue
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  MuiChipProps
-} from '@/types';
-import {
-  fieldNameToLabel,
-  keepLabelAboveFormField,
-  isAboveMuiV5
-} from '@/utils';
+import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,

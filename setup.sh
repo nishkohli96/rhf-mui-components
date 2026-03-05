@@ -25,6 +25,9 @@ echo "Installing Dependencies & Building Package 🛠️"
 pnpm install
 pnpm --filter "$PKG_NAME" run lib
 
+# Globally install rimraf
+npm i -g rimraf
+
 echo "Linking Package @nish1896/rhf-mui-demo workspace. 🔗"
 cd "./apps/rhf-mui-demo"
 pnpm add "../../$PKG_PATH/dist"

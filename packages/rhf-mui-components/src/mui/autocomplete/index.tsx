@@ -1,4 +1,7 @@
+'use client';
+
 import {
+  useCallback,
   useContext,
   useMemo,
   type ReactNode,
@@ -25,7 +28,7 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue,
+  defaultAutocompleteValue
 } from '@/common';
 import type {
   FormLabelProps,
@@ -64,14 +67,16 @@ type OmittedAutocompleteProps<Option> = Omit<
 
 export type RHFAutocompleteProps<
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: string;
-  valueKey?: string;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   onValueChange?: (
     fieldValue: string | string[] | null,
     event: SyntheticEvent<Element, Event>,
@@ -92,7 +97,9 @@ export type RHFAutocompleteProps<
 
 const RHFAutocomplete = <
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption
+  Option extends StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
   control,
@@ -116,7 +123,7 @@ const RHFAutocomplete = <
   onBlur,
   loading,
   ...otherAutoCompleteProps
-}: RHFAutocompleteProps<T, Option>) => {
+}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -124,10 +131,27 @@ const RHFAutocomplete = <
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
 
-  const renderOptionLabel = (option: string | Option): string =>
-    labelKey && isKeyValueOption(option, labelKey, valueKey)
-      ? option[labelKey]
-      : (option as string);
+  const optionsMap = useMemo(() => {
+    if (!valueKey) {
+      return null;
+    }
+
+    const map = new Map<Option[ValueKey], Option>();
+    for (const option of options) {
+      if (isKeyValueOption(option, labelKey, valueKey)) {
+        map.set(option[valueKey], option);
+      }
+    }
+    return map;
+  }, [options, valueKey, labelKey]);
+
+  const renderOptionLabel = useCallback(
+    (option: Option | string): string =>
+      labelKey && isKeyValueOption(option, labelKey, valueKey)
+        ? option[labelKey]
+        : (option as string),
+    [labelKey, valueKey]
+  );
 
   return (
     <FormControl error={isError}>
@@ -142,28 +166,24 @@ const RHFAutocomplete = <
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
-          /**
-           * When considering for the case when options is an array of objects,
-           * the values would be an array or a single "valueKey" from these options.
-           * So, I need to get back the selected options using these values and then
-           * pass back these list of options as the value prop for Autocomplete.
-           */
-          const selectedOptions = useMemo(() => {
-            if (multiple) {
-              return (value ?? [])
-                .map(val =>
-                  options.find(opn =>
-                    valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                      ? opn[valueKey] === val
-                      : opn === val))
-                .filter((opn): opn is Option => Boolean(opn));
-            }
-            return options.find(opn =>
-              valueKey && isKeyValueOption(opn, labelKey, valueKey)
-                ? opn[valueKey] === value
-                : opn === value) ?? null;
-          }, [value, options, valueKey, labelKey, multiple]);
+        render={({
+          field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
+        }) => {
+          let selectedOptions;
+          if (multiple) {
+            selectedOptions = (value ?? []).flatMap(val => {
+              const option = optionsMap
+                ? optionsMap.get(val)
+                : options.find(opn => opn === val);
+              return option ? [option] : [];
+            });
+          } else {
+            selectedOptions = value === null || value === undefined
+              ? null
+              : optionsMap
+                ? optionsMap.get(value) ?? null
+                : options.find(opn => opn === value) ?? null;
+          }
 
           return (
             <Autocomplete
@@ -184,16 +204,18 @@ const RHFAutocomplete = <
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<Option>
               ) => {
-                const fieldValue = multiple
-                  ? (newValue as Option[] | null)?.map(item =>
-                    valueKey && isKeyValueOption(item, labelKey, valueKey)
-                      ? item[valueKey]
-                      : item) ?? []
-                  : newValue === null
+                const fieldValue
+                  = newValue === null
                     ? null
-                    : valueKey && isKeyValueOption(newValue, labelKey, valueKey)
-                      ? (newValue as KeyValueOption)[valueKey]
-                      : newValue;
+                    : Array.isArray(newValue)
+                      ? (newValue ?? []).map(item =>
+                        valueKey && isKeyValueOption(item, labelKey, valueKey)
+                          ? item[valueKey]
+                          : (item as string))
+                      : valueKey
+                        && isKeyValueOption(newValue, labelKey, valueKey)
+                        ? newValue[valueKey]
+                        : (newValue as string);
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
@@ -243,14 +265,12 @@ const RHFAutocomplete = <
                             ...textFieldProps?.slotProps?.input,
                             endAdornment: (
                               <>
-                                {loading
-                                  ? (
-                                    <CircularProgress
-                                      color="inherit"
-                                      size={20}
-                                    />
-                                  )
-                                  : <></>}
+                                {loading && (
+                                  <CircularProgress
+                                    color="inherit"
+                                    size={20}
+                                  />
+                                )}
                                 {params.InputProps.endAdornment}
                               </>
                             )
@@ -269,7 +289,7 @@ const RHFAutocomplete = <
                               )}
                               {params.InputProps.endAdornment}
                             </>
-                          ),
+                          )
                         },
                         inputProps: textFieldInputProps
                       })}

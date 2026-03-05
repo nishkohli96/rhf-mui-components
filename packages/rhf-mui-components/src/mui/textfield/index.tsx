@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
@@ -15,11 +17,7 @@ import {
   FormHelperText,
   defaultAutocompleteValue
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  TextFieldProps
-} from '@/types';
+import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {

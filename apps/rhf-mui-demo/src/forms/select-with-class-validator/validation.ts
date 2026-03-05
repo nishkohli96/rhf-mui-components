@@ -32,6 +32,12 @@ export class FormSchema {
   @IsEnum(Colors, { message: 'Select a color' })
   favouriteColor!: Colors;
 
+  @IsArray()
+  @ArrayMinSize(1, { message: 'Select atleast one option' })
+  @ArrayUnique()
+  @IsString({ each: true })
+  languages!: string[];
+
   @IsString()
   currency!: string;
 
@@ -44,4 +50,7 @@ export class FormSchema {
   @IsString({ each: true })
   @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
   iplTeams!: string[];
+
+  @IsNumber()
+  ageGroup!: number;
 }

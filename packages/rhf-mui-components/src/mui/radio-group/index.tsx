@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
@@ -17,12 +19,14 @@ import type {
   FormHelperTextProps,
   StrNumObjOption,
   RadioProps,
-  StringOrNumber
+  OptionValue
 } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
-  isKeyValueOption
+  isKeyValueOption,
+  normalizeSelectValue,
+  getOptionValue
 } from '@/utils';
 
 type RadioGroupInputProps = Omit<
@@ -34,16 +38,18 @@ type RadioGroupInputProps = Omit<
 
 export type RHFRadioGroupProps<
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
+labelKey?: LabelKey;
+valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
-  labelKey?: string;
-  valueKey?: string;
   customOnChange?: (
     rhfOnChange: (value: string) => void,
     event: ChangeEvent<HTMLInputElement>,
@@ -68,7 +74,9 @@ export type RHFRadioGroupProps<
 
 const RHFRadioGroup = <
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
   control,
@@ -93,7 +101,7 @@ const RHFRadioGroup = <
   formHelperTextProps,
   onBlur,
   ...rest
-}: RHFRadioGroupProps<T, Option>) => {
+}: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -121,9 +129,9 @@ const RHFRadioGroup = <
         rules={registerOptions}
         render={({ field }) => {
           const {
+            value,
             onChange,
             onBlur: rhfOnBlur,
-            value,
             ...otherFieldParams
           } = field;
           return (
@@ -132,13 +140,19 @@ const RHFRadioGroup = <
               {...otherFieldParams}
               value={value ?? ''}
               onChange={(event, selectedValue) => {
-                if(customOnChange) {
+if(customOnChange) {
                   customOnChange(onChange, event, selectedValue);
                   return;
-                }
-                onChange(event);
-                if(onValueChange) {
-                  onValueChange(selectedValue, event);
+                }                
+const normalizedValue = normalizeSelectValue(
+                  selectedValue,
+                  options,
+                  labelKey,
+                  valueKey
+                ) as OptionValue<Option, string>;
+                onChange(normalizedValue);
+                if (onValueChange) {
+                  onValueChange(normalizedValue, event);
                 }
               }}
               onBlur={blurEvent => {
@@ -149,13 +163,11 @@ const RHFRadioGroup = <
             >
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue: StringOrNumber = isObject
-                  ? `${option[valueKey!]}`
-                  : option;
+                const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
                 const opnLabel = isObject
-                  ? `${option[labelKey!]}`
+                  ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled
+                  const isOptionDisabled
                   = getOptionDisabled?.(option) ?? disabled;
                 return (
                   <FormControlLabel

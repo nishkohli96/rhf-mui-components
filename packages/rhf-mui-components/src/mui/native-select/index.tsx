@@ -1,3 +1,10 @@
+/**
+ * TODO
+ * Add showDefaultOption prop from v4
+ */
+
+'use client';
+
 import type { ReactNode, ChangeEvent } from 'react';
 import {
   Controller,
@@ -13,11 +20,13 @@ import type {
   FormHelperTextProps,
   FormLabelProps,
   StringOrNumber,
-  StrNumObjOption
+  StrNumObjOption,
 } from '@/types';
 import {
   fieldNameToLabel,
+  getOptionValue,
   isKeyValueOption,
+  normalizeSelectValue,
   validateArray
 } from '@/utils';
 
@@ -28,16 +37,18 @@ type InputNativeSelectProps = Omit<
 
 export type RHFNativeSelectProps<
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
+labelKey?: LabelKey;
+valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
-  labelKey?: string;
-  valueKey?: string;
   customOnChange?: (
     rhfOnChange: (value: Option | Option[]) => void,
     event: ChangeEvent<HTMLSelectElement>
@@ -58,7 +69,9 @@ export type RHFNativeSelectProps<
 
 const RHFNativeSelect = <
   T extends FieldValues,
-  Option extends StrNumObjOption = StrNumObjOption
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 >({
   fieldName,
   control,
@@ -82,13 +95,14 @@ const RHFNativeSelect = <
   sx,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  placeholder,
   ...otherNativeSelectProps
-}: RHFNativeSelectProps<T, Option>) => {
+}: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
-  const blankOptionText = defaultOptionText ?? `Select ${fieldName}`;
+  const blankOptionText = defaultOptionText ?? placeholder ?? '';
 
   return (
     <FormControl fullWidth error={isError}>
@@ -116,14 +130,19 @@ const RHFNativeSelect = <
               id: fieldName
             }}
             onChange={event => {
-              if(customOnChange) {
+if(customOnChange) {
                 customOnChange(onChange, event);
                 return;
-              }
-              onChange(event.target.value);
-              if (onValueChange) {
-                onValueChange(event.target.value, event);
-              }
+              }              
+const selectedValue = event.target.value;
+              const normalizedValue = normalizeSelectValue(
+                selectedValue,
+                options,
+                labelKey,
+                valueKey
+              );
+              onChange(normalizedValue);
+              onValueChange?.(normalizedValue, event);
             }}
             onBlur={blurEvent => {
               rhfOnBlur();
@@ -136,14 +155,19 @@ const RHFNativeSelect = <
               }
             }}
           >
-            <option value="">
+            <option value="" disabled>
               {blankOptionText}
             </option>
             {options.map(option => {
               const isObject = isKeyValueOption(option, labelKey, valueKey);
-              const opnValue: StringOrNumber = isObject ? `${option[valueKey!]}` : option;
-              const opnLabel: string = isObject ? `${option[labelKey!]}` : String(option);
-              const isOptionDisabled = getOptionDisabled?.(option);
+              const opnValue = getOptionValue<Option, ValueKey>(
+                option,
+                valueKey
+              );
+              const opnLabel = isObject
+                ? String(option[labelKey!])
+                : String(option);
+                              const isOptionDisabled = getOptionDisabled?.(option);
               return (
                 <option
                   key={opnValue}

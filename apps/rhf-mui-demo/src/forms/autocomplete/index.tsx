@@ -1,10 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { faker } from '@faker-js/faker';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
@@ -19,12 +18,8 @@ import {
 } from '@/components';
 import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
-
-type AirportInfo = {
-  iataCode: string;
-  name: string;
-};
+import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
+import { fetchPokemons, type Pokemon } from './pokeApi';
 
 type FormSchema = {
   sourceAirport?: string;
@@ -34,25 +29,25 @@ type FormSchema = {
   dreamDestinations?: string[];
   colors?: Colors[];
   iplTeams?: string[];
+  pokemons?: string[];
 };
 
-const generateAirportNames = (count: number) => {
-  const fullNames = new Set<AirportInfo>();
-  while (fullNames.size < count) {
-    const t = faker.airline.airport()
-    fullNames.add(faker.airline.airport());
-  }
-  return Array.from(fullNames);
-};
+const LIMIT = 50;
 
 const AutocompleteForm = () => {
+  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
 
   const initialValues: FormSchema = {
     countriesVisited: ['AU', 'SG'],
     sourceAirport: airportList[2].iataCode,
-    iplTeams: ['MI', 'CSK']
+    iplTeams: ['MI', 'CSK'],
+    colors: [Colors.Pink, Colors.Green]
   };
 
   const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
@@ -67,10 +62,26 @@ const AutocompleteForm = () => {
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
+  const loadPokemons = useCallback(async () => {
+    if (loading || !hasMore) {
+      return;
+    }
+    setLoading(true);
+    const data = await fetchPokemons(LIMIT, offset);
+    setPokemonList(prev => [...prev, ...data.results]);
+    setHasMore(!!data.next);
+    setOffset(prev => prev + LIMIT);
+    setLoading(false);
+  }, [offset, hasMore, loading]);
+
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
+
+  useEffect(() => {
+    loadPokemons();
+  }, []);
 
   return (
     <FormContainer title="Autocomplete variations with Register Options">
@@ -91,6 +102,7 @@ const AutocompleteForm = () => {
               renderOption={({ key, ...props }, option) => {
                 return (
                   <Box
+                    key={key}
                     component="li"
                     key={key}
                     {...props}
@@ -163,6 +175,66 @@ const AutocompleteForm = () => {
                   color: 'white'
                 }
               }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Autocomplete fetching options from API and appending more options on scrolling" />
+            <RHFAutocomplete
+              fieldName="pokemons"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
+              options={pokemonList}
+              labelKey="name"
+              valueKey="id"
+              multiple
+              showLabelAboveFormField
+              loading={loading}
+              renderOption={({ key, ...props }, option) => {
+                return (
+                  <Box
+                    key={key}
+                    component="li"
+                    {...props}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.5,
+                      py: 1
+                    }}
+                  >
+                    <Image
+                      src={option.image}
+                      alt={option.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <Typography>
+                      {option.name}
+                    </Typography>
+                  </Box>
+                );
+              }}
+              slotProps={{
+                listbox: {
+                  onScroll: event => {
+                    const listboxNode = event.currentTarget;
+                    const scrollBottom
+                      = listboxNode.scrollTop + listboxNode.clientHeight
+                        >= listboxNode.scrollHeight - 5;
+                    if (scrollBottom && !loading) {
+                      loadPokemons();
+                    }
+                  }
+                }
+              }}
+              textFieldProps={{ variant: 'standard' }}
+              errorMessage={errors?.pokemons?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   useContext,
   useMemo,
@@ -235,11 +237,24 @@ const RHFCountrySelect = <T extends FieldValues>({
                         : undefined
                     }
                     error={isError}
-                    {...(isAboveMuiV5 && {
-                      slotProps: {
-                        htmlInput: textFieldInputProps
+                    {...(isAboveMuiV5
+                      ? {
+                        slotProps: {
+                          ...textFieldProps?.slotProps,
+                          input: {
+                            ...params?.InputProps,
+                            ...textFieldProps?.slotProps?.input,
+                          },
+                          htmlInput: textFieldInputProps,
+                        },
                       }
-                    })}
+                      : {
+                        InputProps: {
+                          ...params.InputProps,
+                          ...textFieldProps?.InputProps,
+                        },
+                        inputProps: textFieldInputProps,
+                      })}
                   />
                 );
               }}
