@@ -63,7 +63,7 @@ const RHFSlider = <T extends FieldValues>({
   ...rest
 }: RHFSliderProps<T>) => {
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
 
   return (
     <Fragment>
@@ -89,9 +89,7 @@ const RHFSlider = <T extends FieldValues>({
                 return;
               }
               onChange(value);
-              if (onValueChange) {
-                onValueChange(value, activeThumb, event);
-              }
+              onValueChange?.(value, activeThumb, event);
             }}
             onBlur={blurEvent => {
               rhfOnBlur();

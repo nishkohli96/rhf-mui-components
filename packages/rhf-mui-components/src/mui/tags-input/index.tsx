@@ -111,7 +111,7 @@ const RHFTagsInput = <T extends FieldValues>({
   const [isFocused, setIsFocused] = useState(false);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
 
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,

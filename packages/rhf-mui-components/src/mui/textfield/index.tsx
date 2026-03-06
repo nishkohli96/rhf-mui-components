@@ -60,7 +60,7 @@ const RHFTextField = <T extends FieldValues>({
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,

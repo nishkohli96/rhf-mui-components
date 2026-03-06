@@ -59,7 +59,7 @@ const RHFSwitch = <T extends FieldValues>({
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
@@ -80,16 +80,14 @@ const RHFSwitch = <T extends FieldValues>({
                 <Switch
                   {...otherFieldParams}
                   {...rest}
-                  checked={Boolean(value)}
+                  checked={!!value}
                   onChange={(event, isChecked) => {
                     if(customOnChange) {
                       customOnChange(onChange, event, isChecked);
                       return;
                     }
                     onChange(event);
-                    if(onValueChange) {
-                      onValueChange(isChecked, event);
-                    }
+                    onValueChange?.(isChecked, event);
                   }}
                   onBlur={blurEvent => {
                     {
