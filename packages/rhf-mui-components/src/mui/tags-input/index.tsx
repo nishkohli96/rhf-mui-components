@@ -30,7 +30,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -235,17 +235,15 @@ const RHFTagsInput = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      {hideLabel
-        ? <></>
-        : (
-          <FormLabel
-            label={fieldLabel}
-            isVisible={isLabelAboveFormField}
-            required={required}
-            error={isError}
-            formLabelProps={formLabelProps}
-          />
-        )}
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          formLabelProps={formLabelProps}
+        />
+      )}
       <Controller
         name={fieldName}
         control={control}
@@ -297,10 +295,6 @@ const RHFTagsInput = <T extends FieldValues>({
             [visibleTags, value, hideInput, disabled, showAllTags, isFocused, limitTags, getLimitTagsText, ChipProps, triggerChangeEvents, onChange]
           );
 
-          const commonInputProps = isAboveMuiV5
-            ? { slotProps: { ...slotProps, input: { startAdornment } } }
-            : { InputProps: { startAdornment } };
-
           return (
             <MuiTextField
               autoComplete={autoComplete}
@@ -313,7 +307,8 @@ const RHFTagsInput = <T extends FieldValues>({
                   : undefined
               }
               value={inputValue}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setInputValue(e.target.value)}
               onKeyDown={e => handleKeyDown(e, value, onChange)}
               onPaste={e => handlePaste(e, value, onChange)}
               onFocus={() => setIsFocused(true)}
@@ -335,7 +330,7 @@ const RHFTagsInput = <T extends FieldValues>({
                   ...(hideInput && { display: 'none' })
                 }
               }}
-              {...commonInputProps}
+              slotProps={{ ...slotProps, input: { startAdornment } }}
               {...rest}
             />
           );

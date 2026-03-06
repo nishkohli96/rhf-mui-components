@@ -1,14 +1,17 @@
-import type { ReactElement } from 'react';
+import type { ReactNode } from 'react';
 import MuiFormControl from '@mui/material/FormControl';
 
-type Props = {
-  children: ReactElement | ReactElement[];
+type FormControlProps = {
+  children: ReactNode | ReactNode[];
   error: boolean;
   fullWidth?: boolean;
 };
 
-const FormControl = (props: Props) => {
-  const { children, error, fullWidth = true } = props;
+const FormControl = ({
+  children,
+  error,
+  fullWidth = true
+}: FormControlProps) => {
   return (
     <MuiFormControl fullWidth={fullWidth} error={error}>
       {children}

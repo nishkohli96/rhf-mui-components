@@ -69,17 +69,15 @@ const RHFTextField = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      {hideLabel
-        ? <></>
-        : (
-          <FormLabel
-            label={fieldLabel}
-            isVisible={isLabelAboveFormField}
-            required={required}
-            error={isError}
-            formLabelProps={formLabelProps}
-          />
-        )}
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          formLabelProps={formLabelProps}
+        />
+      )}
       <Controller
         name={fieldName}
         control={control}
