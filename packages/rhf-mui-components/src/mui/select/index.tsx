@@ -24,7 +24,6 @@ import type {
   FormHelperTextProps,
   SelectProps,
   StrNumObjOption,
-  SelectValueType,
   OptionValue
 } from '@/types';
 import {
@@ -68,7 +67,10 @@ export type RHFSelectProps<
     rhfOnChange: (
       value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
     ) => void,
-    event: SelectChangeEvent<SelectValueType>,
+    value: SelectValue<OptionValue<Option, ValueKey>, Multiple>,
+    event: SelectChangeEvent<
+      SelectValue<OptionValue<Option, ValueKey>, Multiple>
+    >,
     child: ReactNode
   ) => void;
   onValueChange?: (
@@ -176,23 +178,24 @@ const RHFSelect = <
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
                 onChange={(event, child) => {
-                  if(customOnChange) {
-                    customOnChange(onChange, event, child);
-                    return;
-                  }
-                  const selectedValue = event.target.value;
+                  const selectEvent = event as SelectChangeEvent<
+                    SelectValue<OptionValue<Option, ValueKey>, Multiple>
+                  >;
+                  const selectedValue = selectEvent.target.value;
                   const normalizedValue = normalizeSelectValue(
                     selectedValue,
                     options,
                     labelKey,
                     valueKey
                   ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
+                  if (customOnChange) {
+                    customOnChange(onChange, normalizedValue, selectEvent, child);
+                    return;
+                  }
                   onChange(normalizedValue);
                   onValueChange?.(
                     normalizedValue,
-                    event as SelectChangeEvent<
-                      SelectValue<OptionValue<Option, ValueKey>, Multiple>
-                    >,
+                    selectEvent,
                     child
                   );
                 }}
@@ -204,11 +207,7 @@ const RHFSelect = <
                 renderValue={value => {
                   if (showPlaceholder) {
                     return (
-                      <MenuItem
-                        value=""
-                        disabled
-                        sx={{ p: 0 }}
-                      >
+                      <MenuItem value="" disabled sx={{ p: 0 }}>
                         {placeholder}
                       </MenuItem>
                     );
@@ -250,10 +249,7 @@ const RHFSelect = <
                 }}
               >
                 {showDefaultOption && (
-                  <MenuItem
-                    value=""
-                    disabled
-                  >
+                  <MenuItem value="" disabled>
                     {defaultOptionText ?? `Select ${fieldLabelText}`}
                   </MenuItem>
                 )}
