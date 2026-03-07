@@ -26,8 +26,8 @@ export type RHFSwitchProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   customOnChange?: (
     rhfOnChange: (isChecked: boolean) => void,
+    checked: boolean,
     event: ChangeEvent<HTMLInputElement>,
-    checked: boolean
   ) => void;
   onValueChange?: (
     isChecked: boolean,
@@ -83,7 +83,7 @@ const RHFSwitch = <T extends FieldValues>({
                   checked={!!value}
                   onChange={(event, isChecked) => {
                     if(customOnChange) {
-                      customOnChange(onChange, event, isChecked);
+                      customOnChange(onChange, isChecked, event);
                       return;
                     }
                     onChange(event);

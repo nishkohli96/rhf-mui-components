@@ -26,6 +26,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   customOnChange?: (
     rhfOnChange: (value: string) => void,
+    newValue: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   onValueChange?: (
@@ -103,7 +104,7 @@ const RHFTextField = <T extends FieldValues>({
               value={value ?? ''}
               onChange={event => {
                 if (customOnChange) {
-                  customOnChange(onChange, event);
+                  customOnChange(onChange, event.target.value, event);
                   return;
                 }
                 onChange(event.target.value);

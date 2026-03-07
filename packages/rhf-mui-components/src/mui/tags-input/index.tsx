@@ -195,7 +195,12 @@ const RHFTagsInput = <T extends FieldValues>({
         triggerChangeEvents(value.slice(0, -1), onChange);
       }
     },
-    [inputValue, triggerChangeEvents]
+    [inputValue,
+      delimiter,
+      maxTags,
+      onTagAdd,
+      onTagDelete,
+      triggerChangeEvents]
   );
 
   const handlePaste = useCallback(
@@ -230,7 +235,10 @@ const RHFTagsInput = <T extends FieldValues>({
         triggerChangeEvents([...value, ...newTags], onChange);
       }
     },
-    [triggerChangeEvents]
+    [delimiter,
+      maxTags,
+      onTagPaste,
+      triggerChangeEvents]
   );
 
   return (
@@ -255,44 +263,41 @@ const RHFTagsInput = <T extends FieldValues>({
             ? value
             : isFocused || !limitTags ? value : value.slice(0, limitTags);
 
-          const startAdornment = useMemo(
-            () => (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: 1,
-                  mb: value.length > 0 && !hideInput ? 1 : 0,
-                  width: '100%',
-                }}
-              >
-                {visibleTags.map((tag, index) => (
-                  <Chip
-                    key={index}
-                    label={tag}
-                    disabled={disabled}
-                    onDelete={() => {
-                      const shouldDelete = onTagDelete?.(tag, value);
-                      if (shouldDelete === false) {
-                        return;
-                      }
-                      triggerChangeEvents(value.filter(t => t !== tag), onChange);
-                    }}
-                    {...ChipProps}
-                  />
-                ))}
-                {!showAllTags && !isFocused && value.length > limitTags && (
-                  <Chip
-                    label={
-                      getLimitTagsText?.(value.length - limitTags)
-                      ?? `+${value.length - limitTags} more`
+          const startAdornment = (
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                mb: value.length > 0 && !hideInput ? 1 : 0,
+                width: '100%',
+              }}
+            >
+              {visibleTags.map((tag, index) => (
+                <Chip
+                  key={index}
+                  label={tag}
+                  disabled={disabled}
+                  onDelete={() => {
+                    const shouldDelete = onTagDelete?.(tag, value);
+                    if (shouldDelete === false) {
+                      return;
                     }
-                    disabled
-                  />
-                )}
-              </Box>
-            ),
-            [visibleTags, value, hideInput, disabled, showAllTags, isFocused, limitTags, getLimitTagsText, ChipProps, triggerChangeEvents, onChange]
+                    triggerChangeEvents(value.filter(t => t !== tag), onChange);
+                  }}
+                  {...ChipProps}
+                />
+              ))}
+              {!showAllTags && !isFocused && value.length > limitTags && (
+                <Chip
+                  label={
+                    getLimitTagsText?.(value.length - limitTags)
+                    ?? `+${value.length - limitTags} more`
+                  }
+                  disabled
+                />
+              )}
+            </Box>
           );
 
           return (
