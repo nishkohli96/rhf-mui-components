@@ -18,7 +18,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
 
@@ -27,7 +27,8 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   customOnChange?: (
-    rhfOnChange: (value: number) => void,
+    rhfOnChange: (value: number | null) => void,
+    newValue: number | null,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   onValueChange?: (
@@ -67,7 +68,6 @@ const RHFNumberInput = <T extends FieldValues>({
   onBlur,
   autoComplete = defaultAutocompleteValue,
   slotProps,
-  inputProps,
   ...rest
 }: RHFNumberInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -80,41 +80,33 @@ const RHFNumberInput = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      {hideLabel
-        ? <></>
-        : (
-          <FormLabel
-            label={fieldLabel}
-            isVisible={isLabelAboveFormField}
-            required={required}
-            error={isError}
-            formLabelProps={formLabelProps}
-          />
-        )}
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          formLabelProps={formLabelProps}
+        />
+      )}
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+          const { value, onChange: rhfOnChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           return (
             <MuiTextField
               id={fieldName}
               type="number"
               autoComplete={autoComplete}
               label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !hideLabel && !isLabelAboveFormField && (
+                  <FormLabelText label={fieldLabel} required={required} />
+                )
               }
               value={value ?? ''}
               onChange={event => {
-                if (customOnChange) {
-                  customOnChange(onChange, event);
-                  return;
-                }
                 const inputValue = event.target.value;
                 const decimalPattern
                   = maxDecimalPlaces !== undefined
@@ -123,7 +115,11 @@ const RHFNumberInput = <T extends FieldValues>({
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
                   const fieldValue
                     = inputValue === '' ? null : Number(inputValue);
-                  onChange(fieldValue);
+                  if (customOnChange) {
+                    customOnChange(rhfOnChange, fieldValue, event);
+                    return;
+                  }
+                  rhfOnChange(fieldValue);
                   onValueChange?.(fieldValue, event);
                 }
               }}
@@ -131,22 +127,13 @@ const RHFNumberInput = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              {...(isAboveMuiV5
-                ? {
-                  slotProps: {
-                    ...slotProps,
-                    htmlInput: {
-                      ...slotProps?.htmlInput,
-                      step: stepAmount
-                    }
-                  }
+              slotProps={{
+                ...slotProps,
+                htmlInput: {
+                  ...slotProps?.htmlInput,
+                  step: stepAmount
                 }
-                : {
-                  inputProps: {
-                    ...inputProps,
-                    step: stepAmount
-                  }
-                })}
+              }}
               error={isError}
               sx={{
                 ...(!showMarkers && {

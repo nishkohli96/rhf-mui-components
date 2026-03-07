@@ -19,7 +19,7 @@ import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
 import type {
   FormHelperTextProps,
   FormLabelProps,
-  StringOrNumber,
+  OptionValue,
   StrNumObjOption,
 } from '@/types';
 import {
@@ -50,11 +50,12 @@ export type RHFNativeSelectProps<
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
   customOnChange?: (
-    rhfOnChange: (value: Option | Option[]) => void,
+    rhfOnChange: (value: OptionValue<Option, ValueKey>) => void,
+    value: OptionValue<Option, ValueKey>,
     event: ChangeEvent<HTMLSelectElement>
   ) => void;
   onValueChange?: (
-    value: StringOrNumber | StringOrNumber[],
+    value: OptionValue<Option, ValueKey>,
     event: ChangeEvent<HTMLSelectElement>
   ) => void;
   defaultOptionText?: string;
@@ -118,7 +119,7 @@ const RHFNativeSelect = <
         control={control}
         rules={registerOptions}
         render={({
-          field: { onChange, value, onBlur: rhfOnBlur, ...rest }
+          field: { value, onChange: rhfOnChange, onBlur: rhfOnBlur, ...rest }
         }) => (
           <NativeSelect
             {...otherNativeSelectProps}
@@ -130,18 +131,18 @@ const RHFNativeSelect = <
               id: fieldName
             }}
             onChange={event => {
-              if(customOnChange) {
-                customOnChange(onChange, event);
-                return;
-              }
               const selectedValue = event.target.value;
               const normalizedValue = normalizeSelectValue(
                 selectedValue,
                 options,
                 labelKey,
                 valueKey
-              );
-              onChange(normalizedValue);
+              ) as OptionValue<Option, ValueKey>;
+              if(customOnChange) {
+                customOnChange(rhfOnChange, normalizedValue, event);
+                return;
+              }
+              rhfOnChange(normalizedValue);
               onValueChange?.(normalizedValue, event);
             }}
             onBlur={blurEvent => {
