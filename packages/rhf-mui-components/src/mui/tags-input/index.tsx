@@ -305,11 +305,9 @@ const RHFTagsInput = <T extends FieldValues>({
               autoComplete={autoComplete}
               variant={variant}
               label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !hideLabel && !isLabelAboveFormField && (
+                  <FormLabelText label={fieldLabel} required={required} />
+                )
               }
               value={inputValue}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>

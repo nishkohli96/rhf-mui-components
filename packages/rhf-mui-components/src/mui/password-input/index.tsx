@@ -28,7 +28,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
@@ -42,6 +42,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   customOnChange?: (
     rhfOnChange: (value: string) => void,
+    newValue: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   onValueChange?: (
@@ -99,23 +100,21 @@ const RHFPasswordInput = <T extends FieldValues>({
 
   return (
     <FormControl error={isError}>
-      {hideLabel
-        ? <></>
-        : (
-          <FormLabel
-            label={fieldLabel}
-            isVisible={isLabelAboveFormField}
-            required={required}
-            error={isError}
-            formLabelProps={formLabelProps}
-          />
-        )}
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          formLabelProps={formLabelProps}
+        />
+      )}
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+          const { value, onChange: rhfOnChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           const endAdornment = (
             <InputAdornment position="end">
               <IconButton
@@ -135,19 +134,17 @@ const RHFPasswordInput = <T extends FieldValues>({
               autoComplete={autoComplete}
               type={showPassword ? 'text' : 'password'}
               label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !hideLabel && !isLabelAboveFormField && (
+                  <FormLabelText label={fieldLabel} required={required} />
+                )
               }
               value={value ?? ''}
               onChange={event => {
                 if (customOnChange) {
-                  customOnChange(onChange, event);
+                  customOnChange(rhfOnChange, event.target.value, event);
                   return;
                 }
-                onChange(event);
+                rhfOnChange(event);
                 onValueChange?.(event.target.value, event);
               }}
               onBlur={blurEvent => {
@@ -155,15 +152,10 @@ const RHFPasswordInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              {...(isAboveMuiV5
-                ? {
-                  slotProps: {
-                    ...slotProps,
-                    input: { endAdornment }
-                  }
-                }
-                : { InputProps: { endAdornment } }
-              )}
+              slotProps={{
+                ...slotProps,
+                input: { endAdornment }
+              }}
               {...rest}
               {...otherFieldParams}
             />

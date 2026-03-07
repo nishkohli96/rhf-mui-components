@@ -95,11 +95,9 @@ const RHFTextField = <T extends FieldValues>({
               id={fieldName}
               autoComplete={autoComplete}
               label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !hideLabel && !isLabelAboveFormField && (
+                  <FormLabelText label={fieldLabel} required={required} />
+                )
               }
               value={value ?? ''}
               onChange={event => {

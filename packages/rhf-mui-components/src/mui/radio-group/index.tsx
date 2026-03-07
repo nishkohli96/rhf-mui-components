@@ -52,11 +52,11 @@ export type RHFRadioGroupProps<
   getOptionDisabled?: (option: Option) => boolean;
   customOnChange?: (
     rhfOnChange: (value: string) => void,
+    selectedValue: OptionValue<Option, string>,
     event: ChangeEvent<HTMLInputElement>,
-    selectedValue: string
   ) => void;
   onValueChange?: (
-    selectedValue: string,
+    selectedValue: OptionValue<Option, string>,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   disabled?: boolean;
@@ -130,7 +130,7 @@ const RHFRadioGroup = <
         render={({ field }) => {
           const {
             value,
-            onChange,
+            onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             ...otherFieldParams
           } = field;
@@ -140,20 +140,18 @@ const RHFRadioGroup = <
               {...otherFieldParams}
               value={value ?? ''}
               onChange={(event, selectedValue) => {
-                if(customOnChange) {
-                  customOnChange(onChange, event, selectedValue);
-                  return;
-                }
                 const normalizedValue = normalizeSelectValue(
                   selectedValue,
                   options,
                   labelKey,
                   valueKey
                 ) as OptionValue<Option, string>;
-                onChange(normalizedValue);
-                if (onValueChange) {
-                  onValueChange(normalizedValue, event);
+                if(customOnChange) {
+                  customOnChange(rhfOnChange, normalizedValue, event);
+                  return;
                 }
+                rhfOnChange(normalizedValue);
+                onValueChange?.(normalizedValue, event);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

@@ -79,7 +79,12 @@ const RHFRating = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+          const {
+            value,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ...otherFieldParams
+          } = field;
           return (
             <MuiRating
               {...rest}
@@ -87,13 +92,11 @@ const RHFRating = <T extends FieldValues>({
               value={value ?? 0}
               onChange={(event, newValue) => {
                 if(customOnChange) {
-                  customOnChange(onChange, newValue, event);
+                  customOnChange(rhfOnChange, newValue, event);
                   return;
                 }
-                onChange(newValue);
-                if(onValueChange) {
-                  onValueChange(newValue, event);
-                }
+                rhfOnChange(newValue);
+                onValueChange?.(newValue, event);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
