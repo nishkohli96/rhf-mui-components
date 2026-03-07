@@ -26,8 +26,8 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   customOnChange?: (
     rhfOnChange: (isChecked: boolean) => void,
+    checked: boolean,
     event: ChangeEvent<HTMLInputElement>,
-    checked: boolean
   ) => void;
   onValueChange?: (
     isChecked: boolean,
@@ -83,13 +83,11 @@ const RHFCheckbox = <T extends FieldValues>({
                   checked={Boolean(value)}
                   onChange={(event, checked) => {
                     if(customOnChange) {
-                      customOnChange(onChange, event, checked);
+                      customOnChange(onChange, checked, event);
                       return;
                     }
                     onChange(checked);
-                    if(onValueChange) {
-                      onValueChange(checked, event);
-                    }
+                    onValueChange?.(checked, event);
                   }}
                   onBlur={blurEvent => {
                     rhfOnBlur();

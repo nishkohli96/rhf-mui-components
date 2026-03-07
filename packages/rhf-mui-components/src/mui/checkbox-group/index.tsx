@@ -50,9 +50,10 @@ export type RHFCheckboxGroupProps<
   getOptionDisabled?: (option: Option) => boolean;
   customOnChange?: (
     rhfOnChange: (newValues: OptionValue<Option, ValueKey>[]) => void,
-    event: ChangeEvent<HTMLInputElement>,
+    optionValue: OptionValue<Option, ValueKey>,
     checked: boolean,
-    currentValues: OptionValue<Option, ValueKey>[]
+    currentValues: OptionValue<Option, ValueKey>[],
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   onValueChange?: (
     selectedItemValue: OptionValue<Option, ValueKey>,
@@ -130,7 +131,7 @@ const RHFCheckboxGroup = <
         render={({ field }) => {
           const {
             value = [],
-            onChange,
+            onChange: rhfOnChange,
             onBlur: rhfOnBlur
           } = field as {
             value: OptionValue<Option, ValueKey>[];
@@ -143,21 +144,21 @@ const RHFCheckboxGroup = <
             checked: boolean,
             optionValue: OptionValue<Option, ValueKey>
           ) => {
+            const normalizedValue = coerceValue(event.target.value, optionValue);
             if(customOnChange) {
-              customOnChange(onChange, event, checked, value);
+              customOnChange(rhfOnChange, normalizedValue, checked, value, event);
               return;
             }
-            const normalized = coerceValue(event.target.value, optionValue);
             const newValue = checked
-              ? [...value, normalized]
-              : value.filter(v => v !== normalized);
-            onChange(newValue);
-            onValueChange?.(normalized, newValue, event);
+              ? [...value, normalizedValue]
+              : value.filter(v => v !== normalizedValue);
+            rhfOnChange(newValue);
+            onValueChange?.(normalizedValue, newValue, event);
           };
 
           return (
             <Fragment>
-              {options.map((option, idx) => {
+              {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
                 const opnLabel = isObject
@@ -167,7 +168,7 @@ const RHFCheckboxGroup = <
                 const isOptionDisabled = getOptionDisabled?.(option);
                 return (
                   <FormControlLabel
-                    key={idx}
+                    key={opnValue}
                     control={
                       <Checkbox
                         {...checkboxProps}

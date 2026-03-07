@@ -148,9 +148,7 @@ const RHFPhoneInput = <T extends FieldValues>({
       ...otherPhoneInputProps,
       value,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
-        if (onValueChange) {
-          onValueChange(phoneData);
-        }
+        onValueChange?.(phoneData);
       },
       countries: countryOptions,
       preferredCountries,
