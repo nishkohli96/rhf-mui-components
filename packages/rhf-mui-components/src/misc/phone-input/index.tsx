@@ -117,10 +117,7 @@ const RHFPhoneInput = <T extends FieldValues>({
     forceDialCode,
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
-
   const countryOptions = countries ?? defaultCountries;
-  let countriesToList = countryOptions;
-  let countriesToListAtTop: CountryData[] = [];
 
   /**
    * Render preferred countries at the top of the list.
@@ -128,20 +125,30 @@ const RHFPhoneInput = <T extends FieldValues>({
    * specified in the props, while other countries will be sorted
    * alphabetically.
    */
-  if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter(country =>
-      preferredCountries.includes(parseCountry(country).iso2));
-    countriesToListAtTop.sort((a, b) => {
-      return (
-        preferredCountries.indexOf(parseCountry(a).iso2)
-        - preferredCountries.indexOf(parseCountry(b).iso2)
-      );
-    });
+  const { countriesToList, countriesToListAtTop } = useMemo(() => {
+    if (!preferredCountries?.length) {
+      return {
+        countriesToList: countryOptions,
+        countriesToListAtTop: [] as CountryData[]
+      };
+    }
 
-    countriesToList = countryOptions.filter(
+    const countriesToListAtTop = countryOptions
+      .filter(country =>
+        preferredCountries.includes(parseCountry(country).iso2))
+      .sort(
+        (a, b) =>
+          preferredCountries.indexOf(parseCountry(a).iso2)
+          - preferredCountries.indexOf(parseCountry(b).iso2)
+      );
+
+    const countriesToList = countryOptions.filter(
       country => !preferredCountries.includes(parseCountry(country).iso2)
     );
-  }
+
+    return { countriesToList, countriesToListAtTop };
+  }, [countryOptions, preferredCountries]);
+
 
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
@@ -258,7 +265,6 @@ const RHFPhoneInput = <T extends FieldValues>({
         rules={registerOptions}
         defaultValue={inputValue as PathValue<T, Path<T>>}
         render={({ field }) => {
-
           return (
             <TextField
               {...field}
