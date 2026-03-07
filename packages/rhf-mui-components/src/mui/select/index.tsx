@@ -22,7 +22,6 @@ import {
 import type {
   FormLabelProps,
   FormHelperTextProps,
-  StringOrNumber,
   SelectProps,
   StrNumObjOption,
   SelectValueType,
@@ -43,8 +42,14 @@ type SelectValue<Value, Multiple extends boolean>
 export type RHFSelectProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
   Multiple extends boolean = false,
   Value = OptionValue<Option, ValueKey>
 > = {
@@ -60,7 +65,9 @@ export type RHFSelectProps<
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   customOnChange?: (
-    rhfOnChange: (value: Option | Option[]) => void,
+    rhfOnChange: (
+      value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
+    ) => void,
     event: SelectChangeEvent<SelectValueType>,
     child: ReactNode
   ) => void;
@@ -89,10 +96,10 @@ const RHFSelect = <
   control,
   registerOptions,
   options,
-  renderOption,
-  getOptionDisabled,
   labelKey,
   valueKey,
+  renderOption,
+  getOptionDisabled,
   multiple,
   showDefaultOption,
   defaultOptionText,
@@ -121,7 +128,7 @@ const RHFSelect = <
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
@@ -167,6 +174,7 @@ const RHFSelect = <
                 value={value ?? (multiple ? [] : '')}
                 error={isError}
                 multiple={multiple}
+                displayEmpty={isValueEmpty}
                 onChange={(event, child) => {
                   if(customOnChange) {
                     customOnChange(onChange, event, child);
@@ -222,7 +230,6 @@ const RHFSelect = <
                       </Fragment>
                     );
                   }
-
                   /* For single option */
                   const match = options.find(op =>
                     isKeyValueOption(op, labelKey, valueKey)
