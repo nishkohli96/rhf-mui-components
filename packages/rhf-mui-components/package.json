@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
