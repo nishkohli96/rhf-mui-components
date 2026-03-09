@@ -8,9 +8,7 @@ export function getPropDetailsByVersion(
 }
 
 export function getPropByDocsAndMuiVersion(
-  prop:
-    | PropsInfo
-    | ((docsVersion?: DocsVersion, muiVersion?: MuiVersion) => PropsInfo),
+  prop: PropsInfo | ((docsVersion?: DocsVersion, muiVersion?: MuiVersion) => PropsInfo),
   docsVersion?: DocsVersion,
   muiVersion?: MuiVersion
 ): PropsInfo {

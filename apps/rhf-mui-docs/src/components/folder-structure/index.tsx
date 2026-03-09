@@ -5,20 +5,20 @@ import { type VersionProps } from '@site/src/types';
 import FileView from './FileView';
 import { FolderIcon, FileIcon } from './Icons';
 import {
-  muiFoldersList,
-  muiPickersFoldersList,
-  miscFoldersList,
+  getMuiFoldersList,
+  getMuiPickersFoldersList,
+  getMiscFoldersList,
   newlyAddedComponents
 } from './routesList';
 
-const FolderStructure = ({ v1 }: VersionProps) => {
+const FolderStructure = ({ v1, docsVersion }: VersionProps) => {
   const muiList = v1
-    ? muiFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
-    : muiFoldersList;
+    ? getMuiFoldersList(docsVersion).filter(folder => !newlyAddedComponents.includes(folder.name))
+    : getMuiFoldersList(docsVersion);
 
   const miscList = v1
-    ? miscFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
-    : miscFoldersList;
+    ? getMiscFoldersList(docsVersion).filter(folder => !newlyAddedComponents.includes(folder.name))
+    : getMiscFoldersList(docsVersion);
 
   return (
     <SimpleTreeView
@@ -38,7 +38,7 @@ const FolderStructure = ({ v1 }: VersionProps) => {
         <FileView
           itemId="3"
           folderName="mui-pickers"
-          fileList={muiPickersFoldersList}
+          fileList={getMuiPickersFoldersList(docsVersion)}
         />
         <FileView
           itemId="4"

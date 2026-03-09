@@ -14,7 +14,7 @@ type FileViewProps = {
 const FileView = ({
   itemId,
   folderName,
-  fileList
+  fileList,
 }: FileViewProps) => {
   return (
     <TreeItem
