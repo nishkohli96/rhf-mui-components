@@ -1,6 +1,6 @@
 import { type PropsInfo } from '@site/src/types';
 
-export function getProp(
+export function getPropDetailsByVersion(
   prop: PropsInfo | ((version: number) => PropsInfo),
   version: number
 ): PropsInfo {

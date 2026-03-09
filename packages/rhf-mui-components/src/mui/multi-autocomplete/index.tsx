@@ -167,9 +167,9 @@ const RHFMultiAutocomplete = <
   }, [options, selectAllText]);
 
   const renderChips = useCallback(
-    (value: Option[], getProps: any) =>
+    (value: Option[], getPropDetailsByVersions: any) =>
       value.map((option, index) => {
-        const { key, ...itemProps } = getProps({ index });
+        const { key, ...itemProps } = getPropDetailsByVersions({ index });
         const optionLabel = getOptionLabelOrValue(option, labelKey);
         return (
           <Chip

@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getProp } from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const IntroductionPageTable = ({
   v1,
@@ -20,12 +20,12 @@ const IntroductionPageTable = ({
     PropsDescription.onValueChange,
     ...(!v1 ? [PropsDescription.label] : [PropsDescription.label_v1]),
     PropsDescription.showLabelAboveFormField,
-    getProp(PropsDescription.formLabelProps, docsVersion),
-    getProp(PropsDescription.formControlLabelProps, docsVersion),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
+    getPropDetailsByVersion(PropsDescription.formControlLabelProps, docsVersion),
     PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    getProp(PropsDescription.formHelperTextProps, docsVersion)
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} />;

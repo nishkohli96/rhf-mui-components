@@ -11,7 +11,7 @@ import {
   newlyAddedComponents
 } from './routesList';
 
-const FolderStructure = ({ v1, docsVersion = 4 }: VersionProps) => {
+const FolderStructure = ({ v1 }: VersionProps) => {
   const muiList = v1
     ? muiFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
     : muiFoldersList;

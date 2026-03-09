@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getProp } from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFPasswordInputPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
   const tableRows = [
@@ -20,12 +20,12 @@ const RHFPasswordInputPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProp
       : [PropsDescription.onValueChange_Default_v1]),
     PropsDescription.showLabelAboveFormField,
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    getProp(PropsDescription.formLabelProps, docsVersion),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    getProp(PropsDescription.formHelperTextProps, docsVersion)
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
   ];
 
   return (

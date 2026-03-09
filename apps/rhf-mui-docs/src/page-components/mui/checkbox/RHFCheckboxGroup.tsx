@@ -1,12 +1,14 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFCheckboxGroupPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
-  let tableRows = [
-    PropsDescription.fieldName,
-    PropsDescription.control
-  ];
+const RHFCheckboxGroupPropsTable = ({
+  docsVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
+  let tableRows = [PropsDescription.fieldName, PropsDescription.control];
   if (v1) {
     tableRows = [
       ...tableRows,
@@ -16,13 +18,13 @@ const RHFCheckboxGroupPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
       PropsDescription.onValueChange_CheckboxGroup_v1,
       PropsDescription.label_v1,
       PropsDescription.showLabelAboveFormField,
-      PropsDescription.formLabelProps,
+      getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
       PropsDescription.checkboxProps,
-      PropsDescription.formControlLabelProps,
+      getPropDetailsByVersion(PropsDescription.formControlLabelProps, docsVersion),
       PropsDescription.helperText,
       PropsDescription.errorMessage,
       PropsDescription.hideErrorMessage,
-      PropsDescription.formHelperTextProps
+      getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
     ];
   } else {
     tableRows = [
@@ -40,17 +42,17 @@ const RHFCheckboxGroupPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
         : []),
       PropsDescription.label,
       PropsDescription.showLabelAboveFormField_Default,
-      PropsDescription.formLabelProps,
+      getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
       PropsDescription.checkboxProps,
-      PropsDescription.formControlLabelProps,
+      getPropDetailsByVersion(PropsDescription.formControlLabelProps, docsVersion),
       PropsDescription.helperText,
       PropsDescription.errorMessage,
       PropsDescription.hideErrorMessage,
-      PropsDescription.formHelperTextProps
+      getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
     ];
   }
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFCheckboxGroupPropsTable;
