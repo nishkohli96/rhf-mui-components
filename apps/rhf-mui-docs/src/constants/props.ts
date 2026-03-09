@@ -1,7 +1,12 @@
 import { ExternalLinks } from '@site/src/constants';
 import { type PropsInfo } from '@site/src/types';
 
-const PropsDescription: Record<string, PropsInfo> = Object.freeze({
+type PropsEntry = PropsInfo | ((version: number) => PropsInfo);
+
+const PropsDescription: Record<
+  string,
+  PropsEntry
+> = Object.freeze({
   fieldName: {
     name: 'fieldName',
     description: 'React Hook Form requires `name` as a key for the registration process. This is a required prop for all components.',
@@ -92,12 +97,12 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
     type: 'string'
   },
-  formLabelProps: {
+  formLabelProps: (version: number) => ({
     name: 'formLabelProps',
-    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/v${version}/customization) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
     hasLinkInType: true
-  },
+  }),
   formControlLabelProps: {
     name: 'formControlLabelProps',
     description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,

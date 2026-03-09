@@ -11,7 +11,7 @@ import {
   newlyAddedComponents
 } from './routesList';
 
-const FolderStructure = ({ v1 }: VersionProps) => {
+const FolderStructure = ({ v1, docsVersion = 4 }: VersionProps) => {
   const muiList = v1
     ? muiFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
     : muiFoldersList;
@@ -48,7 +48,7 @@ const FolderStructure = ({ v1 }: VersionProps) => {
         <TreeItem
           itemId="5"
           label={(
-            <Link href="/customization">
+            <Link href="customization">
               config
             </Link>
           )}
