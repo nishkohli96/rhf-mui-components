@@ -1,8 +1,10 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getProp } from '@site/src/utils';
 
 const RHFSelectPropsTable = ({
+  docsVersion,
   v1,
   v3_1AndAbove,
   v4AndAbove
@@ -25,17 +27,17 @@ const RHFSelectPropsTable = ({
       ? [PropsDescription.onValueChange_Select]
       : [PropsDescription.onValueChange_Select_v1]),
     PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
+    getProp(PropsDescription.formLabelProps, docsVersion),
     ...(v3_1AndAbove ? [PropsDescription.placeholder_Select] : []),
     PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getProp(PropsDescription.formHelperTextProps, docsVersion)
   ];
 
   return (
     <MarkdownTable
-      rows={tableRows}
+      rows={tableRows as PropsInfo[]}
       showType
     />
   );

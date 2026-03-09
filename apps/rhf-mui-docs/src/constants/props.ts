@@ -1,11 +1,9 @@
 import { ExternalLinks } from '@site/src/constants';
 import { type PropsInfo } from '@site/src/types';
 
-type PropsEntry = PropsInfo | ((version: number) => PropsInfo);
-
 const PropsDescription: Record<
   string,
-  PropsEntry
+  PropsInfo | ((version?: number) => PropsInfo)
 > = Object.freeze({
   fieldName: {
     name: 'fieldName',
@@ -97,18 +95,18 @@ const PropsDescription: Record<
     description: 'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
     type: 'string'
   },
-  formLabelProps: (version: number) => ({
+  formLabelProps: version => ({
     name: 'formLabelProps',
-    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/v${version}/customization) component.`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!version ? '/customization' : `/v${version}/customization`}) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
     hasLinkInType: true
   }),
-  formControlLabelProps: {
+  formControlLabelProps: (version: number) => ({
     name: 'formControlLabelProps',
-    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
+    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!version ? '/customization' : `/v${version}/customization`}) component.`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
     hasLinkInType: true
-  },
+  }),
   showLabelAboveFormField: {
     name: 'showLabelAboveFormField',
     description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel}) component.`,
@@ -139,12 +137,12 @@ const PropsDescription: Record<
     description: 'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
     type: 'boolean',
   },
-  formHelperTextProps: {
+  formHelperTextProps: version => ({
     name: 'formHelperTextProps',
-    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
+    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](${!version ? '/customization' : `/v${version}/customization`}) component.`,
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
     hasLinkInType: true
-  },
+  }),
   renderOption: {
     name: 'renderOption',
     description: 'Render the option content',

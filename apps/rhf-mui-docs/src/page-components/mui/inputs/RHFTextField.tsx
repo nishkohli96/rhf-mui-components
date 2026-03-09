@@ -1,31 +1,30 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getProp } from '@site/src/utils';
 
-const RHFTextFieldPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
+const RHFTextFieldPropsTable = ({
+  docsVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1
-      ? [PropsDescription.control]
-      : [PropsDescription.register]
-    ),
+    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
     PropsDescription.registerOptions,
-    ...(v4AndAbove
-      ? [PropsDescription.customOnChange_Inputs]
-      : []
-    ),
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     ...(!v1
       ? [PropsDescription.onValueChange_Inputs]
       : [PropsDescription.onValueChange_Default_v1]),
     PropsDescription.showLabelAboveFormField,
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    PropsDescription.formLabelProps,
+    getProp(PropsDescription.formLabelProps, docsVersion),
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getProp(PropsDescription.formHelperTextProps, docsVersion)
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFTextFieldPropsTable;

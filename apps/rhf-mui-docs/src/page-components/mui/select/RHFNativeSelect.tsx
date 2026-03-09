@@ -1,8 +1,13 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getProp } from '@site/src/utils';
 
-const RHFNativeSelectPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
+const RHFNativeSelectPropsTable = ({
+  docsVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
@@ -10,10 +15,7 @@ const RHFNativeSelectPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    ...(v4AndAbove
-      ? [PropsDescription.customOnChange_Select]
-      : []
-    ),
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Select] : []),
     ...(!v1
       ? [PropsDescription.onValueChange_NativeSelect]
       : [
@@ -29,16 +31,16 @@ const RHFNativeSelectPropsTable = ({ v1, v4AndAbove }: VersionProps) => {
       ? [
         PropsDescription.label,
         PropsDescription.showLabelAboveFormField_Default,
-        PropsDescription.formLabelProps,
+        getProp(PropsDescription.formLabelProps, docsVersion),
         PropsDescription.helperText
       ]
       : [PropsDescription.label_v1]),
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getProp(PropsDescription.formHelperTextProps, docsVersion)
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFNativeSelectPropsTable;
