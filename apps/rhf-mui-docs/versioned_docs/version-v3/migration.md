@@ -22,7 +22,7 @@ Refer to the official migration guides for [@mui/material](https://mui.com/mater
 
 Version 2 introduces significant enhancements and optimizations for nearly all components from Version 1. In addition to these improvements, the package now includes five new components:
 
-- [RHFAutocomplete](../docs/components/mui/RHFAutocomplete.mdx)
+- [RHFAutocomplete](../../docs/components/mui/RHFAutocomplete.mdx)
 - [RHFMultiAutocomplete](./components/mui/RHFMultiAutocomplete.mdx)
 - [RHFCountrySelect](./components/mui/RHFCountrySelect.mdx)
 - [RHFTagsInput](./components/mui/RHFTagsInput.mdx)
