@@ -23,7 +23,7 @@
 
 A major upgrade is on the way — bringing **additional customization features, performance improvements, and deeper MUI integration**.  
 
-Stay tuned for the **v4 release**!
+Stay tuned for the **v4 release**, expected between early-mid April!
 
 ---
 
