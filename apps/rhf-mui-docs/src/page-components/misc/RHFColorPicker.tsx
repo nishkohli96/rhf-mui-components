@@ -1,6 +1,6 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { PropsInfo, type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
 import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFColorPickerPropsTable = ({ docsVersion, v1 }: VersionProps) => {

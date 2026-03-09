@@ -1,3 +1,5 @@
+import { type MuiVersion } from '@site/src/types';
+
 const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
@@ -8,19 +10,27 @@ const ExternalLinks = Object.freeze({
     radioGroup: 'https://mui.com/material-ui/react-radio-button/',
     select: 'https://mui.com/material-ui/react-select/',
     switch: 'https://mui.com/material-ui/react-switch/',
-    textField: 'https://mui.com/material-ui/react-text-field/',
+    textField: 'https://mui.com/material-ui/react-text-field/'
   },
   muiComponentApi: {
     checkbox: 'https://mui.com/material-ui/api/checkbox/',
-    formLabel: 'https://mui.com/material-ui/api/form-label/',
-    formControlLabel: 'https://mui.com/material-ui/api/form-control-label/',
-    formHelperText: 'https://mui.com/material-ui/api/form-helper-text/',
+    formLabel: (muiVersion?: MuiVersion) =>
+      muiVersion
+        ? `https://v${muiVersion}.mui.com/material-ui/api/form-label/`
+        : 'https://mui.com/material-ui/api/form-label/',
+    formControlLabel: (muiVersion?: MuiVersion) =>
+      muiVersion
+        ? `https://v${muiVersion}.mui.com/material-ui/api/form-control-label/`
+        : 'https://mui.com/material-ui/api/form-control-label/',
+    formHelperText: (muiVersion?: MuiVersion) => muiVersion
+      ? `https:/v${muiVersion}.mui.com/material-ui/api/form-helper-text/`
+      : 'https://mui.com/material-ui/api/form-helper-text/',
     nativeSelect: 'https://mui.com/material-ui/api/native-select/',
     radio: 'https://mui.com/material-ui/api/radio/',
     radioGroup: 'https://mui.com/material-ui/api/radio-group/',
     select: 'https://mui.com/material-ui/api/select/',
     switch: 'https://mui.com/material-ui/api/switch/',
-    textField: 'https://mui.com/material-ui/api/text-field/',
+    textField: 'https://mui.com/material-ui/api/text-field/'
   },
   rhfLinks: {
     control: 'https://react-hook-form.com/docs/useform/control',

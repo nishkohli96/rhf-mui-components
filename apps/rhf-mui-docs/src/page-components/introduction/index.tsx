@@ -1,12 +1,13 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropDetailsByVersion, getPropByDocsAndMuiVersion } from '@site/src/utils';
 
 const IntroductionPageTable = ({
+  docsVersion,
+  muiVersion,
   v1,
   v4AndAbove,
-  docsVersion
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
@@ -19,13 +20,13 @@ const IntroductionPageTable = ({
     ...(v4AndAbove ? [PropsDescription.customOnChange] : []),
     PropsDescription.onValueChange,
     ...(!v1 ? [PropsDescription.label] : [PropsDescription.label_v1]),
-    PropsDescription.showLabelAboveFormField,
-    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
-    getPropDetailsByVersion(PropsDescription.formControlLabelProps, docsVersion),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, muiVersion),
+    getPropByDocsAndMuiVersion(PropsDescription.formLabelProps, docsVersion, muiVersion),
+    getPropByDocsAndMuiVersion(PropsDescription.formControlLabelProps, docsVersion, muiVersion),
     PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
+    getPropByDocsAndMuiVersion(PropsDescription.formHelperTextProps, docsVersion, muiVersion)
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} />;
