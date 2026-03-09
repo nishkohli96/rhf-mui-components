@@ -121,7 +121,7 @@ const PropsDescription: Record<
   formControlLabelProps: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
     name: 'formControlLabelProps',
     description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
-    type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
+    type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)})`,
     hasLinkInType: true
   }),
   showLabelAboveFormField: (muiVersion?: MuiVersion) => ({
@@ -160,7 +160,7 @@ const PropsDescription: Record<
   formHelperTextProps: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
     name: 'formHelperTextProps',
     description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
-    type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
+    type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)})`,
     hasLinkInType: true
   }),
   renderOption: {

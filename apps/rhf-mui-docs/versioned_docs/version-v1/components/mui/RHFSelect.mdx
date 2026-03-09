@@ -9,7 +9,7 @@ import { RHFSelectPropsTable } from '@site/src/page-components';
 
 # RHFSelect
 
-**RHFSelect** is an extended version of [Select](https://mui.com/material-ui/react-select/),
+**RHFSelect** is an extended version of [Select](https://v5.mui.com/material-ui/react-select/),
 allowing users to select one or more options. One significant advantage is its 
 ability to _**accept both arrays and arrays of objects**_, making it easier to 
 render options with differing labels and values without custom logic.
@@ -55,11 +55,15 @@ are required. If either is missing, an error will be thrown.
 
 ### Examples
 - [RHFSelect](https://rhf-mui-components-examples.netlify.app/select)
-- [Select](https://mui.com/material-ui/react-select/)
+- [Select](https://v5.mui.com/material-ui/react-select/)
 - [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
 
 ### API
-The `RHFSelectProps` interface extends [SelectProps](https://mui.com/material-ui/api/select/) 
+The `RHFSelectProps` interface extends [SelectProps](https://v5.mui.com/material-ui/api/select/) 
 and accepts the following additional props:
 
-<RHFSelectPropsTable docsVersion={1} v1 />
+<RHFSelectPropsTable
+  docsVersion={1}
+  muiVersion={5}
+  v1
+/>

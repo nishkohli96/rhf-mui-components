@@ -1,10 +1,11 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFSelectPropsTable = ({
   docsVersion,
+  muiVersion,
   v1,
   v3_1AndAbove,
   v4AndAbove
@@ -26,13 +27,13 @@ const RHFSelectPropsTable = ({
     ...(!v1
       ? [PropsDescription.onValueChange_Select]
       : [PropsDescription.onValueChange_Select_v1]),
-    PropsDescription.showLabelAboveFormField,
-    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, muiVersion),
+    getPropByDocsAndMuiVersion(PropsDescription.formLabelProps, docsVersion, muiVersion),
     ...(v3_1AndAbove ? [PropsDescription.placeholder_Select] : []),
     PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
+    getPropByDocsAndMuiVersion(PropsDescription.formHelperTextProps, docsVersion, muiVersion)
   ];
 
   return (
