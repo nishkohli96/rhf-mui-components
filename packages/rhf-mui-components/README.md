@@ -23,7 +23,9 @@
 
 A major upgrade is on the way — bringing **additional customization features, performance improvements, and deeper MUI integration**.  
 
-Stay tuned for the **v4 release**!
+Stay tuned for the **v4 release**, expected between early-mid April!
+
+> Please note that support for MUI `v5` will be removed starting from **version 4**. Developers are encouraged to migrate to MUI `v6` or `v7` to access the latest features.
 
 ---
 

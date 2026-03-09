@@ -6,16 +6,21 @@
  * "last_name" to "Last Name"
  * "parseJSONData" to "Parse JSON Data"
  * "enable_HTTP_Config" to "Enable HTTP Config"
+ * users.0.email -> Users Email
  */
 export function fieldNameToLabel(str: string) {
-  const result = str
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // Split camelCase or PascalCase
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2') // Handle acronyms followed by capitalized words
-    .replace(/_/g, ' ') // Replace underscores with spaces
-    .replace(/\b([A-Z]+)\b/g, match => match.toUpperCase()) // Preserve full uppercase words (acronyms)
-    .replace(/\b\w/g, char => char.toUpperCase()) // Capitalize first letters
-    .trim(); // Trim leading/trailing spaces
-
-  return result;
+  return str
+    // remove array indexes like .0 .1 .23
+    .replace(/\.\d+/g, '')
+    // replace separators with space
+    .replace(/[._]/g, ' ')
+    // split camelCase
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    // handle acronyms before words (JSONData -> JSON Data)
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    // capitalize words
+    .replace(/\b\w/g, char => char.toUpperCase())
+    // Trim leading/trailing spaces
+    .trim();
 }
 
