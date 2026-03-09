@@ -1,8 +1,9 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
+const RHFColorPickerPropsTable = ({ docsVersion, v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1
@@ -26,14 +27,14 @@ const RHFColorPickerPropsTable = ({ v1 }: VersionProps) => {
       : [PropsDescription.label_v1]
     ),
     PropsDescription.showLabelAboveFormField_Default,
-    PropsDescription.formLabelProps,
+    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
     PropsDescription.helperText,
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFColorPickerPropsTable;
