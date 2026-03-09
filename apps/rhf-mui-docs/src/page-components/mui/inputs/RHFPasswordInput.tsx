@@ -1,36 +1,33 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFPasswordInputPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
+const RHFPasswordInputPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1
-      ? [PropsDescription.control]
-      : [PropsDescription.register]
-    ),
+    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
     PropsDescription.registerOptions,
-    ...(v4AndAbove
-      ? [PropsDescription.customOnChange_Inputs]
-      : []
-    ),
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     ...(!v1
       ? [PropsDescription.onValueChange_Inputs]
       : [PropsDescription.onValueChange_Default_v1]),
-    PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, muiVersion),
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
+    getPropByDocsAndMuiVersion(PropsDescription.formLabelProps, docsVersion, muiVersion),
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
+    getPropByDocsAndMuiVersion(PropsDescription.formHelperTextProps, docsVersion, muiVersion)
   ];
 
-  return (
-    <MarkdownTable rows={tableRows as PropsInfo[]} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFPasswordInputPropsTable;

@@ -1,10 +1,11 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFTextFieldPropsTable = ({
   docsVersion,
+  muiVersion,
   v1,
   v4AndAbove
 }: VersionProps) => {
@@ -16,12 +17,12 @@ const RHFTextFieldPropsTable = ({
     ...(!v1
       ? [PropsDescription.onValueChange_Inputs]
       : [PropsDescription.onValueChange_Default_v1]),
-    PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, muiVersion),
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
-    PropsDescription.errorMessage,
+    getPropByDocsAndMuiVersion(PropsDescription.formLabelProps, docsVersion, muiVersion),
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
+    getPropByDocsAndMuiVersion(PropsDescription.formHelperTextProps, docsVersion, muiVersion)
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
