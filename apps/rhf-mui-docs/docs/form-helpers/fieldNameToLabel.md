@@ -34,7 +34,8 @@ sentence for each field validation. It:
 ## Example
 
 ```js
-const label1 = fieldNameToLabel('firstName');     // Output: 'First Name'
-const label2 = fieldNameToLabel('email_address'); // Output: 'Email Address'
-const label3 = fieldNameToLabel('IMDBRating');    // Output: 'IMDB Rating'
+const label1 = fieldNameToLabel('firstName')     // Output: 'First Name'
+const label2 = fieldNameToLabel('email_address') // Output: 'Email Address'
+const label3 = fieldNameToLabel('IMDBRating')    // Output: 'IMDB Rating'
+const label4 = fieldNameToLabel('user.2.email')  // Output: 'User Email'
 ```
