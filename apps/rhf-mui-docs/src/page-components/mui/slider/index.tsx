@@ -19,7 +19,10 @@ const RHFSliderPropsTable = ({
     ...(!v1 ? [PropsDescription.required] : []),
     ...(v4AndAbove ? [PropsDescription.customOnChange_Slider] : []),
     ...(!v1
-      ? [PropsDescription.onValueChange_Slider, PropsDescription.label]
+      ? [
+        PropsDescription.onValueChange_Slider,
+        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+      ]
       : [
         PropsDescription.defaultValue_Slider,
         PropsDescription.onValueChange_Slider_v1,

@@ -1,7 +1,10 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
 const RHFDatePickerPropsTable = ({
   docsVersion,
@@ -16,7 +19,7 @@ const RHFDatePickerPropsTable = ({
       ? [
         PropsDescription.required,
         PropsDescription.onValueChange_DatePicker,
-        PropsDescription.label
+        getPropDetailsByVersion(PropsDescription.label, docsVersion)
       ]
       : [
         PropsDescription.setValue,
@@ -31,14 +34,16 @@ const RHFDatePickerPropsTable = ({
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
-    ), PropsDescription.helperText,
+    ),
+    PropsDescription.helperText,
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )];
+    )
+  ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };

@@ -18,7 +18,10 @@ const RHFSwitchPropsTable = ({
     ...(!v1 ? [PropsDescription.registerOptions] : []),
     ...(v4AndAbove ? [PropsDescription.customOnChange_Cbx_Switch] : []),
     ...(!v1
-      ? [PropsDescription.onValueChange_Switch, PropsDescription.label]
+      ? [
+        PropsDescription.onValueChange_Switch,
+        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+      ]
       : [PropsDescription.onValueChange_Default_v1, PropsDescription.label_v1]),
     getPropByDocsAndMuiVersion(
       PropsDescription.formControlLabelProps,

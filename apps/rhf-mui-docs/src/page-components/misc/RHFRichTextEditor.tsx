@@ -1,9 +1,16 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
-const RHFRichTextEditorPropsTable = ({ docsVersion, muiVersion, v1 }: VersionProps) => {
+const RHFRichTextEditorPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1
@@ -27,7 +34,7 @@ const RHFRichTextEditorPropsTable = ({ docsVersion, muiVersion, v1 }: VersionPro
     PropsDescription.disabled,
     ...(!v1
       ? [
-        PropsDescription.label,
+        getPropDetailsByVersion(PropsDescription.label, docsVersion),
         PropsDescription.showLabelAboveFormField_Default
       ]
       : [PropsDescription.label_v1]),
@@ -35,7 +42,8 @@ const RHFRichTextEditorPropsTable = ({ docsVersion, muiVersion, v1 }: VersionPro
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
-    ), PropsDescription.helperText,
+    ),
+    PropsDescription.helperText,
     PropsDescription.onError_Rte,
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
@@ -43,11 +51,10 @@ const RHFRichTextEditorPropsTable = ({ docsVersion, muiVersion, v1 }: VersionPro
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )];
+    )
+  ];
 
-  return (
-    <MarkdownTable rows={tableRows as PropsInfo[]} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFRichTextEditorPropsTable;

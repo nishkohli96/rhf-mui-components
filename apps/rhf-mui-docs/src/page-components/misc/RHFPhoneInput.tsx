@@ -1,8 +1,9 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFPhoneInputPropsTable = ({ v1 }: VersionProps) => {
+const RHFPhoneInputPropsTable = ({ docsVersion, v1 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -12,9 +13,8 @@ const RHFPhoneInputPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.required,
     PropsDescription.onValueChange_PhoneInput,
     ...(!v1
-      ? [PropsDescription.label]
-      : [PropsDescription.label_v1]
-    ),
+      ? [getPropDetailsByVersion(PropsDescription.label, docsVersion)]
+      : [PropsDescription.label_v1]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
@@ -24,10 +24,7 @@ const RHFPhoneInputPropsTable = ({ v1 }: VersionProps) => {
     PropsDescription.phoneInputProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFPhoneInputPropsTable;
-

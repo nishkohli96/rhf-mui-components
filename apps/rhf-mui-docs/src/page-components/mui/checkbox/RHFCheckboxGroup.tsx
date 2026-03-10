@@ -79,7 +79,8 @@ const RHFCheckboxGroupPropsTable = ({
         PropsDescription.formHelperTextProps,
         docsVersion,
         muiVersion
-      )];
+      )
+    ];
   }
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

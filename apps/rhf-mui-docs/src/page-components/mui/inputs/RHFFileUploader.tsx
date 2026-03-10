@@ -1,8 +1,11 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFFileUploaderPropsTable = ({
+  muiVersion,
+  docsVersion,
   v2,
   v4AndAbove
 }: VersionProps) => {
@@ -13,8 +16,7 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.required,
     ...(!v2
       ? [PropsDescription.accept_FileUploader]
-      : [PropsDescription.accept_FileUploader_v2]
-    ),
+      : [PropsDescription.accept_FileUploader_v2]),
     PropsDescription.multiple_FileUploader,
     PropsDescription.maxFiles,
     PropsDescription.maxSize_FileUploader,
@@ -25,7 +27,7 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.renderUploadButton,
     PropsDescription.renderFileItem,
     PropsDescription.disabled,
-    PropsDescription.label,
+    getPropDetailsByVersion(PropsDescription.label, docsVersion),
     PropsDescription.showLabelAboveFormField,
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     PropsDescription.formLabelProps,
@@ -33,10 +35,10 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.hideErrorMessage,
     PropsDescription.helperText,
     PropsDescription.formHelperTextProps,
-    PropsDescription.fullWidth_FileUploader,
+    PropsDescription.fullWidth_FileUploader
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFFileUploaderPropsTable;

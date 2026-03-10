@@ -1,8 +1,13 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove, v4AndAbove }: VersionProps) => {
+const RHFMultiAutocompletePropsTable = ({
+  docsVersion,
+  v3_2AndAbove,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -14,7 +19,7 @@ const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove, v4AndAbove }: VersionPro
     ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption] : []),
     PropsDescription.required,
     PropsDescription.onValueChange_MultiAutocomplete,
-    PropsDescription.label,
+    getPropDetailsByVersion(PropsDescription.label, docsVersion),
     ...(v4AndAbove ? [PropsDescription.renderOptionLabel] : []),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
@@ -28,9 +33,7 @@ const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove, v4AndAbove }: VersionPro
     PropsDescription.ChipProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFMultiAutocompletePropsTable;

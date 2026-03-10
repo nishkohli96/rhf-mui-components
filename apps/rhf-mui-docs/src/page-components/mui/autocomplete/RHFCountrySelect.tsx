@@ -1,7 +1,9 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFCountrySelectPropsTable = () => {
+const RHFCountrySelectPropsTable = ({ docsVersion }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -12,7 +14,7 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.required,
     PropsDescription.onValueChange_CountrySelect,
     PropsDescription.displayFlagOnSelect,
-    PropsDescription.label,
+    getPropDetailsByVersion(PropsDescription.label, docsVersion),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
@@ -23,9 +25,7 @@ const RHFCountrySelectPropsTable = () => {
     PropsDescription.ChipProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFCountrySelectPropsTable;

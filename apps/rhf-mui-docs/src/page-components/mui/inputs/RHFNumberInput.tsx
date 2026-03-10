@@ -1,31 +1,43 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFNumberInputPropsTable = ({ v4AndAbove }: VersionProps) => {
+const RHFNumberInputPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    ...(v4AndAbove
-      ? [PropsDescription.customOnChange_Inputs]
-      : []
-    ),
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     PropsDescription.onValueChange_numberInput,
     ...(v4AndAbove
       ? [PropsDescription.maxDecimalPlaces, PropsDescription.stepAmount]
       : []),
-    PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropDetailsByVersion(
+      PropsDescription.showLabelAboveFormField,
+      muiVersion
+    ),
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    PropsDescription.formLabelProps,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ),
     PropsDescription.showMarkers,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
-  ];
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    )];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFNumberInputPropsTable;

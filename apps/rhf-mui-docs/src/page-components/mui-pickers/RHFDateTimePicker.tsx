@@ -1,9 +1,16 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
-const RHFDateTimePickerPropsTable = ({ docsVersion, muiVersion, v1 }: VersionProps) => {
+const RHFDateTimePickerPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
@@ -12,7 +19,7 @@ const RHFDateTimePickerPropsTable = ({ docsVersion, muiVersion, v1 }: VersionPro
       ? [
         PropsDescription.required,
         PropsDescription.onValueChange_DateTimePicker,
-        PropsDescription.label
+        getPropDetailsByVersion(PropsDescription.label, docsVersion)
       ]
       : [
         PropsDescription.setValue,
@@ -27,14 +34,16 @@ const RHFDateTimePickerPropsTable = ({ docsVersion, muiVersion, v1 }: VersionPro
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
-    ), PropsDescription.helperText,
+    ),
+    PropsDescription.helperText,
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )];
+    )
+  ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };

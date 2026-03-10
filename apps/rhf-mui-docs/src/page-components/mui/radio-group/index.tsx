@@ -1,7 +1,10 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
 const RHFRadioGroupPropsTable = ({
   docsVersion,
@@ -28,7 +31,7 @@ const RHFRadioGroupPropsTable = ({
             PropsDescription.getOptionDisabled
           ]
           : []),
-        PropsDescription.label
+        getPropDetailsByVersion(PropsDescription.label, docsVersion)
       ]
       : [
         PropsDescription.onValueChange_CheckboxGroup_v1,
@@ -53,7 +56,8 @@ const RHFRadioGroupPropsTable = ({
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )];
+    )
+  ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };

@@ -1,7 +1,9 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFAutocompletePropsTable = () => {
+const RHFAutocompletePropsTable = ({ docsVersion }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -12,7 +14,7 @@ const RHFAutocompletePropsTable = () => {
     PropsDescription.required,
     PropsDescription.multiple,
     PropsDescription.onValueChange_Autocomplete,
-    PropsDescription.label,
+    getPropDetailsByVersion(PropsDescription.label, docsVersion),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
     PropsDescription.helperText,
@@ -22,9 +24,7 @@ const RHFAutocompletePropsTable = () => {
     PropsDescription.textFieldProps
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFAutocompletePropsTable;
