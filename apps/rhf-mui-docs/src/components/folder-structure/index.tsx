@@ -58,7 +58,7 @@ const FolderStructure = ({ v1, docsVersion }: VersionProps) => {
           <TreeItem
             itemId="6"
             label={(
-              <Link href="/form-helpers">
+              <Link href="form-helpers">
                 form-helpers
               </Link>
             )}
