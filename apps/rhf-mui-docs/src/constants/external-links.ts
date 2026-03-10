@@ -13,18 +13,14 @@ const ExternalLinks = Object.freeze({
     textField: 'https://mui.com/material-ui/react-text-field/'
   },
   muiComponentApi: {
-    checkbox: 'https://mui.com/material-ui/api/checkbox/',
+    checkbox: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/checkbox/`,
     formLabel: (muiVersion?: MuiVersion) =>
-      muiVersion
-        ? `https://v${muiVersion}.mui.com/material-ui/api/form-label/`
-        : 'https://mui.com/material-ui/api/form-label/',
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/form-label/`,
     formControlLabel: (muiVersion?: MuiVersion) =>
-      muiVersion
-        ? `https://v${muiVersion}.mui.com/material-ui/api/form-control-label/`
-        : 'https://mui.com/material-ui/api/form-control-label/',
-    formHelperText: (muiVersion?: MuiVersion) => muiVersion
-      ? `https:/v${muiVersion}.mui.com/material-ui/api/form-helper-text/`
-      : 'https://mui.com/material-ui/api/form-helper-text/',
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/form-control-label/`,
+    formHelperText: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/form-helper-text/`,
     nativeSelect: 'https://mui.com/material-ui/api/native-select/',
     radio: 'https://mui.com/material-ui/api/radio/',
     radioGroup: 'https://mui.com/material-ui/api/radio-group/',
@@ -47,4 +43,3 @@ const ExternalLinks = Object.freeze({
 });
 
 export default ExternalLinks;
-

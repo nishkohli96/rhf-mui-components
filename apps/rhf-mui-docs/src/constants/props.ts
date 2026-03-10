@@ -88,12 +88,12 @@ const PropsDescription: Record<
       'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
-  label: {
+  label: (docsVersion?: DocsVersion) => ({
     name: 'label',
     description:
-      'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**" using the [fieldNameToLabel](/form-helpers/fieldNameToLabel) function.',
+      `The text to render in \`FormLabel\` component. By default, the value of \`fieldName\` such as _firstName_ will be transformed to display "**First Name**" using the [fieldNameToLabel](${!docsVersion ? '/form-helpers/fieldNameToLabel' : `/v${docsVersion}/form-helpers/fieldNameToLabel`}) function.`,
     type: 'ReactNode'
-  },
+  }),
   label_v1: {
     name: 'label',
     description:
@@ -585,12 +585,12 @@ const PropsDescription: Record<
       'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
     type: 'string'
   },
-  checkboxProps: {
+  checkboxProps: (muiVersion?: MuiVersion) => ({
     name: 'checkboxProps',
-    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox}) to customise each checkbox in checkbox group.`,
-    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox})`,
+    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox(muiVersion)}) to customise each checkbox in checkbox group.`,
+    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
     hasLinkInType: true
-  },
+  }),
   radioProps: {
     name: 'radioProps',
     description: `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,

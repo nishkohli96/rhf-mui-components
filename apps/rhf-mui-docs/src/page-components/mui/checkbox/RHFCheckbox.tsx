@@ -1,7 +1,10 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
 const RHFCheckboxPropsTable = ({
   docsVersion,
@@ -17,9 +20,9 @@ const RHFCheckboxPropsTable = ({
     ...(!v1
       ? [PropsDescription.onValueChange_Checkbox, PropsDescription.label]
       : [
-          PropsDescription.onValueChange_Checkbox_v1,
-          PropsDescription.label_v1
-        ]),
+        PropsDescription.onValueChange_Checkbox_v1,
+        PropsDescription.label_v1
+      ]),
     getPropByDocsAndMuiVersion(
       PropsDescription.formControlLabelProps,
       docsVersion,
