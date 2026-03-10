@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFFileUploaderPropsTable = ({
   muiVersion,
@@ -24,17 +24,28 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.hideFileList,
     PropsDescription.onValueChange_FileUploader,
     PropsDescription.onUploadError,
-    PropsDescription.renderUploadButton,
-    PropsDescription.renderFileItem,
+    getPropDetailsByVersion(PropsDescription.renderUploadButton, docsVersion),
+    getPropDetailsByVersion(PropsDescription.renderFileItem, docsVersion),
     PropsDescription.disabled,
     getPropDetailsByVersion(PropsDescription.label, docsVersion),
-    PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(
+      PropsDescription.showLabelAboveFormField,
+      muiVersion
+    ),
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    PropsDescription.formLabelProps,
-    PropsDescription.errorMessage,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ),
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     PropsDescription.helperText,
-    PropsDescription.formHelperTextProps,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    ),
     PropsDescription.fullWidth_FileUploader
   ];
 

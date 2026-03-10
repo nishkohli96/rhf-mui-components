@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFTagsInputPropsTable = ({
   muiVersion,
@@ -23,15 +23,26 @@ const RHFTagsInputPropsTable = ({
       : []),
     PropsDescription.onValueChange_tagsInput,
     getPropDetailsByVersion(PropsDescription.label, docsVersion),
-    PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(
+      PropsDescription.showLabelAboveFormField,
+      muiVersion
+    ),
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    PropsDescription.formLabelProps,
-    PropsDescription.ChipProps,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ),
+    getPropDetailsByVersion(PropsDescription.ChipProps, muiVersion),
     PropsDescription.limitTags,
     PropsDescription.getLimitTagsText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    )
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

@@ -24,6 +24,8 @@ const ExternalLinks = Object.freeze({
     nativeSelect: 'https://mui.com/material-ui/api/native-select/',
     radio: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/radio/`,
+    chip: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/chip/`,
     radioGroup: 'https://mui.com/material-ui/api/radio-group/',
     select: 'https://mui.com/material-ui/api/select/',
     switch: 'https://mui.com/material-ui/api/switch/',
