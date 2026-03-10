@@ -115,7 +115,7 @@ const PropsDescription: Record<
   formLabelProps: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
     name: 'formLabelProps',
     description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
-    type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
+    type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)})`,
     hasLinkInType: true
   }),
   formControlLabelProps: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
@@ -591,12 +591,12 @@ const PropsDescription: Record<
     type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
     hasLinkInType: true
   }),
-  radioProps: {
+  radioProps: (muiVersion?: MuiVersion) => ({
     name: 'radioProps',
-    description: `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,
-    type: `[RadioProps](${ExternalLinks.muiComponentApi.radio})`,
+    description: `[Radio Props](${ExternalLinks.muiComponentApi.radio(muiVersion)}) to customise each radio button in radiobutton group.`,
+    type: `[RadioProps](${ExternalLinks.muiComponentApi.radio(muiVersion)})`,
     hasLinkInType: true
-  },
+  }),
   disabled: {
     name: 'disabled',
     description:

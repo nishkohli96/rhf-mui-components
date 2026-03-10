@@ -35,7 +35,11 @@ const RHFNativeSelectPropsTable = ({
       ? [
         PropsDescription.label,
         PropsDescription.showLabelAboveFormField_Default,
-        getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
+        getPropByDocsAndMuiVersion(
+          PropsDescription.formLabelProps,
+          docsVersion,
+          muiVersion
+        ),
         PropsDescription.helperText
       ]
       : [PropsDescription.label_v1]),

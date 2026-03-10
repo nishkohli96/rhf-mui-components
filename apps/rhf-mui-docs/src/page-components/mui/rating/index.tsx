@@ -1,9 +1,9 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFRatingPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
+const RHFRatingPropsTable = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -22,12 +22,18 @@ const RHFRatingPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
         PropsDescription.label_v1,
         PropsDescription.showLabelAboveFormField
       ]),
-    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ), PropsDescription.helperText,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
-  ];
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    )];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };

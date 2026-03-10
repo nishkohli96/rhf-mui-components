@@ -1,9 +1,17 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
-const RHFSwitchPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
+const RHFSwitchPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -12,18 +20,20 @@ const RHFSwitchPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
     ...(!v1
       ? [PropsDescription.onValueChange_Switch, PropsDescription.label]
       : [PropsDescription.onValueChange_Default_v1, PropsDescription.label_v1]),
-    getPropDetailsByVersion(
+    getPropByDocsAndMuiVersion(
       PropsDescription.formControlLabelProps,
-      docsVersion
+      docsVersion,
+      muiVersion
     ),
     ...(!v1
       ? [
         PropsDescription.helperText,
-        PropsDescription.errorMessage,
+        getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
         PropsDescription.hideErrorMessage,
-        getPropDetailsByVersion(
+        getPropByDocsAndMuiVersion(
           PropsDescription.formHelperTextProps,
-          docsVersion
+          docsVersion,
+          muiVersion
         )
       ]
       : [])

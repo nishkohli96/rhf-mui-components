@@ -1,9 +1,17 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
-const RHFSliderPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
+const RHFSliderPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
@@ -18,11 +26,19 @@ const RHFSliderPropsTable = ({ docsVersion, v1, v4AndAbove }: VersionProps) => {
         PropsDescription.label_v1
       ]),
     PropsDescription.showLabelAboveFormField_Default,
-    getPropDetailsByVersion(PropsDescription.formLabelProps, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ),
     PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, docsVersion)
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    )
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
