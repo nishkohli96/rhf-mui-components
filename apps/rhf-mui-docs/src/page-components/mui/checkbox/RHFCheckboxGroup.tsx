@@ -36,7 +36,10 @@ const RHFCheckboxGroupPropsTable = ({
         docsVersion,
         muiVersion
       ),
-      PropsDescription.helperText,
+      getPropDetailsByVersion(
+        PropsDescription.helperText,
+        muiVersion
+      ),
       getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
       PropsDescription.hideErrorMessage,
       getPropByDocsAndMuiVersion(
@@ -59,7 +62,11 @@ const RHFCheckboxGroupPropsTable = ({
       ...(v4AndAbove
         ? [PropsDescription.renderOption, PropsDescription.getOptionDisabled]
         : []),
-      getPropDetailsByVersion(PropsDescription.label, docsVersion),
+      getPropByDocsAndMuiVersion(
+        PropsDescription.label,
+        docsVersion,
+        muiVersion
+      ),
       PropsDescription.showLabelAboveFormField_Default,
       getPropByDocsAndMuiVersion(
         PropsDescription.formLabelProps,
@@ -72,7 +79,10 @@ const RHFCheckboxGroupPropsTable = ({
         docsVersion,
         muiVersion
       ),
-      PropsDescription.helperText,
+      getPropDetailsByVersion(
+        PropsDescription.helperText,
+        muiVersion
+      ),
       getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
       PropsDescription.hideErrorMessage,
       getPropByDocsAndMuiVersion(

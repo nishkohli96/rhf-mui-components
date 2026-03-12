@@ -22,7 +22,11 @@ const RHFRatingPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Rating,
-        getPropDetailsByVersion(PropsDescription.label, docsVersion),
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
         PropsDescription.showLabelAboveFormField_Default
       ]
       : [
@@ -35,7 +39,10 @@ const RHFRatingPropsTable = ({
       docsVersion,
       muiVersion
     ),
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(

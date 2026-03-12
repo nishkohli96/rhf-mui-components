@@ -40,7 +40,10 @@ const RHFSelectPropsTable = ({
       muiVersion
     ),
     ...(v3_1AndAbove ? [PropsDescription.placeholder_Select] : []),
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(

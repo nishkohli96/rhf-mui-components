@@ -27,7 +27,11 @@ const RHFFileUploaderPropsTable = ({
     getPropDetailsByVersion(PropsDescription.renderUploadButton, docsVersion),
     getPropDetailsByVersion(PropsDescription.renderFileItem, docsVersion),
     PropsDescription.disabled,
-    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
@@ -40,7 +44,10 @@ const RHFFileUploaderPropsTable = ({
     ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,

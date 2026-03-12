@@ -34,7 +34,11 @@ const RHFRichTextEditorPropsTable = ({
     PropsDescription.disabled,
     ...(!v1
       ? [
-        getPropDetailsByVersion(PropsDescription.label, docsVersion),
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
         PropsDescription.showLabelAboveFormField_Default
       ]
       : [PropsDescription.label_v1]),
@@ -43,7 +47,10 @@ const RHFRichTextEditorPropsTable = ({
       docsVersion,
       muiVersion
     ),
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     PropsDescription.onError_Rte,
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,

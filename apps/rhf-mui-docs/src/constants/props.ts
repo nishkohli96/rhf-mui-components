@@ -19,21 +19,21 @@ const PropsDescription: Record<
   },
   register: {
     name: 'register',
-    description: `The [register](${ExternalLinks.rhfLinks.register}) option yielded on calling the \`useForm\` hook.`,
+    description: `The [register](${ExternalLinks.rhfApi.register}) option yielded on calling the \`useForm\` hook.`,
     required: true,
-    type: `[UseFormRegister](${ExternalLinks.rhfLinks.register})`,
+    type: `[UseFormRegister](${ExternalLinks.rhfApi.register})`,
     hasLinkInType: true
   },
   control: {
     name: 'control',
-    description: `The [control](${ExternalLinks.rhfLinks.control}) option yielded on calling the \`useForm\` hook.`,
+    description: `The [control](${ExternalLinks.rhfApi.control}) option yielded on calling the [useForm](${ExternalLinks.rhfApi.useForm}) hook.`,
     required: true,
-    type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`,
+    type: `[UseFormControl](${ExternalLinks.rhfApi.control})`,
     hasLinkInType: true
   },
   registerOptions: {
     name: 'registerOptions',
-    description: `[Register](${ExternalLinks.rhfLinks.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
+    description: `[Register](${ExternalLinks.rhfApi.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
     type: 'RegisterOptions'
   },
   required: {
@@ -72,7 +72,7 @@ const PropsDescription: Record<
   },
   setValue: {
     name: 'setValue',
-    description: `The [setValue](${ExternalLinks.rhfLinks.setValue}) option yielded on calling the \`useForm\` hook.`,
+    description: `The [setValue](${ExternalLinks.rhfApi.setValue}) option yielded on calling the \`useForm\` hook.`,
     required: true,
     type: '(name: string, value: unknown, config?: Object) => void'
   },
@@ -88,9 +88,9 @@ const PropsDescription: Record<
       'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
-  label: (docsVersion?: DocsVersion) => ({
+  label: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
     name: 'label',
-    description: `The text to render in the \`FormLabel\` component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
+    description: `The text to render in the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
     type: 'ReactNode'
   }),
   label_v1: {
@@ -113,7 +113,7 @@ const PropsDescription: Record<
   },
   formLabelProps: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
     name: 'formLabelProps',
-    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) to customise [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)})`,
     hasLinkInType: true
   }),
@@ -142,12 +142,12 @@ const PropsDescription: Record<
       'Hides both the `FormLabel` text and the component’s default label, enabling you to render a fully custom form label component instead.',
     type: 'boolean'
   },
-  helperText: {
+  helperText: (muiVersion?: MuiVersion) => ({
     name: 'helperText',
     description:
-      'The content to display within the `FormHelperText` component below the field. If the field validation fails, this content will be overridden by the corresponding error message.',
+      `The content to display within the [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component below the field. If the field validation fails, this content will be overridden by the corresponding error message.`,
     type: 'ReactNode'
-  },
+  }),
   errorMessage: (muiVersion?: MuiVersion) => ({
     name: 'errorMessage',
     description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component.`,
@@ -659,7 +659,7 @@ const PropsDescription: Record<
   countries: {
     name: 'countries',
     description:
-      'The list of countries to render for selection in the Autocomplete. By default all countries will be listed.',
+      `The [list of countries](${ExternalLinks.repo.countriesList}) to render for selection in the Autocomplete. By default all countries will be listed.`,
     type: 'CountryDetails[]'
   },
   preferredCountries: {

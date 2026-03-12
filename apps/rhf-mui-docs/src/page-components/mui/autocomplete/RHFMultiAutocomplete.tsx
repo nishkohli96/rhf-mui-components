@@ -20,7 +20,11 @@ const RHFMultiAutocompletePropsTable = ({
     ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption] : []),
     PropsDescription.required,
     PropsDescription.onValueChange_MultiAutocomplete,
-    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     ...(v4AndAbove ? [PropsDescription.renderOptionLabel] : []),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
@@ -37,7 +41,10 @@ const RHFMultiAutocompletePropsTable = ({
       docsVersion,
       muiVersion
     ),
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(

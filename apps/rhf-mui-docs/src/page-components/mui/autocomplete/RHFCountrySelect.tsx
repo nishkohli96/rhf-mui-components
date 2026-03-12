@@ -14,7 +14,11 @@ const RHFCountrySelectPropsTable = ({ docsVersion, muiVersion }: VersionProps) =
     PropsDescription.required,
     PropsDescription.onValueChange_CountrySelect,
     PropsDescription.displayFlagOnSelect,
-    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
@@ -24,7 +28,10 @@ const RHFCountrySelectPropsTable = ({ docsVersion, muiVersion }: VersionProps) =
       docsVersion,
       muiVersion
     ),
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(

@@ -22,7 +22,11 @@ const RHFTagsInputPropsTable = ({
       ]
       : []),
     PropsDescription.onValueChange_tagsInput,
-    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion

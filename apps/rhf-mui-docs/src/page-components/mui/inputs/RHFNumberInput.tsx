@@ -17,7 +17,11 @@ const RHFNumberInputPropsTable = ({
     ...(v4AndAbove
       ? [PropsDescription.maxDecimalPlaces, PropsDescription.stepAmount]
       : []),
-    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion

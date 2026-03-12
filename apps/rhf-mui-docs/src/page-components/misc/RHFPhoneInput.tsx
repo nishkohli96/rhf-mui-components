@@ -17,7 +17,10 @@ const RHFPhoneInputPropsTable = ({ docsVersion, v1 }: VersionProps) => {
       : [PropsDescription.label_v1]),
     PropsDescription.showLabelAboveFormField,
     PropsDescription.formLabelProps,
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     PropsDescription.errorMessage,
     PropsDescription.hideErrorMessage,
     PropsDescription.formHelperTextProps,

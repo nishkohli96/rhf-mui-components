@@ -1,5 +1,7 @@
 import { type MuiVersion } from '@site/src/types';
 
+const repoLink = 'https://github.com/nishkohli96/rhf-mui-components/blob/main/packages/rhf-mui-components/';
+
 const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
@@ -44,11 +46,15 @@ const ExternalLinks = Object.freeze({
     chip: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/chip/`,
   },
-  rhfLinks: {
+  rhfApi: {
     control: 'https://react-hook-form.com/docs/useform/control',
     register: 'https://react-hook-form.com/docs/useform/register',
-    resolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
-    setValue: 'https://react-hook-form.com/docs/useform/setvalue'
+    setValue: 'https://react-hook-form.com/docs/useform/setvalue',
+    useForm: 'https://react-hook-form.com/docs/useform',
+  },
+  rhfResolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
+  repo: {
+    countriesList: `${repoLink}src/mui/country-select/countries.ts`,
   },
   validationLibs: {
     joi: 'https://www.npmjs.com/package/joi',

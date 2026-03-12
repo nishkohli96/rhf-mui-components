@@ -20,7 +20,11 @@ const RHFAutocompletePropsTable = ({
     PropsDescription.required,
     PropsDescription.multiple,
     PropsDescription.onValueChange_Autocomplete,
-    getPropDetailsByVersion(PropsDescription.label, docsVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
@@ -30,7 +34,10 @@ const RHFAutocompletePropsTable = ({
       docsVersion,
       muiVersion
     ),
-    PropsDescription.helperText,
+    getPropDetailsByVersion(
+      PropsDescription.helperText,
+      muiVersion
+    ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
