@@ -674,12 +674,12 @@ const PropsDescription: Record<
       'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
     type: '`name` OR `iso` OR `iso3`'
   },
-  textFieldProps: {
+  textFieldProps: (muiVersion?: MuiVersion) => ({
     name: 'textFieldProps',
-    description: 'Props to customise the Autocomplete Textfield.',
-    type: '[TextFieldProps](https://mui.com/material-ui/api/text-field/)',
+    description: `Props to customise the Autocomplete [Textfield](${ExternalLinks.muiComponents.textField(muiVersion)}).`,
+    type: `[TextFieldProps](${ExternalLinks.muiComponentApi.textField(muiVersion)})`,
     hasLinkInType: true
-  },
+  }),
   multiple: {
     name: 'multiple',
     description:
@@ -700,7 +700,7 @@ const PropsDescription: Record<
   },
   ChipProps: (muiVersion?: MuiVersion) => ({
     name: 'ChipProps',
-    description: 'Props to customise the `Chip` component for each input tag.',
+    description: `Props to customise the [Chip](${ExternalLinks.muiComponents.chip(muiVersion)}) component for each input tag.`,
     type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
     hasLinkInType: true
   }),

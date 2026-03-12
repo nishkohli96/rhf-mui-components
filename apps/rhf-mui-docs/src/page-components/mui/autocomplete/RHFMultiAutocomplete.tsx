@@ -1,10 +1,11 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropDetailsByVersion } from '@site/src/utils';
+import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFMultiAutocompletePropsTable = ({
   docsVersion,
+  muiVersion,
   v3_2AndAbove,
   v4AndAbove
 }: VersionProps) => {
@@ -21,16 +22,31 @@ const RHFMultiAutocompletePropsTable = ({
     PropsDescription.onValueChange_MultiAutocomplete,
     getPropDetailsByVersion(PropsDescription.label, docsVersion),
     ...(v4AndAbove ? [PropsDescription.renderOptionLabel] : []),
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
-    PropsDescription.checkboxProps,
-    PropsDescription.formControlLabelProps,
+    getPropDetailsByVersion(
+      PropsDescription.showLabelAboveFormField,
+      muiVersion
+    ),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ),
+    getPropDetailsByVersion(PropsDescription.checkboxProps, muiVersion),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formControlLabelProps,
+      docsVersion,
+      muiVersion
+    ),
     PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
-    PropsDescription.textFieldProps,
-    PropsDescription.ChipProps
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    ),
+    getPropDetailsByVersion(PropsDescription.textFieldProps, muiVersion),
+    getPropDetailsByVersion(PropsDescription.ChipProps, muiVersion),
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

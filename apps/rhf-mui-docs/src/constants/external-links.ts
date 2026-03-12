@@ -4,15 +4,28 @@ const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
   muiComponents: {
-    checkbox: 'https://mui.com/material-ui/react-checkbox/',
-    checkboxGroup: 'https://mui.com/material-ui/react-checkbox/#formgroup',
-    nativeSelect: 'https://mui.com/material-ui/react-select/#native-select',
-    radioGroup: 'https://mui.com/material-ui/react-radio-button/',
-    select: 'https://mui.com/material-ui/react-select/',
-    switch: 'https://mui.com/material-ui/react-switch/',
-    textField: 'https://mui.com/material-ui/react-text-field/'
+    textField: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-text-field/`,
+    select: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-select/`,
+    nativeSelect: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-select/#native-select`,
+    checkbox: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-checkbox/`,
+    checkboxGroup: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-checkbox/#formgroup`,
+    radioGroup: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-radio-button/`,
+    switch: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-switch/`,
+    chip: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-chip/`,
   },
   muiComponentApi: {
+    textField: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/text-field/`,
+    select: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/select/`,
     checkbox: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/checkbox/`,
     formLabel: (muiVersion?: MuiVersion) =>
@@ -24,12 +37,12 @@ const ExternalLinks = Object.freeze({
     nativeSelect: 'https://mui.com/material-ui/api/native-select/',
     radio: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/radio/`,
+    radioGroup: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/radio-group/`,
+    switch: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/switch/`,
     chip: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/chip/`,
-    radioGroup: 'https://mui.com/material-ui/api/radio-group/',
-    select: 'https://mui.com/material-ui/api/select/',
-    switch: 'https://mui.com/material-ui/api/switch/',
-    textField: 'https://mui.com/material-ui/api/text-field/'
   },
   rhfLinks: {
     control: 'https://react-hook-form.com/docs/useform/control',
