@@ -27,7 +27,7 @@ function validateFileList(
 - Maximum file size in bytes (if provided)
 - Accepted file types (based on the `accept` attribute)
 
-This function utilized by [RHFFileUploader](../components/mui/RHFMultiAutocomplete.mdx) ensures only files meeting the required criteria are passed for further processing.
+This function utilized by [RHFFileUploader](../components/mui/RHFFileUploader.mdx) ensures only files meeting the required criteria are passed for further processing.
 
 ## Usage
 
