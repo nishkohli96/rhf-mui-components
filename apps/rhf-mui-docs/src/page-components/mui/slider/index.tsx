@@ -21,7 +21,11 @@ const RHFSliderPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Slider,
-        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
       ]
       : [
         PropsDescription.defaultValue_Slider,

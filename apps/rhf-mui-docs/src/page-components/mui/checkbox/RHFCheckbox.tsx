@@ -20,7 +20,11 @@ const RHFCheckboxPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Checkbox,
-        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
       ]
       : [
         PropsDescription.onValueChange_Checkbox_v1,

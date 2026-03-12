@@ -19,7 +19,11 @@ const RHFTimePickerPropsTable = ({
       ? [
         PropsDescription.required,
         PropsDescription.onValueChange_TimePicker,
-        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
       ]
       : [
         PropsDescription.setValue,

@@ -23,7 +23,11 @@ const IntroductionPageTable = ({
     ...(v4AndAbove ? [PropsDescription.customOnChange] : []),
     PropsDescription.onValueChange,
     ...(!v1
-      ? [getPropDetailsByVersion(PropsDescription.label, docsVersion)]
+      ? [getPropByDocsAndMuiVersion(
+        PropsDescription.label,
+        docsVersion,
+        muiVersion
+      ),]
       : [PropsDescription.label_v1]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,

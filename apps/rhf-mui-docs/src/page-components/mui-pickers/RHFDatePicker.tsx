@@ -19,7 +19,11 @@ const RHFDatePickerPropsTable = ({
       ? [
         PropsDescription.required,
         PropsDescription.onValueChange_DatePicker,
-        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
       ]
       : [
         PropsDescription.setValue,

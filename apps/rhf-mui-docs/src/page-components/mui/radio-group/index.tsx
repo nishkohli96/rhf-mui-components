@@ -31,7 +31,11 @@ const RHFRadioGroupPropsTable = ({
             PropsDescription.getOptionDisabled
           ]
           : []),
-        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
       ]
       : [
         PropsDescription.onValueChange_CheckboxGroup_v1,

@@ -20,7 +20,11 @@ const RHFSwitchPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Switch,
-        getPropDetailsByVersion(PropsDescription.label, docsVersion)
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        ),
       ]
       : [PropsDescription.onValueChange_Default_v1, PropsDescription.label_v1]),
     getPropByDocsAndMuiVersion(
