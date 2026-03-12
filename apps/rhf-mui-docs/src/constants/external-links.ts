@@ -1,7 +1,7 @@
 import { type MuiVersion } from '@site/src/types';
 
 const githubProfile = 'https://github.com/nishkohli96/'; 
-const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/packages/rhf-mui-components/`;
+const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
 const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
 const ExternalLinks = Object.freeze({
@@ -57,14 +57,17 @@ const ExternalLinks = Object.freeze({
   },
   rhfResolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
   githubRepo: {
-    countriesList: `${pkgRepoLink}src/mui/country-select/countries.ts`,
-    rteConfig: `${pkgRepoLink}src/misc/rich-text-editor/config.ts`
+    countriesList: `${pkgRepoLink}packages/rhf-mui-components/src/mui/country-select/countries.ts`,
+    rteConfig: `${pkgRepoLink}packages/rhf-mui-components/src/misc/rich-text-editor/config.ts`
   },
   githubExamples: {
     multerFileUpload: `${cslRepo}apps/express-server/src/routes/file/controller.ts`,
     fileUploadMiddleware: `${cslRepo}apps/express-server/src/middleware/file-uploader.ts`,
     ckEditorAdvanced: `${githubProfile}react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx`,
     ckEditorCssGist: 'https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5',
+    styledTextField: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledTextField.tsx`,
+    styledSelect: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledSelect.tsx`,
+    styledAutocomplete: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledAutocomplete.tsx`,
   },
   validationLibs: {
     joi: 'https://www.npmjs.com/package/joi',
