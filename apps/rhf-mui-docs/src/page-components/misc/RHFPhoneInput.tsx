@@ -1,9 +1,16 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import {
+  getPropByDocsAndMuiVersion,
+  getPropDetailsByVersion
+} from '@site/src/utils';
 
-const RHFPhoneInputPropsTable = ({ docsVersion, muiVersion, v1 }: VersionProps) => {
+const RHFPhoneInputPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -13,21 +20,31 @@ const RHFPhoneInputPropsTable = ({ docsVersion, muiVersion, v1 }: VersionProps) 
     PropsDescription.required,
     PropsDescription.onValueChange_PhoneInput,
     ...(!v1
-      ? [getPropByDocsAndMuiVersion(
-        PropsDescription.label,
-        docsVersion,
-        muiVersion
-      ),]
+      ? [
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        )
+      ]
       : [PropsDescription.label_v1]),
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
     getPropDetailsByVersion(
-      PropsDescription.helperText,
+      PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    PropsDescription.errorMessage,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formLabelProps,
+      docsVersion,
+      muiVersion
+    ),
+    getPropDetailsByVersion(PropsDescription.helperText, muiVersion),
+    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
+    getPropByDocsAndMuiVersion(
+      PropsDescription.formHelperTextProps,
+      docsVersion,
+      muiVersion
+    ),
     PropsDescription.phoneInputProps
   ];
 

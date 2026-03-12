@@ -659,7 +659,7 @@ const PropsDescription: Record<
   countries: {
     name: 'countries',
     description:
-      `The [list of countries](${ExternalLinks.repo.countriesList}) to render for selection in the Autocomplete. By default all countries will be listed.`,
+      `The [list of countries](${ExternalLinks.githubRepo.countriesList}) to render for selection in the Autocomplete. By default all countries will be listed.`,
     type: 'CountryDetails[]'
   },
   preferredCountries: {

@@ -53,8 +53,9 @@ const ExternalLinks = Object.freeze({
     useForm: 'https://react-hook-form.com/docs/useform',
   },
   rhfResolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
-  repo: {
+  githubRepo: {
     countriesList: `${repoLink}src/mui/country-select/countries.ts`,
+    rteConfig: `${repoLink}src/misc/rich-text-editor/config.ts`
   },
   validationLibs: {
     joi: 'https://www.npmjs.com/package/joi',
