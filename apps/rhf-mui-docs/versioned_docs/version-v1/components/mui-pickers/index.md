@@ -26,11 +26,11 @@ The recommended `dateAdapter` library is [dayjs](https://www.npmjs.com/package/d
 To know why, read [here](https://v6.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 ```
-npm install @mui/x-date-pickers
+npm install @mui/x-date-pickers@6.20.2
 npm install dayjs
 ```
 ```
-yarn add @mui/x-date-pickers
+yarn add @mui/x-date-pickers@6.20.2
 yarn add dayjs
 ```
 

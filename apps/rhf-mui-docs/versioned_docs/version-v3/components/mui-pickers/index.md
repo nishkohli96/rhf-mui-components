@@ -16,7 +16,7 @@ This package is compatible with Mui X Pickers **v6**, **v7** and **v8**.
 :::
 
 To use date and time pickers, you need to provide a default `dateAdapter` 
-using the [ConfigProvider](../../customization) component. This can be done at the root level of your application, especially if it includes multiple forms with date and time pickers. To view the list of available libraries, refer [this page](https://mui.com/x/react-date-pickers/base-concepts/#available-libraries).
+using the [ConfigProvider](../customization) component. This can be done at the root level of your application, especially if it includes multiple forms with date and time pickers. To view the list of available libraries, refer [this page](https://mui.com/x/react-date-pickers/base-concepts/#available-libraries).
 
 ```jsx
 <ConfigProvider dateAdapter={AdapterDayjs}>

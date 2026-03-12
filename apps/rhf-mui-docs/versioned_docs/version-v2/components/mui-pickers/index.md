@@ -9,10 +9,10 @@ import DocCardList from '@theme/DocCardList';
 
 Many forms require date or time input from users, such as entering a date of birth. Thus this package would have been incomplete without these date and time input components.
 
-The date and time pickers provided are derived from [Mui X Pickers](https://mui.com/x/react-date-pickers/). Please follow the [installation guide](https://mui.com/x/react-date-pickers/getting-started/) and review the [base concepts](https://mui.com/x/react-date-pickers/base-concepts/)  to begin integrating these components. Each picker component comes wrapped with a [LocalizationProvider](https://mui.com/x/api/date-pickers/localization-provider/).
+The date and time pickers provided are derived from [Mui X Pickers](https://v7.mui.com/x/react-date-pickers/). Please follow the [installation guide](https://v7.mui.com/x/react-date-pickers/getting-started/) and review the [base concepts](https://v7.mui.com/x/react-date-pickers/base-concepts/)  to begin integrating these components. Each picker component comes wrapped with a [LocalizationProvider](https://v7.mui.com/x/api/date-pickers/localization-provider/).
 
 To use date and time pickers, you need to provide a default `dateAdapter` 
-using the [ConfigProvider](../../customization) component. This can be done at the root level of your application, especially if it includes multiple forms with date and time pickers. To view the list of available libraries, refer [this page](https://mui.com/x/react-date-pickers/base-concepts/#available-libraries).
+using the [ConfigProvider](../customization) component. This can be done at the root level of your application, especially if it includes multiple forms with date and time pickers. To view the list of available libraries, refer [this page](https://v7.mui.com/x/react-date-pickers/base-concepts/#available-libraries).
 
 ```jsx
 <ConfigProvider dateAdapter={AdapterDayjs}>
@@ -23,14 +23,14 @@ using the [ConfigProvider](../../customization) component. This can be done at t
 ```
 
 The recommended `dateAdapter` library is [dayjs](https://www.npmjs.com/package/dayjs), so ensure you have it installed along with the [@mui/x-date-pickers package](https://www.npmjs.com/package/@mui/x-date-pickers).
-To know why, read [here](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+To know why, read [here](https://v7.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 ```
-npm install @mui/x-date-pickers
+npm install @mui/x-date-pickers@7.29.4
 npm install dayjs
 ```
 ```
-yarn add @mui/x-date-pickers
+yarn add @mui/x-date-pickers@7.29.4
 yarn add dayjs
 ```
 
