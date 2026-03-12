@@ -1,6 +1,8 @@
 import { type MuiVersion } from '@site/src/types';
 
-const repoLink = 'https://github.com/nishkohli96/rhf-mui-components/blob/main/packages/rhf-mui-components/';
+const githubProfile = 'https://github.com/nishkohli96/'; 
+const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/packages/rhf-mui-components/`;
+const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
 const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
@@ -54,8 +56,14 @@ const ExternalLinks = Object.freeze({
   },
   rhfResolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
   githubRepo: {
-    countriesList: `${repoLink}src/mui/country-select/countries.ts`,
-    rteConfig: `${repoLink}src/misc/rich-text-editor/config.ts`
+    countriesList: `${pkgRepoLink}src/mui/country-select/countries.ts`,
+    rteConfig: `${pkgRepoLink}src/misc/rich-text-editor/config.ts`
+  },
+  githubExamples: {
+    multerFileUpload: `${cslRepo}apps/express-server/src/routes/file/controller.ts`,
+    fileUploadMiddleware: `${cslRepo}apps/express-server/src/middleware/file-uploader.ts`,
+    ckEditorAdvanced: `${githubProfile}react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx`,
+    ckEditorCssGist: 'https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5',
   },
   validationLibs: {
     joi: 'https://www.npmjs.com/package/joi',
