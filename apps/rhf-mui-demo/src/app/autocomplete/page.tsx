@@ -1,5 +1,5 @@
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
-import { DocsLinks, SourceCodeLinks, pageMetadata } from '@/constants';
+import { componentsDocsLink, SourceCodeLinks, pageMetadata } from '@/constants';
 import AutocompleteForm from '@/forms/autocomplete';
 
 export const metadata = pageMetadata.autocomplete;
@@ -9,9 +9,9 @@ const MultiSelectDropdownFormPage = () => {
     SourceCodeLinks.countrySelect,
   ];
   const docsLinks = [
-    DocsLinks.rhfAutocomplete,
-    DocsLinks.rhfMultiAutocomplete,
-    DocsLinks.rhfCountrySelect
+    componentsDocsLink.rhfAutocomplete,
+    componentsDocsLink.rhfMultiAutocomplete,
+    componentsDocsLink.rhfCountrySelect
   ];
 
   return (

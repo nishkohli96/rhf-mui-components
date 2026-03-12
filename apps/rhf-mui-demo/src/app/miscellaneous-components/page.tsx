@@ -1,14 +1,14 @@
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { pageMetadata, componentsDocsLink, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 import MiscellaneousComponentsForm from '@/forms/miscellaneous-components';
 
 export const metadata = pageMetadata.miscComponents;
 
 const MiscellaneousComponentsFormPage = () => {
   const links = [
-    DocsLinks.rhfColorPicker,
-    DocsLinks.rhfRichTextEditor,
-    DocsLinks.rhfPhoneInput
+    componentsDocsLink.rhfColorPicker,
+    componentsDocsLink.rhfRichTextEditor,
+    componentsDocsLink.rhfPhoneInput
   ];
   const codeLinks = [
     SourceCodeLinks.miscellaneous,

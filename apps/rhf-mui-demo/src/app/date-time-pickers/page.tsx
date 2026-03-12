@@ -1,14 +1,14 @@
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { pageMetadata, componentsDocsLink, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 import DateTimePickersForm from '@/forms/date-time-pickers';
 
 export const metadata = pageMetadata.dateTimePickers;
 
 const DateTimePickerFormPage = () => {
   const links = [
-    DocsLinks.rhfDatePicker,
-    DocsLinks.rhfTimePicker,
-    DocsLinks.rhfDateTimePicker
+    componentsDocsLink.rhfDatePicker,
+    componentsDocsLink.rhfTimePicker,
+    componentsDocsLink.rhfDateTimePicker
   ];
   const codeLinks = [
     SourceCodeLinks.dateTimePickers,

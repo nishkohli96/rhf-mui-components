@@ -1,7 +1,7 @@
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
@@ -11,7 +11,7 @@ import CompleteFormWithJoi from '@/forms/complete-form-with-joi';
 export const metadata = pageMetadata.completeFormJoi;
 
 const CompleteFormWithJoiPage = () => {
-  const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
+  const links = Object.keys(componentsDocsLink).map(k => componentsDocsLink[k]);
   const codeLinks = [
     SourceCodeLinks.completeFormJoi,
     CodeSandboxLinks.completeForm

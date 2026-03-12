@@ -1,7 +1,7 @@
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
@@ -12,9 +12,9 @@ export const metadata = pageMetadata.switchSliderRating;
 
 const SwitchSliderRatingFormPage = () => {
   const links = [
-    DocsLinks.rhfSwitch,
-    DocsLinks.rhfSlider,
-    DocsLinks.rhfRating,
+    componentsDocsLink.rhfSwitch,
+    componentsDocsLink.rhfSlider,
+    componentsDocsLink.rhfRating,
     ValidationLibLinks.superstruct
   ];
   const codeLinks = [

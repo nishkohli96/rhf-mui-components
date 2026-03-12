@@ -1,16 +1,16 @@
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { pageMetadata, componentsDocsLink, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 import InputsWithRegisterForm from '@/forms/inputs-with-register-options';
 
 export const metadata = pageMetadata.inputs;
 
 const TextFieldPage = () => {
   const links = [
-    DocsLinks.rhfTextField,
-    DocsLinks.rhfNumberInput,
-    DocsLinks.rhfPasswordInput,
-    DocsLinks.rhfTagsInput,
-    DocsLinks.rhfFileUploader
+    componentsDocsLink.rhfTextField,
+    componentsDocsLink.rhfNumberInput,
+    componentsDocsLink.rhfPasswordInput,
+    componentsDocsLink.rhfTagsInput,
+    componentsDocsLink.rhfFileUploader
   ];
   const codeLinks = [
     SourceCodeLinks.inputs,

@@ -1,7 +1,7 @@
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
@@ -12,9 +12,9 @@ export const metadata = pageMetadata.checkboxAndRadio;
 
 const CheckboxRadioZodFormPage = () => {
   const links = [
-    DocsLinks.rhfCheckbox,
-    DocsLinks.rhfCheckboxGroup,
-    DocsLinks.rhfRadioGroup,
+    componentsDocsLink.rhfCheckbox,
+    componentsDocsLink.rhfCheckboxGroup,
+    componentsDocsLink.rhfRadioGroup,
     ValidationLibLinks.zod
   ];
   const codeLinks = [

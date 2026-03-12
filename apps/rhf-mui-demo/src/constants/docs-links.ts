@@ -1,7 +1,7 @@
 import { type PageInfo } from '@/types';
 import { ENV_VARS } from './environment';
 
-export const DocsLinks: Record<string, PageInfo> = {
+export const componentsDocsLink: Record<string, PageInfo> = {
   rhfTextField: {
     title: 'RHFTextField',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFTextField`

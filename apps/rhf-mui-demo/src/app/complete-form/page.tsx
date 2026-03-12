@@ -1,11 +1,11 @@
 import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { pageMetadata, componentsDocsLink, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
 import CompleteForm from '@/forms/complete-form';
 
 export const metadata = pageMetadata.completeForm;
 
 const CompleteFormPage = () => {
-  const links = Object.keys(DocsLinks).map(k => DocsLinks[k]);
+  const links = Object.keys(componentsDocsLink).map(k => componentsDocsLink[k]);
   const codeLinks = [
     SourceCodeLinks.completeForm,
     CodeSandboxLinks.completeForm

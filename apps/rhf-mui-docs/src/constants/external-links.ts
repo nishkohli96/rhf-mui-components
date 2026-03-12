@@ -7,6 +7,7 @@ const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
+  examplesRepo: `${githubProfile}rhf-mui-examples`,
   muiComponents: {
     textField: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-text-field/`,

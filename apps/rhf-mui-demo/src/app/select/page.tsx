@@ -1,7 +1,7 @@
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
@@ -12,8 +12,8 @@ export const metadata = pageMetadata.select;
 
 const SelectWithClassValidatorPage = () => {
   const links = [
-    DocsLinks.rhfSelect,
-    DocsLinks.rhfNativeSelect,
+    componentsDocsLink.rhfSelect,
+    componentsDocsLink.rhfNativeSelect,
     ValidationLibLinks.classValidator
   ];
   const codeLinks = [

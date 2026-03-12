@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
@@ -13,8 +13,8 @@ export const metadata = pageMetadata.customization;
 
 const CustomizationPage = () => {
   const links = [
-    DocsLinks.rhfTextField,
-    DocsLinks.rhfDatePicker,
+    componentsDocsLink.rhfTextField,
+    componentsDocsLink.rhfDatePicker,
     ValidationLibLinks.luxon
   ];
   const codeLinks = [
