@@ -9,7 +9,7 @@
     "./packages/*"
   ],
   "scripts": {
-    "lib": "pnpm -F @nish1896/rhf-mui-components run build",
+    "lib": "pnpm -F @nish1896/rhf-mui-components run lib:build",
     "lib:lint": "pnpm -F @nish1896/rhf-mui-components run lint",
     "lib:pack": "sh pack-pkg.sh",
     "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
@@ -22,7 +22,7 @@
     "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
   },
   "devDependencies": {
-    "turbo": "^2.5.2"
+    "turbo": "^2.8.16"
   },
   "keywords": [
     "react-hook-form",

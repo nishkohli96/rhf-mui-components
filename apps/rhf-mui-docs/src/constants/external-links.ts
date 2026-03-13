@@ -1,6 +1,6 @@
 import { type MuiVersion } from '@site/src/types';
 
-const githubProfile = 'https://github.com/nishkohli96/'; 
+const githubProfile = 'https://github.com/nishkohli96/';
 const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
 const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 

@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsdown && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
+    "lib:build": "tsdown && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
   },
   "type": "module",
