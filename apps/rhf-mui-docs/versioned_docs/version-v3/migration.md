@@ -22,11 +22,11 @@ Refer to the official migration guides for [@mui/material](https://mui.com/mater
 
 Version 2 introduces significant enhancements and optimizations for nearly all components from Version 1. In addition to these improvements, the package now includes five new components:
 
-- [RHFAutocomplete](../../docs/components/mui/RHFAutocomplete.mdx)
-- [RHFMultiAutocomplete](./components/mui/RHFMultiAutocomplete.mdx)
-- [RHFCountrySelect](./components/mui/RHFCountrySelect.mdx)
-- [RHFTagsInput](./components/mui/RHFTagsInput.mdx)
-- [RHFPhoneInput](./components/misc/RHFPhoneInput.mdx)
+- [RHFAutocomplete](../version-v2/components/mui/RHFAutocomplete.mdx)
+- [RHFMultiAutocomplete](../version-v2/components/mui/RHFMultiAutocomplete.mdx)
+- [RHFCountrySelect](../version-v2/components/mui/RHFCountrySelect.mdx)
+- [RHFTagsInput](../version-v2/components/mui/RHFTagsInput.mdx)
+- [RHFPhoneInput](../version-v2/components/misc/RHFPhoneInput.mdx)
 
 These additions expand the package's utility, making it a compelling upgrade for developers.
 
@@ -53,15 +53,15 @@ Version 2 introduces updates and enhancements to various components, aligning th
 
 The following components now use the `control` prop instead of `register`:
 
-- [RHFTextField](./components/mui//RHFTextField.mdx)
-- [RHFPasswordInput](./components/mui/RHFPasswordInput.mdx)
-- [RHFSelect](./components/mui/RHFSelect.mdx)
-- [RHFNativeSelect](./components/mui/RHFNativeSelect.mdx)
-- [RHFSlider](./components/mui/RHFSlider.mdx)
-- [RHFDatePicker](./components/mui-pickers/RHFDatePicker.mdx)
-- [RHFTimePicker](./components/mui-pickers/RHFTimePicker.mdx)
-- [RHFDateTimePicker](./components/mui-pickers/RHFDateTimePicker.mdx)
-- [RHFRichTextEditor](./components/misc/RHFRichTextEditor.mdx)
+- [RHFTextField](../version-v2/components/mui//RHFTextField.mdx)
+- [RHFPasswordInput](../version-v2/components/mui/RHFPasswordInput.mdx)
+- [RHFSelect](../version-v2/components/mui/RHFSelect.mdx)
+- [RHFNativeSelect](../version-v2/components/mui/RHFNativeSelect.mdx)
+- [RHFSlider](../version-v2/components/mui/RHFSlider.mdx)
+- [RHFDatePicker](../version-v2/components/mui-pickers/RHFDatePicker.mdx)
+- [RHFTimePicker](../version-v2/components/mui-pickers/RHFTimePicker.mdx)
+- [RHFDateTimePicker](../version-v2/components/mui-pickers/RHFDateTimePicker.mdx)
+- [RHFRichTextEditor](../version-v2/components/misc/RHFRichTextEditor.mdx)
 
 ```diff
 <RHFTextField
@@ -76,12 +76,12 @@ The following components now use the `control` prop instead of `register`:
 
 The `registerOptions` prop has been added to improve validation capabilities for:
 
-- [RHFCheckbox](./components/mui/RHFCheckbox.mdx)
-- [RHFCheckboxGroup](./components/mui/RHFCheckboxGroup.mdx)
-- [RHFRadioGroup](./components/mui/RHFRadioGroup.mdx)
-- [RHFSwitch](./components/mui/RHFSwitch.mdx)
-- [RHFRating](./components/mui/RHFRating.mdx)
-- [RHFRichTextEditor](./components/misc/RHFRichTextEditor.mdx)
+- [RHFCheckbox](../version-v2/components/mui/RHFCheckbox.mdx)
+- [RHFCheckboxGroup](../version-v2/components/mui/RHFCheckboxGroup.mdx)
+- [RHFRadioGroup](../version-v2/components/mui/RHFRadioGroup.mdx)
+- [RHFSwitch](../version-v2/components/mui/RHFSwitch.mdx)
+- [RHFRating](../version-v2/components/mui/RHFRating.mdx)
+- [RHFRichTextEditor](../version-v2/components/misc/RHFRichTextEditor.mdx)
 
 #### Required Validation
 
@@ -91,8 +91,8 @@ Every field now includes support for the `required` prop. When enabled, it appen
 
 The `disabled` prop has been added to the following components, enabling better control over form fields:
 
-- [RHFCheckboxGroup](./components/mui/RHFCheckboxGroup.mdx)
-- [RHFRadioGroup](./components/mui/RHFRadioGroup.mdx)
+- [RHFCheckboxGroup](../version-v2/components/mui/RHFCheckboxGroup.mdx)
+- [RHFRadioGroup](../version-v2/components/mui/RHFRadioGroup.mdx)
 
 #### OnValueChange
 
@@ -102,7 +102,7 @@ As previously mentioned, the changed value(s) can now be accessed earlier in the
 
 Significant changes have been made to each of the components listed below that enhance its functionality and makes it more compatible with other core components of this package.
 
-**[1. RHFNativeSelect](./components/mui/RHFNativeSelect.mdx)**
+**[1. RHFNativeSelect](../version-v2/components/mui/RHFNativeSelect.mdx)**
 
 Use `FormLabel` instead of `InputLabel`to display label text for the field. 
 
@@ -115,7 +115,7 @@ Use `FormLabel` instead of `InputLabel`to display label text for the field.
   - `formLabelProps`
   - `helperText`
 
-**[2. RHFSwitch](./components/mui/RHFSwitch.mdx)**
+**[2. RHFSwitch](../version-v2/components/mui/RHFSwitch.mdx)**
 
 **New Props Added -**
   - `errorMessage`
@@ -123,7 +123,7 @@ Use `FormLabel` instead of `InputLabel`to display label text for the field.
   - `hideErrorMessage`
   - `formHelperTextProps`
 
-**[3. RHFColorPicker](./components/misc/RHFColorPicker.mdx)**
+**[3. RHFColorPicker](../version-v2/components/misc/RHFColorPicker.mdx)**
 
 Unlike the previous implementation of v1, the field value is now handled internally whenever the user selects a color.
 
