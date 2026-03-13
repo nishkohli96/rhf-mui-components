@@ -23,7 +23,7 @@ fi
 # Install dependencies and build the local package
 echo "Installing Dependencies & Building Package 🛠️"
 pnpm install
-pnpm --filter "$PKG_NAME" run lib
+pnpm --filter "$PKG_NAME" run lib:build
 
 # Globally install rimraf
 npm i -g rimraf

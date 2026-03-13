@@ -5,6 +5,7 @@ import { type Path, useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { toast } from 'react-toastify';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
@@ -29,7 +30,6 @@ import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
-import { toast } from 'react-toastify';
 import {
   FormContainer,
   GridContainer,
