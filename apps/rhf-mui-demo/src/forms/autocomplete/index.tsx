@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -99,12 +100,10 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
-              renderOption={({ key, ...props }, option) => {
+              renderOption={(props, option) => {
                 return (
                   <Box
-                    key={key}
                     component="li"
-                    key={key}
                     {...props}
                     sx={{
                       px: 1.25,

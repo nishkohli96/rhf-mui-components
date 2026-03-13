@@ -21,6 +21,7 @@
     "@mui/material-nextjs": "^7.3.9",
     "@mui/x-date-pickers": "^8.11.1",
     "@nish1896/rhf-mui-components": "link:../../packages/rhf-mui-components/dist",
+    "axios": "^1.13.6",
     "ckeditor5": "^43.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
