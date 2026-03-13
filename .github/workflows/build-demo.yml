@@ -8,14 +8,14 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
+          cache: pnpm
       - name: Setup App
         run: sh setup.sh
       - name: Build Next App
