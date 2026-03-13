@@ -15,7 +15,14 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   customFields: {
-    EXAMPLES_URL: process.env.DOCUSAURUS_EXAMPLES_URL,
+    EXAMPLES_URL: process.env.DOCUSAURUS_EXAMPLES_URL
+  },
+  markdown: {
+    format: 'detect',
+    // hooks: {
+    //   onBrokenMarkdownLinks: 'warn',
+    //   onBrokenMarkdownImages: 'throw'
+    // }
   },
   i18n: {
     defaultLocale: 'en',
@@ -30,9 +37,9 @@ const config: Config = {
           lastVersion: 'current',
           versions: {
             current: {
-              label: 'v4',
-            },
-          },
+              label: 'v4'
+            }
+          }
         }
       }
     ]
@@ -42,9 +49,9 @@ const config: Config = {
       '@docusaurus/plugin-google-gtag',
       {
         trackingID: process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID,
-        anonymizeIP: true,
-      },
-    ],
+        anonymizeIP: true
+      }
+    ]
   ],
   themeConfig: {
     colorMode: {
@@ -54,7 +61,7 @@ const config: Config = {
     },
     tableOfContents: {
       minHeadingLevel: 2,
-      maxHeadingLevel: 4,
+      maxHeadingLevel: 4
     },
     navbar: {
       title: 'RHF-MUI Components',
@@ -80,8 +87,8 @@ const config: Config = {
         },
         {
           type: 'docsVersionDropdown',
-          position: 'right',
-        },
+          position: 'right'
+        }
       ]
     },
     footer: {
@@ -109,7 +116,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.vsDark,
-      additionalLanguages: ['diff'],
+      additionalLanguages: ['diff']
     },
     customFields: {
       githubLink: `
