@@ -1,4 +1,9 @@
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
 import {
   pageMetadata,
   componentsDocsLink,
@@ -6,7 +11,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-import SwitchSliderRatingFormWithSuperstruct from '@/forms/switch-slider-rating-with-superstruct';
+import SwitchSliderRatingFormWithSuperstruct from '@/forms/switch-slider-rating-with-superstruct/Client';
 
 export const metadata = pageMetadata.switchSliderRating;
 
@@ -24,7 +29,7 @@ const SwitchSliderRatingFormPage = () => {
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
-      <SubHeading title={metadata.description as string}/>
+      <SubHeading title={metadata.description as string} />
       <SwitchSliderRatingFormWithSuperstruct />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />

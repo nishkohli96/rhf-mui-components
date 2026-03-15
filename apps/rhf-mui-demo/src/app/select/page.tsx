@@ -1,4 +1,9 @@
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
 import {
   pageMetadata,
   componentsDocsLink,
@@ -6,7 +11,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-import SelectFormWithClassValidator from '@/forms/select-with-class-validator';
+import SelectFormWithClassValidator from '@/forms/select-with-class-validator/Client';
 
 export const metadata = pageMetadata.select;
 
@@ -16,15 +21,12 @@ const SelectWithClassValidatorPage = () => {
     componentsDocsLink.rhfNativeSelect,
     ValidationLibLinks.classValidator
   ];
-  const codeLinks = [
-    SourceCodeLinks.select,
-    CodeSandboxLinks.select
-  ];
+  const codeLinks = [SourceCodeLinks.select, CodeSandboxLinks.select];
 
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
-      <SubHeading title={metadata.description as string}/>
+      <SubHeading title={metadata.description as string} />
       <SelectFormWithClassValidator />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />

@@ -1,4 +1,9 @@
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
 import {
   pageMetadata,
   componentsDocsLink,
@@ -6,7 +11,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component';
+import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component/Client';
 
 export const metadata = pageMetadata.customization;
 

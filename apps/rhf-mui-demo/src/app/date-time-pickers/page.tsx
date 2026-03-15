@@ -1,6 +1,16 @@
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, componentsDocsLink, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
-import DateTimePickersForm from '@/forms/date-time-pickers';
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
+import {
+  pageMetadata,
+  componentsDocsLink,
+  SourceCodeLinks,
+  CodeSandboxLinks
+} from '@/constants';
+import DateTimePickersForm from '@/forms/date-time-pickers/Client';
 
 export const metadata = pageMetadata.dateTimePickers;
 
@@ -18,7 +28,7 @@ const DateTimePickerFormPage = () => {
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
-      <SubHeading title={metadata.description as string}/>
+      <SubHeading title={metadata.description as string} />
       <DateTimePickersForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
@@ -27,4 +37,3 @@ const DateTimePickerFormPage = () => {
 };
 
 export default DateTimePickerFormPage;
-

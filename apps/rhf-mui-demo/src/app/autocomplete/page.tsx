@@ -1,6 +1,11 @@
-import { ContentContainer, PageHeading, LinksList, SubHeading } from '@/components';
+import {
+  ContentContainer,
+  PageHeading,
+  LinksList,
+  SubHeading,
+} from '@/components';
 import { componentsDocsLink, SourceCodeLinks, pageMetadata } from '@/constants';
-import AutocompleteForm from '@/forms/autocomplete';
+import AutocompleteForm from '@/forms/autocomplete/Client';
 
 export const metadata = pageMetadata.autocomplete;
 

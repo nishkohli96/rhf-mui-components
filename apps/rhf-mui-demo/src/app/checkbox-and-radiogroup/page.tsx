@@ -6,7 +6,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-import CheckboxRadioZodForm from '@/forms/checkbox-and-radiogroup-with-zod';
+import CheckboxRadioClient from '@/forms/checkbox-and-radiogroup-with-zod/Client';
 
 export const metadata = pageMetadata.checkboxAndRadio;
 
@@ -26,7 +26,7 @@ const CheckboxRadioZodFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
-      <CheckboxRadioZodForm />
+      <CheckboxRadioClient />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
