@@ -22,7 +22,7 @@
     "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
   },
   "devDependencies": {
-    "turbo": "^2.8.16"
+    "turbo": "^2.8.17"
   },
   "keywords": [
     "react-hook-form",
