@@ -225,6 +225,10 @@ importers:
         version: 5.9.3
 
   packages/rhf-mui-components:
+    dependencies:
+      lodash:
+        specifier: ^4.17.23
+        version: 4.17.23
     devDependencies:
       '@ckeditor/ckeditor5-core':
         specifier: 43.3.0
@@ -256,6 +260,9 @@ importers:
       '@nish1896/eslint-flat-config':
         specifier: ^3.1.1
         version: 3.1.1(@eslint/js@9.39.4)(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      '@types/lodash':
+        specifier: ^4.17.24
+        version: 4.17.24
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
@@ -3148,6 +3155,9 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+
+  '@types/lodash@4.17.24':
+    resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
   '@types/luxon@3.7.1':
     resolution: {integrity: sha512-H3iskjFIAn5SlJU7OuxUmTEpebK6TKB8rxZShDslBMZJ5u9S//KM1sbdAisiSrqwLQncVjnpi2OK2J51h+4lsg==}
@@ -12253,6 +12263,8 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
+
+  '@types/lodash@4.17.24': {}
 
   '@types/luxon@3.7.1': {}
 

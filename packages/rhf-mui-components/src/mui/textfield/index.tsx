@@ -1,8 +1,10 @@
 'use client';
 
 import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import get from 'lodash/get';
 import {
   Controller,
+  useFormState,
   type FieldValues,
   type Path,
   type Control,
@@ -58,15 +60,23 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  ref,
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = !!errorMessage;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+
+  const { errors } = useFormState({
+    control,
+    name: fieldName
+  });
+  const rhfError = get(errors, fieldName);
+  const fieldErrorMessage = rhfError?.message?.toString() ?? errorMessage;
+  const isError = !!rhfError || !!errorMessage;
 
   return (
     <FormControl error={isError}>
@@ -88,6 +98,7 @@ const RHFTextField = <T extends FieldValues>({
             value,
             onChange,
             onBlur: rhfOnBlur,
+            ref: rhfRef,
             ...otherFieldParams
           } = field;
           return (
@@ -113,6 +124,7 @@ const RHFTextField = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
+              inputRef={rhfRef}
               {...rest}
               {...otherFieldParams}
             />
@@ -121,7 +133,7 @@ const RHFTextField = <T extends FieldValues>({
       />
       <FormHelperText
         error={isError}
-        errorMessage={errorMessage}
+        errorMessage={fieldErrorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
         formHelperTextProps={formHelperTextProps}

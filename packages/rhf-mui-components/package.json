@@ -15,6 +15,9 @@
   },
   "type": "module",
   "sideEffects": false,
+  "dependencies": {
+    "lodash": "^4.17.23"
+  },
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "43.3.0",
     "@ckeditor/ckeditor5-react": "9.0.0",
@@ -26,6 +29,7 @@
     "@mui/system": "^7.3.9",
     "@mui/x-date-pickers": "^8.27.2",
     "@nish1896/eslint-flat-config": "^3.1.1",
+    "@types/lodash": "^4.17.24",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "ckeditor5": "43.3.0",
