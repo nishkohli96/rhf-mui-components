@@ -4,6 +4,9 @@
   "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
+  "engines": {
+    "node": ">=24"
+  },
   "workspaces": [
     "./apps/*",
     "./packages/*"

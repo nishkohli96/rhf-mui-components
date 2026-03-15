@@ -6,6 +6,24 @@ PKG_PATH="packages/rhf-mui-components"
 
 echo "🏁 Initiating Setup..."
 
+# Ensure nvm is loaded
+export NVM_DIR="$HOME/.nvm"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"
+else
+  echo "❌ nvm is not installed. Please install nvm first."
+  exit 1
+fi
+
+# Use Node version from .nvmrc
+if [ -f ".nvmrc" ]; then
+  echo "🔧 Using Node version from .nvmrc..."
+  nvm install
+  nvm use
+else
+  echo "⚠️ .nvmrc not found. Skipping Node version setup."
+fi
+
 # Check if pnpm is installed and the version
 if command -v pnpm &> /dev/null; then
   CURRENT_PNPM_VERSION=$(pnpm -v)

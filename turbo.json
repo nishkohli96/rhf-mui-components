@@ -9,7 +9,7 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["lib:build"],
+      "dependsOn": ["^lib:build"],
       "outputs": ["build/**", "dist/**", ".next/**"]
     }
   }
