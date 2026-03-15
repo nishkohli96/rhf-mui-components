@@ -1,9 +1,9 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
-import get from 'lodash/get';
+import { useContext, forwardRef, type ReactNode, type ChangeEvent, type Ref, type JSX } from 'react';
 import {
   Controller,
+  get,
   useFormState,
   type FieldValues,
   type Path,
@@ -20,7 +20,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, mergeRefs } from '@/utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -43,26 +43,30 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
 } & TextFieldProps;
 
-const RHFTextField = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  customOnChange,
-  onValueChange,
-  label,
-  showLabelAboveFormField,
-  hideLabel,
-  formLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  ref,
-  ...rest
-}: RHFTextFieldProps<T>) => {
+const RHFTextField = forwardRef(function RHFTextField<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    customOnChange,
+    onValueChange,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    ...rest
+  }: RHFTextFieldProps<T>,
+  ref: Ref<HTMLInputElement>
+) {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -124,7 +128,7 @@ const RHFTextField = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              inputRef={rhfRef}
+              inputRef={mergeRefs(rhfRef, ref)}
               {...rest}
               {...otherFieldParams}
             />
@@ -140,6 +144,8 @@ const RHFTextField = <T extends FieldValues>({
       />
     </FormControl>
   );
-};
+}) as <T extends FieldValues>(
+  props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFTextField;

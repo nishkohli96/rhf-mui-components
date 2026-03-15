@@ -225,10 +225,6 @@ importers:
         version: 5.9.3
 
   packages/rhf-mui-components:
-    dependencies:
-      lodash:
-        specifier: ^4.17.23
-        version: 4.17.23
     devDependencies:
       '@ckeditor/ckeditor5-core':
         specifier: 43.3.0
