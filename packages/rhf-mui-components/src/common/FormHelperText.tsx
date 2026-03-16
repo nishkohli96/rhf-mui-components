@@ -1,4 +1,4 @@
-import { Fragment, useContext, type ReactNode } from 'react';
+import { useContext, type ReactNode } from 'react';
 import MuiFormHelperText from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FormHelperTextProps } from '@/types';
@@ -28,16 +28,14 @@ const FormHelperText = (props: Props) => {
   };
 
   return (
-    <Fragment>
-      <MuiFormHelperText
-        {...otherHelperTextProps}
-        component="div"
-        sx={appliedHelperTextSx}
-        error={error}
-      >
-        {error && !hideErrorMessage ? errorMessage : helperText}
-      </MuiFormHelperText>
-    </Fragment>
+    <MuiFormHelperText
+      {...otherHelperTextProps}
+      component="div"
+      sx={appliedHelperTextSx}
+      error={error}
+    >
+      {error && !hideErrorMessage ? errorMessage : helperText}
+    </MuiFormHelperText>
   );
 };
 

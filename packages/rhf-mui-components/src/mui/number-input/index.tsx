@@ -18,7 +18,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
 
 type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
 
@@ -58,6 +58,13 @@ const RHFNumberInput = <T extends FieldValues>({
   ...rest
 }: RHFNumberInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -72,7 +79,11 @@ const RHFNumberInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
@@ -82,7 +93,7 @@ const RHFNumberInput = <T extends FieldValues>({
           const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
           return (
             <MuiTextField
-              id={fieldName}
+              id={fieldId}
               type="number"
               autoComplete={autoComplete}
               label={
@@ -104,6 +115,7 @@ const RHFNumberInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
+              aria-describedby={isError ? errorId : helperTextId}
               sx={{
                 ...(!showMarkers && {
                   '& input[type=number]': {
@@ -125,7 +137,10 @@ const RHFNumberInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

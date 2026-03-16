@@ -28,7 +28,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, useFieldIds } from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
@@ -74,6 +74,13 @@ const RHFPasswordInput = <T extends FieldValues>({
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const isError = Boolean(errorMessage);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -97,7 +104,11 @@ const RHFPasswordInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
@@ -120,7 +131,7 @@ const RHFPasswordInput = <T extends FieldValues>({
 
           return (
             <TextField
-              id={fieldName}
+              id={fieldId}
               autoComplete={autoComplete}
               type={showPassword ? 'text' : 'password'}
               label={
@@ -140,6 +151,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
+              aria-describedby={isError ? errorId : helperTextId}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
@@ -160,7 +172,10 @@ const RHFPasswordInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

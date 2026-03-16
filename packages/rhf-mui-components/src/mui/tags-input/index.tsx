@@ -28,7 +28,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, fieldNameToId, useFieldIds } from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -87,6 +87,12 @@ const RHFTagsInput = <T extends FieldValues>({
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
 
   const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -174,7 +180,11 @@ const RHFTagsInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
@@ -206,6 +216,7 @@ const RHFTagsInput = <T extends FieldValues>({
                 <Chip
                   key={index}
                   label={tag}
+                  id={fieldNameToId(tag)}
                   disabled={disabled}
                   onDelete={() => {
                     const newValues = value.filter(
@@ -257,6 +268,8 @@ const RHFTagsInput = <T extends FieldValues>({
                 triggerChangeEvents(handlePaste(event, value));
               }}
               disabled={disabled}
+              error={isError}
+              aria-describedby={isError ? errorId : helperTextId}
               sx={{
                 ...muiTextFieldSx,
                 '& .MuiInputBase-root': {
@@ -288,7 +301,10 @@ const RHFTagsInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

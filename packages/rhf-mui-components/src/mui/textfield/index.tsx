@@ -53,18 +53,20 @@ const RHFTextField = <T extends FieldValues>({
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = !!errorMessage;
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isLabelAboveFormField = keepLabelAboveFormField(
-    showLabelAboveFormField,
-    allLabelsAboveFields
-  );
   const {
     fieldId,
     labelId,
     helperTextId,
     errorId
   } = useFieldIds(fieldName);
+
+  const isError = !!errorMessage;
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -83,10 +85,10 @@ const RHFTextField = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+          const { value, onChange, onBlur: rhfOnBlur, ref: rhfRef, ...otherFieldParams } = field;
           return (
             <MuiTextField
-              id={fieldName}
+              id={fieldId}
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
@@ -96,6 +98,7 @@ const RHFTextField = <T extends FieldValues>({
                   : undefined
               }
               value={value ?? ''}
+              inputRef={rhfRef}
               onChange={event => {
                 onChange(event);
                 onValueChange?.(event.target.value, event);
@@ -104,10 +107,10 @@ const RHFTextField = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-describedby={isError ? errorId : helperTextId}
               error={isError}
-              {...rest}
+              aria-describedby={isError ? errorId : helperTextId}
               {...otherFieldParams}
+              {...rest}
             />
           );
         }}
