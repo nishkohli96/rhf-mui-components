@@ -114,8 +114,16 @@ const RHFPasswordInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+        render={({
+          field: {
+            name: rhfFieldName,
+            value,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            ...otherFieldParams
+          }
+        }) => {
           const endAdornment = (
             <InputAdornment position="end">
               <IconButton
@@ -132,6 +140,7 @@ const RHFPasswordInput = <T extends FieldValues>({
           return (
             <TextField
               id={fieldId}
+              name={rhfFieldName}
               autoComplete={autoComplete}
               type={showPassword ? 'text' : 'password'}
               label={
@@ -142,8 +151,9 @@ const RHFPasswordInput = <T extends FieldValues>({
                   : undefined
               }
               value={value ?? ''}
+              inputRef={rhfRef}
               onChange={event => {
-                onChange(event);
+                rhfOnChange(event);
                 onValueChange?.(event.target.value, event);
               }}
               onBlur={blurEvent => {
@@ -161,8 +171,8 @@ const RHFPasswordInput = <T extends FieldValues>({
                 }
                 : { InputProps: { endAdornment } }
               )}
-              {...rest}
               {...otherFieldParams}
+              {...rest}
             />
           );
         }}

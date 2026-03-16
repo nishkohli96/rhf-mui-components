@@ -84,11 +84,20 @@ const RHFTextField = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ref: rhfRef, ...otherFieldParams } = field;
+        render={({
+          field: {
+            name: rhfFieldName,
+            value,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            ...otherFieldParams
+          }
+        }) => {
           return (
             <MuiTextField
               id={fieldId}
+              name={rhfFieldName}
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
@@ -100,7 +109,7 @@ const RHFTextField = <T extends FieldValues>({
               value={value ?? ''}
               inputRef={rhfRef}
               onChange={event => {
-                onChange(event);
+                rhfOnChange(event);
                 onValueChange?.(event.target.value, event);
               }}
               onBlur={blurEvent => {

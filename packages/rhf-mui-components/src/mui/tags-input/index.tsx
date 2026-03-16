@@ -28,7 +28,13 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, fieldNameToId, useFieldIds } from '@/utils';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  isAboveMuiV5,
+  fieldNameToId,
+  useFieldIds
+} from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -120,6 +126,7 @@ const RHFTagsInput = <T extends FieldValues>({
           ?? '16.5px 14px';
     }
   };
+  const textFieldPadding = getTextFieldPadding(variant);
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
@@ -139,8 +146,10 @@ const RHFTagsInput = <T extends FieldValues>({
       event.preventDefault();
       const newTag = inputValue.trim();
       if (newTag) {
-        setInputValue('');
-        return [...currentTags, newTag];
+        if (!currentTags.includes(newTag)) {
+          setInputValue('');
+          return [...currentTags, newTag];
+        }
       }
     }
 
@@ -190,8 +199,16 @@ const RHFTagsInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value = [], onChange, onBlur: rhfOnBlur } = field;
+        render={({
+          field: {
+            name: rhfFieldName,
+            value = [],
+            onChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            ...otherFieldParams
+          }
+        }) => {
           const hideInput = disabled && value.length > 0;
           const visibleTags = showAllTags
             ? value
@@ -204,6 +221,7 @@ const RHFTagsInput = <T extends FieldValues>({
 
           const startAdornment = (
             <Box
+              role="list"
               sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -214,9 +232,10 @@ const RHFTagsInput = <T extends FieldValues>({
             >
               {visibleTags.map((tag, index) => (
                 <Chip
-                  key={index}
-                  label={tag}
+                  key={`${fieldNameToId(tag)}-${index}`}
                   id={fieldNameToId(tag)}
+                  role="listitem"
+                  label={tag}
                   disabled={disabled}
                   onDelete={() => {
                     const newValues = value.filter(
@@ -229,6 +248,7 @@ const RHFTagsInput = <T extends FieldValues>({
               ))}
               {!showAllTags && !isFocused && value.length > limitTags && (
                 <Chip
+                  role="listitem"
                   label={
                     getLimitTagsText?.(value.length - limitTags)
                     ?? `+${value.length - limitTags} more`
@@ -241,6 +261,8 @@ const RHFTagsInput = <T extends FieldValues>({
 
           return (
             <MuiTextField
+              id={fieldId}
+              name={rhfFieldName}
               autoComplete={autoComplete}
               variant={variant}
               label={
@@ -251,6 +273,7 @@ const RHFTagsInput = <T extends FieldValues>({
                   : undefined
               }
               value={inputValue}
+              inputRef={rhfRef}
               onFocus={handleFocus}
               onBlur={blurEvent => {
                 handleBlur();
@@ -275,7 +298,7 @@ const RHFTagsInput = <T extends FieldValues>({
                 '& .MuiInputBase-root': {
                   display: 'flex',
                   flexDirection: 'column',
-                  padding: getTextFieldPadding(variant)
+                  padding: textFieldPadding
                 },
                 '& .MuiInputBase-input': {
                   padding: 0,
@@ -286,11 +309,15 @@ const RHFTagsInput = <T extends FieldValues>({
                 ? {
                   slotProps: {
                     ...slotProps,
-                    input: { startAdornment }
-                  }
+                    input: {
+                      ...slotProps?.input,
+                      startAdornment
+                    }
+                  },
                 }
                 : { InputProps: { startAdornment } }
               )}
+              {...otherFieldParams}
               {...rest}
             />
           );

@@ -89,11 +89,20 @@ const RHFNumberInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+        render={({
+          field: {
+            name: rhfFieldName,
+            value,
+            onChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            ...otherFieldParams
+          }
+        }) => {
           return (
             <MuiTextField
               id={fieldId}
+              name={rhfFieldName}
               type="number"
               autoComplete={autoComplete}
               label={
@@ -104,9 +113,11 @@ const RHFNumberInput = <T extends FieldValues>({
                   : undefined
               }
               value={value ?? ''}
+              inputRef={rhfRef}
               onChange={event => {
-                const fieldValue
-                  = event.target.value === '' ? null : Number(event.target.value);
+                const fieldValue = event.target.value === ''
+                  ? null
+                  : Number(event.target.value);
                 onChange(fieldValue);
                 onValueChange?.(fieldValue, event);
               }}
@@ -126,8 +137,8 @@ const RHFNumberInput = <T extends FieldValues>({
                 }),
                 ...sx
               }}
-              {...rest}
               {...otherFieldParams}
+              {...rest}
             />
           );
         }}
