@@ -18,7 +18,7 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -53,13 +53,18 @@ const RHFTextField = <T extends FieldValues>({
   ...rest
 }: RHFTextFieldProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   return (
     <FormControl error={isError}>
       <FormLabel
