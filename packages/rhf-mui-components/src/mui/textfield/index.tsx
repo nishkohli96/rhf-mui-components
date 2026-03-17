@@ -40,6 +40,7 @@ const RHFTextField = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -50,7 +51,6 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
-  disabled: muiDisabled,
   ...rest
 }: RHFTextFieldProps<T>) => {
   const {

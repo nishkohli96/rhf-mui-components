@@ -87,6 +87,7 @@ const RHFSelect = <
   showDefaultOption,
   defaultOptionText,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -140,19 +141,20 @@ const RHFSelect = <
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({ field: {
           name: rhfFieldName,
-          value,
+          value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
           ref: rhfRef,
-          ...otherFieldParams
+          disabled: rhfDisabled
         } }) => {
           const isValueEmpty
-            = !value
-              || value === ''
-              || (multiple && Array.isArray(value) && !value.length);
-          const showPlaceholder = isValueEmpty && Boolean(placeholder);
+            = !rhfValue
+              || rhfValue === ''
+              || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
+          const showPlaceholder = isValueEmpty && !!placeholder;
           const selectLabelProp
             = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
           const selectLabelId = isLabelAboveFormField ? undefined : labelId;
@@ -169,12 +171,14 @@ const RHFSelect = <
                 name={rhfFieldName}
                 autoComplete={autoComplete}
                 labelId={selectLabelId}
+                aria-labelledby={labelId}
                 label={selectLabelProp}
-                value={value ?? (multiple ? [] : '')}
+                value={rhfValue ?? (multiple ? [] : '')}
                 error={isError}
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
-                ref={rhfRef}
+                inputRef={rhfRef}
+                disabled={muiDisabled || rhfDisabled}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(
@@ -192,22 +196,17 @@ const RHFSelect = <
                     child
                   );
                 }}
-                {...otherFieldParams}
                 {...otherSelectProps}
                 onBlur={blurEvent => {
-                  rhfOnBlur();
                   onBlur?.(blurEvent);
+                  rhfOnBlur();
                 }}
                 renderValue={value => {
                   if (showPlaceholder) {
                     return (
-                      <MenuItem
-                        value=""
-                        disabled
-                        sx={{ p: 0 }}
-                      >
+                      <span style={{ opacity: 0.6 }}>
                         {placeholder}
-                      </MenuItem>
+                      </span>
                     );
                   }
                   /* For multiple options */

@@ -43,6 +43,7 @@ const RHFNumberInput = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   showMarkers,
@@ -55,7 +56,6 @@ const RHFNumberInput = <T extends FieldValues>({
   sx,
   onBlur,
   autoComplete = defaultAutocompleteValue,
-  disabled: muiDisabled,
   ...rest
 }: RHFNumberInputProps<T>) => {
   const {

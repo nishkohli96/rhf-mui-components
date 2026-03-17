@@ -58,6 +58,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -71,7 +72,6 @@ const RHFPasswordInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
-  disabled: muiDisabled,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const {
