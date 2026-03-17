@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import { useContext, useEffect, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -92,8 +92,6 @@ const RHFRadioGroup = <
   onBlur,
   ...rest
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFRadioGroup', options, labelKey, valueKey);
-
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -103,6 +101,10 @@ const RHFRadioGroup = <
     ...defaultFormControlLabelSx,
     ...sx
   };
+
+  useEffect(() => {
+    validateArray('RHFRadioGroup', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl error={isError}>

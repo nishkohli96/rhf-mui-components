@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useState, useContext } from 'react';
+import { Fragment, ReactNode, useState, useContext, useEffect } from 'react';
 import {
   FieldValues,
   Path,
@@ -71,10 +71,11 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
   renderValue,
   ...otherSelectProps
 }: RHFMultiAutocompleteProps<T>) => {
-  validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
-
   const [selectedValues, setSelectedValues] = useState<StrNumArray>([]);
-  const { allLabelsAboveFields, defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const {
+    allLabelsAboveFields,
+    defaultFormControlLabelSx
+  } = useContext(RHFMuiConfigContext);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -110,6 +111,10 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
       ? [...selectedValues, value]
       : selectedValues.filter(val => val !== value);
   };
+
+  useEffect(() => {
+    validateArray('RHFAutocomplete', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl error={isError}>
@@ -158,7 +163,9 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
               renderValue={(selectValues: StrNumArray) => {
                 return (
                   <Fragment>
-                    {renderValue ? renderValue(selectValues) : selectValues.join(', ')}
+                    {renderValue
+                      ? renderValue(selectValues)
+                      : selectValues.join(', ')}
                   </Fragment>
                 );
               }}
@@ -177,10 +184,12 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                         selectedValues.length > 0
                         && selectedValues.length !== options.length
                       }
-                      onChange={event => onCheckboxSelected(
-                        event.target.checked,
-                        event.target.value
-                      )}
+                      onChange={event =>
+                        onCheckboxSelected(
+                          event.target.checked,
+                          event.target.value
+                        )
+                      }
                     />
                   }
                   sx={{ ...appliedFormControlLabelSx, width: '100%' }}
@@ -207,10 +216,12 @@ const RHFMultiAutocomplete = <T extends FieldValues>({
                           name={fieldName}
                           value={opnValue}
                           checked={isChecked}
-                          onChange={event => onCheckboxSelected(
-                            event.target.checked,
-                            event.target.value
-                          )}
+                          onChange={event =>
+                            onCheckboxSelected(
+                              event.target.checked,
+                              event.target.value
+                            )
+                          }
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}

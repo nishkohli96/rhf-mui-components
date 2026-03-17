@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, Fragment, type ReactNode } from 'react';
+import { useContext, useEffect, Fragment, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -102,7 +102,6 @@ const RHFSelect = <
   placeholder,
   ...otherSelectProps
 }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
-  validateArray('RHFSelect', options, labelKey, valueKey);
 
   const {
     fieldId,
@@ -123,6 +122,10 @@ const RHFSelect = <
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
   );
+
+  useEffect(() => {
+    validateArray('RHFSelect', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl error={isError}>

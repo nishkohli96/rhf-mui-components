@@ -3,6 +3,7 @@
 import {
   useContext,
   Fragment,
+  useEffect,
   type FocusEvent,
   type ReactNode,
   type ChangeEvent
@@ -91,8 +92,6 @@ const RHFCheckboxGroup = <
   formHelperTextProps,
   onBlur
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
-
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
@@ -102,6 +101,10 @@ const RHFCheckboxGroup = <
     ...defaultFormControlLabelSx,
     ...sx
   };
+
+  useEffect(() => {
+    validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl error={isError}>

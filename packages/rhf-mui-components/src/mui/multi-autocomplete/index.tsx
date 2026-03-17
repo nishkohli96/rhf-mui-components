@@ -3,6 +3,7 @@
 import {
   useContext,
   useCallback,
+  useEffect,
   useMemo,
   type ReactNode
 } from 'react';
@@ -126,8 +127,6 @@ const RHFMultiAutocomplete = <
   hideSelectAllOption,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
-
   const { allLabelsAboveFields, defaultFormControlLabelSx }
     = useContext(RHFMuiConfigContext);
   const shouldHideSelectAllOptions
@@ -190,6 +189,10 @@ const RHFMultiAutocomplete = <
         : getOptionLabelOrValue(option, labelKey),
     [isSelectAllOption, selectAllText, selectAllOptionValue, getOptionLabelOrValue, labelKey]
   );
+
+  useEffect(() => {
+    validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl error={isError}>

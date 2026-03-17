@@ -3,6 +3,7 @@
 import {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   type ReactNode,
   type SyntheticEvent
@@ -43,7 +44,8 @@ import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isAboveMuiV5
+  isAboveMuiV5,
+  useFieldIds
 } from '@/utils';
 
 type OmittedAutocompleteProps<Option> = Omit<
@@ -123,7 +125,12 @@ const RHFAutocomplete = <
   loading,
   ...otherAutoCompleteProps
 }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFAutocomplete', options, labelKey, valueKey);
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
@@ -151,6 +158,10 @@ const RHFAutocomplete = <
         : (option as string),
     [labelKey, valueKey]
   );
+
+  useEffect(() => {
+    validateArray('RHFAutocomplete', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl error={isError}>

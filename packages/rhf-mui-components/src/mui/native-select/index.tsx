@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode, ChangeEvent } from 'react';
+import { useEffect, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -86,8 +86,6 @@ const RHFNativeSelect = <
   placeholder,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFNativeSelect', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,
@@ -98,6 +96,10 @@ const RHFNativeSelect = <
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
   const blankOptionText = defaultOptionText ?? placeholder ?? '';
+
+  useEffect(() => {
+    validateArray('RHFNativeSelect', options, labelKey, valueKey);
+  }, [options, labelKey, valueKey]);
 
   return (
     <FormControl fullWidth error={isError}>
