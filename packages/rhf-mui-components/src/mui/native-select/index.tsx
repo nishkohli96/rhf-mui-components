@@ -1,8 +1,3 @@
-/**
- * TODO
- * Add showDefaultOption prop from v4
- */
-
 'use client';
 
 import type { ReactNode, ChangeEvent } from 'react';
@@ -27,7 +22,8 @@ import {
   getOptionValue,
   isKeyValueOption,
   normalizeSelectValue,
-  validateArray
+  validateArray,
+  useFieldIds
 } from '@/utils';
 
 type InputNativeSelectProps = Omit<
@@ -74,6 +70,7 @@ const RHFNativeSelect = <
   labelKey,
   valueKey,
   onValueChange,
+  disabled: muiDisabled,
   defaultOptionText,
   showLabelAboveFormField,
   formLabelProps,
@@ -91,6 +88,13 @@ const RHFNativeSelect = <
 }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFNativeSelect', options, labelKey, valueKey);
 
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = Boolean(errorMessage);
   const blankOptionText = defaultOptionText ?? placeholder ?? '';
@@ -102,24 +106,35 @@ const RHFNativeSelect = <
         isVisible={showLabelAboveFormField ?? true}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({
-          field: { onChange, value, onBlur: rhfOnBlur, ...rest }
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
         }) => (
           <NativeSelect
-            {...otherNativeSelectProps}
-            {...rest}
+            id={fieldId}
+            name={rhfFieldName}
             autoComplete={autoComplete}
-            value={value ?? ''}
-            inputProps={{
-              name: fieldName,
-              id: fieldName
-            }}
+            aria-describedby={isError ? errorId : helperTextId}
+            value={rhfValue ?? ''}
+            inputRef={rhfRef}
+            disabled={muiDisabled || rhfDisabled}
             onChange={event => {
               const selectedValue = event.target.value;
               const normalizedValue = normalizeSelectValue(
@@ -128,7 +143,7 @@ const RHFNativeSelect = <
                 labelKey,
                 valueKey
               );
-              onChange(normalizedValue);
+              rhfOnChange(normalizedValue);
               onValueChange?.(normalizedValue, event);
             }}
             onBlur={blurEvent => {
@@ -141,8 +156,9 @@ const RHFNativeSelect = <
                 margin: 0
               }
             }}
+            {...otherNativeSelectProps}
           >
-            <option value="" disabled>
+            <option value="" disabled={required}>
               {blankOptionText}
             </option>
             {options.map(option => {
@@ -168,7 +184,10 @@ const RHFNativeSelect = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

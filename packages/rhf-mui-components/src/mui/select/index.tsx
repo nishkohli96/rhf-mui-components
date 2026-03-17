@@ -142,14 +142,16 @@ const RHFSelect = <
         control={control}
         rules={registerOptions}
         disabled={muiDisabled}
-        render={({ field: {
-          name: rhfFieldName,
-          value: rhfValue,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        } }) => {
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
           const isValueEmpty
             = !rhfValue
               || rhfValue === ''
@@ -171,7 +173,7 @@ const RHFSelect = <
                 name={rhfFieldName}
                 autoComplete={autoComplete}
                 labelId={selectLabelId}
-                aria-labelledby={labelId}
+                aria-describedby={isError ? errorId : helperTextId}
                 label={selectLabelProp}
                 value={rhfValue ?? (multiple ? [] : '')}
                 error={isError}
@@ -198,13 +200,13 @@ const RHFSelect = <
                 }}
                 {...otherSelectProps}
                 onBlur={blurEvent => {
-                  onBlur?.(blurEvent);
                   rhfOnBlur();
+                  onBlur?.(blurEvent);
                 }}
                 renderValue={value => {
                   if (showPlaceholder) {
                     return (
-                      <span style={{ opacity: 0.6 }}>
+                      <span style={{ opacity: 0.6, color: 'inherit' }}>
                         {placeholder}
                       </span>
                     );
@@ -247,10 +249,7 @@ const RHFSelect = <
                 }}
               >
                 {showDefaultOption && (
-                  <MenuItem
-                    value=""
-                    disabled
-                  >
+                  <MenuItem value="" disabled={required}>
                     {defaultOptionText ?? `Select ${fieldLabelText}`}
                   </MenuItem>
                 )}
