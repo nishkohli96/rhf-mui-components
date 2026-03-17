@@ -144,17 +144,15 @@ const RHFPasswordInput = <T extends FieldValues>({
             <TextField
               id={fieldId}
               name={rhfFieldName}
+              inputRef={rhfRef}
               autoComplete={autoComplete}
               type={showPassword ? 'text' : 'password'}
               label={
                 !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
+                  ? <FormLabelText label={fieldLabel} required={required} />
                   : undefined
               }
               value={rhfValue ?? ''}
-              inputRef={rhfRef}
               disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const newValue = event.target.value;

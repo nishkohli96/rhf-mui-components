@@ -100,29 +100,29 @@ const RHFAutocomplete = <
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
-    fieldName,
-    control,
-    registerOptions,
-    options,
-    multiple,
-    labelKey,
-    valueKey,
-    onValueChange,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    required,
-    helperText,
-    errorMessage,
-    hideErrorMessage,
-    formHelperTextProps,
-    textFieldProps,
-    slotProps,
-    ChipProps,
-    onBlur,
-    loading,
-    ...otherAutoCompleteProps
-  }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+  fieldName,
+  control,
+  registerOptions,
+  options,
+  multiple,
+  labelKey,
+  valueKey,
+  onValueChange,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  required,
+  helperText,
+  errorMessage,
+  hideErrorMessage,
+  formHelperTextProps,
+  textFieldProps,
+  slotProps,
+  ChipProps,
+  onBlur,
+  loading,
+  ...otherAutoCompleteProps
+}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);

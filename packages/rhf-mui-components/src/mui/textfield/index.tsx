@@ -100,6 +100,7 @@ const RHFTextField = <T extends FieldValues>({
             <MuiTextField
               id={fieldId}
               name={rhfFieldName}
+              inputRef={rhfRef}
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
@@ -107,7 +108,6 @@ const RHFTextField = <T extends FieldValues>({
                   : undefined
               }
               value={rhfValue ?? ''}
-              inputRef={rhfRef}
               disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const newValue = event.target.value;

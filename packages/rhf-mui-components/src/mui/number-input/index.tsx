@@ -55,6 +55,7 @@ const RHFNumberInput = <T extends FieldValues>({
   sx,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  disabled: muiDisabled,
   ...rest
 }: RHFNumberInputProps<T>) => {
   const {
@@ -89,14 +90,15 @@ const RHFNumberInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
-            value,
-            onChange,
+            value: rhfValue,
+            onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             ref: rhfRef,
-            ...otherFieldParams
+            disabled: rhfDisabled
           }
         }) => {
           return (
@@ -104,21 +106,20 @@ const RHFNumberInput = <T extends FieldValues>({
               id={fieldId}
               name={rhfFieldName}
               type="number"
+              inputRef={rhfRef}
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
+                  ? <FormLabelText label={fieldLabel} required={required} />
                   : undefined
               }
-              value={value ?? ''}
-              inputRef={rhfRef}
+              value={rhfValue ?? ''}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const fieldValue = event.target.value === ''
                   ? null
                   : Number(event.target.value);
-                onChange(fieldValue);
+                rhfOnChange(fieldValue);
                 onValueChange?.(fieldValue, event);
               }}
               onBlur={blurEvent => {
@@ -137,7 +138,6 @@ const RHFNumberInput = <T extends FieldValues>({
                 }),
                 ...sx
               }}
-              {...otherFieldParams}
               {...rest}
             />
           );

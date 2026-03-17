@@ -79,7 +79,6 @@ const RHFTagsInput = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ChipProps,
-  disabled,
   sx: muiTextFieldSx,
   variant = 'outlined',
   limitTags = 2,
@@ -87,6 +86,7 @@ const RHFTagsInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  disabled: muiDisabled,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
@@ -200,23 +200,25 @@ const RHFTagsInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
-            value = [],
-            onChange,
+            value: rhfValue = [],
+            onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             ref: rhfRef,
-            ...otherFieldParams
+            disabled: rhfDisabled
           }
         }) => {
-          const hideInput = disabled && value.length > 0;
+          const disableField = muiDisabled || rhfDisabled;
+          const hideInput = disableField && rhfValue.length > 0;
           const visibleTags = showAllTags
-            ? value
-            : isFocused || !limitTags ? value : value.slice(0, limitTags);
+            ? rhfValue
+            : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
 
           const triggerChangeEvents = (fieldValue: string[]) => {
-            onChange(fieldValue);
+            rhfOnChange(fieldValue);
             onValueChange?.(fieldValue);
           };
 
@@ -227,7 +229,7 @@ const RHFTagsInput = <T extends FieldValues>({
                 display: 'flex',
                 flexWrap: 'wrap',
                 gap: 1,
-                mb: value.length > 0 && !hideInput ? 1 : 0,
+                mb: rhfValue.length > 0 && !hideInput ? 1 : 0,
                 width: '100%'
               }}
             >
@@ -237,9 +239,9 @@ const RHFTagsInput = <T extends FieldValues>({
                   id={fieldNameToId(tag)}
                   role="listitem"
                   label={tag}
-                  disabled={disabled}
+                  disabled={disableField}
                   onDelete={() => {
-                    const newValues = value.filter(
+                    const newValues = rhfValue.filter(
                       item => item !== tag
                     );
                     triggerChangeEvents(newValues);
@@ -247,14 +249,14 @@ const RHFTagsInput = <T extends FieldValues>({
                   {...ChipProps}
                 />
               ))}
-              {!showAllTags && !isFocused && value.length > limitTags && (
+              {!showAllTags && !isFocused && rhfValue.length > limitTags && (
                 <Chip
                   role="listitem"
                   label={
-                    getLimitTagsText?.(value.length - limitTags)
-                    ?? `+${value.length - limitTags} more`
+                    getLimitTagsText?.(rhfValue.length - limitTags)
+                    ?? `+${rhfValue.length - limitTags} more`
                   }
-                  disabled
+                  disabled={disableField}
                 />
               )}
             </Box>
@@ -283,15 +285,15 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
               onChange={handleInputChange}
               onKeyDown={event => {
-                const newTags = handleKeyPress(event, value);
+                const newTags = handleKeyPress(event, rhfValue);
                 if (newTags) {
                   triggerChangeEvents(newTags);
                 }
               }}
               onPaste={event => {
-                triggerChangeEvents(handlePaste(event, value));
+                triggerChangeEvents(handlePaste(event, rhfValue));
               }}
-              disabled={disabled}
+              disabled={disableField}
               error={isError}
               aria-describedby={isError ? errorId : helperTextId}
               sx={{
@@ -318,7 +320,6 @@ const RHFTagsInput = <T extends FieldValues>({
                 }
                 : { InputProps: { startAdornment } }
               )}
-              {...otherFieldParams}
               {...rest}
             />
           );
