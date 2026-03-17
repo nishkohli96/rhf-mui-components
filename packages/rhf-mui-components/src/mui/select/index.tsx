@@ -33,6 +33,7 @@ import {
   keepLabelAboveFormField,
   getOptionValue,
   normalizeSelectValue,
+  useFieldIds,
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean>
@@ -102,6 +103,13 @@ const RHFSelect = <
   }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -122,14 +130,24 @@ const RHFSelect = <
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } = field;
+        render={({ field: {
+          name: rhfFieldName,
+          value,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          ...otherFieldParams
+        } }) => {
           const isValueEmpty
             = !value
               || value === ''
@@ -137,25 +155,26 @@ const RHFSelect = <
           const showPlaceholder = isValueEmpty && Boolean(placeholder);
           const selectLabelProp
             = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
-          const labelId = isLabelAboveFormField ? undefined : fieldName;
+          const selectLabelId = isLabelAboveFormField ? undefined : labelId;
 
           return (
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
-                <InputLabel id={fieldName}>
+                <InputLabel id={labelId}>
                   {SelectFormLabel}
                 </InputLabel>
               )}
               <MuiSelect
-                {...otherFieldProps}
-                id={fieldName}
+                id={fieldId}
+                name={rhfFieldName}
                 autoComplete={autoComplete}
-                labelId={labelId}
+                labelId={selectLabelId}
                 label={selectLabelProp}
                 value={value ?? (multiple ? [] : '')}
                 error={isError}
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
+                ref={rhfRef}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(
@@ -164,7 +183,7 @@ const RHFSelect = <
                     labelKey,
                     valueKey
                   ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
-                  onChange(normalizedValue);
+                  rhfOnChange(normalizedValue);
                   onValueChange?.(
                     normalizedValue,
                     event as SelectChangeEvent<
@@ -173,6 +192,7 @@ const RHFSelect = <
                     child
                   );
                 }}
+                {...otherFieldParams}
                 {...otherSelectProps}
                 onBlur={blurEvent => {
                   rhfOnBlur();
@@ -260,7 +280,10 @@ const RHFSelect = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

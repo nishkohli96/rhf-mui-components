@@ -50,6 +50,7 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  disabled: muiDisabled,
   ...rest
 }: RHFTextFieldProps<T>) => {
   const {
@@ -84,14 +85,15 @@ const RHFTextField = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
-            value,
+            value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             ref: rhfRef,
-            ...otherFieldParams
+            disabled: rhfDisabled
           }
         }) => {
           return (
@@ -101,16 +103,16 @@ const RHFTextField = <T extends FieldValues>({
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
+                  ? <FormLabelText label={fieldLabel} required={required} />
                   : undefined
               }
-              value={value ?? ''}
+              value={rhfValue ?? ''}
               inputRef={rhfRef}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
-                rhfOnChange(event);
-                onValueChange?.(event.target.value, event);
+                const newValue = event.target.value;
+                rhfOnChange(newValue);
+                onValueChange?.(newValue, event);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -118,7 +120,6 @@ const RHFTextField = <T extends FieldValues>({
               }}
               error={isError}
               aria-describedby={isError ? errorId : helperTextId}
-              {...otherFieldParams}
               {...rest}
             />
           );

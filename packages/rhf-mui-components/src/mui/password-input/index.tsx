@@ -71,6 +71,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  disabled: muiDisabled,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const {
@@ -114,20 +115,22 @@ const RHFPasswordInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
-            value,
+            value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             ref: rhfRef,
-            ...otherFieldParams
+            disabled: rhfDisabled
           }
         }) => {
           const endAdornment = (
             <InputAdornment position="end">
               <IconButton
-                aria-label="Toggle Password Visibility"
+                type="button"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
@@ -150,11 +153,13 @@ const RHFPasswordInput = <T extends FieldValues>({
                   )
                   : undefined
               }
-              value={value ?? ''}
+              value={rhfValue ?? ''}
               inputRef={rhfRef}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
-                rhfOnChange(event);
-                onValueChange?.(event.target.value, event);
+                const newValue = event.target.value;
+                rhfOnChange(newValue);
+                onValueChange?.(newValue, event);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -171,7 +176,6 @@ const RHFPasswordInput = <T extends FieldValues>({
                 }
                 : { InputProps: { endAdornment } }
               )}
-              {...otherFieldParams}
               {...rest}
             />
           );
