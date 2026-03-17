@@ -92,7 +92,7 @@ const RHFTagsInput = <T extends FieldValues>({
   const muiTheme = useTheme();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+
   const {
     fieldId,
     labelId,
@@ -100,12 +100,13 @@ const RHFTagsInput = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
 
-  const isError = Boolean(errorMessage);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the

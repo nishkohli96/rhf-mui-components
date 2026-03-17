@@ -73,7 +73,6 @@ const RHFPasswordInput = <T extends FieldValues>({
   autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFPasswordInputProps<T>) => {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
     labelId,
@@ -81,12 +80,13 @@ const RHFPasswordInput = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
 
-  const isError = Boolean(errorMessage);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   const [showPassword, setShowPassword] = useState(false);
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;

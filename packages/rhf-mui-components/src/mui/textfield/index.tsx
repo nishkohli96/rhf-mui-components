@@ -52,7 +52,6 @@ const RHFTextField = <T extends FieldValues>({
   autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFTextFieldProps<T>) => {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
     labelId,
@@ -60,12 +59,13 @@ const RHFTextField = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
 
-  const isError = !!errorMessage;
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = Boolean(errorMessage);
 
   return (
     <FormControl error={isError}>

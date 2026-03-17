@@ -40,7 +40,6 @@ const FormLabel = ({
     <Fragment>
       {isVisible && (
         <StyledFormLabel
-
           {...otherLabelProps}
           required={required}
           error={error}
