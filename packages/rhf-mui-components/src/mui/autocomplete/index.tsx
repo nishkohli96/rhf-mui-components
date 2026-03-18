@@ -3,7 +3,6 @@
 import {
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   type ReactNode,
   type SyntheticEvent
@@ -110,6 +109,7 @@ const RHFAutocomplete = <
   labelKey,
   valueKey,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -125,6 +125,8 @@ const RHFAutocomplete = <
   loading,
   ...otherAutoCompleteProps
 }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+  validateArray('RHFAutocomplete', options, labelKey, valueKey);
+
   const {
     fieldId,
     labelId,
@@ -135,7 +137,7 @@ const RHFAutocomplete = <
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
 
   const optionsMap = useMemo(() => {
     if (!valueKey) {
@@ -159,10 +161,6 @@ const RHFAutocomplete = <
     [labelKey, valueKey]
   );
 
-  useEffect(() => {
-    validateArray('RHFAutocomplete', options, labelKey, valueKey);
-  }, [options, labelKey, valueKey]);
-
   return (
     <FormControl error={isError}>
       <FormLabel
@@ -170,35 +168,46 @@ const RHFAutocomplete = <
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({
-          field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps }
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
         }) => {
           let selectedOptions;
           if (multiple) {
-            selectedOptions = (value ?? []).flatMap(val => {
+            selectedOptions = (rhfValue ?? []).flatMap(val => {
               const option = optionsMap
                 ? optionsMap.get(val)
                 : options.find(opn => opn === val);
               return option ? [option] : [];
             });
           } else {
-            selectedOptions = value === null || value === undefined
+            selectedOptions = rhfValue === null || rhfValue === undefined
               ? null
               : optionsMap
-                ? optionsMap.get(value) ?? null
-                : options.find(opn => opn === value) ?? null;
+                ? optionsMap.get(rhfValue) ?? null
+                : options.find(opn => opn === rhfValue) ?? null;
           }
 
           return (
             <Autocomplete
-              {...otherFieldProps}
-              id={fieldName}
+              id={fieldId}
               options={options}
               multiple={multiple}
               value={selectedOptions}
@@ -237,7 +246,7 @@ const RHFAutocomplete = <
                         && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
                         : (newValue as string);
-                onChange(fieldValue);
+                rhfOnChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
               onBlur={blurEvent => {
@@ -257,17 +266,28 @@ const RHFAutocomplete = <
               }}
               renderInput={params => {
                 const {
+                  InputProps,
+                  inputProps,
+                  disabled: paramsDisabled,
+                  ...otherInputParams
+                } = params ?? {};
+                const {
                   autoComplete = defaultAutocompleteValue,
                   ...otherTextFieldProps
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
-                  ...params.inputProps,
+                  ...inputProps,
+                  'aria-labelledby': labelId,
+                  'aria-describedby': isError ? errorId : helperTextId,
                   autoComplete
                 };
                 return (
                   <TextField
+                    name={rhfFieldName}
+                    inputRef={rhfRef}
+                    disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
-                    {...params}
+                    {...otherInputParams}
                     label={
                       !isLabelAboveFormField
                         ? (
@@ -281,7 +301,7 @@ const RHFAutocomplete = <
                         slotProps: {
                           ...textFieldProps?.slotProps,
                           input: {
-                            ...params?.InputProps,
+                            ...InputProps,
                             ...textFieldProps?.slotProps?.input,
                             endAdornment: (
                               <>
@@ -291,7 +311,7 @@ const RHFAutocomplete = <
                                     size={20}
                                   />
                                 )}
-                                {params.InputProps.endAdornment}
+                                {InputProps?.endAdornment}
                               </>
                             )
                           },
@@ -300,14 +320,14 @@ const RHFAutocomplete = <
                       }
                       : {
                         InputProps: {
-                          ...params.InputProps,
+                          ...InputProps,
                           ...textFieldProps?.InputProps,
                           endAdornment: (
                             <>
                               {loading && (
                                 <CircularProgress color="inherit" size={20} />
                               )}
-                              {params.InputProps.endAdornment}
+                              {InputProps?.endAdornment}
                             </>
                           )
                         },
@@ -334,7 +354,10 @@ const RHFAutocomplete = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );
