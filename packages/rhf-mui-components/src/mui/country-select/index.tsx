@@ -14,7 +14,6 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
@@ -45,11 +44,8 @@ import {
   keepLabelAboveFormField,
   useFieldIds
 } from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
-
-type CountryMenuItemProps = {
-  countryInfo: CountryDetails;
-};
 
 type AutoCompleteProps = Omit<
   AutocompleteProps<CountryDetails, TrueOrFalse, TrueOrFalse, false>,
@@ -69,6 +65,7 @@ type AutoCompleteProps = Omit<
   | 'blurOnSelect'
   | 'disableCloseOnSelect'
   | 'ChipProps'
+  | 'loading'
 >;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
@@ -160,16 +157,13 @@ const RHFCountrySelect = <T extends FieldValues>({
     return [...countriesToListAtTop, ...countriesToList];
   }, [countryOptions, preferredCountries]);
 
-  const CountryMenuItem = ({ countryInfo }: CountryMenuItemProps) => (
-    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <Typography variant="h5" component="span">
-        {countryInfo.emoji}
-      </Typography>
-      <Typography>
-        {countryInfo.name}
-      </Typography>
-    </span>
-  );
+  const countryMap = useMemo(() => {
+    const map = new Map<string, CountryDetails>();
+    countrySelectOptions.forEach(c => {
+      map.set(c[valueKey], c);
+    });
+    return map;
+  }, [countrySelectOptions, valueKey]);
 
   return (
     <FormControl error={isError}>
@@ -201,9 +195,9 @@ const RHFCountrySelect = <T extends FieldValues>({
         }) => {
           const selectedCountries = multiple
             ? (rhfValue ?? [])
-              .map(val => countrySelectOptions.find(country => country[valueKey] === val))
-              .filter((country): country is CountryDetails => Boolean(country))
-            : countrySelectOptions.find(country => country[valueKey] === rhfValue) || null;
+              .map(val => countryMap.get(val))
+              .filter(country => !!country)
+            : (countryMap.get(rhfValue) ?? null);
 
           return (
             <Autocomplete
@@ -287,10 +281,9 @@ const RHFCountrySelect = <T extends FieldValues>({
                   />
                 );
               }}
-              renderOption={({ key, ...props }, option) => (
+              renderOption={(props, option) => (
                 <Box
                   component="li"
-                  key={key}
                   sx={{ display: 'flex', alignItems: 'center' }}
                   {...props}
                 >

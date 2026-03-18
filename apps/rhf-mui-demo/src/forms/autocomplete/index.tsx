@@ -262,7 +262,7 @@ const AutocompleteForm = () => {
                 }
               }}
               getLimitTagsText={more => `+${more} Color(s)`}
-              helperText="Select at least 2 colors"
+              helperText="Choose at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
               errorMessage={errors?.colors?.message}
             />
