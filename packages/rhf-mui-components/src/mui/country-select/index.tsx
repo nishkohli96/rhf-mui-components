@@ -39,7 +39,12 @@ import type {
   AutoCompleteTextFieldProps,
   MuiChipProps
 } from '@/types';
-import { fieldNameToLabel, isAboveMuiV5, keepLabelAboveFormField } from '@/utils';
+import {
+  fieldNameToLabel,
+  isAboveMuiV5,
+  keepLabelAboveFormField,
+  useFieldIds
+} from '@/utils';
 import { countryList } from './countries';
 
 type CountryMenuItemProps = {
@@ -99,8 +104,8 @@ const RHFCountrySelect = <T extends FieldValues>({
   countries,
   preferredCountries,
   valueKey = 'iso',
-  disabled,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -117,13 +122,20 @@ const RHFCountrySelect = <T extends FieldValues>({
   onBlur,
   ...otherAutoCompleteProps
 }: RHFCountrySelectProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
 
   const countryOptions = countries ?? countryList;
   const countrySelectOptions = useMemo(() => {
@@ -166,23 +178,36 @@ const RHFCountrySelect = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } }) => {
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
           const selectedCountries = multiple
-            ? (value ?? [])
+            ? (rhfValue ?? [])
               .map(val => countrySelectOptions.find(country => country[valueKey] === val))
               .filter((country): country is CountryDetails => Boolean(country))
-            : countrySelectOptions.find(country => country[valueKey] === value) || null;
+            : countrySelectOptions.find(country => country[valueKey] === rhfValue) || null;
 
           return (
             <Autocomplete
-              {...otherFieldProps}
-              id={fieldName}
+              id={fieldId}
               options={countrySelectOptions}
               multiple={multiple}
               value={selectedCountries}
@@ -190,10 +215,8 @@ const RHFCountrySelect = <T extends FieldValues>({
                 const newValueKey = Array.isArray(newValue)
                   ? (newValue ?? []).map(item => item[valueKey])
                   : (newValue)?.[valueKey] ?? '';
-                onChange(newValueKey);
-                if (onValueChange) {
-                  onValueChange(newValue, event, reason, details);
-                }
+                rhfOnChange(newValueKey);
+                onValueChange?.(newValue, event, reason, details);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -203,7 +226,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
-              disabled={disabled}
+              disabled={muiDisabled || rhfDisabled}
               limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
@@ -213,17 +236,28 @@ const RHFCountrySelect = <T extends FieldValues>({
                 option[valueKey] === value[valueKey]}
               renderInput={params => {
                 const {
+                  InputProps,
+                  inputProps,
+                  disabled: paramsDisabled,
+                  ...otherInputParams
+                } = params ?? {};
+                const {
                   autoComplete = defaultAutocompleteValue,
                   ...otherTextFieldProps
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
-                  ...params.inputProps,
+                  ...inputProps,
+                  'aria-labelledby': labelId,
+                  'aria-describedby': isError ? errorId : helperTextId,
                   autoComplete
                 };
                 return (
                   <TextField
+                    name={rhfFieldName}
+                    inputRef={rhfRef}
+                    disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
-                    {...params}
+                    {...otherInputParams}
                     label={
                       !isLabelAboveFormField
                         ? (
@@ -237,7 +271,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                         slotProps: {
                           ...textFieldProps?.slotProps,
                           input: {
-                            ...params?.InputProps,
+                            ...InputProps,
                             ...textFieldProps?.slotProps?.input,
                           },
                           htmlInput: textFieldInputProps,
@@ -245,7 +279,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                       }
                       : {
                         InputProps: {
-                          ...params.InputProps,
+                          ...InputProps,
                           ...textFieldProps?.InputProps,
                         },
                         inputProps: textFieldInputProps,
@@ -291,7 +325,10 @@ const RHFCountrySelect = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );
