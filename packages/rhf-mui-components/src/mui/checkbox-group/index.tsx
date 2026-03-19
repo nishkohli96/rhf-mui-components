@@ -31,7 +31,8 @@ import {
   validateArray,
   isKeyValueOption,
   coerceValue,
-  getOptionValue
+  getOptionValue,
+  useFieldIds
 } from '@/utils';
 
 export type RHFCheckboxGroupProps<
@@ -78,7 +79,7 @@ const RHFCheckboxGroup = <
   labelKey,
   valueKey,
   onValueChange,
-  disabled,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -93,38 +94,53 @@ const RHFCheckboxGroup = <
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
 
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx
   };
+  const isError = !!errorMessage;
 
   return (
-    <FormControl error={isError}>
+    <FormControl component="fieldset" error={isError}>
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          component: 'legend',
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         render={({ field }) => {
           const {
-            value = [],
-            onChange,
-            onBlur: rhfOnBlur
+            value: rhfValue = [],
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            disabled: rhfDisabled
           } = field as {
             value: OptionValue<Option, ValueKey>[];
             onChange: (v: OptionValue<Option, ValueKey>[]) => void;
             onBlur: () => void;
+            disabled: boolean;
           };
 
           const handleChange = (
@@ -134,9 +150,11 @@ const RHFCheckboxGroup = <
           ) => {
             const normalized = coerceValue(event.target.value, optionValue);
             const newValue = checked
-              ? [...value, normalized]
-              : value.filter(v => v !== normalized);
-            onChange(newValue);
+              ? rhfValue.includes(normalized)
+                ? rhfValue
+                : [...rhfValue, normalized]
+              : rhfValue.filter(v => v !== normalized);
+            rhfOnChange(newValue);
             onValueChange?.(normalized, newValue, event);
           };
 
@@ -148,14 +166,14 @@ const RHFCheckboxGroup = <
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const checked = value.includes(opnValue);
+                const checked = rhfValue.includes(opnValue);
                 return (
                   <FormControlLabel
-                    key={idx}
+                    key={opnValue}
                     control={
                       <Checkbox
                         {...checkboxProps}
-                        name={fieldName}
+                        name={`${fieldName}-${idx}`}
                         value={opnValue}
                         checked={checked}
                         onChange={e => handleChange(e, e.target.checked, opnValue)}
@@ -167,7 +185,7 @@ const RHFCheckboxGroup = <
                     }
                     label={opnLabel}
                     sx={appliedFormControlLabelSx}
-                    disabled={disabled}
+                    disabled={muiDisabled || rhfDisabled}
                     {...otherFormControlLabelProps}
                   />
                 );
@@ -181,7 +199,10 @@ const RHFCheckboxGroup = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

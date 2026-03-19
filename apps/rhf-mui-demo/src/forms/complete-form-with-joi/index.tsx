@@ -163,6 +163,7 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 disabled={areAllFieldsDisabled}
                 required
+                helperText="Type a dish and press Enter"
                 errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>

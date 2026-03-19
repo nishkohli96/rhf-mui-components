@@ -1,16 +1,27 @@
 import type { ReactElement } from 'react';
-import MuiFormControl from '@mui/material/FormControl';
+import MuiFormControl, {
+  type FormControlProps as MuiFormControlProps
+} from '@mui/material/FormControl';
 
-type Props = {
+type OmittedFormControlProps = Omit<MuiFormControlProps, 'children' | 'error'>;
+
+type FormControlProps = {
   children: ReactElement | ReactElement[];
   error: boolean;
-  fullWidth?: boolean;
-};
+} & OmittedFormControlProps;
 
-const FormControl = (props: Props) => {
-  const { children, error, fullWidth = true } = props;
+const FormControl = ({
+  children,
+  error,
+  fullWidth = true,
+  ...otherFormControlProps
+}: FormControlProps) => {
   return (
-    <MuiFormControl fullWidth={fullWidth} error={error}>
+    <MuiFormControl
+      fullWidth={fullWidth}
+      error={error}
+      {...otherFormControlProps}
+    >
       {children}
     </MuiFormControl>
   );

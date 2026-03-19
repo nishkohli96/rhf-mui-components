@@ -38,7 +38,15 @@ const CheckboxRadioZodForm = () => {
     watch,
     formState: { errors }
   } = useForm<PersonInfo>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      gender: undefined,
+      ageGroup: undefined,
+      favouriteColors: [],
+      countriesVisited: [],
+      marks: [],
+      agreeTnC: false
+    }
   });
 
   async function onFormSubmit(formValues: PersonInfo) {
