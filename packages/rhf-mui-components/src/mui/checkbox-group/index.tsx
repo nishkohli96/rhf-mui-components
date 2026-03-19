@@ -120,7 +120,6 @@ const RHFCheckboxGroup = <
         error={isError}
         formLabelProps={{
           id: labelId,
-          htmlFor: fieldId,
           component: 'legend',
           ...formLabelProps
         }}
@@ -173,6 +172,7 @@ const RHFCheckboxGroup = <
                     control={
                       <Checkbox
                         {...checkboxProps}
+                        id={`${fieldId}-${opnValue}`}
                         name={`${fieldName}-${idx}`}
                         value={opnValue}
                         checked={checked}
