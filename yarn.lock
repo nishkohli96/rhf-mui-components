@@ -2773,14 +2773,14 @@
   resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.12.2.tgz#bccdf615bcf7b6e8db830ec0b8d21c9a25de597b"
   integrity sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==
 
-"@eslint/config-array@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@eslint/config-array/-/config-array-0.21.1.tgz#7d1b0060fea407f8301e932492ba8c18aff29713"
-  integrity sha512-aw1gNayWpdI/jSYVgzN5pL0cfzU02GT3NBpeT/DXbx1/1x7ZKxFPd9bwrzygx/qiwIQiJ1sw/zD8qY/kRvlGHA==
+"@eslint/config-array@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@eslint/config-array/-/config-array-0.21.2.tgz#f29e22057ad5316cf23836cee9a34c81fffcb7e6"
+  integrity sha512-nJl2KGTlrf9GjLimgIru+V/mzgSK0ABCDQRvxw5BjURL7WfH5uoWmizbH7QB6MmnMBd8cIC9uceWnezL1VZWWw==
   dependencies:
     "@eslint/object-schema" "^2.1.7"
     debug "^4.3.1"
-    minimatch "^3.1.2"
+    minimatch "^3.1.5"
 
 "@eslint/config-helpers@^0.4.2":
   version "0.4.2"
@@ -2811,10 +2811,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@eslint/eslintrc@^3.3.1":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-3.3.4.tgz#e402b1920f7c1f5a15342caa432b1348cacbb641"
-  integrity sha512-4h4MVF8pmBsncB60r0wSJiIeUKTSD4m7FmTFThG8RHlsg9ajqckLm9OraguFGZE4vVdpiI1Q4+hFnisopmG6gQ==
+"@eslint/eslintrc@^3.3.5":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-3.3.5.tgz#c131793cfc1a7b96f24a83e0a8bbd4b881558c60"
+  integrity sha512-4IlJx0X0qftVsN5E+/vGujTRIFtwuLbNsVUe7TO6zYPDR1O6nFwvwhIKEKSrl6dZchmYBITazxKoUYOjdtjlRg==
   dependencies:
     ajv "^6.14.0"
     debug "^4.3.2"
@@ -2823,7 +2823,7 @@
     ignore "^5.2.0"
     import-fresh "^3.2.1"
     js-yaml "^4.1.1"
-    minimatch "^3.1.3"
+    minimatch "^3.1.5"
     strip-json-comments "^3.1.1"
 
 "@eslint/js@8.57.1":
@@ -2831,7 +2831,12 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
-"@eslint/js@9.39.3", "@eslint/js@^9.25.0":
+"@eslint/js@9.39.4":
+  version "9.39.4"
+  resolved "https://registry.yarnpkg.com/@eslint/js/-/js-9.39.4.tgz#a3f83bfc6fd9bf33a853dfacd0b49b398eb596c1"
+  integrity sha512-nE7DEIchvtiFTwBw4Lfbu59PG+kCofhjsKaCWzxTpt4lfRjRMqG6uMBzKXuEcyXhOHoUp9riAm7/aWYGhXZ9cw==
+
+"@eslint/js@^9.25.0":
   version "9.39.3"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-9.39.3.tgz#c6168736c7e0c43ead49654ed06a4bcb3833363d"
   integrity sha512-1B1VkCq6FuUNlQvlBYb+1jDu/gV297TIs/OeiaSR9l1H27SVW55ONE1e1Vp16NqP683+xEGzxYtv4XCiDPaQiw==
@@ -3782,10 +3787,10 @@
     eslint-plugin-react-hooks "^5.2.0"
     typescript-eslint "^8.46.2"
 
-"@nish1896/eslint-flat-config@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@nish1896/eslint-flat-config/-/eslint-flat-config-3.1.1.tgz#3331dcc1f548ece01db9488efece7f39a4cd9c79"
-  integrity sha512-f6wJrHgF5dCV5Arw78raV+qOKep1UQQG2gDtnG3wCtMD//ujUM8Rm5ar0A0DpD25hkkn7t3+NvbMyjfwjPcHwg==
+"@nish1896/eslint-flat-config@^3.1.2":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@nish1896/eslint-flat-config/-/eslint-flat-config-3.1.3.tgz#882c878e5f2d697736ea164866377108b9e2d29b"
+  integrity sha512-zZmCMMqkV3CUMtsRAgHaZnCspkMtx0hQVkR+GGysih+XPynFqd9snlvBnDWI7fwnvuQsu54NPpJ9dh+LVWyYKw==
   dependencies:
     "@stylistic/eslint-plugin" "^5.9.0"
     eslint-plugin-jsx-a11y "^6.10.2"
@@ -7297,24 +7302,24 @@ eslint@^8, eslint@^8.57.1:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-eslint@^9.39.2:
-  version "9.39.3"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-9.39.3.tgz#08d63df1533d7743c0907b32a79a7e134e63ee2f"
-  integrity sha512-VmQ+sifHUbI/IcSopBCF/HO3YiHQx/AVd3UVyYL6weuwW+HvON9VYn5l6Zl1WZzPWXPNZrSQpxwkkZ/VuvJZzg==
+eslint@^9.39.4:
+  version "9.39.4"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-9.39.4.tgz#855da1b2e2ad66dc5991195f35e262bcec8117b5"
+  integrity sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==
   dependencies:
     "@eslint-community/eslint-utils" "^4.8.0"
     "@eslint-community/regexpp" "^4.12.1"
-    "@eslint/config-array" "^0.21.1"
+    "@eslint/config-array" "^0.21.2"
     "@eslint/config-helpers" "^0.4.2"
     "@eslint/core" "^0.17.0"
-    "@eslint/eslintrc" "^3.3.1"
-    "@eslint/js" "9.39.3"
+    "@eslint/eslintrc" "^3.3.5"
+    "@eslint/js" "9.39.4"
     "@eslint/plugin-kit" "^0.4.1"
     "@humanfs/node" "^0.16.6"
     "@humanwhocodes/module-importer" "^1.0.1"
     "@humanwhocodes/retry" "^0.4.2"
     "@types/estree" "^1.0.6"
-    ajv "^6.12.4"
+    ajv "^6.14.0"
     chalk "^4.0.0"
     cross-spawn "^7.0.6"
     debug "^4.3.2"
@@ -7333,7 +7338,7 @@ eslint@^9.39.2:
     is-glob "^4.0.0"
     json-stable-stringify-without-jsonify "^1.0.1"
     lodash.merge "^4.6.2"
-    minimatch "^3.1.2"
+    minimatch "^3.1.5"
     natural-compare "^1.4.0"
     optionator "^0.9.3"
 
@@ -10172,7 +10177,7 @@ minimatch@^10.2.2:
   dependencies:
     brace-expansion "^5.0.2"
 
-minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2, minimatch@^3.1.3:
+minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2, minimatch@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.5.tgz#580c88f8d5445f2bd6aa8f3cadefa0de79fbd69e"
   integrity sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==
