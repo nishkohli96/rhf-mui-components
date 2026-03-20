@@ -32,6 +32,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
   const initialValues = {
     score: 20,
+    tempRange: [5, 25],
   };
   const {
     control,
@@ -67,6 +68,23 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               label="What is your score in class 10?"
               required
               errorMessage={errors?.score?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }} sx={{ px: '20px' }}>
+            <FieldVariantInfo title="Slider with range" />
+            <RHFSlider
+              fieldName="tempRange"
+              control={control}
+              min={0}
+              max={50}
+              marks={[
+                { value: 0, label: '0°C' },
+                { value: 50, label: '50°C' }
+              ]}
+              step={5}
+              label="Select Temperature Range in your city"
+              required
+              errorMessage={errors?.tempRange?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
