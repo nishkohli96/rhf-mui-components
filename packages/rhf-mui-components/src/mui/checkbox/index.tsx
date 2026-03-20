@@ -60,14 +60,14 @@ const RHFCheckbox = <T extends FieldValues>({
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
-
+  
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx,
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+  const isError = !!errorMessage;
 
   return (
     <Fragment>
