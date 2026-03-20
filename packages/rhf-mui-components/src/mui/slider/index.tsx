@@ -11,7 +11,7 @@ import {
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
 import { FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 type SliderInputProps = Omit<
   SliderProps,
@@ -45,6 +45,7 @@ const RHFSlider = <T extends FieldValues>({
   registerOptions,
   required,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -55,8 +56,14 @@ const RHFSlider = <T extends FieldValues>({
   onBlur,
   ...rest
 }: RHFSliderProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
 
   return (
     <Fragment>
@@ -71,30 +78,49 @@ const RHFSlider = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, value, onBlur: rhfOnBlur, ...otherFieldProps } }) => (
-          <MuiSlider
-            {...otherFieldProps}
-            {...rest}
-            value={value ?? 0}
-            onChange={(event, value, activeThumb) => {
-              onChange(value);
-              if (onValueChange) {
-                onValueChange(value, activeThumb, event);
-              }
-            }}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              onBlur?.(blurEvent);
-            }}
-          />
-        )}
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            disabled: rhfDisabled
+          }
+        }) => {
+          return (
+            <MuiSlider
+              id={fieldId}
+              name={rhfFieldName}
+              value={rhfValue ?? 0}
+              disabled={muiDisabled || rhfDisabled}
+              onChange={(event, value, activeThumb) => {
+                rhfOnChange(value);
+                if (onValueChange) {
+                  onValueChange(value, activeThumb, event);
+                }
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
+              }}
+              aria-labelledby={labelId}
+              aria-describedby={isError ? errorId : helperTextId}
+              aria-invalid={isError || undefined}
+              {...rest}
+            />
+          );
+        }}
       />
       <FormHelperText
         error={isError}
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </Fragment>
   );

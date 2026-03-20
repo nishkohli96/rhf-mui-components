@@ -60,7 +60,7 @@ const RHFCheckbox = <T extends FieldValues>({
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  
+
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
