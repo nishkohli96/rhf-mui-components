@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { type Path, useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import useTheme from '@mui/material/styles/useTheme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
@@ -53,6 +56,7 @@ const CompleteForm = () => {
   const pathName = usePathname();
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const {
     control,
@@ -63,9 +67,9 @@ const CompleteForm = () => {
   } = useForm<FormSchema>({
     defaultValues: {
       darkTheme: currentTheme === 'dark',
-    }
+    },
+    disabled: disableAllFields
   });
-  const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
 
   function reqdMessage(fieldName: Path<Person>) {
     return `${fieldNameToLabel(fieldName)} is required`;
@@ -104,9 +108,15 @@ const CompleteForm = () => {
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
             <Grid size={12}>
-              <RHFCheckbox
-                fieldName="disableAllFields"
-                control={control}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="disableAllFields"
+                    checked={disableAllFields}
+                    onChange={e => setDisableAllFields(e.target.checked)}
+                  />
+                }
+                label="Disable All Fields"
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -128,7 +138,6 @@ const CompleteForm = () => {
                   }
                 }}
                 showLabelAboveFormField
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.email?.message}
               />
@@ -148,7 +157,6 @@ const CompleteForm = () => {
                 }}
                 showLabelAboveFormField
                 showMarkers
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.age?.message}
               />
@@ -173,7 +181,6 @@ const CompleteForm = () => {
                   }
                 }}
                 showLabelAboveFormField
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.password?.message}
               />
@@ -192,7 +199,6 @@ const CompleteForm = () => {
                       (value?.length ?? 0) >= 2 || minLengthMsg(2)
                   }
                 }}
-                disabled={areAllFieldsDisabled}
                 required
                 helperText="Type a dish and press Enter"
                 errorMessage={errors?.favouriteFoods?.message}
@@ -208,7 +214,6 @@ const CompleteForm = () => {
                     message: reqdMessage('resume')
                   }
                 }}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.resume?.message}
               />
@@ -226,7 +231,6 @@ const CompleteForm = () => {
                 options={Object.values(Colors)}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.favouriteColor?.message}
               />
@@ -249,7 +253,6 @@ const CompleteForm = () => {
                 options={Object.values(Sports)}
                 multiple
                 showLabelAboveFormField
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.sports?.message}
               />
@@ -273,7 +276,6 @@ const CompleteForm = () => {
                 valueKey="abbr"
                 options={IPLTeams}
                 multiple
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.iplTeams?.message}
               />
@@ -289,7 +291,6 @@ const CompleteForm = () => {
                   }
                 }}
                 options={Object.values(Sports)}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.favouriteSport?.message}
               />
@@ -305,7 +306,6 @@ const CompleteForm = () => {
                   }
                 }}
                 options={HobbiesList}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.hobby?.message}
               />
@@ -329,7 +329,6 @@ const CompleteForm = () => {
                   }
                 }}
                 options={GroceryList}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.groceryList?.message}
               />
@@ -345,7 +344,6 @@ const CompleteForm = () => {
                   }
                 }}
                 label="Country Code of Nationality"
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.countryCode?.message}
               />
@@ -367,7 +365,6 @@ const CompleteForm = () => {
                 onValueChange={isChecked => {
                   console.log('Is checked', isChecked);
                 }}
-                disabled={areAllFieldsDisabled}
                 errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
@@ -384,7 +381,6 @@ const CompleteForm = () => {
                 label="Select Color"
                 showLabelAboveFormField
                 options={Object.values(Colors)}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.colors?.message}
               />
@@ -407,7 +403,6 @@ const CompleteForm = () => {
                 options={CountriesList}
                 labelKey="country"
                 valueKey="code"
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.countries?.message}
               />
@@ -424,7 +419,6 @@ const CompleteForm = () => {
                 }}
                 options={Object.values(Gender)}
                 row
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.gender?.message}
               />
@@ -446,7 +440,6 @@ const CompleteForm = () => {
                 onValueChange={selectedValue => {
                   toast.info(`selectedValue: ${selectedValue}`);
                 }}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.country?.message}
               />
@@ -461,7 +454,6 @@ const CompleteForm = () => {
                 }}
                 onValueChange={() => toggleTheme()}
                 helperText="Toggling this changes theme"
-                disabled={areAllFieldsDisabled}
                 errorMessage={errors?.darkTheme?.message}
               />
             </Grid>
@@ -483,7 +475,6 @@ const CompleteForm = () => {
                 min={10}
                 max={100}
                 helperText="min:10; max:100"
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.weight?.message}
               />
@@ -504,7 +495,6 @@ const CompleteForm = () => {
                 }}
                 max={10}
                 showLabelAboveFormField
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.rating?.message}
               />
@@ -536,7 +526,6 @@ const CompleteForm = () => {
                 disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.dob?.message}
               />
@@ -554,7 +543,6 @@ const CompleteForm = () => {
                 }}
                 label="Time"
                 ampm={false}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.time?.message}
               />
@@ -572,7 +560,6 @@ const CompleteForm = () => {
                 }}
                 showLabelAboveFormField
                 ampm={false}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.dateTime?.message}
               />
@@ -588,7 +575,6 @@ const CompleteForm = () => {
                   }
                 }}
                 value={getValues('bgColor')}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.bgColor?.message}
               />
@@ -607,7 +593,6 @@ const CompleteForm = () => {
                       (value?.length ?? 0) >= 10 || minLengthMsg(10)
                   }
                 }}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.feedback?.message}
               />
@@ -632,7 +617,6 @@ const CompleteForm = () => {
                 phoneInputProps={{
                   defaultCountry: 'in'
                 }}
-                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.phoneNumber?.message}
               />

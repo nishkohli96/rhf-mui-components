@@ -3,7 +3,7 @@ import {
   boolean,
   number,
   array,
-  Infer,
+  type Infer,
 } from 'superstruct';
 
 export const formSchema = object({
