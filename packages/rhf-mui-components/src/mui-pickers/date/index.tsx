@@ -23,6 +23,7 @@ import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
+  useFieldIds,
 } from '@/utils';
 
 type DatePickerInputProps = Omit<
@@ -56,6 +57,7 @@ const RHFDatePicker = <T extends FieldValues>({
   registerOptions,
   required,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -63,19 +65,28 @@ const RHFDatePicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  slotProps: muiSlotProps,
   ...rest
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFDatePicker'));
   }
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+
+  const { textField: textFieldSlotProps, ...otherSlotProps } = muiSlotProps ?? {};
 
   return (
     <FormControl error={isError}>
@@ -84,31 +95,63 @@ const RHFDatePicker = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <LocalizationProvider dateAdapter={dateAdapter}>
         <Controller
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { value, onChange, ...fieldProps } }) => (
-            <MuiDatePicker
-              {...rest}
-              {...fieldProps}
-              value={value ?? null}
-              onChange={(newValue, context) => {
-                onChange(newValue);
-                onValueChange?.(newValue, context);
-              }}
-              label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
-              }
-            />
-          )}
+          disabled={muiDisabled}
+          render={({
+            field: {
+              name: rhfFieldName,
+              value: rhfValue,
+              onChange: rhfOnChange,
+              onBlur: rhfOnBlur,
+              ref: rhfRef,
+              disabled: rhfDisabled
+            }
+          }) => {
+            return (
+              <MuiDatePicker
+                name={rhfFieldName}
+                inputRef={rhfRef}
+                value={rhfValue || null}
+                disabled={rhfDisabled}
+                onChange={(newValue, context) => {
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                }}
+                label={
+                  !isLabelAboveFormField
+                    ? (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    )
+                    : undefined
+                }
+                slotProps={{
+                  ...otherSlotProps,
+                  textField: {
+                    ...textFieldSlotProps,
+                    id: fieldId,
+                    error: isError,
+                    onBlur: rhfOnBlur,
+                    slotProps: {},
+                    inputProps: {
+                      'aria-labelledby': labelId,
+                      'aria-describedby': isError ? errorId : helperTextId,
+                    }
+                  }
+                }}
+                {...rest}
+              />
+            );
+          }}
         />
       </LocalizationProvider>
       <FormHelperText
