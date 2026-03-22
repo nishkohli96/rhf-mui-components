@@ -257,7 +257,7 @@ const RHFMultiAutocomplete = <
               multiple
               autoHighlight
               disableCloseOnSelect
-              disabled={muiDisabled || rhfDisabled}
+              disabled={rhfDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 const clickedOption = details?.option;
                 if (!clickedOption) {

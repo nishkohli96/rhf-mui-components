@@ -211,8 +211,7 @@ const RHFTagsInput = <T extends FieldValues>({
             disabled: rhfDisabled
           }
         }) => {
-          const disableField = muiDisabled || rhfDisabled;
-          const hideInput = disableField && rhfValue.length > 0;
+          const hideInput = rhfDisabled && rhfValue.length > 0;
           const visibleTags = showAllTags
             ? rhfValue
             : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
@@ -239,7 +238,7 @@ const RHFTagsInput = <T extends FieldValues>({
                   id={fieldNameToId(tag)}
                   role="listitem"
                   label={tag}
-                  disabled={disableField}
+                  disabled={rhfDisabled}
                   onDelete={() => {
                     const newValues = rhfValue.filter(
                       item => item !== tag
@@ -256,7 +255,7 @@ const RHFTagsInput = <T extends FieldValues>({
                     getLimitTagsText?.(rhfValue.length - limitTags)
                     ?? `+${rhfValue.length - limitTags} more`
                   }
-                  disabled={disableField}
+                  disabled={rhfDisabled}
                 />
               )}
             </Box>
@@ -293,7 +292,7 @@ const RHFTagsInput = <T extends FieldValues>({
               onPaste={event => {
                 triggerChangeEvents(handlePaste(event, rhfValue));
               }}
-              disabled={disableField}
+              disabled={rhfDisabled}
               error={isError}
               aria-describedby={isError ? errorId : helperTextId}
               sx={{

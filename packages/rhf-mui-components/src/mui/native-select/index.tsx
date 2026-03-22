@@ -134,7 +134,7 @@ const RHFNativeSelect = <
             aria-describedby={isError ? errorId : helperTextId}
             value={rhfValue ?? ''}
             inputRef={rhfRef}
-            disabled={muiDisabled || rhfDisabled}
+            disabled={rhfDisabled}
             onChange={event => {
               const selectedValue = event.target.value;
               const normalizedValue = normalizeSelectValue(

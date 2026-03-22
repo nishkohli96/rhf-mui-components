@@ -153,7 +153,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={rhfDisabled}
               onChange={event => {
                 const newValue = event.target.value;
                 rhfOnChange(newValue);

@@ -220,7 +220,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
-              disabled={muiDisabled || rhfDisabled}
+              disabled={rhfDisabled}
               limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}

@@ -114,7 +114,7 @@ const RHFNumberInput = <T extends FieldValues>({
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={rhfDisabled}
               onChange={event => {
                 const fieldValue = event.target.value === ''
                   ? null

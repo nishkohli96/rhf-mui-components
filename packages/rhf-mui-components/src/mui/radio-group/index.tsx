@@ -138,7 +138,6 @@ const RHFRadioGroup = <
             disabled: rhfDisabled
           }
         }) => {
-          const isDisabled = muiDisabled || rhfDisabled;
           return (
             <MuiRadioGroup
               id={fieldId}
@@ -181,7 +180,7 @@ const RHFRadioGroup = <
                     }
                     value={opnValue}
                     label={opnLabel}
-                    disabled={isDisabled}
+                    disabled={rhfDisabled}
                     sx={appliedFormControlLabelSx}
                     {...otherFormControlLabelProps}
                   />

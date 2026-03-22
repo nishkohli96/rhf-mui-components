@@ -228,7 +228,7 @@ const RHFAutocomplete = <
                     />
                   );
                 })}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={rhfDisabled}
               onChange={(
                 event,
                 newValue,

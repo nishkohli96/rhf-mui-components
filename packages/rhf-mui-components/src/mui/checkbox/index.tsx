@@ -93,7 +93,7 @@ const RHFCheckbox = <T extends FieldValues>({
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={rhfDisabled}
                   aria-describedby={isError ? errorId : helperTextId}
                   aria-invalid={isError || undefined}
                   onChange={(event, checked) => {

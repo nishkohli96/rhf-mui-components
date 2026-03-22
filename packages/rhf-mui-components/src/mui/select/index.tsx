@@ -180,7 +180,7 @@ const RHFSelect = <
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
                 inputRef={rhfRef}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={rhfDisabled}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(

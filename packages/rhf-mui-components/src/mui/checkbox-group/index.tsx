@@ -185,7 +185,7 @@ const RHFCheckboxGroup = <
                     }
                     label={opnLabel}
                     sx={appliedFormControlLabelSx}
-                    disabled={muiDisabled || rhfDisabled}
+                    disabled={rhfDisabled}
                     {...otherFormControlLabelProps}
                   />
                 );
