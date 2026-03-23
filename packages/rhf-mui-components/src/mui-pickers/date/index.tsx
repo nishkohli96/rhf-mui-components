@@ -137,15 +137,14 @@ const RHFDatePicker = <T extends FieldValues>({
                 slotProps={{
                   ...otherSlotProps,
                   textField: {
-                    ...textFieldSlotProps,
                     id: fieldId,
                     error: isError,
                     onBlur: rhfOnBlur,
-                    slotProps: {},
                     inputProps: {
                       'aria-labelledby': labelId,
                       'aria-describedby': isError ? errorId : helperTextId,
-                    }
+                    },
+                    ...textFieldSlotProps,
                   }
                 }}
                 {...rest}
