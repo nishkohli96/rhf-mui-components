@@ -185,7 +185,7 @@ const RHFFileUploader = <T extends FieldValues>({
               onChange={handleFileChange}
               onBlur={rhfOnBlur}
               disabled={rhfDisabled}
-              aria-labelledby={labelId}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={isError ? errorId : helperTextId}
               aria-invalid={isError}
             />

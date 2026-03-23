@@ -104,25 +104,23 @@ const RHFTextField = <T extends FieldValues>({
               inputRef={rhfRef}
               autoComplete={autoComplete}
               label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+                !isLabelAboveFormField ? (
+                  <FormLabelText label={fieldLabel} required={required} />
+                ) : undefined
               }
               value={rhfValue ?? ''}
               disabled={rhfDisabled}
-              onChange={event => {
+              onChange={(event) => {
                 const newValue = event.target.value;
                 rhfOnChange(newValue);
                 onValueChange?.(newValue, event);
               }}
-              onBlur={blurEvent => {
+              onBlur={(blurEvent) => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={labelId}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

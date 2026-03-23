@@ -295,7 +295,7 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
               disabled={rhfDisabled}
               error={isError}
-              aria-labelledby={labelId}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

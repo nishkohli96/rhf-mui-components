@@ -167,7 +167,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={labelId}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
