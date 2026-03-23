@@ -39,7 +39,12 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  isAboveMuiV5,
+  useFieldIds
+} from '@/utils';
 import 'react-international-phone/style.css';
 
 type PhoneInputChangeReturnValue = {
@@ -95,20 +100,26 @@ const RHFPhoneInput = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  disabled,
+  disabled: muiDisabled,
   phoneInputProps,
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFPhoneInputProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isError = !!errorMessage;
 
   const {
     countries,
@@ -164,14 +175,25 @@ const RHFPhoneInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         defaultValue={inputValue as PathValue<T, Path<T>>}
-        render={({ field }) => {
+        render={( { field: {
+          name: rhfFieldName,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        } }) => {
           const startAdornment = (
             <InputAdornment
               position="start"
@@ -209,7 +231,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                   }
                 }}
                 value={country.iso2}
-                disabled={disabled || hideDropdown}
+                disabled={muiDisabled || hideDropdown}
                 onChange={e => {
                   setCountry(e.target.value as CountryIso2);
                 }}
@@ -266,28 +288,28 @@ const RHFPhoneInput = <T extends FieldValues>({
 
           return (
             <TextField
-              {...field}
-              {...rest}
+              id={fieldId}
+              name={rhfFieldName}
               value={inputValue}
               autoComplete={autoComplete}
               type="tel"
               onChange={e => {
                 handlePhoneValueChange(e);
-                field.onChange(e.target.value);
+                rhfOnChange(e.target.value);
               }}
               inputRef={ref => {
-                field.ref(ref);
+                rhfRef(ref);
                 inputRef.current = ref;
               }}
               onBlur={blurEvent => {
-                field.onBlur();
+                rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
               label={!isLabelAboveFormField
                 ? <FormLabelText label={fieldLabel} required={required} />
                 : undefined}
               error={isError}
-              disabled={disabled}
+              disabled={rhfDisabled}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
@@ -297,6 +319,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                 }
                 : { InputProps: { startAdornment } }
               )}
+              {...rest}
             />
           );
         }}
@@ -306,7 +329,10 @@ const RHFPhoneInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

@@ -17,7 +17,7 @@ import {
 } from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, colorToString } from '@/utils';
+import { fieldNameToLabel, colorToString, useFieldIds } from '@/utils';
 import 'react-color-palette/css';
 
 type ColorFormat = keyof IColor;
@@ -56,7 +56,7 @@ const RHFColorPicker = <T extends FieldValues>({
   required,
   hideInput,
   onValueChange,
-  disabled,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -67,6 +67,12 @@ const RHFColorPicker = <T extends FieldValues>({
   height = 200,
   ...otherProps
 }: RHFColorPickerProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const [color, setColor] = useColor(value ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
@@ -79,13 +85,23 @@ const RHFColorPicker = <T extends FieldValues>({
         isVisible={showLabelAboveFormField ?? true}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange } }) => (
+        disabled={muiDisabled}
+        render={({
+          field: {
+            onChange: rhfOnChange,
+            disabled: rhfDisabled
+          }
+        }) => (
           <Fragment>
             {renderHSLView
               ? (
@@ -93,38 +109,42 @@ const RHFColorPicker = <T extends FieldValues>({
                   <Saturation
                     height={height}
                     color={color}
-                    disabled={disabled}
+                    disabled={rhfDisabled}
                     onChange={color => {
-                      if (!disabled) {
+                      if (!rhfDisabled) {
                         setColor(color);
                         const appliedColor = colorToString(
                           color[valueKey],
                           excludeAlpha
                         );
-                        onChange(appliedColor);
+                        rhfOnChange(appliedColor);
                         onValueChange?.(color);
                       }
                     }}
                   />
-                  <Hue color={color} disabled={disabled} onChange={setColor} />
+                  <Hue
+                    color={color}
+                    disabled={rhfDisabled}
+                    onChange={setColor}
+                  />
                 </Fragment>
               )
               : (
                 <ReactColorPicker
                   color={color}
                   onChange={color => {
-                    if (!disabled) {
+                    if (!rhfDisabled) {
                       setColor(color);
                       const appliedColor
                         = valueKey === 'hex'
                           ? color.hex
                           : colorToString(color[valueKey], excludeAlpha);
-                      onChange(appliedColor);
+                      rhfOnChange(appliedColor);
                       onValueChange?.(color);
                     }
                   }}
                   height={height}
-                  hideInput={disabled ? true : hideInput}
+                  hideInput={rhfDisabled ? true : hideInput}
                   {...otherProps}
                 />
               )}
@@ -136,7 +156,10 @@ const RHFColorPicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );
