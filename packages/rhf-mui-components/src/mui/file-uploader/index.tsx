@@ -117,14 +117,16 @@ const RHFFileUploader = <T extends FieldValues>({
         control={control}
         rules={registerOptions}
         disabled={muiDisabled}
-        render={({ field: {
-          name: rhfFieldName,
-          value: rhfValue,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        } }) => {
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
           const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
             const fileList = event.target.files;
             /* Reset so same file can be selected again */
@@ -155,14 +157,16 @@ const RHFFileUploader = <T extends FieldValues>({
               ? acceptedFiles.length > 0
                 ? acceptedFiles
                 : null
-              : acceptedFiles[0] ?? null;
+              : (acceptedFiles[0] ?? null);
             rhfOnChange(selectedFiles);
             onValueChange?.(selectedFiles, event);
           };
 
           const removeFile = (index: number) => {
             if (multiple && Array.isArray(rhfValue)) {
-              const newFiles = rhfValue.filter((_: File, i: number) => i !== index);
+              const newFiles = rhfValue.filter(
+                (_: File, i: number) => i !== index
+              );
               rhfOnChange(newFiles.length > 0 ? newFiles : null);
             } else {
               rhfOnChange(null);
@@ -189,7 +193,9 @@ const RHFFileUploader = <T extends FieldValues>({
           return (
             <Fragment>
               {renderUploadButton
-                ? renderUploadButton(InputComponent)
+                ? (
+                  renderUploadButton(InputComponent)
+                )
                 : (
                   <UploadButton
                     label={fieldLabel}
