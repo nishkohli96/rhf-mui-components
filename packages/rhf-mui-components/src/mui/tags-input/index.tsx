@@ -87,6 +87,7 @@ const RHFTagsInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  InputProps,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
@@ -180,7 +181,8 @@ const RHFTagsInput = <T extends FieldValues>({
     const pasteData = event.clipboardData.getData('text');
     const newTags = pasteData
       .split(/[\s,]+/)
-      .filter(tag => tag.trim() && !values.includes(tag.trim()));
+      .map(tag => tag.trim())
+      .filter(trimmed => trimmed && !values.includes(trimmed));
     return [...values, ...newTags];
   };
 
@@ -236,7 +238,7 @@ const RHFTagsInput = <T extends FieldValues>({
               {visibleTags.map((tag, index) => (
                 <Chip
                   key={`${fieldNameToId(tag)}-${index}`}
-                  id={fieldNameToId(tag)}
+                  id={`${fieldNameToId(tag)}-${index}`}
                   role="listitem"
                   label={tag}
                   disabled={rhfDisabled}
@@ -326,7 +328,12 @@ const RHFTagsInput = <T extends FieldValues>({
                     }
                   },
                 }
-                : { InputProps: { startAdornment } }
+                : {
+                  InputProps: {
+                    ...InputProps,
+                    startAdornment
+                  }
+                }
               )}
               {...rest}
             />
