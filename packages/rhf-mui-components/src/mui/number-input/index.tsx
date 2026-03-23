@@ -20,7 +20,10 @@ import {
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
 
-type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
+type TextFieldInputProps = Omit<
+  TextFieldProps,
+  'type' | 'multiline' | 'rows' | 'minRows' | 'maxRows'
+>;
 
 export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -28,7 +31,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
     value: number | null,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   showLabelAboveFormField?: boolean;
   showMarkers?: boolean;
@@ -111,17 +114,28 @@ const RHFNumberInput = <T extends FieldValues>({
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
                   : undefined
               }
-              value={rhfValue ?? ''}
+              value={
+                rhfValue === null
+                || rhfValue === undefined
+                || Number.isNaN(rhfValue)
+                  ? ''
+                  : rhfValue
+              }
               disabled={rhfDisabled}
               onChange={event => {
-                const fieldValue = event.target.value === ''
-                  ? null
-                  : Number(event.target.value);
-                rhfOnChange(fieldValue);
-                onValueChange?.(fieldValue, event);
+                const fieldValue
+                  = event.target.value === '' ? null : Number(event.target.value);
+                const safeValue = Number.isNaN(fieldValue) ? null : fieldValue;
+                rhfOnChange(safeValue);
+                onValueChange?.(
+                  safeValue,
+                  event as ChangeEvent<HTMLInputElement>,
+                );
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -142,10 +156,10 @@ const RHFNumberInput = <T extends FieldValues>({
                   '& input[type=number]': {
                     MozAppearance: 'textfield',
                     '&::-webkit-outer-spin-button': { display: 'none' },
-                    '&::-webkit-inner-spin-button': { display: 'none' }
-                  }
+                    '&::-webkit-inner-spin-button': { display: 'none' },
+                  },
                 }),
-                ...sx
+                ...sx,
               }}
               {...rest}
             />
