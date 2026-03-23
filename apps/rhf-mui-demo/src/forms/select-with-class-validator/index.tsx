@@ -41,7 +41,7 @@ const SelectFormWithClassValidator = () => {
     watch,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: { favouriteColor: Colors.Orange },
+    // defaultValues: { favouriteColor: Colors.Orange },
     resolver: classValidatorResolver(FormSchema)
   });
 
@@ -95,9 +95,9 @@ const SelectFormWithClassValidator = () => {
               showDefaultOption
               defaultOptionText="Select IPL teams"
               label={
-                <Typography variant="body1" color="success">
+                <div style={{ color: '#007aba'}}>
                   Select your favourite IPL teams
-                </Typography>
+                </div>
               }
               required
               multiple

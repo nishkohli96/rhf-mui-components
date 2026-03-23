@@ -164,7 +164,7 @@ const RHFSelect = <
           return (
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
-                <InputLabel id={labelId}>
+                <InputLabel id={labelId} shrink={!isValueEmpty}>
                   {SelectFormLabel}
                 </InputLabel>
               )}
