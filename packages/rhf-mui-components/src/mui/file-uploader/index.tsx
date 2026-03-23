@@ -25,6 +25,7 @@ import type {
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
+  useFieldIds,
   validateFileList
 } from '@/utils';
 import { FileItem, HiddenInput, UploadButton } from './components';
@@ -71,6 +72,7 @@ const RHFFileUploader = <T extends FieldValues>({
   renderUploadButton,
   renderFileItem,
   onValueChange,
+  disabled: muiDisabled,
   onUploadError,
   label,
   showLabelAboveFormField,
@@ -80,16 +82,22 @@ const RHFFileUploader = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  disabled,
   fullWidth = false
 }: RHFFileUploaderProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isError = !!errorMessage;
 
   return (
     <FormControl fullWidth={fullWidth} error={isError}>
@@ -98,19 +106,31 @@ const RHFFileUploader = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, ...otherFieldParams } = field;
-
+        disabled={muiDisabled}
+        render={({ field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        } }) => {
           const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
             const fileList = event.target.files;
+            /* Reset so same file can be selected again */
+            event.target.value = '';
             if (!fileList || fileList.length === 0) {
-              onChange(null);
+              rhfOnChange(null);
               onValueChange?.(null, event);
               return;
             }
@@ -136,48 +156,47 @@ const RHFFileUploader = <T extends FieldValues>({
                 ? acceptedFiles
                 : null
               : acceptedFiles[0] ?? null;
-            onChange(selectedFiles);
+            rhfOnChange(selectedFiles);
             onValueChange?.(selectedFiles, event);
           };
 
           const removeFile = (index: number) => {
-            if (multiple && Array.isArray(value)) {
-              const newFiles = value.filter((_: File, i: number) => i !== index);
-              onChange(newFiles.length > 0 ? newFiles : null);
+            if (multiple && Array.isArray(rhfValue)) {
+              const newFiles = rhfValue.filter((_: File, i: number) => i !== index);
+              rhfOnChange(newFiles.length > 0 ? newFiles : null);
             } else {
-              onChange(null);
+              rhfOnChange(null);
             }
           };
+
+          const InputComponent = (
+            <HiddenInput
+              id={fieldId}
+              name={rhfFieldName}
+              type="file"
+              ref={rhfRef}
+              accept={accept}
+              multiple={multiple}
+              onChange={handleFileChange}
+              onBlur={rhfOnBlur}
+              disabled={rhfDisabled}
+              aria-labelledby={labelId}
+              aria-describedby={isError ? errorId : helperTextId}
+              aria-invalid={isError}
+            />
+          );
 
           return (
             <Fragment>
               {renderUploadButton
-                ? (
-                  renderUploadButton(
-                    <HiddenInput
-                      type="file"
-                      accept={accept}
-                      onChange={handleFileChange}
-                      multiple={multiple}
-                      disabled={disabled}
-                      {...otherFieldParams}
-                    />
-                  )
-                )
+                ? renderUploadButton(InputComponent)
                 : (
                   <UploadButton
                     label={fieldLabel}
-                    fieldName={fieldName}
-                    disabled={disabled}
+                    fieldName={`btn_${fieldId}`}
+                    disabled={rhfDisabled}
                   >
-                    <HiddenInput
-                      type="file"
-                      accept={accept}
-                      onChange={handleFileChange}
-                      multiple={multiple}
-                      disabled={disabled}
-                      {...otherFieldParams}
-                    />
+                    {InputComponent}
                   </UploadButton>
                 )}
               <FormHelperText
@@ -185,13 +204,16 @@ const RHFFileUploader = <T extends FieldValues>({
                 errorMessage={errorMessage}
                 hideErrorMessage={hideErrorMessage}
                 helperText={helperText}
-                formHelperTextProps={formHelperTextProps}
+                formHelperTextProps={{
+                  id: isError ? errorId : helperTextId,
+                  ...formHelperTextProps
+                }}
               />
-              {!hideFileList && value && (
+              {!hideFileList && rhfValue && (
                 <Box>
-                  {(Array.isArray(value) ? value : [value]).map(
+                  {(Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
                     (file: File, index) => (
-                      <Fragment key={index}>
+                      <Fragment key={file.name + file.lastModified}>
                         {renderFileItem
                           ? (
                             renderFileItem(file, index)
