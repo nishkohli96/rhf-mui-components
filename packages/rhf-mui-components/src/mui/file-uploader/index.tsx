@@ -98,6 +98,7 @@ const RHFFileUploader = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl fullWidth={fullWidth} error={isError}>
@@ -210,6 +211,7 @@ const RHFFileUploader = <T extends FieldValues>({
                 errorMessage={errorMessage}
                 hideErrorMessage={hideErrorMessage}
                 helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
                   id: isError ? errorId : helperTextId,
                   ...formHelperTextProps

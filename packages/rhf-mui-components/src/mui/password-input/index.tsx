@@ -87,7 +87,8 @@ const RHFPasswordInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const [showPassword, setShowPassword] = useState(false);
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;
@@ -149,7 +150,9 @@ const RHFPasswordInput = <T extends FieldValues>({
               type={showPassword ? 'text' : 'password'}
               label={
                 !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
                   : undefined
               }
               value={rhfValue ?? ''}
@@ -164,7 +167,15 @@ const RHFPasswordInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              aria-describedby={isError ? errorId : helperTextId}
+              aria-labelledby={labelId}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              aria-required={required}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
@@ -172,8 +183,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                     input: { endAdornment }
                   }
                 }
-                : { InputProps: { endAdornment } }
-              )}
+                : { InputProps: { endAdornment } })}
               {...rest}
             />
           );
@@ -184,6 +194,7 @@ const RHFPasswordInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
