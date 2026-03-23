@@ -186,7 +186,11 @@ const RHFFileUploader = <T extends FieldValues>({
               onBlur={rhfOnBlur}
               disabled={rhfDisabled}
               aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={isError ? errorId : helperTextId}
+              aria-describedby={
+                showHelperTextElement
+                  ? (isError ? errorId : helperTextId)
+                  : undefined
+              }
               aria-invalid={isError}
             />
           );
@@ -221,7 +225,7 @@ const RHFFileUploader = <T extends FieldValues>({
                 <Box>
                   {(Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
                     (file: File, index) => (
-                      <Fragment key={file.name + file.lastModified}>
+                      <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
                         {renderFileItem
                           ? (
                             renderFileItem(file, index)

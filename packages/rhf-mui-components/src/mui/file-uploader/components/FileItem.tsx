@@ -19,15 +19,15 @@ const FileItem = ({
 }: FileItemProps) => {
   const fileText = `${file.name} ${showFileSize ? `(${getFileSize(file.size)})` : ''}`;
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-    >
+    <Box display="flex" justifyContent="space-between" alignItems="center">
       <Typography>
         {fileText.trim()}
       </Typography>
-      <IconButton size="small" onClick={() => removeFile(index)}>
+      <IconButton
+        size="small"
+        onClick={() => removeFile(index)}
+        aria-label={`Remove file ${fileText.trim()}`}
+      >
         <DeleteIcon fontSize="small" />
       </IconButton>
     </Box>
