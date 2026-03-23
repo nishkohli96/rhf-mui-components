@@ -33,7 +33,10 @@ import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, useFieldIds } 
 type InputPasswordProps = Omit<
   TextFieldProps,
   | 'type'
-  | 'InputProps'
+  | 'multiline'
+  | 'rows'
+  | 'minRows'
+  | 'maxRows'
 >;
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
@@ -42,7 +45,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
     value: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -72,6 +75,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  InputProps,
   ...rest
 }: RHFPasswordInputProps<T>) => {
   const {
@@ -160,7 +164,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               onChange={event => {
                 const newValue = event.target.value;
                 rhfOnChange(newValue);
-                onValueChange?.(newValue, event);
+                onValueChange?.(newValue, event as ChangeEvent<HTMLInputElement>);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -180,10 +184,18 @@ const RHFPasswordInput = <T extends FieldValues>({
                 ? {
                   slotProps: {
                     ...slotProps,
-                    input: { endAdornment }
+                    input: {
+                      ...slotProps?.input,
+                      endAdornment
+                    }
                   }
                 }
-                : { InputProps: { endAdornment } })}
+                : {
+                  InputProps: {
+                    ...InputProps,
+                    endAdornment
+                  }
+                })}
               {...rest}
             />
           );
