@@ -110,6 +110,7 @@ const RHFRadioGroup = <
     ...sx
   };
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl component="fieldset" error={isError}>
@@ -142,7 +143,6 @@ const RHFRadioGroup = <
             <MuiRadioGroup
               id={fieldId}
               name={rhfFieldName}
-              {...rest}
               value={rhfValue ?? ''}
               onChange={(event, selectedValue) => {
                 const normalizedValue = normalizeSelectValue(
@@ -161,7 +161,14 @@ const RHFRadioGroup = <
                 onBlur?.(blurEvent);
               }}
               aria-labelledby={labelId}
-              aria-describedby={isError ? errorId : helperTextId}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              {...rest}
             >
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -195,6 +202,7 @@ const RHFRadioGroup = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps

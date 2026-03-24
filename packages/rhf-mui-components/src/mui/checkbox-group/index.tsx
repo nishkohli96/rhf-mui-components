@@ -63,7 +63,7 @@ export type RHFCheckboxGroupProps<
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  onBlur?: (event: FocusEvent<HTMLButtonElement, Element>) => void;
+  onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
 };
 
 const RHFCheckboxGroup = <
@@ -113,53 +113,69 @@ const RHFCheckboxGroup = <
   const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl component="fieldset" error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          component: 'legend',
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        render={({ field }) => {
-          const {
-            value: rhfValue = [],
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
-          } = field as {
-            value: OptionValue<Option, ValueKey>[];
-            onChange: (v: OptionValue<Option, ValueKey>[]) => void;
-            onBlur: () => void;
-            disabled: boolean;
-          };
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      render={({ field }) => {
+        const {
+          value: rhfValue = [],
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
+        } = field as {
+          value: OptionValue<Option, ValueKey>[];
+          onChange: (v: OptionValue<Option, ValueKey>[]) => void;
+          onBlur: () => void;
+          disabled: boolean;
+        };
 
-          const handleChange = (
-            event: ChangeEvent<HTMLInputElement>,
-            checked: boolean,
-            optionValue: OptionValue<Option, ValueKey>
-          ) => {
-            const normalized = coerceValue(event.target.value, optionValue);
-            const newValue = checked
-              ? rhfValue.includes(normalized)
-                ? rhfValue
-                : [...rhfValue, normalized]
-              : rhfValue.filter(v => v !== normalized);
-            rhfOnChange(newValue);
-            onValueChange?.(normalized, newValue, event);
-          };
+        const handleChange = (
+          event: ChangeEvent<HTMLInputElement>,
+          checked: boolean,
+          optionValue: OptionValue<Option, ValueKey>
+        ) => {
+          const normalized = coerceValue(event.target.value, optionValue);
+          const newValue = checked
+            ? rhfValue.includes(normalized)
+              ? rhfValue
+              : [...rhfValue, normalized]
+            : rhfValue.filter(v => v !== normalized);
+          rhfOnChange(newValue);
+          onValueChange?.(normalized, newValue, event);
+        };
 
-          return (
+        return (
+          <FormControl
+            component="fieldset"
+            error={isError}
+            onBlur={e => {
+              const currentTarget = e.currentTarget;
+              const relatedTarget = e.relatedTarget as Node | null;
+              /**
+               * Trigger blur event only if focus is moving OUTSIDE
+               * the checkbox group, instead of calling onBlur for
+               * every checkbox.
+               */
+              if (!currentTarget.contains(relatedTarget)) {
+                rhfOnBlur();
+                onBlur?.(e);
+              }
+            }}
+          >
             <Fragment>
+              <FormLabel
+                label={fieldLabel}
+                isVisible={showLabelAboveFormField ?? true}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  component: 'legend',
+                  ...formLabelProps
+                }}
+              />
               {options.map((option, idx) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
@@ -178,10 +194,6 @@ const RHFCheckboxGroup = <
                         value={opnValue}
                         checked={checked}
                         onChange={e => handleChange(e, e.target.checked, opnValue)}
-                        onBlur={blurEvent => {
-                          rhfOnBlur();
-                          onBlur?.(blurEvent);
-                        }}
                       />
                     }
                     label={opnLabel}
@@ -191,22 +203,22 @@ const RHFCheckboxGroup = <
                   />
                 );
               })}
+              <FormHelperText
+                error={isError}
+                errorMessage={errorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  id: isError ? errorId : helperTextId,
+                  ...formHelperTextProps
+                }}
+              />
             </Fragment>
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 
