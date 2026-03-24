@@ -44,7 +44,8 @@ import {
   validateArray,
   isKeyValueOption,
   isAboveMuiV5,
-  useFieldIds
+  useFieldIds,
+  keepLabelAboveFormField
 } from '@/utils';
 
 type MultiAutoCompleteProps<Option> = Omit<
@@ -95,6 +96,8 @@ export type RHFMultiAutocompleteProps<
   hideSelectAllOption?: boolean;
 } & MultiAutoCompleteProps<Option>;
 
+export const selectAllOptionValue = '__ALL__';
+
 const RHFMultiAutocomplete = <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
@@ -141,7 +144,10 @@ const RHFMultiAutocomplete = <
     allLabelsAboveFields,
     defaultFormControlLabelSx
   } = useContext(RHFMuiConfigContext);
-  const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
@@ -151,7 +157,8 @@ const RHFMultiAutocomplete = <
   };
 
   const isError = !!errorMessage;
-  const selectAllOptionValue = '__ALL__';
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
   const shouldHideSelectAllOptions
     = hideSelectAllOption || (options.length === 0 || options.length === 1);
 
@@ -314,8 +321,12 @@ const RHFMultiAutocomplete = <
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...inputProps,
-                  'aria-labelledby': labelId,
-                  'aria-describedby': isError ? errorId : helperTextId,
+                  'aria-required': required,
+                  'aria-invalid': isError,
+                  'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? (isError ? errorId : helperTextId)
+                    : undefined,
                   autoComplete
                 };
                 return (
@@ -391,7 +402,8 @@ const RHFMultiAutocomplete = <
                       control={
                         <Checkbox
                           {...checkboxProps}
-                          name={fieldName}
+                          id={`${fieldName}_${value}`}
+                          name={`${fieldName}_${value}`}
                           value={value}
                           checked={
                             isSelectAll
@@ -432,6 +444,7 @@ const RHFMultiAutocomplete = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps

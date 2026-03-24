@@ -11,7 +11,10 @@ import RHFFileUploader, {
   type RHFFileUploaderProps,
   type FileUploadError
 } from './file-uploader';
-import RHFMultiAutocomplete, { type RHFMultiAutocompleteProps } from './multi-autocomplete';
+import RHFMultiAutocomplete, {
+  selectAllOptionValue,
+  type RHFMultiAutocompleteProps,
+} from './multi-autocomplete';
 import RHFNativeSelect, { type RHFNativeSelectProps } from './native-select';
 import RHFNumberInput, { type RHFNumberInputProps } from './number-input';
 import RHFPasswordInput, { type RHFPasswordInputProps } from './password-input';
@@ -40,7 +43,8 @@ export {
   RHFSwitch,
   RHFTextField,
   RHFTagsInput,
-  countryList
+  countryList,
+  selectAllOptionValue,
 };
 
 export type {

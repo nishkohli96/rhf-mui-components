@@ -138,7 +138,8 @@ const RHFNativeSelect = <
               showHelperTextElement
                 ? (isError ? errorId : helperTextId)
                 : undefined
-            }            value={rhfValue ?? ''}
+            }
+            value={rhfValue ?? ''}
             inputRef={rhfRef}
             disabled={rhfDisabled}
             onChange={event => {

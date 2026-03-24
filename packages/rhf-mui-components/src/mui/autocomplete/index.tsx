@@ -44,7 +44,8 @@ import {
   validateArray,
   isKeyValueOption,
   isAboveMuiV5,
-  useFieldIds
+  useFieldIds,
+  keepLabelAboveFormField
 } from '@/utils';
 
 type OmittedAutocompleteProps<Option> = Omit<
@@ -135,9 +136,13 @@ const RHFAutocomplete = <
   } = useFieldIds(fieldName);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isLabelAboveFormField = showLabelAboveFormField ?? allLabelsAboveFields;
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const optionsMap = useMemo(() => {
     if (!valueKey) {
@@ -278,8 +283,12 @@ const RHFAutocomplete = <
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...inputProps,
-                  'aria-labelledby': labelId,
-                  'aria-describedby': isError ? errorId : helperTextId,
+                  'aria-required': required,
+                  'aria-invalid': isError,
+                  'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? (isError ? errorId : helperTextId)
+                    : undefined,
                   autoComplete
                 };
                 return (
@@ -355,6 +364,7 @@ const RHFAutocomplete = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
