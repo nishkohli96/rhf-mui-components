@@ -78,13 +78,15 @@ const RHFRichTextEditor = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFormLabelVisible = showLabelAboveFormField ?? true;
   const isError = Boolean(errorMessage);
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
+        isVisible={isFormLabelVisible}
         required={required}
         error={isError}
         formLabelProps={{
@@ -123,6 +125,14 @@ const RHFRichTextEditor = <T extends FieldValues>({
               rhfOnBlur();
               onBlur?.(event, editor);
             }}
+            aria-labelledby={isFormLabelVisible ? labelId : undefined}
+            aria-describedby={
+              showHelperTextElement
+                ? isError
+                  ? errorId
+                  : helperTextId
+                : undefined
+            }
             onFocus={onFocus}
             onError={onError}
             disabled={rhfDisabled}
@@ -134,6 +144,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps

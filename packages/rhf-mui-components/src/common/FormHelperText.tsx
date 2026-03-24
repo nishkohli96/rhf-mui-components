@@ -9,7 +9,7 @@ type CommonHelperTextProps = {
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-  showHelperTextElement?: boolean;
+  showHelperTextElement: boolean;
 };
 
 const FormHelperText = ({
