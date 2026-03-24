@@ -68,6 +68,7 @@ const RHFCheckbox = <T extends FieldValues>({
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Fragment>
@@ -94,7 +95,13 @@ const RHFCheckbox = <T extends FieldValues>({
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
                   disabled={rhfDisabled}
-                  aria-describedby={isError ? errorId : helperTextId}
+                  aria-describedby={
+                    showHelperTextElement
+                      ? isError
+                        ? errorId
+                        : helperTextId
+                      : undefined
+                  }
                   aria-invalid={isError || undefined}
                   onChange={(event, checked) => {
                     rhfOnChange(checked);
@@ -126,6 +133,7 @@ const RHFCheckbox = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps

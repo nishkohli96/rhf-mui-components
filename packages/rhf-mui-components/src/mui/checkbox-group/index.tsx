@@ -110,6 +110,7 @@ const RHFCheckboxGroup = <
     ...sx
   };
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl component="fieldset" error={isError}>
@@ -168,7 +169,7 @@ const RHFCheckboxGroup = <
                 const checked = rhfValue.includes(opnValue);
                 return (
                   <FormControlLabel
-                    key={opnValue}
+                    key={`${opnValue}-${idx}`}
                     control={
                       <Checkbox
                         {...checkboxProps}
@@ -199,6 +200,7 @@ const RHFCheckboxGroup = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
