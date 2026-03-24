@@ -261,6 +261,10 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
+              onValueChange={(value, targetValue) => {
+                console.log('value', value, typeof value);
+                console.log('targetValue', targetValue);
+              }}
               getLimitTagsText={more => `+${more} Color(s)`}
               helperText="Choose at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}

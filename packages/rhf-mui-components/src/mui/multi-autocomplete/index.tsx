@@ -206,7 +206,7 @@ const RHFMultiAutocomplete = <
           ? selectAllOptionValue
           : selectAllText
         : getOptionLabelOrValue(option, labelKey),
-    [isSelectAllOption, selectAllText, selectAllOptionValue, getOptionLabelOrValue, labelKey]
+    [isSelectAllOption, selectAllText, getOptionLabelOrValue, labelKey]
   );
 
   return (
@@ -266,27 +266,32 @@ const RHFMultiAutocomplete = <
               disableCloseOnSelect
               disabled={rhfDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
-                const clickedOption = details?.option;
-                if (!clickedOption) {
+                if (reason === 'clear') {
                   rhfOnChange([]);
                   onValueChange?.([]);
                   return;
                 }
-                const isSelectAll = isSelectAllOption(clickedOption);
-                if (isSelectAll) {
-                  const allValues = options.map(option => getOptionLabelOrValue(option, valueKey));
-                  const areAllCurrentlySelected = (rhfValue ?? []).length === options.length;
-                  const finalValue = areAllCurrentlySelected ? [] : allValues;
+                const clickedOption = details?.option;
+                const isSelectAllClicked
+                  = clickedOption && isSelectAllOption(clickedOption);
+                if (isSelectAllClicked) {
+                  const allValues = options.map(option =>
+                    getOptionLabelOrValue(option, valueKey));
+                  const finalValue = areAllSelected ? [] : allValues;
                   rhfOnChange(finalValue);
                   onValueChange?.(finalValue, selectAllOptionValue);
                   return;
                 }
-                const finalValue = newSelectedOptions.map(option =>
-                  getOptionLabelOrValue(option, valueKey));
+
+                const finalValue = newSelectedOptions
+                  .filter(option => !isSelectAllOption(option))
+                  .map(option => getOptionLabelOrValue(option, valueKey));
                 rhfOnChange(finalValue);
                 onValueChange?.(
                   finalValue,
-                  getOptionLabelOrValue(clickedOption, valueKey)
+                  clickedOption
+                    ? getOptionLabelOrValue(clickedOption, valueKey)
+                    : undefined
                 );
               }}
               onBlur={blurEvent => {
