@@ -155,7 +155,6 @@ const RHFMultiAutocomplete = <
     ...defaultFormControlLabelSx,
     ...sx
   };
-
   const isError = !!errorMessage;
   const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 

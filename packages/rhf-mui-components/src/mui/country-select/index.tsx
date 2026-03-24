@@ -17,7 +17,7 @@ import Box from '@mui/material/Box';
 import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
-  type AutocompleteChangeReason,
+  type AutocompleteChangeReason
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -133,6 +133,7 @@ const RHFCountrySelect = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const countryOptions = countries ?? countryList;
   const countrySelectOptions = useMemo(() => {
@@ -208,7 +209,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               onChange={(event, newValue, reason, details) => {
                 const newValueKey = Array.isArray(newValue)
                   ? (newValue ?? []).map(item => item[valueKey])
-                  : (newValue)?.[valueKey] ?? '';
+                  : (newValue)?.[valueKey] ?? null;
                 rhfOnChange(newValueKey);
                 onValueChange?.(newValue, event, reason, details);
               }}
@@ -241,8 +242,12 @@ const RHFCountrySelect = <T extends FieldValues>({
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...inputProps,
-                  'aria-labelledby': labelId,
-                  'aria-describedby': isError ? errorId : helperTextId,
+                  'aria-required': required,
+                  'aria-invalid': isError,
+                  'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? (isError ? errorId : helperTextId)
+                    : undefined,
                   autoComplete
                 };
                 return (
@@ -318,6 +323,7 @@ const RHFCountrySelect = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
