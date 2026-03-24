@@ -71,6 +71,10 @@ const RHFDateTimePicker = <T extends FieldValues>({
     helperTextId,
     errorId
   } = useFieldIds(fieldName);
+  const {
+    textField: textFieldSlotProps,
+    ...otherSlotProps
+  } = muiSlotProps ?? {};
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -78,7 +82,7 @@ const RHFDateTimePicker = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isError = !!errorMessage;
-  const { textField: textFieldSlotProps, ...otherSlotProps } = muiSlotProps ?? {};
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -133,8 +137,14 @@ const RHFDateTimePicker = <T extends FieldValues>({
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
-                      'aria-labelledby': labelId,
-                      'aria-describedby': isError ? errorId : helperTextId,
+                      'aria-labelledby': isLabelAboveFormField
+                        ? labelId
+                        : undefined,
+                      'aria-describedby': showHelperTextElement
+                        ? isError
+                          ? errorId
+                          : helperTextId
+                        : undefined,
                     },
                     ...textFieldSlotProps,
                   }
@@ -150,7 +160,11 @@ const RHFDateTimePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );
