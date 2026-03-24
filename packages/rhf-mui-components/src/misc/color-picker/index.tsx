@@ -68,7 +68,6 @@ const RHFColorPicker = <T extends FieldValues>({
   ...otherProps
 }: RHFColorPickerProps<T>) => {
   const {
-    fieldId,
     labelId,
     helperTextId,
     errorId
@@ -76,7 +75,13 @@ const RHFColorPicker = <T extends FieldValues>({
   const [color, setColor] = useColor(value ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+  const getFormattedColor = (color: IColor) =>
+    valueKey === 'hex'
+      ? color.hex
+      : colorToString(color[valueKey], excludeAlpha);
 
   return (
     <FormControl error={isError}>
@@ -87,7 +92,6 @@ const RHFColorPicker = <T extends FieldValues>({
         error={isError}
         formLabelProps={{
           id: labelId,
-          htmlFor: fieldId,
           ...formLabelProps
         }}
       />
@@ -111,15 +115,10 @@ const RHFColorPicker = <T extends FieldValues>({
                     color={color}
                     disabled={rhfDisabled}
                     onChange={color => {
-                      if (!rhfDisabled) {
-                        setColor(color);
-                        const appliedColor = colorToString(
-                          color[valueKey],
-                          excludeAlpha
-                        );
-                        rhfOnChange(appliedColor);
-                        onValueChange?.(color);
-                      }
+                      setColor(color);
+                      const appliedColor = getFormattedColor(color);
+                      rhfOnChange(appliedColor);
+                      onValueChange?.(color);
                     }}
                   />
                   <Hue
@@ -132,16 +131,12 @@ const RHFColorPicker = <T extends FieldValues>({
               : (
                 <ReactColorPicker
                   color={color}
+                  disabled={rhfDisabled}
                   onChange={color => {
-                    if (!rhfDisabled) {
-                      setColor(color);
-                      const appliedColor
-                        = valueKey === 'hex'
-                          ? color.hex
-                          : colorToString(color[valueKey], excludeAlpha);
-                      rhfOnChange(appliedColor);
-                      onValueChange?.(color);
-                    }
+                    setColor(color);
+                    const appliedColor = getFormattedColor(color);
+                    rhfOnChange(appliedColor);
+                    onValueChange?.(color);
                   }}
                   height={height}
                   hideInput={rhfDisabled ? true : hideInput}
@@ -156,6 +151,7 @@ const RHFColorPicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
