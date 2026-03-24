@@ -63,16 +63,21 @@ const RHFSlider = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFormLabelVisible = showLabelAboveFormField ?? true;
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Fragment>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
+        isVisible={isFormLabelVisible}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
@@ -96,16 +101,20 @@ const RHFSlider = <T extends FieldValues>({
               disabled={rhfDisabled}
               onChange={(event, value, activeThumb) => {
                 rhfOnChange(value);
-                if (onValueChange) {
-                  onValueChange(value, activeThumb, event);
-                }
+                onValueChange?.(value, activeThumb, event);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={labelId}
-              aria-describedby={isError ? errorId : helperTextId}
+              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
               aria-invalid={isError || undefined}
               {...rest}
             />
@@ -117,6 +126,7 @@ const RHFSlider = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps

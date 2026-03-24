@@ -64,13 +64,15 @@ const RHFRating = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFormLabelVisible = showLabelAboveFormField ?? true;
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl component="fieldset" error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
+        isVisible={isFormLabelVisible}
         required={required}
         error={isError}
         formLabelProps={{
@@ -107,8 +109,14 @@ const RHFRating = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={labelId}
-              aria-describedby={isError ? errorId : helperTextId}
+              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
               aria-invalid={isError || undefined}
               {...rest}
             />
@@ -120,6 +128,7 @@ const RHFRating = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
