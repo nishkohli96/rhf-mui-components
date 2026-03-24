@@ -67,6 +67,7 @@ const RHFSwitch = <T extends FieldValues>({
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
   const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Controller
@@ -101,7 +102,13 @@ const RHFSwitch = <T extends FieldValues>({
                     rhfOnBlur();
                     onBlur?.(blurEvent);
                   }}
-                  aria-describedby={isError ? errorId : helperTextId}
+                  aria-describedby={
+                    showHelperTextElement
+                      ? isError
+                        ? errorId
+                        : helperTextId
+                      : undefined
+                  }
                   aria-invalid={isError || undefined}
                   slotProps={{
                     ...otherSlotProps,
@@ -122,6 +129,7 @@ const RHFSwitch = <T extends FieldValues>({
               errorMessage={errorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
                 id: isError ? errorId : helperTextId,
                 ...formHelperTextProps
