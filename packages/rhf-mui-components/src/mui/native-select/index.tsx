@@ -96,7 +96,8 @@ const RHFNativeSelect = <
   } = useFieldIds(fieldName);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
   const blankOptionText = defaultOptionText ?? placeholder ?? '';
 
   return (
@@ -131,8 +132,13 @@ const RHFNativeSelect = <
             id={fieldId}
             name={rhfFieldName}
             autoComplete={autoComplete}
-            aria-describedby={isError ? errorId : helperTextId}
-            value={rhfValue ?? ''}
+            aria-required={required}
+            aria-invalid={isError}
+            aria-describedby={
+              showHelperTextElement
+                ? (isError ? errorId : helperTextId)
+                : undefined
+            }            value={rhfValue ?? ''}
             inputRef={rhfRef}
             disabled={rhfDisabled}
             onChange={event => {
@@ -184,6 +190,7 @@ const RHFNativeSelect = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps

@@ -1,4 +1,10 @@
-import type { StringOrNumber, OptionPrimitive, OptionValue } from '@/types';
+import { type ReactNode } from 'react';
+import type {
+  StringOrNumber,
+  OptionPrimitive,
+  OptionValue,
+  StrNumObjOption,
+} from '@/types';
 
 export function isKeyValueOption<LK extends string, VK extends string>(
   option: unknown,
@@ -81,4 +87,31 @@ export function normalizeSelectValue<
   return Array.isArray(raw)
     ? raw.map(normalizeOne)
     : normalizeOne(raw);
+}
+
+export function getDisplayLabelForSelectValue<
+  Option extends StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string>,
+>(
+  rawValue: unknown,
+  options: Option[],
+  labelKey?: LabelKey,
+  valueKey?: ValueKey
+): ReactNode {
+  const match = options.find(op =>
+    isKeyValueOption(op, labelKey, valueKey)
+      ? op[valueKey!] === rawValue
+      : op === rawValue);
+  if (match === undefined) {
+    /* Stale or unknown value: show something stable instead of crashing */
+    if (rawValue === null || rawValue === undefined || rawValue === '') {
+      return '';
+    }
+    return String(rawValue);
+  }
+  if (isKeyValueOption(match, labelKey, valueKey)) {
+    return match[labelKey!];
+  }
+  return String(match);
 }

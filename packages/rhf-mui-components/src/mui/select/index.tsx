@@ -34,6 +34,7 @@ import {
   getOptionValue,
   normalizeSelectValue,
   useFieldIds,
+  getDisplayLabelForSelectValue,
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean>
@@ -118,7 +119,8 @@ const RHFSelect = <
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
@@ -173,7 +175,13 @@ const RHFSelect = <
                 name={rhfFieldName}
                 autoComplete={autoComplete}
                 labelId={selectLabelId}
-                aria-describedby={isError ? errorId : helperTextId}
+                aria-required={required}
+                aria-invalid={isError}
+                aria-describedby={
+                  showHelperTextElement
+                    ? (isError ? errorId : helperTextId)
+                    : undefined
+                }
                 label={selectLabelProp}
                 value={rhfValue ?? (multiple ? [] : '')}
                 error={isError}
@@ -213,15 +221,13 @@ const RHFSelect = <
                   }
                   /* For multiple options */
                   if (Array.isArray(value)) {
-                    const labels = value.map(val => {
-                      const match = options.find(op =>
-                        isKeyValueOption(op, labelKey, valueKey)
-                          ? op[valueKey!] === val
-                          : op === val);
-                      return isKeyValueOption(match!, labelKey, valueKey)
-                        ? match[labelKey!]
-                        : match;
-                    });
+                    const labels = value
+                      .map(val =>
+                        getDisplayLabelForSelectValue(val, options, labelKey, valueKey))
+                      .filter(
+                        (node): node is Exclude<typeof node, ''> =>
+                          node !== '' && node !== null && node !== undefined,
+                      );
                     return (
                       <Fragment>
                         {renderValue?.(value) ?? labels.join(', ')}
@@ -230,17 +236,12 @@ const RHFSelect = <
                   }
 
                   /* For single option */
-                  const match = options.find(op =>
-                    isKeyValueOption(op, labelKey, valueKey)
-                      ? op[valueKey!] === value
-                      : op === value);
-                  const optionLabel = isKeyValueOption(
-                    match!,
+                  const optionLabel = getDisplayLabelForSelectValue(
+                    value,
+                    options,
                     labelKey,
                     valueKey
-                  )
-                    ? match[labelKey!]
-                    : match;
+                  );
                   return (
                     <Fragment>
                       {renderValue?.(value) ?? optionLabel}
@@ -278,6 +279,7 @@ const RHFSelect = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={{
           id: isError ? errorId : helperTextId,
           ...formHelperTextProps
