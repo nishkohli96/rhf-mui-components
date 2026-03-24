@@ -111,6 +111,7 @@ const SelectFormWithClassValidator = () => {
               fieldName="randomNum"
               control={control}
               options={randomNumbers}
+              showLabelAboveFormField
               errorMessage={errors?.randomNum?.message}
               required
             />

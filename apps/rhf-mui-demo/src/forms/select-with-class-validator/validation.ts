@@ -38,10 +38,10 @@ export class FormSchema {
   @IsString({ each: true })
   languages!: string[];
 
-  @IsString()
+  @IsString({ message: 'Select currency' })
   currency!: string;
 
-  @IsNumber()
+  @IsNumber(undefined, { message: 'Select a number' })
   randomNum!: number;
 
   @IsArray()
