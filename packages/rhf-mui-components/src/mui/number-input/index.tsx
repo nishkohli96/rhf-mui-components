@@ -18,9 +18,12 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
 
-type TextFieldInputProps = Omit<TextFieldProps, 'type'>;
+type TextFieldInputProps = Omit<
+  TextFieldProps,
+  'type' | 'multiline' | 'rows' | 'minRows' | 'maxRows'
+>;
 
 export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -28,7 +31,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (
     value: number | null,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   showLabelAboveFormField?: boolean;
   showMarkers?: boolean;
@@ -43,6 +46,7 @@ const RHFNumberInput = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   showMarkers,
@@ -57,13 +61,21 @@ const RHFNumberInput = <T extends FieldValues>({
   autoComplete = defaultAutocompleteValue,
   ...rest
 }: RHFNumberInputProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -72,18 +84,33 @@ const RHFNumberInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
           return (
             <MuiTextField
-              id={fieldName}
+              id={fieldId}
+              name={rhfFieldName}
               type="number"
+              inputRef={rhfRef}
               autoComplete={autoComplete}
               label={
                 !isLabelAboveFormField
@@ -92,30 +119,49 @@ const RHFNumberInput = <T extends FieldValues>({
                   )
                   : undefined
               }
-              value={value ?? ''}
+              value={
+                rhfValue === null
+                || rhfValue === undefined
+                || Number.isNaN(rhfValue)
+                  ? ''
+                  : rhfValue
+              }
+              disabled={rhfDisabled}
               onChange={event => {
                 const fieldValue
                   = event.target.value === '' ? null : Number(event.target.value);
-                onChange(fieldValue);
-                onValueChange?.(fieldValue, event);
+                const safeValue = Number.isNaN(fieldValue) ? null : fieldValue;
+                rhfOnChange(safeValue);
+                onValueChange?.(
+                  safeValue,
+                  event as ChangeEvent<HTMLInputElement>,
+                );
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
               error={isError}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              aria-required={required}
               sx={{
                 ...(!showMarkers && {
                   '& input[type=number]': {
                     MozAppearance: 'textfield',
                     '&::-webkit-outer-spin-button': { display: 'none' },
-                    '&::-webkit-inner-spin-button': { display: 'none' }
-                  }
+                    '&::-webkit-inner-spin-button': { display: 'none' },
+                  },
                 }),
-                ...sx
+                ...sx,
               }}
               {...rest}
-              {...otherFieldParams}
             />
           );
         }}
@@ -125,7 +171,11 @@ const RHFNumberInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

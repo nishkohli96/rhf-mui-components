@@ -6,6 +6,16 @@ type CustomNotificationProps = ToastContentProps<{
   title?: string;
 }>;
 
+/**
+ * ToastDialog component used as a custom content renderer for react-toastify.
+ *
+ * Displays an optional title and formatted content (typically JSON or text)
+ * inside a toast notification.
+ *
+ * @param data - Object containing:
+ *   - title (optional): Heading for the toast
+ *   - content: Main content to display (stringified data)
+ */
 const ToastDialog = ({
   data,
 }: CustomNotificationProps) => {

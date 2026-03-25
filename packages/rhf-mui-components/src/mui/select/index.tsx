@@ -33,6 +33,8 @@ import {
   keepLabelAboveFormField,
   getOptionValue,
   normalizeSelectValue,
+  useFieldIds,
+  getDisplayLabelForSelectValue,
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean>
@@ -86,6 +88,7 @@ const RHFSelect = <
   showDefaultOption,
   defaultOptionText,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -102,6 +105,13 @@ const RHFSelect = <
 }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   validateArray('RHFSelect', options, labelKey, valueKey);
 
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -109,7 +119,8 @@ const RHFSelect = <
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
@@ -122,40 +133,62 @@ const RHFSelect = <
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldProps } = field;
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
           const isValueEmpty
-            = !value
-              || value === ''
-              || (multiple && Array.isArray(value) && !value.length);
-          const showPlaceholder = isValueEmpty && Boolean(placeholder);
+            = !rhfValue
+              || rhfValue === ''
+              || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
+          const showPlaceholder = isValueEmpty && !!placeholder;
           const selectLabelProp
             = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
-          const labelId = isLabelAboveFormField ? undefined : fieldName;
+          const selectLabelId = isLabelAboveFormField ? undefined : labelId;
 
           return (
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
-                <InputLabel id={fieldName}>
+                <InputLabel id={labelId} shrink={!isValueEmpty}>
                   {SelectFormLabel}
                 </InputLabel>
               )}
               <MuiSelect
-                {...otherFieldProps}
-                id={fieldName}
+                id={fieldId}
+                name={rhfFieldName}
                 autoComplete={autoComplete}
-                labelId={labelId}
+                labelId={selectLabelId}
+                aria-required={required}
+                aria-invalid={isError}
+                aria-describedby={
+                  showHelperTextElement
+                    ? (isError ? errorId : helperTextId)
+                    : undefined
+                }
                 label={selectLabelProp}
-                value={value ?? (multiple ? [] : '')}
+                value={rhfValue ?? (multiple ? [] : '')}
                 error={isError}
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
+                inputRef={rhfRef}
+                disabled={rhfDisabled}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(
@@ -164,7 +197,7 @@ const RHFSelect = <
                     labelKey,
                     valueKey
                   ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
-                  onChange(normalizedValue);
+                  rhfOnChange(normalizedValue);
                   onValueChange?.(
                     normalizedValue,
                     event as SelectChangeEvent<
@@ -181,26 +214,20 @@ const RHFSelect = <
                 renderValue={value => {
                   if (showPlaceholder) {
                     return (
-                      <MenuItem
-                        value=""
-                        disabled
-                        sx={{ p: 0 }}
-                      >
+                      <span style={{ opacity: 0.6, color: 'inherit' }}>
                         {placeholder}
-                      </MenuItem>
+                      </span>
                     );
                   }
                   /* For multiple options */
                   if (Array.isArray(value)) {
-                    const labels = value.map(val => {
-                      const match = options.find(op =>
-                        isKeyValueOption(op, labelKey, valueKey)
-                          ? op[valueKey!] === val
-                          : op === val);
-                      return isKeyValueOption(match!, labelKey, valueKey)
-                        ? match[labelKey!]
-                        : match;
-                    });
+                    const labels = value
+                      .map(val =>
+                        getDisplayLabelForSelectValue(val, options, labelKey, valueKey))
+                      .filter(
+                        (node): node is Exclude<typeof node, ''> =>
+                          node !== '' && node !== null && node !== undefined,
+                      );
                     return (
                       <Fragment>
                         {renderValue?.(value) ?? labels.join(', ')}
@@ -209,17 +236,12 @@ const RHFSelect = <
                   }
 
                   /* For single option */
-                  const match = options.find(op =>
-                    isKeyValueOption(op, labelKey, valueKey)
-                      ? op[valueKey!] === value
-                      : op === value);
-                  const optionLabel = isKeyValueOption(
-                    match!,
+                  const optionLabel = getDisplayLabelForSelectValue(
+                    value,
+                    options,
                     labelKey,
                     valueKey
-                  )
-                    ? match[labelKey!]
-                    : match;
+                  );
                   return (
                     <Fragment>
                       {renderValue?.(value) ?? optionLabel}
@@ -228,10 +250,7 @@ const RHFSelect = <
                 }}
               >
                 {showDefaultOption && (
-                  <MenuItem
-                    value=""
-                    disabled
-                  >
+                  <MenuItem value="" disabled={required}>
                     {defaultOptionText ?? `Select ${fieldLabelText}`}
                   </MenuItem>
                 )}
@@ -260,7 +279,11 @@ const RHFSelect = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

@@ -14,7 +14,7 @@ import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
 
@@ -61,7 +61,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
   onFocus,
   onBlur,
   onValueChange,
-  disabled,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -71,43 +71,71 @@ const RHFRichTextEditor = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
 }: RHFRichTextEditorProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFormLabelVisible = showLabelAboveFormField ?? true;
   const isError = Boolean(errorMessage);
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
+        isVisible={isFormLabelVisible}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field: { onChange, onBlur: fieldOnBlur, value } }) => (
+        disabled={muiDisabled}
+        render={({
+          field: {
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            disabled: rhfDisabled,
+            ref: rhfRef
+          }
+        }) => (
           <CKEditor
-            id={id ?? fieldName}
+            id={id ?? fieldId}
             editor={ClassicEditor}
             config={editorConfig ?? DefaultEditorConfig}
-            data={value}
+            data={rhfValue}
             onChange={(event, editor) => {
               const content = editor.getData();
-              onChange(content);
-              if(onValueChange) {
-                onValueChange(content, event, editor);
-              }
+              rhfOnChange(content);
+              onValueChange?.(content, event, editor);
             }}
+            ref={rhfRef}
             onReady={onReady}
             onBlur={(event, editor) => {
-              fieldOnBlur();
+              rhfOnBlur();
               onBlur?.(event, editor);
             }}
+            aria-labelledby={isFormLabelVisible ? labelId : undefined}
+            aria-describedby={
+              showHelperTextElement
+                ? isError
+                  ? errorId
+                  : helperTextId
+                : undefined
+            }
             onFocus={onFocus}
             onError={onError}
-            disabled={disabled}
+            disabled={rhfDisabled}
           />
         )}
       />
@@ -116,7 +144,11 @@ const RHFRichTextEditor = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

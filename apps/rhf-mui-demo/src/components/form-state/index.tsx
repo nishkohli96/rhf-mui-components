@@ -1,10 +1,16 @@
 'use client';
 
-import ReactJson from 'react-json-view';
+import dynamic from 'next/dynamic';
 import { type FieldErrors, type FieldValues } from 'react-hook-form';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';
+
+/** react-json-view touches `document` at module load; load only in the browser for SSG/SSR. */
+const ReactJson = dynamic(
+  () => import('react-json-view').then(mod => mod.default),
+  { ssr: false }
+);
 
 type RenderFormStateProps<T extends FieldValues> = {
   formValues: T;

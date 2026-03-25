@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { type Dayjs } from 'dayjs';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Grid from '@mui/material/Grid2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
@@ -15,15 +15,11 @@ import {
   GridContainer,
   FieldVariantInfo,
   SubmitButton,
+  ResetButton,
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
-
-type FormSchema = {
-  dob: Dayjs;
-  time: Dayjs;
-  dateOfJourney: Dayjs;
-};
+import { dateTimeSchema, type DateTimeFormData } from './schema';
 
 const DateTimePickersForm = () => {
   const pathName = usePathname();
@@ -31,10 +27,13 @@ const DateTimePickersForm = () => {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<FormSchema>();
+  } = useForm({
+    resolver: yupResolver(dateTimeSchema),
+  });
 
-  async function onFormSubmit(formValues) {
+  async function onFormSubmit(formValues: DateTimeFormData) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
@@ -75,11 +74,13 @@ const DateTimePickersForm = () => {
                 label="Date-Time Picker"
                 ampm={false}
                 required
+                helperText="Select a future date"
                 errorMessage={errors?.dateOfJourney?.message}
               />
             </Grid>
             <Grid size={12}>
               <SubmitButton />
+              <ResetButton onClick={() => reset()} />
             </Grid>
             <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />

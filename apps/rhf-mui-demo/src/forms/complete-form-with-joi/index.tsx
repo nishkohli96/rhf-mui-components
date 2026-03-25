@@ -34,7 +34,8 @@ import {
   FormContainer,
   GridContainer,
   FormState,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import {
   CountriesList,
@@ -65,8 +66,8 @@ const CompleteFormWithJoi = () => {
     iplTeams: [],
     favouriteSport: '',
     agreeTnC: true,
-    colors: null,
-    countries: null,
+    colors: [],
+    countries: [],
     hobby: '',
     groceryList: [],
     gender: null,
@@ -88,6 +89,7 @@ const CompleteFormWithJoi = () => {
     control,
     watch,
     getValues,
+    reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
@@ -95,7 +97,6 @@ const CompleteFormWithJoi = () => {
     resolver: joiResolver(JoiFormSchema)
   });
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
-  console.log('resume ', watch('resume'));
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -163,6 +164,7 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 disabled={areAllFieldsDisabled}
                 required
+                helperText="Type a dish and press Enter"
                 errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
@@ -438,6 +440,7 @@ const CompleteFormWithJoi = () => {
             </Grid>
             <Grid size={12}>
               <SubmitButton />
+              <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />

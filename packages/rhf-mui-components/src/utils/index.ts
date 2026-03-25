@@ -6,3 +6,4 @@ export * from './file';
 export * from './mui';
 export * from './object';
 export * from './text-transform';
+export { useFieldIds } from './useFieldIds';

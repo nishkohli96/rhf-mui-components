@@ -18,7 +18,7 @@ import Switch, { type SwitchProps } from '@mui/material/Switch';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/common';
 import type { FormControlLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -41,6 +41,7 @@ const RHFSwitch = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  disabled: muiDisabled,
   label,
   formControlLabelProps,
   helperText,
@@ -48,45 +49,75 @@ const RHFSwitch = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  slotProps: muiSlotProps,
   ...rest
 }: RHFSwitchProps<T>) => {
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const {
+    fieldId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
 
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx,
   };
+  const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Controller
       name={fieldName}
       control={control}
       rules={registerOptions}
-      render={({ field }) => {
-        const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+      disabled={muiDisabled}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
         return (
           <Fragment>
             <FormControlLabel
               control={
                 <Switch
-                  {...otherFieldParams}
-                  {...rest}
-                  checked={Boolean(value)}
+                  id={fieldId}
+                  name={rhfFieldName}
+                  checked={Boolean(rhfValue)}
+                  disabled={rhfDisabled}
                   onChange={(event, isChecked) => {
-                    onChange(event);
-                    if(onValueChange) {
-                      onValueChange(isChecked, event);
-                    }
+                    rhfOnChange(isChecked);
+                    onValueChange?.(isChecked, event);
                   }}
                   onBlur={blurEvent => {
-                    {
-                      rhfOnBlur();
-                      onBlur?.(blurEvent);
+                    rhfOnBlur();
+                    onBlur?.(blurEvent);
+                  }}
+                  aria-describedby={
+                    showHelperTextElement
+                      ? isError
+                        ? errorId
+                        : helperTextId
+                      : undefined
+                  }
+                  aria-invalid={isError || undefined}
+                  slotProps={{
+                    ...otherSlotProps,
+                    input: {
+                      ...slotPropsInput,
+                      ref: rhfRef
                     }
                   }}
+                  {...rest}
                 />
               }
               label={fieldLabel}
@@ -98,7 +129,11 @@ const RHFSwitch = <T extends FieldValues>({
               errorMessage={errorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
-              formHelperTextProps={formHelperTextProps}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
             />
           </Fragment>
         );

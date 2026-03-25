@@ -29,7 +29,9 @@ export default defineConfig({
    * Prevents bundling of node_modules dependencies, which can reduce bundle size
    * and improve build times.
    */
-  skipNodeModulesBundle: true,
+  deps: {
+    skipNodeModulesBundle: true,
+  },
   outExtensions() {
     return { js: '.js' };
   }

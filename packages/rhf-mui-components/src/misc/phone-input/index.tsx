@@ -14,7 +14,7 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import TextField, { type TextFieldProps } from '@mui/material/TextField';
+import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
@@ -39,7 +39,12 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5 } from '@/utils';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  isAboveMuiV5,
+  useFieldIds
+} from '@/utils';
 import 'react-international-phone/style.css';
 
 type PhoneInputChangeReturnValue = {
@@ -51,12 +56,10 @@ type PhoneInputChangeReturnValue = {
 type InputTextFieldProps = Omit<
   TextFieldProps,
   | 'name'
-  | 'required'
   | 'value'
   | 'defaultValue'
   | 'onChange'
   | 'error'
-  | 'InputProps'
   | 'inputRef'
   | 'type'
   | 'FormHelperTextProps'
@@ -70,7 +73,6 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  required?: boolean;
   value?: string;
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
   showLabelAboveFormField?: boolean;
@@ -95,20 +97,28 @@ const RHFPhoneInput = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  disabled,
+  disabled: muiDisabled,
   phoneInputProps,
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  InputProps,
   ...rest
 }: RHFPhoneInputProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const {
     countries,
@@ -164,14 +174,25 @@ const RHFPhoneInput = <T extends FieldValues>({
         isVisible={isLabelAboveFormField}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
+        disabled={muiDisabled}
         defaultValue={inputValue as PathValue<T, Path<T>>}
-        render={({ field }) => {
+        render={( { field: {
+          name: rhfFieldName,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        } }) => {
           const startAdornment = (
             <InputAdornment
               position="start"
@@ -209,7 +230,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                   }
                 }}
                 value={country.iso2}
-                disabled={disabled || hideDropdown}
+                disabled={muiDisabled || hideDropdown}
                 onChange={e => {
                   setCountry(e.target.value as CountryIso2);
                 }}
@@ -265,38 +286,57 @@ const RHFPhoneInput = <T extends FieldValues>({
           );
 
           return (
-            <TextField
-              {...field}
-              {...rest}
+            <MuiTextField
+              id={fieldId}
+              name={rhfFieldName}
+              inputRef={ref => {
+                rhfRef(ref);
+                inputRef.current = ref;
+              }}
               value={inputValue}
               autoComplete={autoComplete}
               type="tel"
               onChange={e => {
                 handlePhoneValueChange(e);
-                field.onChange(e.target.value);
-              }}
-              inputRef={ref => {
-                field.ref(ref);
-                inputRef.current = ref;
+                rhfOnChange(e.target.value);
               }}
               onBlur={blurEvent => {
-                field.onBlur();
+                rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              label={!isLabelAboveFormField
-                ? <FormLabelText label={fieldLabel} required={required} />
-                : undefined}
+              label={
+                !isLabelAboveFormField
+                  ? <FormLabelText label={fieldLabel} required={required} />
+                  : undefined
+              }
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              aria-required={required}
               error={isError}
-              disabled={disabled}
+              disabled={rhfDisabled}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
                     ...slotProps,
-                    input: { startAdornment }
-                  }
+                    input: {
+                      ...slotProps?.input,
+                      startAdornment,
+                    },
+                  },
                 }
-                : { InputProps: { startAdornment } }
-              )}
+                : {
+                  InputProps: {
+                    ...InputProps,
+                    startAdornment,
+                  },
+                })}
+              {...rest}
             />
           );
         }}
@@ -306,7 +346,11 @@ const RHFPhoneInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

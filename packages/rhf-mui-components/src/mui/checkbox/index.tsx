@@ -18,7 +18,7 @@ import MuiCheckbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/common';
 import type { FormControlLabelProps, FormHelperTextProps, CheckboxProps } from '@/types';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -41,6 +41,7 @@ const RHFCheckbox = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  disabled: muiDisabled,
   label,
   formControlLabelProps,
   helperText,
@@ -48,17 +49,26 @@ const RHFCheckbox = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  slotProps: muiSlotProps,
   ...rest
 }: RHFCheckboxProps<T>) => {
+  const {
+    fieldId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx,
   };
+  const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Fragment>
@@ -66,25 +76,49 @@ const RHFCheckbox = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value, onChange, onBlur: rhfOnBlur, ...otherFieldParams } = field;
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
           return (
             <FormControlLabel
               control={
                 <MuiCheckbox
-                  {...otherFieldParams}
-                  {...rest}
-                  checked={Boolean(value)}
+                  id={fieldId}
+                  name={rhfFieldName}
+                  checked={Boolean(rhfValue)}
+                  disabled={rhfDisabled}
+                  aria-describedby={
+                    showHelperTextElement
+                      ? isError
+                        ? errorId
+                        : helperTextId
+                      : undefined
+                  }
+                  aria-invalid={isError || undefined}
                   onChange={(event, checked) => {
-                    onChange(checked);
-                    if(onValueChange) {
-                      onValueChange(checked, event);
-                    }
+                    rhfOnChange(checked);
+                    onValueChange?.(checked, event);
                   }}
                   onBlur={blurEvent => {
                     rhfOnBlur();
                     onBlur?.(blurEvent);
                   }}
+                  slotProps={{
+                    ...otherSlotProps,
+                    input: {
+                      ...slotPropsInput,
+                      ref: rhfRef
+                    }
+                  }}
+                  {...rest}
                 />
               }
               label={fieldLabel}
@@ -99,7 +133,11 @@ const RHFCheckbox = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </Fragment>
   );

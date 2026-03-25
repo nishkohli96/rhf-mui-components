@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "3.2.3",
+  "version": "3.3.0",
   "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.netlify.app/",
@@ -17,10 +17,10 @@
   "sideEffects": false,
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@nish1896/eslint-flat-config": "^3.1.1",
-    "eslint": "^9.39.2",
+    "@nish1896/eslint-flat-config": "^3.1.2",
+    "eslint": "^9.39.4",
     "rimraf": "^6.0.1",
-    "tsdown": "^0.20.3"
+    "tsdown": "^0.21.4"
   },
   "peerDependencies": {
     "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
