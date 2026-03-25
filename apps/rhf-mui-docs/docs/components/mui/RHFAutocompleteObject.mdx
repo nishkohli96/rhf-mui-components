@@ -1,0 +1,89 @@
+---
+sidebar_position: 9
+sidebar_label: Autocomplete Object
+title: RHFAutocompleteObject
+description: Autocomplete component that returns full option objects instead of primitive values, ideal for object-driven form handling.
+---
+
+import { RHFAutocompleteObjectPropsTable } from '@site/src/page-components';
+import { AvailabilityBanner } from '@site/src/components';
+
+# RHFAutocompleteObject
+
+<AvailabilityBanner componentName="RHFAutocompleteObject" version="3.3" />
+
+**RHFAutocompleteObject** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/),
+designed for use cases where you need to work with the **entire selected option object**
+instead of just a primitive value.
+
+Unlike **RHFAutocomplete**, which stores only the value derived from `valueKey`, this
+component stores and returns the **full option object (or array of objects)**. This is
+particularly useful when additional metadata from the selected option is required
+elsewhere in your form or application.
+
+---
+
+## Key Differences
+
+| Feature | RHFAutocomplete | RHFAutocompleteObject |
+|--------|----------------|----------------------|
+| Stored value | `string` / `string[]` | `object` / `object[]` |
+| Requires `labelKey` | Optional | ✅ Required |
+| Requires `valueKey` | Optional | ✅ Required |
+| Use case | Simple forms | Metadata-driven forms |
+
+---
+
+## Usage
+
+```ts
+import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf-mui-components/mui/autocomplete-object';
+
+<RHFAutocompleteObject
+  fieldName="country"
+  control={control}
+  options={countryList}
+  labelKey="name"
+  valueKey="code"
+  multiple           // omit this prop for single selection
+  errorMessage={errors?.country?.message}
+/>
+```
+
+:::warning
+
+Both `labelKey` and `valueKey` props are mandatory. Since this component works
+exclusively with object-based options, omitting either will result in an error.
+
+This component does not support the `freeSolo` prop, similar to [RHFAutocomplete](./RHFAutocomplete.mdx).
+Users can only select values from the provided options.
+:::
+
+### Example Option Structure
+
+```js
+const countryList = [
+  { name: 'India', code: 'IN', currency: 'INR' },
+  { name: 'Canada', code: 'CA', currency: 'CAD' },
+  { name: 'Germany', code: 'DE', currency: 'EUR' }
+];
+```
+
+**Stored Value (Multiple)**
+
+```js
+[
+  { name: 'India', code: 'IN', currency: 'INR' },
+  { name: 'Canada', code: 'CA', currency: 'CAD' }
+]
+```
+
+## When to Use
+
+Use RHFAutocompleteObject when:
+- You need access to additional fields from the selected option (e.g. currency, id, etc.)
+- You want to avoid mapping IDs back to objects
+- Your form logic depends on rich object data
+- You are working with APIs that expect full objects instead of IDs
+
+
