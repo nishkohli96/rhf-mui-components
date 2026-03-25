@@ -35,8 +35,6 @@ import type {
   CheckboxProps,
   FormHelperTextProps,
   KeyValueOption,
-  StringArr,
-  StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
 } from '@/types';
@@ -68,9 +66,9 @@ type MultiAutoCompleteProps<Option> = Omit<
   | 'ChipProps'
 >;
 
-export type RHFMultiAutocompleteProps<
+export type RHFMultiAutocompleteObjectProps<
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption,
+  Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
@@ -78,10 +76,10 @@ export type RHFMultiAutocompleteProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey?: LabelKey;
-  valueKey?: ValueKey;
+  labelKey: LabelKey;
+  valueKey: ValueKey;
   selectAllText?: string;
-  onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
+  onValueChange?: (fieldValue: Option[], targetValue?: Option) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -97,9 +95,9 @@ export type RHFMultiAutocompleteProps<
   hideSelectAllOption?: boolean;
 } & MultiAutoCompleteProps<Option>;
 
-const RHFMultiAutocomplete = <
+const RHFMultiAutocompleteObject = <
   T extends FieldValues,
-  Option extends StrObjOption = StrObjOption,
+  Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
@@ -129,8 +127,8 @@ const RHFMultiAutocomplete = <
   loading,
   hideSelectAllOption,
   ...otherAutoCompleteProps
-}: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
+}: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey>) => {
+  validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
 
   const {
     fieldId,
@@ -160,41 +158,36 @@ const RHFMultiAutocomplete = <
   const shouldHideSelectAllOptions
     = hideSelectAllOption || (options.length === 0 || options.length === 1);
 
+  const selectAllOption = useMemo(
+    (): Option =>
+      ({
+        [labelKey]: selectAllText,
+        [valueKey]: selectAllOptionValue
+      }) as Option,
+    [labelKey, valueKey, selectAllText]
+  );
+
   const autoCompleteOptions: Option[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {
       return options;
     }
-    return [selectAllText as Option, ...options];
-  }, [options, selectAllText, shouldHideSelectAllOptions]);
-
-  const optionsMap = useMemo(() => {
-    if (!valueKey) {
-      return null;
-    }
-
-    const map = new Map<Option[ValueKey], Option>();
-    for (const option of options) {
-      if (isKeyValueOption(option, labelKey, valueKey)) {
-        map.set(option[valueKey], option);
-      }
-    }
-    return map;
-  }, [options, valueKey, labelKey]);
+    return [selectAllOption, ...options];
+  }, [options, selectAllOption, shouldHideSelectAllOptions]);
 
   const isSelectAllOption = useCallback(
     (option: Option) => {
-      return option === selectAllText;
+      return (
+        option[valueKey] === selectAllOptionValue
+      );
     },
-    [selectAllText]
+    [valueKey]
   );
 
   const getOptionLabelOrValue = useCallback(
-    (option: Option, key?: LabelKey | ValueKey): string => {
-      return key && isKeyValueOption(option, labelKey, valueKey)
-        ? option[key]
-        : (option as string);
+    (option: Option, key: LabelKey | ValueKey): string => {
+      return String(option[key]);
     },
-    [labelKey, valueKey]
+    []
   );
 
   const renderOptionLabel = useCallback(
@@ -235,21 +228,12 @@ const RHFMultiAutocomplete = <
             disabled: rhfDisabled
           }
         }) => {
-          const selectedValues: StringArr = rhfValue ?? [];
-          const selectedOptions = (rhfValue ?? []).flatMap(val => {
-            if (optionsMap) {
-              const option = optionsMap.get(val);
-              return option ? [option] : [];
-            }
-            const option = options.find(opn => opn === val);
-            return option ? [option] : [];
-          });
+          const selectedValues: Option[] = rhfValue ?? [];
+          const selectedOptions = selectedValues.filter(option => !isSelectAllOption(option));
 
           const areAllSelected
             = options.length > 0
-              && selectedValues.length === options.length
-              && options.every(option =>
-                selectedValues.includes(getOptionLabelOrValue(option, valueKey)));
+              && selectedOptions.length === options.length;
           const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
           return (
@@ -273,23 +257,18 @@ const RHFMultiAutocomplete = <
                 const isSelectAllClicked
                   = clickedOption && isSelectAllOption(clickedOption);
                 if (isSelectAllClicked) {
-                  const allValues = options.map(option =>
-                    getOptionLabelOrValue(option, valueKey));
-                  const finalValue = areAllSelected ? [] : allValues;
+                  const finalValue = areAllSelected ? [] : options;
                   rhfOnChange(finalValue);
-                  onValueChange?.(finalValue, selectAllOptionValue);
+                  onValueChange?.(finalValue, selectAllOption);
                   return;
                 }
 
                 const finalValue = newSelectedOptions
-                  .filter(option => !isSelectAllOption(option))
-                  .map(option => getOptionLabelOrValue(option, valueKey));
+                  .filter(option => !isSelectAllOption(option));
                 rhfOnChange(finalValue);
                 onValueChange?.(
                   finalValue,
                   clickedOption
-                    ? getOptionLabelOrValue(clickedOption, valueKey)
-                    : undefined
                 );
               }}
               onBlur={blurEvent => {
@@ -305,7 +284,7 @@ const RHFMultiAutocomplete = <
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
-                    option[valueKey] === (value as KeyValueOption)[valueKey]
+                    option[valueKey] === value[valueKey]
                   );
                 }
                 return option === value;
@@ -393,25 +372,31 @@ const RHFMultiAutocomplete = <
               }}
               renderOption={(optionProps, option) => {
                 const isSelectAll = isSelectAllOption(option);
-                const label = renderOptionLabel(option);
-                const value = isSelectAll
+                const opnLabel = renderOptionLabel(option);
+                const opnValue = isSelectAll
                   ? selectAllOptionValue
                   : getOptionLabelOrValue(option, valueKey);
                 return (
                   <Box component="li" {...optionProps}>
                     <FormControlLabel
-                      label={label}
+                      label={opnLabel}
                       onClick={e => e.preventDefault()}
                       control={
                         <Checkbox
                           {...checkboxProps}
-                          id={`${fieldName}_${value}`}
-                          name={`${fieldName}_${value}`}
-                          value={value}
+                          id={`${fieldName}_${opnValue}`}
+                          name={`${fieldName}_${opnValue}`}
+                          value={opnValue}
                           checked={
                             isSelectAll
                               ? areAllSelected
-                              : selectedValues.includes(value)
+                              : selectedOptions.some(
+                                selected =>
+                                  getOptionLabelOrValue(
+                                    selected,
+                                    valueKey
+                                  ) === opnValue
+                              )
                           }
                           indeterminate={
                             isSelectAll ? isIndeterminate : undefined
@@ -457,4 +442,4 @@ const RHFMultiAutocomplete = <
   );
 };
 
-export default RHFMultiAutocomplete;
+export default RHFMultiAutocompleteObject;
