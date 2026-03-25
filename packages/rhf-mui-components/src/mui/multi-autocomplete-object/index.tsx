@@ -278,8 +278,12 @@ const RHFMultiAutocompleteObject = <
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={option => renderOptionLabel(option, true)}
               isOptionEqualToValue={(option, value) => {
+                /*
+                 * Select All is never stored in `value`; matching it to real values when
+                 * `areAllSelected` made MUI remove the first option on the next click.
+                 */
                 if (isSelectAllOption(option)) {
-                  return areAllSelected;
+                  return false;
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
