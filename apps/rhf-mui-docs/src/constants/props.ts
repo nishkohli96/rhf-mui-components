@@ -44,15 +44,33 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     type: 'string[] or object[]',
     required: true
   },
+  options_Obj: {
+    name: 'options',
+    description: 'An array of objects. `labelKey` and `valueKey` are required so the component knows which properties to use for the visible label and the stored value.',
+    type: 'object[]',
+    required: true
+  },
   labelKey: {
     name: 'labelKey',
     description: 'The key of object in options array, whose value would be shown as the label in the formfield. Only required when input options is an array of objects.',
     type: 'string',
     required: true
   },
+  labelKey_Obj: {
+    name: 'labelKey',
+    description: 'The key of object in options array, whose value would be shown as the label in the formfield.',
+    type: 'string',
+    required: true
+  },
   valueKey: {
     name: 'valueKey',
     description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield. Only required when input options is an array of objects.',
+    type: 'string',
+    required: true
+  },
+  valueKey_Obj: {
+    name: 'valueKey',
+    description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield.',
     type: 'string',
     required: true
   },
@@ -168,6 +186,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   onValueChange_Autocomplete: {
     name: 'onValueChange',
     description: 'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
+    type: '(newValue, event, reason, details?) => void'
+  },
+  onValueChange_AutocompleteObject: {
+    name: 'onValueChange',
+    description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
     type: '(newValue, event, reason, details?) => void'
   },
   onValueChange_MultiAutocomplete: {
