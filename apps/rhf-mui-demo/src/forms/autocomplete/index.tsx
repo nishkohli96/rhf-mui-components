@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
+import RHFAutocompleteObject from '@nish1896/rhf-mui-components/mui/autocomplete-object';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
 import {
   FormContainer,
@@ -18,7 +19,7 @@ import {
   SubmitButton
 } from '@/components';
 import { Colors } from '@/types';
-import { IPLTeams, formSubmitEventName } from '@/constants';
+import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
 import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
@@ -27,6 +28,7 @@ type FormSchema = {
   destinationAirports?: string[];
   nationality?: string;
   countriesVisited: string[];
+  employeeOfMonth?: (typeof employeeList)[number];
   dreamDestinations?: string[];
   colors?: Colors[];
   iplTeams?: string[];
@@ -236,6 +238,18 @@ const AutocompleteForm = () => {
               textFieldProps={{ variant: 'standard' }}
               errorMessage={errors?.pokemons?.message}
             />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+          <FieldVariantInfo title="Multi Autocomplete With String Options" />
+          <RHFAutocompleteObject
+            fieldName="employeeOfMonth"
+            control={control}
+            options={employeeList}
+            labelKey="name"
+            valueKey="_id"
+            label="Employee of the Month"
+            errorMessage={errors?.employeeOfMonth?.message}
+          />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multi Autocomplete With String Options" />
