@@ -120,7 +120,7 @@ const RHFCheckboxGroup = <
       disabled={muiDisabled}
       render={({ field }) => {
         const {
-          value: rhfValue = [],
+          value,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
           disabled: rhfDisabled
@@ -130,6 +130,7 @@ const RHFCheckboxGroup = <
           onBlur: () => void;
           disabled: boolean;
         };
+        const rhfValue = value ?? [];
 
         const handleChange = (
           event: ChangeEvent<HTMLInputElement>,

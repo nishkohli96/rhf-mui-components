@@ -253,16 +253,15 @@ const RHFMultiAutocompleteObject = <
                   onValueChange?.([]);
                   return;
                 }
-                const clickedOption = details?.option;
-                const isSelectAllClicked
-                  = clickedOption && isSelectAllOption(clickedOption);
-                if (isSelectAllClicked) {
+                const isSelectAllSelected = newSelectedOptions.some(isSelectAllOption);
+                if (isSelectAllSelected) {
                   const finalValue = areAllSelected ? [] : options;
                   rhfOnChange(finalValue);
                   onValueChange?.(finalValue, selectAllOption);
                   return;
                 }
 
+                const clickedOption = details?.option;
                 const finalValue = newSelectedOptions
                   .filter(option => !isSelectAllOption(option));
                 rhfOnChange(finalValue);

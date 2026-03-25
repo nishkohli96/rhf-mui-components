@@ -65,8 +65,8 @@ const CompleteFormWithJoi = () => {
     iplTeams: [],
     favouriteSport: '',
     agreeTnC: true,
-    colors: null,
-    countries: null,
+    colors: [],
+    countries: [],
     hobby: '',
     groceryList: [],
     gender: null,
@@ -95,7 +95,6 @@ const CompleteFormWithJoi = () => {
     resolver: joiResolver(JoiFormSchema)
   });
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
-  console.log('resume ', watch('resume'));
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });

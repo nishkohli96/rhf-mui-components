@@ -269,10 +269,8 @@ const RHFMultiAutocomplete = <
                   onValueChange?.([]);
                   return;
                 }
-                const clickedOption = details?.option;
-                const isSelectAllClicked
-                  = clickedOption && isSelectAllOption(clickedOption);
-                if (isSelectAllClicked) {
+                const isSelectAllSelected = newSelectedOptions.some(isSelectAllOption);
+                if (isSelectAllSelected) {
                   const allValues = options.map(option =>
                     getOptionLabelOrValue(option, valueKey));
                   const finalValue = areAllSelected ? [] : allValues;
@@ -281,6 +279,7 @@ const RHFMultiAutocomplete = <
                   return;
                 }
 
+                const clickedOption = details?.option;
                 const finalValue = newSelectedOptions
                   .filter(option => !isSelectAllOption(option))
                   .map(option => getOptionLabelOrValue(option, valueKey));
