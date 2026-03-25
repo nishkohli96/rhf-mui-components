@@ -95,7 +95,7 @@ const SelectFormWithClassValidator = () => {
               showDefaultOption
               defaultOptionText="Select IPL teams"
               label={
-                <div style={{ color: '#007aba'}}>
+                <div style={{ color: '#007aba' }}>
                   Select your favourite IPL teams
                 </div>
               }

@@ -12,6 +12,7 @@ import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mu
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFAutocompleteObject from '@nish1896/rhf-mui-components/mui/autocomplete-object';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
+import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
 import {
   FormContainer,
   FormState,
@@ -31,6 +32,7 @@ type FormSchema = {
   nationality?: string;
   countriesVisited: string[];
   employeeOfMonth?: (typeof employeeList)[number];
+  employeesToPromote?: (typeof employeeList)[number][];
   dreamDestinations?: string[];
   colors?: Colors[];
   iplTeams?: string[];
@@ -242,51 +244,38 @@ const AutocompleteForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-          <FieldVariantInfo title="Autocomplete Object with render option" />
-          <RHFAutocompleteObject
-            fieldName="employeeOfMonth"
-            control={control}
-            options={employeeList}
-            labelKey="name"
-            valueKey="_id"
-            label="Employee of the Month"
-            multiple
-            renderOption={({ key, ...props }, option) => {
-              return (
-                <Box component="li" key={key} {...props}>
-                  <Image
-                    src={option.avatar}
-                    alt={option.name}
-                    width={40}
-                    height={40}
-                    style={{ objectFit: 'contain' }}
-                  />
-                  <Typography sx={{ ml: '5px' }}>
-                    {option.name}
-                  </Typography>
-                </Box>
-              );
-            }}
-            renderTags={(value, getTagProps) => {
-              return value.map((option, index) => {
-                const { key, ...otherChipProps } = getTagProps({ index });
+            <FieldVariantInfo title="Autocomplete Object with render option" />
+            <RHFAutocompleteObject
+              fieldName="employeeOfMonth"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
+              options={employeeList}
+              labelKey="name"
+              valueKey="_id"
+              label="Employee of the Month"
+              renderOption={({ key, ...props }, option) => {
                 return (
-                  <Chip
-                    key={key}
-                    {...otherChipProps}
-                    avatar={
-                      <Avatar
-                        src={option.avatar}
-                        alt={option.name}
-                      />
-                    }
-                    label={option.name}
-                  />
+                  <Box component="li" key={key} {...props}>
+                    <Image
+                      src={option.avatar}
+                      alt={option.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <Typography sx={{ ml: '5px' }}>
+                      {option.name}
+                    </Typography>
+                  </Box>
                 );
-              });
-            }}
-            errorMessage={errors?.employeeOfMonth?.message}
-          />
+              }}
+              errorMessage={errors?.employeeOfMonth?.message}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multi Autocomplete With String Options" />
@@ -358,6 +347,43 @@ const AutocompleteForm = () => {
               }}
               required
               errorMessage={errors?.iplTeams?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="MultiAutocompleteObject with render tags" />
+            <RHFMultiAutocompleteObject
+              fieldName="employeesToPromote"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
+              options={employeeList}
+              labelKey="name"
+              valueKey="_id"
+              label="Employees to promote"
+              textFieldProps={{ placeholder: 'Select employees to promote' }}
+              renderTags={(value, getTagProps) => {
+                return value.map((option, index) => {
+                  const { key, ...otherChipProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...otherChipProps}
+                      avatar={
+                        <Avatar
+                          src={option.avatar}
+                          alt={option.name}
+                        />
+                      }
+                      label={option.name}
+                    />
+                  );
+                });
+              }}
+              errorMessage={errors?.employeesToPromote?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
