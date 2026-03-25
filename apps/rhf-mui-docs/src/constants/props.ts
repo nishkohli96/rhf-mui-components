@@ -193,6 +193,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
     description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
     type: '(newValue, event, reason, details?) => void'
   },
+  onValueChange_MultiAutocompleteObject: {
+    name: 'onValueChange',
+    description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
+    type: '(newValue, event, reason, details?) => void'
+  },
   onValueChange_MultiAutocomplete: {
     name: 'onValueChange',
     description: 'Callback function that returns the latest fieldValue and value of the item selected.',
@@ -516,6 +521,11 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   hideSelectAllOption: {
     name: 'hideSelectAllOption',
     description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2.0` and above.',
+    type: 'boolean'
+  },
+  hideSelectAllOption_MultiAutocompleteObject: {
+    name: 'hideSelectAllOption',
+    description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocompleteObject. This option will be automatically hidden when there are less than 2 options to select from.',
     type: 'boolean'
   },
   ChipProps: {

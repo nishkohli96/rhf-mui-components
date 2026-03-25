@@ -7,8 +7,9 @@ description: Autocomplete component that returns full option objects instead of 
 
 import { RHFAutocompleteObjectPropsTable } from '@site/src/page-components';
 import { AvailabilityBanner } from '@site/src/components';
+import NewImg from '@site/static/img/new.png';
 
-# RHFAutocompleteObject
+# RHFAutocompleteObject<sup><img src={NewImg} alt="NEW" height="40" /></sup>
 
 <AvailabilityBanner componentName="RHFAutocompleteObject" version="3.3" />
 
@@ -21,7 +22,6 @@ component stores and returns the **full option object (or array of objects)**. T
 particularly useful when additional metadata from the selected option is required
 elsewhere in your form or application.
 
----
 
 ## Key Differences
 
@@ -32,11 +32,9 @@ elsewhere in your form or application.
 | Requires `valueKey` | Optional | ✅ Required |
 | Use case | Simple forms | Metadata-driven forms |
 
----
-
 ## Usage
 
-```ts
+```js
 import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf-mui-components/mui/autocomplete-object';
 
 <RHFAutocompleteObject
