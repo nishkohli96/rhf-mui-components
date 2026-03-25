@@ -21,7 +21,8 @@ import {
   GridContainer,
   FieldVariantInfo,
   FormState,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import {
@@ -60,6 +61,7 @@ const InputsWithRegisterForm = () => {
   const {
     control,
     watch,
+    reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
@@ -292,6 +294,7 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />

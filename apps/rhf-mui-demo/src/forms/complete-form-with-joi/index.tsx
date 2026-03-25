@@ -34,7 +34,8 @@ import {
   FormContainer,
   GridContainer,
   FormState,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import {
   CountriesList,
@@ -88,6 +89,7 @@ const CompleteFormWithJoi = () => {
     control,
     watch,
     getValues,
+    reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
@@ -438,6 +440,7 @@ const CompleteFormWithJoi = () => {
             </Grid>
             <Grid size={12}>
               <SubmitButton />
+              <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />

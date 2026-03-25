@@ -13,7 +13,8 @@ import {
   FormState,
   GridContainer,
   FieldVariantInfo,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
@@ -27,18 +28,19 @@ type FormSchema = {
   countries: string;
 };
 
+const initialValues = {
+  favouriteColor: 'hsl(201 100% 73% / 1)',
+  contactNumber: '+1 (765) 232-3423',
+  countries: 'Angola'
+};
+
 const MiscellaneousComponentsForm = () => {
   const pathName = usePathname();
-  const initialValues = {
-    favouriteColor: 'hsl(201 100% 73% / 1)',
-    contactNumber: '+1 (765) 232-3423',
-    countries: 'Angola'
-  };
-
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     getValues,
     formState: { errors }
   } = useForm<FormSchema>({
@@ -166,6 +168,7 @@ const MiscellaneousComponentsForm = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />

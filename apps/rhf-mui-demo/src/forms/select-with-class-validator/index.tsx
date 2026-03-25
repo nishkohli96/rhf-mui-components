@@ -15,7 +15,8 @@ import {
   FormState,
   GridContainer,
   FieldVariantInfo,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
@@ -31,6 +32,8 @@ const getLanguagesList = (count: number) => {
   return Array.from(languages);
 };
 
+const initialValues = { favouriteColor: Colors.Orange };
+
 const SelectFormWithClassValidator = () => {
   const pathName = usePathname();
   const languagesList = useMemo(() => getLanguagesList(10), []);
@@ -39,9 +42,10 @@ const SelectFormWithClassValidator = () => {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<FormSchema>({
-    // defaultValues: { favouriteColor: Colors.Orange },
+    defaultValues: initialValues,
     resolver: classValidatorResolver(FormSchema)
   });
 
@@ -143,6 +147,7 @@ const SelectFormWithClassValidator = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />

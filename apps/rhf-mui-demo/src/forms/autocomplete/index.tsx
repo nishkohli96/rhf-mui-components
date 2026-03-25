@@ -18,7 +18,8 @@ import {
   FormState,
   GridContainer,
   FieldVariantInfo,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
@@ -62,6 +63,7 @@ const AutocompleteForm = () => {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues
@@ -457,6 +459,7 @@ const AutocompleteForm = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />

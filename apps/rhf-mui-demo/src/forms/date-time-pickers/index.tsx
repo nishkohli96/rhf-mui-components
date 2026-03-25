@@ -15,6 +15,7 @@ import {
   GridContainer,
   FieldVariantInfo,
   SubmitButton,
+  ResetButton,
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
@@ -26,6 +27,7 @@ const DateTimePickersForm = () => {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
@@ -78,6 +80,7 @@ const DateTimePickersForm = () => {
             </Grid>
             <Grid size={12}>
               <SubmitButton />
+              <ResetButton onClick={() => reset()} />
             </Grid>
             <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />

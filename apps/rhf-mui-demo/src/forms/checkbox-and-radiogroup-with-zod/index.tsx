@@ -13,7 +13,8 @@ import {
   FormState,
   GridContainer,
   FieldVariantInfo,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { CountriesList, formSubmitEventName } from '@/constants';
 import { Colors, Gender } from '@/types';
@@ -30,23 +31,26 @@ const ageGroupOptions = [
   { ageGroup: '61+', minAge: 61 },
 ];
 
+const initialValues = {
+  gender: undefined,
+  ageGroup: undefined,
+  favouriteColors: [],
+  countriesVisited: [],
+  marks: [],
+  agreeTnC: false
+};
+
 const CheckboxRadioZodForm = () => {
   const pathName = usePathname();
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      gender: undefined,
-      ageGroup: undefined,
-      favouriteColors: [],
-      countriesVisited: [],
-      marks: [],
-      agreeTnC: false
-    }
+    defaultValues: initialValues
   });
 
   async function onFormSubmit(formValues: PersonInfo) {
@@ -127,6 +131,7 @@ const CheckboxRadioZodForm = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />

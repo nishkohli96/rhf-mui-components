@@ -37,7 +37,8 @@ import {
   FormContainer,
   GridContainer,
   FormState,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import {
   CountriesList,
@@ -57,17 +58,19 @@ const CompleteForm = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
   const [disableAllFields, setDisableAllFields] = useState(false);
+  const initialValues = {
+    darkTheme: currentTheme === 'dark',
+  };
 
   const {
     control,
     watch,
     getValues,
+    reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
-    defaultValues: {
-      darkTheme: currentTheme === 'dark',
-    },
+    defaultValues: initialValues,
     disabled: disableAllFields
   });
 
@@ -626,6 +629,7 @@ const CompleteForm = () => {
             </Grid>
             <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />
+              <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
           </GridContainer>
         </form>

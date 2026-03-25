@@ -5,10 +5,11 @@ import { defaultPageTitle } from '@/constants/page-metadata';
 
 const firebaseApp = initializeApp(ENV_VARS.firebaseConfig);
 
-const analyticsPromise = typeof window !== 'undefined'
-  ? isSupported().then(supported =>
-    supported ? getAnalytics(firebaseApp) : undefined)
-  : Promise.resolve(undefined);
+const analyticsPromise
+  = typeof window !== 'undefined'
+    ? isSupported().then(supported =>
+      supported ? getAnalytics(firebaseApp) : undefined)
+    : Promise.resolve(undefined);
 
 export async function logFirebaseEvent(
   eventName: string = 'page_view',

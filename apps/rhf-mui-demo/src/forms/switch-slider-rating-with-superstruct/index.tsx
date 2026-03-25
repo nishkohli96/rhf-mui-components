@@ -15,7 +15,8 @@ import {
   FormState,
   GridContainer,
   FieldVariantInfo,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
@@ -28,16 +29,18 @@ const orangeTheme = createTheme({
   }
 });
 
+const initialValues = {
+  score: 20,
+  tempRange: [5, 25],
+};
+
 const SwitchSliderRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
-  const initialValues = {
-    score: 20,
-    tempRange: [5, 25],
-  };
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
@@ -111,6 +114,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />
