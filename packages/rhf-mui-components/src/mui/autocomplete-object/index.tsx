@@ -223,7 +223,7 @@ const RHFAutocompleteObject = <
               getOptionLabel={option => renderOptionLabel(option as Option)}
               isOptionEqualToValue={(option, value) => {
                 return (
-                  option[valueKey] === (value as KeyValueOption)[valueKey]
+                  option[valueKey] === value[valueKey]
                 );
               }}
               renderInput={params => {

@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -22,6 +23,7 @@ import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
 import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
+import { Chip } from '@mui/material';
 
 type FormSchema = {
   sourceAirport?: string;
@@ -240,7 +242,7 @@ const AutocompleteForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-          <FieldVariantInfo title="Multi Autocomplete With String Options" />
+          <FieldVariantInfo title="Autocomplete Object with render option" />
           <RHFAutocompleteObject
             fieldName="employeeOfMonth"
             control={control}
@@ -248,6 +250,41 @@ const AutocompleteForm = () => {
             labelKey="name"
             valueKey="_id"
             label="Employee of the Month"
+            multiple
+            renderOption={({ key, ...props }, option) => {
+              return (
+                <Box component="li" key={key} {...props}>
+                  <Image
+                    src={option.avatar}
+                    alt={option.name}
+                    width={40}
+                    height={40}
+                    style={{ objectFit: 'contain' }}
+                  />
+                  <Typography sx={{ ml: '5px' }}>
+                    {option.name}
+                  </Typography>
+                </Box>
+              );
+            }}
+            renderTags={(value, getTagProps) => {
+              return value.map((option, index) => {
+                const { key, ...otherChipProps } = getTagProps({ index });
+                return (
+                  <Chip
+                    key={key}
+                    {...otherChipProps}
+                    avatar={
+                      <Avatar
+                        src={option.avatar}
+                        alt={option.name}
+                      />
+                    }
+                    label={option.name}
+                  />
+                );
+              });
+            }}
             errorMessage={errors?.employeeOfMonth?.message}
           />
           </Grid>

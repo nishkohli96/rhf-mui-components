@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-import { ENV_VARS, defaultPageTitle } from '@/constants';
+import { ENV_VARS } from '@/constants/environment';
+import { defaultPageTitle } from '@/constants/page-metadata';
 
 const firebaseApp = initializeApp(ENV_VARS.firebaseConfig);
 
