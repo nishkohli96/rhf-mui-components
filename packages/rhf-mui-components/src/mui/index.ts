@@ -1,4 +1,5 @@
 import RHFAutocomplete, { type RHFAutocompleteProps } from './autocomplete';
+import RHFAutocompleteObject, { type RHFAutocompleteObjectProps } from './autocomplete-object';
 import RHFCheckbox, { type RHFCheckboxProps } from './checkbox';
 import RHFCheckboxGroup, { type RHFCheckboxGroupProps } from './checkbox-group';
 import RHFCountrySelect, {
@@ -28,6 +29,7 @@ import RHFTextField, { type RHFTextFieldProps } from './textfield';
 
 export {
   RHFAutocomplete,
+  RHFAutocompleteObject,
   RHFCheckbox,
   RHFCheckboxGroup,
   RHFCountrySelect,
@@ -49,6 +51,7 @@ export {
 
 export type {
   RHFAutocompleteProps,
+  RHFAutocompleteObjectProps,
   RHFCheckboxProps,
   RHFCheckboxGroupProps,
   RHFCountrySelectProps,
