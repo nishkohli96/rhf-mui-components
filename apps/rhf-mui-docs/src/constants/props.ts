@@ -35,13 +35,13 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   options: {
     name: 'options',
     description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[] or number[] or object[]',
+    type: 'string[] / number[] / object[]',
     required: true
   },
   options_StrOrObj: {
     name: 'options',
     description: 'An array with string or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[] or object[]',
+    type: 'string[] / object[]',
     required: true
   },
   options_Obj: {
@@ -156,7 +156,7 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   onValueChange_numberInput: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
-    type: '(value: number OR null) => void'
+    type: '(value: number / null) => void'
   },
   onValueChange_tagsInput: {
     name: 'onValueChange',
@@ -166,7 +166,7 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   onValueChange_FileUploader: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
-    type: '(files: File OR File[] OR null) => void'
+    type: '(files: File / File[] / null) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
@@ -236,12 +236,12 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   onValueChange_Slider: {
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(value: number OR number[], activeThumb: number, event) => void'
+    type: '(value: number / number[], activeThumb: number, event) => void'
   },
   onValueChange_Slider_v1: {
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(event: Event, value: number OR number[], activeThumb: number) => void'
+    type: '(event: Event, value: number / number[], activeThumb: number) => void'
   },
   onValueChange_Switch: {
     name: 'onValueChange',
@@ -251,27 +251,27 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   onValueChange_Rating: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the changed value of rating component',
-    type: '(newValue: number OR null, event) => void'
+    type: '(newValue: number / null, event) => void'
   },
   onValueChange_Rating_v1: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the changed value of rating component',
-    type: '(e: SyntheticEvent, newValue: number OR null) => void'
+    type: '(e: SyntheticEvent, newValue: number / null) => void'
   },
   onValueChange_DatePicker: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate OR null, dateContext) => void'
+    type: '(newValue: PickerValidDate / null, dateContext) => void'
   },
   onValueChange_TimePicker: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate OR null, timeContext) => void'
+    type: '(newValue: PickerValidDate / null, timeContext) => void'
   },
   onValueChange_DateTimePicker: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate OR null, dateTimeContext) => void'
+    type: '(newValue: PickerValidDate / null, dateTimeContext) => void'
   },
   onValueChange_Pickers_v1: {
     name: 'onValueChange',
@@ -281,7 +281,7 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   valueKey_ColorPicker: {
     name: 'valueKey',
     description: 'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
-    type: 'hex or rgb or hsv'
+    type: 'hex / rgb / hsv'
   },
   onValueChange_ColorPicker: {
     name: 'onValueChange',
@@ -338,7 +338,7 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   value_PhoneInput: {
     name: 'value',
     description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
-    type: 'string OR undefined',
+    type: 'string / undefined',
     required: true
   },
   showPasswordIcon: {
@@ -410,12 +410,12 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   defaultValue: {
     name: 'defaultValue',
     description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
-    type: 'string OR string[] OR number OR number[]',
+    type: 'string / string[] / number / number[]',
   },
   defaultValue_Slider: {
     name: 'defaultValue',
     description: 'Initial value set for `RHFSlider` component on render.',
-    type: 'number OR number[]',
+    type: 'number / number[]',
     required: true
   },
   showMarkers: {
@@ -500,7 +500,7 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   valueKey_CountrySelect: {
     name: 'valueKey',
     description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
-    type: '`name` OR `iso` OR `iso3`',
+    type: '`name` / `iso` / `iso3`',
   },
   textFieldProps: {
     name: 'textFieldProps',
