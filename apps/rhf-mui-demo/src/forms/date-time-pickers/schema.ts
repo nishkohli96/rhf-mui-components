@@ -9,6 +9,13 @@ export const dateTimeSchema = yup.object({
       Boolean(val && dayjs(val).isValid()))
     .test('not-in-future', 'DOB cannot be in the future', val =>
       val ? dayjs(val).isBefore(dayjs(), 'day') : true),
+  dobFather: yup
+    .mixed<Dayjs | string>()
+    .required('Father\'s Date of Birth is required')
+    .test('is-valid-date', 'Invalid date', val =>
+      Boolean(val && dayjs(val).isValid()))
+    .test('not-in-future', 'Father DOB cannot be in the future', val =>
+      val ? dayjs(val).isBefore(dayjs(), 'day') : true),
   time: yup
     .mixed<Dayjs | string>()
     .required('Time is required')
