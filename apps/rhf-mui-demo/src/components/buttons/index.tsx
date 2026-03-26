@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Button from '@mui/material/Button';
+import Button, { type ButtonProps } from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
@@ -13,8 +13,21 @@ import { useThemeContext } from '@/theme';
 
 export const SubmitButton = () => {
   return (
-    <Button variant="contained" color="primary" type="submit">
+    <Button
+      variant="contained"
+      color="primary"
+      type="submit"
+      sx={{ mr: '20px' }}
+    >
       Submit
+    </Button>
+  );
+};
+
+export const ResetButton = (btnProps: ButtonProps) => {
+  return (
+    <Button variant="outlined" color="primary" {...btnProps}>
+      Reset
     </Button>
   );
 };

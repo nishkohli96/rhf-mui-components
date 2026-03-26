@@ -26,6 +26,7 @@ import type {
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
+  useFieldIds,
   validateFileList
 } from '@/utils';
 import { FileItem, HiddenInput, UploadButton } from './components';
@@ -76,6 +77,7 @@ const RHFFileUploader = <T extends FieldValues>({
   renderUploadButton,
   renderFileItem,
   onValueChange,
+  disabled: muiDisabled,
   onUploadError,
   label,
   showLabelAboveFormField,
@@ -86,18 +88,30 @@ const RHFFileUploader = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+<<<<<<< HEAD
   disabled,
   fullWidth = false,
   enableDragAndDrop = true,
 }: RHFFileUploaderProps<T>) => {
   const [isDragging, setIsDragging] = useState(false);
+=======
+  fullWidth = false
+}: RHFFileUploaderProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isError = Boolean(errorMessage);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+<<<<<<< HEAD
   const DropZoneWrapper = enableDragAndDrop ? Box : Fragment;
 
   return (
@@ -113,10 +127,29 @@ const RHFFileUploader = <T extends FieldValues>({
             formLabelProps={formLabelProps}
           />
         )}
+=======
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+  return (
+    <FormControl fullWidth={fullWidth} error={isError}>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={isLabelAboveFormField}
+        required={required}
+        error={isError}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
+      />
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
+<<<<<<< HEAD
         render={({ field }) => {
           const { value, onChange, ...otherFieldParams } = field;
 
@@ -126,6 +159,25 @@ const RHFFileUploader = <T extends FieldValues>({
           ) => {
             if (!files || files.length === 0) {
               onChange(null);
+=======
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
+          const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+            const fileList = event.target.files;
+            /* Reset so same file can be selected again */
+            event.target.value = '';
+            if (!fileList || fileList.length === 0) {
+              rhfOnChange(null);
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
               onValueChange?.(null, event);
               return;
             }
@@ -143,6 +195,7 @@ const RHFFileUploader = <T extends FieldValues>({
               ? acceptedFiles.length > 0
                 ? acceptedFiles
                 : null
+<<<<<<< HEAD
               : acceptedFiles[0] ?? null;
             onChange(selectedFiles);
 
@@ -180,19 +233,48 @@ const RHFFileUploader = <T extends FieldValues>({
 
           const handleDragLeave = () => {
             setIsDragging(false);
+=======
+              : (acceptedFiles[0] ?? null);
+            rhfOnChange(selectedFiles);
+            onValueChange?.(selectedFiles, event);
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
           };
 
           const removeFile = (index: number) => {
-            if (multiple && Array.isArray(value)) {
-              const newFiles = value.filter((_: File, i: number) => i !== index);
-              onChange(newFiles.length > 0 ? newFiles : null);
+            if (multiple && Array.isArray(rhfValue)) {
+              const newFiles = rhfValue.filter(
+                (_: File, i: number) => i !== index
+              );
+              rhfOnChange(newFiles.length > 0 ? newFiles : null);
             } else {
-              onChange(null);
+              rhfOnChange(null);
             }
           };
 
+          const InputComponent = (
+            <HiddenInput
+              id={fieldId}
+              name={rhfFieldName}
+              type="file"
+              ref={rhfRef}
+              accept={accept}
+              multiple={multiple}
+              onChange={handleFileChange}
+              onBlur={rhfOnBlur}
+              disabled={rhfDisabled}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? (isError ? errorId : helperTextId)
+                  : undefined
+              }
+              aria-invalid={isError}
+            />
+          );
+
           return (
             <Fragment>
+<<<<<<< HEAD
               <DropZoneWrapper
                 onDragOver={enableDragAndDrop ? handleDragOver : undefined}
                 onDragLeave={enableDragAndDrop ? handleDragLeave : undefined}
@@ -242,18 +324,37 @@ const RHFFileUploader = <T extends FieldValues>({
                     </UploadButton>
                   )}
               </DropZoneWrapper>
+=======
+              {renderUploadButton
+                ? (
+                  renderUploadButton(InputComponent)
+                )
+                : (
+                  <UploadButton
+                    label={fieldLabel}
+                    fieldName={`btn_${fieldId}`}
+                    disabled={rhfDisabled}
+                  >
+                    {InputComponent}
+                  </UploadButton>
+                )}
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
               <FormHelperText
                 error={isError}
                 errorMessage={errorMessage}
                 hideErrorMessage={hideErrorMessage}
                 helperText={helperText}
-                formHelperTextProps={formHelperTextProps}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  id: isError ? errorId : helperTextId,
+                  ...formHelperTextProps
+                }}
               />
-              {!hideFileList && value && (
+              {!hideFileList && rhfValue && (
                 <Box>
-                  {(Array.isArray(value) ? value : [value]).map(
+                  {(Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
                     (file: File, index) => (
-                      <Fragment key={index}>
+                      <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
                         {renderFileItem
                           ? (
                             renderFileItem(file, index)

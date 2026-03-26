@@ -15,7 +15,8 @@ import {
   FormState,
   GridContainer,
   FieldVariantInfo,
-  SubmitButton
+  SubmitButton,
+  ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
@@ -32,15 +33,18 @@ const sliderMinimumValue = 30;
 const minRating = 5;
 const maxRating = 8;
 
+const initialValues = {
+  score: sliderMinimumValue,
+  tempRange: [5, 25],
+};
+
 const SwitchSliderRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
-  const initialValues = {
-    score: sliderMinimumValue,
-  };
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
@@ -80,6 +84,23 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               errorMessage={errors?.score?.message}
             />
           </Grid>
+          <Grid size={{ xs: 12, md: 6 }} sx={{ px: '20px' }}>
+            <FieldVariantInfo title="Slider with range" />
+            <RHFSlider
+              fieldName="tempRange"
+              control={control}
+              min={0}
+              max={50}
+              marks={[
+                { value: 0, label: '0°C' },
+                { value: 50, label: '50°C' }
+              ]}
+              step={5}
+              label="Select Temperature Range in your city"
+              required
+              errorMessage={errors?.tempRange?.message}
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Rating with custom maxValue & customOnChange" />
             <RHFRating
@@ -110,6 +131,7 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
           </Grid>
           <Grid size={12}>
             <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
             <FormState formValues={watch()} errors={errors} />

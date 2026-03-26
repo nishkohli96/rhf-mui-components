@@ -11,7 +11,7 @@ import {
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel } from '@/utils';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 type InputRatingProps = Omit<
   RatingProps,
@@ -52,6 +52,7 @@ const RHFRating = <T extends FieldValues>({
   required,
   customOnChange,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -62,34 +63,50 @@ const RHFRating = <T extends FieldValues>({
   onBlur,
   ...rest
 }: RHFRatingProps<T>) => {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isFormLabelVisible = showLabelAboveFormField ?? true;
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl error={isError}>
+    <FormControl component="fieldset" error={isError}>
       <FormLabel
         label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
+        isVisible={isFormLabelVisible}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          component: 'legend',
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const {
-            value,
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ...otherFieldParams
-          } = field;
+            disabled: rhfDisabled
+          }
+        }) => {
           return (
             <MuiRating
-              {...rest}
-              {...otherFieldParams}
-              value={value ?? 0}
+              id={fieldId}
+              name={rhfFieldName}
+              value={rhfValue ?? null}
+              disabled={rhfDisabled}
               onChange={(event, newValue) => {
                 if(customOnChange) {
                   customOnChange(rhfOnChange, newValue, event);
@@ -102,6 +119,16 @@ const RHFRating = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
+              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              aria-invalid={isError || undefined}
+              {...rest}
             />
           );
         }}
@@ -111,7 +138,11 @@ const RHFRating = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

@@ -44,16 +44,20 @@ const PropsDescription: Record<
   },
   options: {
     name: 'options',
-    description:
-      'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[] or number[] or object[]',
+    description: 'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
+    type: 'string[] / number[] / object[]',
     required: true
   },
   options_StrOrObj: {
     name: 'options',
-    description:
-      'An array with string or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[] or object[]',
+    description: 'An array with string or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
+    type: 'string[] / object[]',
+    required: true
+  },
+  options_Obj: {
+    name: 'options',
+    description: 'An array of objects. `labelKey` and `valueKey` are required so the component knows which properties to use for the visible label and the stored value.',
+    type: 'object[]',
     required: true
   },
   labelKey: {
@@ -63,10 +67,22 @@ const PropsDescription: Record<
     type: 'string',
     required: true
   },
+  labelKey_Obj: {
+    name: 'labelKey',
+    description: 'The key of object in options array, whose value would be shown as the label in the formfield.',
+    type: 'string',
+    required: true
+  },
   valueKey: {
     name: 'valueKey',
     description:
       'The key of object in options array, whose value would be actual value of the option selected in the formfield. Only required when input options is an array of objects.',
+    type: 'string',
+    required: true
+  },
+  valueKey_Obj: {
+    name: 'valueKey',
+    description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield.',
     type: 'string',
     required: true
   },
@@ -259,9 +275,8 @@ const PropsDescription: Record<
   },
   onValueChange_numberInput: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
-    type: '(value: number OR null) => void'
+    description: 'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
+    type: '(value: number / null) => void'
   },
   onValueChange_tagsInput: {
     name: 'onValueChange',
@@ -271,9 +286,8 @@ const PropsDescription: Record<
   },
   onValueChange_FileUploader: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the file(s) uploaded in the file uploader component.',
-    type: '(files: File OR File[] OR null) => void'
+    description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
+    type: '(files: File / File[] / null) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
@@ -297,6 +311,16 @@ const PropsDescription: Record<
     name: 'onValueChange',
     description:
       'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
+    type: '(newValue, event, reason, details?) => void'
+  },
+  onValueChange_AutocompleteObject: {
+    name: 'onValueChange',
+    description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
+    type: '(newValue, event, reason, details?) => void'
+  },
+  onValueChange_MultiAutocompleteObject: {
+    name: 'onValueChange',
+    description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
     type: '(newValue, event, reason, details?) => void'
   },
   onValueChange_MultiAutocomplete: {
@@ -343,15 +367,13 @@ const PropsDescription: Record<
   },
   onValueChange_Slider: {
     name: 'onValueChange',
-    description:
-      'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(value: number OR number[], activeThumb: number, event) => void'
+    description: 'Optional callback function returning the selected value of `RHFSlider`.',
+    type: '(value: number / number[], activeThumb: number, event) => void'
   },
   onValueChange_Slider_v1: {
     name: 'onValueChange',
-    description:
-      'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(event: Event, value: number OR number[], activeThumb: number) => void'
+    description: 'Optional callback function returning the selected value of `RHFSlider`.',
+    type: '(event: Event, value: number / number[], activeThumb: number) => void'
   },
   onValueChange_Switch: {
     name: 'onValueChange',
@@ -361,33 +383,28 @@ const PropsDescription: Record<
   },
   onValueChange_Rating: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the changed value of rating component',
-    type: '(newValue: number OR null, event) => void'
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(newValue: number / null, event) => void'
   },
   onValueChange_Rating_v1: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the changed value of rating component',
-    type: '(e: SyntheticEvent, newValue: number OR null) => void'
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(e: SyntheticEvent, newValue: number / null) => void'
   },
   onValueChange_DatePicker: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate OR null, dateContext) => void'
+    description: 'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate / null, dateContext) => void'
   },
   onValueChange_TimePicker: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate OR null, timeContext) => void'
+    description: 'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate / null, timeContext) => void'
   },
   onValueChange_DateTimePicker: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate OR null, dateTimeContext) => void'
+    description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate / null, dateTimeContext) => void'
   },
   onValueChange_Pickers_v1: {
     name: 'onValueChange',
@@ -397,9 +414,8 @@ const PropsDescription: Record<
   },
   valueKey_ColorPicker: {
     name: 'valueKey',
-    description:
-      'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
-    type: 'hex or rgb or hsv'
+    description: 'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
+    type: 'hex / rgb / hsv'
   },
   onValueChange_ColorPicker: {
     name: 'onValueChange',
@@ -465,9 +481,8 @@ const PropsDescription: Record<
   },
   value_PhoneInput: {
     name: 'value',
-    description:
-      'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
-    type: 'string OR undefined',
+    description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
+    type: 'string / undefined',
     required: true
   },
   showPasswordIcon: {
@@ -550,14 +565,13 @@ const PropsDescription: Record<
   },
   defaultValue: {
     name: 'defaultValue',
-    description:
-      'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
-    type: 'string OR string[] OR number OR number[]'
+    description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
+    type: 'string / string[] / number / number[]',
   },
   defaultValue_Slider: {
     name: 'defaultValue',
     description: 'Initial value set for `RHFSlider` component on render.',
-    type: 'number OR number[]',
+    type: 'number / number[]',
     required: true
   },
   showMarkers: {
@@ -670,9 +684,8 @@ const PropsDescription: Record<
   },
   valueKey_CountrySelect: {
     name: 'valueKey',
-    description:
-      'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
-    type: '`name` OR `iso` OR `iso3`'
+    description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
+    type: '`name` / `iso` / `iso3`',
   },
   textFieldProps: (muiVersion?: MuiVersion) => ({
     name: 'textFieldProps',
@@ -696,6 +709,11 @@ const PropsDescription: Record<
     name: 'hideSelectAllOption',
     description:
       'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2.0` and above.',
+    type: 'boolean'
+  },
+  hideSelectAllOption_MultiAutocompleteObject: {
+    name: 'hideSelectAllOption',
+    description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocompleteObject. This option will be automatically hidden when there are less than 2 options to select from.',
     type: 'boolean'
   },
   ChipProps: (muiVersion?: MuiVersion) => ({

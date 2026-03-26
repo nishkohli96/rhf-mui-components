@@ -30,7 +30,17 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
+<<<<<<< HEAD
 import { fieldNameToLabel, keepLabelAboveFormField } from '@/utils';
+=======
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  isAboveMuiV5,
+  fieldNameToId,
+  useFieldIds
+} from '@/utils';
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -86,6 +96,7 @@ const RHFTagsInput = <T extends FieldValues>({
   delimiter = ',',
   maxTags,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   hideLabel,
@@ -96,7 +107,6 @@ const RHFTagsInput = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   ChipProps,
-  disabled,
   sx: muiTextFieldSx,
   variant = 'outlined',
   limitTags = 2,
@@ -104,19 +114,33 @@ const RHFTagsInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  InputProps,
   ...rest
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
 
+<<<<<<< HEAD
   const isError = !!errorMessage;
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+=======
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
+
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the
@@ -124,6 +148,7 @@ const RHFTagsInput = <T extends FieldValues>({
    */
   const showAllTags = limitTags === -1;
 
+<<<<<<< HEAD
   const textFieldPadding = useMemo(() => {
     const base
       = {
@@ -138,6 +163,22 @@ const RHFTagsInput = <T extends FieldValues>({
       }[variant] ?? '16.5px 14px';
     return base;
   }, [muiTheme, variant]);
+=======
+  const getTextFieldPadding = (variant: 'outlined' | 'filled' | 'standard') => {
+    switch (variant) {
+      case 'filled':
+        return (muiTheme.components?.MuiFilledInput?.styleOverrides?.root as Record<string, any>)?.padding
+          ?? '25px 12px 8px';
+      case 'standard':
+        return (muiTheme.components?.MuiInput?.styleOverrides?.root as Record<string, any>)?.padding
+          ?? '4px 0px 5px';
+      default:
+        return (muiTheme.components?.MuiOutlinedInput?.styleOverrides?.root as Record<string, any>)?.padding
+          ?? '16.5px 14px';
+    }
+  };
+  const textFieldPadding = getTextFieldPadding(variant);
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
 
   /** Helper for triggering both RHF + external change events */
   const triggerChangeEvents = useCallback(
@@ -210,6 +251,7 @@ const RHFTagsInput = <T extends FieldValues>({
       onChange: (...event: any[]) => void
     ) => {
       event.preventDefault();
+<<<<<<< HEAD
       const pasteData = event.clipboardData.getData('text');
       const delimiterPattern = new RegExp(`[\\s${delimiter}]+`);
       let newTags = pasteData
@@ -219,10 +261,19 @@ const RHFTagsInput = <T extends FieldValues>({
       const result = onTagPaste?.(newTags, value);
       if (result === false) {
         return;
+=======
+      const newTag = inputValue.trim();
+      if (newTag) {
+        if (!currentTags.includes(newTag)) {
+          setInputValue('');
+          return [...currentTags, newTag];
+        }
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
       }
       if (Array.isArray(result)) {
         newTags = result;
       }
+<<<<<<< HEAD
       /* Enforce maxTags limit */
       if (maxTags !== undefined) {
         const remainingSlots = Math.max(maxTags - value.length, 0);
@@ -252,49 +303,114 @@ const RHFTagsInput = <T extends FieldValues>({
           formLabelProps={formLabelProps}
         />
       )}
+=======
+    }
+    return null;
+  };
+
+  const handlePaste = (
+    event: ClipboardEvent<HTMLDivElement>,
+    values: string[]
+  ) => {
+    event.preventDefault();
+    const pasteData = event.clipboardData.getData('text');
+    const newTags = pasteData
+      .split(/[\s,]+/)
+      .map(tag => tag.trim())
+      .filter(trimmed => trimmed && !values.includes(trimmed));
+    return [...values, ...newTags];
+  };
+
+  return (
+    <FormControl error={isError}>
+      <FormLabel
+        label={fieldLabel}
+        isVisible={isLabelAboveFormField}
+        required={required}
+        error={isError}
+        formLabelProps={{
+          id: labelId,
+          htmlFor: fieldId,
+          ...formLabelProps
+        }}
+      />
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const { value = [], onChange, onBlur: rhfOnBlur } = field;
-          const hideInput = disabled && value.length > 0;
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue = [],
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          }
+        }) => {
+          const hideInput = rhfDisabled && rhfValue.length > 0;
           const visibleTags = showAllTags
-            ? value
-            : isFocused || !limitTags ? value : value.slice(0, limitTags);
+            ? rhfValue
+            : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
 
+<<<<<<< HEAD
+=======
+          const triggerChangeEvents = (fieldValue: string[]) => {
+            rhfOnChange(fieldValue);
+            onValueChange?.(fieldValue);
+          };
+
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
           const startAdornment = (
             <Box
+              role="list"
               sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 gap: 1,
+<<<<<<< HEAD
                 mb: value.length > 0 && !hideInput ? 1 : 0,
                 width: '100%',
+=======
+                mb: rhfValue.length > 0 && !hideInput ? 1 : 0,
+                width: '100%'
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
               }}
             >
               {visibleTags.map((tag, index) => (
                 <Chip
-                  key={index}
+                  key={`${fieldNameToId(tag)}-${index}`}
+                  id={`${fieldNameToId(tag)}-${index}`}
+                  role="listitem"
                   label={tag}
-                  disabled={disabled}
+                  disabled={rhfDisabled}
                   onDelete={() => {
+<<<<<<< HEAD
                     const shouldDelete = onTagDelete?.(tag, value);
                     if (shouldDelete === false) {
                       return;
                     }
                     triggerChangeEvents(value.filter(t => t !== tag), onChange);
+=======
+                    const newValues = rhfValue.filter(
+                      item => item !== tag
+                    );
+                    triggerChangeEvents(newValues);
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
                   }}
                   {...ChipProps}
                 />
               ))}
-              {!showAllTags && !isFocused && value.length > limitTags && (
+              {!showAllTags && !isFocused && rhfValue.length > limitTags && (
                 <Chip
+                  role="listitem"
                   label={
-                    getLimitTagsText?.(value.length - limitTags)
-                    ?? `+${value.length - limitTags} more`
+                    getLimitTagsText?.(rhfValue.length - limitTags)
+                    ?? `+${rhfValue.length - limitTags} more`
                   }
-                  disabled
+                  disabled={rhfDisabled}
                 />
               )}
             </Box>
@@ -302,6 +418,8 @@ const RHFTagsInput = <T extends FieldValues>({
 
           return (
             <MuiTextField
+              id={fieldId}
+              name={rhfFieldName}
               autoComplete={autoComplete}
               variant={variant}
               label={
@@ -310,6 +428,7 @@ const RHFTagsInput = <T extends FieldValues>({
                 )
               }
               value={inputValue}
+<<<<<<< HEAD
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setInputValue(e.target.value)}
               onKeyDown={e => handleKeyDown(e, value, onChange)}
@@ -319,8 +438,36 @@ const RHFTagsInput = <T extends FieldValues>({
                 setIsFocused(false);
                 rhfOnBlur();
                 onBlur?.(e);
+=======
+              inputRef={rhfRef}
+              onFocus={handleFocus}
+              onBlur={blurEvent => {
+                handleBlur();
+                rhfOnBlur();
+                onBlur?.(blurEvent);
               }}
-              disabled={disabled}
+              onChange={handleInputChange}
+              onKeyDown={event => {
+                const newTags = handleKeyPress(event, rhfValue);
+                if (newTags) {
+                  triggerChangeEvents(newTags);
+                }
+              }}
+              onPaste={event => {
+                triggerChangeEvents(handlePaste(event, rhfValue));
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
+              }}
+              disabled={rhfDisabled}
+              error={isError}
+              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              aria-required={required}
               sx={{
                 ...muiTextFieldSx,
                 '& .MuiInputBase-root': {
@@ -333,7 +480,27 @@ const RHFTagsInput = <T extends FieldValues>({
                   ...(hideInput && { display: 'none' })
                 }
               }}
+<<<<<<< HEAD
               slotProps={{ ...slotProps, input: { startAdornment } }}
+=======
+              {...(isAboveMuiV5
+                ? {
+                  slotProps: {
+                    ...slotProps,
+                    input: {
+                      ...slotProps?.input,
+                      startAdornment
+                    }
+                  },
+                }
+                : {
+                  InputProps: {
+                    ...InputProps,
+                    startAdornment
+                  }
+                }
+              )}
+>>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
               {...rest}
             />
           );
@@ -344,7 +511,11 @@ const RHFTagsInput = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );

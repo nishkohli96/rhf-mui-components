@@ -8,13 +8,18 @@ import {
   getMuiFoldersList,
   getMuiPickersFoldersList,
   getMiscFoldersList,
-  newlyAddedComponents
+  newlyAddedComponents,
+  newlyAddedV3_3Components,
 } from './routesList';
 
-const FolderStructure = ({ v1, docsVersion }: VersionProps) => {
+const FolderStructure = ({ v1, v3_3AndAbove, docsVersion }: VersionProps) => {
   const muiList = v1
     ? getMuiFoldersList(docsVersion).filter(folder => !newlyAddedComponents.includes(folder.name))
-    : getMuiFoldersList(docsVersion);
+    : v3_3AndAbove
+      ? getMuiFoldersList(docsVersion)
+      : getMuiFoldersList(docsVersion).filter(
+        folder => !newlyAddedV3_3Components.includes(folder.name),
+      );
 
   const miscList = v1
     ? getMiscFoldersList(docsVersion).filter(folder => !newlyAddedComponents.includes(folder.name))

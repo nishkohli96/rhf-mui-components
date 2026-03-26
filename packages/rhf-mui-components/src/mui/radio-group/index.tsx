@@ -26,7 +26,8 @@ import {
   validateArray,
   isKeyValueOption,
   normalizeSelectValue,
-  getOptionValue
+  getOptionValue,
+  useFieldIds
 } from '@/utils';
 
 type RadioGroupInputProps = Omit<
@@ -88,7 +89,7 @@ const RHFRadioGroup = <
   valueKey,
   customOnChange,
   onValueChange,
-  disabled,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -104,41 +105,55 @@ const RHFRadioGroup = <
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
 
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx
   };
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl error={isError}>
+    <FormControl component="fieldset" error={isError}>
       <FormLabel
         label={fieldLabel}
         isVisible={showLabelAboveFormField ?? true}
         required={required}
         error={isError}
-        formLabelProps={formLabelProps}
+        formLabelProps={{
+          id: labelId,
+          component: 'legend',
+          ...formLabelProps
+        }}
       />
       <Controller
         name={fieldName}
         control={control}
         rules={registerOptions}
-        render={({ field }) => {
-          const {
-            value,
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ...otherFieldParams
-          } = field;
+            disabled: rhfDisabled
+          }
+        }) => {
           return (
             <MuiRadioGroup
-              {...rest}
-              {...otherFieldParams}
-              value={value ?? ''}
+              id={fieldId}
+              name={rhfFieldName}
+              value={rhfValue ?? ''}
               onChange={(event, selectedValue) => {
                 const normalizedValue = normalizeSelectValue(
                   selectedValue,
@@ -157,20 +172,33 @@ const RHFRadioGroup = <
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-disabled={disabled}
+              aria-labelledby={labelId}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              {...rest}
             >
-              {options.map((option, idx) => {
+              {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
                 const isOptionDisabled
-                  = getOptionDisabled?.(option) ?? disabled;
+                  = getOptionDisabled?.(option) ?? rhfDisabled;
                 return (
                   <FormControlLabel
-                    key={idx}
-                    control={<Radio {...radioProps} />}
+                    key={opnValue}
+                    control={
+                      <Radio
+                        id={`${fieldId}-${opnValue}`}
+                        {...radioProps}
+                      />
+                    }
                     value={opnValue}
                     label={renderOption?.(option) ?? opnLabel}
                     disabled={isOptionDisabled}
@@ -189,7 +217,11 @@ const RHFRadioGroup = <
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
-        formHelperTextProps={formHelperTextProps}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          id: isError ? errorId : helperTextId,
+          ...formHelperTextProps
+        }}
       />
     </FormControl>
   );
