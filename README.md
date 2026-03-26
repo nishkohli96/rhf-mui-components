@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/main/apps/rhf-mui-demo/public/logo.svg" width="200" />
+</p>
+
 # @nish1896/rhf-mui-components
 
 ![NPM Version](https://img.shields.io/npm/v/%40nish1896%2Frhf-mui-components)
