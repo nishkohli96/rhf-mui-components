@@ -4,7 +4,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import NkLogo from '../../../public/nk-logo.png';
+import RHFMuiLogo from '../../../public/rhf-mui.png';
 import DrawerMenu from './DrawerMenu';
 import {
   DocsButton,
@@ -20,7 +20,7 @@ const AppBar = () => {
           <DrawerMenu />
           <Link href="/">
             <Image
-              src={NkLogo}
+              src={RHFMuiLogo}
               alt="Logo"
               width={50}
               height={50}
