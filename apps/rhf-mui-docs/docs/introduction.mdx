@@ -44,8 +44,29 @@ sure to install its npm package along with the [@hookform/resolvers](https://www
 ```
 npm i @hookform/resolvers joi
 ```
+
 ```
 yarn add @hookform/resolvers joi
+```
+
+### Usage with Webpack
+
+From **v3 onwards**, this package is **ESM-only**.
+
+If you're using React with Webpack and encounter module resolution errors,
+add the following rule to your `webpack.config.js`:
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false
+      }
+    ]
+  }
+}
 ```
 
 ## Version Compatibility
