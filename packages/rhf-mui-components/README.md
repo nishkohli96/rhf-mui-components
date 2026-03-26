@@ -1,5 +1,9 @@
 # @nish1896/rhf-mui-components
 
+<p align="center">
+  <img src="./logo.png" width="200" />
+</p>
+
 ![NPM Version](https://img.shields.io/npm/v/%40nish1896%2Frhf-mui-components)
 ![NPM Downloads](https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components)
 ![NPM Downloads Per Month](https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063)
