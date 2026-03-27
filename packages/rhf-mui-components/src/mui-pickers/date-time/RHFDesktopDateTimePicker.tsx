@@ -10,7 +10,7 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  DesktopDateTimePicker,
+  DesktopDateTimePicker as MuiDesktopDateTimePicker,
   type DesktopDateTimePickerProps,
   type PickerValidDate,
   type DateTimeValidationError,
@@ -53,6 +53,7 @@ const RHFDesktopDateTimePicker = <T extends FieldValues>({
   registerOptions,
   required,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -72,7 +73,8 @@ const RHFDesktopDateTimePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -88,13 +90,24 @@ const RHFDesktopDateTimePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { onChange, value, ...fieldProps } }) => (
-            <DesktopDateTimePicker
-              {...rest}
-              {...fieldProps}
-              value={value ?? null}
-              onChange={(newValue, context) => {
-                onChange(newValue);
+          render={({
+            field: {
+              name: rhfFieldName,
+              value: rhfValue,
+              onChange: rhfOnChange,
+              onBlur: rhfOnBlur,
+              ref: rhfRef,
+              disabled: rhfDisabled
+            }
+          }) => {
+            return (
+            <MuiDesktopDateTimePicker
+            name={rhfFieldName}
+            inputRef={rhfRef}
+            value={rhfValue || null}
+            disabled={rhfDisabled}
+            onChange={(newValue, context) => {
+              rhfOnChange(newValue);
                 onValueChange?.(newValue, context);
               }}
               label={
@@ -104,8 +117,9 @@ const RHFDesktopDateTimePicker = <T extends FieldValues>({
                   )
                   : undefined
               }
+              {...rest}
             />
-          )}
+          )}}
         />
       </LocalizationProvider>
       <FormHelperText
@@ -113,6 +127,7 @@ const RHFDesktopDateTimePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
