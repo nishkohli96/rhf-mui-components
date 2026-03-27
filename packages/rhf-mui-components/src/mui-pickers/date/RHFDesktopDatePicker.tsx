@@ -97,6 +97,7 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
+          disabled={muiDisabled}
           render={({
             field: {
               name: rhfFieldName,

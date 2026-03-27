@@ -29,7 +29,6 @@ type TimePickerInputProps = Omit<
   DesktopTimePickerProps<PickerValidDate>,
   | 'value'
   | 'onChange'
-  | 'label'
 >;
 
 export type RHFDesktopTimePickerProps<T extends FieldValues> = {
@@ -41,7 +40,6 @@ export type RHFDesktopTimePickerProps<T extends FieldValues> = {
     newValue: PickerValidDate,
     context: PickerChangeHandlerContext<TimeValidationError>
   ) => void;
-  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
@@ -56,6 +54,7 @@ const RHFDesktopTimePicker = <T extends FieldValues>({
   registerOptions,
   required,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -75,7 +74,8 @@ const RHFDesktopTimePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -91,13 +91,25 @@ const RHFDesktopTimePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { onChange, value, ...fieldProps } }) => (
+          disabled={muiDisabled}
+          render={({
+            field: {
+              name: rhfFieldName,
+              value: rhfValue,
+              onChange: rhfOnChange,
+              onBlur: rhfOnBlur,
+              ref: rhfRef,
+              disabled: rhfDisabled
+            }
+          }) => {
+            return (
             <DesktopTimePicker
-              {...rest}
-              {...fieldProps}
-              value={value || null}
-              onChange={(newValue, context) => {
-                onChange(newValue);
+            name={rhfFieldName}
+            inputRef={rhfRef}
+            value={rhfValue || null}
+            disabled={rhfDisabled}
+            onChange={(newValue, context) => {
+              rhfOnChange(newValue);
                 onValueChange?.(newValue, context);
               }}
               label={
@@ -108,7 +120,7 @@ const RHFDesktopTimePicker = <T extends FieldValues>({
                   : undefined
               }
             />
-          )}
+          )}}
         />
       </LocalizationProvider>
       <FormHelperText
@@ -116,6 +128,7 @@ const RHFDesktopTimePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
