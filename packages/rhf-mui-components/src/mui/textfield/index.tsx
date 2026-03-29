@@ -59,7 +59,9 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   formHelperTextProps?: FormHelperTextProps;
 } & TextFieldProps;
 
-const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
+const RHFTextField = forwardRef(function RHFTextField<
+  T extends FieldValues
+>(
   {
     fieldName,
     control,
@@ -82,14 +84,18 @@ const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
   }: RHFTextFieldProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName);
-
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { errors } = useFormState({
     control,
@@ -98,7 +104,7 @@ const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
   const rhfError = get(errors, fieldName);
   const fieldErrorMessage = rhfError?.message?.toString() ?? errorMessage;
   const isError = !!rhfError || !!errorMessage;
-  const showHelperTextElement = !!helperText || (isError && !hideErrorMessage);
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -144,7 +150,7 @@ const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
               }
               value={rhfValue ?? ''}
               disabled={rhfDisabled}
-              onChange={(event) => {
+              onChange={event => {
                 const newValue = event.target.value;
                 if (customOnChange) {
                   customOnChange(rhfOnChange, newValue, event);

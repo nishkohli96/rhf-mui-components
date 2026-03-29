@@ -10,7 +10,7 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  DesktopDatePicker,
+  DesktopDatePicker as MuiDesktopDatePicker,
   type DesktopDatePickerProps,
   type PickerValidDate,
   type DateValidationError,
@@ -34,7 +34,6 @@ type DesktopDatePickerInputProps = Omit<
   DesktopDatePickerProps<PickerValidDate>,
   | 'value'
   | 'onChange'
-  | 'label'
 >;
 
 export type RHFDesktopDatePickerProps<T extends FieldValues> = {
@@ -46,7 +45,6 @@ export type RHFDesktopDatePickerProps<T extends FieldValues> = {
     newValue: PickerValidDate,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
-  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
@@ -61,6 +59,7 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
   registerOptions,
   required,
   onValueChange,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -68,6 +67,7 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  slotProps: muiSlotProps,
   ...rest
 }: RHFDesktopDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -80,7 +80,8 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -96,22 +97,34 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { value, onChange, ...fieldProps } }) => (
-            <DesktopDatePicker
-              {...rest}
-              {...fieldProps}
-              value={value ?? null}
-              onChange={(newValue, context) => {
-                onChange(newValue);
-                onValueChange?.(newValue, context);
-              }}
-              label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
-              }
+          disabled={muiDisabled}
+          render={({
+            field: {
+              name: rhfFieldName,
+              value: rhfValue,
+              onChange: rhfOnChange,
+              onBlur: rhfOnBlur,
+              ref: rhfRef,
+              disabled: rhfDisabled
+            }
+          }) => (
+            <MuiDesktopDatePicker
+            name={rhfFieldName}
+            inputRef={rhfRef}
+            value={rhfValue || null}
+            disabled={rhfDisabled}
+            onChange={(newValue, context) => {
+              rhfOnChange(newValue);
+              onValueChange?.(newValue, context);
+            }}
+            label={
+              !isLabelAboveFormField
+              ? (
+                <FormLabelText label={fieldLabel} required={required} />
+              )
+              : undefined
+            }
+            {...rest}
             />
           )}
         />
@@ -121,6 +134,7 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>

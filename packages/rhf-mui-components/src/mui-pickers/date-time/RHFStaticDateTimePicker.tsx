@@ -10,7 +10,7 @@ import {
 } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  StaticDateTimePicker,
+  StaticDateTimePicker as MuiStaticDateTimePicker,
   type StaticDateTimePickerProps,
   type PickerValidDate,
   type DateTimeValidationError,
@@ -45,7 +45,7 @@ export type RHFStaticDateTimePickerProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<StaticDateTimePickerProps, 'value' | 'onChange'>;
+} & Omit<StaticDateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
 
 const RHFStaticDateTimePicker = <T extends FieldValues>({
   fieldName,
@@ -72,7 +72,8 @@ const RHFStaticDateTimePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = Boolean(errorMessage);
+  const isError = !!errorMessage;
+  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <FormControl error={isError}>
@@ -88,17 +89,28 @@ const RHFStaticDateTimePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          render={({ field: { onChange, value, ...fieldProps } }) => (
-            <StaticDateTimePicker
+            render={({
+              field: {
+                name: rhfFieldName,
+                value: rhfValue,
+                onChange: rhfOnChange,
+                onBlur: rhfOnBlur,
+                ref: rhfRef,
+                disabled: rhfDisabled
+              }
+            }) => {
+              return (
+            <MuiStaticDateTimePicker
               {...rest}
-              {...fieldProps}
-              value={value ?? null}
-              onChange={(newValue, context) => {
-                onChange(newValue);
+            value={rhfValue || null}
+            disabled={rhfDisabled}
+            onChange={(newValue, context) => {
+              rhfOnChange(newValue);
                 onValueChange?.(newValue, context);
               }}
+              {...rest}
             />
-          )}
+          )}}
         />
       </LocalizationProvider>
       <FormHelperText
@@ -106,6 +118,7 @@ const RHFStaticDateTimePicker = <T extends FieldValues>({
         errorMessage={errorMessage}
         hideErrorMessage={hideErrorMessage}
         helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
         formHelperTextProps={formHelperTextProps}
       />
     </FormControl>
