@@ -44,12 +44,9 @@ import {
   validateArray,
   isKeyValueOption,
   isAboveMuiV5,
-<<<<<<< HEAD
-  isMuiV7AndAbove
-=======
+  isMuiV7AndAbove,
   useFieldIds,
   keepLabelAboveFormField
->>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
 } from '@/utils';
 
 type OmittedAutocompleteProps<Option> = Omit<
@@ -225,9 +222,6 @@ const RHFAutocomplete = <
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
-<<<<<<< HEAD
-              // @ts-ignore
-=======
               renderTags={(value, getTagProps) =>
                 value.map((option, index) => {
                   const { key, ...otherChipProps } = getTagProps({ index });
@@ -241,7 +235,6 @@ const RHFAutocomplete = <
                   );
                 })}
               disabled={rhfDisabled}
->>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
               onChange={(
                 event,
                 newValue,
@@ -305,12 +298,7 @@ const RHFAutocomplete = <
                     inputRef={rhfRef}
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
-<<<<<<< HEAD
-                    {...params}
-                    autoComplete={autoComplete}
-=======
                     {...otherInputParams}
->>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
                     label={
                       !isLabelAboveFormField
                         ? (
