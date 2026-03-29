@@ -45,15 +45,10 @@ import type {
 import {
   fieldNameToLabel,
   isAboveMuiV5,
-<<<<<<< HEAD
-  keepLabelAboveFormField
-} from '@/utils';
-=======
   keepLabelAboveFormField,
   useFieldIds
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
->>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
 import { countryList } from './countries';
 
 type AutoCompleteProps = Omit<
@@ -250,10 +245,6 @@ const RHFCountrySelect = <T extends FieldValues>({
                   ...otherTextFieldProps
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
-<<<<<<< HEAD
-                  ...params.inputProps,
-                  autoComplete,
-=======
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
@@ -262,7 +253,6 @@ const RHFCountrySelect = <T extends FieldValues>({
                     ? (isError ? errorId : helperTextId)
                     : undefined,
                   autoComplete
->>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
                 };
                 return (
                   <TextField
@@ -270,12 +260,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                     inputRef={rhfRef}
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
-<<<<<<< HEAD
-                    {...params}
-                    autoComplete={autoComplete}
-=======
                     {...otherInputParams}
->>>>>>> bdebfa741a3d552bdca548db5db00eade2dfac6d
                     label={
                       !isLabelAboveFormField
                         ? (
