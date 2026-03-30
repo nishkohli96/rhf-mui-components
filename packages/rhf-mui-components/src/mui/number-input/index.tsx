@@ -3,10 +3,13 @@
 import {
   useContext,
   useMemo,
+  useCallback,
   forwardRef,
   type ReactNode,
   type JSX,
   type ChangeEvent,
+  type ClipboardEvent,
+  type KeyboardEvent,
   type Ref
 } from 'react';
 import {
@@ -69,8 +72,8 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   showMarkers?: boolean;
-  /** When `true`, only non-negative values (including 0) match while
-   * typing. When `false` or omitted, `-` and negative numbers are allowed.
+  /** When `true`, negative and exponential values are not allowed
+   * while typing or pasting.
    */
   nonNegative?: boolean;
   maxDecimalPlaces?: number;
@@ -107,6 +110,8 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
   autoComplete = defaultAutocompleteValue,
   slotProps,
   customIds,
+  onKeyDown,
+  onPaste,
   ...rest
 }: RHFNumberInputProps<T>, ref: Ref<HTMLInputElement>) {
   const {
@@ -129,6 +134,40 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
   const decimalPattern = useMemo(
     () => buildNumberInputDecimalPattern(nonNegative, maxDecimalPlaces),
     [nonNegative, maxDecimalPlaces]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (nonNegative) {
+        if (
+          e.key === '-'
+          || e.key === 'Subtract'
+          || e.code === 'Minus'
+          || e.code === 'NumpadSubtract'
+        ) {
+          e.preventDefault();
+        }
+        if (e.key === 'e' || e.key === 'E') {
+          e.preventDefault();
+        }
+      }
+      onKeyDown?.(e);
+    },
+    [nonNegative, onKeyDown]
+  );
+
+  const handlePaste = useCallback(
+    (e: ClipboardEvent<HTMLInputElement>) => {
+      const paste = e.clipboardData.getData('text');
+      if (nonNegative) {
+        if (paste.includes('-') || paste.includes('e') || paste.includes('E')) {
+          e.preventDefault();
+          return;
+        }
+      }
+      onPaste?.(e);
+    },
+    [nonNegative, onPaste]
   );
 
   return (
@@ -207,6 +246,8 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
+              onKeyDown={handleKeyDown}
+              onPaste={handlePaste}
               slotProps={{
                 ...slotProps,
                 htmlInput: {

@@ -196,13 +196,14 @@ const InputsWithRegisterForm = () => {
               control={control}
               errorMessage={errors?.weight?.message}
               variant="filled"
-              maxDecimalPlaces={4}
+              maxDecimalPlaces={3}
               placeholder="Enter your weight"
               stepAmount={2}
               showMarkers
+              nonNegative
               helperText={
                 <Typography color="seagreen">
-                  Press Arrow Up/Down keys to update input value
+                  Press Arrow Up/Down keys to update input value; negative values are not allowed
                 </Typography>
               }
             />
