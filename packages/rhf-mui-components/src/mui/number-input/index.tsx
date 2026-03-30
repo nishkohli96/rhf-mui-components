@@ -239,7 +239,7 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
             />
             <FormHelperText
               error={isError}
-              errorMessage={errorMessage}
+              errorMessage={fieldErrorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}

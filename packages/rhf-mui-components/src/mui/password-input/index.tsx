@@ -223,7 +223,7 @@ ref: Ref<HTMLInputElement>) {
             />
             <FormHelperText
               error={isError}
-              errorMessage={errorMessage}
+              errorMessage={fieldErrorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}

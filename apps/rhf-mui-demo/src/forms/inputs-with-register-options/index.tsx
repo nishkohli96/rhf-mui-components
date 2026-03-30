@@ -41,6 +41,7 @@ type FormSchema = {
   confirmPassword: string;
   age?: number;
   weight?: number;
+  balance?: number;
   tags?: string[];
   keywords?: string[];
   resume?: File;
@@ -90,7 +91,6 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               required
-              errorMessage={errors?.firstName?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -112,7 +112,7 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Input with pattern validation & label above form-field" />
+            <FieldVariantInfo title="Input with pattern validation & label above form-field with custom id" />
             <RHFTextField
               fieldName="email"
               control={control}
@@ -123,12 +123,16 @@ const InputsWithRegisterForm = () => {
                   message: 'Invalid Email Id'
                 }
               }}
+              customIds={{
+                field: 'userEmail',
+                label: 'userEmail-label'
+              }}
               variant="standard"
               showLabelAboveFormField
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Simple Password Field" />
+            <FieldVariantInfo title="Simple Password Field with hidden label" />
             <RHFPasswordInput
               fieldName="password"
               control={control}
@@ -142,6 +146,8 @@ const InputsWithRegisterForm = () => {
                   message: minCharMsg(4)
                 }
               }}
+              placeholder="Enter a secure password"
+              hideLabel
               required
               errorMessage={errors?.password?.message}
             />
@@ -179,12 +185,12 @@ const InputsWithRegisterForm = () => {
               errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
-              hideLabel
+              nonNegative
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Number Input with decimal place limit and stepAmount" />
+            <FieldVariantInfo title="Number Input with decimal place limit and integer stepAmount" />
             <RHFNumberInput
               fieldName="weight"
               control={control}
@@ -193,6 +199,28 @@ const InputsWithRegisterForm = () => {
               maxDecimalPlaces={4}
               placeholder="Enter your weight"
               stepAmount={2}
+              showMarkers
+              helperText={
+                <Typography color="seagreen">
+                  Press Arrow Up/Down keys to update input value
+                </Typography>
+              }
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Number Input with 2 decimal places and stepAmount" />
+            <RHFNumberInput
+              fieldName="balance"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('balance')
+                },
+              }}
+              variant="filled"
+              maxDecimalPlaces={2}
+              stepAmount={0.5}
               showMarkers
               helperText={
                 <Typography color="seagreen">
