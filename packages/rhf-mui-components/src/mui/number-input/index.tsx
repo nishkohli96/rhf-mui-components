@@ -25,6 +25,27 @@ type TextFieldInputProps = Omit<
   'type' | 'multiline' | 'rows' | 'minRows' | 'maxRows'
 >;
 
+/**
+ * Builds a pattern for in-progress typing: optional
+ * leading `-` (unless onlyPositive), digits, optional decimal with
+ * length limit.
+ * @param onlyPositive - When `true`, only non-negative values (including 0) match
+ *   while typing. When `false` or omitted, `-` and negative numbers are allowed.
+ * @param maxDecimalPlaces - The maximum number of decimal places allowed.
+ * @returns A RegExp pattern for in-progress typing.
+ */
+export function buildNumberInputDecimalPattern(
+  onlyPositive: boolean,
+  maxDecimalPlaces?: number
+): RegExp {
+  const sign = onlyPositive ? '' : '-?';
+  if (maxDecimalPlaces !== undefined) {
+    const n = Math.max(0, Math.floor(maxDecimalPlaces));
+    return new RegExp(`^${sign}\\d*(\\.\\d{0,${n}})?$`);
+  }
+  return new RegExp(`^${sign}\\d*(\\.\\d*)?$`);
+}
+
 export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -41,6 +62,10 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   showMarkers?: boolean;
+  /** When `true`, only non-negative values (including 0) match while
+   * typing. When `false` or omitted, `-` and negative numbers are allowed.
+   */
+  onlyPositive?: boolean;
   maxDecimalPlaces?: number;
   stepAmount?: number;
   formLabelProps?: FormLabelProps;
@@ -61,6 +86,7 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
   showLabelAboveFormField,
   hideLabel,
   showMarkers,
+  onlyPositive = false,
   maxDecimalPlaces,
   stepAmount = 1,
   formLabelProps,
@@ -91,6 +117,11 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
   const fieldLabel = useMemo(
     () => label ?? fieldNameToLabel(fieldName),
     [label, fieldName]
+  );
+
+  const decimalPattern = useMemo(
+    () => buildNumberInputDecimalPattern(onlyPositive, maxDecimalPlaces),
+    [onlyPositive, maxDecimalPlaces]
   );
 
   return (
@@ -153,10 +184,6 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
               disabled={rhfDisabled}
               onChange={event => {
                 const inputValue = event.target.value;
-                const decimalPattern
-                  = maxDecimalPlaces !== undefined
-                    ? new RegExp(`^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`)
-                    : /^\d*(\.\d*)?$/;
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
                   const fieldValue
                     = inputValue === '' ? null : Number(inputValue);
@@ -176,6 +203,7 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
               slotProps={{
                 ...slotProps,
                 htmlInput: {
+                  ...(onlyPositive ? { min: 0 } : {}),
                   ...slotProps?.htmlInput,
                   step: stepAmount
                 }
