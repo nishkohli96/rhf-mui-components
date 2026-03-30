@@ -34,7 +34,7 @@ const HomepageHeader = () => {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <img src="/img/rhf-mui-round.png" width="200" />
+        <img src="/img/rhf-mui-round.png" width="200" alt="logo" />
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>

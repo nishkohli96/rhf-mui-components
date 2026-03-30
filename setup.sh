@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REQUIRED_PNPM_VERSION="10.30.3"
+REQUIRED_PNPM_VERSION="10.33.0"
 PKG_NAME="@nish1896/rhf-mui-components"
 PKG_PATH="packages/rhf-mui-components"
 

@@ -1,4 +1,9 @@
-import { MuiComponents, MuiPickersComponents, MiscComponents, DocsVersion } from '@site/src/types';
+import {
+  MuiComponents,
+  MuiPickersComponents,
+  MiscComponents,
+  type DocsVersion
+} from '@site/src/types';
 
 const rootDir = '/components';
 const muiPrefix = '/mui';
@@ -46,12 +51,12 @@ export const newlyAddedComponents = [
   MuiComponents.TagsInput,
   MiscComponents.PhoneInput,
   MuiComponents.NumberInput,
-  MuiComponents.FileUploader,
+  MuiComponents.FileUploader
 ];
 
 export const newlyAddedV3_3Components = [
   MuiComponents.AutocompleteObject,
-  MuiComponents.MultiAutocompleteObject,
+  MuiComponents.MultiAutocompleteObject
 ];
 
 export function getMuiFoldersList(docsVersion?: DocsVersion) {
