@@ -71,8 +71,8 @@ const RHFDateTimePicker = <T extends FieldValues>({
   }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName);
-  const { textField: textFieldSlotProps, ...otherSlotProps } =
-    muiSlotProps ?? {};
+  const { textField: textFieldSlotProps, ...otherSlotProps }
+    = muiSlotProps ?? {};
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -122,9 +122,11 @@ const RHFDateTimePicker = <T extends FieldValues>({
                   onValueChange?.(newValue, context);
                 }}
                 label={
-                  !isLabelAboveFormField ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  ) : undefined
+                  !isLabelAboveFormField
+                    ? (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    )
+                    : undefined
                 }
                 slotProps={{
                   ...otherSlotProps,

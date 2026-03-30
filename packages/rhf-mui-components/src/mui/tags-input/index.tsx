@@ -193,8 +193,8 @@ const RHFTagsInput = <T extends FieldValues>({
           /* Split input by delimiter and filter valid tags */
           const newTags = trimmed
             .split(delimiter)
-            .map((tag) => tag.trim())
-            .filter((tag) => tag && !value.includes(tag));
+            .map(tag => tag.trim())
+            .filter(tag => tag && !value.includes(tag));
           if (!newTags.length) {
             return;
           }
@@ -204,8 +204,8 @@ const RHFTagsInput = <T extends FieldValues>({
           for (const tag of newTags) {
             /* Check if max limit reached */
             if (
-              maxTags !== undefined &&
-              value.length + processedTags.length >= maxTags
+              maxTags !== undefined
+              && value.length + processedTags.length >= maxTags
             ) {
               break;
             }
@@ -255,8 +255,8 @@ const RHFTagsInput = <T extends FieldValues>({
      * or 'Delete'.
      */
     if (
-      inputValue.trim() === '' &&
-      (event.key === 'Backspace' || event.key === 'Delete')
+      inputValue.trim() === ''
+      && (event.key === 'Backspace' || event.key === 'Delete')
     ) {
       const lastTag = currentTags[currentTags.length - 1];
       if (lastTag) {
@@ -278,7 +278,7 @@ const RHFTagsInput = <T extends FieldValues>({
       const delimiterPattern = new RegExp(`[\\s${delimiter}]+`);
       let newTags = pasteData
         .split(delimiterPattern)
-        .filter((tag) => tag.trim() && !value.includes(tag.trim()));
+        .filter(tag => tag.trim() && !value.includes(tag.trim()));
       /* External hook for paste validation/modification */
       const result = onTagPaste?.(newTags, value);
       if (result === false) {
@@ -363,7 +363,7 @@ const RHFTagsInput = <T extends FieldValues>({
                       return;
                     }
                     triggerChangeEvents(
-                      rhfValue.filter((t) => t !== tag),
+                      rhfValue.filter(t => t !== tag),
                       rhfOnChange
                     );
                   }}
@@ -374,8 +374,8 @@ const RHFTagsInput = <T extends FieldValues>({
                 <Chip
                   role="listitem"
                   label={
-                    getLimitTagsText?.(rhfValue.length - limitTags) ??
-                    `+${rhfValue.length - limitTags} more`
+                    getLimitTagsText?.(rhfValue.length - limitTags)
+                    ?? `+${rhfValue.length - limitTags} more`
                   }
                   disabled={rhfDisabled}
                 />
@@ -390,18 +390,18 @@ const RHFTagsInput = <T extends FieldValues>({
               autoComplete={autoComplete}
               variant={variant}
               label={
-                !hideLabel &&
-                !isLabelAboveFormField && (
+                !hideLabel
+                && !isLabelAboveFormField && (
                   <FormLabelText label={fieldLabel} required={required} />
                 )
               }
               value={inputValue}
               inputRef={rhfRef}
               onChange={handleInputChange}
-              onKeyDown={(event) => handleKeyDown(event, rhfValue, rhfOnChange)}
-              onPaste={(event) => handlePaste(event, rhfValue, rhfOnChange)}
+              onKeyDown={event => handleKeyDown(event, rhfValue, rhfOnChange)}
+              onPaste={event => handlePaste(event, rhfValue, rhfOnChange)}
               onFocus={handleFocus}
-              onBlur={(e) => {
+              onBlur={e => {
                 setIsFocused(false);
                 rhfOnBlur();
                 onBlur?.(e);

@@ -139,24 +139,23 @@ const RHFPhoneInput = <T extends FieldValues>({
     }
 
     const countriesToListAtTop = countryOptions
-      .filter((country) =>
-        preferredCountries.includes(parseCountry(country).iso2)
-      )
+      .filter(country =>
+        preferredCountries.includes(parseCountry(country).iso2))
       .sort(
         (a, b) =>
-          preferredCountries.indexOf(parseCountry(a).iso2) -
-          preferredCountries.indexOf(parseCountry(b).iso2)
+          preferredCountries.indexOf(parseCountry(a).iso2)
+          - preferredCountries.indexOf(parseCountry(b).iso2)
       );
 
     const countriesToList = countryOptions.filter(
-      (country) => !preferredCountries.includes(parseCountry(country).iso2)
+      country => !preferredCountries.includes(parseCountry(country).iso2)
     );
 
     return { countriesToList, countriesToListAtTop };
   }, [countryOptions, preferredCountries]);
 
-  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
-    usePhoneInput({
+  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
+    = usePhoneInput({
       ...otherPhoneInputProps,
       value,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
@@ -233,14 +232,14 @@ const RHFPhoneInput = <T extends FieldValues>({
                 }}
                 value={country.iso2}
                 disabled={muiDisabled || hideDropdown}
-                onChange={(e) => {
+                onChange={e => {
                   setCountry(e.target.value as CountryIso2);
                 }}
-                renderValue={(value) => (
+                renderValue={value => (
                   <FlagImage iso2={value} style={{ display: 'flex' }} />
                 )}
               >
-                {countriesToListAtTop.map((c) => {
+                {countriesToListAtTop.map(c => {
                   const countryInfo = parseCountry(c);
                   return (
                     <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
@@ -252,13 +251,14 @@ const RHFPhoneInput = <T extends FieldValues>({
                         {countryInfo.name}
                       </Typography>
                       <Typography color="gray">
-                        +{countryInfo.dialCode}
+                        +
+                        {countryInfo.dialCode}
                       </Typography>
                     </MenuItem>
                   );
                 })}
                 {countriesToListAtTop.length > 0 && <Divider />}
-                {countriesToList.map((c) => {
+                {countriesToList.map(c => {
                   const countryInfo = parseCountry(c);
                   return (
                     <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
@@ -270,7 +270,8 @@ const RHFPhoneInput = <T extends FieldValues>({
                         {countryInfo.name}
                       </Typography>
                       <Typography color="gray">
-                        +{countryInfo.dialCode}
+                        +
+                        {countryInfo.dialCode}
                       </Typography>
                     </MenuItem>
                   );
@@ -283,25 +284,27 @@ const RHFPhoneInput = <T extends FieldValues>({
             <MuiTextField
               id={fieldId}
               name={rhfFieldName}
-              inputRef={(ref) => {
+              inputRef={ref => {
                 rhfRef(ref);
                 inputRef.current = ref;
               }}
               value={inputValue}
               autoComplete={autoComplete}
               type="tel"
-              onChange={(e) => {
+              onChange={e => {
                 handlePhoneValueChange(e);
                 rhfOnChange(e.target.value);
               }}
-              onBlur={(blurEvent) => {
+              onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
               label={
-                !isLabelAboveFormField ? (
-                  <FormLabelText label={fieldLabel} required={required} />
-                ) : undefined
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
               }
               aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={
@@ -316,20 +319,20 @@ const RHFPhoneInput = <T extends FieldValues>({
               disabled={rhfDisabled}
               {...(isAboveMuiV5
                 ? {
-                    slotProps: {
-                      ...slotProps,
-                      input: {
-                        ...slotProps?.input,
-                        startAdornment
-                      }
-                    }
-                  }
-                : {
-                    InputProps: {
-                      ...InputProps,
+                  slotProps: {
+                    ...slotProps,
+                    input: {
+                      ...slotProps?.input,
                       startAdornment
                     }
-                  })}
+                  }
+                }
+                : {
+                  InputProps: {
+                    ...InputProps,
+                    startAdornment
+                  }
+                })}
               {...rest}
             />
           );

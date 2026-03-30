@@ -89,28 +89,29 @@ const RHFStaticDateTimePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-            render={({
-              field: {
-                name: rhfFieldName,
-                value: rhfValue,
-                onChange: rhfOnChange,
-                onBlur: rhfOnBlur,
-                ref: rhfRef,
-                disabled: rhfDisabled
-              }
-            }) => {
-              return (
-            <MuiStaticDateTimePicker
-              {...rest}
-            value={rhfValue || null}
-            disabled={rhfDisabled}
-            onChange={(newValue, context) => {
-              rhfOnChange(newValue);
-                onValueChange?.(newValue, context);
-              }}
-              {...rest}
-            />
-          )}}
+          render={({
+            field: {
+              name: rhfFieldName,
+              value: rhfValue,
+              onChange: rhfOnChange,
+              onBlur: rhfOnBlur,
+              ref: rhfRef,
+              disabled: rhfDisabled
+            }
+          }) => {
+            return (
+              <MuiStaticDateTimePicker
+                {...rest}
+                value={rhfValue || null}
+                disabled={rhfDisabled}
+                onChange={(newValue, context) => {
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                }}
+                {...rest}
+              />
+            );
+          }}
         />
       </LocalizationProvider>
       <FormHelperText

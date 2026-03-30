@@ -150,10 +150,10 @@ const RHFCheckboxGroup = <
           optionValue: OptionValue<Option, ValueKey>
         ) => {
           const normalizedValue = coerceValue(event.target.value, optionValue);
-           if(customOnChange) {
-              customOnChange(rhfOnChange, normalizedValue, checked, value, event);
-              return;
-            }
+          if(customOnChange) {
+            customOnChange(rhfOnChange, normalizedValue, checked, value, event);
+            return;
+          }
           const newValue = checked
             ? rhfValue.includes(normalizedValue)
               ? rhfValue

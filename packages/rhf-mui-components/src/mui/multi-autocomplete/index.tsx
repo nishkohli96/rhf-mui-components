@@ -68,7 +68,7 @@ type MultiAutoCompleteProps<Option> = Omit<
 export type RHFMultiAutocompleteProps<
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
-LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
@@ -102,7 +102,7 @@ LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 const RHFMultiAutocomplete = <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
-   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
@@ -164,14 +164,14 @@ const RHFMultiAutocomplete = <
     ...sx
   };
 
- const autoCompleteOptions: Option[] = useMemo(() => {
+  const autoCompleteOptions: Option[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {
       return options;
     }
     return [selectAllText as Option, ...options];
   }, [options, selectAllText, shouldHideSelectAllOptions]);
 
-   const optionsMap = useMemo(() => {
+  const optionsMap = useMemo(() => {
     if (!valueKey) {
       return null;
     }
@@ -208,7 +208,7 @@ const RHFMultiAutocomplete = <
     [isSelectAllOption, selectAllText, getOptionLabelOrValue, labelKey]
   );
 
-    const renderChips = useCallback(
+  const renderChips = useCallback(
     (value: Option[], getProps: any) =>
       value.map((option, index) => {
         const { key, ...itemProps } = getProps({ index });
@@ -278,21 +278,21 @@ const RHFMultiAutocomplete = <
             [rhfOnChange, onValueChange]
           );
 
-            const handleCheckboxChange = useCallback(
-    (currentValue: StringArr, optionValue: string, checked: boolean) => {
-      /* When "Select All" checkbox is toggled. */
-      if (!optionValue || optionValue === selectAllOptionValue) {
-        return checked
-          ? options.map(opt => getOptionLabelOrValue(opt, valueKey))
-          : [];
-      }
-      /* When one of the options is selected */
-      return checked
-        ? [...currentValue, optionValue]
-        : currentValue.filter(val => val !== optionValue);
-    },
-    [options, getOptionLabelOrValue, valueKey]
-  );
+          const handleCheckboxChange = useCallback(
+            (currentValue: StringArr, optionValue: string, checked: boolean) => {
+              /* When "Select All" checkbox is toggled. */
+              if (!optionValue || optionValue === selectAllOptionValue) {
+                return checked
+                  ? options.map(opt => getOptionLabelOrValue(opt, valueKey))
+                  : [];
+              }
+              /* When one of the options is selected */
+              return checked
+                ? [...currentValue, optionValue]
+                : currentValue.filter(val => val !== optionValue);
+            },
+            [options, getOptionLabelOrValue, valueKey]
+          );
 
           return (
             <Autocomplete

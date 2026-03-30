@@ -99,10 +99,10 @@ const RHFNumberInput = <T extends FieldValues>({
           required={required}
           error={isError}
           formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
+            id: labelId,
+            htmlFor: fieldId,
+            ...formLabelProps
+          }}
         />
       )}
       <Controller

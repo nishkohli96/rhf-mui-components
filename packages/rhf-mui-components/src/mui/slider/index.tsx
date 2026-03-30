@@ -108,9 +108,9 @@ const RHFSlider = <T extends FieldValues>({
               disabled={rhfDisabled}
               onChange={(event, value, activeThumb) => {
                 if(customOnChange) {
-                customOnChange(rhfOnChange, value, activeThumb, event);
-                return;
-              }
+                  customOnChange(rhfOnChange, value, activeThumb, event);
+                  return;
+                }
                 rhfOnChange(value);
                 onValueChange?.(value, activeThumb, event);
               }}

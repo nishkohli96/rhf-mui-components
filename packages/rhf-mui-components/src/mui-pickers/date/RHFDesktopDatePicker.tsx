@@ -109,22 +109,22 @@ const RHFDesktopDatePicker = <T extends FieldValues>({
             }
           }) => (
             <MuiDesktopDatePicker
-            name={rhfFieldName}
-            inputRef={rhfRef}
-            value={rhfValue || null}
-            disabled={rhfDisabled}
-            onChange={(newValue, context) => {
-              rhfOnChange(newValue);
-              onValueChange?.(newValue, context);
-            }}
-            label={
-              !isLabelAboveFormField
-              ? (
-                <FormLabelText label={fieldLabel} required={required} />
-              )
-              : undefined
-            }
-            {...rest}
+              name={rhfFieldName}
+              inputRef={rhfRef}
+              value={rhfValue || null}
+              disabled={rhfDisabled}
+              onChange={(newValue, context) => {
+                rhfOnChange(newValue);
+                onValueChange?.(newValue, context);
+              }}
+              label={
+                !isLabelAboveFormField
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
+                  : undefined
+              }
+              {...rest}
             />
           )}
         />

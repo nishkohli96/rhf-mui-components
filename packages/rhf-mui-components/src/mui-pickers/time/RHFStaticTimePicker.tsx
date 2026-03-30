@@ -104,16 +104,17 @@ const RHFStaticTimePicker = <T extends FieldValues>({
             }
           }) => {
             return (
-            <MuiStaticTimePicker
-            value={rhfValue || null}
-            disabled={rhfDisabled}
-            onChange={(newValue, context) => {
-              rhfOnChange(newValue);
-              onValueChange?.(newValue, context);
-            }}
-            {...rest}
-            />
-          )}}
+              <MuiStaticTimePicker
+                value={rhfValue || null}
+                disabled={rhfDisabled}
+                onChange={(newValue, context) => {
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                }}
+                {...rest}
+              />
+            );
+          }}
         />
       </LocalizationProvider>
       <FormHelperText

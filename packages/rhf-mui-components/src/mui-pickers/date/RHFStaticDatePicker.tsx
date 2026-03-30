@@ -104,16 +104,17 @@ const RHFStaticDatePicker = <T extends FieldValues>({
             }
           }) => {
             return (
-            <MuiStaticDatePicker
-            value={rhfValue || null}
-            disabled={rhfDisabled}
-            onChange={(newValue, context) => {
-              rhfOnChange(newValue);
-              onValueChange?.(newValue, context);
-            }}
-            {...rest}
-            />
-          )}}
+              <MuiStaticDatePicker
+                value={rhfValue || null}
+                disabled={rhfDisabled}
+                onChange={(newValue, context) => {
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                }}
+                {...rest}
+              />
+            );
+          }}
         />
       </LocalizationProvider>
       <FormHelperText

@@ -143,8 +143,8 @@ const RHFTextField = forwardRef(function RHFTextField<
               inputRef={mergeRefs(rhfRef, ref)}
               autoComplete={autoComplete}
               label={
-                !hideLabel &&
-                !isLabelAboveFormField && (
+                !hideLabel
+                && !isLabelAboveFormField && (
                   <FormLabelText label={fieldLabel} required={required} />
                 )
               }
@@ -159,7 +159,7 @@ const RHFTextField = forwardRef(function RHFTextField<
                 rhfOnChange(newValue);
                 onValueChange?.(newValue, event);
               }}
-              onBlur={(blurEvent) => {
+              onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}

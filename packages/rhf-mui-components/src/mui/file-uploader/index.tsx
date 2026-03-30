@@ -92,7 +92,7 @@ const RHFFileUploader = <T extends FieldValues>({
   enableDragAndDrop = true,
 }: RHFFileUploaderProps<T>) => {
   const [isDragging, setIsDragging] = useState(false);
-    const {
+  const {
     fieldId,
     labelId,
     helperTextId,
@@ -113,18 +113,18 @@ const RHFFileUploader = <T extends FieldValues>({
   return (
     <FormControl fullWidth={fullWidth} error={isError}>
       {!hideLabel && (
-          <FormLabel
-            label={fieldLabel}
-            isVisible={isLabelAboveFormField}
-            required={required}
-            error={isError}
-             formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-          />
-        )}
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          formLabelProps={{
+            id: labelId,
+            htmlFor: fieldId,
+            ...formLabelProps
+          }}
+        />
+      )}
       <Controller
         name={fieldName}
         control={control}

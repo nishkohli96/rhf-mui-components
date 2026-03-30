@@ -120,10 +120,10 @@ const RHFPasswordInput = <T extends FieldValues>({
           required={required}
           error={isError}
           formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
+            id: labelId,
+            htmlFor: fieldId,
+            ...formLabelProps
+          }}
         />
       )}
       <Controller
@@ -170,9 +170,9 @@ const RHFPasswordInput = <T extends FieldValues>({
               value={rhfValue ?? ''}
               disabled={rhfDisabled}
               onChange={event => {
-const newValue = event.target.value;                
-if (customOnChange) {
-                  customOnChange(rhfOnChange,newValue, event);
+                const newValue = event.target.value;
+                if (customOnChange) {
+                  customOnChange(rhfOnChange, newValue, event);
                   return;
                 }
                 rhfOnChange(newValue);
@@ -192,14 +192,13 @@ if (customOnChange) {
                   : undefined
               }
               aria-required={required}
-                  slotProps={{
-                    ...slotProps,
-                    input: {
-                      ...slotProps?.input,
-                      endAdornment
-                    }
-                  }
+              slotProps={{
+                ...slotProps,
+                input: {
+                  ...slotProps?.input,
+                  endAdornment
                 }
+              }}
               {...rest}
             />
           );

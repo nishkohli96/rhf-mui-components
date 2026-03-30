@@ -103,24 +103,25 @@ const RHFDesktopTimePicker = <T extends FieldValues>({
             }
           }) => {
             return (
-            <DesktopTimePicker
-            name={rhfFieldName}
-            inputRef={rhfRef}
-            value={rhfValue || null}
-            disabled={rhfDisabled}
-            onChange={(newValue, context) => {
-              rhfOnChange(newValue);
-                onValueChange?.(newValue, context);
-              }}
-              label={
-                !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
-              }
-            />
-          )}}
+              <DesktopTimePicker
+                name={rhfFieldName}
+                inputRef={rhfRef}
+                value={rhfValue || null}
+                disabled={rhfDisabled}
+                onChange={(newValue, context) => {
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                }}
+                label={
+                  !isLabelAboveFormField
+                    ? (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    )
+                    : undefined
+                }
+              />
+            );
+          }}
         />
       </LocalizationProvider>
       <FormHelperText

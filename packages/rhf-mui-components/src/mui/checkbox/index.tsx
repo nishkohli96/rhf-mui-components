@@ -110,11 +110,11 @@ const RHFCheckbox = <T extends FieldValues>({
                   }
                   aria-invalid={isError || undefined}
                   onChange={(event, checked) => {
-if(customOnChange) {
+                    if(customOnChange) {
                       customOnChange(rhfOnChange, checked, event);
                       return;
-                    }                    
-rhfOnChange(checked);
+                    }
+                    rhfOnChange(checked);
                     onValueChange?.(checked, event);
                   }}
                   onBlur={blurEvent => {

@@ -103,25 +103,26 @@ const RHFMobileTimePicker = <T extends FieldValues>({
             }
           }) => {
             return (
-            <MuiMobileTimePicker
-            name={rhfFieldName}
-            inputRef={rhfRef}
-            value={rhfValue || null}
-            disabled={rhfDisabled}
-            onChange={(newValue, context) => {
-              rhfOnChange(newValue);
-              onValueChange?.(newValue, context);
-            }}
-            label={
-              !isLabelAboveFormField
-              ? (
-                <FormLabelText label={fieldLabel} required={required} />
-              )
-              : undefined
-            }
-            {...rest}
-            />
-          )}}
+              <MuiMobileTimePicker
+                name={rhfFieldName}
+                inputRef={rhfRef}
+                value={rhfValue || null}
+                disabled={rhfDisabled}
+                onChange={(newValue, context) => {
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                }}
+                label={
+                  !isLabelAboveFormField
+                    ? (
+                      <FormLabelText label={fieldLabel} required={required} />
+                    )
+                    : undefined
+                }
+                {...rest}
+              />
+            );
+          }}
         />
       </LocalizationProvider>
       <FormHelperText
