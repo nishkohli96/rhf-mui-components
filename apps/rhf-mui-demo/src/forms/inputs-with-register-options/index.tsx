@@ -242,15 +242,11 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               limitTags={4}
-              onTagAdd={(newTag, currentTags) => {
+              onTagAdd={newTag => {
                 if (newTag.length < 3) {
                   return false;
                 }
-                if (
-                  currentTags
-                    .map((t) => t.toLowerCase())
-                    .includes(newTag.toLowerCase())
-                ) {
+                if (newTag.toLowerCase().includes('sh')) {
                   return false;
                 }
               }}
@@ -259,13 +255,11 @@ const InputsWithRegisterForm = () => {
                   return false;
                 }
               }}
-              onTagPaste={(pastedTags, currentTags) => {
+              onTagPaste={pastedTags => {
                 const filteredTags = pastedTags.filter(
                   (t) =>
                     t.length >= 3 &&
-                    !currentTags
-                      .map((at) => at.toLowerCase())
-                      .includes(t.toLowerCase())
+                    !t.toLowerCase().includes('sh')
                 );
                 return filteredTags;
               }}
@@ -273,6 +267,7 @@ const InputsWithRegisterForm = () => {
                 <Typography color="green">{`& ${hiddenTags} More`}</Typography>
               )}
               required
+              helperText="Enter min 3 characters; no 'sh' substring allowed"
               errorMessage={errors?.tags?.message}
             />
           </Grid>

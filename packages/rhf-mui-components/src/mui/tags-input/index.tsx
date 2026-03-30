@@ -267,10 +267,18 @@ ref: Ref<HTMLInputElement>) {
     ) => {
       event.preventDefault();
       const pasteData = event.clipboardData.getData('text');
-      const delimiterPattern = new RegExp(`[\\s${delimiter}]+`);
+      /* Match Enter: split on `delimiter` only, then trim. Do not split on
+       * whitespace alone — spaces inside a segment stay part of one tag. */
       let newTags = pasteData
-        .split(delimiterPattern)
-        .filter(tag => tag.trim() && !value.includes(tag.trim()));
+        .split(delimiter)
+        .map(tag => tag.trim())
+        .filter(
+          tag =>
+            tag
+            && !value.some(
+              v => normalizeString(v) === normalizeString(tag)
+            )
+        );
 
       /* External hook for paste validation/modification */
       const result = onTagPaste?.(newTags, value);
@@ -292,7 +300,7 @@ ref: Ref<HTMLInputElement>) {
         triggerChangeEvents([...value, ...newTags], onChange);
       }
     },
-    [delimiter, maxTags, onTagPaste, triggerChangeEvents]
+    [delimiter, maxTags, onTagPaste, triggerChangeEvents, normalizeString]
   );
 
   return (
