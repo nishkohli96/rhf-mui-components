@@ -31,3 +31,10 @@ export type OptionValue<
         ? Option[ValueKey]
         : never
       : never;
+
+export type CustomComponentIds = Partial<{
+  field: string;
+  label: string;
+  helperText: string;
+  error: string;
+}>;
