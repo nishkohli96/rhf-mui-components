@@ -1,6 +1,13 @@
 'use client';
 
-import { useContext, Fragment, type ReactNode } from 'react';
+import {
+  useContext,
+  useMemo,
+  forwardRef,
+  Fragment,
+  type ReactNode,
+  Ref
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -24,7 +31,8 @@ import type {
   FormHelperTextProps,
   SelectProps,
   StrNumObjOption,
-  OptionValue
+  OptionValue,
+  CustomComponentIds
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -35,10 +43,12 @@ import {
   normalizeSelectValue,
   useFieldIds,
   getDisplayLabelForSelectValue,
+  mergeRefs
 } from '@/utils';
 
-type SelectValue<Value, Multiple extends boolean>
-  = Multiple extends true ? Value[] : Value;
+type SelectValue<Value, Multiple extends boolean> = Multiple extends true
+  ? Value[]
+  : Value;
 
 export type RHFSelectProps<
   T extends FieldValues,
@@ -81,241 +91,275 @@ export type RHFSelectProps<
     child: ReactNode
   ) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   placeholder?: string;
+  customIds?: CustomComponentIds;
 } & SelectProps;
 
-const RHFSelect = <
+const RHFSelect = forwardRef(function RHFSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
   Multiple extends boolean = false
->({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  renderOption,
-  getOptionDisabled,
-  multiple,
-  showDefaultOption,
-  defaultOptionText,
-  customOnChange,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  renderValue,
-  placeholder,
-  ...otherSelectProps
-}: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    renderOption,
+    getOptionDisabled,
+    multiple,
+    showDefaultOption,
+    defaultOptionText,
+    customOnChange,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    renderValue,
+    placeholder,
+    customIds,
+    ...otherSelectProps
+  }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
+  ref: Ref<HTMLInputElement>
+) {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   validateArray('RHFSelect', options, labelKey, valueKey);
 
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
 
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? fieldLabelText;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+  const fieldLabel = useMemo(
+    () => label ?? fieldNameToLabel(fieldName),
+    [label, fieldName]
+  );
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
   );
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const isValueEmpty
-            = !rhfValue
-              || rhfValue === ''
-              || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
-          const showPlaceholder = isValueEmpty && !!placeholder;
-          const selectLabelProp
-            = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
-          const selectLabelId = isLabelAboveFormField ? undefined : labelId;
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const isValueEmpty =
+          !rhfValue ||
+          rhfValue === '' ||
+          (multiple && Array.isArray(rhfValue) && !rhfValue.length);
+        const showPlaceholder = isValueEmpty && !!placeholder;
+        const selectLabelProp =
+          hideLabel || isLabelAboveFormField || isValueEmpty
+            ? undefined
+            : SelectFormLabel;
+        const selectLabelId = isLabelAboveFormField ? undefined : labelId;
 
-          return (
-            <Fragment>
-              {!isLabelAboveFormField && !showPlaceholder && (
-                <InputLabel id={labelId} shrink={!isValueEmpty}>
-                  {SelectFormLabel}
-                </InputLabel>
-              )}
-              <MuiSelect
-                id={fieldId}
-                name={rhfFieldName}
-                autoComplete={autoComplete}
-                labelId={selectLabelId}
-                aria-required={required}
-                aria-invalid={isError}
-                aria-describedby={
-                  showHelperTextElement
-                    ? (isError ? errorId : helperTextId)
-                    : undefined
-                }
-                label={selectLabelProp}
-                value={rhfValue ?? (multiple ? [] : '')}
+        const fieldErrorMessage =
+          fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText ||
+          (isError && !hideErrorMessage)
+        );
+
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
                 error={isError}
-                multiple={multiple}
-                displayEmpty={isValueEmpty}
-                inputRef={rhfRef}
-                disabled={rhfDisabled}
-                onChange={(event, child) => {
-                  const selectEvent = event as SelectChangeEvent<
-                    SelectValue<OptionValue<Option, ValueKey>, Multiple>
-                  >;
-                  const selectedValue = selectEvent.target.value;
-                  const normalizedValue = normalizeSelectValue(
-                    selectedValue,
-                    options,
-                    labelKey,
-                    valueKey
-                  ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
-                  if (customOnChange) {
-                    customOnChange(rhfOnChange, normalizedValue, selectEvent, child);
-                    return;
-                  }
-                  rhfOnChange(normalizedValue);
-                  onValueChange?.(
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
+            {!isLabelAboveFormField && !showPlaceholder && (
+              <InputLabel id={labelId} shrink={!isValueEmpty}>
+                {SelectFormLabel}
+              </InputLabel>
+            )}
+            <MuiSelect
+              id={fieldId}
+              name={rhfFieldName}
+              autoComplete={autoComplete}
+              inputRef={mergeRefs(rhfRef, ref)}
+              labelId={selectLabelId}
+              aria-required={required}
+              aria-invalid={isError}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              label={selectLabelProp}
+              value={rhfValue ?? (multiple ? [] : '')}
+              error={isError}
+              multiple={multiple}
+              displayEmpty={isValueEmpty}
+              disabled={rhfDisabled}
+              onChange={(event, child) => {
+                const selectEvent = event as SelectChangeEvent<
+                  SelectValue<OptionValue<Option, ValueKey>, Multiple>
+                >;
+                const selectedValue = selectEvent.target.value;
+                const normalizedValue = normalizeSelectValue(
+                  selectedValue,
+                  options,
+                  labelKey,
+                  valueKey
+                ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
+                if (customOnChange) {
+                  customOnChange(
+                    rhfOnChange,
                     normalizedValue,
                     selectEvent,
                     child
                   );
-                }}
-                {...otherSelectProps}
-                onBlur={blurEvent => {
-                  rhfOnBlur();
-                  onBlur?.(blurEvent);
-                }}
-                renderValue={value => {
-                  if (showPlaceholder) {
-                    return (
-                      <span style={{ opacity: 0.6, color: 'inherit' }}>
-                        {placeholder}
-                      </span>
-                    );
-                  }
-                  /* For multiple options */
-                  if (Array.isArray(value)) {
-                    const labels = value
-                      .map(val =>
-                        getDisplayLabelForSelectValue(val, options, labelKey, valueKey))
-                      .filter(
-                        (node): node is Exclude<typeof node, ''> =>
-                          node !== '' && node !== null && node !== undefined,
-                      );
-                    return (
-                      <Fragment>
-                        {renderValue?.(value) ?? labels.join(', ')}
-                      </Fragment>
-                    );
-                  }
-                  /* For single option */
-                  const optionLabel = getDisplayLabelForSelectValue(
-                    value,
-                    options,
-                    labelKey,
-                    valueKey
+                  return;
+                }
+                rhfOnChange(normalizedValue);
+                onValueChange?.(normalizedValue, selectEvent, child);
+              }}
+              {...otherSelectProps}
+              onBlur={(blurEvent) => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
+              }}
+              renderValue={(value) => {
+                if (showPlaceholder) {
+                  return (
+                    <span style={{ opacity: 0.6, color: 'inherit' }}>
+                      {placeholder}
+                    </span>
                   );
+                }
+                /* For multiple options */
+                if (Array.isArray(value)) {
+                  const labels = value
+                    .map((val) =>
+                      getDisplayLabelForSelectValue(
+                        val,
+                        options,
+                        labelKey,
+                        valueKey
+                      )
+                    )
+                    .filter(
+                      (node): node is Exclude<typeof node, ''> =>
+                        node !== '' && node !== null && node !== undefined
+                    );
                   return (
                     <Fragment>
-                      {renderValue?.(value) ?? optionLabel}
+                      {renderValue?.(value) ?? labels.join(', ')}
                     </Fragment>
                   );
-                }}
-              >
-                {showDefaultOption && (
-                  <MenuItem value="" disabled={required}>
-                    {defaultOptionText ?? `Select ${fieldLabelText}`}
+                }
+                /* For single option */
+                const optionLabel = getDisplayLabelForSelectValue(
+                  value,
+                  options,
+                  labelKey,
+                  valueKey
+                );
+                return (
+                  <Fragment>{renderValue?.(value) ?? optionLabel}</Fragment>
+                );
+              }}
+            >
+              {showDefaultOption && (
+                <MenuItem value="" disabled={required}>
+                  {defaultOptionText ?? `Select ${fieldLabelText}`}
+                </MenuItem>
+              )}
+              {options.map((option) => {
+                const isObject = isKeyValueOption(option, labelKey, valueKey);
+                const opnValue = getOptionValue<Option, ValueKey>(
+                  option,
+                  valueKey
+                );
+                const opnLabel = isObject
+                  ? String(option[labelKey!])
+                  : String(option);
+                const isOptionDisabled = getOptionDisabled?.(option) ?? rhfDisabled;
+                return (
+                  <MenuItem
+                    key={opnValue}
+                    value={opnValue}
+                    disabled={isOptionDisabled}
+                    aria-disabled={isOptionDisabled}
+                  >
+                    {renderOption?.(option) ?? opnLabel}
                   </MenuItem>
-                )}
-                {options.map(option => {
-                  const isObject = isKeyValueOption(option, labelKey, valueKey);
-                  const opnValue = getOptionValue<Option, ValueKey>(
-                    option,
-                    valueKey
-                  );
-                  const opnLabel = isObject
-                    ? String(option[labelKey!])
-                    : String(option);
-                  return (
-                    <MenuItem
-                      key={opnValue}
-                      value={opnValue}
-                      disabled={getOptionDisabled?.(option)}
-                    >
-                      {renderOption?.(option) ?? opnLabel}
-                    </MenuItem>
-                  );
-                })}
-              </MuiSelect>
-            </Fragment>
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+                );
+              })}
+            </MuiSelect>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
-};
+}) as <T extends FieldValues>(
+  props: RHFSelectProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFSelect;

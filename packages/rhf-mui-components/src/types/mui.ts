@@ -114,6 +114,7 @@ export type RHFMuiConfigInput = {
   defaultFormHelperTextSx?: SxProps;
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
+  skipValidationInEnvs?: string[];
 };
 
 export type RHFMuiConfig = {
