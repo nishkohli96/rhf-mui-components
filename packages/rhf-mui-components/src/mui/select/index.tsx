@@ -6,7 +6,7 @@ import {
   forwardRef,
   Fragment,
   type ReactNode,
-  Ref
+  type Ref
 } from 'react';
 import {
   Controller,
@@ -67,6 +67,12 @@ export type RHFSelectProps<
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+ * List of options to display in the dropdown.
+ *
+ * ⚠️ For better usability and performance, consider using `RHFAutocomplete`
+ * or `RHFMuiAutocomplete` when the number of options exceeds ~20.
+ */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
@@ -186,24 +192,24 @@ const RHFSelect = forwardRef(function RHFSelect<
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const isValueEmpty =
-          rhfValue === undefined ||
-          rhfValue === null ||
-          rhfValue === '' ||
-          (multiple && Array.isArray(rhfValue) && !rhfValue.length);
+        const isValueEmpty
+          = rhfValue === undefined
+            || rhfValue === null
+            || rhfValue === ''
+            || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
         const showPlaceholder = isValueEmpty && !!placeholder;
-        const selectLabelProp =
-          hideLabel || isLabelAboveFormField || isValueEmpty
+        const selectLabelProp
+          = hideLabel || isLabelAboveFormField || isValueEmpty
             ? undefined
             : SelectFormLabel;
         const selectLabelId = isLabelAboveFormField ? undefined : labelId;
 
-        const fieldErrorMessage =
-          fieldStateError?.message?.toString() ?? errorMessage;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
-          helperText ||
-          (isError && !hideErrorMessage)
+          helperText
+          || (isError && !hideErrorMessage)
         );
 
         return (
@@ -232,6 +238,7 @@ const RHFSelect = forwardRef(function RHFSelect<
               autoComplete={autoComplete}
               inputRef={mergeRefs(rhfRef, ref)}
               labelId={selectLabelId}
+              aria-label={hideLabel ? fieldLabel : undefined}
               aria-required={required}
               aria-invalid={isError}
               aria-describedby={
@@ -272,11 +279,11 @@ const RHFSelect = forwardRef(function RHFSelect<
                 onValueChange?.(normalizedValue, selectEvent, child);
               }}
               {...otherSelectProps}
-              onBlur={(blurEvent) => {
+              onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              renderValue={(value) => {
+              renderValue={value => {
                 if (showPlaceholder) {
                   return (
                     <span
@@ -290,14 +297,13 @@ const RHFSelect = forwardRef(function RHFSelect<
                 /* For multiple options */
                 if (Array.isArray(value)) {
                   const labels = value
-                    .map((val) =>
+                    .map(val =>
                       getDisplayLabelForSelectValue(
                         val,
                         options,
                         labelKey,
                         valueKey
-                      )
-                    )
+                      ))
                     .filter(
                       (node): node is Exclude<typeof node, ''> =>
                         node !== '' && node !== null && node !== undefined
@@ -316,7 +322,9 @@ const RHFSelect = forwardRef(function RHFSelect<
                   valueKey
                 );
                 return (
-                  <Fragment>{renderValue?.(value) ?? optionLabel}</Fragment>
+                  <Fragment>
+                    {renderValue?.(value) ?? optionLabel}
+                  </Fragment>
                 );
               }}
             >
@@ -334,8 +342,8 @@ const RHFSelect = forwardRef(function RHFSelect<
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled =
-                  getOptionDisabled?.(option) ?? rhfDisabled;
+                const isOptionDisabled
+                  = getOptionDisabled?.(option) ?? rhfDisabled;
                 return (
                   <MenuItem
                     key={`${opnValue}-${index}`}
@@ -363,8 +371,22 @@ const RHFSelect = forwardRef(function RHFSelect<
       }}
     />
   );
-}) as <T extends FieldValues>(
-  props: RHFSelectProps<T> & { ref?: Ref<HTMLInputElement> }
+}) as <
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  Multiple extends boolean = false
+>(
+  props: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple> & {
+    ref?: Ref<HTMLInputElement>;
+  }
 ) => JSX.Element;
 
 export default RHFSelect;
