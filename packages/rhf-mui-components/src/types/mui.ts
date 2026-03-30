@@ -41,6 +41,7 @@ export type TextFieldProps = Omit<
   | 'onChange'
   | 'error'
   | 'FormHelperTextProps'
+  | 'ref'
 >;
 
 export type CheckboxProps = Omit<
