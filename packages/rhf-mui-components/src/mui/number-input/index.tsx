@@ -26,19 +26,18 @@ type TextFieldInputProps = Omit<
 >;
 
 /**
- * Builds a pattern for in-progress typing: optional
- * leading `-` (unless onlyPositive), digits, optional decimal with
- * length limit.
- * @param onlyPositive - When `true`, only non-negative values (including 0) match
+ * Builds a pattern for in-progress typing: optional leading `-` when
+ * `nonNegative` is false; digits; optional decimal with length limit.
+ * @param nonNegative - When `true`, only non-negative values (including 0) match
  *   while typing. When `false` or omitted, `-` and negative numbers are allowed.
  * @param maxDecimalPlaces - The maximum number of decimal places allowed.
  * @returns A RegExp pattern for in-progress typing.
  */
 export function buildNumberInputDecimalPattern(
-  onlyPositive: boolean,
+  nonNegative: boolean,
   maxDecimalPlaces?: number
 ): RegExp {
-  const sign = onlyPositive ? '' : '-?';
+  const sign = nonNegative ? '' : '-?';
   if (maxDecimalPlaces !== undefined) {
     const n = Math.max(0, Math.floor(maxDecimalPlaces));
     return new RegExp(`^${sign}\\d*(\\.\\d{0,${n}})?$`);
@@ -65,7 +64,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   /** When `true`, only non-negative values (including 0) match while
    * typing. When `false` or omitted, `-` and negative numbers are allowed.
    */
-  onlyPositive?: boolean;
+  nonNegative?: boolean;
   maxDecimalPlaces?: number;
   stepAmount?: number;
   formLabelProps?: FormLabelProps;
@@ -86,7 +85,7 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
   showLabelAboveFormField,
   hideLabel,
   showMarkers,
-  onlyPositive = false,
+  nonNegative = false,
   maxDecimalPlaces,
   stepAmount = 1,
   formLabelProps,
@@ -120,8 +119,8 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
   );
 
   const decimalPattern = useMemo(
-    () => buildNumberInputDecimalPattern(onlyPositive, maxDecimalPlaces),
-    [onlyPositive, maxDecimalPlaces]
+    () => buildNumberInputDecimalPattern(nonNegative, maxDecimalPlaces),
+    [nonNegative, maxDecimalPlaces]
   );
 
   return (
@@ -203,7 +202,7 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
               slotProps={{
                 ...slotProps,
                 htmlInput: {
-                  ...(onlyPositive ? { min: 0 } : {}),
+                  ...(nonNegative ? { min: 0 } : {}),
                   ...slotProps?.htmlInput,
                   step: stepAmount
                 }

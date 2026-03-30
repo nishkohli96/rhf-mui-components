@@ -580,6 +580,12 @@ const PropsDescription: Record<
       'Show the increment and decrement markers on number input.  Hidden by default.',
     type: 'boolean'
   },
+  nonNegative: {
+    name: 'nonNegative',
+    description:
+      'When `true`, restricts input to non-negative numbers (including zero) and sets `min` to `0` on the underlying input. When `false` or omitted, negative values and a leading `-` are allowed while typing.',
+    type: 'boolean'
+  },
   maxDecimalPlaces: {
     name: 'maxDecimalPlaces',
     description:

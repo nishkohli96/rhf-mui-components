@@ -15,7 +15,11 @@ const RHFNumberInputPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     PropsDescription.onValueChange_numberInput,
     ...(v4AndAbove
-      ? [PropsDescription.maxDecimalPlaces, PropsDescription.stepAmount]
+      ? [
+          PropsDescription.nonNegative,
+          PropsDescription.maxDecimalPlaces,
+          PropsDescription.stepAmount
+        ]
       : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.label,
