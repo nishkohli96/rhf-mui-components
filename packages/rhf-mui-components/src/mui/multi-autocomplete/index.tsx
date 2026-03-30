@@ -31,7 +31,6 @@ import type {
   CheckboxProps,
   FormHelperTextProps,
   KeyValueOption,
-  string[],
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps

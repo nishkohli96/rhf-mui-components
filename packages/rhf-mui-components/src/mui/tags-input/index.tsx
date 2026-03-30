@@ -7,6 +7,7 @@ import {
   useCallback,
   forwardRef,
   type ReactNode,
+  type FocusEvent,
   type ChangeEvent,
   type KeyboardEvent,
   type ClipboardEvent,
@@ -42,7 +43,8 @@ import {
   keepLabelAboveFormField,
   fieldNameToId,
   useFieldIds,
-  mergeRefs
+  mergeRefs,
+  normalizeString
 } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -175,7 +177,9 @@ ref: Ref<HTMLInputElement>) {
   };
   const textFieldPadding = getTextFieldPadding(variant);
 
-  const handleFocus = (e: FocusEvent) => {
+  const handleFocus = (
+    e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setIsFocused(true);
     onFocus?.(e);
   };
@@ -207,17 +211,17 @@ ref: Ref<HTMLInputElement>) {
         event.preventDefault();
         if (trimmed) {
           /* Split input by delimiter and filter valid tags */
-          const newTags = trimmed
+          const rawTags = trimmed
             .split(delimiter)
             .map(tag => tag.trim())
-            .filter(tag => tag && !value.includes(tag));
-          if (!newTags.length) {
+            .filter(Boolean);
+          if (!rawTags.length) {
             return;
           }
 
           /* Allow external hook to modify or block additions */
           const processedTags: string[] = [];
-          for (const tag of newTags) {
+          for (const tag of rawTags) {
             /* Check if max limit reached */
             if (
               maxTags !== undefined
@@ -227,8 +231,14 @@ ref: Ref<HTMLInputElement>) {
             }
             const result = onTagAdd?.(tag, value);
             if (result !== false) {
-              const finalTag = typeof result === 'string' ? result : tag;
-              processedTags.push(finalTag);
+              const finalTag = (typeof result === 'string' ? result : tag).trim();
+              if (
+                ![...value, ...processedTags].some(
+                  v => normalizeString(v) === normalizeString(finalTag)
+                )
+              ) {
+                processedTags.push(finalTag);
+              }
             }
           }
 

@@ -32,3 +32,7 @@ export function fieldNameToId(fieldName: string): string {
     .replace(/-+/g, '-') // collapse multiple dashes
     .replace(/^-|-$/g, ''); // trim leading/trailing dash
 }
+
+export function normalizeString(str: string) {
+  return str.trim().toLowerCase().replace(/\s+/g, '');
+}
