@@ -187,7 +187,8 @@ const RHFSelect = forwardRef(function RHFSelect<
         fieldState: { error: fieldStateError }
       }) => {
         const isValueEmpty =
-          !rhfValue ||
+          rhfValue === undefined ||
+          rhfValue === null ||
           rhfValue === '' ||
           (multiple && Array.isArray(rhfValue) && !rhfValue.length);
         const showPlaceholder = isValueEmpty && !!placeholder;
@@ -244,6 +245,7 @@ const RHFSelect = forwardRef(function RHFSelect<
               value={rhfValue ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}
+              aria-multiselectable={multiple || undefined}
               displayEmpty={isValueEmpty}
               disabled={rhfDisabled}
               onChange={(event, child) => {
@@ -277,7 +279,10 @@ const RHFSelect = forwardRef(function RHFSelect<
               renderValue={(value) => {
                 if (showPlaceholder) {
                   return (
-                    <span style={{ opacity: 0.6, color: 'inherit' }}>
+                    <span
+                      aria-hidden="true"
+                      style={{ opacity: 0.6, color: 'inherit' }}
+                    >
                       {placeholder}
                     </span>
                   );
@@ -320,7 +325,7 @@ const RHFSelect = forwardRef(function RHFSelect<
                   {defaultOptionText ?? `Select ${fieldLabelText}`}
                 </MenuItem>
               )}
-              {options.map((option) => {
+              {options.map((option, index) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue = getOptionValue<Option, ValueKey>(
                   option,
@@ -329,13 +334,13 @@ const RHFSelect = forwardRef(function RHFSelect<
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled = getOptionDisabled?.(option) ?? rhfDisabled;
+                const isOptionDisabled =
+                  getOptionDisabled?.(option) ?? rhfDisabled;
                 return (
                   <MenuItem
-                    key={opnValue}
+                    key={`${opnValue}-${index}`}
                     value={opnValue}
                     disabled={isOptionDisabled}
-                    aria-disabled={isOptionDisabled}
                   >
                     {renderOption?.(option) ?? opnLabel}
                   </MenuItem>
