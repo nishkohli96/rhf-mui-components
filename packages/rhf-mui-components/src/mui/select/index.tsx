@@ -68,11 +68,13 @@ export type RHFSelectProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
- * List of options to display in the dropdown.
- *
- * ⚠️ For better usability and performance, consider using `RHFAutocomplete`
- * or `RHFMuiAutocomplete` when the number of options exceeds ~20.
- */
+   * List of options to display in the dropdown.
+   *
+   * Note:
+   * - Works best for small to moderate datasets.
+   * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMuiAutocomplete` is
+   *   recommended for improved searchability, keyboard navigation, and performance.
+   */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
