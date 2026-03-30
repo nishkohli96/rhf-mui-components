@@ -3,11 +3,14 @@
 import {
   useState,
   useContext,
+  useMemo,
   useCallback,
+  forwardRef,
   type ReactNode,
   type ChangeEvent,
   type KeyboardEvent,
-  type ClipboardEvent
+  type ClipboardEvent,
+  type Ref
 } from 'react';
 import {
   Controller,
@@ -31,14 +34,15 @@ import {
 import type {
   FormLabelProps,
   FormHelperTextProps,
-  MuiChipProps
+  MuiChipProps,
+  CustomComponentIds
 } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
-  isAboveMuiV5,
   fieldNameToId,
-  useFieldIds
+  useFieldIds,
+  mergeRefs
 } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -77,9 +81,11 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   ChipProps?: MuiChipProps;
   limitTags?: number;
   getLimitTagsText?: (hiddenTags: number) => ReactNode;
+  renderTagLabel?: (tag: string) => ReactNode;
+  customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
-const RHFTagsInput = <T extends FieldValues>({
+const RHFTagsInput = forwardRef(function RHFTagsInput<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -105,24 +111,32 @@ const RHFTagsInput = <T extends FieldValues>({
   limitTags = 2,
   getLimitTagsText,
   slotProps,
+  onFocus,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  renderTagLabel,
+  customIds,
   ...rest
-}: RHFTagsInputProps<T>) => {
+}: RHFTagsInputProps<T>,
+ref: Ref<HTMLInputElement>) {
   const muiTheme = useTheme();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = !!helperText || (isError && !hideErrorMessage);
+  const fieldLabel = useMemo(
+    () => label ?? fieldNameToLabel(fieldName),
+    [label, fieldName]
+  );
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the
@@ -161,8 +175,10 @@ const RHFTagsInput = <T extends FieldValues>({
   };
   const textFieldPadding = getTextFieldPadding(variant);
 
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleFocus = (e: FocusEvent) => {
+    setIsFocused(true);
+    onFocus?.(e);
+  };
 
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -233,40 +249,6 @@ const RHFTagsInput = <T extends FieldValues>({
     [inputValue, delimiter, maxTags, onTagAdd, onTagDelete, triggerChangeEvents]
   );
 
-  /* from v3*/
-  const handleKeyPress = (
-    event: KeyboardEvent<HTMLDivElement>,
-    currentTags: string[]
-  ): string[] | null => {
-    /* If inputValue is not empty, handle adding a new tag on 'Enter' */
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      const newTag = inputValue.trim();
-      if (newTag) {
-        if (!currentTags.includes(newTag)) {
-          setInputValue('');
-          return [...currentTags, newTag];
-        }
-      }
-    }
-
-    /**
-     * If inputValue is empty, handle removing the last tag on 'Backspace'
-     * or 'Delete'.
-     */
-    if (
-      inputValue.trim() === ''
-      && (event.key === 'Backspace' || event.key === 'Delete')
-    ) {
-      const lastTag = currentTags[currentTags.length - 1];
-      if (lastTag) {
-        const updatedTags = currentTags.slice(0, currentTags.length - 1);
-        return updatedTags;
-      }
-    }
-    return null;
-  };
-
   const handlePaste = useCallback(
     (
       event: ClipboardEvent<HTMLDivElement>,
@@ -279,6 +261,7 @@ const RHFTagsInput = <T extends FieldValues>({
       let newTags = pasteData
         .split(delimiterPattern)
         .filter(tag => tag.trim() && !value.includes(tag.trim()));
+
       /* External hook for paste validation/modification */
       const result = onTagPaste?.(newTags, value);
       if (result === false) {
@@ -303,100 +286,107 @@ const RHFTagsInput = <T extends FieldValues>({
   );
 
   return (
-    <FormControl error={isError}>
-      {!hideLabel && (
-        <FormLabel
-          label={fieldLabel}
-          isVisible={isLabelAboveFormField}
-          required={required}
-          error={isError}
-          formLabelProps={{
-            id: labelId,
-            htmlFor: fieldId,
-            ...formLabelProps
-          }}
-        />
-      )}
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue = [],
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const hideInput = rhfDisabled && rhfValue.length > 0;
-          const visibleTags = showAllTags
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue = [],
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+        const hideInput = rhfDisabled && rhfValue.length > 0;
+        const visibleTags = showAllTags
+          ? rhfValue
+          : isFocused || !limitTags
             ? rhfValue
-            : isFocused || !limitTags
-              ? rhfValue
-              : rhfValue.slice(0, limitTags);
+            : rhfValue.slice(0, limitTags);
 
-          const startAdornment = (
-            <Box
-              role="list"
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 1,
-                mb: rhfValue.length > 0 && !hideInput ? 1 : 0,
-                width: '100%'
-              }}
-            >
-              {visibleTags.map((tag, index) => (
-                <Chip
-                  key={`${fieldNameToId(tag)}-${index}`}
-                  id={`${fieldNameToId(tag)}-${index}`}
-                  role="listitem"
-                  label={tag}
-                  disabled={rhfDisabled}
-                  onDelete={() => {
-                    const shouldDelete = onTagDelete?.(tag, rhfValue);
-                    if (shouldDelete === false) {
-                      return;
-                    }
-                    triggerChangeEvents(
-                      rhfValue.filter(t => t !== tag),
-                      rhfOnChange
-                    );
-                  }}
-                  {...ChipProps}
-                />
-              ))}
-              {!showAllTags && !isFocused && rhfValue.length > limitTags && (
-                <Chip
-                  role="listitem"
-                  label={
-                    getLimitTagsText?.(rhfValue.length - limitTags)
-                    ?? `+${rhfValue.length - limitTags} more`
+        const startAdornment = (
+          <Box
+            role="list"
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 1,
+              mb: rhfValue.length > 0 && !hideInput ? 1 : 0,
+              width: '100%'
+            }}
+          >
+            {visibleTags.map((tag, index) => (
+              <Chip
+                key={`${fieldNameToId(tag)}-${index}`}
+                id={`${fieldNameToId(tag)}-${index}`}
+                role="listitem"
+                label={renderTagLabel?.(tag) ?? tag}
+                disabled={rhfDisabled}
+                onDelete={() => {
+                  const shouldDelete = onTagDelete?.(tag, rhfValue);
+                  if (shouldDelete === false) {
+                    return;
                   }
-                  disabled={rhfDisabled}
-                />
-              )}
-            </Box>
-          );
+                  triggerChangeEvents(
+                    rhfValue.filter(t => t !== tag),
+                    rhfOnChange
+                  );
+                }}
+                {...ChipProps}
+              />
+            ))}
+            {!showAllTags && !isFocused && rhfValue.length > limitTags && (
+              <Chip
+                role="listitem"
+                label={
+                  getLimitTagsText?.(rhfValue.length - limitTags)
+                  ?? `+${rhfValue.length - limitTags} more`
+                }
+                disabled={rhfDisabled}
+              />
+            )}
+          </Box>
+        );
 
-          return (
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             <MuiTextField
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
+              inputRef={mergeRefs(rhfRef, ref)}
               variant={variant}
               label={
-                !hideLabel
-                && !isLabelAboveFormField && (
-                  <FormLabelText label={fieldLabel} required={required} />
-                )
+                !hideLabel && !isLabelAboveFormField
+                  ? <FormLabelText label={fieldLabel} required={required} />
+                  : undefined
               }
               value={inputValue}
-              inputRef={rhfRef}
               onChange={handleInputChange}
               onKeyDown={event => handleKeyDown(event, rhfValue, rhfOnChange)}
               onPaste={event => handlePaste(event, rhfValue, rhfOnChange)}
@@ -435,22 +425,24 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
               {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
-};
+}) as <T extends FieldValues>(
+  props: RHFTagsInputProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFTagsInput;

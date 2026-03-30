@@ -31,7 +31,7 @@ import type {
   CheckboxProps,
   FormHelperTextProps,
   KeyValueOption,
-  StringArr,
+  string[],
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
@@ -78,7 +78,7 @@ export type RHFMultiAutocompleteProps<
   labelKey?: LabelKey;
   valueKey?: ValueKey;
   selectAllText?: string;
-  onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
+  onValueChange?: (fieldValue: string[], targetValue?: string) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -253,7 +253,7 @@ const RHFMultiAutocomplete = <
             disabled: rhfDisabled
           }
         }) => {
-          const selectedValues: StringArr = rhfValue ?? [];
+          const selectedValues: string[] = rhfValue ?? [];
           const selectedOptions = (rhfValue ?? []).flatMap(val => {
             if (optionsMap) {
               const option = optionsMap.get(val);
@@ -271,7 +271,7 @@ const RHFMultiAutocomplete = <
           const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
           const changeFieldState = useCallback(
-            (newValues: StringArr, selectedValue?: string) => {
+            (newValues: string[], selectedValue?: string) => {
               rhfOnChange(newValues);
               onValueChange?.(newValues, selectedValue);
             },
@@ -279,7 +279,7 @@ const RHFMultiAutocomplete = <
           );
 
           const handleCheckboxChange = useCallback(
-            (currentValue: StringArr, optionValue: string, checked: boolean) => {
+            (currentValue: string[], optionValue: string, checked: boolean) => {
               /* When "Select All" checkbox is toggled. */
               if (!optionValue || optionValue === selectAllOptionValue) {
                 return checked

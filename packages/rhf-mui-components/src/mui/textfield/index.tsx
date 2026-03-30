@@ -4,10 +4,10 @@ import {
   useContext,
   useMemo,
   forwardRef,
+  type JSX,
   type ReactNode,
   type ChangeEvent,
-  type Ref,
-  type JSX,
+  type Ref
 } from 'react';
 import {
   Controller,

@@ -6,6 +6,7 @@ import {
   useMemo,
   forwardRef,
   type ReactNode,
+  type JSX,
   type ChangeEvent,
   type MouseEvent,
   type Ref
