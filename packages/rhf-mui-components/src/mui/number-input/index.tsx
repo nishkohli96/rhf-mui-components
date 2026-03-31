@@ -126,10 +126,7 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = useMemo(
-    () => label ?? fieldNameToLabel(fieldName),
-    [label, fieldName]
-  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const decimalPattern = useMemo(
     () => buildNumberInputDecimalPattern(nonNegative, maxDecimalPlaces),

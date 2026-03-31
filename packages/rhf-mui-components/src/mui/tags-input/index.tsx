@@ -3,7 +3,6 @@
 import {
   useState,
   useContext,
-  useMemo,
   useCallback,
   forwardRef,
   type ReactNode,
@@ -135,10 +134,7 @@ ref: Ref<HTMLInputElement>) {
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = useMemo(
-    () => label ?? fieldNameToLabel(fieldName),
-    [label, fieldName]
-  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the

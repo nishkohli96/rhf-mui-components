@@ -2,7 +2,6 @@
 
 import {
   useContext,
-  useMemo,
   forwardRef,
   type JSX,
   type ReactNode,
@@ -148,10 +147,7 @@ const RHFNativeSelect = forwardRef(function RHFNativeSelect<
     customIds
   );
 
-  const fieldLabel = useMemo(
-    () => label ?? fieldNameToLabel(fieldName),
-    [label, fieldName]
-  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields

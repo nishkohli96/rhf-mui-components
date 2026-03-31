@@ -2,7 +2,6 @@
 
 import {
   useContext,
-  useMemo,
   forwardRef,
   Fragment,
   type JSX,
@@ -182,10 +181,7 @@ const RHFSelect = forwardRef(function RHFSelect<
     allLabelsAboveFields
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
-  const fieldLabel = useMemo(
-    () => label ?? fieldNameToLabel(fieldName),
-    [label, fieldName]
-  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />

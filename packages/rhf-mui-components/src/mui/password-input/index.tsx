@@ -3,7 +3,6 @@
 import {
   useState,
   useContext,
-  useMemo,
   forwardRef,
   type ReactNode,
   type JSX,
@@ -106,10 +105,7 @@ ref: Ref<HTMLInputElement>) {
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = useMemo(
-    () => label ?? fieldNameToLabel(fieldName),
-    [label, fieldName]
-  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const [showPassword, setShowPassword] = useState(false);
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;

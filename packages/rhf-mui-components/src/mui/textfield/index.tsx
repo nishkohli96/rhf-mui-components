@@ -2,7 +2,6 @@
 
 import {
   useContext,
-  useMemo,
   forwardRef,
   type JSX,
   type ReactNode,
@@ -93,10 +92,7 @@ const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = useMemo(
-    () => label ?? fieldNameToLabel(fieldName),
-    [label, fieldName]
-  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   return (
     <Controller
