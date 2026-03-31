@@ -5,6 +5,7 @@ import {
   useMemo,
   forwardRef,
   Fragment,
+  type JSX,
   type ReactNode,
   type Ref
 } from 'react';
@@ -357,8 +358,7 @@ const RHFSelect = forwardRef(function RHFSelect<
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled
-                  = getOptionDisabled?.(option) ?? rhfDisabled;
+                const isOptionDisabled = getOptionDisabled?.(option);
                 return (
                   <MenuItem
                     key={`${opnValue}-${index}`}

@@ -300,7 +300,7 @@ ref: Ref<HTMLInputElement>) {
         triggerChangeEvents([...value, ...newTags], onChange);
       }
     },
-    [delimiter, maxTags, onTagPaste, triggerChangeEvents, normalizeString]
+    [delimiter, maxTags, onTagPaste, triggerChangeEvents]
   );
 
   return (
