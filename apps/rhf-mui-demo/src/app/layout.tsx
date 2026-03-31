@@ -8,7 +8,13 @@ import {
   defaultPageDescription,
   defaultPageKeywords
 } from '@/constants';
-import { AppBar, ConfigProviderWrapper, Drawer, FirebaseAnalytics, Footer } from '@/components';
+import {
+  AppBar,
+  ConfigProviderWrapper,
+  Drawer,
+  FirebaseAnalytics,
+  Footer
+} from '@/components';
 import { AppThemeProvider } from '@/theme';
 import './globals.css';
 

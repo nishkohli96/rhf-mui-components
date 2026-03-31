@@ -141,7 +141,6 @@ const SelectFormWithClassValidator = () => {
                 <>{`${opn.code} - ${opn.name} `}</>
               )}
               defaultOptionText="Select currency"
-              showLabelAboveFormField
               required
               errorMessage={errors?.currency?.message}
             />

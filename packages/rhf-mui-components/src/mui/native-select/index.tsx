@@ -41,7 +41,8 @@ import {
   validateArray,
   useFieldIds,
   generateLargeOptionsErrMsg,
-  mergeRefs
+  mergeRefs,
+  resolveLabelAboveControl
 } from '@/utils';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 
@@ -130,7 +131,10 @@ const RHFNativeSelect = forwardRef(function RHFNativeSelect<
   }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { skipValidationInEnvs } = useContext(RHFMuiConfigContext);
+  const {
+    allLabelsAboveFields,
+    skipValidationInEnvs
+  } = useContext(RHFMuiConfigContext);
 
   if (!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
     validateArray(componentName, options, labelKey, valueKey);
@@ -147,6 +151,10 @@ const RHFNativeSelect = forwardRef(function RHFNativeSelect<
   const fieldLabel = useMemo(
     () => label ?? fieldNameToLabel(fieldName),
     [label, fieldName]
+  );
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
   );
   const blankOptionText = defaultOptionText ?? placeholder ?? '';
 
@@ -176,10 +184,10 @@ const RHFNativeSelect = forwardRef(function RHFNativeSelect<
         );
         return (
           <FormControl fullWidth error={isError}>
-            {!hideLabel && (
+            {!hideLabel && isLabelAboveControl && (
               <FormLabel
                 label={fieldLabel}
-                isVisible={showLabelAboveFormField ?? true}
+                isVisible
                 required={required}
                 error={isError}
                 formLabelProps={{
@@ -244,7 +252,7 @@ const RHFNativeSelect = forwardRef(function RHFNativeSelect<
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled = getOptionDisabled?.(option);
+                const isOptionDisabled = !!getOptionDisabled?.(option);
                 return (
                   <option
                     key={opnValue}
