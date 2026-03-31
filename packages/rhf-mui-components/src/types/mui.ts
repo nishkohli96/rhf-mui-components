@@ -108,26 +108,13 @@ export type MuiChipProps = Omit<
 
 export type MuiPickersAdapter = new (...args: any) => any;
 
-export type RHFMuiConfigInput = {
-  defaultFormLabelSx?: SxProps;
-  defaultFormControlLabelSx?: SxProps;
-  defaultFormHelperTextSx?: SxProps;
-  dateAdapter?: MuiPickersAdapter;
-  allLabelsAboveFields?: boolean;
-  skipValidationInEnvs?: string[];
-};
-
 export type RHFMuiConfig = {
   defaultFormLabelSx: SxProps;
   defaultFormControlLabelSx: SxProps;
   defaultFormHelperTextSx: SxProps;
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
+  skipValidationInEnvs: string[];
 };
 
-export enum MuiDateTimePickerView {
-  DESKTOP = 'desktop',
-  MOBILE = 'mobile',
-  STATIC = 'static',
-  RESPONSIVE = 'responsive'
-}
+export type RHFMuiConfigInput = Partial<RHFMuiConfig>;

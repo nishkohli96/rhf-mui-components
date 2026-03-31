@@ -87,7 +87,7 @@ const SelectFormWithClassValidator = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render fucntion and disabled options" />
+            <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function and disabled options" />
             <RHFSelect
               fieldName="iplTeams"
               control={control}

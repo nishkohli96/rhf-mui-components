@@ -19,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import MuiSelect, { type SelectChangeEvent } from '@mui/material/Select';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUISELECT_OPTIONS_THRESHOLD } from '@/common/constants';
 import {
   FormControl,
   FormLabel,
@@ -43,7 +44,8 @@ import {
   normalizeSelectValue,
   useFieldIds,
   getDisplayLabelForSelectValue,
-  mergeRefs
+  mergeRefs,
+  generateLargeOptionsErrMsg
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean> = Multiple extends true
@@ -109,6 +111,8 @@ export type RHFSelectProps<
   customIds?: CustomComponentIds;
 } & SelectProps;
 
+const componentName = 'RHFSelect';
+
 const RHFSelect = forwardRef(function RHFSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
@@ -155,8 +159,17 @@ const RHFSelect = forwardRef(function RHFSelect<
   }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  validateArray('RHFSelect', options, labelKey, valueKey);
+  const {
+    allLabelsAboveFields,
+    skipValidationInEnvs
+  } = useContext(RHFMuiConfigContext);
+
+  if(!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
+    validateArray(componentName, options, labelKey, valueKey);
+    if(options.length > MUISELECT_OPTIONS_THRESHOLD) {
+      console.warn(generateLargeOptionsErrMsg(componentName, options.length));
+    }
+  }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

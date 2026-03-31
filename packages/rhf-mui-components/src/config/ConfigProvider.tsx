@@ -15,7 +15,8 @@ export const ConfigProvider = ({
   defaultFormControlLabelSx,
   defaultFormLabelSx,
   dateAdapter,
-  allLabelsAboveFields
+  allLabelsAboveFields,
+  skipValidationInEnvs,
 }: ConfigProviderProps) => {
   const defaultSetting: RHFMuiConfig = useMemo(
     () => ({
@@ -32,14 +33,18 @@ export const ConfigProvider = ({
         ...defaultFormHelperTextSx
       },
       dateAdapter,
-      allLabelsAboveFields
+      allLabelsAboveFields,
+      skipValidationInEnvs: Array.from(
+        new Set(['production', ...(skipValidationInEnvs ?? [])])
+      )
     }),
     [
       defaultFormHelperTextSx,
       defaultFormControlLabelSx,
       defaultFormLabelSx,
       dateAdapter,
-      allLabelsAboveFields
+      allLabelsAboveFields,
+      skipValidationInEnvs
     ],
   );
 

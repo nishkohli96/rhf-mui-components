@@ -14,5 +14,6 @@ export const DefaultRHFMuiConfig: RHFMuiConfig = {
   defaultFormHelperTextSx: {
     mt: DefaultStyles.margin.top,
     ml: DefaultStyles.margin.left
-  }
+  },
+  skipValidationInEnvs: ['production']
 };
