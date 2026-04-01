@@ -3,8 +3,11 @@
 import {
   useContext,
   Fragment,
+  forwardRef,
+  type JSX,
   type ReactNode,
-  type ChangeEvent
+  type Ref,
+  type ChangeEvent,
 } from 'react';
 import {
   Controller,
@@ -17,8 +20,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { type SwitchProps } from '@mui/material/Switch';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/common';
-import type { FormControlLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import type {
+  CustomComponentIds,
+  FormControlLabelProps,
+  FormHelperTextProps
+} from '@/types';
+import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -34,14 +41,16 @@ export type RHFSwitchProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   label?: ReactNode;
+  hideLabel?: boolean;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & Omit<SwitchProps, 'name'>;
 
-const RHFSwitch = <T extends FieldValues>({
+const RHFSwitch = forwardRef(function RHFSwitch<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -49,6 +58,7 @@ const RHFSwitch = <T extends FieldValues>({
   onValueChange,
   disabled: muiDisabled,
   label,
+  hideLabel,
   formControlLabelProps,
   helperText,
   errorMessage,
@@ -56,13 +66,14 @@ const RHFSwitch = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   slotProps: muiSlotProps,
+  customIds,
   ...rest
-}: RHFSwitchProps<T>) => {
+}: RHFSwitchProps<T>, ref: Ref<HTMLInputElement>) {
   const {
     fieldId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -72,8 +83,6 @@ const RHFSwitch = <T extends FieldValues>({
     ...sx,
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Controller
@@ -89,8 +98,16 @@ const RHFSwitch = <T extends FieldValues>({
           onBlur: rhfOnBlur,
           ref: rhfRef,
           disabled: rhfDisabled
-        }
+        },
+        fieldState: { error: fieldStateError }
       }) => {
+        const fieldErrorMessage =
+        fieldStateError?.message?.toString() ?? errorMessage;
+      const isError = !!fieldErrorMessage;
+      const showHelperTextElement = !!(
+        helperText ||
+        (isError && !hideErrorMessage)
+      );
         return (
           <Fragment>
             <FormControlLabel
@@ -112,6 +129,13 @@ const RHFSwitch = <T extends FieldValues>({
                     rhfOnBlur();
                     onBlur?.(blurEvent);
                   }}
+                  aria-label={
+                    hideLabel
+                      ? typeof fieldLabel === 'string'
+                        ? fieldLabel
+                        : undefined
+                      : undefined
+                  }
                   aria-describedby={
                     showHelperTextElement
                       ? isError
@@ -124,19 +148,19 @@ const RHFSwitch = <T extends FieldValues>({
                     ...otherSlotProps,
                     input: {
                       ...slotPropsInput,
-                      ref: rhfRef
+                      ref: mergeRefs(rhfRef, ref)
                     }
                   }}
                   {...rest}
                 />
               }
-              label={fieldLabel}
+              label={hideLabel ? undefined : fieldLabel}
               sx={appliedFormControlLabelSx}
               {...otherFormControlLabelProps}
             />
             <FormHelperText
               error={isError}
-              errorMessage={errorMessage}
+              errorMessage={fieldErrorMessage}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
@@ -150,6 +174,8 @@ const RHFSwitch = <T extends FieldValues>({
       }}
     />
   );
-};
+}) as <T extends FieldValues>(
+  props: RHFSwitchProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFSwitch;
