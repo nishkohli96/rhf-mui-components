@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode, SyntheticEvent } from 'react';
+import { useContext, type ReactNode, type SyntheticEvent } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -10,8 +10,17 @@ import {
 } from 'react-hook-form';
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
+import {
+  fieldNameToLabel,
+  resolveLabelAboveControl,
+  useFieldIds
+} from '@/utils';
 
 type InputRatingProps = Omit<
   RatingProps,
@@ -50,12 +59,14 @@ export type RHFRatingProps<T extends FieldValues> = {
     event: SyntheticEvent<Element, Event>
   ) => void;
   label?: ReactNode;
+  hideLabel?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & InputRatingProps;
 
 const RHFRating = <T extends FieldValues>({
@@ -68,53 +79,67 @@ const RHFRating = <T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  customIds,
   ...rest
 }: RHFRatingProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   return (
-    <FormControl component="fieldset" error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          component: 'legend',
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+        return (
+          <FormControl component="fieldset" error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveControl}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  component: 'legend',
+                  ...formLabelProps
+                }}
+              />
+            )}
             <MuiRating
               id={fieldId}
               name={rhfFieldName}
@@ -132,7 +157,7 @@ const RHFRating = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-labelledby={!hideLabel ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -143,23 +168,22 @@ const RHFRating = <T extends FieldValues>({
               aria-invalid={isError || undefined}
               {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 
 export default RHFRating;
-

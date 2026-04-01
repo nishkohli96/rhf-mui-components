@@ -62,7 +62,7 @@ export type RHFCheckboxGroupProps<
  *
  * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
  * `onValueChange` is not invoked when using `customOnChange`.
- * 
+ *
  * @param rhfOnChange - React Hook Form's internal change handler
  * @param optionValue - The value of the option being toggled
  * @param checked - Whether the option is checked or unchecked

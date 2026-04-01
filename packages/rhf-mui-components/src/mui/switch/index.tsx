@@ -114,13 +114,13 @@ const RHFSwitch = forwardRef(function RHFSwitch<T extends FieldValues>({
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const fieldErrorMessage =
-        fieldStateError?.message?.toString() ?? errorMessage;
-      const isError = !!fieldErrorMessage;
-      const showHelperTextElement = !!(
-        helperText ||
-        (isError && !hideErrorMessage)
-      );
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
         return (
           <Fragment>
             <FormControlLabel
