@@ -49,7 +49,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               </Grid>
               <Grid size={{ xs: 12, md: 9 }}>
                 <ConfigProviderWrapper>
-                {children}
+                  {children}
                 </ConfigProviderWrapper>
               </Grid>
             </Grid>

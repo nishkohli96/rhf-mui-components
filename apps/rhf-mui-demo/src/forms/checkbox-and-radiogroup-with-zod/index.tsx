@@ -82,6 +82,7 @@ const CheckboxRadioZodForm = () => {
               labelKey="ageGroup"
               valueKey="minAge"
               required
+              getOptionDisabled={opn => opn.minAge === 61 || opn.minAge === 1}
               errorMessage={errors?.ageGroup?.message}
             />
           </Grid>
@@ -118,6 +119,7 @@ const CheckboxRadioZodForm = () => {
               control={control}
               options={[10, 20, 30, 40, 50]}
               required
+              getOptionDisabled={opn => opn === 10}
               errorMessage={errors?.marks?.message}
             />
           </Grid>
