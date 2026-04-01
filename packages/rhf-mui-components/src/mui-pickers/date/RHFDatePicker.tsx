@@ -41,11 +41,34 @@ type DatePickerInputProps = Omit<
   'name' | 'value' | 'onChange' | 'inputRef'
 >;
 
+/**
+ * Without `customOnChange`, **rhfOnChange** runs on every picker change; **onValueChange** runs
+ * only when `context.validationError === null`.
+ */
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  /**
+   * Override the default picker value update. Call **rhfOnChange** with the value to store in
+   * the form (including `null` when cleared). Use **context.validationError** if you need the
+   * same “only commit when valid” rule as **onValueChange**.
+   *
+   * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - Value from the picker (`null` when empty / cleared)
+   * @param context - MUI picker change context (validation error, shortcut, etc.)
+   */
+  customOnChange?: (
+    rhfOnChange: (value: PickerValidDate) => void,
+    newValue: PickerValidDate,
+    context: PickerChangeHandlerContext<DateValidationError>
+  ) => void;
+  /**
+   * Fired only when **context.validationError** is `null`. Not invoked when **customOnChange** is set.
+   */
   onValueChange?: (
     newValue: PickerValidDate,
     context: PickerChangeHandlerContext<DateValidationError>
@@ -66,6 +89,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
     control,
     registerOptions,
     required,
+    customOnChange,
     onValueChange,
     disabled: muiDisabled,
     label,
@@ -147,8 +171,21 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 value={rhfValue ?? null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
+                  if (customOnChange) {
+                    customOnChange(rhfOnChange, newValue, context);
+                    return;
+                  }
+                  /**
+                   * Let the RHF form value fully update whenever
+                   * the date picker value changes. However, if the date
+                   * is invalid, either during selection or when the date
+                   * input is partially filled, block the propagation of
+                   * onValueChange event.
+                   */
                   rhfOnChange(newValue);
-                  onValueChange?.(newValue, context);
+                  if (context.validationError === null) {
+                    onValueChange?.(newValue, context);
+                  }
                 }}
                 onAccept={(newValue, context) => {
                   onAccept?.(newValue, context);

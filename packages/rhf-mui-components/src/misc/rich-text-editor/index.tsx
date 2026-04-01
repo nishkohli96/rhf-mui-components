@@ -1,6 +1,12 @@
 'use client';
 
-import { forwardRef, Ref, useContext, useRef, type ReactNode } from 'react';
+import {
+  useContext,
+  useRef,
+  forwardRef,
+  type ReactNode,
+  type Ref
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -142,12 +148,12 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const fieldErrorMessage =
-          fieldStateError?.message?.toString() ?? errorMessage;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
-          helperText ||
-          (isError && !hideErrorMessage)
+          helperText
+          || (isError && !hideErrorMessage)
         );
 
         return (
@@ -245,7 +251,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
 });
 
 const RHFRichTextEditor = RHFRichTextEditorInner as <T extends FieldValues>(
-  props: RHFRichTextEditorProps<T> & { ref?: Ref<CKEditor<ClassicEditor>>  }
+  props: RHFRichTextEditorProps<T> & { ref?: Ref<CKEditor<ClassicEditor>> }
 ) => JSX.Element;
 
 export { DefaultEditorConfig };

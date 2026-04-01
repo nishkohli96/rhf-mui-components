@@ -41,11 +41,30 @@ type DateTimePickerInputProps = Omit<
   'name' | 'value' | 'onChange' | 'inputRef'
 >;
 
+/**
+ * Without `customOnChange`, **rhfOnChange** runs on every picker change; **onValueChange** runs
+ * only when `context.validationError === null`.
+ */
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  /**
+   * Override the default picker value update. Call **rhfOnChange** with the value to store in
+   * the form (including `null` when cleared). Use **context.validationError** if you need the
+   * same “only commit when valid” rule as **onValueChange**.
+   *
+   * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
+   */
+  customOnChange?: (
+    rhfOnChange: (value: PickerValidDate) => void,
+    newValue: PickerValidDate,
+    context: PickerChangeHandlerContext<DateTimeValidationError>
+  ) => void;
+  /**
+   * Fired only when **context.validationError** is `null`. Not invoked when **customOnChange** is set.
+   */
   onValueChange?: (
     newValue: PickerValidDate,
     context: PickerChangeHandlerContext<DateTimeValidationError>
@@ -68,6 +87,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     control,
     registerOptions,
     required,
+    customOnChange,
     onValueChange,
     disabled: muiDisabled,
     label,
@@ -149,8 +169,14 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                 value={rhfValue ?? null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
+                  if (customOnChange) {
+                    customOnChange(rhfOnChange, newValue, context);
+                    return;
+                  }
                   rhfOnChange(newValue);
-                  onValueChange?.(newValue, context);
+                  if (context.validationError === null) {
+                    onValueChange?.(newValue, context);
+                  }
                 }}
                 onAccept={(newValue, context) => {
                   onAccept?.(newValue, context);
