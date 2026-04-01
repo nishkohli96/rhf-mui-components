@@ -9,6 +9,7 @@ import {
   type JSX,
   type ChangeEvent,
   type ClipboardEvent,
+  type FocusEvent,
   type KeyboardEvent,
   type Ref
 } from 'react';
@@ -33,8 +34,17 @@ import { fieldNameToLabel, keepLabelAboveFormField, mergeRefs, useFieldIds } fro
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
-  'type' | 'multiline' | 'rows' | 'minRows' | 'maxRows'
->;
+  | 'type'
+  | 'multiline'
+  | 'rows'
+  | 'minRows'
+  | 'maxRows'
+  | 'onChange'
+  | 'onBlur'
+> & {
+  /** Always an `<input>`; multiline / textarea are not supported. */
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+};
 
 /**
  * Builds a pattern for in-progress typing: optional leading `-` when
@@ -71,12 +81,12 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    *
    * @param rhfOnChange - React Hook Form field change handler
    * @param newValue - Parsed `number` or `null` when the input is empty / invalid
-   * @param event - Change event from the underlying input
+   * @param event - Change event from the underlying `<input>`
    */
   customOnChange?: (
     rhfOnChange: (value: number | null) => void,
     newValue: number | null,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   onValueChange?: (
     value: number | null,
@@ -239,22 +249,23 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               }
               disabled={rhfDisabled}
               onChange={event => {
-                const inputValue = event.target.value;
+                const changeEvent = event as ChangeEvent<HTMLInputElement>;
+                const inputValue = changeEvent.target.value;
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
                   const fieldValue
                     = inputValue === '' ? null : Number(inputValue);
                   const safeValue = Number.isNaN(fieldValue) ? null : fieldValue;
                   if (customOnChange) {
-                    customOnChange(rhfOnChange, safeValue, event);
+                    customOnChange(rhfOnChange, safeValue, changeEvent);
                     return;
                   }
                   rhfOnChange(safeValue);
-                  onValueChange?.(safeValue, event as ChangeEvent<HTMLInputElement>);
+                  onValueChange?.(safeValue, changeEvent);
                 }
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                onBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
               }}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
@@ -289,6 +300,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                 ...muiSx,
               }}
               {...rest}
+              multiline={false}
             />
             <FormHelperText
               error={isError}

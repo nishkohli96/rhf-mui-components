@@ -65,8 +65,14 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   onValueChange?: (tags: string[]) => void;
-  onTagAdd?: (newTag: string, currentTags: string[]) => boolean | string | void;
-  onTagDelete?: (deletedTag: string, currentTags: string[]) => boolean | void;
+  onTagAdd?: (
+    newTag: string,
+    currentTags: string[]
+  ) => boolean | string | void;
+  onTagDelete?: (
+    deletedTag: string,
+    currentTags: string[]
+  ) => boolean | void;
   onTagPaste?: (
     pastedTags: string[],
     currentTags: string[]
@@ -174,14 +180,14 @@ ref: Ref<HTMLInputElement>) {
   const textFieldPadding = getTextFieldPadding(variant);
 
   const handleFocus = (
-    e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: FocusEvent<HTMLInputElement>
   ) => {
     setIsFocused(true);
     onFocus?.(e);
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => {
     setInputValue(event.target.value);
   };
@@ -442,6 +448,7 @@ ref: Ref<HTMLInputElement>) {
                 input: { ...slotProps?.input, startAdornment }
               }}
               {...rest}
+              multiline={false}
             />
             <FormHelperText
               error={isError}

@@ -7,6 +7,7 @@ import {
   type ReactNode,
   type JSX,
   type ChangeEvent,
+  type FocusEvent,
   type MouseEvent,
   type Ref
 } from 'react';
@@ -45,8 +46,17 @@ import {
 
 type InputPasswordProps = Omit<
   TextFieldProps,
-  'type' | 'multiline' | 'rows' | 'minRows' | 'maxRows'
->;
+  | 'type'
+  | 'multiline'
+  | 'rows'
+  | 'minRows'
+  | 'maxRows'
+  | 'onChange'
+  | 'onBlur'
+> & {
+  /** Always an `<input>`; multiline / textarea are not supported. */
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+};
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -63,12 +73,12 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    *
    * @param rhfOnChange - React Hook Form field change handler
    * @param newValue - Current input string value
-   * @param event - Change event from the underlying input
+   * @param event - Change event from the underlying `<input>`
    */
   customOnChange?: (
     rhfOnChange: (value: string) => void,
     newValue: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => void;
   onValueChange?: (value: string, event: ChangeEvent<HTMLInputElement>) => void;
   showLabelAboveFormField?: boolean;
@@ -196,25 +206,24 @@ ref: Ref<HTMLInputElement>) {
               value={rhfValue ?? ''}
               disabled={rhfDisabled}
               onChange={event => {
-                const newValue = event.target.value;
+                const changeEvent = event as ChangeEvent<HTMLInputElement>;
+                const newValue = changeEvent.target.value;
                 if (customOnChange) {
-                  customOnChange(rhfOnChange, newValue, event);
+                  customOnChange(rhfOnChange, newValue, changeEvent);
                   return;
                 }
                 rhfOnChange(newValue);
-                onValueChange?.(
-                  newValue,
-                  event as ChangeEvent<HTMLInputElement>
-                );
+                onValueChange?.(newValue, changeEvent);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                onBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
               }}
               error={isError}
               aria-labelledby={
                 !hideLabel && isLabelAboveFormField ? labelId : undefined
-              } aria-describedby={
+              }
+              aria-describedby={
                 showHelperTextElement
                   ? isError
                     ? errorId
@@ -230,6 +239,7 @@ ref: Ref<HTMLInputElement>) {
                 }
               }}
               {...rest}
+              multiline={false}
             />
             <FormHelperText
               error={isError}
