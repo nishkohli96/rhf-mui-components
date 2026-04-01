@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useContext, type ReactNode } from 'react';
+import { Dispatch, Fragment, SetStateAction, useContext, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -36,6 +36,19 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   hideAlpha?: boolean;
   hideInput?: (keyof IColor)[] | boolean;
   onValueChange?: (color: IColor) => void;
+  /**
+   * Override the default `onChange` behavior of the color picker.
+   * You must pass the updated `color` to the **setColor** function to update the field value.
+   * 
+   * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param setColor - react-color-palette `setColor` function
+   * @param color - Current color value
+   */
+  customOnChange?: (
+    setColor: Dispatch<SetStateAction<IColor>>,
+    color: IColor
+  ) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -59,6 +72,7 @@ const RHFColorPicker = <T extends FieldValues>({
   required,
   hideInput,
   onValueChange,
+  customOnChange,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
@@ -133,6 +147,10 @@ const RHFColorPicker = <T extends FieldValues>({
                     color={color}
                     disabled={rhfDisabled}
                     onChange={color => {
+                      if(customOnChange) {
+                        customOnChange(setColor, color);
+                        return;
+                      }
                       setColor(color);
                       const appliedColor = getFormattedColor(color);
                       rhfOnChange(appliedColor);
@@ -151,6 +169,10 @@ const RHFColorPicker = <T extends FieldValues>({
                   color={color}
                   disabled={rhfDisabled}
                   onChange={color => {
+                    if(customOnChange) {
+                      customOnChange(setColor, color);
+                      return;
+                    }
                     setColor(color);
                     const appliedColor = getFormattedColor(color);
                     rhfOnChange(appliedColor);

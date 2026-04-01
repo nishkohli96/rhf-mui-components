@@ -121,10 +121,16 @@ const MiscellaneousComponentsForm = () => {
               }}
               label="Second Favourite Color"
               value={getValues('secondFavColor')}
+              customOnChange={(setColor, color) => {
+                if(color.rgb.r > 128) {
+                  return;
+                }
+                setColor(color);
+              }}
               required
               helperText={(
                 <Typography color={getValues('secondFavColor')}>
-                  Your secondFavColor is being applied on this text.
+                  Color wont change if red value is greater than 128
                 </Typography>
               )}
               errorMessage={errors?.secondFavColor?.message}
