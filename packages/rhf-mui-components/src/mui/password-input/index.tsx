@@ -212,8 +212,9 @@ ref: Ref<HTMLInputElement>) {
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
+              aria-labelledby={
+                !hideLabel && isLabelAboveFormField ? labelId : undefined
+              } aria-describedby={
                 showHelperTextElement
                   ? isError
                     ? errorId

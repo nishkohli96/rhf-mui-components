@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, type ReactNode } from 'react';
+import { useContext, forwardRef, type Ref, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -23,18 +23,21 @@ import {
   FormLabelText,
   FormHelperText
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
+import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
+  mergeRefs,
   useFieldIds,
 } from '@/utils';
 
 type DatePickerInputProps = Omit<
   DatePickerProps<PickerValidDate>,
+  | 'name'
   | 'value'
   | 'onChange'
+  | 'inputRef'
 >;
 
 export type RHFDatePickerProps<T extends FieldValues> = {
@@ -47,14 +50,16 @@ export type RHFDatePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & DatePickerInputProps;
 
-const RHFDatePicker = <T extends FieldValues>({
+const RHFDatePicker = forwardRef(function RHFDatePicker<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -63,14 +68,18 @@ const RHFDatePicker = <T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   slotProps: muiSlotProps,
+  customIds,
+  onAccept,
   ...rest
-}: RHFDatePickerProps<T>) => {
+}: RHFDatePickerProps<T>,
+ref: Ref<HTMLInputElement>) {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFDatePicker'));
@@ -81,7 +90,7 @@ const RHFDatePicker = <T extends FieldValues>({
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
   const {
     textField: textFieldSlotProps,
     ...otherSlotProps
@@ -92,50 +101,62 @@ const RHFDatePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <LocalizationProvider dateAdapter={dateAdapter}>
-        <Controller
-          name={fieldName}
-          control={control}
-          rules={registerOptions}
-          disabled={muiDisabled}
-          render={({
-            field: {
-              name: rhfFieldName,
-              value: rhfValue,
-              onChange: rhfOnChange,
-              onBlur: rhfOnBlur,
-              ref: rhfRef,
-              disabled: rhfDisabled
-            }
-          }) => {
-            return (
+    <LocalizationProvider dateAdapter={dateAdapter}>
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          },
+          fieldState: { error: fieldStateError }
+        }) => {
+          const fieldErrorMessage
+            = fieldStateError?.message?.toString() ?? errorMessage;
+          const isError = !!fieldErrorMessage;
+          const showHelperTextElement = !!(
+            helperText
+            || (isError && !hideErrorMessage)
+          );
+          return (
+            <FormControl error={isError}>
+              {!hideLabel && (
+                <FormLabel
+                  label={fieldLabel}
+                  isVisible={isLabelAboveFormField}
+                  required={required}
+                  error={isError}
+                  formLabelProps={{
+                    id: labelId,
+                    htmlFor: fieldId,
+                    ...formLabelProps
+                  }}
+                />
+              )}
               <MuiDatePicker
                 name={rhfFieldName}
-                inputRef={rhfRef}
-                value={rhfValue || null}
+                inputRef={mergeRefs(rhfRef, ref)}
+                value={rhfValue ?? null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
                 }}
+                onAccept={(newValue, context) => {
+                  onAccept?.(newValue, context);
+                  rhfOnBlur();
+                }}
                 label={
-                  !isLabelAboveFormField
+                  !hideLabel && !isLabelAboveFormField
                     ? (
                       <FormLabelText label={fieldLabel} required={required} />
                     )
@@ -148,37 +169,46 @@ const RHFDatePicker = <T extends FieldValues>({
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
-                      'aria-labelledby': isLabelAboveFormField
+                      'aria-labelledby': !hideLabel && isLabelAboveFormField
                         ? labelId
+                        : undefined,
+                      'aria-label': hideLabel
+                        ? typeof fieldLabel === 'string'
+                          ? fieldLabel
+                          : undefined
                         : undefined,
                       'aria-describedby': showHelperTextElement
                         ? isError
                           ? errorId
                           : helperTextId
                         : undefined,
+                      'aria-invalid': isError || undefined,
+                      'aria-required': required || undefined,
                     },
                     ...textFieldSlotProps,
                   },
                 }}
                 {...rest}
               />
-            );
-          }}
-        />
-      </LocalizationProvider>
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
+              <FormHelperText
+                error={isError}
+                errorMessage={fieldErrorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  id: isError ? errorId : helperTextId,
+                  ...formHelperTextProps
+                }}
+              />
+            </FormControl>
+          );
         }}
       />
-    </FormControl>
+    </LocalizationProvider>
   );
-};
+}) as <T extends FieldValues>(
+  props: RHFDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFDatePicker;

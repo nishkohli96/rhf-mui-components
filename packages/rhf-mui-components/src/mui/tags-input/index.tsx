@@ -397,7 +397,9 @@ ref: Ref<HTMLInputElement>) {
               variant={variant}
               label={
                 !hideLabel && !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
                   : undefined
               }
               value={inputValue}
@@ -412,7 +414,9 @@ ref: Ref<HTMLInputElement>) {
               }}
               disabled={rhfDisabled}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-labelledby={
+                !hideLabel && isLabelAboveFormField ? labelId : undefined
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError

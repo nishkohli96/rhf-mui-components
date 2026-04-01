@@ -267,7 +267,9 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
                 }
               }}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-labelledby={
+                !hideLabel && isLabelAboveFormField ? labelId : undefined
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError

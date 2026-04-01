@@ -173,7 +173,9 @@ const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-labelledby={
+                !hideLabel && isLabelAboveFormField ? labelId : undefined
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError
