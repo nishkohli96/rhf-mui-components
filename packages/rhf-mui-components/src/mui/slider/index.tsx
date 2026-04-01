@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, type ReactNode } from 'react';
+import { Fragment, useContext, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -9,9 +9,10 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormLabel, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
+import { fieldNameToLabel, resolveLabelAboveControl, useFieldIds } from '@/utils';
 
 type SliderInputProps = Omit<
   SliderProps,
@@ -38,11 +39,13 @@ export type RHFSliderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & SliderInputProps;
 
 const RHFSlider = <T extends FieldValues>({
@@ -55,37 +58,30 @@ const RHFSlider = <T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
+  customIds,
   ...rest
 }: RHFSliderProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   return (
-    <Fragment>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          ...formLabelProps
-        }}
-      />
       <Controller
         name={fieldName}
         control={control}
@@ -98,52 +94,82 @@ const RHFSlider = <T extends FieldValues>({
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             disabled: rhfDisabled
-          }
+          },
+          fieldState: { error: fieldStateError }
         }) => {
+          const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
           return (
-            <MuiSlider
-              id={fieldId}
-              name={rhfFieldName}
-              value={rhfValue ?? 0}
-              disabled={rhfDisabled}
-              onChange={(event, value, activeThumb) => {
-                if(customOnChange) {
-                  customOnChange(rhfOnChange, value, activeThumb, event);
-                  return;
+            <Fragment>
+              {!hideLabel && (
+                <FormLabel
+                  label={fieldLabel}
+                  isVisible={isLabelAboveControl}
+                  required={required}
+                  error={isError}
+                  formLabelProps={{
+                    id: labelId,
+                    ...formLabelProps
+                  }}
+                />
+              )}
+              <MuiSlider
+                id={fieldId}
+                name={rhfFieldName}
+                value={rhfValue ?? 0}
+                disabled={rhfDisabled}
+                onChange={(event, value, activeThumb) => {
+                  if (customOnChange) {
+                    customOnChange(rhfOnChange, value, activeThumb, event);
+                    return;
+                  }
+                  rhfOnChange(value);
+                  onValueChange?.(value, activeThumb, event);
+                }}
+                onBlur={(blurEvent) => {
+                  rhfOnBlur();
+                  onBlur?.(blurEvent);
+                }}
+                aria-required={required || undefined}
+                aria-labelledby={
+                  !hideLabel && isLabelAboveControl ? labelId : undefined
                 }
-                rhfOnChange(value);
-                onValueChange?.(value, activeThumb, event);
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-invalid={isError || undefined}
-              {...rest}
-            />
+                aria-label={hideLabel ? String(fieldLabel) : undefined}
+                aria-valuetext={
+                  Array.isArray(rhfValue)
+                    ? rhfValue.join(' to ')
+                    : String(rhfValue)
+                }
+                aria-describedby={
+                  showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined
+                }
+                aria-invalid={isError || undefined}
+                {...rest}
+              />
+              <FormHelperText
+                error={isError}
+                errorMessage={fieldErrorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  id: isError ? errorId : helperTextId,
+                  ...formHelperTextProps
+                }}
+              />
+            </Fragment>
           );
         }}
       />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </Fragment>
   );
 };
 
