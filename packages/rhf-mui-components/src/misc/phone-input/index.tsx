@@ -38,11 +38,14 @@ import {
   FormHelperText,
   defaultAutocompleteValue
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
-  isAboveMuiV5,
   useFieldIds
 } from '@/utils';
 import 'react-international-phone/style.css';
@@ -76,11 +79,13 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   value?: string;
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   phoneInputProps?: PhoneInputProps;
+  customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
 const RHFPhoneInput = <T extends FieldValues>({
@@ -92,6 +97,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   onValueChange,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   helperText,
   errorMessage,
@@ -102,18 +108,19 @@ const RHFPhoneInput = <T extends FieldValues>({
   slotProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
-  InputProps,
+  customIds,
   ...rest
 }: RHFPhoneInputProps<T>) => {
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const isError = !!errorMessage;
-  const showHelperTextElement = !!helperText || (isError && !hideErrorMessage);
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const {
     countries,
@@ -167,120 +174,131 @@ const RHFPhoneInput = <T extends FieldValues>({
     });
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        defaultValue={inputValue as PathValue<T, Path<T>>}
-        render={({
-          field: {
-            name: rhfFieldName,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const startAdornment = (
-            <InputAdornment
-              position="start"
-              style={{ marginRight: '2px', marginLeft: '-8px' }}
-            >
-              <Select
-                MenuProps={{
-                  style: {
-                    height: '300px',
-                    width: '360px',
-                    top: '10px',
-                    left: '-34px'
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'left'
-                  }
-                }}
-                sx={{
-                  width: 'max-content',
-                  fieldset: {
-                    display: 'none'
-                  },
-                  '&.Mui-focused:has(div[aria-expanded="false"])': {
-                    fieldset: {
-                      display: 'block'
-                    }
-                  },
-                  '.MuiSelect-select': {
-                    padding: '8px',
-                    paddingRight: '24px !important'
-                  },
-                  svg: {
-                    right: 0
-                  }
-                }}
-                value={country.iso2}
-                disabled={muiDisabled || hideDropdown}
-                onChange={e => {
-                  setCountry(e.target.value as CountryIso2);
-                }}
-                renderValue={value => (
-                  <FlagImage iso2={value} style={{ display: 'flex' }} />
-                )}
-              >
-                {countriesToListAtTop.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-                {countriesToListAtTop.length > 0 && <Divider />}
-                {countriesToList.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </InputAdornment>
-          );
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      defaultValue={inputValue as PathValue<T, Path<T>>}
+      render={({
+        field: {
+          name: rhfFieldName,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
 
-          return (
+        const startAdornment = (
+          <InputAdornment
+            position="start"
+            style={{ marginRight: '2px', marginLeft: '-8px' }}
+          >
+            <Select
+              MenuProps={{
+                style: {
+                  height: '300px',
+                  width: '360px',
+                  top: '10px',
+                  left: '-34px'
+                },
+                transformOrigin: {
+                  vertical: 'top',
+                  horizontal: 'left'
+                }
+              }}
+              sx={{
+                width: 'max-content',
+                fieldset: {
+                  display: 'none'
+                },
+                '&.Mui-focused:has(div[aria-expanded="false"])': {
+                  fieldset: {
+                    display: 'block'
+                  }
+                },
+                '.MuiSelect-select': {
+                  padding: '8px',
+                  paddingRight: '24px !important'
+                },
+                svg: {
+                  right: 0
+                }
+              }}
+              value={country.iso2}
+              disabled={muiDisabled || hideDropdown}
+              onChange={e => {
+                setCountry(e.target.value as CountryIso2);
+              }}
+              renderValue={value => (
+                <FlagImage iso2={value} style={{ display: 'flex' }} />
+              )}
+            >
+              {countriesToListAtTop.map(c => {
+                const countryInfo = parseCountry(c);
+                return (
+                  <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                    <FlagImage
+                      iso2={countryInfo.iso2}
+                      style={{ marginRight: '8px' }}
+                    />
+                    <Typography marginRight="8px">
+                      {countryInfo.name}
+                    </Typography>
+                    <Typography color="gray">
+                      +
+                      {countryInfo.dialCode}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
+              {countriesToListAtTop.length > 0 && <Divider />}
+              {countriesToList.map(c => {
+                const countryInfo = parseCountry(c);
+                return (
+                  <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                    <FlagImage
+                      iso2={countryInfo.iso2}
+                      style={{ marginRight: '8px' }}
+                    />
+                    <Typography marginRight="8px">
+                      {countryInfo.name}
+                    </Typography>
+                    <Typography color="gray">
+                      +
+                      {countryInfo.dialCode}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </InputAdornment>
+        );
+
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             <MuiTextField
               id={fieldId}
               name={rhfFieldName}
@@ -300,13 +318,15 @@ const RHFPhoneInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               label={
-                !isLabelAboveFormField
+                !hideLabel && !isLabelAboveFormField
                   ? (
                     <FormLabelText label={fieldLabel} required={required} />
                   )
                   : undefined
               }
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+              aria-labelledby={
+                !hideLabel && isLabelAboveFormField ? labelId : undefined
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -317,39 +337,30 @@ const RHFPhoneInput = <T extends FieldValues>({
               aria-required={required}
               error={isError}
               disabled={rhfDisabled}
-              {...(isAboveMuiV5
-                ? {
-                  slotProps: {
-                    ...slotProps,
-                    input: {
-                      ...slotProps?.input,
-                      startAdornment
-                    }
-                  }
+              slotProps={{
+                ...slotProps,
+                input: {
+                  ...slotProps?.input,
+                  startAdornment
                 }
-                : {
-                  InputProps: {
-                    ...InputProps,
-                    startAdornment
-                  }
-                })}
+              }}
               {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

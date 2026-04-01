@@ -9,7 +9,8 @@ import {
 const RHFPhoneInputPropsTable = ({
   docsVersion,
   muiVersion,
-  v1
+  v1,
+  v4AndAbove
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
@@ -32,6 +33,7 @@ const RHFPhoneInputPropsTable = ({
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
+    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
