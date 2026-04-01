@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
+import { toast } from 'react-toastify';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import { orange } from '@mui/material/colors';
@@ -114,6 +115,9 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               helperText={`Please select atleast ${minRating}`}
               customOnChange={(rhfOnChange, value) => {
                 if(value && value < minRating) {
+                  toast(`Please rate us atleast ${minRating} stars`, {
+                    type: 'error'
+                  });
                   return;
                 }
                 rhfOnChange(value);
