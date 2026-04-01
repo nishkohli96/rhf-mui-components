@@ -85,6 +85,20 @@ export type RHFSelectProps<
   multiple?: Multiple;
   showDefaultOption?: boolean;
   defaultOptionText?: string;
+  /**
+ * Custom change handler that overrides the default value update behavior.
+ *
+ * Use this when you need full control over how the selected value is processed
+ * before updating React Hook Form state.
+ *
+ * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+ * `onValueChange` is not invoked when using `customOnChange`.
+ *
+ * @param rhfOnChange - React Hook Form's internal change handler
+ * @param value - Normalized selected value (single or multiple based on `multiple`)
+ * @param event - Original MUI Select change event
+ * @param child - The selected option element
+ */
   customOnChange?: (
     rhfOnChange: (
       value: SelectValue<OptionValue<Option, ValueKey>, Multiple>

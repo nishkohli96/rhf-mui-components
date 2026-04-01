@@ -32,6 +32,19 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+ * Custom change handler that overrides the default checked state update.
+ *
+ * Useful when you need to intercept or transform the checkbox value
+ * before updating React Hook Form state.
+ *
+ * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+ * `onValueChange` is not invoked when using `customOnChange`.
+ *
+ * @param rhfOnChange - React Hook Form's internal change handler
+ * @param checked - The new checked state of the checkbox
+ * @param event - The change event triggered by the checkbox
+ */
   customOnChange?: (
     rhfOnChange: (isChecked: boolean) => void,
     checked: boolean,

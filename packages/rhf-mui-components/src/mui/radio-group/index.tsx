@@ -54,6 +54,19 @@ export type RHFRadioGroupProps<
   valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
+  /**
+ * Custom change handler for radio group selection.
+ *
+ * Use this to intercept or transform the selected value
+ * before updating React Hook Form state.
+ *
+ * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+ * `onValueChange` is not invoked when using `customOnChange`.
+ *
+ * @param rhfOnChange - React Hook Form's internal change handler
+ * @param selectedValue - The newly selected value
+ * @param event - The change event triggered by the radio input
+ */
   customOnChange?: (
     rhfOnChange: (value: OptionValue<Option, string>) => void,
     selectedValue: OptionValue<Option, string>,

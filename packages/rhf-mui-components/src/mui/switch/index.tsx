@@ -31,6 +31,19 @@ export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+ * Custom change handler that overrides the default checked state update.
+ *
+ * Use this when you need custom logic before updating the switch value
+ * in React Hook Form.
+ *
+ * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+ * `onValueChange` is not invoked when using `customOnChange`.
+ *
+ * @param rhfOnChange - React Hook Form's internal change handler
+ * @param checked - The new checked state of the switch
+ * @param event - The change event triggered by the switch
+ */
   customOnChange?: (
     rhfOnChange: (isChecked: boolean) => void,
     checked: boolean,

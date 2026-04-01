@@ -27,6 +27,19 @@ export type RHFRatingProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  /**
+   * Custom change handler that overrides the default rating value update.
+   *
+   * Use when you need to intercept or transform the selected rating before
+   * updating React Hook Form state.
+   *
+   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - New rating value, or `null` when cleared
+   * @param event - Synthetic event from the rating control
+   */
   customOnChange?: (
     rhfOnChange: (newValue: number | null) => void,
     newValue: number | null,

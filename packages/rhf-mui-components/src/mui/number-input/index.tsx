@@ -60,6 +60,19 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Custom change handler that overrides the default numeric value update.
+   *
+   * Use when you need to intercept or transform the parsed number (or `null`
+   * when empty) before updating React Hook Form state.
+   *
+   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - Parsed `number` or `null` when the input is empty / invalid
+   * @param event - Change event from the underlying input
+   */
   customOnChange?: (
     rhfOnChange: (value: number | null) => void,
     newValue: number | null,

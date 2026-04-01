@@ -67,6 +67,19 @@ export type RHFNativeSelectProps<
   valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
+  /**
+   * Custom change handler that overrides the default native select update.
+   *
+   * Use when you need to intercept or transform the selected value before
+   * updating React Hook Form state.
+   *
+   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param value - option value from the selection
+   * @param event - Change event from the `<select>` element
+   */
   customOnChange?: (
     rhfOnChange: (value: OptionValue<Option, ValueKey>) => void,
     value: OptionValue<Option, ValueKey>,

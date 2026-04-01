@@ -52,6 +52,19 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Custom change handler that overrides the default string value update.
+   *
+   * Use when you need to intercept or transform the password field value before
+   * updating React Hook Form state.
+   *
+   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - Current input string value
+   * @param event - Change event from the underlying input
+   */
   customOnChange?: (
     rhfOnChange: (value: string) => void,
     newValue: string,

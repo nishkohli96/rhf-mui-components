@@ -54,6 +54,21 @@ export type RHFCheckboxGroupProps<
   valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
   getOptionDisabled?: (option: Option) => boolean;
+  /**
+ * Custom change handler for checkbox group selection.
+ *
+ * Allows full control over how selected values are added or removed
+ * from the current array before updating React Hook Form state.
+ *
+ * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+ * `onValueChange` is not invoked when using `customOnChange`.
+ * 
+ * @param rhfOnChange - React Hook Form's internal change handler
+ * @param optionValue - The value of the option being toggled
+ * @param checked - Whether the option is checked or unchecked
+ * @param currentValues - Current array of selected values
+ * @param event - The change event triggered by the checkbox
+ */
   customOnChange?: (
     rhfOnChange: (newValues: OptionValue<Option, ValueKey>[]) => void,
     optionValue: OptionValue<Option, ValueKey>,
