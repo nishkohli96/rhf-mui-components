@@ -162,12 +162,12 @@ const RHFCheckboxGroup = <
           disabled: boolean;
         };
         const rhfValue = value ?? [];
-        const fieldErrorMessage =
-          fieldStateError?.message?.toString() ?? errorMessage;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
-          helperText ||
-          (isError && !hideErrorMessage)
+          helperText
+          || (isError && !hideErrorMessage)
         );
 
         const handleChange = (
@@ -177,14 +177,20 @@ const RHFCheckboxGroup = <
         ) => {
           const normalizedValue = coerceValue(event.target.value, optionValue);
           if (customOnChange) {
-            customOnChange(rhfOnChange, normalizedValue, checked, value, event);
+            customOnChange(
+              rhfOnChange,
+              normalizedValue,
+              checked,
+              rhfValue,
+              event
+            );
             return;
           }
           const newValue = checked
             ? rhfValue.includes(normalizedValue)
               ? rhfValue
               : [...rhfValue, normalizedValue]
-            : rhfValue.filter((v) => v !== normalizedValue);
+            : rhfValue.filter(v => v !== normalizedValue);
           rhfOnChange(newValue);
           onValueChange?.(normalizedValue, newValue, event);
         };
@@ -192,13 +198,15 @@ const RHFCheckboxGroup = <
         return (
           <FormControl
             component="fieldset"
+            aria-labelledby={!hideLabel ? labelId : undefined}
+            aria-label={hideLabel ? String(fieldLabel) : undefined}
             error={isError}
             /**
              * Trigger blur event only if focus is moving OUTSIDE
              * the checkbox group, instead of calling onBlur for
              * every checkbox.
              */
-            onBlur={(e) => {
+            onBlur={e => {
               const currentTarget = e.currentTarget;
               const relatedTarget = e.relatedTarget as Node | null;
               if (!currentTarget.contains(relatedTarget)) {
@@ -207,65 +215,63 @@ const RHFCheckboxGroup = <
               }
             }}
           >
-            <Fragment>
-              {!hideLabel && isLabelAboveControl && (
-                <FormLabel
-                  label={fieldLabel}
-                  isVisible
-                  required={required}
-                  error={isError}
-                  formLabelProps={{
-                    id: labelId,
-                    component: 'legend',
-                    ...formLabelProps
-                  }}
-                />
-              )}
-              {options.map((option, idx) => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = getOptionValue<Option, ValueKey>(
-                  option,
-                  valueKey
-                );
-                const opnLabel = isObject
-                  ? String(option[labelKey!])
-                  : String(option);
-                const checked = rhfValue.includes(opnValue);
-                const isOptionDisabled = rhfDisabled ||  getOptionDisabled?.(option);
-                return (
-                  <FormControlLabel
-                    key={`${opnValue}-${idx}`}
-                    control={
-                      <Checkbox
-                        {...checkboxProps}
-                        id={`${fieldId}-${opnValue}`}
-                        name={`${fieldName}-${idx}`}
-                        value={opnValue}
-                        checked={checked}
-                        onChange={(e) =>
-                          handleChange(e, e.target.checked, opnValue)
-                        }
-                      />
-                    }
-                    label={renderOption?.(option) ?? opnLabel}
-                    sx={appliedFormControlLabelSx}
-                    disabled={isOptionDisabled}
-                    {...otherFormControlLabelProps}
-                  />
-                );
-              })}
-              <FormHelperText
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveControl}
+                required={required}
                 error={isError}
-                errorMessage={fieldErrorMessage}
-                hideErrorMessage={hideErrorMessage}
-                helperText={helperText}
-                showHelperTextElement={showHelperTextElement}
-                formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                formLabelProps={{
+                  id: labelId,
+                  component: 'legend',
+                  ...formLabelProps
                 }}
               />
-            </Fragment>
+            )}
+            {options.map((option, idx) => {
+              const isObject = isKeyValueOption(option, labelKey, valueKey);
+              const opnValue = getOptionValue<Option, ValueKey>(
+                option,
+                valueKey
+              );
+              const opnLabel = isObject
+                ? String(option[labelKey!])
+                : String(option);
+              const checked = rhfValue.includes(opnValue);
+              const isOptionDisabled
+                = rhfDisabled || getOptionDisabled?.(option) || false;
+              return (
+                <FormControlLabel
+                  key={`${opnValue}-${idx}`}
+                  control={
+                    <Checkbox
+                      {...checkboxProps}
+                      id={`${fieldId}-${opnValue}`}
+                      name={fieldName}
+                      value={opnValue}
+                      checked={checked}
+                      onChange={e =>
+                        handleChange(e, e.target.checked, opnValue)}
+                    />
+                  }
+                  label={renderOption?.(option) ?? opnLabel}
+                  sx={appliedFormControlLabelSx}
+                  disabled={isOptionDisabled}
+                  {...otherFormControlLabelProps}
+                />
+              );
+            })}
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
           </FormControl>
         );
       }}
