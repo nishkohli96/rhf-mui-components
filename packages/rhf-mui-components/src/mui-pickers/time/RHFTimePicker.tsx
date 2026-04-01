@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, type ReactNode } from 'react';
+import { useContext, forwardRef, type Ref, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -17,19 +17,27 @@ import {
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText
+} from '@/common';
+import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
-  useFieldIds
+  mergeRefs,
+  useFieldIds,
 } from '@/utils';
 
 type TimePickerInputProps = Omit<
   TimePickerProps<PickerValidDate>,
+  | 'name'
   | 'value'
   | 'onChange'
+  | 'inputRef'
 >;
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -42,14 +50,16 @@ export type RHFTimePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<TimeValidationError>
   ) => void;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & TimePickerInputProps;
 
-const RHFTimePicker = <T extends FieldValues>({
+const RHFTimePicker = forwardRef(function RHFTimePicker<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -58,14 +68,18 @@ const RHFTimePicker = <T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   slotProps: muiSlotProps,
+  customIds,
+  onAccept,
   ...rest
-}: RHFTimePickerProps<T>) => {
+}: RHFTimePickerProps<T>,
+ref: Ref<HTMLInputElement>) {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFTimePicker'));
@@ -76,7 +90,7 @@ const RHFTimePicker = <T extends FieldValues>({
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
   const {
     textField: textFieldSlotProps,
     ...otherSlotProps
@@ -87,50 +101,62 @@ const RHFTimePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <LocalizationProvider dateAdapter={dateAdapter}>
-        <Controller
-          name={fieldName}
-          control={control}
-          rules={registerOptions}
-          disabled={muiDisabled}
-          render={({
-            field: {
-              name: rhfFieldName,
-              value: rhfValue,
-              onChange: rhfOnChange,
-              onBlur: rhfOnBlur,
-              ref: rhfRef,
-              disabled: rhfDisabled
-            }
-          }) => {
-            return (
+    <LocalizationProvider dateAdapter={dateAdapter}>
+      <Controller
+        name={fieldName}
+        control={control}
+        rules={registerOptions}
+        disabled={muiDisabled}
+        render={({
+          field: {
+            name: rhfFieldName,
+            value: rhfValue,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef,
+            disabled: rhfDisabled
+          },
+          fieldState: { error: fieldStateError }
+        }) => {
+          const fieldErrorMessage
+            = fieldStateError?.message?.toString() ?? errorMessage;
+          const isError = !!fieldErrorMessage;
+          const showHelperTextElement = !!(
+            helperText
+            || (isError && !hideErrorMessage)
+          );
+          return (
+            <FormControl error={isError}>
+              {!hideLabel && (
+                <FormLabel
+                  label={fieldLabel}
+                  isVisible={isLabelAboveFormField}
+                  required={required}
+                  error={isError}
+                  formLabelProps={{
+                    id: labelId,
+                    htmlFor: fieldId,
+                    ...formLabelProps
+                  }}
+                />
+              )}
               <MuiTimePicker
                 name={rhfFieldName}
-                inputRef={rhfRef}
-                value={rhfValue || null}
+                inputRef={mergeRefs(rhfRef, ref)}
+                value={rhfValue ?? null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
                 }}
+                onAccept={(newValue, context) => {
+                  onAccept?.(newValue, context);
+                  rhfOnBlur();
+                }}
                 label={
-                  !isLabelAboveFormField
+                  !hideLabel && !isLabelAboveFormField
                     ? (
                       <FormLabelText label={fieldLabel} required={required} />
                     )
@@ -143,37 +169,46 @@ const RHFTimePicker = <T extends FieldValues>({
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
-                      'aria-labelledby': isLabelAboveFormField
+                      'aria-labelledby': !hideLabel && isLabelAboveFormField
                         ? labelId
+                        : undefined,
+                      'aria-label': hideLabel
+                        ? typeof fieldLabel === 'string'
+                          ? fieldLabel
+                          : undefined
                         : undefined,
                       'aria-describedby': showHelperTextElement
                         ? isError
                           ? errorId
                           : helperTextId
                         : undefined,
+                      'aria-invalid': isError || undefined,
+                      'aria-required': required || undefined,
                     },
                     ...textFieldSlotProps,
-                  }
+                  },
                 }}
                 {...rest}
               />
-            );
-          }}
-        />
-      </LocalizationProvider>
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
+              <FormHelperText
+                error={isError}
+                errorMessage={fieldErrorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  id: isError ? errorId : helperTextId,
+                  ...formHelperTextProps
+                }}
+              />
+            </FormControl>
+          );
         }}
       />
-    </FormControl>
+    </LocalizationProvider>
   );
-};
+}) as <T extends FieldValues>(
+  props: RHFTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFTimePicker;

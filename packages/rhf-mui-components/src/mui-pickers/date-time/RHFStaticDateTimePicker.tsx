@@ -1,6 +1,12 @@
 'use client';
 
-import { useContext, type ReactNode } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type Ref,
+  type ReactNode,
+  type ComponentProps
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -11,23 +17,29 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   StaticDateTimePicker as MuiStaticDateTimePicker,
-  type StaticDateTimePickerProps,
   type PickerValidDate,
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText
-} from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
+import { FormControl, FormLabel, FormHelperText } from '@/common';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
-  keepLabelAboveFormField
+  keepLabelAboveFormField,
+  mergeRefs,
+  useFieldIds
 } from '@/utils';
+
+type StaticDateTimePickerInputProps = Omit<
+  ComponentProps<typeof MuiStaticDateTimePicker>,
+  'value' | 'onChange' | 'ref'
+>;
 
 export type RHFStaticDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -40,90 +52,154 @@ export type RHFStaticDateTimePickerProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<StaticDateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
+  customIds?: CustomComponentIds;
+} & StaticDateTimePickerInputProps;
 
-const RHFStaticDateTimePicker = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  required,
-  onValueChange,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  ...rest
-}: RHFStaticDateTimePickerProps<T>) => {
-  const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  if(!dateAdapter) {
-    throw new Error(generateDateAdapterErrMsg('RHFStaticDateTimePicker'));
-  }
+const RHFStaticDateTimePickerInner = forwardRef(
+  function RHFStaticDateTimePicker<T extends FieldValues>(
+    {
+      fieldName,
+      control,
+      registerOptions,
+      required,
+      onValueChange,
+      disabled: muiDisabled,
+      label,
+      showLabelAboveFormField,
+      hideLabel,
+      formLabelProps,
+      helperText,
+      errorMessage,
+      hideErrorMessage,
+      formHelperTextProps,
+      slotProps: muiSlotProps,
+      customIds,
+      onAccept,
+      ...rest
+    }: RHFStaticDateTimePickerProps<T>,
+    ref: Ref<HTMLDivElement>
+  ) {
+    const { dateAdapter, allLabelsAboveFields }
+      = useContext(RHFMuiConfigContext);
+    if (!dateAdapter) {
+      throw new Error(generateDateAdapterErrMsg('RHFStaticDateTimePicker'));
+    }
 
-  const isLabelAboveFormField = keepLabelAboveFormField(
-    showLabelAboveFormField,
-    allLabelsAboveFields
-  );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+    const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+      fieldName,
+      customIds
+    );
 
-  return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={formLabelProps}
-      />
+    const isLabelAboveFormField = keepLabelAboveFormField(
+      showLabelAboveFormField,
+      allLabelsAboveFields
+    );
+    const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+    return (
       <LocalizationProvider dateAdapter={dateAdapter}>
         <Controller
           name={fieldName}
           control={control}
           rules={registerOptions}
+          disabled={muiDisabled}
           render={({
             field: {
-              name: rhfFieldName,
               value: rhfValue,
               onChange: rhfOnChange,
               onBlur: rhfOnBlur,
               ref: rhfRef,
               disabled: rhfDisabled
-            }
+            },
+            fieldState: { error: fieldStateError }
           }) => {
+            const fieldErrorMessage
+              = fieldStateError?.message?.toString() ?? errorMessage;
+            const isError = !!fieldErrorMessage;
+            const showHelperTextElement = !!(
+              helperText
+              || (isError && !hideErrorMessage)
+            );
             return (
-              <MuiStaticDateTimePicker
-                {...rest}
-                value={rhfValue || null}
-                disabled={rhfDisabled}
-                onChange={(newValue, context) => {
-                  rhfOnChange(newValue);
-                  onValueChange?.(newValue, context);
-                }}
-                {...rest}
-              />
+              <FormControl error={isError}>
+                {!hideLabel && (
+                  <FormLabel
+                    label={fieldLabel}
+                    isVisible={isLabelAboveFormField}
+                    required={required}
+                    error={isError}
+                    formLabelProps={{
+                      id: labelId,
+                      htmlFor: fieldId,
+                      ...formLabelProps
+                    }}
+                  />
+                )}
+                <div
+                  id={fieldId}
+                  role="group"
+                  aria-labelledby={
+                    !hideLabel && isLabelAboveFormField ? labelId : undefined
+                  }
+                  aria-label={
+                    hideLabel && typeof fieldLabel === 'string'
+                      ? fieldLabel
+                      : undefined
+                  }
+                  aria-describedby={
+                    showHelperTextElement
+                      ? isError
+                        ? errorId
+                        : helperTextId
+                      : undefined
+                  }
+                >
+                  <MuiStaticDateTimePicker
+                    ref={mergeRefs(rhfRef, ref)}
+                    value={rhfValue ?? null}
+                    disabled={rhfDisabled}
+                    onChange={(newValue, context) => {
+                      rhfOnChange(newValue);
+                      onValueChange?.(newValue, context);
+                    }}
+                    onAccept={(newValue, context) => {
+                      onAccept?.(newValue, context);
+                      rhfOnBlur();
+                    }}
+                    slotProps={muiSlotProps}
+                    {...rest}
+                  />
+                </div>
+                <FormHelperText
+                  error={isError}
+                  errorMessage={fieldErrorMessage}
+                  hideErrorMessage={hideErrorMessage}
+                  helperText={helperText}
+                  showHelperTextElement={showHelperTextElement}
+                  formHelperTextProps={{
+                    id: isError ? errorId : helperTextId,
+                    ...formHelperTextProps
+                  }}
+                />
+              </FormControl>
             );
           }}
         />
       </LocalizationProvider>
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={formHelperTextProps}
-      />
-    </FormControl>
-  );
-};
+    );
+  }
+);
+
+const RHFStaticDateTimePicker = RHFStaticDateTimePickerInner as <
+  T extends FieldValues
+>(
+  props: RHFStaticDateTimePickerProps<T> & { ref?: Ref<HTMLDivElement> }
+) => JSX.Element;
 
 export default RHFStaticDateTimePicker;

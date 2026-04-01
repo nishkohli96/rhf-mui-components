@@ -23,20 +23,22 @@ import {
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   mergeRefs,
-  useFieldIds,
+  useFieldIds
 } from '@/utils';
 
 type StaticDatePickerInputProps = Omit<
   ComponentProps<typeof MuiStaticDatePicker>,
-  | 'value'
-  | 'onChange'
-  | 'ref'
+  'value' | 'onChange' | 'ref'
 >;
 
 export type RHFStaticDatePickerProps<T extends FieldValues> = {
@@ -59,38 +61,40 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & StaticDatePickerInputProps;
 
-const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  required,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  hideLabel,
-  formLabelProps,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  slotProps: muiSlotProps,
-  customIds,
-  onAccept,
-  ...rest
-}: RHFStaticDatePickerProps<T>,
-ref: Ref<HTMLDivElement>) {
+const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    required,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    slotProps: muiSlotProps,
+    customIds,
+    onAccept,
+    ...rest
+  }: RHFStaticDatePickerProps<T>,
+  ref: Ref<HTMLDivElement>
+) {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  if(!dateAdapter) {
+  if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFStaticDatePicker'));
   }
 
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName, customIds);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -191,9 +195,7 @@ ref: Ref<HTMLDivElement>) {
   );
 });
 
-const RHFStaticDatePicker = RHFStaticDatePickerInner as <
-  T extends FieldValues
->(
+const RHFStaticDatePicker = RHFStaticDatePickerInner as <T extends FieldValues>(
   props: RHFStaticDatePickerProps<T> & { ref?: Ref<HTMLDivElement> }
 ) => JSX.Element;
 

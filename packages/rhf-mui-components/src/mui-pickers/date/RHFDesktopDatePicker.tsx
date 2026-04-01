@@ -23,21 +23,22 @@ import {
   FormLabelText,
   FormHelperText
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   mergeRefs,
-  useFieldIds,
+  useFieldIds
 } from '@/utils';
 
 type DesktopDatePickerInputProps = Omit<
   DesktopDatePickerProps<PickerValidDate>,
-  | 'name'
-  | 'value'
-  | 'onChange'
-  | 'inputRef'
+  'name' | 'value' | 'onChange' | 'inputRef'
 >;
 
 export type RHFDesktopDatePickerProps<T extends FieldValues> = {
@@ -59,42 +60,42 @@ export type RHFDesktopDatePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & DesktopDatePickerInputProps;
 
-const RHFDesktopDatePicker = forwardRef(function RHFDesktopDatePicker<T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  required,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  hideLabel,
-  formLabelProps,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  slotProps: muiSlotProps,
-  customIds,
-  onAccept,
-  ...rest
-}: RHFDesktopDatePickerProps<T>,
-ref: Ref<HTMLInputElement>) {
+const RHFDesktopDatePicker = forwardRef(function RHFDesktopDatePicker<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    required,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    slotProps: muiSlotProps,
+    customIds,
+    onAccept,
+    ...rest
+  }: RHFDesktopDatePickerProps<T>,
+  ref: Ref<HTMLInputElement>
+) {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  if(!dateAdapter) {
+  if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFDesktopDatePicker'));
   }
 
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName, customIds);
-  const {
-    textField: textFieldSlotProps,
-    ...otherSlotProps
-  } = muiSlotProps ?? {};
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
+  const { textField: textFieldSlotProps, ...otherSlotProps }
+    = muiSlotProps ?? {};
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -169,9 +170,10 @@ ref: Ref<HTMLInputElement>) {
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
-                      'aria-labelledby': !hideLabel && isLabelAboveFormField
-                        ? labelId
-                        : undefined,
+                      'aria-labelledby':
+                        !hideLabel && isLabelAboveFormField
+                          ? labelId
+                          : undefined,
                       'aria-label': hideLabel
                         ? typeof fieldLabel === 'string'
                           ? fieldLabel
@@ -183,10 +185,10 @@ ref: Ref<HTMLInputElement>) {
                           : helperTextId
                         : undefined,
                       'aria-invalid': isError || undefined,
-                      'aria-required': required || undefined,
+                      'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps,
-                  },
+                    ...textFieldSlotProps
+                  }
                 }}
                 {...rest}
               />
