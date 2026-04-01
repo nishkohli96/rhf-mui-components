@@ -72,7 +72,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldProps;
 
-const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
+const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues>(
   {
     fieldName,
     control,
@@ -202,7 +202,9 @@ const RHFTextField = forwardRef(function RHFTextField<T extends FieldValues>(
       }}
     />
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFTextField = RHFTextFieldInner as <T extends FieldValues>(
   props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

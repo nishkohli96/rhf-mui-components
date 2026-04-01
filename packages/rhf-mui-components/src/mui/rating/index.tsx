@@ -1,6 +1,12 @@
 'use client';
 
-import { useContext, type ReactNode, type SyntheticEvent } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type Ref,
+  type ReactNode,
+  type SyntheticEvent
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -18,6 +24,7 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
+  mergeRefs,
   resolveLabelAboveControl,
   useFieldIds
 } from '@/utils';
@@ -69,7 +76,7 @@ export type RHFRatingProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & InputRatingProps;
 
-const RHFRating = <T extends FieldValues>({
+const RHFRatingInner = forwardRef(function RHFRating<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -88,7 +95,8 @@ const RHFRating = <T extends FieldValues>({
   onBlur,
   customIds,
   ...rest
-}: RHFRatingProps<T>) => {
+}: RHFRatingProps<T>,
+ref: Ref<HTMLSpanElement>) {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
@@ -114,6 +122,7 @@ const RHFRating = <T extends FieldValues>({
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
+          ref: rhfRef,
           disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
@@ -141,6 +150,7 @@ const RHFRating = <T extends FieldValues>({
               />
             )}
             <MuiRating
+              ref={mergeRefs(rhfRef, ref)}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? null}
@@ -191,6 +201,10 @@ const RHFRating = <T extends FieldValues>({
       }}
     />
   );
-};
+});
+
+const RHFRating = RHFRatingInner as <T extends FieldValues>(
+  props: RHFRatingProps<T> & { ref?: Ref<HTMLSpanElement> }
+) => JSX.Element;
 
 export default RHFRating;

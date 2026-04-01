@@ -86,7 +86,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
-const RHFTagsInput = forwardRef(function RHFTagsInput<T extends FieldValues>({
+const RHFTagsInputInner = forwardRef(function RHFTagsInput<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -459,7 +459,9 @@ ref: Ref<HTMLInputElement>) {
       }}
     />
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFTagsInput = RHFTagsInputInner as <T extends FieldValues>(
   props: RHFTagsInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

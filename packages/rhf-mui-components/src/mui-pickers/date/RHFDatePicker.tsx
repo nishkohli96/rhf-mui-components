@@ -60,7 +60,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & DatePickerInputProps;
 
-const RHFDatePicker = forwardRef(function RHFDatePicker<T extends FieldValues>(
+const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValues>(
   {
     fieldName,
     control,
@@ -207,7 +207,9 @@ const RHFDatePicker = forwardRef(function RHFDatePicker<T extends FieldValues>(
       />
     </LocalizationProvider>
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFDatePicker = RHFDatePickerInner as <T extends FieldValues>(
   props: RHFDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

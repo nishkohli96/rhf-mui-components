@@ -63,7 +63,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & Omit<SwitchProps, 'name'>;
 
-const RHFSwitch = forwardRef(function RHFSwitch<T extends FieldValues>({
+const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -187,7 +187,9 @@ const RHFSwitch = forwardRef(function RHFSwitch<T extends FieldValues>({
       }}
     />
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFSwitch = RHFSwitchInner as <T extends FieldValues>(
   props: RHFSwitchProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

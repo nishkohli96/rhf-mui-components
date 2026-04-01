@@ -98,7 +98,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
-const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>({
+const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -306,7 +306,9 @@ const RHFNumberInput = forwardRef(function RHFNumberInput<T extends FieldValues>
       }}
     />
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFNumberInput = RHFNumberInputInner as <T extends FieldValues>(
   props: RHFNumberInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

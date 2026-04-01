@@ -82,7 +82,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & InputPasswordProps;
 
-const RHFPasswordInput = forwardRef(function RHFPasswordInput<
+const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   T extends FieldValues
 >({
   fieldName,
@@ -247,7 +247,9 @@ ref: Ref<HTMLInputElement>) {
       }}
     />
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFPasswordInput = RHFPasswordInputInner as <T extends FieldValues>(
   props: RHFPasswordInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

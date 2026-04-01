@@ -59,7 +59,7 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TimePickerInputProps;
 
-const RHFTimePicker = forwardRef(function RHFTimePicker<T extends FieldValues>({
+const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -207,7 +207,9 @@ ref: Ref<HTMLInputElement>) {
       />
     </LocalizationProvider>
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFTimePicker = RHFTimePickerInner as <T extends FieldValues>(
   props: RHFTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

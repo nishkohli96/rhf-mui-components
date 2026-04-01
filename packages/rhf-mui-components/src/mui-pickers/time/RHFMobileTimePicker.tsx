@@ -60,7 +60,7 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & MobileTimePickerInputProps;
 
-const RHFMobileTimePicker = forwardRef(function RHFMobileTimePicker<
+const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
   T extends FieldValues
 >(
   {
@@ -209,7 +209,9 @@ const RHFMobileTimePicker = forwardRef(function RHFMobileTimePicker<
       />
     </LocalizationProvider>
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFMobileTimePicker = RHFMobileTimePickerInner as <T extends FieldValues>(
   props: RHFMobileTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useContext, type ReactNode } from 'react';
+import { Fragment, useContext, forwardRef, type Ref, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -12,7 +12,12 @@ import MuiSlider, { type SliderProps } from '@mui/material/Slider';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormLabel, FormHelperText } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
-import { fieldNameToLabel, resolveLabelAboveControl, useFieldIds } from '@/utils';
+import {
+  fieldNameToLabel,
+  mergeRefs,
+  resolveLabelAboveControl,
+  useFieldIds
+} from '@/utils';
 
 type SliderInputProps = Omit<
   SliderProps,
@@ -62,7 +67,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
-const RHFSlider = <T extends FieldValues>({
+const RHFSliderInner = forwardRef(function RHFSlider<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -81,7 +86,8 @@ const RHFSlider = <T extends FieldValues>({
   onBlur,
   customIds,
   ...rest
-}: RHFSliderProps<T>) => {
+}: RHFSliderProps<T>,
+ref: Ref<HTMLSpanElement>) {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
@@ -107,6 +113,7 @@ const RHFSlider = <T extends FieldValues>({
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
+          ref: rhfRef,
           disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
@@ -133,6 +140,7 @@ const RHFSlider = <T extends FieldValues>({
               />
             )}
             <MuiSlider
+              ref={mergeRefs(rhfRef, ref)}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? 0}
@@ -185,6 +193,10 @@ const RHFSlider = <T extends FieldValues>({
       }}
     />
   );
-};
+});
+
+const RHFSlider = RHFSliderInner as <T extends FieldValues>(
+  props: RHFSliderProps<T> & { ref?: Ref<HTMLSpanElement> }
+) => JSX.Element;
 
 export default RHFSlider;

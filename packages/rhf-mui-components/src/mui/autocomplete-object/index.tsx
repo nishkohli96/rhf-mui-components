@@ -3,6 +3,8 @@
 import {
   useCallback,
   useContext,
+  forwardRef,
+  type Ref,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -42,7 +44,8 @@ import {
   validateArray,
   isAboveMuiV5,
   useFieldIds,
-  keepLabelAboveFormField
+  keepLabelAboveFormField,
+  mergeRefs
 } from '@/utils';
 
 type OmittedAutocompleteProps<Option> = Omit<
@@ -93,7 +96,7 @@ export type RHFAutocompleteObjectProps<
   ChipProps?: MuiChipProps;
 } & OmittedAutocompleteProps<Option>;
 
-const RHFAutocompleteObject = <
+const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
   T extends FieldValues,
   Option extends KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -122,7 +125,8 @@ const RHFAutocompleteObject = <
   onBlur,
   loading,
   ...otherAutoCompleteProps
-}: RHFAutocompleteObjectProps<T, Option, LabelKey, ValueKey>) => {
+}: RHFAutocompleteObjectProps<T, Option, LabelKey, ValueKey>,
+ref: Ref<HTMLInputElement>) {
   validateArray('RHFAutocompleteObject', options, labelKey, valueKey);
 
   const {
@@ -250,7 +254,7 @@ const RHFAutocompleteObject = <
                 return (
                   <TextField
                     name={rhfFieldName}
-                    inputRef={rhfRef}
+                    inputRef={mergeRefs(rhfRef, ref)}
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
@@ -328,6 +332,17 @@ const RHFAutocompleteObject = <
       />
     </FormControl>
   );
-};
+});
+
+const RHFAutocompleteObject = RHFAutocompleteObjectInner as <
+  T extends FieldValues,
+  Option extends KeyValueOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>(
+  props: RHFAutocompleteObjectProps<T, Option, LabelKey, ValueKey> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default RHFAutocompleteObject;

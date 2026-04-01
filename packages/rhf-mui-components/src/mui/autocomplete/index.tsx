@@ -4,6 +4,8 @@ import {
   useCallback,
   useContext,
   useMemo,
+  forwardRef,
+  type Ref,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -46,7 +48,8 @@ import {
   isAboveMuiV5,
   isMuiV7AndAbove,
   useFieldIds,
-  keepLabelAboveFormField
+  keepLabelAboveFormField,
+  mergeRefs
 } from '@/utils';
 
 type OmittedAutocompleteProps<Option> = Omit<
@@ -97,7 +100,7 @@ export type RHFAutocompleteProps<
   ChipProps?: MuiChipProps;
 } & OmittedAutocompleteProps<Option>;
 
-const RHFAutocomplete = <
+const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
   T extends FieldValues,
   Option extends StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -126,7 +129,8 @@ const RHFAutocomplete = <
   onBlur,
   loading,
   ...otherAutoCompleteProps
-}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>,
+ref: Ref<HTMLInputElement>) {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const {
@@ -295,7 +299,7 @@ const RHFAutocomplete = <
                 return (
                   <TextField
                     name={rhfFieldName}
-                    inputRef={rhfRef}
+                    inputRef={mergeRefs(rhfRef, ref)}
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
@@ -418,6 +422,17 @@ const RHFAutocomplete = <
       />
     </FormControl>
   );
-};
+});
+
+const RHFAutocomplete = RHFAutocompleteInner as <
+  T extends FieldValues,
+  Option extends StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>(
+  props: RHFAutocompleteProps<T, Option, LabelKey, ValueKey> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default RHFAutocomplete;

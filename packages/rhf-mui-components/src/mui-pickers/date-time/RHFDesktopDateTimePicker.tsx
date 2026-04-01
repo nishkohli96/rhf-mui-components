@@ -60,7 +60,7 @@ export type RHFDesktopDateTimePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & DesktopDateTimePickerInputProps;
 
-const RHFDesktopDateTimePicker = forwardRef(function RHFDesktopDateTimePicker<
+const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePicker<
   T extends FieldValues
 >(
   {
@@ -209,7 +209,9 @@ const RHFDesktopDateTimePicker = forwardRef(function RHFDesktopDateTimePicker<
       />
     </LocalizationProvider>
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFDesktopDateTimePicker = RHFDesktopDateTimePickerInner as <T extends FieldValues>(
   props: RHFDesktopDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

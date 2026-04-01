@@ -127,7 +127,7 @@ export type RHFSelectProps<
 
 const componentName = 'RHFSelect';
 
-const RHFSelect = forwardRef(function RHFSelect<
+const RHFSelectInner = forwardRef(function RHFSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -396,7 +396,9 @@ const RHFSelect = forwardRef(function RHFSelect<
       }}
     />
   );
-}) as <
+});
+
+const RHFSelect = RHFSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

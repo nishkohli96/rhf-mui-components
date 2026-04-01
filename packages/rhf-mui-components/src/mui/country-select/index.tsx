@@ -7,6 +7,8 @@
 import {
   useContext,
   useMemo,
+  forwardRef,
+  type Ref,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -46,7 +48,8 @@ import {
   fieldNameToLabel,
   isAboveMuiV5,
   keepLabelAboveFormField,
-  useFieldIds
+  useFieldIds,
+  mergeRefs
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
@@ -98,7 +101,7 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   ChipProps?: MuiChipProps;
 } & AutoCompleteProps;
 
-const RHFCountrySelect = <T extends FieldValues>({
+const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -122,7 +125,8 @@ const RHFCountrySelect = <T extends FieldValues>({
   ChipProps,
   onBlur,
   ...otherAutoCompleteProps
-}: RHFCountrySelectProps<T>) => {
+}: RHFCountrySelectProps<T>,
+ref: Ref<HTMLInputElement>) {
   const {
     fieldId,
     labelId,
@@ -257,7 +261,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                 return (
                   <TextField
                     name={rhfFieldName}
-                    inputRef={rhfRef}
+                    inputRef={mergeRefs(rhfRef, ref)}
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
@@ -335,7 +339,11 @@ const RHFCountrySelect = <T extends FieldValues>({
       />
     </FormControl>
   );
-};
+});
+
+const RHFCountrySelect = RHFCountrySelectInner as <T extends FieldValues>(
+  props: RHFCountrySelectProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export type { CountryISO, CountryDetails };
 export { countryList };

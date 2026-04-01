@@ -4,6 +4,8 @@ import {
   useContext,
   useState,
   Fragment,
+  forwardRef,
+  type Ref,
   type ReactNode,
   type ChangeEvent
 } from 'react';
@@ -27,6 +29,7 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   useFieldIds,
+  mergeRefs,
   validateFileList
 } from '@/utils';
 import { FileItem, HiddenInput, UploadButton } from './components';
@@ -63,7 +66,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   enableDragAndDrop?: boolean;
 } & FileInputProps;
 
-const RHFFileUploader = <T extends FieldValues>({
+const RHFFileUploaderInner = forwardRef(function RHFFileUploader<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -90,7 +93,8 @@ const RHFFileUploader = <T extends FieldValues>({
   formHelperTextProps,
   fullWidth = false,
   enableDragAndDrop = true,
-}: RHFFileUploaderProps<T>) => {
+}: RHFFileUploaderProps<T>,
+ref: Ref<HTMLInputElement>) {
   const [isDragging, setIsDragging] = useState(false);
   const {
     fieldId,
@@ -218,7 +222,7 @@ const RHFFileUploader = <T extends FieldValues>({
               id={fieldId}
               name={rhfFieldName}
               type="file"
-              ref={rhfRef}
+              ref={mergeRefs(rhfRef, ref)}
               accept={accept}
               multiple={multiple}
               onChange={handleFileChange}
@@ -308,6 +312,10 @@ const RHFFileUploader = <T extends FieldValues>({
       />
     </FormControl>
   );
-};
+});
+
+const RHFFileUploader = RHFFileUploaderInner as <T extends FieldValues>(
+  props: RHFFileUploaderProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFFileUploader;

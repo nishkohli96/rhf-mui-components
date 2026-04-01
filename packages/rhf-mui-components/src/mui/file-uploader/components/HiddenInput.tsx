@@ -1,3 +1,4 @@
+import type { ComponentType, InputHTMLAttributes, RefAttributes } from 'react';
 import { styled } from '@mui/material/styles';
 
 const HiddenInput = styled('input')({
@@ -10,6 +11,8 @@ const HiddenInput = styled('input')({
   left: 0,
   whiteSpace: 'nowrap',
   width: 1,
-}) as React.ComponentType<React.InputHTMLAttributes<HTMLInputElement>>;
+}) as ComponentType<
+  InputHTMLAttributes<HTMLInputElement> & RefAttributes<HTMLInputElement>
+>;
 
 export default HiddenInput;

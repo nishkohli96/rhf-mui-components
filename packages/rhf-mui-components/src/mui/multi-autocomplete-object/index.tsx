@@ -4,6 +4,8 @@ import {
   useContext,
   useCallback,
   useMemo,
+  forwardRef,
+  type Ref,
   type ReactNode
 } from 'react';
 import {
@@ -44,7 +46,8 @@ import {
   isKeyValueOption,
   isAboveMuiV5,
   useFieldIds,
-  keepLabelAboveFormField
+  keepLabelAboveFormField,
+  mergeRefs
 } from '@/utils';
 
 type MultiAutoCompleteProps<Option> = Omit<
@@ -95,7 +98,7 @@ export type RHFMultiAutocompleteObjectProps<
   hideSelectAllOption?: boolean;
 } & MultiAutoCompleteProps<Option>;
 
-const RHFMultiAutocompleteObject = <
+const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocompleteObject<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -127,7 +130,8 @@ const RHFMultiAutocompleteObject = <
   loading,
   hideSelectAllOption,
   ...otherAutoCompleteProps
-}: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey>) => {
+}: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey>,
+ref: Ref<HTMLInputElement>) {
   validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
 
   const {
@@ -317,7 +321,7 @@ const RHFMultiAutocompleteObject = <
                 return (
                   <TextField
                     name={rhfFieldName}
-                    inputRef={rhfRef}
+                    inputRef={mergeRefs(rhfRef, ref)}
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
                     placeholder={
@@ -443,6 +447,17 @@ const RHFMultiAutocompleteObject = <
       />
     </FormControl>
   );
-};
+});
+
+const RHFMultiAutocompleteObject = RHFMultiAutocompleteObjectInner as <
+  T extends FieldValues,
+  Option extends KeyValueOption = KeyValueOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>(
+  props: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default RHFMultiAutocompleteObject;

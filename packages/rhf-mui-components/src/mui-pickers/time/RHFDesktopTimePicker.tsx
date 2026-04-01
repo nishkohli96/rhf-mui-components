@@ -60,7 +60,7 @@ export type RHFDesktopTimePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & DesktopTimePickerInputProps;
 
-const RHFDesktopTimePicker = forwardRef(function RHFDesktopTimePicker<
+const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
   T extends FieldValues
 >(
   {
@@ -209,7 +209,9 @@ const RHFDesktopTimePicker = forwardRef(function RHFDesktopTimePicker<
       />
     </LocalizationProvider>
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFDesktopTimePicker = RHFDesktopTimePickerInner as <T extends FieldValues>(
   props: RHFDesktopTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

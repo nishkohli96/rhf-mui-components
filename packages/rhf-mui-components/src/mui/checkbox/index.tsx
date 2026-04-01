@@ -64,7 +64,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & CheckboxProps;
 
-const RHFCheckbox = forwardRef(function RHFCheckbox<T extends FieldValues>(
+const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
   {
     fieldName,
     control,
@@ -188,7 +188,9 @@ const RHFCheckbox = forwardRef(function RHFCheckbox<T extends FieldValues>(
       }}
     />
   );
-}) as <T extends FieldValues>(
+});
+
+const RHFCheckbox = RHFCheckboxInner as <T extends FieldValues>(
   props: RHFCheckboxProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 

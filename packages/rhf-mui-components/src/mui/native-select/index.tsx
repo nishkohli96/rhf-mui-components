@@ -103,7 +103,7 @@ export type RHFNativeSelectProps<
 
 const componentName = 'RHFNativeSelect';
 
-const RHFNativeSelect = forwardRef(function RHFNativeSelect<
+const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -290,7 +290,9 @@ const RHFNativeSelect = forwardRef(function RHFNativeSelect<
       }}
     />
   );
-}) as <
+});
+
+const RHFNativeSelect = RHFNativeSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
