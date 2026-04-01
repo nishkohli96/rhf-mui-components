@@ -158,6 +158,13 @@ const RHFRating = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               aria-labelledby={!hideLabel ? labelId : undefined}
+              aria-label={
+                hideLabel
+                  ? typeof fieldLabel === 'string'
+                    ? fieldLabel
+                    : undefined
+                  : undefined
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError
