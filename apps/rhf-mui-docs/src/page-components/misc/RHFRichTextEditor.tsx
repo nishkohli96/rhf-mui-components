@@ -39,7 +39,8 @@ const RHFRichTextEditorPropsTable = ({
           docsVersion,
           muiVersion
         ),
-        PropsDescription.showLabelAboveFormField_Default
+        PropsDescription.showLabelAboveFormField_Default,
+        PropsDescription.hideLabel
       ]
       : [PropsDescription.label_v1]),
     getPropByDocsAndMuiVersion(

@@ -1,6 +1,12 @@
 'use client';
 
-import { Fragment, useContext, forwardRef, type Ref, type ReactNode } from 'react';
+import {
+  Fragment,
+  useContext,
+  forwardRef,
+  type Ref,
+  type ReactNode
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -11,7 +17,11 @@ import {
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormLabel, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
 import {
   fieldNameToLabel,
   mergeRefs,
