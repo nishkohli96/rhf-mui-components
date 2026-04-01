@@ -1,6 +1,12 @@
 'use client';
 
-import { Dispatch, Fragment, SetStateAction, useContext, type ReactNode } from 'react';
+import {
+  useContext,
+  Fragment,
+  type ReactNode,
+  type Dispatch,
+  type SetStateAction
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -17,8 +23,17 @@ import {
 } from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { FormLabelProps, FormHelperTextProps, CustomComponentIds } from '@/types';
-import { fieldNameToLabel, colorToString, useFieldIds, resolveLabelAboveControl } from '@/utils';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
+import {
+  fieldNameToLabel,
+  colorToString,
+  useFieldIds,
+  resolveLabelAboveControl
+} from '@/utils';
 import 'react-color-palette/css';
 
 type ColorFormat = keyof IColor;
@@ -39,7 +54,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   /**
    * Override the default `onChange` behavior of the color picker.
    * You must pass the updated `color` to the **setColor** function to update the field value.
-   * 
+   *
    * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
    *
    * @param setColor - react-color-palette `setColor` function

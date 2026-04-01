@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, type ReactNode } from 'react';
+import { forwardRef, Ref, useContext, useRef, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -21,6 +21,7 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
+  mergeRefs,
   resolveLabelAboveControl,
   useFieldIds
 } from '@/utils';
@@ -47,7 +48,30 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   onReady?: (editor: ClassicEditor) => void;
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  onValueChange?: (newValue: string, event: EventInfo, editor: ClassicEditor) => void;
+  onValueChange?: (
+    newValue: string,
+    event: EventInfo,
+    editor: ClassicEditor
+  ) => void;
+  /**
+   * Override the default `onChange` behavior of the rich text editor.
+   * Call **rhfOnChange** with the value that should be stored in the form (omit it to keep the
+   * previous value). After your handler runs, the editor document is synced to that committed
+   * value so the visible content matches form state (e.g. max-length without extra typed chars).
+   *
+   * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - Current editor value
+   * @param event - Change event from the underlying editor
+   * @param editor - ClassicEditor instance
+   */
+  customOnChange?: (
+    rhfOnChange: (newValue: string) => void,
+    newValue: string,
+    event: EventInfo,
+    editor: ClassicEditor
+  ) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -61,29 +85,36 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 };
 
-const RHFRichTextEditor = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  required,
-  id,
-  editorConfig,
-  onReady,
-  onFocus,
-  onBlur,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  hideLabel,
-  formLabelProps,
-  helperText,
-  onError,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  customIds
-}: RHFRichTextEditorProps<T>) => {
+const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    required,
+    id,
+    editorConfig,
+    onReady,
+    onFocus,
+    onBlur,
+    onValueChange,
+    customOnChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    helperText,
+    onError,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    customIds
+  }: RHFRichTextEditorProps<T>,
+  ref: Ref<CKEditor<ClassicEditor>>
+) {
+  const skipNextEditorChangeRef = useRef(false);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
@@ -111,12 +142,12 @@ const RHFRichTextEditor = <T extends FieldValues>({
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
+        const fieldErrorMessage =
+          fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
+          helperText ||
+          (isError && !hideErrorMessage)
         );
 
         return (
@@ -140,11 +171,41 @@ const RHFRichTextEditor = <T extends FieldValues>({
               config={editorConfig ?? DefaultEditorConfig}
               data={rhfValue ?? ''}
               onChange={(event, editor) => {
+                if (skipNextEditorChangeRef.current) {
+                  skipNextEditorChangeRef.current = false;
+                  return;
+                }
                 const content = editor.getData();
+                /**
+                 * Directly calling the early return in customChange won't work in
+                 * this scenario because the editor is not yet updated with the new value.
+                 * So we need to wrap the rhfOnChange function and call it after the customOnChange
+                 * function is called.
+                 *
+                 * This is a workaround to ensure that the editor is updated with the new value.
+                 */
+                if (customOnChange) {
+                  let rhfChangeCalled = false;
+                  let committedValue = '';
+                  const wrappedRhfOnChange = (newValue: string) => {
+                    rhfChangeCalled = true;
+                    committedValue = newValue;
+                    rhfOnChange(newValue);
+                  };
+                  customOnChange(wrappedRhfOnChange, content, event, editor);
+                  const target = rhfChangeCalled
+                    ? committedValue
+                    : String(rhfValue ?? '');
+                  if (editor.getData() !== target) {
+                    skipNextEditorChangeRef.current = true;
+                    editor.setData(target);
+                  }
+                  return;
+                }
                 rhfOnChange(content);
                 onValueChange?.(content, event, editor);
               }}
-              ref={rhfRef}
+              ref={mergeRefs(rhfRef, ref)}
               onReady={onReady}
               onBlur={(event, editor) => {
                 rhfOnBlur();
@@ -181,7 +242,11 @@ const RHFRichTextEditor = <T extends FieldValues>({
       }}
     />
   );
-};
+});
+
+const RHFRichTextEditor = RHFRichTextEditorInner as <T extends FieldValues>(
+  props: RHFRichTextEditorProps<T> & { ref?: Ref<CKEditor<ClassicEditor>>  }
+) => JSX.Element;
 
 export { DefaultEditorConfig };
 export default RHFRichTextEditor;
