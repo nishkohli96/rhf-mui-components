@@ -80,6 +80,8 @@ export type AutoCompleteTextFieldProps = Omit<
   | 'label'
   | 'required'
   | 'error'
+  | 'ref'
+  | 'inputRef'
 >;
 
 export type OmittedAutocompleteProps
