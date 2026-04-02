@@ -120,6 +120,30 @@ export type RHFAutocompleteProps<
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<Option>
   ) => void;
+  /**
+   * Custom change handler that overrides the default value update behavior.
+   *
+   * Use this when you need full control over how the selected value is processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   * 
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param selectedOption - The selected object or string option(s)
+   * @param selectedOptionValue - Selected value(s): an array when `multiple` is true, otherwise a single value. Each item is either `option[valueKey]` or the full `option`.
+   * @param event - The event that triggered the change
+   * @param reason - The reason for the change
+   * @param details - The details of the change
+   */
+  customOnChange?: (
+    rhfOnChange: (value: string | string[] | null) => void,
+    selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>,
+    selectedOptionValue: string | string[] | null,
+    event: SyntheticEvent<Element, Event>,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<Option>
+  ) => void;
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -159,6 +183,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     valueKey,
     disableClearable,
     onValueChange,
+    customOnChange,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -293,6 +318,43 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   DisableClearable
                 >
               }
+              disabled={rhfDisabled}
+              onChange={(
+                event,
+                newValue,
+                reason: AutocompleteChangeReason,
+                details?: AutocompleteChangeDetails<Option>
+              ) => {
+                const fieldValue
+                  = newValue === null
+                    ? null
+                    : Array.isArray(newValue)
+                      ? (newValue ?? []).map(item =>
+                        valueKey && isKeyValueOption(item, labelKey, valueKey)
+                          ? item[valueKey]
+                          : (item as string))
+                      : valueKey
+                        && isKeyValueOption(newValue, labelKey, valueKey)
+                        ? newValue[valueKey]
+                        : (newValue as string);
+                if(customOnChange) {
+                  customOnChange(
+                    rhfOnChange,
+                    newValue,
+                    fieldValue,
+                    event,
+                    reason,
+                    details
+                  );
+                  return;
+                }
+                rhfOnChange(fieldValue);
+                onValueChange?.(fieldValue, event, reason, details);
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
+              }}
               loading={loading}
               autoHighlight
               blurOnSelect={!multiple}
@@ -320,32 +382,6 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                     })
                 }
                 : {})}
-              disabled={rhfDisabled}
-              onChange={(
-                event,
-                newValue,
-                reason: AutocompleteChangeReason,
-                details?: AutocompleteChangeDetails<Option>
-              ) => {
-                const fieldValue
-                  = newValue === null
-                    ? null
-                    : Array.isArray(newValue)
-                      ? (newValue ?? []).map(item =>
-                        valueKey && isKeyValueOption(item, labelKey, valueKey)
-                          ? item[valueKey]
-                          : (item as string))
-                      : valueKey
-                        && isKeyValueOption(newValue, labelKey, valueKey)
-                        ? newValue[valueKey]
-                        : (newValue as string);
-                rhfOnChange(fieldValue);
-                onValueChange?.(fieldValue, event, reason, details);
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}
               getOptionLabel={renderOptionLabel}
