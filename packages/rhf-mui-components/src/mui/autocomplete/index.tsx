@@ -52,28 +52,6 @@ import {
   mergeRefs
 } from '@/utils';
 
-const omittedAutocompletePropKeys = [
-  'freeSolo',
-  'multiple',
-  'fullWidth',
-  'renderInput',
-  'options',
-  'value',
-  'defaultValue',
-  'onChange',
-  'getOptionKey',
-  'getOptionLabel',
-  'isOptionEqualToValue',
-  'autoHighlight',
-  'blurOnSelect',
-  'disableCloseOnSelect',
-  'ChipProps',
-  'renderTags',
-  'disableClearable'
-] as const;
-
-type OmittedAutocompletePropKey = (typeof omittedAutocompletePropKeys)[number];
-
 /**
  * Extra Autocomplete props (MUI 6/7). `multiple` / `renderTags` / generics are wired internally;
  * `any` avoids `TrueOrFalse`-style unions that break `renderTags` typing across single vs multi.
@@ -84,7 +62,23 @@ type OmittedAutocompleteProps<
   DisableClearable extends boolean = false
 > = Omit<
   AutocompleteProps<Option, Multiple, DisableClearable, false>,
-  OmittedAutocompletePropKey
+  | 'freeSolo'
+  | 'multiple'
+  | 'fullWidth'
+  | 'renderInput'
+  | 'options'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'getOptionKey'
+  | 'getOptionLabel'
+  | 'isOptionEqualToValue'
+  | 'autoHighlight'
+  | 'blurOnSelect'
+  | 'disableCloseOnSelect'
+  | 'ChipProps'
+  | 'renderTags'
+  | 'disableClearable'
 >;
 
 type AutocompleteFieldValue<
@@ -92,6 +86,19 @@ type AutocompleteFieldValue<
   Multiple extends boolean,
   DisableClearable extends boolean
 > = AutocompleteValue<Option, Multiple, DisableClearable, false>;
+
+type CustomOnChangeParams<
+  Option,
+  Multiple extends boolean,
+  DisableClearable extends boolean
+> = {
+  rhfOnChange: (value: string | string[] | null) => void;
+  selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>;
+  selectedOptionValue: string | string[] | null;
+  event: SyntheticEvent<Element, Event>;
+  reason: AutocompleteChangeReason;
+  details?: AutocompleteChangeDetails<Option>;
+};
 
 export type RHFAutocompleteProps<
   T extends FieldValues,
@@ -128,7 +135,7 @@ export type RHFAutocompleteProps<
    *
    * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
    * `onValueChange` is not invoked when using `customOnChange`.
-   * 
+   *
    * @param rhfOnChange - React Hook Form's internal change handler
    * @param selectedOption - The selected object or string option(s)
    * @param selectedOptionValue - Selected value(s): an array when `multiple` is true, otherwise a single value. Each item is either `option[valueKey]` or the full `option`.
@@ -136,14 +143,14 @@ export type RHFAutocompleteProps<
    * @param reason - The reason for the change
    * @param details - The details of the change
    */
-  customOnChange?: (
-    rhfOnChange: (value: string | string[] | null) => void,
-    selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>,
-    selectedOptionValue: string | string[] | null,
-    event: SyntheticEvent<Element, Event>,
-    reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<Option>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    selectedOption,
+    selectedOptionValue,
+    event,
+    reason,
+    details
+  }: CustomOnChangeParams<Option, Multiple, DisableClearable>) => void;
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -338,14 +345,14 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                         ? newValue[valueKey]
                         : (newValue as string);
                 if(customOnChange) {
-                  customOnChange(
+                  customOnChange({
                     rhfOnChange,
-                    newValue,
-                    fieldValue,
+                    selectedOption: newValue,
+                    selectedOptionValue: fieldValue,
                     event,
                     reason,
                     details
-                  );
+                  });
                   return;
                 }
                 rhfOnChange(fieldValue);
