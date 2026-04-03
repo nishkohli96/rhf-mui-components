@@ -151,6 +151,18 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
+              renderValue={value => {
+                return (
+                  <Chip
+                    label={`${value.name} - ${value.iataCode}`}
+                    sx={{
+                      bgcolor: '#007ABA',
+                      fontWeight: 800,
+                      color: 'white'
+                    }}
+                  />
+                );
+              }}
               labelKey="name"
               valueKey="iataCode"
               required

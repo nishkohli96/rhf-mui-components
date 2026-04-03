@@ -21,7 +21,8 @@ import Autocomplete, {
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
   type AutocompleteRenderGetTagProps,
-  type AutocompleteValue
+  type AutocompleteValue,
+  type AutocompleteRenderValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -49,7 +50,8 @@ import {
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
-  mergeRefs
+  mergeRefs,
+  isMuiV7AndAbove
 } from '@/utils';
 
 /**
@@ -282,7 +284,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
           || (isError && !hideErrorMessage)
         );
 
-        let selectedOptions;
+        let selectedOptions: Option | Option[] | null;
         if (multiple) {
           selectedOptions = (rhfValue ?? []).flatMap(val => {
             const option = optionsMap
@@ -314,6 +316,11 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                 }}
               />
             )}
+            {/*
+             * MUI v7: use `renderValue` so single- and multi-select selections render as chips.
+             * MUI v6: use `renderTags` for multi-select chips only, as `renderValue` is not available.
+             * MUI v7 deprecates `renderTags` in favor of `renderValue`.
+             */}
             <Autocomplete
               id={fieldId}
               options={options}
@@ -344,7 +351,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                         && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
                         : (newValue as string);
-                if(customOnChange) {
+                if (customOnChange) {
                   customOnChange({
                     rhfOnChange,
                     selectedOption: newValue,
@@ -362,35 +369,6 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              loading={loading}
-              autoHighlight
-              blurOnSelect={!multiple}
-              disableCloseOnSelect={multiple}
-              disableClearable={disableClearable}
-              fullWidth
-              {...(multiple
-                ? {
-                  renderTags: (
-                    value: Option[],
-                    getTagProps: AutocompleteRenderGetTagProps
-                  ) =>
-                    value.map((option, index) => {
-                      const { key, ...otherChipProps } = getTagProps({
-                        index
-                      });
-                      return (
-                        <Chip
-                          key={key}
-                          {...otherChipProps}
-                          label={renderOptionLabel(option)}
-                          {...ChipProps}
-                        />
-                      );
-                    })
-                }
-                : {})}
-              limitTags={2}
-              getLimitTagsText={value => `+${value} More`}
               getOptionLabel={renderOptionLabel}
               isOptionEqualToValue={(option, value) => {
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
@@ -459,6 +437,57 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   />
                 );
               }}
+              autoHighlight
+              blurOnSelect={!multiple}
+              disableCloseOnSelect={multiple}
+              disableClearable={disableClearable}
+              fullWidth
+              loading={loading}
+              limitTags={2}
+              getLimitTagsText={value => `+${value} More`}
+              {...(isMuiV7AndAbove && {
+                renderValue: (
+                  value: AutocompleteRenderValue<Option, Multiple, false>
+                ) => {
+                  if(value === null || value === undefined) {
+                    return undefined;
+                  }
+                  if (multiple && Array.isArray(value)) {
+                    return value.map(option => {
+                      return (
+                        <Chip
+                          key={option.value}
+                          label={renderOptionLabel(option)}
+                          {...ChipProps}
+                        />
+                      );
+                    });
+                  }
+                  return (
+                    renderOptionLabel(value as Option)
+                  );
+                }
+              })}
+              {...(multiple
+                && !isMuiV7AndAbove && {
+                renderTags: (
+                  value: Option[],
+                  getTagProps: AutocompleteRenderGetTagProps
+                ) =>
+                  value.map((option, index) => {
+                    const { key, ...otherChipProps } = getTagProps({
+                      index
+                    });
+                    return (
+                      <Chip
+                        key={key}
+                        {...otherChipProps}
+                        label={renderOptionLabel(option)}
+                        {...ChipProps}
+                      />
+                    );
+                  })
+              })}
               slotProps={{
                 ...slotProps,
                 chip: ChipProps
