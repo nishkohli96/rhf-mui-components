@@ -20,12 +20,9 @@ import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
-  type AutocompleteRenderGetTagProps,
-  type AutocompleteValue,
-  type AutocompleteRenderValue
+  type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -50,8 +47,7 @@ import {
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
-  mergeRefs,
-  isMuiV7AndAbove
+  mergeRefs  
 } from '@/utils';
 
 /**
@@ -153,6 +149,10 @@ export type RHFAutocompleteProps<
     reason,
     details
   }: CustomOnChangeParams<Option, Multiple, DisableClearable>) => void;
+  /**
+   * If true, the input can't be cleared.
+   * @default false
+   */
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -207,7 +207,9 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     slotProps,
     ChipProps,
     onBlur,
+    onFocus,
     loading,
+    limitTags = 2,
     customIds,
     ...otherAutoCompleteProps
   }: RHFAutocompleteProps<
@@ -242,6 +244,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     if (!valueKey) {
       return null;
     }
+
     const map = new Map<Option[ValueKey], Option>();
     for (const option of options) {
       if (isKeyValueOption(option, labelKey, valueKey)) {
@@ -365,6 +368,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                 rhfOnChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
+              onFocus={onFocus}
               onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
@@ -443,51 +447,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
               disableClearable={disableClearable}
               fullWidth
               loading={loading}
-              limitTags={2}
+              limitTags={limitTags}
               getLimitTagsText={value => `+${value} More`}
-              {...(isMuiV7AndAbove && {
-                renderValue: (
-                  value: AutocompleteRenderValue<Option, Multiple, false>
-                ) => {
-                  if(value === null || value === undefined) {
-                    return undefined;
-                  }
-                  if (multiple && Array.isArray(value)) {
-                    return value.map(option => {
-                      return (
-                        <Chip
-                          key={option.value}
-                          label={renderOptionLabel(option)}
-                          {...ChipProps}
-                        />
-                      );
-                    });
-                  }
-                  return (
-                    renderOptionLabel(value as Option)
-                  );
-                }
-              })}
-              {...(multiple
-                && !isMuiV7AndAbove && {
-                renderTags: (
-                  value: Option[],
-                  getTagProps: AutocompleteRenderGetTagProps
-                ) =>
-                  value.map((option, index) => {
-                    const { key, ...otherChipProps } = getTagProps({
-                      index
-                    });
-                    return (
-                      <Chip
-                        key={key}
-                        {...otherChipProps}
-                        label={renderOptionLabel(option)}
-                        {...ChipProps}
-                      />
-                    );
-                  })
-              })}
               slotProps={{
                 ...slotProps,
                 chip: ChipProps

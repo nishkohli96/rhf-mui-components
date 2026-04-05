@@ -186,6 +186,7 @@ const AutocompleteForm = () => {
               multiple
               showLabelAboveFormField
               textFieldProps={{ variant: 'standard' }}
+              getLimitTagsText={value => `+${value} Airport(s)`}
               errorMessage={errors?.destinationAirports?.message}
               ChipProps={{
                 sx: {
