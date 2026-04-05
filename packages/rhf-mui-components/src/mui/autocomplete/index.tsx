@@ -39,8 +39,8 @@ import type {
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps,
-  CustomComponentIds,
-  CustomOnChangeProps
+  CustomOnChangeProps,
+  CustomComponentIds
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -51,10 +51,6 @@ import {
   mergeRefs
 } from '@/utils';
 
-/**
- * Extra Autocomplete props (MUI 6/7). `multiple` / `renderTags` / generics are wired internally;
- * `any` avoids `TrueOrFalse`-style unions that break `renderTags` typing across single vs multi.
- */
 type OmittedAutocompleteProps<
   Option extends StrObjOption,
   Multiple extends boolean = false,
