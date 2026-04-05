@@ -36,3 +36,7 @@ export type CustomComponentIds = Partial<{
   helperText: string;
   error: string;
 }>;
+
+export type CustomOnChangeProps<T, V> = T & {
+  rhfOnChange: (value: V) => void;
+}

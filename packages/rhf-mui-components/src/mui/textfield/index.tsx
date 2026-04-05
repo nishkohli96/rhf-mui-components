@@ -28,7 +28,8 @@ import type {
   FormLabelProps,
   FormHelperTextProps,
   TextFieldProps,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -36,6 +37,11 @@ import {
   mergeRefs,
   useFieldIds
 } from '@/utils';
+
+type OnValueChangeProps = {
+  newValue: string,
+  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+}
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -54,15 +60,12 @@ export type RHFTextFieldProps<T extends FieldValues> = {
    * @param newValue - Current input string value
    * @param event - Change event from the underlying input
    */
-  customOnChange?: (
-    rhfOnChange: (value: string) => void,
-    newValue: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  onValueChange?: (
-    value: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
+  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
@@ -162,11 +165,11 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               onChange={event => {
                 const newValue = event.target.value;
                 if (customOnChange) {
-                  customOnChange(rhfOnChange, newValue, event);
+                  customOnChange({rhfOnChange, newValue, event });
                   return;
                 }
                 rhfOnChange(newValue);
-                onValueChange?.(newValue, event);
+                onValueChange?.({ newValue, event });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

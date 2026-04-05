@@ -398,7 +398,7 @@ const AutocompleteForm = () => {
               valueKey="_id"
               label="Employees to promote"
               textFieldProps={{ placeholder: 'Select employees to promote' }}
-              renderTags={(value, getTagProps) => {
+              renderValue={(value, getTagProps) => {
                 return value.map((option, index) => {
                   const { key, ...otherChipProps } = getTagProps({ index });
                   return (

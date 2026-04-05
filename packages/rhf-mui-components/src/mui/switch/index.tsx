@@ -22,10 +22,16 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormHelperText } from '@/common';
 import type {
   CustomComponentIds,
+  CustomOnChangeProps,
   FormControlLabelProps,
   FormHelperTextProps
 } from '@/types';
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
+
+type OnValueChangeProps = {
+  newValue: boolean,
+  event: ChangeEvent<HTMLInputElement>
+}
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -44,15 +50,12 @@ export type RHFSwitchProps<T extends FieldValues> = {
  * @param checked - The new checked state of the switch
  * @param event - The change event triggered by the switch
  */
-  customOnChange?: (
-    rhfOnChange: (isChecked: boolean) => void,
-    checked: boolean,
-    event: ChangeEvent<HTMLInputElement>,
-  ) => void;
-  onValueChange?: (
-    isChecked: boolean,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
+  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   label?: ReactNode;
   hideLabel?: boolean;
   formControlLabelProps?: FormControlLabelProps;
@@ -132,11 +135,15 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
                   disabled={rhfDisabled}
                   onChange={(event, isChecked) => {
                     if(customOnChange) {
-                      customOnChange(rhfOnChange, isChecked, event);
+                      customOnChange({
+                        rhfOnChange,
+                        newValue: isChecked,
+                        event
+                      });
                       return;
                     }
                     rhfOnChange(isChecked);
-                    onValueChange?.(isChecked, event);
+                    onValueChange?.({ newValue: isChecked, event });
                   }}
                   onBlur={blurEvent => {
                     rhfOnBlur();

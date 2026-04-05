@@ -20,7 +20,8 @@ import { FormLabel, FormHelperText } from '@/common';
 import type {
   FormLabelProps,
   FormHelperTextProps,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -35,6 +36,12 @@ type SliderInputProps = Omit<
   | 'value'
   | 'onChange'
 >;
+
+type OnValueChangeProps = {
+  newValue: number | number[],
+  activeThumb: number,
+  event: Event
+}
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -55,17 +62,17 @@ export type RHFSliderProps<T extends FieldValues> = {
  * @param activeThumb - Index of the currently active thumb (for range sliders)
  * @param event - The change event triggered by the slider
  */
-  customOnChange?: (
-    rhfOnChange: (newValue: number | number[]) => void,
-    value: number | number[],
-    activeThumb: number,
-    event: Event
-  ) => void;
-  onValueChange?: (
-    value: number | number[],
-    activeThumb: number,
-    event: Event,
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    activeThumb,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, number | number[]>) => void;
+  onValueChange?: ({
+    newValue,
+    activeThumb,
+    event
+  }: OnValueChangeProps) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
@@ -157,11 +164,16 @@ ref: Ref<HTMLSpanElement>) {
               disabled={rhfDisabled}
               onChange={(event, value, activeThumb) => {
                 if (customOnChange) {
-                  customOnChange(rhfOnChange, value, activeThumb, event);
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: value,
+                    activeThumb,
+                    event
+                  });
                   return;
                 }
                 rhfOnChange(value);
-                onValueChange?.(value, activeThumb, event);
+                onValueChange?.({ newValue: value, activeThumb, event });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

@@ -60,11 +60,15 @@ type TextFieldInputProps = Omit<
   | 'FormHelperTextProps'
 >;
 
+type OnValueChangeProps = {
+  newValue: string[],
+}
+
 export type RHFTagsInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (tags: string[]) => void;
+  onValueChange?: ({ newValue }: OnValueChangeProps) => void;
   onTagAdd?: (
     newTag: string,
     currentTags: string[]
@@ -196,7 +200,7 @@ ref: Ref<HTMLInputElement>) {
   const triggerChangeEvents = useCallback(
     (newValue: string[], onChange: (...event: any[]) => void) => {
       onChange(newValue);
-      onValueChange?.(newValue);
+      onValueChange?.({ newValue });
     },
     [onValueChange]
   );
