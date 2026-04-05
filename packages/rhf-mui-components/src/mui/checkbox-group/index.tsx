@@ -24,8 +24,28 @@ import type {
   CheckboxProps,
   OptionValue,
   StrNumObjOption,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
+
+type OnValueChangeProps<
+  Option extends StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string>
+> = {
+  toggledValue: OptionValue<Option, ValueKey>;
+  newValue: OptionValue<Option, ValueKey>[];
+  event: ChangeEvent<HTMLInputElement>;
+};
+
+type CheckboxGroupCustomOnChangeProps<
+  Option extends StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string>
+> = {
+  toggledValue: OptionValue<Option, ValueKey>;
+  checked: boolean;
+  currentValues: OptionValue<Option, ValueKey>[];
+  event: ChangeEvent<HTMLInputElement>;
+};
 import {
   fieldNameToLabel,
   validateArray,
@@ -63,23 +83,26 @@ export type RHFCheckboxGroupProps<
  * `onValueChange` is not invoked when using `customOnChange`.
  *
  * @param rhfOnChange - React Hook Form's internal change handler
- * @param optionValue - The value of the option being toggled
+ * @param toggledValue - The value of the option being toggled
  * @param checked - Whether the option is checked or unchecked
  * @param currentValues - Current array of selected values
  * @param event - The change event triggered by the checkbox
  */
-  customOnChange?: (
-    rhfOnChange: (newValues: OptionValue<Option, ValueKey>[]) => void,
-    optionValue: OptionValue<Option, ValueKey>,
-    checked: boolean,
-    currentValues: OptionValue<Option, ValueKey>[],
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
-  onValueChange?: (
-    selectedItemValue: OptionValue<Option, ValueKey>,
-    newValue: OptionValue<Option, ValueKey>[],
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    toggledValue,
+    checked,
+    currentValues,
+    event
+  }: CustomOnChangeProps<
+    CheckboxGroupCustomOnChangeProps<Option, ValueKey>,
+    OptionValue<Option, ValueKey>[]
+  >) => void;
+  onValueChange?: ({
+    toggledValue,
+    newValue,
+    event
+  }: OnValueChangeProps<Option, ValueKey>) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -191,13 +214,13 @@ const RHFCheckboxGroup = <
         ) => {
           const normalizedValue = coerceValue(event.target.value, optionValue);
           if (customOnChange) {
-            customOnChange(
+            customOnChange({
               rhfOnChange,
-              normalizedValue,
+              toggledValue: normalizedValue,
               checked,
-              rhfValue,
+              currentValues: rhfValue,
               event
-            );
+            });
             return;
           }
           const newValue = checked
@@ -206,7 +229,11 @@ const RHFCheckboxGroup = <
               : [...rhfValue, normalizedValue]
             : rhfValue.filter(v => v !== normalizedValue);
           rhfOnChange(newValue);
-          onValueChange?.(normalizedValue, newValue, event);
+          onValueChange?.({
+            toggledValue: normalizedValue,
+            newValue,
+            event
+          });
         };
 
         return (

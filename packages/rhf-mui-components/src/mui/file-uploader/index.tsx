@@ -7,7 +7,8 @@ import {
   forwardRef,
   type Ref,
   type ReactNode,
-  type ChangeEvent
+  type ChangeEvent,
+  type DragEvent
 } from 'react';
 import {
   Controller,
@@ -36,6 +37,11 @@ import { FileItem, HiddenInput, UploadButton } from './components';
 
 export type { FileUploadError };
 
+type RHFFileUploaderOnValueChangeProps = {
+  newValue: File | File[] | null;
+  event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>;
+};
+
 export type RHFFileUploaderProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -46,10 +52,10 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   hideFileList?: boolean;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
   renderFileItem?: (file: File, index: number) => ReactNode;
-  onValueChange?: (
-    acceptedFiles: File | File[] | null,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  onValueChange?: ({
+    newValue,
+    event
+  }: RHFFileUploaderOnValueChangeProps) => void;
   onUploadError?: (
     errors: FileUploadError[],
     rejectedFiles: File[],
@@ -146,11 +152,11 @@ ref: Ref<HTMLInputElement>) {
         }) => {
           const processFiles = (
             files: FileList | File[] | null,
-            event: ChangeEvent<HTMLInputElement>
+            event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>
           ) => {
             if (!files || files.length === 0) {
               rhfOnChange(null);
-              onValueChange?.(null, event);
+              onValueChange?.({ newValue: null, event });
               return;
             }
             const allUploadedFiles = [...uploadedFiles, ...Array.from(files)];
@@ -174,10 +180,13 @@ ref: Ref<HTMLInputElement>) {
              * For onValueChange, I will be sending the newly uploaded files,
              * which are valid, as per the validation rules defined by the developer.
              */
-            if(uploadedFiles.length > 0) {
-              onValueChange?.(acceptedFiles.slice(uploadedFiles.length - 1), event);
+            if (uploadedFiles.length > 0) {
+              onValueChange?.({
+                newValue: acceptedFiles.slice(uploadedFiles.length - 1),
+                event
+              });
             } else {
-              onValueChange?.(acceptedFiles, event);
+              onValueChange?.({ newValue: acceptedFiles, event });
             }
           };
 

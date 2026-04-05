@@ -44,6 +44,14 @@ import type {
   AutoCompleteTextFieldProps,
   MuiChipProps
 } from '@/types';
+
+type OnValueChangeProps = {
+  newValue: CountryDetails | CountryDetails[] | null;
+  event: SyntheticEvent;
+  reason: AutocompleteChangeReason;
+  details?: AutocompleteChangeDetails<CountryDetails>;
+};
+
 import {
   fieldNameToLabel,
   isAboveMuiV5,
@@ -82,12 +90,12 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
   countries?: CountryDetails[];
   preferredCountries?: CountryISO[];
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
-  onValueChange?: (
-    newValue: CountryDetails | CountryDetails[] | null,
-    event: SyntheticEvent,
-    reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<CountryDetails>
-  ) => void;
+  onValueChange?: ({
+    newValue,
+    event,
+    reason,
+    details
+  }: OnValueChangeProps) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -219,7 +227,12 @@ ref: Ref<HTMLInputElement>) {
                   ? (newValue ?? []).map(item => item[valueKey])
                   : (newValue)?.[valueKey] ?? null;
                 rhfOnChange(newValueKey);
-                onValueChange?.(newValue, event, reason, details);
+                onValueChange?.({
+                  newValue,
+                  event,
+                  reason,
+                  details
+                });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

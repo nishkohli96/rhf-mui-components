@@ -68,7 +68,9 @@ const CheckboxRadioZodForm = () => {
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-              onValueChange={newVal => toast.info(`You selected ${newVal}`)}
+              onValueChange={({ newValue }) => {
+                toast.info(`You selected ${newValue}`);
+              }}
               required
               errorMessage={errors?.gender?.message}
             />

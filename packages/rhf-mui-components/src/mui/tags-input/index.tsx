@@ -61,8 +61,8 @@ type TextFieldInputProps = Omit<
 >;
 
 type OnValueChangeProps = {
-  newValue: string[],
-}
+  newValue: string[];
+};
 
 export type RHFTagsInputProps<T extends FieldValues> = {
   fieldName: Path<T>;

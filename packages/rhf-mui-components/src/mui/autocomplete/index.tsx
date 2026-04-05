@@ -39,7 +39,8 @@ import type {
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -47,7 +48,7 @@ import {
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
-  mergeRefs  
+  mergeRefs
 } from '@/utils';
 
 /**
@@ -85,14 +86,13 @@ type AutocompleteFieldValue<
   DisableClearable extends boolean
 > = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
-type CustomOnChangeParams<
+type OnValueChangeProps<
   Option,
   Multiple extends boolean,
   DisableClearable extends boolean
 > = {
-  rhfOnChange: (value: string | string[] | null) => void;
+  newValue: string | string[] | null;
   selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>;
-  selectedOptionValue: string | string[] | null;
   event: SyntheticEvent<Element, Event>;
   reason: AutocompleteChangeReason;
   details?: AutocompleteChangeDetails<Option>;
@@ -119,11 +119,13 @@ export type RHFAutocompleteProps<
   multiple?: Multiple;
   labelKey?: LabelKey;
   valueKey?: ValueKey;
-  onValueChange?: (
-    fieldValue: string | string[] | null,
-    event: SyntheticEvent<Element, Event>,
-    reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<Option>
+  onValueChange?: ({
+    newValue,
+    selectedOption,
+    event,
+    reason,
+    details
+  }: OnValueChangeProps<Option, Multiple, DisableClearable>
   ) => void;
   /**
    * Custom change handler that overrides the default value update behavior.
@@ -135,20 +137,23 @@ export type RHFAutocompleteProps<
    * `onValueChange` is not invoked when using `customOnChange`.
    *
    * @param rhfOnChange - React Hook Form's internal change handler
-   * @param selectedOption - The selected object or string option(s)
-   * @param selectedOptionValue - Selected value(s): an array when `multiple` is true, otherwise a single value. Each item is either `option[valueKey]` or the full `option`.
+   * @param newValue - Selected value(s) stored in the form: an array when `multiple` is true, otherwise a single value. Each item is either `option[valueKey]` or the full `option` string.
+   * @param selectedOption - The selected object or string option(s) from MUI
    * @param event - The event that triggered the change
    * @param reason - The reason for the change
    * @param details - The details of the change
    */
   customOnChange?: ({
     rhfOnChange,
+    newValue,
     selectedOption,
-    selectedOptionValue,
     event,
     reason,
     details
-  }: CustomOnChangeParams<Option, Multiple, DisableClearable>) => void;
+  }: CustomOnChangeProps<
+    OnValueChangeProps<Option, Multiple, DisableClearable>,
+    string | string[] | null
+  >) => void;
   /**
    * If true, the input can't be cleared.
    * @default false
@@ -357,8 +362,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                 if (customOnChange) {
                   customOnChange({
                     rhfOnChange,
+                    newValue: fieldValue,
                     selectedOption: newValue,
-                    selectedOptionValue: fieldValue,
                     event,
                     reason,
                     details
@@ -366,7 +371,13 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   return;
                 }
                 rhfOnChange(fieldValue);
-                onValueChange?.(fieldValue, event, reason, details);
+                onValueChange?.({
+                  newValue: fieldValue,
+                  selectedOption: newValue,
+                  event,
+                  reason,
+                  details
+                });
               }}
               onFocus={onFocus}
               onBlur={blurEvent => {

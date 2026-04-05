@@ -29,9 +29,9 @@ import type {
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
-  newValue: boolean,
-  event: ChangeEvent<HTMLInputElement>
-}
+  newValue: boolean;
+  event: ChangeEvent<HTMLInputElement>;
+};
 
 export type RHFSwitchProps<T extends FieldValues> = {
   fieldName: Path<T>;

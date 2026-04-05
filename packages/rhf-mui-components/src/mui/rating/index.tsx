@@ -20,8 +20,14 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type {
   FormLabelProps,
   FormHelperTextProps,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
+
+type OnValueChangeProps = {
+  newValue: number | null;
+  event: SyntheticEvent<Element, Event>;
+};
 import {
   fieldNameToLabel,
   mergeRefs,
@@ -56,15 +62,12 @@ export type RHFRatingProps<T extends FieldValues> = {
    * @param newValue - New rating value, or `null` when cleared
    * @param event - Synthetic event from the rating control
    */
-  customOnChange?: (
-    rhfOnChange: (newValue: number | null) => void,
-    newValue: number | null,
-    event: SyntheticEvent<Element, Event>
-  ) => void;
-  onValueChange?: (
-    newValue: number | null,
-    event: SyntheticEvent<Element, Event>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
+  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   label?: ReactNode;
   hideLabel?: boolean;
   showLabelAboveFormField?: boolean;
@@ -156,12 +159,12 @@ ref: Ref<HTMLSpanElement>) {
               value={rhfValue ?? null}
               disabled={rhfDisabled}
               onChange={(event, newValue) => {
-                if(customOnChange) {
-                  customOnChange(rhfOnChange, newValue, event);
+                if (customOnChange) {
+                  customOnChange({ rhfOnChange, newValue, event });
                   return;
                 }
                 rhfOnChange(newValue);
-                onValueChange?.(newValue, event);
+                onValueChange?.({ newValue, event });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

@@ -85,7 +85,10 @@ export type RHFMultiAutocompleteProps<
   labelKey?: LabelKey;
   valueKey?: ValueKey;
   selectAllText?: string;
-  onValueChange?: (fieldValue: string[], targetValue?: string) => void;
+  onValueChange?: (props: {
+    newValue: string[];
+    targetValue?: string;
+  }) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -281,7 +284,10 @@ ref: Ref<HTMLInputElement>) {
           const changeFieldState = useCallback(
             (newValues: string[], selectedValue?: string) => {
               rhfOnChange(newValues);
-              onValueChange?.(newValues, selectedValue);
+              onValueChange?.({
+                newValue: newValues,
+                targetValue: selectedValue
+              });
             },
             [rhfOnChange, onValueChange]
           );
@@ -316,7 +322,7 @@ ref: Ref<HTMLInputElement>) {
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   rhfOnChange([]);
-                  onValueChange?.([]);
+                  onValueChange?.({ newValue: [] });
                   return;
                 }
                 const isSelectAllSelected = newSelectedOptions.some(isSelectAllOption);
@@ -325,7 +331,10 @@ ref: Ref<HTMLInputElement>) {
                     getOptionLabelOrValue(option, valueKey));
                   const finalValue = areAllSelected ? [] : allValues;
                   rhfOnChange(finalValue);
-                  onValueChange?.(finalValue, selectAllOptionValue);
+                  onValueChange?.({
+                    newValue: finalValue,
+                    targetValue: selectAllOptionValue
+                  });
                   return;
                 }
 
@@ -334,12 +343,12 @@ ref: Ref<HTMLInputElement>) {
                   .filter(option => !isSelectAllOption(option))
                   .map(option => getOptionLabelOrValue(option, valueKey));
                 rhfOnChange(finalValue);
-                onValueChange?.(
-                  finalValue,
-                  clickedOption
+                onValueChange?.({
+                  newValue: finalValue,
+                  targetValue: clickedOption
                     ? getOptionLabelOrValue(clickedOption, valueKey)
                     : undefined
-                );
+                });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

@@ -24,8 +24,14 @@ import type {
   FormControlLabelProps,
   FormHelperTextProps,
   CheckboxProps,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
+
+type OnValueChangeProps = {
+  newValue: boolean;
+  event: ChangeEvent<HTMLInputElement>;
+};
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
@@ -42,18 +48,15 @@ export type RHFCheckboxProps<T extends FieldValues> = {
  * `onValueChange` is not invoked when using `customOnChange`.
  *
  * @param rhfOnChange - React Hook Form's internal change handler
- * @param checked - The new checked state of the checkbox
+ * @param newValue - The new checked state of the checkbox
  * @param event - The change event triggered by the checkbox
  */
-  customOnChange?: (
-    rhfOnChange: (isChecked: boolean) => void,
-    checked: boolean,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
-  onValueChange?: (
-    isChecked: boolean,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
+  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   label?: ReactNode;
   hideLabel?: boolean;
   formControlLabelProps?: FormControlLabelProps;
@@ -133,11 +136,11 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                   disabled={rhfDisabled}
                   onChange={(event, checked) => {
                     if (customOnChange) {
-                      customOnChange(rhfOnChange, checked, event);
+                      customOnChange({ rhfOnChange, newValue: checked, event });
                       return;
                     }
                     rhfOnChange(checked);
-                    onValueChange?.(checked, event);
+                    onValueChange?.({ newValue: checked, event });
                   }}
                   onBlur={blurEvent => {
                     rhfOnBlur();

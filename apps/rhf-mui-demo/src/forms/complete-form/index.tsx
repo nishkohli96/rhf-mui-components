@@ -365,8 +365,8 @@ const CompleteForm = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={isChecked => {
-                  console.log('Is checked', isChecked);
+                onValueChange={({ newValue }) => {
+                  console.log('Is checked', newValue);
                 }}
                 errorMessage={errors?.agreeTnC?.message}
               />
@@ -440,8 +440,8 @@ const CompleteForm = () => {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={selectedValue => {
-                  toast.info(`selectedValue: ${selectedValue}`);
+                onValueChange={({ newValue }) => {
+                  toast.info(`selectedValue: ${newValue}`);
                 }}
                 required
                 errorMessage={errors?.country?.message}
@@ -455,7 +455,9 @@ const CompleteForm = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={() => toggleTheme()}
+                onValueChange={() => {
+                  toggleTheme();
+                }}
                 helperText="Toggling this changes theme"
                 errorMessage={errors?.darkTheme?.message}
               />

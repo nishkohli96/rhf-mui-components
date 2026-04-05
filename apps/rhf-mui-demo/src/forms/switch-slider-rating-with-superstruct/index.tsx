@@ -73,11 +73,11 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
                 { value: 50, label: '50' }
               ]}
               step={5}
-              customOnChange={(rhfOnChange, value) => {
-                if(value as number < sliderMinimumValue) {
+              customOnChange={({ rhfOnChange, newValue }) => {
+                if ((newValue as number) < sliderMinimumValue) {
                   return;
                 }
-                rhfOnChange(value);
+                rhfOnChange(newValue);
               }}
               label="What is your score in class 10?"
               required
@@ -113,14 +113,14 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
               errorMessage={errors?.rating?.message}
               required
               helperText={`Please select atleast ${minRating}`}
-              customOnChange={(rhfOnChange, value) => {
-                if(value && value < minRating) {
+              customOnChange={({ rhfOnChange, newValue }) => {
+                if (newValue && newValue < minRating) {
                   toast(`Please rate us atleast ${minRating} stars`, {
                     type: 'error'
                   });
                   return;
                 }
-                rhfOnChange(value);
+                rhfOnChange(newValue);
               }}
             />
           </Grid>

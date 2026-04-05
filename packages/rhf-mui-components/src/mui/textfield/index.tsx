@@ -39,9 +39,9 @@ import {
 } from '@/utils';
 
 type OnValueChangeProps = {
-  newValue: string,
-  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-}
+  newValue: string;
+  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+};
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -165,7 +165,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               onChange={event => {
                 const newValue = event.target.value;
                 if (customOnChange) {
-                  customOnChange({rhfOnChange, newValue, event });
+                  customOnChange({ rhfOnChange, newValue, event });
                   return;
                 }
                 rhfOnChange(newValue);

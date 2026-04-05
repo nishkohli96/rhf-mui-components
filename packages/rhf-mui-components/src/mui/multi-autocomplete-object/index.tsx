@@ -50,6 +50,11 @@ import {
   mergeRefs
 } from '@/utils';
 
+type OnValueChangeProps<Option extends KeyValueOption> = {
+  newValue: Option[];
+  targetValue?: Option;
+};
+
 type MultiAutoCompleteProps<Option> = Omit<
   AutocompleteProps<Option, true, false, false>,
   | 'freeSolo'
@@ -82,7 +87,10 @@ export type RHFMultiAutocompleteObjectProps<
   labelKey: LabelKey;
   valueKey: ValueKey;
   selectAllText?: string;
-  onValueChange?: (fieldValue: Option[], targetValue?: Option) => void;
+  onValueChange?: ({
+    newValue,
+    targetValue,
+  }: OnValueChangeProps<Option>) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -254,14 +262,17 @@ ref: Ref<HTMLInputElement>) {
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   rhfOnChange([]);
-                  onValueChange?.([]);
+                  onValueChange?.({ newValue: [] });
                   return;
                 }
                 const isSelectAllSelected = newSelectedOptions.some(isSelectAllOption);
                 if (isSelectAllSelected) {
                   const finalValue = areAllSelected ? [] : options;
                   rhfOnChange(finalValue);
-                  onValueChange?.(finalValue, selectAllOption);
+                  onValueChange?.({
+                    newValue: finalValue,
+                    targetValue: selectAllOption
+                  });
                   return;
                 }
 
@@ -269,10 +280,10 @@ ref: Ref<HTMLInputElement>) {
                 const finalValue = newSelectedOptions
                   .filter(option => !isSelectAllOption(option));
                 rhfOnChange(finalValue);
-                onValueChange?.(
-                  finalValue,
-                  clickedOption
-                );
+                onValueChange?.({
+                  newValue: finalValue,
+                  targetValue: clickedOption
+                });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

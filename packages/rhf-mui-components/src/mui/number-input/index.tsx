@@ -29,7 +29,18 @@ import {
   FormHelperText,
   defaultAutocompleteValue
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, TextFieldProps, CustomComponentIds } from '@/types';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  TextFieldProps,
+  CustomComponentIds,
+  CustomOnChangeProps
+} from '@/types';
+
+type OnValueChangeProps = {
+  newValue: number | null;
+  event: ChangeEvent<HTMLInputElement>;
+};
 import { fieldNameToLabel, keepLabelAboveFormField, mergeRefs, useFieldIds } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -83,15 +94,12 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    * @param newValue - Parsed `number` or `null` when the input is empty / invalid
    * @param event - Change event from the underlying `<input>`
    */
-  customOnChange?: (
-    rhfOnChange: (value: number | null) => void,
-    newValue: number | null,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
-  onValueChange?: (
-    value: number | null,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
+  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   showMarkers?: boolean;
@@ -256,11 +264,15 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                     = inputValue === '' ? null : Number(inputValue);
                   const safeValue = Number.isNaN(fieldValue) ? null : fieldValue;
                   if (customOnChange) {
-                    customOnChange(rhfOnChange, safeValue, changeEvent);
+                    customOnChange({
+                      rhfOnChange,
+                      newValue: safeValue,
+                      event: changeEvent
+                    });
                     return;
                   }
                   rhfOnChange(safeValue);
-                  onValueChange?.(safeValue, changeEvent);
+                  onValueChange?.({ newValue: safeValue, event: changeEvent });
                 }
               }}
               onBlur={blurEvent => {

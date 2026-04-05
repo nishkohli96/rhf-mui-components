@@ -38,10 +38,10 @@ type SliderInputProps = Omit<
 >;
 
 type OnValueChangeProps = {
-  newValue: number | number[],
-  activeThumb: number,
-  event: Event
-}
+  newValue: number | number[];
+  activeThumb: number;
+  event: Event;
+};
 
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;

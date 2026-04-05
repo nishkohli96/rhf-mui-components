@@ -20,8 +20,17 @@ import type {
   StrNumObjOption,
   RadioProps,
   OptionValue,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
+
+type OnValueChangeProps<
+  Option extends StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string>
+> = {
+  newValue: OptionValue<Option, ValueKey>;
+  event: ChangeEvent<HTMLInputElement>;
+};
 import {
   fieldNameToLabel,
   validateArray,
@@ -64,18 +73,21 @@ export type RHFRadioGroupProps<
  * `onValueChange` is not invoked when using `customOnChange`.
  *
  * @param rhfOnChange - React Hook Form's internal change handler
- * @param selectedValue - The newly selected value
+ * @param newValue - The newly selected value
  * @param event - The change event triggered by the radio input
  */
-  customOnChange?: (
-    rhfOnChange: (value: OptionValue<Option, string>) => void,
-    selectedValue: OptionValue<Option, string>,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
-  onValueChange?: (
-    selectedValue: OptionValue<Option, string>,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<
+    OnValueChangeProps<Option, ValueKey>,
+    OptionValue<Option, ValueKey>
+  >) => void;
+  onValueChange?: ({
+    newValue,
+    event
+  }: OnValueChangeProps<Option, ValueKey>) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -199,13 +211,17 @@ const RHFRadioGroup = <
                   options,
                   labelKey,
                   valueKey
-                ) as OptionValue<Option, string>;
+                ) as OptionValue<Option, ValueKey>;
                 if (customOnChange) {
-                  customOnChange(rhfOnChange, normalizedValue, event);
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: normalizedValue,
+                    event
+                  });
                   return;
                 }
                 rhfOnChange(normalizedValue);
-                onValueChange?.(normalizedValue, event);
+                onValueChange?.({ newValue: normalizedValue, event });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

@@ -39,4 +39,4 @@ export type CustomComponentIds = Partial<{
 
 export type CustomOnChangeProps<T, V> = T & {
   rhfOnChange: (value: V) => void;
-}
+};

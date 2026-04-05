@@ -269,8 +269,8 @@ const CompleteFormWithJoi = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={isChecked => {
-                  console.log('Is checked', isChecked);
+                onValueChange={({ newValue }) => {
+                  console.log('Is checked', newValue);
                 }}
                 disabled={areAllFieldsDisabled}
                 errorMessage={errors?.agreeTnC?.message}
@@ -321,8 +321,8 @@ const CompleteFormWithJoi = () => {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={selectedValue => {
-                  toast.info(`selectedValue: ${selectedValue}`);
+                onValueChange={({ newValue }) => {
+                  toast.info(`selectedValue: ${newValue}`);
                 }}
                 disabled={areAllFieldsDisabled}
                 required
@@ -340,7 +340,9 @@ const CompleteFormWithJoi = () => {
                     label: styles.switchLabel
                   }
                 }}
-                onValueChange={() => toggleTheme()}
+                onValueChange={() => {
+                  toggleTheme();
+                }}
                 disabled={areAllFieldsDisabled}
               />
             </Grid>

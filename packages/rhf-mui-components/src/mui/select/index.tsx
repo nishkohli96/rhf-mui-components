@@ -33,7 +33,8 @@ import type {
   SelectProps,
   StrNumObjOption,
   OptionValue,
-  CustomComponentIds
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -52,6 +53,16 @@ type SelectValue<Value, Multiple extends boolean> = Multiple extends true
   ? Value[]
   : Value;
 
+type OnValueChangeProps<
+  Option extends StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string>,
+  Multiple extends boolean
+> = {
+  newValue: SelectValue<OptionValue<Option, ValueKey>, Multiple>;
+  event: SelectChangeEvent<SelectValue<OptionValue<Option, ValueKey>, Multiple>>;
+  child: ReactNode;
+};
+
 export type RHFSelectProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
@@ -64,7 +75,6 @@ export type RHFSelectProps<
     string
   >,
   Multiple extends boolean = false,
-  Value = OptionValue<Option, ValueKey>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -86,34 +96,33 @@ export type RHFSelectProps<
   showDefaultOption?: boolean;
   defaultOptionText?: string;
   /**
- * Custom change handler that overrides the default value update behavior.
- *
- * Use this when you need full control over how the selected value is processed
- * before updating React Hook Form state.
- *
- * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
- * `onValueChange` is not invoked when using `customOnChange`.
- *
- * @param rhfOnChange - React Hook Form's internal change handler
- * @param value - Normalized selected value (single or multiple based on `multiple`)
- * @param event - Original MUI Select change event
- * @param child - The selected option element
- */
-  customOnChange?: (
-    rhfOnChange: (
-      value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
-    ) => void,
-    value: SelectValue<OptionValue<Option, ValueKey>, Multiple>,
-    event: SelectChangeEvent<
-      SelectValue<OptionValue<Option, ValueKey>, Multiple>
-    >,
-    child: ReactNode
-  ) => void;
-  onValueChange?: (
-    newValue: SelectValue<Value, Multiple>,
-    event: SelectChangeEvent<SelectValue<Value, Multiple>>,
-    child: ReactNode
-  ) => void;
+   * Custom change handler that overrides the default value update behavior.
+   *
+   * Use this when you need full control over how the selected value is processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param newValue - Normalized selected value (single or multiple based on `multiple`)
+   * @param event - Original MUI Select change event
+   * @param child - The selected option element
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event,
+    child
+  }: CustomOnChangeProps<
+    OnValueChangeProps<Option, ValueKey, Multiple>,
+    SelectValue<OptionValue<Option, ValueKey>, Multiple>
+  >) => void;
+  onValueChange?: ({
+    newValue,
+    event,
+    child
+  }: OnValueChangeProps<Option, ValueKey, Multiple>) => void;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
@@ -293,16 +302,20 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                   valueKey
                 ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
                 if (customOnChange) {
-                  customOnChange(
+                  customOnChange({
                     rhfOnChange,
-                    normalizedValue,
-                    selectEvent,
+                    newValue: normalizedValue,
+                    event: selectEvent,
                     child
-                  );
+                  });
                   return;
                 }
                 rhfOnChange(normalizedValue);
-                onValueChange?.(normalizedValue, selectEvent, child);
+                onValueChange?.({
+                  newValue: normalizedValue,
+                  event: selectEvent,
+                  child
+                });
               }}
               {...otherSelectProps}
               onBlur={blurEvent => {

@@ -48,6 +48,13 @@ import {
   mergeRefs
 } from '@/utils';
 
+type OnValueChangeProps<Option> = {
+  newValue: Option | Option[] | null;
+  event: SyntheticEvent<Element, Event>;
+  reason: AutocompleteChangeReason;
+  details?: AutocompleteChangeDetails<Option>;
+};
+
 type OmittedAutocompleteProps<Option> = Omit<
   AutocompleteProps<Option, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
   | 'freeSolo'
@@ -78,12 +85,12 @@ export type RHFAutocompleteObjectProps<
   options: Option[];
   labelKey: LabelKey;
   valueKey: ValueKey;
-  onValueChange?: (
-    fieldValue: Option | Option[] | null,
-    event: SyntheticEvent<Element, Event>,
-    reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<Option>
-  ) => void;
+  onValueChange?: ({
+    newValue,
+    event,
+    reason,
+    details
+  }: OnValueChangeProps<Option>) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -216,7 +223,12 @@ ref: Ref<HTMLInputElement>) {
                     ? newValue as Option[]
                     : newValue as Option;
                 rhfOnChange(newValue);
-                onValueChange?.(fieldValue, event, reason, details);
+                onValueChange?.({
+                  newValue: fieldValue,
+                  event,
+                  reason,
+                  details
+                });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
