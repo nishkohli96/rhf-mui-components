@@ -288,6 +288,20 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
+              renderValue={value => {
+                return (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Image
+                      src={value.avatar}
+                      alt={value.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain', borderRadius: '50%' }}
+                    />
+                    <Typography component="span">{value.name}</Typography>
+                  </Box>
+                );
+              }}
               errorMessage={errors?.employeeOfMonth?.message}
             />
           </Grid>

@@ -5,6 +5,7 @@ import {
   useContext,
   useMemo,
   forwardRef,
+  type JSX,
   type Ref,
   type ReactNode,
   type SyntheticEvent

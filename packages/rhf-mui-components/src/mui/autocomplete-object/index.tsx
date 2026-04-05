@@ -4,8 +4,9 @@ import {
   useCallback,
   useContext,
   forwardRef,
-  type Ref,
+  type JSX,
   type ReactNode,
+  type Ref,
   type SyntheticEvent
 } from 'react';
 import {
@@ -19,6 +20,7 @@ import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
+  type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -72,8 +74,12 @@ type OmittedAutocompleteProps<
   | 'disableClearable'
 >;
 
-type OnValueChangeProps<Option extends KeyValueOption> = {
-  newValue: Option | Option[] | null;
+type OnValueChangeProps<
+  Option extends KeyValueOption,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+> = {
+  newValue: AutocompleteValue<Option, Multiple, DisableClearable, false>;
   event: SyntheticEvent<Element, Event>;
   reason: AutocompleteChangeReason;
   details?: AutocompleteChangeDetails<Option>;
@@ -99,7 +105,7 @@ export type RHFAutocompleteObjectProps<
     event,
     reason,
     details
-  }: OnValueChangeProps<Option>) => void;
+  }: OnValueChangeProps<Option, Multiple, DisableClearable>) => void;
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -107,8 +113,8 @@ export type RHFAutocompleteObjectProps<
     reason,
     details
   }: CustomOnChangeProps<
-    OnValueChangeProps<Option>,
-    string | string[] | null
+    OnValueChangeProps<Option, Multiple, DisableClearable>,
+    AutocompleteValue<Option, Multiple, DisableClearable, false>
   >) => void;
   /**
    * If true, the input can't be cleared.
@@ -258,7 +264,12 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<Option>
               ) => {
-                const fieldValue = newValue as Option | Option[] | null;
+                const fieldValue = newValue as AutocompleteValue<
+                  Option,
+                  Multiple,
+                  DisableClearable,
+                  false
+                >;
                 if (customOnChange) {
                   customOnChange({
                     rhfOnChange,
