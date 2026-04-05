@@ -83,12 +83,28 @@ type AutocompleteFieldValue<
   DisableClearable extends boolean
 > = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
+/**
+ * RHF field value this Autocomplete writes (`valueKey` primitive or string option).
+ * Mirrors MUI `AutocompleteValue<string, Multiple, DisableClearable, false>` for primitives.
+ * Tuple checks avoid distributive `boolean` breaking the conditional.
+ */
+type RHFAutocompleteNewValue<
+  Multiple extends boolean,
+  DisableClearable extends boolean
+> = [Multiple] extends [true]
+  ? [DisableClearable] extends [true]
+    ? string[]
+    : string[] | null
+  : [DisableClearable] extends [true]
+    ? string
+    : string | null;
+
 type OnValueChangeProps<
   Option,
   Multiple extends boolean,
   DisableClearable extends boolean
 > = {
-  newValue: string | string[] | null;
+  newValue: RHFAutocompleteNewValue<Multiple, DisableClearable>;
   selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>;
   event: SyntheticEvent<Element, Event>;
   reason: AutocompleteChangeReason;
@@ -134,7 +150,7 @@ export type RHFAutocompleteProps<
    * `onValueChange` is not invoked when using `customOnChange`.
    *
    * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Selected value(s) stored in the form: an array when `multiple` is true, otherwise a single value. Each item is either `option[valueKey]` or the full `option` string.
+   * @param newValue - Selected value(s) stored in the form: `string[]` when `multiple` is true, otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
    * @param selectedOption - The selected object or string option(s) from MUI
    * @param event - The event that triggered the change
    * @param reason - The reason for the change
@@ -149,7 +165,7 @@ export type RHFAutocompleteProps<
     details
   }: CustomOnChangeProps<
     OnValueChangeProps<Option, Multiple, DisableClearable>,
-    string | string[] | null
+    RHFAutocompleteNewValue<Multiple, DisableClearable>
   >) => void;
   /**
    * If true, the input can't be cleared.
@@ -356,10 +372,14 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                         && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
                         : (newValue as string);
+                const storedValue = fieldValue as RHFAutocompleteNewValue<
+                  Multiple,
+                  DisableClearable
+                >;
                 if (customOnChange) {
                   customOnChange({
                     rhfOnChange,
-                    newValue: fieldValue,
+                    newValue: storedValue,
                     selectedOption: newValue,
                     event,
                     reason,
@@ -367,9 +387,9 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   });
                   return;
                 }
-                rhfOnChange(fieldValue);
+                rhfOnChange(storedValue);
                 onValueChange?.({
-                  newValue: fieldValue,
+                  newValue: storedValue,
                   selectedOption: newValue,
                   event,
                   reason,
