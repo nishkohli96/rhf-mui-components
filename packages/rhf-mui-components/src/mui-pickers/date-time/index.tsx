@@ -28,7 +28,9 @@ import {
 
 type DateTimePickerInputProps = Omit<
   DateTimePickerProps<PickerValidDate>,
-  'name' | 'value'
+  | 'name'
+  | 'value'
+  | 'defaultValue'
 >;
 
 export type RHFDateTimePickerProps<T extends FieldValues> = {
@@ -126,7 +128,13 @@ const RHFDateTimePicker = <T extends FieldValues>({
                 inputRef={rhfRef}
                 value={rhfValue || null}
                 disabled={rhfDisabled}
-                onChange={muiOnChange}
+                onChange={(newValue, context) => {
+                  muiOnChange?.(newValue, context);
+                  if(newValue === null) {
+                    rhfOnChange(newValue);
+                    onValueChange?.(newValue, context);
+                  }
+                }}
                 onAccept={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);

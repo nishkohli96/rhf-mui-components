@@ -30,6 +30,7 @@ type TimePickerInputProps = Omit<
   TimePickerProps<PickerValidDate>,
   | 'name'
   | 'value'
+  | 'defaultValue'
 >;
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -127,7 +128,13 @@ const RHFTimePicker = <T extends FieldValues>({
                 inputRef={rhfRef}
                 value={rhfValue || null}
                 disabled={rhfDisabled}
-                onChange={muiOnChange}
+                onChange={(newValue, context) => {
+                  muiOnChange?.(newValue, context);
+                  if(newValue === null) {
+                    rhfOnChange(newValue);
+                    onValueChange?.(newValue, context);
+                  }
+                }}
                 onAccept={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
