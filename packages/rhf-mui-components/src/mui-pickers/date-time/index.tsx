@@ -26,6 +26,11 @@ import {
   useFieldIds
 } from '@/utils';
 
+type DateTimePickerInputProps = Omit<
+  DateTimePickerProps<PickerValidDate>,
+  'name' | 'value'
+>;
+
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -41,7 +46,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
-} & Omit<DateTimePickerProps<PickerValidDate>, 'value' | 'onChange'>;
+} & DateTimePickerInputProps;
 
 const RHFDateTimePicker = <T extends FieldValues>({
   fieldName,
@@ -57,6 +62,8 @@ const RHFDateTimePicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onChange: muiOnChange,
+  onAccept: muiOnAccept,
   slotProps: muiSlotProps,
   ...rest
 }: RHFDateTimePickerProps<T>) => {
@@ -119,9 +126,11 @@ const RHFDateTimePicker = <T extends FieldValues>({
                 inputRef={rhfRef}
                 value={rhfValue || null}
                 disabled={rhfDisabled}
-                onChange={(newValue, context) => {
+                onChange={muiOnChange}
+                onAccept={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
+                  muiOnAccept?.(newValue, context);
                 }}
                 label={
                   !isLabelAboveFormField
