@@ -1,7 +1,3 @@
-/**
- * TODO: Add customOnChange support like in Select component
- */
-
 'use client';
 
 import {
@@ -23,10 +19,10 @@ import Box from '@mui/material/Box';
 import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
-  type AutocompleteChangeReason
+  type AutocompleteChangeReason,
+  type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Chip from '@mui/material/Chip';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
@@ -36,25 +32,18 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type {
-  TrueOrFalse,
   CountryDetails,
   CountryISO,
   FormLabelProps,
   FormHelperTextProps,
+  AutocompleteNewValue,
   AutoCompleteTextFieldProps,
-  MuiChipProps
+  MuiChipProps,
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
-
-type OnValueChangeProps = {
-  newValue: CountryDetails | CountryDetails[] | null;
-  event: SyntheticEvent;
-  reason: AutocompleteChangeReason;
-  details?: AutocompleteChangeDetails<CountryDetails>;
-};
-
 import {
   fieldNameToLabel,
-  isAboveMuiV5,
   keepLabelAboveFormField,
   useFieldIds,
   mergeRefs
@@ -62,13 +51,31 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
 
-type AutoCompleteProps = Omit<
-  AutocompleteProps<CountryDetails, TrueOrFalse, TrueOrFalse, false>,
+type OnValueChangeProps<
+  Multiple extends boolean,
+  DisableClearable extends boolean
+> = {
+  newValue: AutocompleteNewValue<Multiple, DisableClearable>;
+  event: SyntheticEvent;
+  reason: AutocompleteChangeReason;
+  details?: AutocompleteChangeDetails<CountryDetails>;
+};
+
+type CountrySelectFieldValue<
+  Multiple extends boolean,
+  DisableClearable extends boolean
+> = AutocompleteValue<CountryDetails, Multiple, DisableClearable, false>;
+
+type AutoCompleteProps<
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+> = Omit<
+  AutocompleteProps<CountryDetails, Multiple, DisableClearable, false>,
   | 'freeSolo'
+  | 'multiple'
   | 'fullWidth'
   | 'renderInput'
   | 'renderOption'
-  | 'renderTags'
   | 'options'
   | 'value'
   | 'defaultValue'
@@ -78,16 +85,22 @@ type AutoCompleteProps = Omit<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'blurOnSelect'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'loading'
 >;
 
-export type RHFCountrySelectProps<T extends FieldValues> = {
+export type RHFCountrySelectProps<
+  T extends FieldValues,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   countries?: CountryDetails[];
+  multiple?: Multiple;
   preferredCountries?: CountryISO[];
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   onValueChange?: ({
@@ -95,21 +108,53 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
     event,
     reason,
     details
-  }: OnValueChangeProps) => void;
+  }: OnValueChangeProps<Multiple, DisableClearable>) => void;
+  /**
+   * Custom change handler that overrides the default value update behavior.
+   *
+   * Use this when you need full control over how the selected value is processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param newValue - Selected value(s) stored in the form: `CountryDetails[]` when `multiple` is true, otherwise `CountryDetails`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param event - The event that triggered the change
+   * @param reason - The reason for the change
+   * @param details - The details of the change
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event,
+    reason,
+    details
+  }: CustomOnChangeProps<
+    OnValueChangeProps<Multiple, DisableClearable>,
+    CountrySelectFieldValue<Multiple, DisableClearable>
+  >) => void;
+  disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  renderOptionLabel?: (option: CountryDetails) => ReactNode;
   required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
-  displayFlagOnSelect?: boolean;
   ChipProps?: MuiChipProps;
-} & AutoCompleteProps;
+  customIds?: CustomComponentIds;
+} & AutoCompleteProps<Multiple, DisableClearable>;
 
-const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<T extends FieldValues>({
+const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<
+  T extends FieldValues,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+>({
   fieldName,
   control,
   registerOptions,
@@ -118,9 +163,12 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<T extends Fie
   valueKey = 'iso',
   onValueChange,
   disabled: muiDisabled,
+  customOnChange,
   label,
   showLabelAboveFormField,
+  hideLabel,
   formLabelProps,
+  renderOptionLabel,
   required,
   helperText,
   errorMessage,
@@ -128,19 +176,20 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<T extends Fie
   formHelperTextProps,
   multiple,
   textFieldProps,
-  displayFlagOnSelect,
   slotProps,
   ChipProps,
   onBlur,
+  disableClearable,
+  customIds,
   ...otherAutoCompleteProps
-}: RHFCountrySelectProps<T>,
+}: RHFCountrySelectProps<T, Multiple, DisableClearable>,
 ref: Ref<HTMLInputElement>) {
   const {
     fieldId,
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
 
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -148,8 +197,6 @@ ref: Ref<HTMLInputElement>) {
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const countryOptions = countries ?? countryList;
   const countrySelectOptions = useMemo(() => {
@@ -183,52 +230,83 @@ ref: Ref<HTMLInputElement>) {
   }, [countrySelectOptions, valueKey]);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const selectedCountries = multiple
-            ? (rhfValue ?? [])
-              .map(val => countryMap.get(val))
-              .filter(country => !!country)
-            : (countryMap.get(rhfValue) ?? null);
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
 
-          return (
+        const selectedCountries = multiple
+          ? (rhfValue ?? [])
+            .map(val => countryMap.get(val))
+            .filter((country): country is CountryDetails => !!country)
+          : (countryMap.get(rhfValue) ?? null);
+
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             <Autocomplete
               id={fieldId}
               options={countrySelectOptions}
               multiple={multiple}
-              value={selectedCountries}
+              value={
+                selectedCountries as CountrySelectFieldValue<
+                  Multiple,
+                  DisableClearable
+                >
+              }
               onChange={(event, newValue, reason, details) => {
-                const newValueKey = Array.isArray(newValue)
-                  ? (newValue ?? []).map(item => item[valueKey])
-                  : (newValue)?.[valueKey] ?? null;
-                rhfOnChange(newValueKey);
+                const newValueKey = multiple
+                  ? (Array.isArray(newValue) ? newValue : []).map(
+                    (item: CountryDetails) => item[valueKey]
+                  )
+                  : !Array.isArray(newValue) && newValue !== null
+                    ? newValue[valueKey]
+                    : null;
+                const storedValue = newValueKey as AutocompleteNewValue<Multiple, DisableClearable>;
+                if (customOnChange) {
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: storedValue,
+                    event,
+                    reason,
+                    details
+                  });
+                  return;
+                }
+                rhfOnChange(storedValue);
                 onValueChange?.({
-                  newValue,
+                  newValue: storedValue,
                   event,
                   reason,
                   details
@@ -241,6 +319,7 @@ ref: Ref<HTMLInputElement>) {
               autoHighlight
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
+              disableClearable={disableClearable}
               fullWidth
               disabled={rhfDisabled}
               limitTags={2}
@@ -265,9 +344,13 @@ ref: Ref<HTMLInputElement>) {
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                  'aria-labelledby': isLabelAboveFormField
+                    ? labelId
+                    : undefined,
                   'aria-describedby': showHelperTextElement
-                    ? (isError ? errorId : helperTextId)
+                    ? isError
+                      ? errorId
+                      : helperTextId
                     : undefined,
                   autoComplete
                 };
@@ -286,24 +369,14 @@ ref: Ref<HTMLInputElement>) {
                         : undefined
                     }
                     error={isError}
-                    {...(isAboveMuiV5
-                      ? {
-                        slotProps: {
-                          ...textFieldProps?.slotProps,
-                          input: {
-                            ...InputProps,
-                            ...textFieldProps?.slotProps?.input,
-                          },
-                          htmlInput: textFieldInputProps,
-                        },
-                      }
-                      : {
-                        InputProps: {
-                          ...InputProps,
-                          ...textFieldProps?.InputProps,
-                        },
-                        inputProps: textFieldInputProps,
-                      })}
+                    slotProps={{
+                      ...textFieldProps?.slotProps,
+                      input: {
+                        ...InputProps,
+                        ...textFieldProps?.slotProps?.input
+                      },
+                      htmlInput: textFieldInputProps
+                    }}
                   />
                 );
               }}
@@ -313,49 +386,43 @@ ref: Ref<HTMLInputElement>) {
                   sx={{ display: 'flex', alignItems: 'center' }}
                   {...props}
                 >
-                  <CountryMenuItem countryInfo={option} />
+                  {renderOptionLabel?.(option) ?? (
+                    <CountryMenuItem countryInfo={option} />
+                  )}
                 </Box>
               )}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...otherChipProps } = getTagProps({ index });
-                  return (
-                    <Chip
-                      key={key}
-                      {...otherChipProps}
-                      label={displayFlagOnSelect
-                        ? <CountryMenuItem countryInfo={option} />
-                        : option.name}
-                      {...ChipProps}
-                    />
-                  );
-                })}
-              {...(isAboveMuiV5
-                ? { slotProps }
-                : { ChipProps }
-              )}
+              slotProps={{
+                ...slotProps,
+                chip: ChipProps
+              }}
               {...otherAutoCompleteProps}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 });
 
-const RHFCountrySelect = RHFCountrySelectInner as <T extends FieldValues>(
-  props: RHFCountrySelectProps<T> & { ref?: Ref<HTMLInputElement> }
+const RHFCountrySelect = RHFCountrySelectInner as <
+  T extends FieldValues,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+>(
+  props: RHFCountrySelectProps<T, Multiple, DisableClearable> & {
+    ref?: Ref<HTMLInputElement>;
+  }
 ) => JSX.Element;
 
 export type { CountryISO, CountryDetails };

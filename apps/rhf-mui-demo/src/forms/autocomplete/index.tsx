@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
@@ -25,7 +26,6 @@ import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
 import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
-import { Chip } from '@mui/material';
 
 type FormSchema = {
   sourceAirport?: string;
@@ -151,7 +151,7 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
-              renderValue={value => {
+              renderValue={(value) => {
                 return (
                   <Chip
                     label={`${value.name} - ${value.iataCode}`}
@@ -186,7 +186,7 @@ const AutocompleteForm = () => {
               multiple
               showLabelAboveFormField
               textFieldProps={{ variant: 'standard' }}
-              getLimitTagsText={value => `+${value} Airport(s)`}
+              getLimitTagsText={(value) => `+${value} Airport(s)`}
               errorMessage={errors?.destinationAirports?.message}
               ChipProps={{
                 sx: {
@@ -234,19 +234,17 @@ const AutocompleteForm = () => {
                       height={40}
                       style={{ objectFit: 'contain' }}
                     />
-                    <Typography>
-                      {option.name}
-                    </Typography>
+                    <Typography>{option.name}</Typography>
                   </Box>
                 );
               }}
               slotProps={{
                 listbox: {
-                  onScroll: event => {
+                  onScroll: (event) => {
                     const listboxNode = event.currentTarget;
-                    const scrollBottom
-                      = listboxNode.scrollTop + listboxNode.clientHeight
-                        >= listboxNode.scrollHeight - 5;
+                    const scrollBottom =
+                      listboxNode.scrollTop + listboxNode.clientHeight >=
+                      listboxNode.scrollHeight - 5;
                     if (scrollBottom && !loading) {
                       loadPokemons();
                     }
@@ -282,13 +280,11 @@ const AutocompleteForm = () => {
                       height={40}
                       style={{ objectFit: 'contain' }}
                     />
-                    <Typography sx={{ ml: '5px' }}>
-                      {option.name}
-                    </Typography>
+                    <Typography sx={{ ml: '5px' }}>{option.name}</Typography>
                   </Box>
                 );
               }}
-              renderValue={value => {
+              renderValue={(value) => {
                 return (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Image
@@ -345,7 +341,7 @@ const AutocompleteForm = () => {
                         height: 12,
                         borderRadius: '50%',
                         border: '1px solid #ccc',
-                        backgroundColor: option,
+                        backgroundColor: option
                       }}
                     />
                   )}
@@ -419,12 +415,7 @@ const AutocompleteForm = () => {
                     <Chip
                       key={key}
                       {...otherChipProps}
-                      avatar={
-                        <Avatar
-                          src={option.avatar}
-                          alt={option.name}
-                        />
-                      }
+                      avatar={<Avatar src={option.avatar} alt={option.name} />}
                       label={option.name}
                     />
                   );
@@ -434,7 +425,7 @@ const AutocompleteForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="CountrySelect with customized textfield" />
+            <FieldVariantInfo title="CountrySelect with customized textfield and option Label" />
             <RHFCountrySelect
               fieldName="nationality"
               control={control}
@@ -444,19 +435,46 @@ const AutocompleteForm = () => {
                   message: 'Choose the country of your nationality'
                 }
               }}
+              renderOptionLabel={(option) => {
+                return (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <span>{option.emoji}</span>
+                    <Typography>{`${option.name} - ${option.iso3}`}</Typography>
+                  </Box>
+                );
+              }}
               textFieldProps={{ variant: 'filled' }}
               required
               errorMessage={errors?.nationality?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="CountrySelect - Multiple selection with default values & preferredCountries" />
+            <FieldVariantInfo title="CountrySelect - Multiple selection with default values & preferredCountries and customized renderValue" />
             <RHFCountrySelect
               fieldName="countriesVisited"
               control={control}
               preferredCountries={preferredCountries}
               multiple
               displayFlagOnSelect
+              renderValue={(value) => {
+                return (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 0.5
+                    }}
+                  >
+                    {value.map((item) => (
+                      <Chip
+                        key={item.iso3}
+                        label={`${item.emoji} ${item.name}`}
+                        sx={{ bgcolor: '#009966', color: 'white' }}
+                      />
+                    ))}
+                  </Box>
+                );
+              }}
               errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>

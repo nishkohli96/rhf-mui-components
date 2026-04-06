@@ -38,6 +38,7 @@ import type {
   FormHelperTextProps,
   KeyValueOption,
   StrObjOption,
+  AutocompleteNewValue,
   AutoCompleteTextFieldProps,
   MuiChipProps,
   CustomOnChangeProps,
@@ -71,10 +72,10 @@ type OmittedAutocompleteProps<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'blurOnSelect'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'renderTags'
-  | 'disableClearable'
 >;
 
 type AutocompleteFieldValue<
@@ -83,28 +84,12 @@ type AutocompleteFieldValue<
   DisableClearable extends boolean
 > = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
-/**
- * RHF field value this Autocomplete writes (`valueKey` primitive or string option).
- * Mirrors MUI `AutocompleteValue<string, Multiple, DisableClearable, false>` for primitives.
- * Tuple checks avoid distributive `boolean` breaking the conditional.
- */
-type RHFAutocompleteNewValue<
-  Multiple extends boolean,
-  DisableClearable extends boolean
-> = [Multiple] extends [true]
-  ? [DisableClearable] extends [true]
-    ? string[]
-    : string[] | null
-  : [DisableClearable] extends [true]
-    ? string
-    : string | null;
-
 type OnValueChangeProps<
   Option,
   Multiple extends boolean,
   DisableClearable extends boolean
 > = {
-  newValue: RHFAutocompleteNewValue<Multiple, DisableClearable>;
+  newValue: AutocompleteNewValue<Multiple, DisableClearable>;
   selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>;
   event: SyntheticEvent<Element, Event>;
   reason: AutocompleteChangeReason;
@@ -165,7 +150,7 @@ export type RHFAutocompleteProps<
     details
   }: CustomOnChangeProps<
     OnValueChangeProps<Option, Multiple, DisableClearable>,
-    RHFAutocompleteNewValue<Multiple, DisableClearable>
+    AutocompleteNewValue<Multiple, DisableClearable>
   >) => void;
   /**
    * If true, the input can't be cleared.
@@ -372,7 +357,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                         && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
                         : (newValue as string);
-                const storedValue = fieldValue as RHFAutocompleteNewValue<
+                const storedValue = fieldValue as AutocompleteNewValue<
                   Multiple,
                   DisableClearable
                 >;

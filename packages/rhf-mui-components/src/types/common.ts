@@ -1,5 +1,3 @@
-export type TrueOrFalse = true | false;
-
 export type StringOrNumber = string | number;
 
 export type StrNumArray = StringOrNumber[];
@@ -40,3 +38,19 @@ export type CustomComponentIds = Partial<{
 export type CustomOnChangeProps<T, V> = T & {
   rhfOnChange: (value: V) => void;
 };
+
+/**
+ * RHF field value for Autocomplete components mirrors
+ * MUI `AutocompleteValue<string, Multiple, DisableClearable, false>` for primitives.
+ * Tuple checks avoid distributive `boolean` breaking the conditional.
+ */
+export type AutocompleteNewValue<
+  Multiple extends boolean,
+  DisableClearable extends boolean
+> = [Multiple] extends [true]
+  ? [DisableClearable] extends [true]
+    ? string[]
+    : string[] | null
+  : [DisableClearable] extends [true]
+    ? string
+    : string | null;
