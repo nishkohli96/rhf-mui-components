@@ -38,7 +38,7 @@ import {
 
 type DateTimePickerInputProps = Omit<
   DateTimePickerProps<PickerValidDate>,
-  'name' | 'value' | 'onChange' | 'inputRef'
+  'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 
 /**
@@ -87,6 +87,8 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     control,
     registerOptions,
     required,
+    onChange: muiOnChange,
+    onAccept: muiOnAccept,
     customOnChange,
     onValueChange,
     disabled: muiDisabled,
@@ -100,7 +102,6 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    onAccept,
     ...rest
   }: RHFDateTimePickerProps<T>,
   ref: Ref<HTMLInputElement>
@@ -169,19 +170,35 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                 value={rhfValue ?? null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
+                  /**
+                   * Forward the MUI onChange event and synchronize RHF
+                   * when the value becomes null (clear action), while
+                   * keeping the accept-based update for normal selections.
+                   */
+                  muiOnChange?.(newValue, context);
+                  if (newValue === null) {
+                    if (customOnChange) {
+                      customOnChange(rhfOnChange, null, context);
+                      return;
+                    }
+                    rhfOnChange(null);
+                    onValueChange?.(null, context);
+                  }
+                }}
+                onAccept={(newValue, context) => {
                   if (customOnChange) {
                     customOnChange(rhfOnChange, newValue, context);
                     return;
                   }
-                  rhfOnChange(newValue);
-                  if (context.validationError === null) {
-                    onValueChange?.(newValue, context);
+                  if (context.validationError !== null) {
+                    return;
                   }
-                }}
-                onAccept={(newValue, context) => {
-                  onAccept?.(newValue, context);
+                  rhfOnChange(newValue);
+                  onValueChange?.(newValue, context);
+                  muiOnAccept?.(newValue, context);
                   rhfOnBlur();
                 }}
+                closeOnSelect={false}
                 label={
                   !hideLabel && !isLabelAboveFormField
                     ? (
