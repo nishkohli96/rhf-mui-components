@@ -25,6 +25,9 @@ const config: Config = {
     [
       '@docusaurus/preset-classic',
       {
+        theme: {
+          customCss: './src/css/custom.css',
+        },
         docs: {
           routeBasePath: '/',
           lastVersion: 'current',
