@@ -1,7 +1,5 @@
 export type TrueOrFalse = true | false;
 
-export type StringArr = string[];
-
 export type StringOrNumber = string | number;
 
 export type StrNumArray = StringOrNumber[];
