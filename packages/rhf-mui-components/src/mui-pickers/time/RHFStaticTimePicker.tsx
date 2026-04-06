@@ -38,13 +38,9 @@ import {
 
 type StaticTimePickerInputProps = Omit<
   ComponentProps<typeof MuiStaticTimePicker>,
-  'value' | 'onChange' | 'ref'
+  'value' | 'ref'
 >;
 
-/**
- * Without `customOnChange`, **rhfOnChange** runs on every picker change; **onValueChange** runs
- * only when `context.validationError === null`.
- */
 export type RHFStaticTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -88,6 +84,8 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
     control,
     registerOptions,
     required,
+    onChange: muiOnChange,
+    onAccept: muiOnAccept,
     customOnChange,
     onValueChange,
     disabled: muiDisabled,
@@ -101,7 +99,6 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    onAccept,
     ...rest
   }: RHFStaticTimePickerProps<T>,
   ref: Ref<HTMLDivElement>
@@ -185,17 +182,27 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                   value={rhfValue ?? null}
                   disabled={rhfDisabled}
                   onChange={(newValue, context) => {
+                    muiOnChange?.(newValue, context);
+                    if (newValue === null) {
+                      if (customOnChange) {
+                        customOnChange(rhfOnChange, null, context);
+                        return;
+                      }
+                      rhfOnChange(null);
+                      onValueChange?.(null, context);
+                    }
+                  }}
+                  onAccept={(newValue, context) => {
                     if (customOnChange) {
                       customOnChange(rhfOnChange, newValue, context);
                       return;
                     }
-                    rhfOnChange(newValue);
-                    if (context.validationError === null) {
-                      onValueChange?.(newValue, context);
+                    if (context.validationError !== null) {
+                      return;
                     }
-                  }}
-                  onAccept={(newValue, context) => {
-                    onAccept?.(newValue, context);
+                    rhfOnChange(newValue);
+                    onValueChange?.(newValue, context);
+                    muiOnAccept?.(newValue, context);
                     rhfOnBlur();
                   }}
                   slotProps={muiSlotProps}

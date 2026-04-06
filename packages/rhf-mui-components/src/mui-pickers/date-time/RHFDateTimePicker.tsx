@@ -41,10 +41,6 @@ type DateTimePickerInputProps = Omit<
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 
-/**
- * Without `customOnChange`, **rhfOnChange** runs on every picker change; **onValueChange** runs
- * only when `context.validationError === null`.
- */
 export type RHFDateTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
