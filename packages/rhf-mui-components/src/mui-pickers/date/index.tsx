@@ -28,8 +28,8 @@ import {
 
 type DatePickerInputProps = Omit<
   DatePickerProps<PickerValidDate>,
+  | 'name'
   | 'value'
-  | 'onChange'
 >;
 
 export type RHFDatePickerProps<T extends FieldValues> = {
@@ -64,6 +64,8 @@ const RHFDatePicker = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   slotProps: muiSlotProps,
+  onChange: muiOnChange,
+  onAccept: muiOnAccept,
   ...rest
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -124,9 +126,11 @@ const RHFDatePicker = <T extends FieldValues>({
                 inputRef={rhfRef}
                 value={rhfValue || null}
                 disabled={rhfDisabled}
-                onChange={(newValue, context) => {
+                onChange={muiOnChange}
+                onAccept={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
+                  muiOnAccept?.(newValue, context);
                 }}
                 label={
                   !isLabelAboveFormField
