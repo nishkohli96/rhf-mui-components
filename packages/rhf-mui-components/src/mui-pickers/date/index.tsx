@@ -28,8 +28,9 @@ import {
 
 type DatePickerInputProps = Omit<
   DatePickerProps<PickerValidDate>,
+  | 'name'
   | 'value'
-  | 'onChange'
+  | 'defaultValue'
 >;
 
 export type RHFDatePickerProps<T extends FieldValues> = {
@@ -64,6 +65,8 @@ const RHFDatePicker = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   slotProps: muiSlotProps,
+  onChange: muiOnChange,
+  onAccept: muiOnAccept,
   ...rest
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -125,8 +128,21 @@ const RHFDatePicker = <T extends FieldValues>({
                 value={rhfValue || null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
+                  /**
+                   * Forward the MUI onChange event and synchronize RHF
+                   * when the value becomes null (clear action), while
+                   * keeping the accept-based update for normal selections.
+                   */
+                  muiOnChange?.(newValue, context);
+                  if(newValue === null) {
+                    rhfOnChange(newValue);
+                    onValueChange?.(newValue, context);
+                  }
+                }}
+                onAccept={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
+                  muiOnAccept?.(newValue, context);
                 }}
                 label={
                   !isLabelAboveFormField

@@ -28,8 +28,9 @@ import {
 
 type TimePickerInputProps = Omit<
   TimePickerProps<PickerValidDate>,
+  | 'name'
   | 'value'
-  | 'onChange'
+  | 'defaultValue'
 >;
 
 export type RHFTimePickerProps<T extends FieldValues> = {
@@ -63,6 +64,8 @@ const RHFTimePicker = <T extends FieldValues>({
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
+  onChange: muiOnChange,
+  onAccept: muiOnAccept,
   slotProps: muiSlotProps,
   ...rest
 }: RHFTimePickerProps<T>) => {
@@ -126,8 +129,16 @@ const RHFTimePicker = <T extends FieldValues>({
                 value={rhfValue || null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
+                  muiOnChange?.(newValue, context);
+                  if(newValue === null) {
+                    rhfOnChange(newValue);
+                    onValueChange?.(newValue, context);
+                  }
+                }}
+                onAccept={(newValue, context) => {
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
+                  muiOnAccept?.(newValue, context);
                 }}
                 label={
                   !isLabelAboveFormField

@@ -35,7 +35,6 @@ import type {
   CheckboxProps,
   FormHelperTextProps,
   KeyValueOption,
-  StringArr,
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
@@ -81,7 +80,10 @@ export type RHFMultiAutocompleteProps<
   labelKey?: LabelKey;
   valueKey?: ValueKey;
   selectAllText?: string;
-  onValueChange?: (fieldValue: StringArr, targetValue?: string) => void;
+  onValueChange?: (
+    fieldValue: string[],
+    targetValue?: string
+  ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -235,7 +237,7 @@ const RHFMultiAutocomplete = <
             disabled: rhfDisabled
           }
         }) => {
-          const selectedValues: StringArr = rhfValue ?? [];
+          const selectedValues: string[] = rhfValue ?? [];
           const selectedOptions = (rhfValue ?? []).flatMap(val => {
             if (optionsMap) {
               const option = optionsMap.get(val);
