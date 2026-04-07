@@ -42,9 +42,9 @@ type DatePickerInputProps = Omit<
 >;
 
 /**
- * Without `customOnChange`, the form value commits on **onAccept** when
- * `context.validationError === null`, and on **onChange** when cleared (`null`).
- * **onValueChange** runs for those commits. MUI **onChange** / **onAccept** are forwarded.
+ * Without `customOnChange`, the form value commits on **onAccept** for normal
+ * selections and on **onChange** when cleared (`null`). **onValueChange** runs
+ * for those commits. MUI **onChange** / **onAccept** are forwarded.
  */
 export type RHFDatePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -68,7 +68,8 @@ export type RHFDatePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
   /**
-   * Fired only when **context.validationError** is `null`. Not invoked when **customOnChange** is set.
+   * Fired when the value is committed (clear via **onChange**, selection via **onAccept**).
+   * Not invoked when **customOnChange** is set.
    */
   onValueChange?: (
     newValue: PickerValidDate,
@@ -173,6 +174,11 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 value={rhfValue ?? null}
                 disabled={rhfDisabled}
                 onChange={(newValue, context) => {
+                  /**
+                   * Forward the MUI onChange event and synchronize RHF
+                   * when the value becomes null (clear action), while
+                   * keeping the accept-based update for normal selections.
+                   */
                   muiOnChange?.(newValue, context);
                   if (newValue === null) {
                     if (customOnChange) {
@@ -188,15 +194,11 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                     customOnChange(rhfOnChange, newValue, context);
                     return;
                   }
-                  if (context.validationError !== null) {
-                    return;
-                  }
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
                   muiOnAccept?.(newValue, context);
                   rhfOnBlur();
                 }}
-                closeOnSelect={false}
                 label={
                   !hideLabel && !isLabelAboveFormField
                     ? (
