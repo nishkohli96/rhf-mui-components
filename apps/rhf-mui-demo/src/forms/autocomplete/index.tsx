@@ -501,8 +501,8 @@ const AutocompleteForm = () => {
                 }
               }}
               valueKey="name"
-              preferredCountries={['IN', 'AU', 'JP']}
               countries={filteredCountries}
+              preferredCountries={['IN']}
               multiple
               showLabelAboveFormField
               label="What are your Dream Destinations?"

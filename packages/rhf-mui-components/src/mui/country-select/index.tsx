@@ -118,8 +118,8 @@ export type RHFCountrySelectProps<
    * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
    * `onValueChange` is not invoked when using `customOnChange`.
    *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Selected value(s) stored in the form: `CountryDetails[]` when `multiple` is true, otherwise `CountryDetails`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param rhfOnChange - React Hook Form's internal change handler (pass the stored key(s))
+   * @param newValue - Value(s) written to the form: primitives from **valueKey** (`string[]` when `multiple`, else `string`), or `null` when clearable and cleared.
    * @param event - The event that triggered the change
    * @param reason - The reason for the change
    * @param details - The details of the change
@@ -132,7 +132,7 @@ export type RHFCountrySelectProps<
     details
   }: CustomOnChangeProps<
     OnValueChangeProps<Multiple, DisableClearable>,
-    CountrySelectFieldValue<Multiple, DisableClearable>
+    AutocompleteNewValue<Multiple, DisableClearable>
   >) => void;
   disableClearable?: DisableClearable;
   label?: ReactNode;
@@ -254,11 +254,17 @@ ref: Ref<HTMLInputElement>) {
           || (isError && !hideErrorMessage)
         );
 
+        const fieldValue = rhfValue as AutocompleteNewValue<
+          Multiple,
+          DisableClearable
+        >;
         const selectedCountries = multiple
-          ? (rhfValue ?? [])
+          ? (Array.isArray(fieldValue) ? fieldValue : [])
             .map(val => countryMap.get(val))
             .filter((country): country is CountryDetails => !!country)
-          : (countryMap.get(rhfValue) ?? null);
+          : typeof fieldValue === 'string'
+            ? (countryMap.get(fieldValue) ?? null)
+            : null;
 
         return (
           <FormControl error={isError}>
