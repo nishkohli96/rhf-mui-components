@@ -455,7 +455,6 @@ const AutocompleteForm = () => {
               control={control}
               preferredCountries={preferredCountries}
               multiple
-              displayFlagOnSelect
               renderValue={(value) => {
                 return (
                   <Box
@@ -502,7 +501,7 @@ const AutocompleteForm = () => {
               }}
               valueKey="name"
               countries={filteredCountries}
-              preferredCountries={['IN']}
+              preferredCountries={['US', 'AU']}
               multiple
               showLabelAboveFormField
               label="What are your Dream Destinations?"
