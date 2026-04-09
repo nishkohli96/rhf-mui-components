@@ -75,7 +75,6 @@ type OmittedAutocompleteProps<
   | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
-  | 'renderTags'
 >;
 
 type AutocompleteFieldValue<
