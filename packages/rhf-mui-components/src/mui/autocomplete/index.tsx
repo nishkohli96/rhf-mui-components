@@ -54,7 +54,7 @@ import {
 } from '@/utils';
 
 type OmittedAutocompleteProps<
-  Option extends StrObjOption,
+  Option extends StrObjOption = StrObjOption,
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
 > = Omit<
@@ -488,7 +488,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
 
 const RHFAutocomplete = RHFAutocompleteInner as <
   T extends FieldValues,
-  Option extends StrObjOption,
+  Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
     keyof Option,
     string

@@ -50,7 +50,7 @@ import {
   mergeRefs
 } from '@/utils';
 
-type OnValueChangeProps<Option extends KeyValueOption> = {
+type OnValueChangeProps<Option extends KeyValueOption = KeyValueOption> = {
   newValue: Option[];
   targetValue?: Option;
 };

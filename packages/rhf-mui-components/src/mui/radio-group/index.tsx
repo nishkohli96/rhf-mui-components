@@ -25,8 +25,11 @@ import type {
 } from '@/types';
 
 type OnValueChangeProps<
-  Option extends StrNumObjOption,
-  ValueKey extends Extract<keyof Option, string>
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
 > = {
   newValue: OptionValue<Option, ValueKey>;
   event: ChangeEvent<HTMLInputElement>;

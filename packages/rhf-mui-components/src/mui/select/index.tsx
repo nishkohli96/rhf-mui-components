@@ -54,9 +54,12 @@ type SelectValue<Value, Multiple extends boolean> = Multiple extends true
   : Value;
 
 type OnValueChangeProps<
-  Option extends StrNumObjOption,
-  ValueKey extends Extract<keyof Option, string>,
-  Multiple extends boolean
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  Multiple extends boolean = false
 > = {
   newValue: SelectValue<OptionValue<Option, ValueKey>, Multiple>;
   event: SelectChangeEvent<SelectValue<OptionValue<Option, ValueKey>, Multiple>>;

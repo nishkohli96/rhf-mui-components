@@ -53,8 +53,11 @@ import {
   mergeRefs
 } from '@/utils';
 
-type MultiAutoCompleteProps<Option> = Omit<
-  AutocompleteProps<Option, true, false, false>,
+type MultiAutoCompleteProps<
+  Option extends StrObjOption = StrObjOption,
+  DisableClearable extends boolean = false
+> = Omit<
+  AutocompleteProps<Option, true, DisableClearable, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'

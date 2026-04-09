@@ -50,7 +50,7 @@ import {
 } from '@/utils';
 
 type OmittedAutocompleteProps<
-  Option extends KeyValueOption,
+  Option extends KeyValueOption = KeyValueOption,
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
 > = Omit<
@@ -75,7 +75,7 @@ type OmittedAutocompleteProps<
 >;
 
 type OnValueChangeProps<
-  Option extends KeyValueOption,
+  Option extends KeyValueOption = KeyValueOption,
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
 > = {
@@ -137,7 +137,7 @@ export type RHFAutocompleteObjectProps<
 
 const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
   T extends FieldValues,
-  Option extends KeyValueOption,
+  Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
     keyof Option,
     string
@@ -390,7 +390,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
 
 const RHFAutocompleteObject = RHFAutocompleteObjectInner as <
   T extends FieldValues,
-  Option extends KeyValueOption,
+  Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
     keyof Option,
     string

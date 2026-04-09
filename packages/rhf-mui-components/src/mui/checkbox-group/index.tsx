@@ -29,8 +29,11 @@ import type {
 } from '@/types';
 
 type OnValueChangeProps<
-  Option extends StrNumObjOption,
-  ValueKey extends Extract<keyof Option, string>
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
 > = {
   toggledValue: OptionValue<Option, ValueKey>;
   newValue: OptionValue<Option, ValueKey>[];
@@ -38,8 +41,11 @@ type OnValueChangeProps<
 };
 
 type CheckboxGroupCustomOnChangeProps<
-  Option extends StrNumObjOption,
-  ValueKey extends Extract<keyof Option, string>
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
 > = {
   toggledValue: OptionValue<Option, ValueKey>;
   checked: boolean;
