@@ -197,9 +197,6 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                       customOnChange(rhfOnChange, newValue, context);
                       return;
                     }
-                    if (context.validationError !== null) {
-                      return;
-                    }
                     rhfOnChange(newValue);
                     onValueChange?.(newValue, context);
                     muiOnAccept?.(newValue, context);
