@@ -11,6 +11,7 @@ export const defaultAutocompleteValue = 'off';
  * and RHFMultiAutocompleteObject components.
  */
 export const selectAllOptionValue = '__ALL__';
+export const defaultSelectAllOptionLabel = 'Select All';
 
 /**
  * Threshold for the maximum umber of options to use MUI Select for.

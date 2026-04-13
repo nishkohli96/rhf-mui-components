@@ -16,11 +16,13 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, { type AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, {
+  type AutocompleteRenderOptionState,
+  type AutocompleteProps
+} from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -29,6 +31,7 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
+  defaultSelectAllOptionLabel,
   selectAllOptionValue
 } from '@/common';
 import type {
@@ -37,26 +40,26 @@ import type {
   CheckboxProps,
   FormHelperTextProps,
   KeyValueOption,
+  StrObjOption,
   AutoCompleteTextFieldProps,
-  MuiChipProps
+  MuiChipProps,
+  CustomOnChangeProps,
+  CustomComponentIds
 } from '@/types';
 import {
   fieldNameToLabel,
   validateArray,
   isKeyValueOption,
-  isAboveMuiV5,
   useFieldIds,
   keepLabelAboveFormField,
   mergeRefs
 } from '@/utils';
 
-type OnValueChangeProps<Option extends KeyValueOption = KeyValueOption> = {
-  newValue: Option[];
-  targetValue?: Option;
-};
-
-type MultiAutoCompleteProps<Option> = Omit<
-  AutocompleteProps<Option, true, false, false>,
+type MultiAutoCompleteProps<
+  Option extends KeyValueOption = KeyValueOption,
+  DisableClearable extends boolean = false
+> = Omit<
+  AutocompleteProps<Option, true, DisableClearable, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -70,31 +73,58 @@ type MultiAutoCompleteProps<Option> = Omit<
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
   | 'autoHighlight'
+  | 'blurOnSelect'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
 >;
 
+export type OnValueChangeProps<Option extends KeyValueOption = KeyValueOption> = {
+  newValue: Option[];
+  targetValue?: Option | typeof selectAllOptionValue;
+};
+
 export type RHFMultiAutocompleteObjectProps<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  DisableClearable extends boolean = false
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  labelKey: LabelKey;
-  valueKey: ValueKey;
+  labelKey?: LabelKey;
+  valueKey?: ValueKey;
   selectAllText?: string;
-  onValueChange?: ({
+  onValueChange?: (props: OnValueChangeProps<Option>) => void;
+  customOnChange?: ({
+    rhfOnChange,
     newValue,
-    targetValue,
-  }: OnValueChangeProps<Option>) => void;
+    targetValue
+  }: CustomOnChangeProps<OnValueChangeProps<Option>, Option[]>) => void;
+  /**
+   * If true, the input can't be cleared.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   checkboxProps?: CheckboxProps;
+  renderOptionLabel?: (
+    option: Option,
+    selectAllText: string,
+    state: AutocompleteRenderOptionState
+  ) => ReactNode;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
   helperText?: ReactNode;
@@ -104,106 +134,109 @@ export type RHFMultiAutocompleteObjectProps<
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
   hideSelectAllOption?: boolean;
-} & MultiAutoCompleteProps<Option>;
+  customIds?: CustomComponentIds;
+} & MultiAutoCompleteProps<Option, DisableClearable>;
 
 const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocompleteObject<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
->({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  selectAllText = 'Select All',
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  checkboxProps,
-  formControlLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  onBlur,
-  loading,
-  hideSelectAllOption,
-  ...otherAutoCompleteProps
-}: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey>,
-ref: Ref<HTMLInputElement>) {
-  validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
-
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName);
-
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  DisableClearable extends boolean = false
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    labelKey,
+    valueKey,
+    disableClearable,
+    selectAllText = defaultSelectAllOptionLabel,
+    onValueChange,
+    customOnChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    checkboxProps,
+    renderOptionLabel,
+    formControlLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    onBlur,
+    loading,
+    hideSelectAllOption,
+    customIds,
+    getOptionDisabled,
+    limitTags = 2,
+    ...otherAutoCompleteProps
+  }: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey, DisableClearable>,
+  ref: Ref<HTMLInputElement>
+) {
   const {
     allLabelsAboveFields,
-    defaultFormControlLabelSx
+    defaultFormControlLabelSx,
+    skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
+  if (!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
+    validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
+  }
+
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
+  const shouldHideSelectAllOptions
+    = hideSelectAllOption || options.length === 0 || options.length === 1;
+
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx
   };
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
-  const shouldHideSelectAllOptions
-    = hideSelectAllOption || (options.length === 0 || options.length === 1);
-
-  const selectAllOption = useMemo(
-    (): Option =>
-      ({
-        [labelKey]: selectAllText,
-        [valueKey]: selectAllOptionValue
-      }) as Option,
-    [labelKey, valueKey, selectAllText]
-  );
 
   const autoCompleteOptions: Option[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {
       return options;
     }
-    return [selectAllOption, ...options];
-  }, [options, selectAllOption, shouldHideSelectAllOptions]);
+    return [selectAllText as unknown as Option, ...options];
+  }, [options, selectAllText, shouldHideSelectAllOptions]);
 
-  const isSelectAllOption = useCallback(
-    (option: Option) => {
-      return (
-        option[valueKey] === selectAllOptionValue
-      );
-    },
-    [valueKey]
-  );
+  const isSelectAllOption = useCallback((option: Option) => {
+    return (option as unknown) === selectAllText;
+  }, [selectAllText]);
 
   const getOptionLabelOrValue = useCallback(
-    (option: Option, key: LabelKey | ValueKey): string => {
-      return String(option[key]);
-    },
-    []
+    (option: StrObjOption, key?: LabelKey | ValueKey) =>
+      key && isKeyValueOption(option, labelKey, valueKey)
+        ? option[key]
+        : (option as string),
+    [labelKey, valueKey]
   );
 
-  const renderOptionLabel = useCallback(
-    (option: Option, getSelectAllValue?: boolean): string =>
+  const displayOptionLabel = useCallback(
+    (option: Option, getSelectAllValue?: boolean) =>
       isSelectAllOption(option)
         ? getSelectAllValue
           ? selectAllOptionValue
@@ -212,73 +245,153 @@ ref: Ref<HTMLInputElement>) {
     [isSelectAllOption, selectAllText, getOptionLabelOrValue, labelKey]
   );
 
+  const optionsEqual = useCallback(
+    (a: Option, b: Option): boolean => {
+      if (
+        valueKey
+        && isKeyValueOption(a, labelKey, valueKey)
+        && isKeyValueOption(b, labelKey, valueKey)
+      ) {
+        return a[valueKey] === b[valueKey];
+      }
+      return a === b;
+    },
+    [labelKey, valueKey]
+  );
+
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        disabled={muiDisabled}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      disabled={muiDisabled}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const selectedOptions: Option[] = rhfValue ?? [];
+
+        const selectionContainsOption = (selected: Option[], opt: Option) =>
+          selected.some(sel => optionsEqual(sel, opt));
+
+        const areAllSelected
+          = options.length > 0
+            && selectedOptions.length === options.length
+            && options.every(opt =>
+              selectionContainsOption(selectedOptions, opt));
+        const isIndeterminate
+          = selectedOptions.length > 0 && !areAllSelected;
+
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+
+        const changeFieldState = (
+          newValues: Option[],
+          targetValue?: Option | typeof selectAllOptionValue
+        ) => {
+          rhfOnChange(newValues);
+          onValueChange?.({
+            newValue: newValues,
+            targetValue
+          });
+        };
+
+        const handleCheckboxChange = (
+          currentValue: Option[],
+          rowOption: Option,
+          checked: boolean
+        ): Option[] => {
+          /* When "Select All" checkbox is toggled. */
+          if (isSelectAllOption(rowOption)) {
+            return checked ? [...options] : [];
           }
-        }) => {
-          const selectedValues: Option[] = rhfValue ?? [];
-          const selectedOptions = selectedValues.filter(option => !isSelectAllOption(option));
+          /* When one of the options is selected */
+          return checked
+            ? selectionContainsOption(currentValue, rowOption)
+              ? currentValue
+              : [...currentValue, rowOption]
+            : currentValue.filter(val => !optionsEqual(val, rowOption));
+        };
 
-          const areAllSelected
-            = options.length > 0
-              && selectedOptions.length === options.length;
-          const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
-
-          return (
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             <Autocomplete
               id={fieldId}
               options={autoCompleteOptions}
               value={selectedOptions}
               loading={loading}
-              fullWidth
-              multiple
-              autoHighlight
-              disableCloseOnSelect
               disabled={rhfDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
+                  if (customOnChange) {
+                    customOnChange({
+                      rhfOnChange,
+                      newValue: [],
+                      targetValue: undefined
+                    });
+                    return;
+                  }
                   rhfOnChange([]);
                   onValueChange?.({ newValue: [] });
                   return;
                 }
-                const isSelectAllSelected = newSelectedOptions.some(isSelectAllOption);
+                const isSelectAllSelected
+                  = newSelectedOptions.some(isSelectAllOption);
                 if (isSelectAllSelected) {
-                  const finalValue = areAllSelected ? [] : options;
+                  const finalValue = areAllSelected ? [] : [...options];
+                  if (customOnChange) {
+                    customOnChange({
+                      rhfOnChange,
+                      newValue: finalValue,
+                      targetValue: selectAllOptionValue
+                    });
+                    return;
+                  }
                   rhfOnChange(finalValue);
                   onValueChange?.({
                     newValue: finalValue,
-                    targetValue: selectAllOption
+                    targetValue: selectAllOptionValue
                   });
                   return;
                 }
 
                 const clickedOption = details?.option;
-                const finalValue = newSelectedOptions
-                  .filter(option => !isSelectAllOption(option));
+                const finalValue = newSelectedOptions.filter(
+                  option => !isSelectAllOption(option)
+                );
+                if (customOnChange) {
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: finalValue,
+                    targetValue: clickedOption
+                  });
+                  return;
+                }
                 rhfOnChange(finalValue);
                 onValueChange?.({
                   newValue: finalValue,
@@ -289,20 +402,14 @@ ref: Ref<HTMLInputElement>) {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              limitTags={2}
-              getLimitTagsText={value => `+${value} More`}
-              getOptionLabel={option => renderOptionLabel(option, true)}
+              getOptionLabel={option => displayOptionLabel(option, true)}
               isOptionEqualToValue={(option, value) => {
-                /*
-                 * Select All is never stored in `value`; matching it to real values when
-                 * `areAllSelected` made MUI remove the first option on the next click.
-                 */
                 if (isSelectAllOption(option)) {
                   return false;
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
-                    option[valueKey] === value[valueKey]
+                    option[valueKey] === (value as KeyValueOption)[valueKey]
                   );
                 }
                 return option === value;
@@ -323,9 +430,13 @@ ref: Ref<HTMLInputElement>) {
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                  'aria-labelledby': isLabelAboveFormField
+                    ? labelId
+                    : undefined,
                   'aria-describedby': showHelperTextElement
-                    ? (isError ? errorId : helperTextId)
+                    ? isError
+                      ? errorId
+                      : helperTextId
                     : undefined,
                   autoComplete
                 };
@@ -336,9 +447,7 @@ ref: Ref<HTMLInputElement>) {
                     disabled={paramsDisabled || rhfDisabled}
                     {...otherTextFieldProps}
                     placeholder={
-                      selectedOptions.length > 0
-                        ? undefined
-                        : placeholder
+                      selectedOptions.length > 0 ? undefined : placeholder
                     }
                     {...otherInputParams}
                     label={
@@ -349,72 +458,50 @@ ref: Ref<HTMLInputElement>) {
                         : undefined
                     }
                     error={isError}
-                    {...(isAboveMuiV5
-                      ? {
-                        slotProps: {
-                          ...textFieldProps?.slotProps,
-                          input: {
-                            ...InputProps,
-                            ...textFieldProps?.slotProps?.input,
-                            endAdornment: (
-                              <>
-                                {loading && (
-                                  <CircularProgress color="inherit"
-                                    size={20}
-                                  />
-                                )}
-                                {InputProps.endAdornment}
-                              </>
-                            )
-                          },
-                          htmlInput: textFieldInputProps
-                        }
-                      }
-                      : {
-                        InputProps: {
-                          ...InputProps,
-                          ...textFieldProps?.InputProps,
-                          endAdornment: (
-                            <>
-                              {loading && (
-                                <CircularProgress color="inherit" size={20} />
-                              )}
-                              {InputProps.endAdornment}
-                            </>
-                          )
-                        },
-                        inputProps: textFieldInputProps
-                      })}
+                    slotProps={{
+                      ...textFieldProps?.slotProps,
+                      input: {
+                        ...InputProps,
+                        ...textFieldProps?.slotProps?.input,
+                        endAdornment: (
+                          <>
+                            {loading && (
+                              <CircularProgress color="inherit" size={20} />
+                            )}
+                            {InputProps.endAdornment}
+                          </>
+                        )
+                      },
+                      htmlInput: textFieldInputProps
+                    }}
                   />
                 );
               }}
-              renderOption={(optionProps, option) => {
+              renderOption={(optionProps, option, state) => {
                 const isSelectAll = isSelectAllOption(option);
-                const opnLabel = renderOptionLabel(option);
-                const opnValue = isSelectAll
+                const optionLabel = displayOptionLabel(option);
+                const optionValue = isSelectAll
                   ? selectAllOptionValue
                   : getOptionLabelOrValue(option, valueKey);
+                const isOptionDisabled = getOptionDisabled?.(option) || rhfDisabled;
                 return (
                   <Box component="li" {...optionProps}>
                     <FormControlLabel
-                      label={opnLabel}
-                      onClick={e => e.preventDefault()}
+                      label={
+                        renderOptionLabel?.(option, selectAllText, state)
+                        ?? optionLabel
+                      }
+                      disabled={isOptionDisabled}
                       control={
                         <Checkbox
                           {...checkboxProps}
-                          id={`${fieldName}_${opnValue}`}
-                          name={`${fieldName}_${opnValue}`}
-                          value={opnValue}
+                          id={`${fieldName}_${optionValue}`}
+                          name={`${fieldName}_${optionValue}`}
+                          value={optionValue}
                           checked={
                             isSelectAll
                               ? areAllSelected
-                              : selectedOptions.some(
-                                selected =>
-                                  getOptionLabelOrValue(
-                                    selected,
-                                    valueKey
-                                  ) === opnValue
-                              )
+                              : selectionContainsOption(selectedOptions, option)
                           }
                           indeterminate={
                             isSelectAll ? isIndeterminate : undefined
@@ -422,51 +509,81 @@ ref: Ref<HTMLInputElement>) {
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
+                      onClick={e => {
+                        e.preventDefault();
+                        const checked = isSelectAll
+                          ? !areAllSelected
+                          : !selectionContainsOption(selectedOptions, option);
+                        changeFieldState(
+                          handleCheckboxChange(
+                            selectedOptions,
+                            option,
+                            checked
+                          ),
+                          isSelectAll ? selectAllOptionValue : option
+                        );
+                      }}
                       {...otherFormControlLabelProps}
                     />
                   </Box>
                 );
               }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...otherChipProps } = getTagProps({ index });
-                  return (
-                    <Chip
-                      key={key}
-                      {...otherChipProps}
-                      label={renderOptionLabel(option)}
-                      {...ChipProps}
-                    />
-                  );
-                })}
-              {...(isAboveMuiV5 ? { slotProps } : { ChipProps })}
+              limitTags={limitTags}
+              getLimitTagsText={value => `+${value} More`}
+              autoHighlight
+              disableCloseOnSelect
+              disableClearable={disableClearable}
+              blurOnSelect={false}
+              fullWidth
+              multiple
+              slotProps={{
+                ...slotProps,
+                chip: ChipProps,
+                listbox: {
+                  ...slotProps?.listbox,
+                  'aria-multiselectable': true
+                }
+              }}
               {...otherAutoCompleteProps}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 });
 
 const RHFMultiAutocompleteObject = RHFMultiAutocompleteObjectInner as <
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  DisableClearable extends boolean = false
 >(
-  props: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey> & {
+  props: RHFMultiAutocompleteObjectProps<
+    T,
+    Option,
+    LabelKey,
+    ValueKey,
+    DisableClearable
+  > & {
     ref?: Ref<HTMLInputElement>;
   }
 ) => JSX.Element;

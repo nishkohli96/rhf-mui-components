@@ -31,6 +31,7 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
+  defaultSelectAllOptionLabel,
   selectAllOptionValue
 } from '@/common';
 import type {
@@ -157,7 +158,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     labelKey,
     valueKey,
     disableClearable,
-    selectAllText = 'Select All',
+    selectAllText = defaultSelectAllOptionLabel,
     onValueChange,
     customOnChange,
     disabled: muiDisabled,
