@@ -110,15 +110,13 @@ const RHFDatePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          disabled={muiDisabled}
           render={({
             field: {
               name: rhfFieldName,
               value: rhfValue,
               onChange: rhfOnChange,
               onBlur: rhfOnBlur,
-              ref: rhfRef,
-              disabled: rhfDisabled
+              ref: rhfRef
             }
           }) => {
             return (
@@ -126,7 +124,7 @@ const RHFDatePicker = <T extends FieldValues>({
                 name={rhfFieldName}
                 inputRef={rhfRef}
                 value={rhfValue || null}
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
                 onChange={(newValue, context) => {
                   /**
                    * Forward the MUI onChange event and synchronize RHF

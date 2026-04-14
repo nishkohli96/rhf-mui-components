@@ -143,15 +143,13 @@ const RHFSelect = <
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+            ref: rhfRef
           }
         }) => {
           const isValueEmpty
@@ -188,7 +186,7 @@ const RHFSelect = <
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
                 inputRef={rhfRef}
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(

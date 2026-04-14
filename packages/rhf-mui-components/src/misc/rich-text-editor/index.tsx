@@ -99,13 +99,11 @@ const RHFRichTextEditor = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            disabled: rhfDisabled,
             ref: rhfRef
           }
         }) => (
@@ -135,7 +133,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
             }
             onFocus={onFocus}
             onError={onError}
-            disabled={rhfDisabled}
+            disabled={muiDisabled}
           />
         )}
       />
