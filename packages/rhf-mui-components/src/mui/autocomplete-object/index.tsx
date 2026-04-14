@@ -165,15 +165,13 @@ const RHFAutocompleteObject = <
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+            ref: rhfRef
           }
         }) => {
           return (
@@ -199,7 +197,7 @@ const RHFAutocompleteObject = <
                     />
                   );
                 })}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={(
                 event,
                 newValue,
@@ -251,7 +249,7 @@ const RHFAutocompleteObject = <
                   <TextField
                     name={rhfFieldName}
                     inputRef={rhfRef}
-                    disabled={paramsDisabled || rhfDisabled}
+                    disabled={paramsDisabled || muiDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={

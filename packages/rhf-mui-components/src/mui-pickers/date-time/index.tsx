@@ -111,15 +111,13 @@ const RHFDateTimePicker = <T extends FieldValues>({
           name={fieldName}
           control={control}
           rules={registerOptions}
-          disabled={muiDisabled}
           render={({
             field: {
               name: rhfFieldName,
               value: rhfValue,
               onChange: rhfOnChange,
               onBlur: rhfOnBlur,
-              ref: rhfRef,
-              disabled: rhfDisabled
+              ref: rhfRef
             }
           }) => {
             return (
@@ -127,7 +125,7 @@ const RHFDateTimePicker = <T extends FieldValues>({
                 name={rhfFieldName}
                 inputRef={rhfRef}
                 value={rhfValue || null}
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if(newValue === null) {

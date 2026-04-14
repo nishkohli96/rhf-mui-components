@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useContext, type ReactNode } from 'react';
+import { useContext, useMemo, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -105,12 +105,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   InputProps,
   ...rest
 }: RHFPhoneInputProps<T>) => {
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -118,7 +113,7 @@ const RHFPhoneInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+  const showHelperTextElement = !!helperText || (isError && !hideErrorMessage);
 
   const {
     countries,
@@ -127,10 +122,7 @@ const RHFPhoneInput = <T extends FieldValues>({
     forceDialCode,
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
-
   const countryOptions = countries ?? defaultCountries;
-  let countriesToList = countryOptions;
-  let countriesToListAtTop: CountryData[] = [];
 
   /**
    * Render preferred countries at the top of the list.
@@ -138,29 +130,36 @@ const RHFPhoneInput = <T extends FieldValues>({
    * specified in the props, while other countries will be sorted
    * alphabetically.
    */
-  if (preferredCountries?.length) {
-    countriesToListAtTop = countryOptions.filter(country =>
-      preferredCountries.includes(parseCountry(country).iso2));
-    countriesToListAtTop.sort((a, b) => {
-      return (
-        preferredCountries.indexOf(parseCountry(a).iso2)
-        - preferredCountries.indexOf(parseCountry(b).iso2)
-      );
-    });
+  const { countriesToList, countriesToListAtTop } = useMemo(() => {
+    if (!preferredCountries?.length) {
+      return {
+        countriesToList: countryOptions,
+        countriesToListAtTop: [] as CountryData[]
+      };
+    }
 
-    countriesToList = countryOptions.filter(
+    const countriesToListAtTop = countryOptions
+      .filter(country =>
+        preferredCountries.includes(parseCountry(country).iso2))
+      .sort(
+        (a, b) =>
+          preferredCountries.indexOf(parseCountry(a).iso2)
+          - preferredCountries.indexOf(parseCountry(b).iso2)
+      );
+
+    const countriesToList = countryOptions.filter(
       country => !preferredCountries.includes(parseCountry(country).iso2)
     );
-  }
+
+    return { countriesToList, countriesToListAtTop };
+  }, [countryOptions, preferredCountries]);
 
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
       ...otherPhoneInputProps,
       value,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
-        if (onValueChange) {
-          onValueChange(phoneData);
-        }
+        onValueChange?.(phoneData);
       },
       countries: countryOptions,
       preferredCountries,
@@ -184,15 +183,15 @@ const RHFPhoneInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         defaultValue={inputValue as PathValue<T, Path<T>>}
-        render={( { field: {
-          name: rhfFieldName,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        } }) => {
+        render={({
+          field: {
+            name: rhfFieldName,
+            onChange: rhfOnChange,
+            onBlur: rhfOnBlur,
+            ref: rhfRef
+          }
+        }) => {
           const startAdornment = (
             <InputAdornment
               position="start"
@@ -241,10 +240,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                 {countriesToListAtTop.map(c => {
                   const countryInfo = parseCountry(c);
                   return (
-                    <MenuItem
-                      key={countryInfo.iso2}
-                      value={countryInfo.iso2}
-                    >
+                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
                       <FlagImage
                         iso2={countryInfo.iso2}
                         style={{ marginRight: '8px' }}
@@ -263,10 +259,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                 {countriesToList.map(c => {
                   const countryInfo = parseCountry(c);
                   return (
-                    <MenuItem
-                      key={countryInfo.iso2}
-                      value={countryInfo.iso2}
-                    >
+                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
                       <FlagImage
                         iso2={countryInfo.iso2}
                         style={{ marginRight: '8px' }}
@@ -306,7 +299,9 @@ const RHFPhoneInput = <T extends FieldValues>({
               }}
               label={
                 !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
                   : undefined
               }
               aria-labelledby={isLabelAboveFormField ? labelId : undefined}
@@ -319,22 +314,22 @@ const RHFPhoneInput = <T extends FieldValues>({
               }
               aria-required={required}
               error={isError}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
                     ...slotProps,
                     input: {
                       ...slotProps?.input,
-                      startAdornment,
-                    },
-                  },
+                      startAdornment
+                    }
+                  }
                 }
                 : {
                   InputProps: {
                     ...InputProps,
-                    startAdornment,
-                  },
+                    startAdornment
+                  }
                 })}
               {...rest}
             />

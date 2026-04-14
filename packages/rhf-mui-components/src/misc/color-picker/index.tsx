@@ -99,11 +99,9 @@ const RHFColorPicker = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
-            onChange: rhfOnChange,
-            disabled: rhfDisabled
+            onChange: rhfOnChange
           }
         }) => (
           <Fragment>
@@ -113,7 +111,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   <Saturation
                     height={height}
                     color={color}
-                    disabled={rhfDisabled}
+                    disabled={muiDisabled}
                     onChange={color => {
                       setColor(color);
                       const appliedColor = getFormattedColor(color);
@@ -123,7 +121,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   />
                   <Hue
                     color={color}
-                    disabled={rhfDisabled}
+                    disabled={muiDisabled}
                     onChange={setColor}
                   />
                 </Fragment>
@@ -131,7 +129,7 @@ const RHFColorPicker = <T extends FieldValues>({
               : (
                 <ReactColorPicker
                   color={color}
-                  disabled={rhfDisabled}
+                  disabled={muiDisabled}
                   onChange={color => {
                     setColor(color);
                     const appliedColor = getFormattedColor(color);
@@ -139,7 +137,7 @@ const RHFColorPicker = <T extends FieldValues>({
                     onValueChange?.(color);
                   }}
                   height={height}
-                  hideInput={rhfDisabled ? true : hideInput}
+                  hideInput={muiDisabled ? true : hideInput}
                   {...otherProps}
                 />
               )}

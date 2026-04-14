@@ -85,14 +85,12 @@ const RHFRating = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
+            onBlur: rhfOnBlur
           }
         }) => {
           return (
@@ -100,7 +98,7 @@ const RHFRating = <T extends FieldValues>({
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? null}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={(event, newValue) => {
                 rhfOnChange(newValue);
                 onValueChange?.(newValue, event);

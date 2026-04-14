@@ -129,14 +129,12 @@ const RHFRadioGroup = <
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
+            onBlur: rhfOnBlur
           }
         }) => {
           return (
@@ -187,7 +185,7 @@ const RHFRadioGroup = <
                     }
                     value={opnValue}
                     label={opnLabel}
-                    disabled={rhfDisabled}
+                    disabled={muiDisabled}
                     sx={appliedFormControlLabelSx}
                     {...otherFormControlLabelProps}
                   />

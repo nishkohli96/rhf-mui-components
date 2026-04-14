@@ -117,13 +117,11 @@ const RHFCheckboxGroup = <
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({ field }) => {
         const {
           value,
           onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          disabled: rhfDisabled
+          onBlur: rhfOnBlur
         } = field as {
           value: OptionValue<Option, ValueKey>[];
           onChange: (v: OptionValue<Option, ValueKey>[]) => void;
@@ -199,7 +197,7 @@ const RHFCheckboxGroup = <
                     }
                     label={opnLabel}
                     sx={appliedFormControlLabelSx}
-                    disabled={rhfDisabled}
+                    disabled={muiDisabled}
                     {...otherFormControlLabelProps}
                   />
                 );

@@ -94,15 +94,13 @@ const RHFNumberInput = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+            ref: rhfRef
           }
         }) => {
           return (
@@ -126,7 +124,7 @@ const RHFNumberInput = <T extends FieldValues>({
                   ? ''
                   : rhfValue
               }
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={event => {
                 const fieldValue
                   = event.target.value === '' ? null : Number(event.target.value);

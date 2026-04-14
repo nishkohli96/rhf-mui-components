@@ -83,14 +83,12 @@ const RHFSlider = <T extends FieldValues>({
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
+            onBlur: rhfOnBlur
           }
         }) => {
           return (
@@ -98,7 +96,7 @@ const RHFSlider = <T extends FieldValues>({
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? 0}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={(event, value, activeThumb) => {
                 rhfOnChange(value);
                 onValueChange?.(value, activeThumb, event);
