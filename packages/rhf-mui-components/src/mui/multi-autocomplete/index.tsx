@@ -288,12 +288,11 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
           return option ? [option] : [];
         });
 
-        const areAllSelected =
-  options.length > 0 &&
-  selectedValues.length === options.length &&
-  options.every(option =>
-    selectedSet.has(getOptionLabelOrValue(option, valueKey))
-  );
+        const areAllSelected
+          = options.length > 0
+            && selectedValues.length === options.length
+            && options.every(option =>
+              selectedSet.has(getOptionLabelOrValue(option, valueKey)));
         const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
         const fieldErrorMessage
