@@ -139,15 +139,13 @@ ref: Ref<HTMLInputElement>) {
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+            ref: rhfRef
           }
         }) => {
           const processFiles = (
@@ -197,7 +195,7 @@ ref: Ref<HTMLInputElement>) {
           const handleDrop = (event: DragEvent<HTMLDivElement>) => {
             event.preventDefault();
             setIsDragging(false);
-            if (rhfDisabled) {
+            if (muiDisabled) {
               return;
             }
             processFiles(event.dataTransfer.files, event);
@@ -206,7 +204,7 @@ ref: Ref<HTMLInputElement>) {
           // @ts-ignore
           const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
             event.preventDefault();
-            if (!rhfDisabled) {
+            if (!muiDisabled) {
               setIsDragging(true);
             }
           };
@@ -236,7 +234,7 @@ ref: Ref<HTMLInputElement>) {
               multiple={multiple}
               onChange={handleFileChange}
               onBlur={rhfOnBlur}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
@@ -263,7 +261,7 @@ ref: Ref<HTMLInputElement>) {
                       textAlign: 'center',
                       transition: 'border-color 0.2s ease-in-out',
                       mb: 2,
-                      cursor: rhfDisabled ? 'not-allowed' : 'pointer',
+                      cursor: muiDisabled ? 'not-allowed' : 'pointer',
                     }
                     : undefined
                 }
@@ -276,7 +274,7 @@ ref: Ref<HTMLInputElement>) {
                     <UploadButton
                       label={fieldLabel}
                       fieldName={fieldName}
-                      disabled={rhfDisabled}
+                      disabled={muiDisabled}
                     >
                       {InputComponent}
                     </UploadButton>

@@ -203,15 +203,13 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -255,7 +253,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   ? ''
                   : rhfValue
               }
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const inputValue = changeEvent.target.value;

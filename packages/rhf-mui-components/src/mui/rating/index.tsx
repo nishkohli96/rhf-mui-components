@@ -118,15 +118,13 @@ ref: Ref<HTMLSpanElement>) {
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -157,7 +155,7 @@ ref: Ref<HTMLSpanElement>) {
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? null}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={(event, newValue) => {
                 if (customOnChange) {
                   customOnChange({ rhfOnChange, newValue, event });

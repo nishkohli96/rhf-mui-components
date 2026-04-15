@@ -137,13 +137,11 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          disabled: rhfDisabled,
           ref: rhfRef
         },
         fieldState: { error: fieldStateError }
@@ -230,7 +228,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
               aria-required={required}
               onFocus={onFocus}
               onError={onError}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
             />
             <FormHelperText
               error={isError}

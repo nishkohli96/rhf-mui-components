@@ -125,14 +125,12 @@ const RHFStaticDateTimePickerInner = forwardRef(
           name={fieldName}
           control={control}
           rules={registerOptions}
-          disabled={muiDisabled}
           render={({
             field: {
               value: rhfValue,
               onChange: rhfOnChange,
               onBlur: rhfOnBlur,
-              ref: rhfRef,
-              disabled: rhfDisabled
+              ref: rhfRef
             },
             fieldState: { error: fieldStateError }
           }) => {
@@ -180,7 +178,7 @@ const RHFStaticDateTimePickerInner = forwardRef(
                   <MuiStaticDateTimePicker
                     ref={mergeRefs(rhfRef, ref)}
                     value={rhfValue ?? null}
-                    disabled={rhfDisabled}
+                    disabled={muiDisabled}
                     onChange={(newValue, context) => {
                       muiOnChange?.(newValue, context);
                       if (newValue === null) {

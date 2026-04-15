@@ -126,15 +126,13 @@ const RHFMobileDateTimePickerInner = forwardRef(function RHFMobileDateTimePicker
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+            ref: rhfRef
           },
           fieldState: { error: fieldStateError }
         }) => {
@@ -164,7 +162,7 @@ const RHFMobileDateTimePickerInner = forwardRef(function RHFMobileDateTimePicker
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (newValue === null) {

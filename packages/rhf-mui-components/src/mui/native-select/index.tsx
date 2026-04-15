@@ -187,15 +187,13 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -236,7 +234,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={event => {
                 const selectedValue = event.target.value;
                 const normalizedValue = normalizeSelectValue(

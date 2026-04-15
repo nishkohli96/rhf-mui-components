@@ -234,15 +234,13 @@ ref: Ref<HTMLInputElement>) {
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -327,7 +325,7 @@ ref: Ref<HTMLInputElement>) {
               disableCloseOnSelect={multiple}
               disableClearable={disableClearable}
               fullWidth
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
@@ -364,7 +362,7 @@ ref: Ref<HTMLInputElement>) {
                   <TextField
                     name={rhfFieldName}
                     inputRef={mergeRefs(rhfRef, ref)}
-                    disabled={paramsDisabled || rhfDisabled}
+                    disabled={paramsDisabled || muiDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={

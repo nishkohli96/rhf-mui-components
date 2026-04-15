@@ -272,8 +272,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -353,7 +352,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               options={autoCompleteOptions}
               value={selectedOptions}
               loading={loading}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   if (customOnChange) {
@@ -462,7 +461,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   <TextField
                     name={rhfFieldName}
                     inputRef={mergeRefs(rhfRef, ref)}
-                    disabled={paramsDisabled || rhfDisabled}
+                    disabled={paramsDisabled || muiDisabled}
                     {...otherTextFieldProps}
                     placeholder={
                       selectedOptions.length > 0 ? undefined : placeholder
@@ -501,7 +500,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 const optionValue = isSelectAll
                   ? selectAllOptionValue
                   : getOptionLabelOrValue(option, valueKey);
-                const isOptionDisabled = getOptionDisabled?.(option) || rhfDisabled;
+                const isOptionDisabled = getOptionDisabled?.(option) || muiDisabled;
                 return (
                   <Box component="li" {...optionProps}>
                     <FormControlLabel

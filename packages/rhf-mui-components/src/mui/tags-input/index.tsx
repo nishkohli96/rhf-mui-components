@@ -314,15 +314,13 @@ ref: Ref<HTMLInputElement>) {
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue = [],
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -333,7 +331,7 @@ ref: Ref<HTMLInputElement>) {
           helperText
           || (isError && !hideErrorMessage)
         );
-        const hideInput = rhfDisabled && rhfValue.length > 0;
+        const hideInput = muiDisabled && rhfValue.length > 0;
         const visibleTags = showAllTags
           ? rhfValue
           : isFocused || !limitTags
@@ -357,7 +355,7 @@ ref: Ref<HTMLInputElement>) {
                 id={`${fieldNameToId(tag)}-${index}`}
                 role="listitem"
                 label={renderTagLabel?.(tag) ?? tag}
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
                 onDelete={() => {
                   const shouldDelete = onTagDelete?.(tag, rhfValue);
                   if (shouldDelete === false) {
@@ -378,7 +376,7 @@ ref: Ref<HTMLInputElement>) {
                   getLimitTagsText?.(rhfValue.length - limitTags)
                   ?? `+${rhfValue.length - limitTags} more`
                 }
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
               />
             )}
           </Box>
@@ -422,7 +420,7 @@ ref: Ref<HTMLInputElement>) {
                 rhfOnBlur();
                 onBlur?.(e);
               }}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               error={isError}
               aria-labelledby={
                 !hideLabel && isLabelAboveFormField ? labelId : undefined

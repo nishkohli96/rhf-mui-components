@@ -126,15 +126,13 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
         name={fieldName}
         control={control}
         rules={registerOptions}
-        disabled={muiDisabled}
         render={({
           field: {
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+            ref: rhfRef
           },
           fieldState: { error: fieldStateError }
         }) => {
@@ -164,7 +162,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={rhfDisabled}
+                disabled={muiDisabled}
                 onChange={(newValue, context) => {
                   /**
                    * Forward the MUI onChange event and synchronize RHF

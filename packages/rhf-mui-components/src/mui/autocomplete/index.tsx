@@ -269,15 +269,13 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -337,7 +335,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   DisableClearable
                 >
               }
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={(
                 event,
                 newValue,
@@ -423,7 +421,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   <TextField
                     name={rhfFieldName}
                     inputRef={mergeRefs(rhfRef, ref)}
-                    disabled={paramsDisabled || rhfDisabled}
+                    disabled={paramsDisabled || muiDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={

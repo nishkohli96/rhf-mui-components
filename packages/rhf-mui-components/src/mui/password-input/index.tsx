@@ -164,15 +164,13 @@ ref: Ref<HTMLInputElement>) {
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -210,7 +208,7 @@ ref: Ref<HTMLInputElement>) {
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const newValue = changeEvent.target.value;

@@ -178,15 +178,13 @@ const RHFPhoneInput = <T extends FieldValues>({
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       defaultValue={inputValue as PathValue<T, Path<T>>}
       render={({
         field: {
           name: rhfFieldName,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
+          ref: rhfRef
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -336,7 +334,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }
               aria-required={required}
               error={isError}
-              disabled={rhfDisabled}
+              disabled={muiDisabled}
               slotProps={{
                 ...slotProps,
                 input: {

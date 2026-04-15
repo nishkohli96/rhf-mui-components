@@ -191,18 +191,15 @@ const RHFCheckboxGroup = <
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({ field, fieldState: { error: fieldStateError } }) => {
         const {
           value,
           onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          disabled: rhfDisabled
+          onBlur: rhfOnBlur
         } = field as {
           value: OptionValue<Option, ValueKey>[];
           onChange: (v: OptionValue<Option, ValueKey>[]) => void;
           onBlur: () => void;
-          disabled: boolean;
         };
         const rhfValue = value ?? [];
         const fieldErrorMessage
@@ -286,7 +283,7 @@ const RHFCheckboxGroup = <
                 : String(option);
               const checked = rhfValue.includes(opnValue);
               const isOptionDisabled
-                = rhfDisabled || getOptionDisabled?.(option) || false;
+                = muiDisabled || getOptionDisabled?.(option) || false;
               return (
                 <FormControlLabel
                   key={`${opnValue}-${idx}`}
