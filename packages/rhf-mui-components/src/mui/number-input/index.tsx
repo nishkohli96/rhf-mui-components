@@ -102,14 +102,26 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
-  showMarkers?: boolean;
-  /** When `true`, negative and exponential values are not allowed
+  formLabelProps?: FormLabelProps;
+  /**
+   * When `true`, negative and exponential values are not allowed
    * while typing or pasting.
-   */
+  */
   nonNegative?: boolean;
   maxDecimalPlaces?: number;
+  /**
+   * Show the increment and decrement markers on number input.  Hidden by default.
+   */
+  showMarkers?: boolean;
+  /**
+   * The amount to increase/decrease value when using arrow keys or input steppers
+   */
   stepAmount?: number;
-  formLabelProps?: FormLabelProps;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -137,13 +149,13 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   hideErrorMessage,
   formHelperTextProps,
   sx: muiSx,
-  onBlur,
+  onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
-  slotProps,
+  slotProps: muiSlotProps,
   customIds,
   onKeyDown,
   onPaste,
-  ...rest
+  ...restTextFieldProps
 }: RHFNumberInputProps<T>, ref: Ref<HTMLInputElement>) {
   const {
     fieldId,
@@ -236,6 +248,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               />
             )}
             <MuiTextField
+              {...restTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               type="number"
@@ -275,30 +288,28 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
+                muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
               }}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
               slotProps={{
-                ...slotProps,
+                ...muiSlotProps,
                 htmlInput: {
+                  ...muiSlotProps?.htmlInput,
+                  'aria-labelledby':
+                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined,
+                  'aria-required': required,
                   ...(nonNegative ? { min: 0 } : {}),
-                  ...slotProps?.htmlInput,
+                  ...muiSlotProps?.htmlInput,
                   step: stepAmount
                 }
               }}
               error={isError}
-              aria-labelledby={
-                !hideLabel && isLabelAboveFormField ? labelId : undefined
-              }
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
               sx={{
                 ...(!showMarkers && {
                   '& input[type=number]': {
@@ -309,7 +320,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                 }),
                 ...muiSx,
               }}
-              {...rest}
               multiline={false}
             />
             <FormHelperText

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
@@ -148,7 +149,6 @@ const InputsWithRegisterForm = () => {
               placeholder="Enter a secure password"
               hideLabel
               required
-              errorMessage={errors?.password?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -173,7 +173,6 @@ const InputsWithRegisterForm = () => {
               hidePasswordIcon={<VisibilityTwoToneIcon />}
               showLabelAboveFormField
               required
-              errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -181,7 +180,6 @@ const InputsWithRegisterForm = () => {
             <RHFNumberInput
               fieldName="age"
               control={control}
-              errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
               nonNegative
@@ -193,8 +191,6 @@ const InputsWithRegisterForm = () => {
             <RHFNumberInput
               fieldName="weight"
               control={control}
-              errorMessage={errors?.weight?.message}
-              variant="filled"
               maxDecimalPlaces={3}
               placeholder="Enter your weight"
               stepAmount={2}
@@ -205,6 +201,11 @@ const InputsWithRegisterForm = () => {
                   Press Arrow Up/Down keys to update input value; negative values are not allowed
                 </Typography>
               }
+              slotProps={{
+                input: {
+                  endAdornment: <InputAdornment position="end">kg</InputAdornment>
+                }
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
