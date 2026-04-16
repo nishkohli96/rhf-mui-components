@@ -191,7 +191,10 @@ const RHFCheckboxGroup = <
       name={fieldName}
       control={control}
       rules={registerOptions}
-      render={({ field, fieldState: { error: fieldStateError } }) => {
+      render={({
+        field,
+        fieldState: { error: fieldStateError }
+      }) => {
         const {
           value,
           onChange: rhfOnChange,

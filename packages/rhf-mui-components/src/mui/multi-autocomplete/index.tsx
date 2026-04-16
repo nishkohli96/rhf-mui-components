@@ -265,7 +265,6 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
       name={fieldName}
       control={control}
       rules={registerOptions}
-      disabled={muiDisabled}
       render={({
         field: {
           name: rhfFieldName,
