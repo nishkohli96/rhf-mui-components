@@ -178,8 +178,8 @@ const PropsDescription: Record<
   customOnChange_Inputs: {
     name: 'customOnChange',
     description:
-      'Override the default `onChange` behavior of the input. You must pass the updated `event.target.value` to the **rhfOnChange** function to update the field value.',
-    type: '(rhfOnChange, event) => void'
+      'Override the default `onChange` behavior of the input. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event }) => void'
   },
   customOnChange_Select: {
     name: 'customOnChange',
@@ -247,17 +247,11 @@ const PropsDescription: Record<
       'Specifies the maximum number of tags that can be added to the input. Once the limit is reached, no further tags can be added.',
     type: 'number'
   },
-  onValueChange_Default_v1: {
-    name: 'onValueChange',
-    description:
-      'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
-    type: '(e: ChangeEvent) => void'
-  },
   onValueChange_Inputs: {
     name: 'onValueChange',
     description:
       'An optional callback function when the value of a field changes.',
-    type: '(value: string, event: ChangeEvent) => void'
+    type: '({ newValue, event }) => void'
   },
   onValueChange_numberInput: {
     name: 'onValueChange',

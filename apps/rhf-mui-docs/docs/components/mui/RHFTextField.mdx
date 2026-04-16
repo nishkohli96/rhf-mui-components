@@ -26,11 +26,10 @@ To render a fully functional `RHFTextField`, you only need 3-4 essential props.
 <RHFTextField
   fieldName="firstName"
   control={control}
-  customOnChange={(rhfOnChange, event) => {
+  customOnChange={({ rhfOnChange, newValue }) => {
     /* Auto capitalize input text */
-    rhfOnChange(e.target.value.toUppercase());
+    rhfOnChange(newValue.toUppercase());
   }}
-  errorMessage={errors?.firstName?.message}
 />
 ```
 

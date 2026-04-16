@@ -18,8 +18,8 @@ const RHFPasswordInputPropsTable = ({
     PropsDescription.registerOptions,
     ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     ...(!v1
-      ? [PropsDescription.onValueChange_Inputs]
-      : [PropsDescription.onValueChange_Default_v1]),
+      ? [LegacyPropsDescription.onValueChange_Inputs_v2_v3]
+      : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion

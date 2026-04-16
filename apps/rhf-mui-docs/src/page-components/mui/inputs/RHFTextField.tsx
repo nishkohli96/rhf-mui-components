@@ -18,25 +18,28 @@ const RHFTextFieldPropsTable = ({
     PropsDescription.registerOptions,
     ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     ...(!v1
-      ? [PropsDescription.onValueChange_Inputs]
-      : [PropsDescription.onValueChange_Default_v1]),
+      ? v4AndAbove
+        ? [PropsDescription.onValueChange_Inputs]
+        : [LegacyPropsDescription.onValueChange_Inputs_v2_v3]
+      : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
+    ...(v4AndAbove ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)] : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
     ),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
-    PropsDescription.hideErrorMessage,
+   ...(v4AndAbove ? [] : [PropsDescription.hideErrorMessage]),
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )
+    ),
+    PropsDescription.customIds
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

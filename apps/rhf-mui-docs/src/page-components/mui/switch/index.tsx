@@ -26,7 +26,7 @@ const RHFSwitchPropsTable = ({
           muiVersion
         ),
       ]
-      : [PropsDescription.onValueChange_Default_v1, LegacyPropsDescription.label_v1]),
+      : [LegacyPropsDescription.label_v1, LegacyPropsDescription.label_v1]),
     getPropByDocsAndMuiVersion(
       PropsDescription.formControlLabelProps,
       docsVersion,

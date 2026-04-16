@@ -25,7 +25,7 @@ const RHFNativeSelectPropsTable = ({
       : [
         PropsDescription.defaultValue,
         PropsDescription.showDefaultOption,
-        PropsDescription.onValueChange_Default_v1
+        LegacyPropsDescription.label_v1
       ]),
     ...(v4AndAbove
       ? [PropsDescription.renderOption, PropsDescription.getOptionDisabled]

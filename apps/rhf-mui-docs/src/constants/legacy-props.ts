@@ -38,6 +38,18 @@ const LegacyPropsDescription: Record<
       'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
     type: 'ReactNode'
   },
+  onValueChange_Default_v1: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
+    type: '(e: ChangeEvent) => void'
+  },
+  onValueChange_Inputs_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function when the value of a field changes.',
+    type: '(value: string, event: ChangeEvent) => void'
+  },
 });
 
 export default LegacyPropsDescription;
