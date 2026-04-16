@@ -10,7 +10,7 @@ import { ExternalLinks } from '@site/src/constants';
 # Introduction
 Easily design forms in minutes using the popular [react-hook-form](https://react-hook-form.com/)
 library alongside [Material-UI](https://mui.com/material-ui/getting-started/).
-This package provides a suite of **20+ reusable and customizable components**, specifically designed
+This package provides a suite of **25+ reusable and customizable components**, specifically designed
 to simplify form creation. Each component handles internal form logic and UI rendering seamlessly,
 minimizing code duplication and empowering developers to style form fields in alignment with their
 website's design guidelines.
@@ -37,8 +37,8 @@ Ensure that you also have installed [Material UI](https://www.npmjs.com/package/
 If not, refer to the [installation guide](https://mui.com/material-ui/getting-started/installation/). 
 For datepickers, follow the [installation guide](https://mui.com/x/react-date-pickers/getting-started/) 
 to install [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
-The form components are compatible with [v6](https://v6.mui.com/material-ui/)
-and [v7](https://mui.com/material-ui/) of material-ui.
+The form components are compatible with [v6](https://v6.mui.com/material-ui/), [v7](https://v7.mui.com/material-ui/)
+and [v9](https://mui.com/material-ui/) of material-ui.
 
 If your current project is using **MUI** [v5](https://v5.mui.com/material-ui/),
 it is highly recommended to upgrade to the latest version to take advantage
@@ -67,9 +67,11 @@ add the following rule to your `webpack.config.js`:
 module.exports = {
   module: {
     rules: [
-      test: /\.m?js$/,
-      resolve: {
-        fullySpecified: false
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false
+        }
       }
     ]
   }
@@ -82,7 +84,7 @@ The table below outlines this package’s compatibility with various versions of
 
 | Package Version | MUI Versions | @mui/x-date-pickers Versions |
 |-|-|-|
-| `v4` | [v6](https://v6.mui.com/material-ui/), [v7](https://v7.mui.com/material-ui/) | [v7](https://v7.mui.com/x/react-date-pickers/), [v8](https://mui.com/x/react-date-pickers) |
+| `v4` | [v6](https://v6.mui.com/material-ui/), [v7](https://v7.mui.com/material-ui/), [v9](https://mui.com/material-ui/) | [v7](https://v7.mui.com/x/react-date-pickers/), [v8](https://v8.mui.com/x/react-date-pickers), [v9](https://mui.com/x/react-date-pickers) |
 | `v3` | [v5](https://v5.mui.com/material-ui/), [v6](https://v6.mui.com/material-ui/), [v7](https://v7.mui.com/material-ui/) | [v6](https://v6.mui.com/x/react-date-pickers/), [v7](https://v7.mui.com/x/react-date-pickers/), [v8](https://mui.com/x/react-date-pickers) |
 | `v2`(**deprecated**) | [v5](https://v5.mui.com/material-ui/), [v6](https://v6.mui.com/material-ui/) | [v6](https://v6.mui.com/x/react-date-pickers/), [v7](https://v7.mui.com/x/react-date-pickers/) |
 | `v1`(**deprecated**) | [v5](https://v5.mui.com/material-ui/) | [v6](https://v6.mui.com/x/react-date-pickers/) |

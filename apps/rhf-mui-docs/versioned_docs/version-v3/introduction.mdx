@@ -27,10 +27,10 @@ bug fix by contacting the author of this package.
 To get started, install [react-hook-form](https://www.npmjs.com/package/react-hook-form) and [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components).
 
 ```
-npm i react-hook-form @nish1896/rhf-mui-components
+npm i react-hook-form @nish1896/rhf-mui-components@3.3.3
 ```
 ```
-yarn add react-hook-form @nish1896/rhf-mui-components
+yarn add react-hook-form @nish1896/rhf-mui-components@3.3.3
 ```
 
 Ensure that you also have installed [Material UI](https://www.npmjs.com/package/@mui/material). 
@@ -48,6 +48,28 @@ npm i @hookform/resolvers joi
 ```
 ```
 yarn add @hookform/resolvers joi
+```
+
+### Usage with Webpack
+
+From **v3 onwards**, this package is **ESM-only**.
+
+If you're using React with Webpack and encounter module resolution errors,
+add the following rule to your `webpack.config.js`:
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false
+        }
+      }
+    ]
+  }
+}
 ```
 
 ## Version Compatibility
