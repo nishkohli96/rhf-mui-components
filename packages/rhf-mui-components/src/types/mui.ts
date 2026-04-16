@@ -35,6 +35,7 @@ export type FormHelperTextProps = Omit<
 
 export type TextFieldProps = Omit<
   MuiTextFieldProps,
+  | 'id'
   | 'name'
   | 'value'
   | 'defaultValue'

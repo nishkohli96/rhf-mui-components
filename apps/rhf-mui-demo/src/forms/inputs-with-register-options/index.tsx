@@ -108,7 +108,6 @@ const InputsWithRegisterForm = () => {
                   message: maxCharMsg(10)
                 }
               }}
-              errorMessage={errors?.lastName?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

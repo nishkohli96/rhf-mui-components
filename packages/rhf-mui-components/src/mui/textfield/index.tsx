@@ -69,6 +69,11 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -92,10 +97,11 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     errorMessage,
     hideErrorMessage,
     formHelperTextProps,
-    onBlur,
+    onBlur: muiOnBlur,
     autoComplete = defaultAutocompleteValue,
+    slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...restTextFieldProps
   }: RHFTextFieldProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -149,13 +155,16 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               />
             )}
             <MuiTextField
+              {...restTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}
               autoComplete={autoComplete}
               label={
                 !hideLabel && !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
                   : undefined
               }
               value={rhfValue ?? ''}
@@ -171,21 +180,23 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={
-                !hideLabel && isLabelAboveFormField ? labelId : undefined
-              }
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
-              {...rest}
+              slotProps={{
+                ...muiSlotProps,
+                htmlInput: {
+                  ...muiSlotProps?.htmlInput,
+                  'aria-labelledby':
+                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined,
+                  'aria-required': required
+                }
+              }}
             />
             <FormHelperText
               error={isError}

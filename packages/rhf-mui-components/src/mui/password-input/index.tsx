@@ -92,6 +92,11 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   formLabelProps?: FormLabelProps;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -118,11 +123,11 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  slotProps,
-  onBlur,
+  slotProps: muiSlotProps,
+  onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   customIds,
-  ...rest
+  ...restTextFieldProps
 }: RHFPasswordInputProps<T>,
 ref: Ref<HTMLInputElement>) {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
@@ -197,6 +202,7 @@ ref: Ref<HTMLInputElement>) {
               />
             )}
             <TextField
+              {...restTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}
@@ -204,7 +210,9 @@ ref: Ref<HTMLInputElement>) {
               type={showPassword ? 'text' : 'password'}
               label={
                 !hideLabel && !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
+                  ? (
+                    <FormLabelText label={fieldLabel} required={required} />
+                  )
                   : undefined
               }
               value={rhfValue ?? ''}
@@ -225,28 +233,32 @@ ref: Ref<HTMLInputElement>) {
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
+                muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
               }}
               error={isError}
-              aria-labelledby={
-                !hideLabel && isLabelAboveFormField ? labelId : undefined
-              }
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
               slotProps={{
-                ...slotProps,
+                ...muiSlotProps,
+                htmlInput: {
+                  ...muiSlotProps?.htmlInput,
+                  'aria-labelledby':
+                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined,
+                  'aria-required': required
+                },
                 input: {
-                  ...slotProps?.input,
-                  endAdornment
+                  ...muiSlotProps?.input,
+                  endAdornment: (
+                    <>
+                      {(muiSlotProps?.input as { endAdornment?: ReactNode })?.endAdornment}
+                      {endAdornment}
+                    </>
+                  )
                 }
               }}
-              {...rest}
               multiline={false}
             />
             <FormHelperText
