@@ -1,5 +1,5 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
 import {
   getPropByDocsAndMuiVersion,
@@ -13,7 +13,7 @@ const RHFDatePickerPropsTable = ({
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
+    ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
     PropsDescription.registerOptions,
     ...(!v1
       ? [
@@ -26,9 +26,9 @@ const RHFDatePickerPropsTable = ({
         ),
       ]
       : [
-        PropsDescription.setValue,
+        LegacyPropsDescription.setValue,
         PropsDescription.onValueChange_Pickers_v1,
-        PropsDescription.label_v1
+        LegacyPropsDescription.label_v1
       ]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,

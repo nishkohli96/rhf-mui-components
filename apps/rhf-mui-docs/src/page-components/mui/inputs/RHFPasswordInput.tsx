@@ -1,5 +1,5 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
 import {
   getPropByDocsAndMuiVersion,
@@ -14,7 +14,7 @@ const RHFPasswordInputPropsTable = ({
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
+    ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
     PropsDescription.registerOptions,
     ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     ...(!v1

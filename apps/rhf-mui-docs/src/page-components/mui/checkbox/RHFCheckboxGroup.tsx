@@ -20,7 +20,7 @@ const RHFCheckboxGroupPropsTable = ({
       PropsDescription.labelKey,
       PropsDescription.valueKey,
       PropsDescription.onValueChange_CheckboxGroup_v1,
-      PropsDescription.label_v1,
+      LegacyPropsDescription.label_v1,
       getPropDetailsByVersion(
         PropsDescription.showLabelAboveFormField,
         muiVersion

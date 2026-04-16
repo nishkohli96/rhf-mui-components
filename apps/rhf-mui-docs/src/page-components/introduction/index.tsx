@@ -1,5 +1,5 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
 import {
   getPropDetailsByVersion,
@@ -14,25 +14,30 @@ const IntroductionPageTable = ({
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(v1 ? [PropsDescription.register] : []),
+    ...(v1 ? [LegacyPropsDescription.register] : []),
     PropsDescription.control,
     PropsDescription.registerOptions,
     ...(!v1
       ? [PropsDescription.required, PropsDescription.disabled]
-      : [PropsDescription.setValue]),
+      : [LegacyPropsDescription.setValue]),
     ...(v4AndAbove ? [PropsDescription.customOnChange] : []),
     PropsDescription.onValueChange,
     ...(!v1
-      ? [getPropByDocsAndMuiVersion(
-        PropsDescription.label,
-        docsVersion,
-        muiVersion
-      ),]
-      : [PropsDescription.label_v1]),
+      ? [
+          getPropByDocsAndMuiVersion(
+            PropsDescription.label,
+            docsVersion,
+            muiVersion
+          )
+        ]
+      : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
+      : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
@@ -43,17 +48,17 @@ const IntroductionPageTable = ({
       docsVersion,
       muiVersion
     ),
-    getPropDetailsByVersion(
-      PropsDescription.helperText,
-      muiVersion
-    ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    getPropDetailsByVersion(PropsDescription.helperText, muiVersion),
+    ...(v4AndAbove
+      ? []
+      : [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )
+    ),
+    ...(v4AndAbove ? [PropsDescription.customIds] : []),
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} />;

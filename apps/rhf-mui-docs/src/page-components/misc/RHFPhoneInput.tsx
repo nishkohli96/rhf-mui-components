@@ -28,7 +28,7 @@ const RHFPhoneInputPropsTable = ({
           muiVersion
         )
       ]
-      : [PropsDescription.label_v1]),
+      : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion

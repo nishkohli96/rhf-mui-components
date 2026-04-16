@@ -31,7 +31,7 @@ const RHFRatingPropsTable = ({
       ]
       : [
         PropsDescription.onValueChange_Rating_v1,
-        PropsDescription.label_v1,
+        LegacyPropsDescription.label_v1,
         PropsDescription.showLabelAboveFormField
       ]),
     getPropByDocsAndMuiVersion(

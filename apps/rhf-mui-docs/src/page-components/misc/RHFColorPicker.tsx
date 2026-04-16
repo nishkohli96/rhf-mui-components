@@ -28,7 +28,7 @@ const RHFColorPickerPropsTable = ({ docsVersion, muiVersion, v1 }: VersionProps)
         docsVersion,
         muiVersion
       ),]
-      : [PropsDescription.label_v1]
+      : [LegacyPropsDescription.label_v1]
     ),
     PropsDescription.showLabelAboveFormField_Default,
     getPropByDocsAndMuiVersion(

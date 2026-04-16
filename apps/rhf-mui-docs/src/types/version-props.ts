@@ -1,6 +1,6 @@
 export type DocsVersion = 1 | 2 | 3;
-export type MuiVersion = 5 | 6;
-export type MuiXVersion = 6 | 7;
+export type MuiVersion = 5 | 6 | 7;
+export type MuiXVersion = 6 | 7 | 8;
 
 export type VersionProps = {
   docsVersion?: DocsVersion;

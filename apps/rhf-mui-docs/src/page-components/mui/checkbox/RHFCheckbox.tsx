@@ -28,7 +28,7 @@ const RHFCheckboxPropsTable = ({
       ]
       : [
         PropsDescription.onValueChange_Checkbox_v1,
-        PropsDescription.label_v1
+        LegacyPropsDescription.label_v1
       ]),
     getPropByDocsAndMuiVersion(
       PropsDescription.formControlLabelProps,

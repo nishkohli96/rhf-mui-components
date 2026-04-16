@@ -39,7 +39,7 @@ const RHFRadioGroupPropsTable = ({
       ]
       : [
         PropsDescription.onValueChange_CheckboxGroup_v1,
-        PropsDescription.label_v1
+        LegacyPropsDescription.label_v1
       ]),
     PropsDescription.showLabelAboveFormField_Default,
     getPropByDocsAndMuiVersion(

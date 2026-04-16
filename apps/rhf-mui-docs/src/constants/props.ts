@@ -17,13 +17,6 @@ const PropsDescription: Record<
     required: true,
     type: 'string'
   },
-  register: {
-    name: 'register',
-    description: `The [register](${ExternalLinks.rhfApi.register}) option yielded on calling the \`useForm\` hook.`,
-    required: true,
-    type: `[UseFormRegister](${ExternalLinks.rhfApi.register})`,
-    hasLinkInType: true
-  },
   control: {
     name: 'control',
     description: `The [control](${ExternalLinks.rhfApi.control}) option yielded on calling the [useForm](${ExternalLinks.rhfApi.useForm}) hook.`,
@@ -86,12 +79,6 @@ const PropsDescription: Record<
     type: 'string',
     required: true
   },
-  setValue: {
-    name: 'setValue',
-    description: `The [setValue](${ExternalLinks.rhfApi.setValue}) option yielded on calling the \`useForm\` hook.`,
-    required: true,
-    type: '(name: string, value: unknown, config?: Object) => void'
-  },
   customOnChange: {
     name: 'customOnChange',
     description:
@@ -109,12 +96,12 @@ const PropsDescription: Record<
     description: `The text to render in the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
     type: 'ReactNode'
   }),
-  label_v1: {
-    name: 'label',
+  hideLabel: (muiVersion?: MuiVersion) => ({
+    name: 'hideLabel',
     description:
-      'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
-    type: 'ReactNode'
-  },
+      `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default field label or prefer to render a fully custom label instead.`,
+    type: 'boolean'
+  }),
   renderOptionLabel: {
     name: 'renderOptionLabel',
     description:
@@ -152,12 +139,6 @@ const PropsDescription: Record<
     description: 'Renders the form label above the field by default.',
     type: 'boolean'
   },
-  hideLabel: {
-    name: 'hideLabel',
-    description:
-      'Hides both the `FormLabel` text and the component’s default label, enabling you to render a fully custom form label component instead.',
-    type: 'boolean'
-  },
   helperText: (muiVersion?: MuiVersion) => ({
     name: 'helperText',
     description:
@@ -188,6 +169,11 @@ const PropsDescription: Record<
     name: 'renderOption',
     description: 'Render the option content',
     type: 'function (option) => ReactNode'
+  },
+  customIds: {
+    name: 'customIds',
+    description: 'Overrides the values of default `id`, `labelId`, `helperTextId`, and `errorId` for each form field component to improve accessibility.',
+    type: '{field, label, helperText, error}'
   },
   customOnChange_Inputs: {
     name: 'customOnChange',

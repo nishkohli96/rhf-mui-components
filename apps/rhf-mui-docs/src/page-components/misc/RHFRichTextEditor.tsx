@@ -19,7 +19,7 @@ const RHFRichTextEditorPropsTable = ({
         PropsDescription.registerOptions,
         PropsDescription.required
       ]
-      : [PropsDescription.setValue]),
+      : [LegacyPropsDescription.setValue]),
     PropsDescription.id_Rte,
     PropsDescription.editorConfig,
     PropsDescription.onReady_Rte,
@@ -42,7 +42,7 @@ const RHFRichTextEditorPropsTable = ({
         PropsDescription.showLabelAboveFormField_Default,
         PropsDescription.hideLabel
       ]
-      : [PropsDescription.label_v1]),
+      : [LegacyPropsDescription.label_v1]),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,

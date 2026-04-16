@@ -1,5 +1,5 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
 import {
   getPropByDocsAndMuiVersion,
@@ -14,7 +14,7 @@ const RHFNativeSelectPropsTable = ({
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? [PropsDescription.control] : [PropsDescription.register]),
+    ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
     PropsDescription.registerOptions,
     PropsDescription.options,
     PropsDescription.labelKey,
@@ -49,7 +49,7 @@ const RHFNativeSelectPropsTable = ({
           muiVersion
         )
       ]
-      : [PropsDescription.label_v1]),
+      : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
