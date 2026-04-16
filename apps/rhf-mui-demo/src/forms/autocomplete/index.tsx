@@ -251,6 +251,29 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
+              renderValue={value => {
+                return (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {value.map(item => {
+                      return (
+                        <Chip
+                          key={item.id}
+                          label={item.name}
+                          avatar={
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={30}
+                              height={30}
+                              style={{ objectFit: 'contain' }}
+                            />
+                          }
+                        />
+                      );
+                    })}
+                  </Box>
+                );
+              }}
               textFieldProps={{ variant: 'standard' }}
               errorMessage={errors?.pokemons?.message}
             />

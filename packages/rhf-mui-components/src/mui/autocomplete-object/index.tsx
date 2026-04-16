@@ -254,7 +254,14 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
               id={fieldId}
               options={options}
               multiple={multiple}
-              value={rhfValue}
+              value={
+                (rhfValue ?? (multiple ? [] : null)) as AutocompleteValue<
+                  Option,
+                  Multiple,
+                  DisableClearable,
+                  false
+                >
+              }
               disabled={muiDisabled}
               onChange={(
                 event,

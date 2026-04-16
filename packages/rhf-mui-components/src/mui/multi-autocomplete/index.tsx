@@ -492,7 +492,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   />
                 );
               }}
-              renderOption={(optionProps, option, state) => {
+              renderOption={({ key, ...optionProps }, option, state) => {
                 const isSelectAll = isSelectAllOption(option);
                 const optionLabel = displayOptionLabel(option);
                 const optionValue = isSelectAll
@@ -500,7 +500,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   : getOptionLabelOrValue(option, valueKey);
                 const isOptionDisabled = getOptionDisabled?.(option) || muiDisabled;
                 return (
-                  <Box component="li" {...optionProps}>
+                  <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
                       label={
                         renderOptionLabel?.(option, selectAllText, state)

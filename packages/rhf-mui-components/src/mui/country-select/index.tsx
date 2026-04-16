@@ -384,11 +384,12 @@ ref: Ref<HTMLInputElement>) {
                   />
                 );
               }}
-              renderOption={(props, option) => (
+              renderOption={({ key, ...optionProps }, option) => (
                 <Box
                   component="li"
+                  key={key}
                   sx={{ display: 'flex', alignItems: 'center' }}
-                  {...props}
+                  {...optionProps}
                 >
                   {renderOptionLabel?.(option) ?? (
                     <CountryMenuItem countryInfo={option} />
