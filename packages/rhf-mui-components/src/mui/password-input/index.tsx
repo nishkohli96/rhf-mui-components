@@ -78,7 +78,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    * `onValueChange` is not invoked when this callback is provided.
    *
    * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - Current input string value
+   * @param newValue - Updated input string value
    * @param event - Change event from the underlying `<input>`
    */
   customOnChange?: ({

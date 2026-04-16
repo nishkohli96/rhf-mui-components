@@ -12,11 +12,13 @@ const RHFTextFieldPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
-  const binding = v1 ? LegacyPropsDescription.register : PropsDescription.control;
-  const valueChange = v1
-    ? LegacyPropsDescription.label_v1
-    : v4AndAbove
-      ? PropsDescription.onValueChange_Inputs
+  const binding = !v1
+    ? PropsDescription.control
+    : LegacyPropsDescription.register;
+  const valueChange = v4AndAbove
+    ? PropsDescription.onValueChange_Inputs
+    : v1
+      ? LegacyPropsDescription.label_v1
       : LegacyPropsDescription.onValueChange_Inputs_v2_v3;
 
   const tableRows = [
@@ -37,14 +39,16 @@ const RHFTextFieldPropsTable = ({
       docsVersion,
       muiVersion
     ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
-    ...(!v4AndAbove ? [PropsDescription.hideErrorMessage] : []),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
+      : []),
+    PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
     ),
-    ...(v4AndAbove ? [PropsDescription.customIds] : []),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

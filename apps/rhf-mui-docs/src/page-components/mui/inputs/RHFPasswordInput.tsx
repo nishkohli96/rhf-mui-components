@@ -12,19 +12,28 @@ const RHFPasswordInputPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
+  const binding = !v1
+    ? PropsDescription.control
+    : LegacyPropsDescription.register;
+  const valueChange = v4AndAbove
+    ? PropsDescription.onValueChange_Inputs
+    : v1
+      ? LegacyPropsDescription.label_v1
+      : LegacyPropsDescription.onValueChange_Inputs_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
+    binding,
     PropsDescription.registerOptions,
     ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
-    ...(!v1
-      ? [LegacyPropsDescription.onValueChange_Inputs_v2_v3]
-      : [LegacyPropsDescription.label_v1]),
+    valueChange,
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
+      : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
@@ -32,13 +41,16 @@ const RHFPasswordInputPropsTable = ({
     ),
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
+      : []),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )
+    ),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
