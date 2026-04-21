@@ -190,9 +190,18 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     ? Math.max(1, Math.floor(stepAmount))
     : stepAmount;
 
+  if (onlyIntegers && maxDecimalPlaces !== undefined) {
+    console.warn(
+      'RHFNumberInput: "onlyIntegers" and "maxDecimalPlaces" props cannot be used together'
+    );
+  }
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
       if (onlyIntegers && (e.key === '.' || e.code === 'Period' || e.code === 'NumpadDecimal')) {
+        e.preventDefault();
+      }
+      if (e.key === 'e' || e.key === 'E' || e.key === '+') {
         e.preventDefault();
       }
       if (nonNegative) {
@@ -204,27 +213,44 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         ) {
           e.preventDefault();
         }
-        if (e.key === 'e' || e.key === 'E') {
-          e.preventDefault();
+      } else {
+        /**
+         * Allow only one leading minus.
+         * Note: selectionStart is always null for type="number" (MDN spec),
+         * so cursor-position checks are unavailable. We use two proxy checks:
+         *  • input.value !== '' → a valid numeric value already occupies
+         *    the field; a minus at any position would be invalid
+         *  • input.validity.badInput → the field is in a partial/invalid
+         *    in-progress state (e.g. user has only typed "-"); a second
+         *    minus would produce "--" or "-23-"
+         */
+        if (
+          e.key === '-'
+          || e.code === 'Minus'
+          || e.code === 'NumpadSubtract'
+        ) {
+          const input = e.target as HTMLInputElement;
+          if (input.value !== '' || input.validity.badInput) {
+            e.preventDefault();
+          }
         }
       }
+
       onKeyDown?.(e);
     },
-    [nonNegative, onKeyDown]
+    [nonNegative, onlyIntegers, onKeyDown]
   );
 
   const handlePaste = useCallback(
     (e: ClipboardEvent<HTMLInputElement>) => {
-      const paste = e.clipboardData.getData('text');
-      if (nonNegative) {
-        if (paste.includes('-') || paste.includes('e') || paste.includes('E')) {
-          e.preventDefault();
-          return;
-        }
+      const paste = e.clipboardData.getData('text').trim();
+      if (paste !== '' && !decimalPattern.test(paste)) {
+        e.preventDefault();
+        return;
       }
       onPaste?.(e);
     },
-    [nonNegative, onPaste]
+    [decimalPattern, onPaste]
   );
 
   return (
@@ -286,7 +312,18 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               disabled={muiDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
-                const inputValue = changeEvent.target.value;
+                const { value: inputValue, validity } = changeEvent.target;
+
+                /**
+                 * type="number" reports value="" for ANY invalid input
+                 * (e.g. "2.3.4", "-23-", partial states). validity.badInput
+                 * is the only reliable way to tell "user typed something wrong"
+                 * apart from "user intentionally cleared the field" (MDN).
+                 * Returning early protects form state from being wiped to null
+                 * when the browser silently discards an invalid intermediate value.
+                 */
+                if (validity.badInput) return;
+
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
                   const parsed = inputValue === '' ? null : (
                     onlyIntegers ? parseInt(inputValue, 10) : Number(inputValue)

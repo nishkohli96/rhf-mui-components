@@ -176,13 +176,15 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
+            <FieldVariantInfo title="Number Input with integer value & Typography as a helper text" />
             <RHFNumberInput
               fieldName="age"
               control={control}
               variant="filled"
               placeholder="What is your age?"
               nonNegative
+              onlyIntegers
+              onFocus={e => e.target.select()}
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
