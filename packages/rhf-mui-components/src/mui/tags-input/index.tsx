@@ -86,6 +86,11 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -96,40 +101,44 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
-const RHFTagsInputInner = forwardRef(function RHFTagsInput<T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  onTagAdd,
-  onTagDelete,
-  onTagPaste,
-  delimiter = ',',
-  maxTags,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  hideLabel,
-  formLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  ChipProps,
-  sx: muiTextFieldSx,
-  variant = 'outlined',
-  limitTags = 2,
-  getLimitTagsText,
-  slotProps,
-  onFocus,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  renderTagLabel,
-  customIds,
-  ...rest
-}: RHFTagsInputProps<T>,
-ref: Ref<HTMLInputElement>) {
+const RHFTagsInputInner = forwardRef(function RHFTagsInput<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    onTagAdd,
+    onTagDelete,
+    onTagPaste,
+    delimiter = ',',
+    maxTags,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    hideLabel,
+    formLabelProps,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    ChipProps,
+    sx: muiTextFieldSx,
+    variant = 'outlined',
+    limitTags = 2,
+    getLimitTagsText,
+    slotProps: muiSlotProps,
+    onFocus,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    renderTagLabel,
+    customIds,
+    ...rest
+  }: RHFTagsInputProps<T>,
+  ref: Ref<HTMLInputElement>
+) {
   const muiTheme = useTheme();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -183,16 +192,12 @@ ref: Ref<HTMLInputElement>) {
   };
   const textFieldPadding = getTextFieldPadding(variant);
 
-  const handleFocus = (
-    e: FocusEvent<HTMLInputElement>
-  ) => {
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
     setIsFocused(true);
     onFocus?.(e);
   };
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
@@ -237,7 +242,9 @@ ref: Ref<HTMLInputElement>) {
             }
             const result = onTagAdd?.(tag, value);
             if (result !== false) {
-              const finalTag = (typeof result === 'string' ? result : tag).trim();
+              const finalTag = (
+                typeof result === 'string' ? result : tag
+              ).trim();
               if (
                 ![...value, ...processedTags].some(
                   v => normalizeString(v) === normalizeString(finalTag)
@@ -281,9 +288,7 @@ ref: Ref<HTMLInputElement>) {
         .filter(
           tag =>
             tag
-            && !value.some(
-              v => normalizeString(v) === normalizeString(tag)
-            )
+            && !value.some(v => normalizeString(v) === normalizeString(tag))
         );
 
       /* External hook for paste validation/modification */
@@ -422,17 +427,6 @@ ref: Ref<HTMLInputElement>) {
               }}
               disabled={muiDisabled}
               error={isError}
-              aria-labelledby={
-                !hideLabel && isLabelAboveFormField ? labelId : undefined
-              }
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
               sx={{
                 ...muiTextFieldSx,
                 '& .MuiInputBase-root': {
@@ -446,8 +440,19 @@ ref: Ref<HTMLInputElement>) {
                 }
               }}
               slotProps={{
-                ...slotProps,
-                input: { ...slotProps?.input, startAdornment }
+                ...muiSlotProps,
+                input: { ...muiSlotProps?.input, startAdornment },
+                htmlInput: {
+                  ...muiSlotProps?.htmlInput,
+                  'aria-labelledby':
+                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined,
+                  'aria-required': required,
+                }
               }}
               {...rest}
               multiline={false}

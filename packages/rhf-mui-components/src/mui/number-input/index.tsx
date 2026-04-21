@@ -213,7 +213,12 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         ) {
           e.preventDefault();
         }
-      } else {
+      }
+      if (
+        e.key === '-'
+        || e.code === 'Minus'
+        || e.code === 'NumpadSubtract'
+      ) {
         /**
          * Allow only one leading minus.
          * Note: selectionStart is always null for type="number" (MDN spec),
@@ -224,15 +229,9 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
          *    in-progress state (e.g. user has only typed "-"); a second
          *    minus would produce "--" or "-23-"
          */
-        if (
-          e.key === '-'
-          || e.code === 'Minus'
-          || e.code === 'NumpadSubtract'
-        ) {
-          const input = e.target as HTMLInputElement;
-          if (input.value !== '' || input.validity.badInput) {
-            e.preventDefault();
-          }
+        const input = e.target as HTMLInputElement;
+        if (input.value !== '' || input.validity.badInput) {
+          e.preventDefault();
         }
       }
 
@@ -322,12 +321,16 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                  * Returning early protects form state from being wiped to null
                  * when the browser silently discards an invalid intermediate value.
                  */
-                if (validity.badInput) return;
+                if (validity.badInput) {
+                  return;
+                }
 
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
-                  const parsed = inputValue === '' ? null : (
-                    onlyIntegers ? parseInt(inputValue, 10) : Number(inputValue)
-                  );
+                  const parsed = inputValue === ''
+                    ? null
+                    : (
+                      onlyIntegers ? parseInt(inputValue, 10) : Number(inputValue)
+                    );
                   const safeValue = Number.isNaN(parsed) ? null : parsed;
                   if (customOnChange) {
                     customOnChange({ rhfOnChange, newValue: safeValue, event: changeEvent });
