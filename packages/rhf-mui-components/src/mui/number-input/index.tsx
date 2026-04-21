@@ -67,9 +67,13 @@ type TextFieldInputProps = Omit<
  */
 export function buildNumberInputDecimalPattern(
   nonNegative: boolean,
-  maxDecimalPlaces?: number
+  onlyIntegers: boolean,
+  maxDecimalPlaces?: number,
 ): RegExp {
   const sign = nonNegative ? '' : '-?';
+  if (onlyIntegers) {
+    return new RegExp(`^${sign}\\d+$`);
+  }
   if (maxDecimalPlaces !== undefined) {
     const n = Math.max(0, Math.floor(maxDecimalPlaces));
     return new RegExp(`^${sign}\\d*(\\.\\d{0,${n}})?$`);
@@ -104,6 +108,11 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   /**
+   * When `true`, only integer values are allowed. Decimal input is blocked.
+   * Cannot be used together with `maxDecimalPlaces`.
+   */
+  onlyIntegers?: boolean;
+  /**
    * When `true`, negative and exponential values are not allowed
    * while typing or pasting.
   */
@@ -137,12 +146,13 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
+  formLabelProps,
   hideLabel,
   showMarkers,
+  onlyIntegers = false,
   nonNegative = false,
   maxDecimalPlaces,
   stepAmount = 1,
-  formLabelProps,
   required,
   helperText,
   errorMessage,
@@ -172,12 +182,19 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const decimalPattern = useMemo(
-    () => buildNumberInputDecimalPattern(nonNegative, maxDecimalPlaces),
-    [nonNegative, maxDecimalPlaces]
+    () => buildNumberInputDecimalPattern(nonNegative, onlyIntegers, maxDecimalPlaces),
+    [nonNegative, onlyIntegers, maxDecimalPlaces]
   );
+
+  const resolvedStepAmount = onlyIntegers
+    ? Math.max(1, Math.floor(stepAmount))
+    : stepAmount;
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
+      if (onlyIntegers && (e.key === '.' || e.code === 'Period' || e.code === 'NumpadDecimal')) {
+        e.preventDefault();
+      }
       if (nonNegative) {
         if (
           e.key === '-'
@@ -271,15 +288,12 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const inputValue = changeEvent.target.value;
                 if (inputValue === '' || decimalPattern.test(inputValue)) {
-                  const fieldValue
-                    = inputValue === '' ? null : Number(inputValue);
-                  const safeValue = Number.isNaN(fieldValue) ? null : fieldValue;
+                  const parsed = inputValue === '' ? null : (
+                    onlyIntegers ? parseInt(inputValue, 10) : Number(inputValue)
+                  );
+                  const safeValue = Number.isNaN(parsed) ? null : parsed;
                   if (customOnChange) {
-                    customOnChange({
-                      rhfOnChange,
-                      newValue: safeValue,
-                      event: changeEvent
-                    });
+                    customOnChange({ rhfOnChange, newValue: safeValue, event: changeEvent });
                     return;
                   }
                   rhfOnChange(safeValue);
@@ -305,8 +319,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                     : undefined,
                   'aria-required': required,
                   ...(nonNegative ? { min: 0 } : {}),
-                  ...muiSlotProps?.htmlInput,
-                  step: stepAmount
+                  step: resolvedStepAmount
                 }
               }}
               error={isError}
