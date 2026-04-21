@@ -560,6 +560,12 @@ const PropsDescription: Record<
       'Show the increment and decrement markers on number input.  Hidden by default.',
     type: 'boolean'
   },
+  onlyIntegers: {
+    name: 'onlyIntegers',
+    description:
+      'When `true`, restricts input to zero, positive and negative integers only.',
+    type: 'boolean'
+  },
   nonNegative: {
     name: 'nonNegative',
     description:
