@@ -101,6 +101,8 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
+type RhfOnChange = (value: string[]) => void;
+
 const RHFTagsInputInner = forwardRef(function RHFTagsInput<
   T extends FieldValues
 >(
@@ -161,32 +163,39 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
    */
   const showAllTags = limitTags === -1;
 
-  const getTextFieldPadding = (variant: 'outlined' | 'filled' | 'standard') => {
+  const getPaddingOverride = (overrides: unknown): string | undefined => {
+    if (
+      overrides !== null
+      && typeof overrides === 'object'
+      && 'padding' in overrides
+    ) {
+      const { padding } = overrides as { padding: unknown };
+      return typeof padding === 'string' ? padding : undefined;
+    }
+    return undefined;
+  };
+
+  const getTextFieldPadding = (
+    variant: 'outlined' | 'filled' | 'standard'
+  ): string => {
     switch (variant) {
       case 'filled':
         return (
-          (
-            muiTheme.components?.MuiFilledInput?.styleOverrides?.root as Record<
-              string,
-              any
-            >
-          )?.padding ?? '25px 12px 8px'
+          getPaddingOverride(
+            muiTheme.components?.MuiFilledInput?.styleOverrides?.root
+          ) ?? '25px 12px 8px'
         );
       case 'standard':
         return (
-          (
-            muiTheme.components?.MuiInput?.styleOverrides?.root as Record<
-              string,
-              any
-            >
-          )?.padding ?? '4px 0px 5px'
+          getPaddingOverride(
+            muiTheme.components?.MuiInput?.styleOverrides?.root
+          ) ?? '4px 0px 5px'
         );
       default:
         return (
-          (
-            muiTheme.components?.MuiOutlinedInput?.styleOverrides
-              ?.root as Record<string, any>
-          )?.padding ?? '16.5px 14px'
+          getPaddingOverride(
+            muiTheme.components?.MuiOutlinedInput?.styleOverrides?.root
+          ) ?? '16.5px 14px'
         );
     }
   };
@@ -203,7 +212,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
 
   /** Helper for triggering both RHF + external change events */
   const triggerChangeEvents = useCallback(
-    (newValue: string[], onChange: (...event: any[]) => void) => {
+    (newValue: string[], onChange: RhfOnChange) => {
       onChange(newValue);
       onValueChange?.({ newValue });
     },
@@ -214,7 +223,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     (
       event: KeyboardEvent<HTMLDivElement>,
       value: string[],
-      onChange: (...event: any[]) => void
+      onChange: RhfOnChange
     ) => {
       const trimmed = inputValue.trim();
 
@@ -261,6 +270,15 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
           }
         }
       } else if (!trimmed && ['Backspace', 'Delete'].includes(event.key)) {
+        /**
+         * Guard against empty array — value[value.length - 1] is
+         * undefined when there are no tags, which would pass undefined to
+         * onTagDelete and slice an already-empty array unnecessarily.
+         */
+        if (!value.length) {
+          return;
+        }
+
         const deletedTag = value[value.length - 1];
         const shouldDelete = onTagDelete?.(deletedTag, value);
         if (shouldDelete === false) {
@@ -276,39 +294,55 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     (
       event: ClipboardEvent<HTMLDivElement>,
       value: string[],
-      onChange: (...event: any[]) => void
+      onChange: RhfOnChange
     ) => {
       event.preventDefault();
       const pasteData = event.clipboardData.getData('text');
-      /* Match Enter: split on `delimiter` only, then trim. Do not split on
-       * whitespace alone — spaces inside a segment stay part of one tag. */
-      let newTags = pasteData
+
+      /**
+       * Use reduce instead of filter so each candidate tag is also
+       * checked against the tags already accepted from the same paste batch.
+       * Previously "foo,foo" would pass the filter twice because neither
+       * occurrence existed in `value` at filter time.
+       */
+      const newTags = pasteData
         .split(delimiter)
         .map(tag => tag.trim())
-        .filter(
-          tag =>
-            tag
-            && !value.some(v => normalizeString(v) === normalizeString(tag))
-        );
+        .filter(Boolean)
+        .reduce<string[]>((acc, tag) => {
+          const norm = normalizeString(tag);
+          if (
+            !value.some(v => normalizeString(v) === norm)
+            && !acc.some(v => normalizeString(v) === norm)
+          ) {
+            acc.push(tag);
+          }
+          return acc;
+        }, []);
 
-      /* External hook for paste validation/modification */
       const result = onTagPaste?.(newTags, value);
       if (result === false) {
         return;
       }
-      if (Array.isArray(result)) {
-        newTags = result;
-      }
-      /* Enforce maxTags limit */
+
+      const finalTags = Array.isArray(result) ? result : newTags;
+
       if (maxTags !== undefined) {
         const remainingSlots = Math.max(maxTags - value.length, 0);
         if (remainingSlots === 0) {
           return;
         }
-        newTags = newTags.slice(0, remainingSlots);
+        if (finalTags.length > 0) {
+          triggerChangeEvents(
+            [...value, ...finalTags.slice(0, remainingSlots)],
+            onChange
+          );
+        }
+        return;
       }
-      if (newTags.length > 0) {
-        triggerChangeEvents([...value, ...newTags], onChange);
+
+      if (finalTags.length > 0) {
+        triggerChangeEvents([...value, ...finalTags], onChange);
       }
     },
     [delimiter, maxTags, onTagPaste, triggerChangeEvents]
@@ -337,9 +371,9 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
           || (isError && !hideErrorMessage)
         );
         const hideInput = muiDisabled && rhfValue.length > 0;
-        const visibleTags = showAllTags
-          ? rhfValue
-          : isFocused || !limitTags
+
+        const visibleTags
+          = showAllTags || isFocused
             ? rhfValue
             : rhfValue.slice(0, limitTags);
 
@@ -368,7 +402,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                   }
                   triggerChangeEvents(
                     rhfValue.filter(t => t !== tag),
-                    rhfOnChange
+                    rhfOnChange as RhfOnChange
                   );
                 }}
                 {...ChipProps}
@@ -417,11 +451,18 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               }
               value={inputValue}
               onChange={handleInputChange}
-              onKeyDown={event => handleKeyDown(event, rhfValue, rhfOnChange)}
-              onPaste={event => handlePaste(event, rhfValue, rhfOnChange)}
+              onKeyDown={event =>
+                handleKeyDown(event, rhfValue, rhfOnChange as RhfOnChange)}
+              onPaste={event =>
+                handlePaste(event, rhfValue, rhfOnChange as RhfOnChange)}
               onFocus={handleFocus}
               onBlur={e => {
                 setIsFocused(false);
+                /**
+                 * Clear uncommitted input on blur so stale text
+                 * doesn't reappear the next time the field is focused.
+                 */
+                setInputValue('');
                 rhfOnBlur();
                 onBlur?.(e);
               }}

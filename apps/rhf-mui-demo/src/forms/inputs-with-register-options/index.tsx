@@ -116,7 +116,6 @@ const InputsWithRegisterForm = () => {
             <RHFTextField
               fieldName="email"
               control={control}
-              errorMessage={errors?.email?.message}
               registerOptions={{
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -270,7 +269,6 @@ const InputsWithRegisterForm = () => {
               )}
               required
               helperText="Enter min 3 characters; no 'sh' substring allowed"
-              errorMessage={errors?.tags?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -297,7 +295,7 @@ const InputsWithRegisterForm = () => {
               showLabelAboveFormField
               limitTags={-1}
               required
-              errorMessage={errors?.keywords?.message}
+              helperText="Use '|' to separate tags"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
