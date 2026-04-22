@@ -146,7 +146,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     customIds
   );
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const formattedFieldName = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? formattedFieldName;
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -349,7 +350,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           )
           : (
             <UploadButton
-              label={fieldLabel}
+              label={
+                typeof fieldLabel === 'string'
+                  ? fieldLabel
+                  : `Upload ${formattedFieldName}`
+              }
               fieldName={fieldName}
               disabled={muiDisabled}
             >

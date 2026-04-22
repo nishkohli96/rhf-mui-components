@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -14,7 +15,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
-import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
+import RHFFileUploader2 from '@nish1896/rhf-mui-components/mui/file-uploader-v2';
 import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 import { toast } from 'react-toastify';
 import {
@@ -183,7 +184,7 @@ const InputsWithRegisterForm = () => {
               placeholder="What is your age?"
               nonNegative
               onlyIntegers
-              onFocus={e => e.target.select()}
+              onFocus={(e) => e.target.select()}
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
@@ -199,12 +200,15 @@ const InputsWithRegisterForm = () => {
               nonNegative
               helperText={
                 <Typography color="seagreen">
-                  Press Arrow Up/Down keys to update input value; negative values are not allowed
+                  Press Arrow Up/Down keys to update input value; negative
+                  values are not allowed
                 </Typography>
               }
               slotProps={{
                 input: {
-                  endAdornment: <InputAdornment position="end">kg</InputAdornment>
+                  endAdornment: (
+                    <InputAdornment position="end">kg</InputAdornment>
+                  )
                 }
               }}
             />
@@ -218,7 +222,7 @@ const InputsWithRegisterForm = () => {
                 required: {
                   value: true,
                   message: reqdMsg('balance')
-                },
+                }
               }}
               variant="filled"
               maxDecimalPlaces={2}
@@ -243,7 +247,7 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               limitTags={0}
-              onTagAdd={newTag => {
+              onTagAdd={(newTag) => {
                 if (newTag.length < 3) {
                   return false;
                 }
@@ -256,11 +260,9 @@ const InputsWithRegisterForm = () => {
                   return false;
                 }
               }}
-              onTagPaste={pastedTags => {
+              onTagPaste={(pastedTags) => {
                 const filteredTags = pastedTags.filter(
-                  (t) =>
-                    t.length >= 3 &&
-                    !t.toLowerCase().includes('sh')
+                  (t) => t.length >= 3 && !t.toLowerCase().includes('sh')
                 );
                 return filteredTags;
               }}
@@ -300,17 +302,25 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Customized label and allow upload of at max 2 pdf files only" />
-            <RHFFileUploader
+            <RHFFileUploader2
               fieldName="documents"
               control={control}
               accept=".pdf"
               multiple
               label={
-                <Typography color="secondary" sx={{ fontWeight: 600 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <CloudUploadIcon />
-                  {' Upload Documents'}
-                </Typography>
+                  <Typography color="secondary" sx={{ fontWeight: 600 }}>
+                    Upload Documents (PDFs only)
+                  </Typography>
+                </Box>
               }
+              existingFiles={[
+                {
+                  name: 'SampleDocument.pdf',
+                  url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+                }
+              ]}
               showFileSize
               fullWidth
               maxFiles={2}
@@ -318,7 +328,7 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
-            <RHFFileUploader
+            <RHFFileUploader2
               fieldName="pictures"
               control={control}
               accept="image/*"
@@ -345,7 +355,7 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="FileUploader with custom button" />
-            <RHFFileUploader
+            <RHFFileUploader2
               fieldName="resume"
               control={control}
               label="Upload Resume"
