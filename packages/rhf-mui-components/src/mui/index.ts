@@ -10,8 +10,11 @@ import RHFCountrySelect, {
 } from './country-select';
 import RHFFileUploader, {
   type RHFFileUploaderProps,
-  type FileUploadError
 } from './file-uploader';
+import RHFFileUploader2, {
+  type RHFFileUploader2Props,
+  type FileUploadError
+} from './file-uploader-v2';
 import RHFMultiAutocomplete, {
   type RHFMultiAutocompleteProps,
 } from './multi-autocomplete';
@@ -34,6 +37,7 @@ export {
   RHFCheckboxGroup,
   RHFCountrySelect,
   RHFFileUploader,
+  RHFFileUploader2,
   RHFMultiAutocomplete,
   RHFNativeSelect,
   RHFNumberInput,
@@ -56,6 +60,7 @@ export type {
   RHFCheckboxGroupProps,
   RHFCountrySelectProps,
   RHFFileUploaderProps,
+  RHFFileUploader2Props,
   FileUploadError,
   RHFMultiAutocompleteProps,
   RHFNativeSelectProps,

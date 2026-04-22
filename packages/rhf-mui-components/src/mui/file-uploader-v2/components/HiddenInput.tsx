@@ -12,7 +12,7 @@ const HiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 }) as ComponentType<
-	InputHTMLAttributes<HTMLInputElement> & RefAttributes<HTMLInputElement>
->;;
+  InputHTMLAttributes<HTMLInputElement> & RefAttributes<HTMLInputElement>
+>;
 
 export default HiddenInput;
