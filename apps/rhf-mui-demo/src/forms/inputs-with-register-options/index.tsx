@@ -242,7 +242,7 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('tags')
                 }
               }}
-              limitTags={4}
+              limitTags={0}
               onTagAdd={newTag => {
                 if (newTag.length < 3) {
                   return false;

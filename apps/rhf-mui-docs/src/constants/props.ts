@@ -99,7 +99,7 @@ const PropsDescription: Record<
   hideLabel: (muiVersion?: MuiVersion) => ({
     name: 'hideLabel',
     description:
-      `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default field label or prefer to render a fully custom label instead.`,
+      `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default form label component or prefer to render a fully custom label instead.`,
     type: 'boolean'
   }),
   renderOptionLabel: {
@@ -220,13 +220,13 @@ const PropsDescription: Record<
   onTagAdd: {
     name: 'onTagAdd',
     description:
-      'Callback function triggered whenever a new tag is added by pressing **Enter**. If the result is `false`, the tag addition is prevented. If a string is returned, that value is added as the new tag instead of the original input.',
+      'Callback function triggered whenever a new tag is added by pressing **Enter** or typing the delimiter key. If the return value is `false`, the tag addition is prevented. If a string is returned, this value is added as the new tag instead of the original input.',
     type: '(newTag: string, currentTags: string[]) => boolean OR string OR void'
   },
   onTagDelete: {
     name: 'onTagDelete',
     description:
-      'Callback function triggered when a tag is removed from the input. If the result is `false`, the tag deletion is prevented.',
+      'Callback function triggered when a tag is removed from the input. If the return value is `false`, the tag deletion is prevented.',
     type: '(deletedTag: string, currentTags: string[]) => boolean OR string OR void'
   },
   onTagPaste: {
@@ -260,9 +260,8 @@ const PropsDescription: Record<
   },
   onValueChange_tagsInput: {
     name: 'onValueChange',
-    description:
-      'An optional callback function that returns an array of strings.',
-    type: '(tags: string[]) => void'
+    description: 'An optional callback function that returns all tags present in the input.',
+    type: '({ newValue }) => void'
   },
   onValueChange_FileUploader: {
     name: 'onValueChange',
@@ -714,6 +713,11 @@ const PropsDescription: Record<
     type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
     hasLinkInType: true
   }),
+  renderTagLabel: {
+    name: 'renderTagLabel',
+    description: 'Function to render the label for each tag.',
+    type: '(tag: string) => ReactNode'
+  },
   limitTags: {
     name: 'limitTags',
     description:

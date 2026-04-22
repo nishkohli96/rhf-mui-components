@@ -227,7 +227,8 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     ) => {
       const trimmed = inputValue.trim();
 
-      if (event.key === 'Enter') {
+      /*  Add tag on pressing "Enter" or the delimiter key. */
+      if (event.key === 'Enter' || event.key === delimiter) {
         event.preventDefault();
         if (trimmed) {
           /* Split input by delimiter and filter valid tags */

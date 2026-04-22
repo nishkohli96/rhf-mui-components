@@ -22,10 +22,10 @@ to comma-separated values in a standard text field.
 
 The functionality of `RHFTagsInput` is as follows:
 
-- Users can type a keyword, press **Enter**, and see it rendered
+- Users can type a keyword, press **Enter** or the **delimiter key** (default `","`), and see it rendered
 as a chip, with the input field cleared for the next entry.
 - Pasting comma-separated values automatically generates
-chips for each value.
+chips for each value. The delimiter can also be configured, example `"|"`.
 - Users can remove a chip by clicking its "x" button.
 - Pressing **Backspace** or **Delete** key when the input is
 empty removes the last chip.
@@ -44,7 +44,6 @@ import RHFTagsInput, { RHFTagsInputProps } from '@nish1896/rhf-mui-components/mu
 <RHFTagsInput
   fieldName="tags"
   control={control}
-  errorMessage={errors?.tags?.message}
 />
 ```
 

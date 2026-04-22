@@ -50,6 +50,11 @@ const LegacyPropsDescription: Record<
       'An optional callback function when the value of a field changes.',
     type: '(value: string, event: ChangeEvent) => void'
   },
+  onValueChange_tagsInput_v2_v3: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns all tags present in the input.',
+    type: '(tags: string[]) => void'
+  },
 });
 
 export default LegacyPropsDescription;
