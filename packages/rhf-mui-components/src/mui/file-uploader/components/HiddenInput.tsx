@@ -13,6 +13,6 @@ const HiddenInput = styled('input')({
   width: 1,
 }) as ComponentType<
 	InputHTMLAttributes<HTMLInputElement> & RefAttributes<HTMLInputElement>
->;;
+>;
 
 export default HiddenInput;

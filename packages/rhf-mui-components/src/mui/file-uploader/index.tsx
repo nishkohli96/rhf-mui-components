@@ -59,6 +59,11 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   fullWidth?: boolean;
 } & FileInputProps;
 
+/**
+ * @deprecated This component is deprecated and will be removed in a future release.
+ * Please use the new `RHFFileUploader2` component instead, which provides similar functionality
+ * and works better handling default form values
+ */
 const RHFFileUploader = <T extends FieldValues>({
   fieldName,
   control,
