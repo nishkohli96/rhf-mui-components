@@ -165,7 +165,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   customIds,
   onKeyDown,
   onPaste,
-  ...restTextFieldProps
+  ...otherTextFieldProps
 }: RHFNumberInputProps<T>, ref: Ref<HTMLInputElement>) {
   const {
     fieldId,
@@ -290,7 +290,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               />
             )}
             <MuiTextField
-              {...restTextFieldProps}
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               type="number"

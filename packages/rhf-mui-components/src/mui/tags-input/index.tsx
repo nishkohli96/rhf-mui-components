@@ -137,7 +137,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     autoComplete = defaultAutocompleteValue,
     renderTagLabel,
     customIds,
-    ...rest
+    ...otherTextFieldProps
   }: RHFTagsInputProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -438,6 +438,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               />
             )}
             <MuiTextField
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
@@ -496,7 +497,6 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                   'aria-required': required,
                 }
               }}
-              {...rest}
               multiline={false}
             />
             <FormHelperText

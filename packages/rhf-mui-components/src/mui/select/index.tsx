@@ -275,12 +275,12 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               </InputLabel>
             )}
             <MuiSelect
+              {...otherSelectProps}
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
               inputRef={mergeRefs(rhfRef, ref)}
               labelId={selectLabelId}
-              aria-label={hideLabel ? fieldLabel : undefined}
               aria-required={required}
               aria-invalid={isError}
               aria-describedby={
@@ -324,7 +324,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                   child
                 });
               }}
-              {...otherSelectProps}
               onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);

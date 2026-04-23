@@ -101,7 +101,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     autoComplete = defaultAutocompleteValue,
     slotProps: muiSlotProps,
     customIds,
-    ...restTextFieldProps
+    ...otherTextFieldProps
   }: RHFTextFieldProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -155,7 +155,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               />
             )}
             <MuiTextField
-              {...restTextFieldProps}
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}
