@@ -12,17 +12,15 @@ const config: Config = {
   tagline: 'Create and Style forms effortlessly within minutes!',
   favicon: 'img/favicon.ico',
   trailingSlash: false,
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   customFields: {
     EXAMPLES_URL: process.env.DOCUSAURUS_EXAMPLES_URL
   },
   markdown: {
     format: 'detect',
-    // hooks: {
-    //   onBrokenMarkdownLinks: 'warn',
-    //   onBrokenMarkdownImages: 'throw'
-    // }
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'throw'
+    }
   },
   i18n: {
     defaultLocale: 'en',
