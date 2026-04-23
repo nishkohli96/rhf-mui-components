@@ -163,7 +163,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
 
-  if (!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
+  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
     validateArray(componentName, options, labelKey, valueKey);
     if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
       console.warn(generateLargeOptionsErrMsg(componentName, options.length));

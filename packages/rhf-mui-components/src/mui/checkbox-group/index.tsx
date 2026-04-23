@@ -165,7 +165,7 @@ const RHFCheckboxGroup = <
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
 
-  if (!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
+  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
     validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
   }
 

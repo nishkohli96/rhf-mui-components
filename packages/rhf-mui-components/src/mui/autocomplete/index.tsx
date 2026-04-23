@@ -228,7 +228,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
   const { allLabelsAboveFields, skipValidationInEnvs }
     = useContext(RHFMuiConfigContext);
 
-  if (!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
+  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
     validateArray('RHFAutocomplete', options, labelKey, valueKey);
   }
 

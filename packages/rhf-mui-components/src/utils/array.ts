@@ -19,9 +19,6 @@ export function validateArray<
   labelKey?: LabelKey,
   valueKey?: ValueKey
 ): void {
-  if (process.env.NODE_ENV === 'production') {
-    return;
-  }
   if (!Array.isArray(options)) {
     throw new Error(
       `The "options" prop of ${formElementName} must be an array.`

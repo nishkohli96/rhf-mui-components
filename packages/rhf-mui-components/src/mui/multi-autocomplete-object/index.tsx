@@ -194,7 +194,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     defaultFormControlLabelSx,
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
-  if (!skipValidationInEnvs.includes(process.env.NODE_ENV ?? 'production')) {
+  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
     validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
   }
 
