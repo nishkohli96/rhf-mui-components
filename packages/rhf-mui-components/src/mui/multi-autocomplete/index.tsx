@@ -77,6 +77,7 @@ type MultiAutoCompleteProps<
   | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
+  | 'ref'
 >;
 
 type OnValueChangeProps = {

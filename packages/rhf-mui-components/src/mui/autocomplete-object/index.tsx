@@ -70,6 +70,7 @@ type OmittedAutocompleteProps<
   | 'blurOnSelect'
   | 'disableCloseOnSelect'
   | 'ChipProps'
+  | 'ref'
   | 'renderTags'
   | 'disableClearable'
 >;

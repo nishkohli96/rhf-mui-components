@@ -17,22 +17,24 @@ type StyledAutocompleteProps<
 	Option extends StrObjOption = StrObjOption,
 	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey>, 'multiple'>;
+  DisableClearable extends boolean = false
+> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey, true, DisableClearable>, 'multiple'>;
 
 const StyledAutocomplete = <
 	T extends FieldValues,
 	Option extends StrObjOption = StrObjOption,
 	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  DisableClearable extends boolean = false
 >({
     ...rest
-  }: StyledAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+  }: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable>) => {
   return (
     <RHFAutocomplete
       formHelperTextProps={{
         sx: { fontColor: theme => theme.palette.info.main }
       }}
-      multiple
+      multiple={true}
       {...rest}
     />
   );
