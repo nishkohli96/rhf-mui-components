@@ -5,19 +5,14 @@
 
 import { ExternalLinks } from '@site/src/constants';
 import {
-  type DocsVersion,
-  type MuiVersion,
-  type PropsInfo
+  type PropsInfo,
+  type PropsDescriptionArgs
 } from '@site/src/types';
 
 const LegacyPropsDescription: Record<
   string,
   | PropsInfo
-  | ((version?: DocsVersion | MuiVersion) => PropsInfo)
-  | ((
-      docsVersion?: DocsVersion | MuiVersion,
-      muiVersion?: MuiVersion
-    ) => PropsInfo)
+  | (({ docsVersion, muiVersion }: PropsDescriptionArgs) => PropsInfo)
 > = Object.freeze({
   register: {
     name: 'register',

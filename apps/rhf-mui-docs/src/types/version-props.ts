@@ -13,3 +13,5 @@ export type VersionProps = {
   v3_3AndAbove?: boolean;
   v4AndAbove?: boolean;
 };
+
+export type PropsDescriptionArgs = Pick<VersionProps, 'docsVersion' | 'muiVersion'>;

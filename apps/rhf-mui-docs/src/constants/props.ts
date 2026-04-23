@@ -1,14 +1,10 @@
 import { ExternalLinks } from '@site/src/constants';
-import { type DocsVersion, type MuiVersion, type PropsInfo } from '@site/src/types';
+import { type PropsInfo, type PropsDescriptionArgs } from '@site/src/types';
 
 const PropsDescription: Record<
   string,
   | PropsInfo
-  | ((version?: MuiVersion | DocsVersion) => PropsInfo)
-  | ((
-      docsVersion?: DocsVersion,
-      muiVersion?: MuiVersion
-    ) => PropsInfo)
+  | (({ docsVersion, muiVersion }: PropsDescriptionArgs) => PropsInfo)
 > = Object.freeze({
   fieldName: {
     name: 'fieldName',
@@ -91,12 +87,12 @@ const PropsDescription: Record<
       'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
-  label: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
+  label: ({ docsVersion , muiVersion }: PropsDescriptionArgs) => ({
     name: 'label',
     description: `The text to render in the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
     type: 'ReactNode'
   }),
-  hideLabel: (muiVersion?: MuiVersion) => ({
+  hideLabel: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'hideLabel',
     description:
       `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default form label component or prefer to render a fully custom label instead.`,
@@ -114,22 +110,19 @@ const PropsDescription: Record<
       'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
     type: 'string'
   },
-  formLabelProps: (docsVersion?: DocsVersion, muiVersion?: MuiVersion) => ({
+  formLabelProps: ({ docsVersion , muiVersion }: PropsDescriptionArgs) => ({
     name: 'formLabelProps',
     description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) to customise [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)})`,
     hasLinkInType: true
   }),
-  formControlLabelProps: (
-    docsVersion?: DocsVersion,
-    muiVersion?: MuiVersion
-  ) => ({
+  formControlLabelProps: ({ docsVersion , muiVersion }: PropsDescriptionArgs) => ({
     name: 'formControlLabelProps',
     description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)})`,
     hasLinkInType: true
   }),
-  showLabelAboveFormField: (muiVersion?: MuiVersion) => ({
+  showLabelAboveFormField: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
     description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component.`,
     type: 'boolean'
@@ -139,13 +132,13 @@ const PropsDescription: Record<
     description: 'Renders the form label above the field by default.',
     type: 'boolean'
   },
-  helperText: (muiVersion?: MuiVersion) => ({
+  helperText: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'helperText',
     description:
       `The content to display within the [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component below the field. If the field validation fails, this content will be overridden by the corresponding error message.`,
     type: 'ReactNode'
   }),
-  errorMessage: (muiVersion?: MuiVersion) => ({
+  errorMessage: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'errorMessage',
     description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component.`,
     type: 'ReactNode'
@@ -156,10 +149,7 @@ const PropsDescription: Record<
       'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
     type: 'boolean'
   },
-  formHelperTextProps: (
-    docsVersion?: DocsVersion,
-    muiVersion?: MuiVersion
-  ) => ({
+  formHelperTextProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formHelperTextProps',
     description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)})`,
@@ -524,13 +514,13 @@ const PropsDescription: Record<
       'Show the file size of the uploaded file(s) in the file uploader component.',
     type: 'boolean'
   },
-  renderUploadButton: (docsVersion?: DocsVersion) => ({
+  renderUploadButton: ({ docsVersion  }: PropsDescriptionArgs) => ({
     name: 'renderUploadButton',
     description:
       `Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
     type: '(fileInput: ReactNode) => ReactNode'
   }),
-  renderFileItem: (docsVersion?: DocsVersion) => ({
+  renderFileItem: ({ docsVersion }: PropsDescriptionArgs) => ({
     name: 'renderFileItem',
     description:
       `Custom render function to replace the default file item in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
@@ -595,13 +585,13 @@ const PropsDescription: Record<
       'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
     type: 'string'
   },
-  checkboxProps: (muiVersion?: MuiVersion) => ({
+  checkboxProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'checkboxProps',
     description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox(muiVersion)}) to customise each checkbox in checkbox group.`,
     type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
     hasLinkInType: true
   }),
-  radioProps: (muiVersion?: MuiVersion) => ({
+  radioProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'radioProps',
     description: `[Radio Props](${ExternalLinks.muiComponentApi.radio(muiVersion)}) to customise each radio button in radiobutton group.`,
     type: `[RadioProps](${ExternalLinks.muiComponentApi.radio(muiVersion)})`,
@@ -672,7 +662,7 @@ const PropsDescription: Record<
     description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
     type: '`name` / `iso` / `iso3`',
   },
-  textFieldProps: (muiVersion?: MuiVersion) => ({
+  textFieldProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'textFieldProps',
     description: `Props to customise the Autocomplete [Textfield](${ExternalLinks.muiComponents.textField(muiVersion)}).`,
     type: `[TextFieldProps](${ExternalLinks.muiComponentApi.textField(muiVersion)})`,
@@ -701,7 +691,7 @@ const PropsDescription: Record<
     description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocompleteObject. This option will be automatically hidden when there are less than 2 options to select from.',
     type: 'boolean'
   },
-  ChipProps: (muiVersion?: MuiVersion) => ({
+  ChipProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'ChipProps',
     description: `Props to customise the [Chip](${ExternalLinks.muiComponents.chip(muiVersion)}) component for each input tag.`,
     type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
