@@ -234,11 +234,13 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             || rhfValue === ''
             || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
         const showPlaceholder = isValueEmpty && !!placeholder;
-        const selectLabelProp
+        const selectLabelValue
           = hideLabel || isLabelAboveFormField || isValueEmpty
             ? undefined
             : SelectFormLabel;
-        const selectLabelId = isLabelAboveFormField ? undefined : labelId;
+        const selectLabelId = isLabelAboveFormField || hideLabel
+          ? undefined
+          : labelId;
 
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
@@ -264,7 +266,11 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               />
             )}
             {!isLabelAboveFormField && !showPlaceholder && (
-              <InputLabel id={labelId} shrink={!isValueEmpty}>
+              <InputLabel
+                id={labelId}
+                htmlFor={fieldId}
+                shrink={!isValueEmpty}
+              >
                 {SelectFormLabel}
               </InputLabel>
             )}
@@ -284,7 +290,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                     : helperTextId
                   : undefined
               }
-              label={selectLabelProp}
+              label={selectLabelValue}
               value={rhfValue ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}
