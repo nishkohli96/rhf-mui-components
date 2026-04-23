@@ -12,11 +12,15 @@ const RHFPasswordInputPropsTable = ({
   const binding = !v1
     ? PropsDescription.control
     : LegacyPropsDescription.register;
-  const valueChange = v4AndAbove
-    ? PropsDescription.onValueChange_Inputs
-    : v1
-      ? LegacyPropsDescription.label_v1
-      : LegacyPropsDescription.onValueChange_Inputs_v2_v3;
+
+  let valueChange;
+  if (v4AndAbove) {
+    valueChange = PropsDescription.onValueChange_Inputs;
+  } else if (v1) {
+    valueChange = LegacyPropsDescription.label_v1;
+  } else {
+    valueChange = LegacyPropsDescription.onValueChange_Inputs_v2_v3;
+  }
 
   const tableRows = [
     PropsDescription.fieldName,
@@ -47,7 +51,12 @@ const RHFPasswordInputPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFPasswordInputPropsTable;

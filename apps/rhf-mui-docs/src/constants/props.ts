@@ -129,7 +129,7 @@ const PropsDescription: Record<
   }),
   showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
-    description: 'Renders the form label above the field by default.',
+    description: 'Renders the form label above the field.',
     type: 'boolean'
   },
   helperText: ({ muiVersion }: PropsDescriptionArgs) => ({
@@ -575,8 +575,7 @@ const PropsDescription: Record<
   },
   showDefaultOption: {
     name: 'showDefaultOption',
-    description:
-      'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text can be changed using the `defaultOptionText` prop.',
+    description: 'Displays the default label for the disabled option when the value is `\'\'`.This text can be customized using the `defaultOptionText` prop',
     type: 'boolean'
   },
   defaultOptionText: {

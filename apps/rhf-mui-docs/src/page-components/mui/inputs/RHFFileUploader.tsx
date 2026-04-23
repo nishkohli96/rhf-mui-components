@@ -54,7 +54,12 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.fullWidth_FileUploader
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFFileUploaderPropsTable;

@@ -10,15 +10,22 @@ const RHFSelectPropsTable = ({
   v3_1AndAbove,
   v4AndAbove
 }: VersionProps) => {
-  const onValueChangeProp = v4AndAbove
-    ? PropsDescription.onValueChange_Select
-    : v1
-      ? LegacyPropsDescription.onValueChange_Select_v1
-      : LegacyPropsDescription.onValueChange_Select_v2_v3;
+  const binding = !v1
+    ? PropsDescription.control
+    : LegacyPropsDescription.register;
+
+  let onValueChangeProp;
+  if (v4AndAbove) {
+    onValueChangeProp = PropsDescription.onValueChange_Select;
+  } else if (v1) {
+    onValueChangeProp = LegacyPropsDescription.onValueChange_Select_v1;
+  } else {
+    onValueChangeProp = LegacyPropsDescription.onValueChange_Select_v2_v3;
+  }
 
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
+    binding,
     PropsDescription.registerOptions,
     PropsDescription.options,
     PropsDescription.labelKey,
@@ -61,7 +68,12 @@ const RHFSelectPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFSelectPropsTable;

@@ -13,16 +13,24 @@ import {
 } from './routesList';
 
 const FolderStructure = ({ v1, v3_3AndAbove, docsVersion }: VersionProps) => {
-  const muiList = v1
-    ? getMuiFoldersList(docsVersion).filter(folder => !newlyAddedComponents.includes(folder.name))
-    : v3_3AndAbove
-      ? getMuiFoldersList(docsVersion)
-      : getMuiFoldersList(docsVersion).filter(
-        folder => !newlyAddedV3_3Components.includes(folder.name),
-      );
+  const muiFolders = getMuiFoldersList(docsVersion);
+  let muiList;
+  if (v1) {
+    muiList = muiFolders.filter(
+      folder => !newlyAddedComponents.includes(folder.name)
+    );
+  } else if (v3_3AndAbove) {
+    muiList = muiFolders;
+  } else {
+    muiList = muiFolders.filter(
+      folder => !newlyAddedV3_3Components.includes(folder.name)
+    );
+  }
 
   const miscList = v1
-    ? getMiscFoldersList(docsVersion).filter(folder => !newlyAddedComponents.includes(folder.name))
+    ? getMiscFoldersList(docsVersion).filter(
+      folder => !newlyAddedComponents.includes(folder.name)
+    )
     : getMiscFoldersList(docsVersion);
 
   return (

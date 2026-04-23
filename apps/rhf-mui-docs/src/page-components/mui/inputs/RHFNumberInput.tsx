@@ -50,7 +50,12 @@ const RHFNumberInputPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFNumberInputPropsTable;
