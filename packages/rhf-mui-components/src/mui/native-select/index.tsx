@@ -33,17 +33,6 @@ import type {
   StrNumObjOption,
   CustomOnChangeProps
 } from '@/types';
-
-type OnValueChangeProps<
-  Option extends StrNumObjOption = StrNumObjOption,
-  ValueKey extends Extract<keyof Option, string> = Extract<
-    keyof Option,
-    string
-  >
-> = {
-  newValue: OptionValue<Option, ValueKey>;
-  event: ChangeEvent<HTMLSelectElement>;
-};
 import {
   fieldNameToLabel,
   getOptionValue,
@@ -62,6 +51,17 @@ type InputNativeSelectProps = Omit<
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'ref'
 >;
 
+type OnValueChangeProps<
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
+> = {
+  newValue: OptionValue<Option, ValueKey>;
+  event: ChangeEvent<HTMLSelectElement>;
+};
+
 export type RHFNativeSelectProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
@@ -74,6 +74,13 @@ export type RHFNativeSelectProps<
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of options to display in the dropdown.
+   * Note:
+   * - Works best for small to moderate datasets.
+   * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMuiAutocomplete` is
+   *   recommended for improved searchability, keyboard navigation, and performance.
+   */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
@@ -105,11 +112,16 @@ export type RHFNativeSelectProps<
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
   defaultOptionText?: string;
-  showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
-  formLabelProps?: FormLabelProps;
   label?: ReactNode;
+  showLabelAboveFormField?: boolean;
+  formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -140,10 +152,10 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     onValueChange,
     disabled: muiDisabled,
     defaultOptionText,
-    showLabelAboveFormField,
-    hideLabel,
-    formLabelProps,
     label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
     required,
     helperText,
     errorMessage,
@@ -180,7 +192,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const blankOptionText = defaultOptionText ?? placeholder ?? '';
+  const defaultOptionLabel = defaultOptionText ?? placeholder ?? '';
 
   return (
     <Controller
@@ -226,6 +238,9 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               autoComplete={autoComplete}
               aria-required={required}
               aria-invalid={isError}
+              aria-labelledby={
+                !hideLabel && !isLabelAboveControl ? labelId : undefined
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -267,9 +282,9 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               {...otherNativeSelectProps}
             >
               <option value="" disabled={required}>
-                {blankOptionText}
+                {defaultOptionLabel}
               </option>
-              {options.map(option => {
+              {options.map((option, index) => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
                 const opnValue = getOptionValue<Option, ValueKey>(
                   option,
@@ -278,10 +293,10 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled = !!getOptionDisabled?.(option);
+                const isOptionDisabled = getOptionDisabled?.(option) ?? false;
                 return (
                   <option
-                    key={opnValue}
+                    key={`${opnValue}-${index}`}
                     value={opnValue}
                     disabled={isOptionDisabled}
                     aria-disabled={isOptionDisabled}

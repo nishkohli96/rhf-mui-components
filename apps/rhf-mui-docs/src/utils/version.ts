@@ -1,8 +1,8 @@
 import { type PropsInfo, type DocsVersion, type MuiVersion } from '@site/src/types';
 
 export function getPropDetailsByVersion(
-  prop: PropsInfo | ((version: number) => PropsInfo),
-  version: number
+  prop: PropsInfo | ((version?: MuiVersion) => PropsInfo),
+  version?: MuiVersion
 ): PropsInfo {
   return typeof prop === 'function' ? prop(version) : prop;
 }

@@ -34,7 +34,7 @@ const RHFSelectPropsTable = ({
       ]
       : []),
     onValueChangeProp,
-    ...(!v1 ? [] : [PropsDescription.defaultValue]),
+    ...(!v1 ? [] : [LegacyPropsDescription.defaultValue]),
     PropsDescription.showDefaultOption,
     PropsDescription.defaultOptionText,
     getPropByDocsAndMuiVersion(

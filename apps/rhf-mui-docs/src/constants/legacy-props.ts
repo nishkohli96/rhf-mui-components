@@ -38,6 +38,11 @@ const LegacyPropsDescription: Record<
       'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
     type: 'ReactNode'
   },
+  defaultValue: {
+    name: 'defaultValue',
+    description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
+    type: 'string / string[] / number / number[]',
+  },
   onValueChange_Default_v1: {
     name: 'onValueChange',
     description:
@@ -66,6 +71,12 @@ const LegacyPropsDescription: Record<
     description:
       'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
     type: '(newValue, event, child) => void'
+  },
+  onValueChange_NativeSelect_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
+    type: '(newValue, event) => void'
   },
 });
 

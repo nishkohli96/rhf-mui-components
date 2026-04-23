@@ -4,9 +4,9 @@ import { type DocsVersion, type MuiVersion, type PropsInfo } from '@site/src/typ
 const PropsDescription: Record<
   string,
   | PropsInfo
-  | ((version?: DocsVersion | MuiVersion) => PropsInfo)
+  | ((version?: MuiVersion | DocsVersion) => PropsInfo)
   | ((
-      docsVersion?: DocsVersion | MuiVersion,
+      docsVersion?: DocsVersion,
       muiVersion?: MuiVersion
     ) => PropsInfo)
 > = Object.freeze({
@@ -192,6 +192,12 @@ const PropsDescription: Record<
       'Override the default `onChange` behavior of the select component. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
     type: '({ rhfOnChange, newValue, event, child }) => void'
   },
+  customOnChange_NativeSelect: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the native select component. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
     description:
@@ -283,7 +289,7 @@ const PropsDescription: Record<
     name: 'onValueChange',
     description:
       'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
-    type: '(newValue, event) => void'
+    type: '({ newValue, event }) => void'
   },
   onValueChange_Autocomplete: {
     name: 'onValueChange',
@@ -540,11 +546,6 @@ const PropsDescription: Record<
     name: 'fullWidth',
     description: 'Set the width of the file uploader component to 100%.',
     type: 'boolean'
-  },
-  defaultValue: {
-    name: 'defaultValue',
-    description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
-    type: 'string / string[] / number / number[]',
   },
   defaultValue_Slider: {
     name: 'defaultValue',

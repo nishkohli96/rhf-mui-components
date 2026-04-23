@@ -12,6 +12,12 @@ const RHFNativeSelectPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
+  const onValueChangeProp = v4AndAbove
+    ? PropsDescription.onValueChange_NativeSelect
+    : v1
+      ? LegacyPropsDescription.onValueChange_Default_v1
+      : LegacyPropsDescription.onValueChange_NativeSelect_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
@@ -19,44 +25,48 @@ const RHFNativeSelectPropsTable = ({
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    ...(v4AndAbove ? [PropsDescription.customOnChange_Select] : []),
-    ...(!v1
-      ? [PropsDescription.onValueChange_NativeSelect]
-      : [
-        PropsDescription.defaultValue,
-        PropsDescription.showDefaultOption,
-        LegacyPropsDescription.label_v1
-      ]),
     ...(v4AndAbove
-      ? [PropsDescription.renderOption, PropsDescription.getOptionDisabled]
+      ? [
+          PropsDescription.renderOption,
+          PropsDescription.getOptionDisabled,
+          PropsDescription.customOnChange_NativeSelect
+        ]
       : []),
+    onValueChangeProp,
+    ...(!v1
+      ? []
+      : [
+          LegacyPropsDescription.defaultValue,
+          PropsDescription.showDefaultOption,
+          LegacyPropsDescription.label_v1
+        ]),
     PropsDescription.defaultOptionText,
     ...(!v1
       ? [
-        getPropByDocsAndMuiVersion(
-          PropsDescription.label,
-          docsVersion,
-          muiVersion
-        ),
-        PropsDescription.showLabelAboveFormField_Default,
-        getPropByDocsAndMuiVersion(
-          PropsDescription.formLabelProps,
-          docsVersion,
-          muiVersion
-        ),
-        getPropDetailsByVersion(
-          PropsDescription.helperText,
-          muiVersion
-        )
-      ]
+          getPropByDocsAndMuiVersion(
+            PropsDescription.label,
+            docsVersion,
+            muiVersion
+          ),
+          PropsDescription.showLabelAboveFormField_Default,
+          getPropByDocsAndMuiVersion(
+            PropsDescription.formLabelProps,
+            docsVersion,
+            muiVersion
+          ),
+          getPropDetailsByVersion(PropsDescription.helperText, muiVersion)
+        ]
       : [LegacyPropsDescription.label_v1]),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
+      : []),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )
+    ),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

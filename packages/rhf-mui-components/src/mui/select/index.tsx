@@ -84,7 +84,6 @@ export type RHFSelectProps<
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * List of options to display in the dropdown.
-   *
    * Note:
    * - Works best for small to moderate datasets.
    * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMuiAutocomplete` is
@@ -396,7 +395,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
-                const isOptionDisabled = getOptionDisabled?.(option);
+                const isOptionDisabled = getOptionDisabled?.(option) ?? false;
                 return (
                   <MenuItem
                     key={`${opnValue}-${index}`}
