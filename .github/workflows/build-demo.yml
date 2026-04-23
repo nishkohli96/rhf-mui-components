@@ -14,7 +14,7 @@ jobs:
           run_install: false
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - name: Setup App
         run: sh setup.sh
