@@ -11,7 +11,7 @@ import { RHFRatingPropsTable } from '@site/src/page-components';
 
 Ratings provide insight regarding others' opinions and experiences, and can
 allow the user to submit a rating of their own. **RHFRating** extends the 
-[Rating](https://mui.com/material-ui/react-rating/) component,
+[Rating](https://v7.mui.com/material-ui/react-rating/) component,
 so it accepts almost all props of `Rating` and can be customized accordingly!
 
 ## Usage
@@ -30,11 +30,14 @@ import RHFRating, { RHFRatingProps } from '@nish1896/rhf-mui-components/mui/rati
 
 ## Examples
 - [RHFRating](https://rhf-mui-components-examples.netlify.app/switch-slider-rating)
-- [Rating](https://mui.com/material-ui/react-rating/)
+- [Rating](https://v7.mui.com/material-ui/react-rating/)
 - [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
 
 ## API
-`RHFRatingProps` extends [RatingProps](https://mui.com/material-ui/api/Rating/)
+`RHFRatingProps` extends [RatingProps](https://v7.mui.com/material-ui/api/Rating/)
 and accepts the following additional props:
 
-<RHFRatingPropsTable v4AndAbove />
+<RHFRatingPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

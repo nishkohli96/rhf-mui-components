@@ -9,11 +9,11 @@ description: Page about the form helper functions exported by this package.
 
 ## Migrate to v3
 
-**Version 3** introduces compatibility with [MUI v7](https://v7.mui.com/material-ui/) and [@mui/x-date-pickers v8](https://mui.com/x/react-date-pickers/), while maintaining backward compatibility with MUI [v5](https://v5.mui.com/material-ui/) and [v6](https://v6.mui.com/material-ui/), and @mui/x-date-pickers [v6](https://v6.mui.com/x/react-date-pickers/) and [v7](https://v7.mui.com/x/react-date-pickers/).
+**Version 3** introduces compatibility with [MUI v7](https://v7.mui.com/material-ui/) and [@mui/x-date-pickers v8](https://v8.mui.com/x/react-date-pickers/), while maintaining backward compatibility with MUI [v5](https://v5.mui.com/material-ui/) and [v6](https://v6.mui.com/material-ui/), and @mui/x-date-pickers [v6](https://v6.mui.com/x/react-date-pickers/) and [v7](https://v7.mui.com/x/react-date-pickers/).
 
 If your project has been upgraded to @mui/material v7, it is recommended to update this package to version 3 for optimal compatibility.
 
-Refer to the official migration guides for [@mui/material](https://mui.com/material-ui/migration/upgrade-to-v7/) and [@mui/x-date-pickers](https://mui.com/x/.migration/migration-pickers-v7/) for detailed upgrade instructions.
+Refer to the official migration guides for [@mui/material](https://v7.mui.com/material-ui/migration/upgrade-to-v7/) and [@mui/x-date-pickers](https://v8.mui.com/x/.migration/migration-pickers-v7/) for detailed upgrade instructions.
 
 
 ## Migrate to v2

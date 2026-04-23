@@ -12,7 +12,7 @@ import { AvailabilityBanner } from '@site/src/components';
 
 <AvailabilityBanner componentName="RHFCountrySelect" version="2.0" />
 
-**RHFCountrySelect** leverages the [Autocomplete](https://mui.com/material-ui/react-autocomplete/) 
+**RHFCountrySelect** leverages the [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) 
 component from Material-UI to enable users to select one or more countries
 from a comprehensive list of 250 options. It offers flexibility in retrieving
 the selected country's value as its name, ISO code, or ISO3 code. Additionally,
@@ -89,11 +89,13 @@ const filteredCountries = countryList.filter(
 
 ## Examples
 - [RHFCountrySelect](https://rhf-mui-components-examples.netlify.app/country-select)
-- [Autocomplete - Country Select](https://mui.com/material-ui/react-autocomplete/#country-select)
+- [Autocomplete - Country Select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)
 - [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
 
 ## API
-The `RHFCountrySelectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+The `RHFCountrySelectProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/) 
 and accepts the following additional props:
 
-<RHFCountrySelectPropsTable />
+<RHFCountrySelectPropsTable
+  muiVersion={7}
+/>

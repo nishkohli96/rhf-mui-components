@@ -12,7 +12,7 @@ import { AvailabilityBanner } from '@site/src/components';
 
 <AvailabilityBanner componentName="RHFNumberInput" version="2.1" />
 
-**RHFNumberInput** is an enhanced version of the [TextField](https://mui.com/material-ui/react-text-field/)
+**RHFNumberInput** is an enhanced version of the [TextField](https://v7.mui.com/material-ui/react-text-field/)
 component which accepts only **integer** or **float** values. It retains
 the core functionality, styling options, and flexibility of the TextField,
 while seamlessly integrating with react-hook-form for number-specific input handling.
@@ -34,11 +34,14 @@ To render a fully functional `RHFNumberInput`, you only need 2-3 essential props
 
 ## Examples
 - [RHFNumberInput](https://rhf-mui-components-examples.netlify.app/inputs)
-- [TextField](https://mui.com/material-ui/react-text-field/)
+- [TextField](https://v7.mui.com/material-ui/react-text-field/)
 - [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
 
 ## API
-The `RHFNumberInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+The `RHFNumberInputProps` interface extends [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
 and includes the following additional props:
 
-<RHFNumberInputPropsTable v4AndAbove />
+<RHFNumberInputPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

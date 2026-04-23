@@ -295,9 +295,10 @@ const InputsWithRegisterForm = () => {
               delimiter="|"
               variant="filled"
               showLabelAboveFormField
+              maxTags={8}
               limitTags={-1}
               required
-              helperText="Use '|' to separate tags"
+              helperText="Use '|' to separate tags; max 8 tags allowed"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

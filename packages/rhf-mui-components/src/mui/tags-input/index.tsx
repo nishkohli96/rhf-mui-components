@@ -5,6 +5,7 @@ import {
   useContext,
   useCallback,
   forwardRef,
+  type JSX,
   type ReactNode,
   type FocusEvent,
   type ChangeEvent,

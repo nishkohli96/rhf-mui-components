@@ -13,7 +13,7 @@ import { ExternalLinks } from '@site/src/constants';
 
 <AvailabilityBanner componentName="RHFAutocomplete" version="2.0" />
 
-**RHFAutocomplete** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/),
+**RHFAutocomplete** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/),
 designed for searching and selecting an option from large datasets. Similar to
 [RHFSelect](./RHFSelect.mdx), it supports selecting single or multiple options and
 accepts options as an array of strings or an array of objects. This component is ideal
@@ -68,11 +68,13 @@ You can extend or reuse the `RHFAutocomplete` component by creating your own wra
 ## Examples
 - [RHFAutocomplete](https://rhf-mui-components-examples.netlify.app/autocomplete)
 - [Styled Autocomplete](https://rhf-mui-components-examples.netlify.app/customization)
-- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
+- [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
 - [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
 
 ## API
-The `RHFAutocompleteProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+The `RHFAutocompleteProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/) 
 and accepts the following additional props:
 
-<RHFAutocompletePropsTable />
+<RHFAutocompletePropsTable
+  muiVersion={7}
+/>
