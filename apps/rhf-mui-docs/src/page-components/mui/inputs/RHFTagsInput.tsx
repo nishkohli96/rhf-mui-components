@@ -35,14 +35,14 @@ const RHFTagsInputPropsTable = ({
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
-      : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
     ),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
+      : []),
     getPropDetailsByVersion(PropsDescription.ChipProps, muiVersion),
     PropsDescription.limitTags,
     PropsDescription.getLimitTagsText,

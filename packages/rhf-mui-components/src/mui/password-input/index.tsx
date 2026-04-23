@@ -88,8 +88,8 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
   /**
@@ -114,8 +114,8 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   showPasswordIcon,
   hidePasswordIcon,
   required,

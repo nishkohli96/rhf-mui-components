@@ -84,8 +84,8 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   delimiter?: string;
   maxTags?: number;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   /**
    * @deprecated
    * Field error message is now automatically derived from form state.
@@ -119,8 +119,8 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     required,
     helperText,
     errorMessage,

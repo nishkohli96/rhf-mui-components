@@ -55,6 +55,18 @@ const LegacyPropsDescription: Record<
     description: 'An optional callback function that returns all tags present in the input.',
     type: '(tags: string[]) => void'
   },
+  onValueChange_Select_v1: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
+    type: '(e: SelectChangeEvent) => void'
+  },
+  onValueChange_Select_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
+    type: '(newValue, event, child) => void'
+  },
 });
 
 export default LegacyPropsDescription;

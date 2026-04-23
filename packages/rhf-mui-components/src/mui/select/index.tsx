@@ -127,8 +127,8 @@ export type RHFSelectProps<
     child
   }: OnValueChangeProps<Option, ValueKey, Multiple>) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -174,8 +174,8 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     required,
     helperText,
     errorMessage,

@@ -168,7 +168,12 @@ const PropsDescription: Record<
   renderOption: {
     name: 'renderOption',
     description: 'Render the option content',
-    type: 'function (option) => ReactNode'
+    type: '(option) => ReactNode'
+  },
+  getOptionDisabled: {
+    name: 'getOptionDisabled',
+    description: 'Function to dynamically disable specific option(s) based on custom logic.',
+    type: '(option) => boolean'
   },
   customIds: {
     name: 'customIds',
@@ -184,8 +189,8 @@ const PropsDescription: Record<
   customOnChange_Select: {
     name: 'customOnChange',
     description:
-      'Override the default `onChange` behavior of the select component. You must pass the updated `event.target.value` to the **rhfOnChange** function to update the field value.',
-    type: '(rhfOnChange, event) => void'
+      'Override the default `onChange` behavior of the select component. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event, child }) => void'
   },
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
@@ -272,13 +277,7 @@ const PropsDescription: Record<
     name: 'onValueChange',
     description:
       'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
-    type: '(newValue, event, child) => void'
-  },
-  onValueChange_Select_v1: {
-    name: 'onValueChange',
-    description:
-      'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
-    type: '(e: SelectChangeEvent) => void'
+    type: '({ newValue, event, child }) => void'
   },
   onValueChange_NativeSelect: {
     name: 'onValueChange',
@@ -612,12 +611,6 @@ const PropsDescription: Record<
     description:
       'A `boolean` value to enable or disable editing of the form field.',
     type: 'boolean'
-  },
-  getOptionDisabled: {
-    name: 'getOptionDisabled',
-    description:
-      'Function to dynamically disable specific option(s) based on custom logic.',
-    type: 'function(option: Value) => boolean'
   },
   editorConfig: {
     name: 'editorConfig',

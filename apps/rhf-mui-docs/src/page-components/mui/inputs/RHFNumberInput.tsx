@@ -23,9 +23,6 @@ const RHFNumberInputPropsTable = ({
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
-      : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
@@ -33,11 +30,12 @@ const RHFNumberInputPropsTable = ({
     ),
     ...(v4AndAbove
       ? [
-          PropsDescription.onlyIntegers,
-          PropsDescription.nonNegative,
-          PropsDescription.maxDecimalPlaces,
-          PropsDescription.stepAmount
-        ]
+        getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion),
+        PropsDescription.onlyIntegers,
+        PropsDescription.nonNegative,
+        PropsDescription.maxDecimalPlaces,
+        PropsDescription.stepAmount
+      ]
       : []),
     PropsDescription.showMarkers,
     ...(!v4AndAbove

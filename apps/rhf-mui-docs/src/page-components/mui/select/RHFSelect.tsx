@@ -13,6 +13,12 @@ const RHFSelectPropsTable = ({
   v3_1AndAbove,
   v4AndAbove
 }: VersionProps) => {
+  const onValueChangeProp = v4AndAbove
+    ? PropsDescription.onValueChange_Select
+    : v1
+      ? LegacyPropsDescription.onValueChange_Select_v1
+      : LegacyPropsDescription.onValueChange_Select_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
@@ -21,15 +27,21 @@ const RHFSelectPropsTable = ({
     PropsDescription.labelKey,
     PropsDescription.valueKey,
     ...(v4AndAbove
-      ? [PropsDescription.renderOption, PropsDescription.getOptionDisabled]
+      ? [
+        PropsDescription.renderOption,
+        PropsDescription.getOptionDisabled,
+        PropsDescription.customOnChange_Select
+      ]
       : []),
+    onValueChangeProp,
     ...(!v1 ? [] : [PropsDescription.defaultValue]),
     PropsDescription.showDefaultOption,
     PropsDescription.defaultOptionText,
-    ...(v4AndAbove ? [PropsDescription.customOnChange_Select] : []),
-    ...(!v1
-      ? [PropsDescription.onValueChange_Select]
-      : [PropsDescription.onValueChange_Select_v1]),
+    getPropByDocsAndMuiVersion(
+      PropsDescription.label,
+      docsVersion,
+      muiVersion
+    ),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
@@ -39,18 +51,24 @@ const RHFSelectPropsTable = ({
       docsVersion,
       muiVersion
     ),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
+      : []),
     ...(v3_1AndAbove ? [PropsDescription.placeholder_Select] : []),
     getPropDetailsByVersion(
       PropsDescription.helperText,
       muiVersion
     ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
+      : []),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,
       muiVersion
-    )
+    ),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

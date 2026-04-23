@@ -24,12 +24,12 @@ const IntroductionPageTable = ({
     PropsDescription.onValueChange,
     ...(!v1
       ? [
-          getPropByDocsAndMuiVersion(
-            PropsDescription.label,
-            docsVersion,
-            muiVersion
-          )
-        ]
+        getPropByDocsAndMuiVersion(
+          PropsDescription.label,
+          docsVersion,
+          muiVersion
+        )
+      ]
       : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,

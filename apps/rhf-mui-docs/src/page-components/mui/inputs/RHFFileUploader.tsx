@@ -27,27 +27,21 @@ const RHFFileUploaderPropsTable = ({
     getPropDetailsByVersion(PropsDescription.renderUploadButton, docsVersion),
     getPropDetailsByVersion(PropsDescription.renderFileItem, docsVersion),
     PropsDescription.disabled,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.label,
-      docsVersion,
-      muiVersion
-    ),
+    getPropByDocsAndMuiVersion(PropsDescription.label, docsVersion, muiVersion),
     getPropDetailsByVersion(
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
     ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    ...(v4AndAbove
+      ? [PropsDescription.hideLabel]
+      : [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(
-      PropsDescription.helperText,
-      muiVersion
-    ),
+    getPropDetailsByVersion(PropsDescription.helperText, muiVersion),
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,
       docsVersion,

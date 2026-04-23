@@ -31,17 +31,14 @@ const RHFTextFieldPropsTable = ({
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
-      : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
     ),
-    ...(!v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
-      : []),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
+      : [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]),
     PropsDescription.hideErrorMessage,
     getPropByDocsAndMuiVersion(
       PropsDescription.formHelperTextProps,

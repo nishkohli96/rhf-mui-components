@@ -67,8 +67,8 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   /**
    * @deprecated
    * Field error message is now automatically derived from form state.
@@ -90,8 +90,8 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     required,
     helperText,
     errorMessage,

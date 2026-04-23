@@ -28,7 +28,6 @@ Here’s a basic example with an array of strings:
   fieldName="color"
   control={control}
   options={['Red', 'Blue', 'Orange']}
-  errorMessage={errors?.color?.message}
 />
 ```
 
@@ -45,7 +44,6 @@ For options as an array of objects:
   ]}
   labelKey="country"
   valueKey="code"
-  errorMessage={errors?.country?.message}
 />
 ```
 
@@ -68,4 +66,7 @@ You can extend or reuse the `RHFSelect` component by creating your own wrapper c
 The `RHFSelectProps` interface extends [SelectProps](https://mui.com/material-ui/api/select/) 
 and accepts the following additional props:
 
-<RHFSelectPropsTable v3_1AndAbove v4AndAbove />
+<RHFSelectPropsTable
+  v3_1AndAbove
+  v4AndAbove
+/>

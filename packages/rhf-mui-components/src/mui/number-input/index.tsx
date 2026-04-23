@@ -105,8 +105,8 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   /**
    * When `true`, only integer values are allowed. Decimal input is blocked.
    * Cannot be used together with `maxDecimalPlaces`.

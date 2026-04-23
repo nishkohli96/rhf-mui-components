@@ -31,14 +31,14 @@ const RHFPasswordInputPropsTable = ({
       PropsDescription.showLabelAboveFormField,
       muiVersion
     ),
-    ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
-      : []),
     getPropByDocsAndMuiVersion(
       PropsDescription.formLabelProps,
       docsVersion,
       muiVersion
     ),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion)]
+      : []),
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,
     ...(!v4AndAbove

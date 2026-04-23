@@ -215,8 +215,8 @@ importers:
         specifier: 3.9.2
         version: 3.9.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@nish1896/eslint-config':
-        specifier: ^3.0.11
-        version: 3.0.11(eslint@8.57.1)(typescript@5.9.3)
+        specifier: ^3.0.12
+        version: 3.0.12(eslint@8.57.1)(typescript@5.9.3)
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
@@ -2613,8 +2613,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@nish1896/eslint-config@3.0.11':
-    resolution: {integrity: sha512-bg2mHoOdColgKzQQo/vZ35Yo/7/Qac0L6zSUF+sEsJVOVZ5XfwDUWZJeV4BLYO2oEYkGiBric/ubiU8Zx+B4rg==}
+  '@nish1896/eslint-config@3.0.12':
+    resolution: {integrity: sha512-fXra83yE4Pnvrv9uEtZcrwsocVWXyoiEQUQPz2lg+fN3HVN+q7cn1s3t3ByE9Zbjz5QgEawS0aEuocDVj68UhA==}
     engines: {node: '>=14'}
     peerDependencies:
       eslint: '>=7 <9'
@@ -11702,7 +11702,7 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.2.1':
     optional: true
 
-  '@nish1896/eslint-config@3.0.11(eslint@8.57.1)(typescript@5.9.3)':
+  '@nish1896/eslint-config@3.0.12(eslint@8.57.1)(typescript@5.9.3)':
     dependencies:
       '@stylistic/eslint-plugin-js': 3.1.0(eslint@8.57.1)
       '@stylistic/eslint-plugin-jsx': 3.1.0(eslint@8.57.1)
