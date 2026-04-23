@@ -34,7 +34,7 @@ const StyledAutocomplete = <
       formHelperTextProps={{
         sx: { fontColor: theme => theme.palette.info.main }
       }}
-      multiple={true}
+      multiple
       {...rest}
     />
   );

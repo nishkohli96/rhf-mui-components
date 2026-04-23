@@ -5,6 +5,7 @@ import {
   useCallback,
   useMemo,
   forwardRef,
+  type JSX,
   type Ref,
   type ReactNode
 } from 'react';
