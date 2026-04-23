@@ -1,10 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import {
-  getPropByDocsAndMuiVersion,
-  getPropDetailsByVersion
-} from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFCheckboxPropsTable = ({
   docsVersion,
@@ -20,32 +17,26 @@ const RHFCheckboxPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Checkbox,
-        getPropByDocsAndMuiVersion(
-          PropsDescription.label,
+        getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
-        ),
+        })
       ]
       : [
         PropsDescription.onValueChange_Checkbox_v1,
         LegacyPropsDescription.label_v1
       ]),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formControlLabelProps,
+    getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
       docsVersion,
       muiVersion
-    ),
-    getPropDetailsByVersion(
-      PropsDescription.helperText,
-      muiVersion
-    ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    }),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    )
+    })
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

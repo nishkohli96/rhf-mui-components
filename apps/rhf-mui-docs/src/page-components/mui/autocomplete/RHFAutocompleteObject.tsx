@@ -1,5 +1,6 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
+import { type PropsInfo } from '@site/src/types';
 
 const RHFAutocompleteObjectPropsTable = () => {
   const tableRows = [
@@ -23,7 +24,7 @@ const RHFAutocompleteObjectPropsTable = () => {
   ];
 
   return (
-    <MarkdownTable rows={tableRows} showType/>
+    <MarkdownTable rows={tableRows as PropsInfo[]} showType/>
   );
 };
 

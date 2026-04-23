@@ -1,10 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import {
-  getPropByDocsAndMuiVersion,
-  getPropDetailsByVersion
-} from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFPhoneInputPropsTable = ({
   docsVersion,
@@ -22,31 +19,27 @@ const RHFPhoneInputPropsTable = ({
     PropsDescription.onValueChange_PhoneInput,
     ...(!v1
       ? [
-        getPropByDocsAndMuiVersion(
-          PropsDescription.label,
+        getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
-        )
+        })
       ]
       : [LegacyPropsDescription.label_v1]),
-    getPropDetailsByVersion(
-      PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
-    ),
+    }),
     ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formLabelProps,
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
-    ),
-    getPropDetailsByVersion(PropsDescription.helperText, muiVersion),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    }),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    ),
+    }),
     PropsDescription.phoneInputProps
   ];
 

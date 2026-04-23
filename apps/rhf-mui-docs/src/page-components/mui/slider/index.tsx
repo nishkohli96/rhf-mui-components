@@ -1,10 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import {
-  getPropByDocsAndMuiVersion,
-  getPropDetailsByVersion
-} from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFSliderPropsTable = ({
   docsVersion,
@@ -21,11 +18,10 @@ const RHFSliderPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Slider,
-        getPropByDocsAndMuiVersion(
-          PropsDescription.label,
+        getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
-        ),
+        })
       ]
       : [
         PropsDescription.defaultValue_Slider,
@@ -33,22 +29,17 @@ const RHFSliderPropsTable = ({
         LegacyPropsDescription.label_v1
       ]),
     PropsDescription.showLabelAboveFormField_Default,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formLabelProps,
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
-    ),
-    getPropDetailsByVersion(
-      PropsDescription.helperText,
-      muiVersion
-    ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    }),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    )
+    })
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

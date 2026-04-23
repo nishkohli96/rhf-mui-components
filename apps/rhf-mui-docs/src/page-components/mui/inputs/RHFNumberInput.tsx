@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFNumberInputPropsTable = ({
   docsVersion,
@@ -18,19 +18,20 @@ const RHFNumberInputPropsTable = ({
     PropsDescription.registerOptions,
     ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
     valueChangeProp,
-    getPropByDocsAndMuiVersion(PropsDescription.label, docsVersion, muiVersion),
-    getPropDetailsByVersion(
-      PropsDescription.showLabelAboveFormField,
-      muiVersion
-    ),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formLabelProps,
+    getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
-    ),
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
     ...(v4AndAbove
       ? [
-        getPropDetailsByVersion(PropsDescription.hideLabel, muiVersion),
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
         PropsDescription.onlyIntegers,
         PropsDescription.nonNegative,
         PropsDescription.maxDecimalPlaces,
@@ -39,14 +40,13 @@ const RHFNumberInputPropsTable = ({
       : []),
     PropsDescription.showMarkers,
     ...(!v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
       : []),
     PropsDescription.hideErrorMessage,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    ),
+    }),
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 

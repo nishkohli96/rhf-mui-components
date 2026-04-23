@@ -1,7 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFFileUploaderPropsTable = ({
   muiVersion,
@@ -24,29 +24,33 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.hideFileList,
     PropsDescription.onValueChange_FileUploader,
     PropsDescription.onUploadError,
-    getPropDetailsByVersion(PropsDescription.renderUploadButton, docsVersion),
-    getPropDetailsByVersion(PropsDescription.renderFileItem, docsVersion),
+    getPropDetailsByVersion(PropsDescription.renderUploadButton, {
+      docsVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.renderFileItem, { docsVersion }),
     PropsDescription.disabled,
-    getPropByDocsAndMuiVersion(PropsDescription.label, docsVersion, muiVersion),
-    getPropDetailsByVersion(
-      PropsDescription.showLabelAboveFormField,
-      muiVersion
-    ),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formLabelProps,
+    getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
-    ),
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
     ...(v4AndAbove
       ? [PropsDescription.hideLabel]
-      : [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]),
+      : [
+        getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })
+      ]),
     PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.helperText, muiVersion),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    ),
+    }),
     PropsDescription.fullWidth_FileUploader
   ];
 

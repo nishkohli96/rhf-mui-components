@@ -1,10 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import {
-  getPropByDocsAndMuiVersion,
-  getPropDetailsByVersion
-} from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFNativeSelectPropsTable = ({
   docsVersion,
@@ -27,45 +24,42 @@ const RHFNativeSelectPropsTable = ({
     PropsDescription.valueKey,
     ...(v4AndAbove
       ? [
-          PropsDescription.renderOption,
-          PropsDescription.getOptionDisabled,
-          PropsDescription.customOnChange_NativeSelect
-        ]
+        PropsDescription.renderOption,
+        PropsDescription.getOptionDisabled,
+        PropsDescription.customOnChange_NativeSelect
+      ]
       : []),
     onValueChangeProp,
     ...(!v1
       ? []
       : [
-          LegacyPropsDescription.defaultValue,
-          PropsDescription.showDefaultOption,
-          LegacyPropsDescription.label_v1
-        ]),
+        LegacyPropsDescription.defaultValue,
+        PropsDescription.showDefaultOption,
+        LegacyPropsDescription.label_v1
+      ]),
     PropsDescription.defaultOptionText,
     ...(!v1
       ? [
-          getPropByDocsAndMuiVersion(
-            PropsDescription.label,
-            docsVersion,
-            muiVersion
-          ),
-          PropsDescription.showLabelAboveFormField_Default,
-          getPropByDocsAndMuiVersion(
-            PropsDescription.formLabelProps,
-            docsVersion,
-            muiVersion
-          ),
-          getPropDetailsByVersion(PropsDescription.helperText, muiVersion)
-        ]
+        getPropDetailsByVersion(PropsDescription.label, {
+          docsVersion,
+          muiVersion
+        }),
+        PropsDescription.showLabelAboveFormField_Default,
+        getPropDetailsByVersion(PropsDescription.formLabelProps, {
+          docsVersion,
+          muiVersion
+        }),
+        getPropDetailsByVersion(PropsDescription.helperText, { muiVersion })
+      ]
       : [LegacyPropsDescription.label_v1]),
     ...(!v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion)]
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
       : []),
     PropsDescription.hideErrorMessage,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    ),
+    }),
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 

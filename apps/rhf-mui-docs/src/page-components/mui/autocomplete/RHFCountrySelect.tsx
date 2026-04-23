@@ -1,9 +1,12 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import { getPropByDocsAndMuiVersion, getPropDetailsByVersion } from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFCountrySelectPropsTable = ({ docsVersion, muiVersion }: VersionProps) => {
+const RHFCountrySelectPropsTable = ({
+  docsVersion,
+  muiVersion
+}: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -14,33 +17,26 @@ const RHFCountrySelectPropsTable = ({ docsVersion, muiVersion }: VersionProps) =
     PropsDescription.required,
     PropsDescription.onValueChange_CountrySelect,
     PropsDescription.displayFlagOnSelect,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.label,
+    getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
-    ),
-    getPropDetailsByVersion(
-      PropsDescription.showLabelAboveFormField,
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
-    ),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formLabelProps,
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
-    ),
-    getPropDetailsByVersion(
-      PropsDescription.helperText,
-      muiVersion
-    ),
-    getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+    }),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formHelperTextProps,
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    ),
-    getPropDetailsByVersion(PropsDescription.textFieldProps, muiVersion),
-    getPropDetailsByVersion(PropsDescription.ChipProps, muiVersion),
+    }),
+    getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipProps, { muiVersion })
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

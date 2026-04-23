@@ -87,7 +87,7 @@ const PropsDescription: Record<
       'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
-  label: ({ docsVersion , muiVersion }: PropsDescriptionArgs) => ({
+  label: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'label',
     description: `The text to render in the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
     type: 'ReactNode'
@@ -110,13 +110,13 @@ const PropsDescription: Record<
       'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
     type: 'string'
   },
-  formLabelProps: ({ docsVersion , muiVersion }: PropsDescriptionArgs) => ({
+  formLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formLabelProps',
     description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) to customise [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
     type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)})`,
     hasLinkInType: true
   }),
-  formControlLabelProps: ({ docsVersion , muiVersion }: PropsDescriptionArgs) => ({
+  formControlLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formControlLabelProps',
     description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
     type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)})`,
@@ -514,7 +514,7 @@ const PropsDescription: Record<
       'Show the file size of the uploaded file(s) in the file uploader component.',
     type: 'boolean'
   },
-  renderUploadButton: ({ docsVersion  }: PropsDescriptionArgs) => ({
+  renderUploadButton: ({ docsVersion }: PropsDescriptionArgs) => ({
     name: 'renderUploadButton',
     description:
       `Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,

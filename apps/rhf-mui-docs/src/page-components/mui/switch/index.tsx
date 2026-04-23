@@ -1,10 +1,7 @@
 import MarkdownTable from '@site/src/components/markdown-table';
 import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
-import {
-  getPropByDocsAndMuiVersion,
-  getPropDetailsByVersion
-} from '@site/src/utils';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFSwitchPropsTable = ({
   docsVersion,
@@ -20,31 +17,27 @@ const RHFSwitchPropsTable = ({
     ...(!v1
       ? [
         PropsDescription.onValueChange_Switch,
-        getPropByDocsAndMuiVersion(
-          PropsDescription.label,
+        getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
-        ),
+        })
       ]
       : [LegacyPropsDescription.label_v1, LegacyPropsDescription.label_v1]),
-    getPropByDocsAndMuiVersion(
-      PropsDescription.formControlLabelProps,
+    getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
       docsVersion,
       muiVersion
-    ),
+    }),
     ...(!v1
       ? [
-        getPropDetailsByVersion(
-          PropsDescription.helperText,
+        getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+        getPropDetailsByVersion(PropsDescription.errorMessage, {
           muiVersion
-        ),
-        getPropDetailsByVersion(PropsDescription.errorMessage, muiVersion),
+        }),
         PropsDescription.hideErrorMessage,
-        getPropByDocsAndMuiVersion(
-          PropsDescription.formHelperTextProps,
+        getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
           docsVersion,
           muiVersion
-        )
+        })
       ]
       : [])
   ];
