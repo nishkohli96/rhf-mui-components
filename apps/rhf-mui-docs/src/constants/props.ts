@@ -168,7 +168,7 @@ const PropsDescription: Record<
   customIds: {
     name: 'customIds',
     description: 'Overrides the values of default `id`, `labelId`, `helperTextId`, and `errorId` for each form field component to improve accessibility.',
-    type: '{field, label, helperText, error}'
+    type: '{ field, label, helperText, error }'
   },
   customOnChange_Inputs: {
     name: 'customOnChange',

@@ -86,7 +86,7 @@ export type RHFSelectProps<
    * List of options to display in the dropdown.
    * Note:
    * - Works best for small to moderate datasets.
-   * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMuiAutocomplete` is
+   * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMultiAutocomplete` is
    *   recommended for improved searchability, keyboard navigation, and performance.
    */
   options: Option[];
