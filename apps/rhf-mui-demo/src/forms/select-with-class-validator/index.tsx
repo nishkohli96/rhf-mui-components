@@ -59,12 +59,14 @@ const SelectFormWithClassValidator = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single select field with helpertext" />
+            <FieldVariantInfo title="Single select field with helpertext and renderOption" />
             <RHFSelect
               fieldName="favouriteColor"
               control={control}
               options={Object.values(Colors)}
-              errorMessage={errors?.favouriteColor?.message}
+              renderOption={opn => (
+                <span style={{ color: opn }}>{opn}</span>
+              )}
               {...(watch('favouriteColor') && {
                 helperText: (
                   <Typography color={watch('favouriteColor')}>
@@ -76,14 +78,14 @@ const SelectFormWithClassValidator = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single select with multiple options as an array of strings" />
+            <FieldVariantInfo title="Single select with multiple options as an array of strings and customIds" />
             <RHFSelect
               fieldName="languages"
               control={control}
               options={languagesList}
-              errorMessage={errors?.languages?.message}
               multiple
               required
+              customIds={{ field: 'languages-field' }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -97,9 +99,9 @@ const SelectFormWithClassValidator = () => {
               showLabelAboveFormField
               placeholder="Choose IPL teams"
               showDefaultOption
-              defaultOptionText="Select IPL teams"
+              defaultOptionText="--- Select IPL teams ---"
               label={
-                <div style={{ color: '#007aba' }}>
+                <div style={{ color: '#27bb40' }}>
                   Select your favourite IPL teams
                 </div>
               }
@@ -107,11 +109,10 @@ const SelectFormWithClassValidator = () => {
                 <span>{`${option.name} (${option.abbr})`}</span>
               )}
               getOptionDisabled={option =>
-                ['CSK', 'MI'].includes(option.abbr)
+                ['LSG', 'RR'].includes(option.abbr)
               }
               required
               multiple
-              errorMessage={errors?.iplTeams?.message}
               helperText="Select one or more teams"
             />
           </Grid>
@@ -123,7 +124,8 @@ const SelectFormWithClassValidator = () => {
               options={randomNumbers}
               showDefaultOption
               showLabelAboveFormField
-              errorMessage={errors?.randomNum?.message}
+              hideLabel
+              helperText="Select a random number"
               required
             />
           </Grid>

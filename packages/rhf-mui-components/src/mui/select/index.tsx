@@ -130,6 +130,11 @@ export type RHFSelectProps<
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -181,6 +186,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     renderValue,
     placeholder,
     customIds,
+    inputProps: muiSelectInputProps,
     ...otherSelectProps
   }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
   ref: Ref<HTMLInputElement>
@@ -235,7 +241,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
         const showPlaceholder = isValueEmpty && !!placeholder;
         const selectLabelValue
-          = hideLabel || isLabelAboveFormField || isValueEmpty
+          = hideLabel || isLabelAboveFormField || showPlaceholder
             ? undefined
             : SelectFormLabel;
         const selectLabelId = isLabelAboveFormField || hideLabel
@@ -265,7 +271,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                 }}
               />
             )}
-            {!isLabelAboveFormField && !showPlaceholder && (
+            {!hideLabel && !isLabelAboveFormField && !showPlaceholder && (
               <InputLabel
                 id={labelId}
                 htmlFor={fieldId}
@@ -276,7 +282,10 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             )}
             <MuiSelect
               {...otherSelectProps}
-              id={fieldId}
+              inputProps={{
+                ...muiSelectInputProps,
+                id: fieldId
+              }}
               name={rhfFieldName}
               autoComplete={autoComplete}
               inputRef={mergeRefs(rhfRef, ref)}
