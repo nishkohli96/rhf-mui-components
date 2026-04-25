@@ -146,7 +146,10 @@ const RHFRadioGroup = <
     allLabelsAboveFields,
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
-  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
+  if (
+    options.length
+    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
+  ) {
     validateArray('RHFRadioGroup', options, labelKey, valueKey);
   }
 

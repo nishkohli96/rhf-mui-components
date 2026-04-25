@@ -195,9 +195,14 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
   >,
   ref: Ref<HTMLInputElement>
 ) {
-  const { allLabelsAboveFields, skipValidationInEnvs }
-    = useContext(RHFMuiConfigContext);
-  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
+  const {
+    allLabelsAboveFields,
+    skipValidationInEnvs
+  } = useContext(RHFMuiConfigContext);
+  if (
+    options.length
+    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
+  ) {
     validateArray('RHFAutocompleteObject', options, labelKey, valueKey);
   }
 
@@ -323,7 +328,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField
+                  'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
                   'aria-describedby': showHelperTextElement

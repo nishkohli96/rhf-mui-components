@@ -36,7 +36,6 @@ import {
 import type {
   FormLabelProps,
   FormHelperTextProps,
-  KeyValueOption,
   StrObjOption,
   AutocompleteNewValue,
   AutoCompleteTextFieldProps,
@@ -230,10 +229,15 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
   >,
   ref: Ref<HTMLInputElement>
 ) {
-  const { allLabelsAboveFields, skipValidationInEnvs }
-    = useContext(RHFMuiConfigContext);
+  const {
+    allLabelsAboveFields,
+    skipValidationInEnvs
+  } = useContext(RHFMuiConfigContext);
 
-  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
+  if (
+    options.length
+    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
+  ) {
     validateArray('RHFAutocomplete', options, labelKey, valueKey);
   }
 
@@ -393,7 +397,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
               isOptionEqualToValue={(option, value) => {
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
-                    option[valueKey] === (value as KeyValueOption)[valueKey]
+                    option[valueKey]
+                    === (typeof value === 'object' ? value[valueKey] : value)
                   );
                 }
                 return option === value;
@@ -413,7 +418,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField
+                  'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
                   'aria-describedby': showHelperTextElement

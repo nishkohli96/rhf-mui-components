@@ -174,8 +174,10 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     allLabelsAboveFields,
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
-
-  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
+  if (
+    options.length
+    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
+  ) {
     validateArray(componentName, options, labelKey, valueKey);
     if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
       console.warn(generateLargeOptionsErrMsg(componentName, options.length));
@@ -186,7 +188,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     fieldName,
     customIds
   );
-
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,

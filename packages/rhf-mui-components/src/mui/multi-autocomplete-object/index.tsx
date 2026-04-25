@@ -199,7 +199,10 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     defaultFormControlLabelSx,
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
-  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
+  if (
+    options.length
+    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
+  ) {
     validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
   }
 
@@ -435,7 +438,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField
+                  'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
                   'aria-describedby': showHelperTextElement

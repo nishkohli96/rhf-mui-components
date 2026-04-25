@@ -355,7 +355,7 @@ ref: Ref<HTMLInputElement>) {
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField
+                  'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
                   'aria-describedby': showHelperTextElement

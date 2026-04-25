@@ -40,7 +40,6 @@ import type {
   FormControlLabelProps,
   CheckboxProps,
   FormHelperTextProps,
-  KeyValueOption,
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps,
@@ -199,7 +198,10 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     defaultFormControlLabelSx,
     skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
-  if (!skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')) {
+  if (
+    options.length
+    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
+  ) {
     validateArray('RHFMultiAutocomplete', options, labelKey, valueKey);
   }
 
@@ -207,13 +209,11 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     fieldName,
     customIds
   );
-
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-
   const shouldHideSelectAllOptions
     = hideSelectAllOption || options.length === 0 || options.length === 1;
 
@@ -431,7 +431,8 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
-                    option[valueKey] === (value as KeyValueOption)[valueKey]
+                    option[valueKey]
+                    === (typeof value === 'object' ? value[valueKey] : value)
                   );
                 }
                 return option === value;
@@ -452,7 +453,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   ...inputProps,
                   'aria-required': required,
                   'aria-invalid': isError,
-                  'aria-labelledby': isLabelAboveFormField
+                  'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
                   'aria-describedby': showHelperTextElement
