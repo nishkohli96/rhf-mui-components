@@ -33,6 +33,7 @@ type FormSchema = {
   nationality?: string;
   countriesVisited: string[];
   employeeOfMonth?: (typeof employeeList)[number];
+  employeesToLayoff?: (typeof employeeList)[number];
   employeesToPromote?: (typeof employeeList)[number][];
   dreamDestinations?: string[];
   colors?: Colors[];
@@ -248,10 +249,10 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              renderValue={value => {
+              renderValue={(value) => {
                 return (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {value.map(item => {
+                    {value.map((item) => {
                       return (
                         <Chip
                           key={item.id}
@@ -314,6 +315,38 @@ const AutocompleteForm = () => {
                       style={{ objectFit: 'contain', borderRadius: '50%' }}
                     />
                     <Typography component="span">{value.name}</Typography>
+                  </Box>
+                );
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Autocomplete Object with render option" />
+            <RHFAutocompleteObject
+              fieldName="employeesToLayoff"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
+              options={employeeList}
+              labelKey="name"
+              valueKey="_id"
+              multiple
+              label="Employee(s) to Layoff"
+              renderOption={({ key, ...props }, option) => {
+                return (
+                  <Box component="li" key={key} {...props}>
+                    <Image
+                      src={option.avatar}
+                      alt={option.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <Typography sx={{ ml: '5px' }}>{option.name}</Typography>
                   </Box>
                 );
               }}

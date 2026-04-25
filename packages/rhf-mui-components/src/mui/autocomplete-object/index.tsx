@@ -311,6 +311,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
               }}
               getOptionLabel={option => renderOptionLabel(option)}
               isOptionEqualToValue={(option, value) => {
+                if (!value) return false;
                 return option[valueKey] === value[valueKey];
               }}
               renderInput={params => {

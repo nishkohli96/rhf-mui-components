@@ -267,10 +267,15 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
   }, [options, valueKey, labelKey]);
 
   const renderOptionLabel = useCallback(
-    (option: Option | string): string =>
-      labelKey && isKeyValueOption(option, labelKey, valueKey)
-        ? option[labelKey]
-        : (option as string),
+    (option: Option | string): string => {
+      if (typeof option === 'string') {
+        return option;
+      }
+      if (labelKey && isKeyValueOption(option, labelKey, valueKey)) {
+        return option[labelKey];
+      }
+      return String(option);
+    },
     [labelKey, valueKey]
   );
 
@@ -356,7 +361,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   = newValue === null
                     ? null
                     : Array.isArray(newValue)
-                      ? (newValue ?? []).map(item =>
+                      ? newValue.map(item =>
                         valueKey && isKeyValueOption(item, labelKey, valueKey)
                           ? item[valueKey]
                           : (item as string))
@@ -395,6 +400,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
               }}
               getOptionLabel={renderOptionLabel}
               isOptionEqualToValue={(option, value) => {
+                if (!value) return false;
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
                     option[valueKey]
