@@ -128,6 +128,11 @@ export type RHFAutocompleteObjectProps<
   formLabelProps?: FormLabelProps;
   required?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;

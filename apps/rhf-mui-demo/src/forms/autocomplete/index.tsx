@@ -166,7 +166,6 @@ const AutocompleteForm = () => {
               labelKey="name"
               valueKey="iataCode"
               required
-              errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -184,10 +183,8 @@ const AutocompleteForm = () => {
               labelKey="name"
               valueKey="iataCode"
               multiple
-              showLabelAboveFormField
               textFieldProps={{ variant: 'standard' }}
               getLimitTagsText={(value) => `+${value} Airport(s)`}
-              errorMessage={errors?.destinationAirports?.message}
               ChipProps={{
                 sx: {
                   bgcolor: '#ea3677',
@@ -275,7 +272,6 @@ const AutocompleteForm = () => {
                 );
               }}
               textFieldProps={{ variant: 'standard' }}
-              errorMessage={errors?.pokemons?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -321,7 +317,6 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
-              errorMessage={errors?.employeeOfMonth?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -374,7 +369,6 @@ const AutocompleteForm = () => {
               getLimitTagsText={(more) => `+${more} Color(s)`}
               helperText="Choose at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
-              errorMessage={errors?.colors?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -412,7 +406,6 @@ const AutocompleteForm = () => {
                 }
               }}
               required
-              errorMessage={errors?.iplTeams?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -444,7 +437,6 @@ const AutocompleteForm = () => {
                   );
                 });
               }}
-              errorMessage={errors?.employeesToPromote?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -468,7 +460,6 @@ const AutocompleteForm = () => {
               }}
               textFieldProps={{ variant: 'filled' }}
               required
-              errorMessage={errors?.nationality?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -497,7 +488,6 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
-              errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -539,7 +529,6 @@ const AutocompleteForm = () => {
                 </Typography>
               }
               required
-              errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>
           <Grid size={12}>
