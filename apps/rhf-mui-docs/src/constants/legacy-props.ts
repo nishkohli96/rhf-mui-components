@@ -73,6 +73,12 @@ const LegacyPropsDescription: Record<
       'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
     type: '(newValue, event) => void'
   },
+  onValueChange_Autocomplete_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
+    type: '(newValue, event, reason, details) => void'
+  },
 });
 
 export default LegacyPropsDescription;

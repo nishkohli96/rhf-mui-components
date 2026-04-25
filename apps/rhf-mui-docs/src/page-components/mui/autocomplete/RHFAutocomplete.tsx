@@ -1,12 +1,20 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
 import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFAutocompletePropsTable = ({
   docsVersion,
-  muiVersion
+  muiVersion,
+  v4AndAbove
 }: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? [
+      PropsDescription.onValueChange_Autocomplete,
+      PropsDescription.customOnChange_Autocomplete
+    ]
+    : [LegacyPropsDescription.onValueChange_Autocomplete_v2_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -16,7 +24,7 @@ const RHFAutocompletePropsTable = ({
     PropsDescription.valueKey,
     PropsDescription.required,
     PropsDescription.multiple,
-    PropsDescription.onValueChange_Autocomplete,
+    ...onValueChange,
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
@@ -28,17 +36,27 @@ const RHFAutocompletePropsTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : [
+        getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })
+      ]),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
     }),
-    getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion })
+    getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );;
 };
 
 export default RHFAutocompletePropsTable;

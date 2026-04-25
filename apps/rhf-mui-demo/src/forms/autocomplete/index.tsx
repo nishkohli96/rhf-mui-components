@@ -109,10 +109,11 @@ const AutocompleteForm = () => {
                 }
               }}
               options={airportList}
-              renderOption={(props, option) => {
+              renderOption={({ key, ...props }, option) => {
                 return (
                   <Box
                     component="li"
+                    key={key}
                     {...props}
                     sx={{
                       px: 1.25,

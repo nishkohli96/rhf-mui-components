@@ -38,7 +38,6 @@ import RHFAutocomplete, { RHFAutocompleteProps } from '@nish1896/rhf-mui-compone
   fieldName="countriesVisited"
   control={control}
   options={['Azerbaijan', 'Canada', 'India']}
-  errorMessage={errors?.countriesVisited?.message}
 />
 ```
 
@@ -51,7 +50,6 @@ For options as an array of objects:
   options={countryList} // imported from RHFCountrySelect
   labelKey="name"
   valueKey="name"
-  errorMessage={errors?.countriesVisited?.message}
 />
 ```
 
@@ -77,4 +75,5 @@ and accepts the following additional props:
 
 <RHFAutocompletePropsTable
   muiVersion={7}
+  v4AndAbove
 />

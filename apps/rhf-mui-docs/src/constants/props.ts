@@ -188,6 +188,12 @@ const PropsDescription: Record<
       'Override the default `onChange` behavior of the native select component. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
     type: '({ rhfOnChange, newValue, event }) => void'
   },
+  customOnChange_Autocomplete: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the autocomplete.',
+    type: '({ rhfOnChange, newValue, selectedOption, event, reason, details }) => void'
+  },
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
     description:
@@ -284,13 +290,13 @@ const PropsDescription: Record<
   onValueChange_Autocomplete: {
     name: 'onValueChange',
     description:
-      'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
-    type: '(newValue, event, reason, details?) => void'
+      'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `selectedOption`.',
+    type: '({ newValue, selectedOption, event, reason, details }) => void'
   },
   onValueChange_AutocompleteObject: {
     name: 'onValueChange',
     description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
-    type: '(newValue, event, reason, details?) => void'
+    type: '({ newValue, event, reason, details }) => void'
   },
   onValueChange_MultiAutocompleteObject: {
     name: 'onValueChange',
