@@ -1,5 +1,5 @@
 ---
-sidebar_position: 12
+sidebar_position: 11
 sidebar_label: Multi Autocomplete Object
 title: RHFMultiAutocompleteObject
 description: Multi-select autocomplete component with object-based values and built-in "Select All" functionality.
@@ -42,6 +42,7 @@ import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-a
   options={countryList}
   labelKey="name"
   valueKey="code"
+  errorMessage={errors?.countries?.message}
 />
 ```
 
@@ -75,5 +76,6 @@ The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](http
 and accepts the following additional props:
 
 <RHFMultiAutocompleteObjectPropsTable
+  docsVersion={3}
   muiVersion={7}
 />

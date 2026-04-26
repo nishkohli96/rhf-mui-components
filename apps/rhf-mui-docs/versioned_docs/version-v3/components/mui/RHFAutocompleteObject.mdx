@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 9
 sidebar_label: Autocomplete Object
 title: RHFAutocompleteObject
 description: Autocomplete component that returns full option objects instead of primitive values, ideal for object-driven form handling.
@@ -44,6 +44,7 @@ import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf
   labelKey="name"
   valueKey="code"
   multiple           // omit this prop for single selection
+  errorMessage={errors?.country?.message}
 />
 ```
 
@@ -93,5 +94,6 @@ The `RHFAutocompleteObjectProps` interface extends [AutocompleteProps](https://v
 and accepts the following additional props:
 
 <RHFAutocompleteObjectPropsTable
+  docsVersion={3}
   muiVersion={7}
 />
