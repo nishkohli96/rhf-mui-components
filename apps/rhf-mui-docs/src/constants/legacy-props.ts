@@ -79,6 +79,11 @@ const LegacyPropsDescription: Record<
       'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
     type: '(newValue, event, reason, details) => void'
   },
+  onValueChange_AutocompleteObject_v3: {
+    name: 'onValueChange',
+    description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
+    type: '(newValue, event, reason, details ) => void'
+  },
 });
 
 export default LegacyPropsDescription;

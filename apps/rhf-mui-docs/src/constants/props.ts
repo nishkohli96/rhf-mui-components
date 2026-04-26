@@ -194,6 +194,12 @@ const PropsDescription: Record<
       'Override the default `onChange` behavior of the autocomplete.',
     type: '({ rhfOnChange, newValue, selectedOption, event, reason, details }) => void'
   },
+  customOnChange_AutocompleteObject: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the autocomplete.',
+    type: '({ rhfOnChange, newValue, event, reason, details }) => void'
+  },
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
     description:

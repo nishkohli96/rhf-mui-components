@@ -56,7 +56,7 @@ const RHFAutocompletePropsTable = ({
       rows={tableRows as PropsInfo[]}
       showType
     />
-  );;
+  );
 };
 
 export default RHFAutocompletePropsTable;
