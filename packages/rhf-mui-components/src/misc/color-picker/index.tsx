@@ -38,6 +38,11 @@ import 'react-color-palette/css';
 
 type ColorFormat = keyof IColor;
 
+type RHFColorPickerCustomOnChangeProps = {
+  color: IColor;
+  setColor: Dispatch<SetStateAction<IColor>>;
+}
+
 export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -57,19 +62,24 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    *
    * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
    *
+   * @param color - Newly selected color value
    * @param setColor - react-color-palette `setColor` function
-   * @param color - Current color value
    */
-  customOnChange?: (
-    setColor: Dispatch<SetStateAction<IColor>>,
-    color: IColor
-  ) => void;
+  customOnChange?: ({
+    color,
+    setColor
+  }: RHFColorPickerCustomOnChangeProps) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * This prop is no longer needed.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -161,7 +171,7 @@ const RHFColorPicker = <T extends FieldValues>({
                     disabled={muiDisabled}
                     onChange={color => {
                       if(customOnChange) {
-                        customOnChange(setColor, color);
+                        customOnChange({ color, setColor });
                         return;
                       }
                       setColor(color);
@@ -183,7 +193,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   disabled={muiDisabled}
                   onChange={color => {
                     if(customOnChange) {
-                      customOnChange(setColor, color);
+                      customOnChange({ color, setColor });
                       return;
                     }
                     setColor(color);

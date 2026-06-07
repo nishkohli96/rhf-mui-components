@@ -6,7 +6,8 @@ import { getPropDetailsByVersion } from '@site/src/utils';
 const RHFColorPickerPropsTable = ({
   docsVersion,
   muiVersion,
-  v1
+  v1,
+  v4AndAbove
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
@@ -19,7 +20,11 @@ const RHFColorPickerPropsTable = ({
         PropsDescription.defaultColor,
         PropsDescription.excludeAlpha,
         PropsDescription.required,
-        PropsDescription.onValueChange_ColorPicker
+        PropsDescription.onValueChange_ColorPicker,
+        ...(v4AndAbove
+          ? [PropsDescription.customOnChange_ColorPicker]
+          : []
+        )
       ]
       : [
         PropsDescription.value_ColorPicker_v1,
@@ -35,17 +40,25 @@ const RHFColorPickerPropsTable = ({
       ]
       : [LegacyPropsDescription.label_v1]),
     PropsDescription.showLabelAboveFormField_Default,
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
     getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
+    ...(!v4AndAbove ?
+      [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+      : []
+    ),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    })
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

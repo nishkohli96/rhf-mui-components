@@ -415,6 +415,12 @@ const PropsDescription: Record<
       'Callback function to get the selected color in `hex`, `rgb` or `hsv` format. The color format being set in field value can be configured by the `valueKey` prop.',
     type: '(color: IColor) => void'
   },
+  customOnChange_ColorPicker: {
+    name: 'customOnChange',
+    description:
+      'An optional callback function to override the default `onChange` behavior of the color picker component. This invalidates the usage of `onValueChange` function. You can get the selected color value and the `setColor` function from the parameters to implement your custom logic and update the form state.',
+    type: '({ color, setColor }) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:
