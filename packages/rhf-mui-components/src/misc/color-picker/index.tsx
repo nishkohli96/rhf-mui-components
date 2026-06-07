@@ -3,11 +3,10 @@
 import {
   useContext,
   Fragment,
-  type ReactNode,
-  type Dispatch,
-  type SetStateAction
+  type ReactNode
 } from 'react';
 import {
+  useWatch,
   Controller,
   type FieldValues,
   type Path,
@@ -40,14 +39,13 @@ type ColorFormat = keyof IColor;
 
 type RHFColorPickerCustomOnChangeProps = {
   color: IColor;
-  setColor: Dispatch<SetStateAction<IColor>>;
-}
+  setColor: (newColor: IColor) => void;
+};
 
 export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  value?: string;
   valueKey?: ColorFormat;
   defaultColor?: string;
   excludeAlpha?: boolean;
@@ -90,7 +88,6 @@ const RHFColorPicker = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  value,
   valueKey = 'hex',
   defaultColor = '#000000',
   excludeAlpha,
@@ -117,7 +114,9 @@ const RHFColorPicker = <T extends FieldValues>({
     helperTextId,
     errorId
   } = useFieldIds(fieldName, customIds);
-  const [color, setColor] = useColor(value ?? defaultColor);
+
+  const watchedValue = useWatch({ control, name: fieldName });
+  const [color, setColor] = useColor(watchedValue ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveControl = resolveLabelAboveControl(
@@ -148,6 +147,12 @@ const RHFColorPicker = <T extends FieldValues>({
           helperText
           || (isError && !hideErrorMessage)
         );
+
+        const wrappedSetColor = (newColor: IColor) => {
+          setColor(newColor);
+          rhfOnChange(getFormattedColor(newColor));
+        };
+
         return (
           <FormControl error={isError}>
             {!hideLabel && (
@@ -171,7 +176,7 @@ const RHFColorPicker = <T extends FieldValues>({
                     disabled={muiDisabled}
                     onChange={color => {
                       if(customOnChange) {
-                        customOnChange({ color, setColor });
+                        customOnChange({ color, setColor: wrappedSetColor });
                         return;
                       }
                       setColor(color);
@@ -193,7 +198,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   disabled={muiDisabled}
                   onChange={color => {
                     if(customOnChange) {
-                      customOnChange({ color, setColor });
+                      customOnChange({ color, setColor: wrappedSetColor });
                       return;
                     }
                     setColor(color);

@@ -93,7 +93,6 @@ const MiscellaneousComponentsForm = () => {
                   message: 'select a color'
                 }
               }}
-              value={getValues('favouriteColor')}
               onValueChange={newColor => {
                 console.log('newColor: ', newColor);
               }}
@@ -103,7 +102,6 @@ const MiscellaneousComponentsForm = () => {
                   Your favouriteColor is being applied on this text.
                 </Typography>
               )}
-              errorMessage={errors?.favouriteColor?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -120,8 +118,8 @@ const MiscellaneousComponentsForm = () => {
                 }
               }}
               label="Second Favourite Color"
-              value={getValues('secondFavColor')}
-              customOnChange={(setColor, color) => {
+              customOnChange={({ color, setColor }) => {
+                console.log('color: ', color);
                 if(color.rgb.r > 128) {
                   return;
                 }
@@ -133,7 +131,6 @@ const MiscellaneousComponentsForm = () => {
                   Color wont change if red value is greater than 128
                 </Typography>
               )}
-              errorMessage={errors?.secondFavColor?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

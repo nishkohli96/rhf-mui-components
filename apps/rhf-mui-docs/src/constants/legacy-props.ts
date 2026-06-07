@@ -95,6 +95,13 @@ const LegacyPropsDescription: Record<
     description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
     type: '(newValue, event, reason, details?) => void'
   },
+  value_ColorPicker: {
+    name: 'value',
+    description:
+      'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically, else `defaultColor` is selected as the current color.',
+    type: 'string',
+    required: true
+  },
 });
 
 export default LegacyPropsDescription;

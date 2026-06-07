@@ -446,13 +446,6 @@ const PropsDescription: Record<
       'Callback function to get details of input phone number, including the country details.',
     type: '({ phone: string, inputValue: string, country: ParsedCountry }) => void'
   },
-  value_ColorPicker: {
-    name: 'value',
-    description:
-      'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically, else `defaultColor` is selected as the current color.',
-    type: 'string',
-    required: true
-  },
   value_ColorPicker_v1: {
     name: 'value',
     description:

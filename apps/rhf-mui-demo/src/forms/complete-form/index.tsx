@@ -582,9 +582,7 @@ const CompleteForm = () => {
                     message: reqdMessage('bgColor')
                   }
                 }}
-                value={getValues('bgColor')}
                 required
-                errorMessage={errors?.bgColor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

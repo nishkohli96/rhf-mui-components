@@ -400,7 +400,9 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
               }}
               getOptionLabel={renderOptionLabel}
               isOptionEqualToValue={(option, value) => {
-                if (!value) return false;
+                if (!value) {
+                  return false;
+                }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
                     option[valueKey]

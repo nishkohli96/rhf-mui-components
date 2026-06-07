@@ -410,10 +410,8 @@ const CompleteFormWithJoi = () => {
               <RHFColorPicker
                 fieldName="bgColor"
                 control={control}
-                value={getValues('bgColor')}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.bgColor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
