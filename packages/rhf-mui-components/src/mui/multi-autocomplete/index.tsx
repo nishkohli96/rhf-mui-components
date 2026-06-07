@@ -82,7 +82,7 @@ type MultiAutoCompleteProps<
 
 type OnValueChangeProps = {
   newValue: string[];
-  targetValue?: string;
+  selectedOption?: string;
 };
 
 export type RHFMultiAutocompleteProps<
@@ -105,11 +105,11 @@ export type RHFMultiAutocompleteProps<
   labelKey?: LabelKey;
   valueKey?: ValueKey;
   selectAllText?: string;
-  onValueChange?: ({ newValue, targetValue }: OnValueChangeProps) => void;
+  onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps) => void;
   customOnChange?: ({
     rhfOnChange,
     newValue,
-    targetValue
+    selectedOption
   }: CustomOnChangeProps<OnValueChangeProps, string[]>) => void;
   /**
    * If true, the input can't be cleared.
@@ -117,15 +117,15 @@ export type RHFMultiAutocompleteProps<
    */
   disableClearable?: DisableClearable;
   label?: ReactNode;
-  showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
-  formLabelProps?: FormLabelProps;
-  checkboxProps?: CheckboxProps;
   renderOptionLabel?: (
     option: Option,
     selectAllText: string,
     state: AutocompleteRenderOptionState
   ) => ReactNode;
+  showLabelAboveFormField?: boolean;
+  hideLabel?: boolean;
+  formLabelProps?: FormLabelProps;
+  checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
   helperText?: ReactNode;
@@ -316,7 +316,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
           rhfOnChange(newValues);
           onValueChange?.({
             newValue: newValues,
-            targetValue: selectedValue
+            selectedOption: selectedValue
           });
         };
 
@@ -364,12 +364,12 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                     customOnChange({
                       rhfOnChange,
                       newValue: [],
-                      targetValue: undefined
+                      selectedOption: undefined
                     });
                     return;
                   }
                   rhfOnChange([]);
-                  onValueChange?.({ newValue: [] });
+                  onValueChange?.({ newValue: [], selectedOption: undefined });
                   return;
                 }
                 const isSelectAllSelected
@@ -382,14 +382,14 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                     customOnChange({
                       rhfOnChange,
                       newValue: finalValue,
-                      targetValue: selectAllOptionValue
+                      selectedOption: selectAllOptionValue
                     });
                     return;
                   }
                   rhfOnChange(finalValue);
                   onValueChange?.({
                     newValue: finalValue,
-                    targetValue: selectAllOptionValue
+                    selectedOption: selectAllOptionValue
                   });
                   return;
                 }
@@ -402,7 +402,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   customOnChange({
                     rhfOnChange,
                     newValue: finalValue,
-                    targetValue: clickedOption
+                    selectedOption: clickedOption
                       ? getOptionLabelOrValue(clickedOption, valueKey)
                       : undefined
                   });
@@ -411,7 +411,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 rhfOnChange(finalValue);
                 onValueChange?.({
                   newValue: finalValue,
-                  targetValue: clickedOption
+                  selectedOption: clickedOption
                     ? getOptionLabelOrValue(clickedOption, valueKey)
                     : undefined
                 });

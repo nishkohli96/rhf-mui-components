@@ -84,6 +84,17 @@ const LegacyPropsDescription: Record<
     description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
     type: '(newValue, event, reason, details ) => void'
   },
+  onValueChange_MultiAutocomplete_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'Callback function that returns the latest fieldValue and value of the item selected.',
+    type: '(fieldValue: string[], targetValue?: string) => void'
+  },
+  onValueChange_MultiAutocompleteObject_v3: {
+    name: 'onValueChange',
+    description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
+    type: '(newValue, event, reason, details?) => void'
+  },
 });
 
 export default LegacyPropsDescription;

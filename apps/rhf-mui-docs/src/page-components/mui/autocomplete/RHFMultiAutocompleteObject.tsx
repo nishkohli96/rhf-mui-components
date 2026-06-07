@@ -1,8 +1,19 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
-import { type PropsInfo } from '@site/src/types';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFMultiAutocompleteObjectPropsTable = () => {
+const RHFMultiAutocompleteObjectPropsTable = ({
+  v4AndAbove,
+  docsVersion,
+  muiVersion
+}: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? [
+      PropsDescription.onValueChange_MultiAutocompleteObject,
+      PropsDescription.customOnChange_MultiAutocompleteObject
+    ]
+    : [LegacyPropsDescription.onValueChange_MultiAutocompleteObject_v3]
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -13,18 +24,31 @@ const RHFMultiAutocompleteObjectPropsTable = () => {
     PropsDescription.selectAllText,
     PropsDescription.hideSelectAllOption_MultiAutocompleteObject,
     PropsDescription.required,
-    PropsDescription.onValueChange_MultiAutocompleteObject,
+    ...onValueChange,
     PropsDescription.label,
     PropsDescription.showLabelAboveFormField,
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []),
     PropsDescription.formLabelProps,
-    PropsDescription.checkboxProps,
-    PropsDescription.formControlLabelProps,
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.checkboxProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(v4AndAbove
+      ? []
+      : [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
-    PropsDescription.textFieldProps,
-    PropsDescription.ChipProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipProps, { muiVersion }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return (

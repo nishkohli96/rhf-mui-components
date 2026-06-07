@@ -200,6 +200,12 @@ const PropsDescription: Record<
       'Override the default `onChange` behavior of the autocomplete.',
     type: '({ rhfOnChange, newValue, event, reason, details }) => void'
   },
+  customOnChange_MultiAutocompleteObject: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the autocomplete.',
+    type: '({ rhfOnChange, newValue, selectedOption }) => void'
+  },
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
     description:
@@ -304,16 +310,16 @@ const PropsDescription: Record<
     description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
     type: '({ newValue, event, reason, details }) => void'
   },
-  onValueChange_MultiAutocompleteObject: {
-    name: 'onValueChange',
-    description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
-    type: '(newValue, event, reason, details?) => void'
-  },
   onValueChange_MultiAutocomplete: {
     name: 'onValueChange',
     description:
-      'Callback function that returns the latest fieldValue and value of the item selected.',
-    type: '(fieldValue: string[], targetValue?: string) => void'
+      'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `selectedOption`.',
+    type: '({ newValue, selectedOption }) => void'
+  },
+  onValueChange_MultiAutocompleteObject: {
+    name: 'onValueChange',
+    description: 'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `selectedOption`.',
+    type: '({ newValue, selectedOption }) => void'
   },
   onValueChange_CountrySelect: {
     name: 'onValueChange',
@@ -694,7 +700,7 @@ const PropsDescription: Record<
   hideSelectAllOption: {
     name: 'hideSelectAllOption',
     description:
-      'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2.0` and above.',
+      'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
     type: 'boolean'
   },
   hideSelectAllOption_MultiAutocompleteObject: {

@@ -81,9 +81,9 @@ type MultiAutoCompleteProps<
   | 'ref'
 >;
 
-export type OnValueChangeProps<Option extends KeyValueOption = KeyValueOption> = {
+type OnValueChangeProps<Option extends KeyValueOption = KeyValueOption> = {
   newValue: Option[];
-  targetValue?: Option | typeof selectAllOptionValue;
+  selectedOption?: Option | typeof selectAllOptionValue;
 };
 
 export type RHFMultiAutocompleteObjectProps<
@@ -110,7 +110,7 @@ export type RHFMultiAutocompleteObjectProps<
   customOnChange?: ({
     rhfOnChange,
     newValue,
-    targetValue
+    selectedOption
   }: CustomOnChangeProps<OnValueChangeProps<Option>, Option[]>) => void;
   /**
    * If true, the input can't be cleared.
@@ -307,12 +307,12 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
 
         const changeFieldState = (
           newValues: Option[],
-          targetValue?: Option | typeof selectAllOptionValue
+          selectedOption?: Option | typeof selectAllOptionValue
         ) => {
           rhfOnChange(newValues);
           onValueChange?.({
             newValue: newValues,
-            targetValue
+            selectedOption
           });
         };
 
@@ -360,7 +360,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                     customOnChange({
                       rhfOnChange,
                       newValue: [],
-                      targetValue: undefined
+                      selectedOption: undefined
                     });
                     return;
                   }
@@ -376,14 +376,14 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                     customOnChange({
                       rhfOnChange,
                       newValue: finalValue,
-                      targetValue: selectAllOptionValue
+                      selectedOption: selectAllOptionValue
                     });
                     return;
                   }
                   rhfOnChange(finalValue);
                   onValueChange?.({
                     newValue: finalValue,
-                    targetValue: selectAllOptionValue
+                    selectedOption: selectAllOptionValue
                   });
                   return;
                 }
@@ -396,14 +396,14 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                   customOnChange({
                     rhfOnChange,
                     newValue: finalValue,
-                    targetValue: clickedOption
+                    selectedOption: clickedOption
                   });
                   return;
                 }
                 rhfOnChange(finalValue);
                 onValueChange?.({
                   newValue: finalValue,
-                  targetValue: clickedOption
+                  selectedOption: clickedOption
                 });
               }}
               onBlur={blurEvent => {
