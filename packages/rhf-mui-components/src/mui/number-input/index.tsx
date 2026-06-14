@@ -40,6 +40,7 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   mergeRefs,
+  sanitizePastedNumber,
   useFieldIds
 } from '@/utils';
 
@@ -61,6 +62,20 @@ type TextFieldInputProps = Omit<
   /** Always an `<input>`; multiline / textarea are not supported. */
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 };
+
+function setInputValueAndNotify(input: HTMLInputElement, value: string) {
+  const valueSetter = Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    'value'
+  )?.set;
+
+  if (valueSetter) {
+    valueSetter.call(input, value);
+  } else {
+    input.value = value;
+  }
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+}
 
 /**
  * Builds a pattern for in-progress typing: optional leading `-` when
@@ -256,11 +271,22 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
       const paste = e.clipboardData.getData('text').trim();
       if (paste !== '' && !decimalPattern.test(paste)) {
         e.preventDefault();
-        return;
+        const sanitized = sanitizePastedNumber(
+          paste,
+          nonNegative,
+          onlyIntegers,
+          maxDecimalPlaces
+        );
+        if (sanitized !== null) {
+          const input = e.target instanceof HTMLInputElement ? e.target : null;
+          if (input) {
+            setInputValueAndNotify(input, sanitized);
+          }
+        }
       }
       onPaste?.(e);
     },
-    [decimalPattern, onPaste]
+    [decimalPattern, maxDecimalPlaces, nonNegative, onlyIntegers, onPaste]
   );
 
   return (

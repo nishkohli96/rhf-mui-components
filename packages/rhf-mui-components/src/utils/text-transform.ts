@@ -42,10 +42,10 @@ export function normalizeString(str: string) {
  * Returns `null` when nothing salvageable remains.
  *
  * @example
- * sanitizePastedNumber('43.234',  false, true)      // '43'   (onlyIntegers)
- * sanitizePastedNumber('-43.5',   true,  false)      // '43.5' (nonNegative strips '-')
- * sanitizePastedNumber('3.14159', false, false, 2)   // '3.14' (maxDecimalPlaces=2)
- * sanitizePastedNumber('-3.999',  false, true)       // '-3'   (both sign + integer)
+ * sanitizePastedNumber('43.234', false, true)      // '43'   (onlyIntegers)
+ * sanitizePastedNumber('-43.5', true,  false)      // '43.5' (nonNegative strips '-')
+ * sanitizePastedNumber('3.14159', false, false, 2) // '3.14' (maxDecimalPlaces=2)
+ * sanitizePastedNumber('-3.999', false, true)      // '-3'   (both sign + integer)
  */
 export function sanitizePastedNumber(
   raw: string,
