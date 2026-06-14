@@ -11,6 +11,7 @@ import {
   type ClipboardEvent,
   type FocusEvent,
   type KeyboardEvent,
+  type MouseEvent,
   type Ref
 } from 'react';
 import {
@@ -75,6 +76,30 @@ function setInputValueAndNotify(input: HTMLInputElement, value: string) {
     input.value = value;
   }
   input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function getSteppedInputValue(
+  input: HTMLInputElement,
+  step: number,
+  direction: 1 | -1,
+  nonNegative: boolean
+) {
+  const currentValue = Number(input.value);
+  const resolvedValue = Number.isNaN(currentValue)
+    ? 0
+    : currentValue;
+  const nextValue = resolvedValue + (step * direction);
+  return String(nonNegative ? Math.max(0, nextValue) : nextValue);
+}
+
+function isNativeNumberMarkerClick(
+  input: HTMLInputElement,
+  event: MouseEvent
+) {
+  const rect = input.getBoundingClientRect();
+  const markerWidth = Math.min(24, rect.width);
+
+  return event.clientX >= rect.right - markerWidth;
 }
 
 /**
@@ -190,6 +215,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   slotProps: muiSlotProps,
   customIds,
   onKeyDown,
+  onMouseDown,
   onPaste,
   ...otherNumberInputProps
 }: RHFNumberInputProps<T>, ref: Ref<HTMLInputElement>) {
@@ -215,6 +241,30 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   const resolvedStepAmount = onlyIntegers
     ? Math.max(1, Math.floor(stepAmount))
     : stepAmount;
+
+  const handleMouseDown = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      const input = e.target instanceof HTMLInputElement ? e.target : null;
+
+      if (showMarkers && input && isNativeNumberMarkerClick(input, e)) {
+        const rect = input.getBoundingClientRect();
+        e.preventDefault();
+        input.focus();
+        setInputValueAndNotify(
+          input,
+          getSteppedInputValue(
+            input,
+            resolvedStepAmount,
+            e.clientY < rect.top + (rect.height / 2) ? 1 : -1,
+            nonNegative
+          )
+        );
+      }
+
+      onMouseDown?.(e);
+    },
+    [nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
+  );
 
   if (onlyIntegers && maxDecimalPlaces !== undefined) {
     console.warn(
@@ -362,11 +412,23 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   return;
                 }
 
-                if (inputValue === '' || decimalPattern.test(inputValue)) {
-                  const parsed = inputValue === ''
+                const safeInputValue = inputValue === '' || decimalPattern.test(inputValue)
+                  ? inputValue
+                  : sanitizePastedNumber(
+                    inputValue,
+                    nonNegative,
+                    onlyIntegers,
+                    maxDecimalPlaces
+                  );
+
+                if (
+                  safeInputValue !== null
+                  && (safeInputValue === '' || decimalPattern.test(safeInputValue))
+                ) {
+                  const parsed = safeInputValue === ''
                     ? null
                     : (
-                      onlyIntegers ? parseInt(inputValue, 10) : Number(inputValue)
+                      onlyIntegers ? parseInt(safeInputValue, 10) : Number(safeInputValue)
                     );
                   const safeValue = Number.isNaN(parsed) ? null : parsed;
                   if (customOnChange) {
@@ -381,7 +443,32 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                 rhfOnBlur();
                 muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
               }}
-              onKeyDown={handleKeyDown}
+              onKeyDown={event => {
+                if (
+                  event.key === 'ArrowUp'
+                  || event.key === 'ArrowDown'
+                ) {
+                  const input = event.target instanceof HTMLInputElement
+                    ? event.target
+                    : null;
+
+                  if (input) {
+                    event.preventDefault();
+                    setInputValueAndNotify(
+                      input,
+                      getSteppedInputValue(
+                        input,
+                        resolvedStepAmount,
+                        event.key === 'ArrowUp' ? 1 : -1,
+                        nonNegative
+                      )
+                    );
+                  }
+                }
+
+                handleKeyDown(event);
+              }}
+              onMouseDown={handleMouseDown}
               onPaste={handlePaste}
               slotProps={{
                 ...muiSlotProps,
