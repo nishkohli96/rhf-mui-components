@@ -25,7 +25,7 @@
     "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
   },
   "devDependencies": {
-    "turbo": "^2.8.21"
+    "turbo": "^2.9.18"
   },
   "keywords": [
     "react-hook-form",
@@ -48,6 +48,6 @@
   "repository": {
     "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
   },
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.6.0",
   "license": "MIT"
 }
