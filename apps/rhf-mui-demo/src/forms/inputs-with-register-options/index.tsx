@@ -82,7 +82,7 @@ const InputsWithRegisterForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Basic Input field with required validation" />
+            <FieldVariantInfo title="Basic Input field with required validation and customOnChange" />
             <RHFTextField
               fieldName="firstName"
               control={control}
@@ -91,6 +91,9 @@ const InputsWithRegisterForm = () => {
                   value: true,
                   message: reqdMsg('First Name')
                 }
+              }}
+                            customOnChange={({ rhfOnChange, newValue }) => {
+                rhfOnChange(newValue.toUpperCase());
               }}
               required
             />
@@ -110,25 +113,28 @@ const InputsWithRegisterForm = () => {
                   message: maxCharMsg(10)
                 }
               }}
+              helperText="Enter min 4 and max 10 characters"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Input with pattern validation & label above form-field with custom id" />
+            <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
             <RHFTextField
               fieldName="email"
               control={control}
               registerOptions={{
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'Invalid Email Id'
-                },
+    value: /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
+    message: "Enter a valid email address",
+  },
               }}
               customIds={{
                 field: 'userEmail',
-                label: 'userEmail-label'
+                label: 'userEmail-label',
+                error: 'userEmail-error'
               }}
               variant="standard"
               showLabelAboveFormField
+              formLabelProps={{ sx: { color: 'blue', fontWeight: 600 } }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

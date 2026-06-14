@@ -235,7 +235,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               value={country.iso2}
               disabled={muiDisabled || hideDropdown}
               onChange={e => {
-                setCountry(e.target.value as CountryIso2);
+                setCountry(e.target.value);
               }}
               renderValue={value => (
                 <FlagImage iso2={value} style={{ display: 'flex' }} />

@@ -95,7 +95,8 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   /**
    * @deprecated
    * Field error message is now automatically derived from form state.
-   * This prop is no longer needed.
+   * Passing this prop is no longer necessary and it will be removed in the
+   * next major version.
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;

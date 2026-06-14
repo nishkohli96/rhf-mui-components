@@ -17,7 +17,7 @@ const RHFTextFieldPropsTable = ({
   if (v4AndAbove) {
     valueChange = PropsDescription.onValueChange_Inputs;
   } else if (v1) {
-    valueChange = LegacyPropsDescription.label_v1;
+    valueChange = LegacyPropsDescription.onValueChange_Default_v1;
   } else {
     valueChange = LegacyPropsDescription.onValueChange_Inputs_v2_v3;
   }

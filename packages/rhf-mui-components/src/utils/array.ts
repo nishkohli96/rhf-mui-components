@@ -24,7 +24,7 @@ export function validateArray<
       `The "options" prop of ${formElementName} must be an array.`
     );
   }
-  const isPrimitive = isPrimitiveArray(options as unknown[]);
+  const isPrimitive = isPrimitiveArray(options);
   if (!isPrimitive && (!labelKey || !valueKey)) {
     throw new Error(generateLabelValueErrMsg(formElementName));
   }
