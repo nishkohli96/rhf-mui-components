@@ -60,6 +60,9 @@ const initialValues: FormSchema = {
   keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
+const weightStepAmount = 2;
+const balanceStepAmount = 0.5;
+
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
   const {
@@ -201,13 +204,13 @@ const InputsWithRegisterForm = () => {
               control={control}
               maxDecimalPlaces={3}
               placeholder="Enter your weight"
-              stepAmount={2}
+              stepAmount={weightStepAmount}
               showMarkers
               nonNegative
               helperText={
                 <Typography color="seagreen">
-                  Press Arrow Up/Down keys to update input value; negative
-                  values are not allowed
+                  {`Press Arrow Up/Down keys to update input value by ${weightStepAmount}; negative
+                  values are not allowed`}
                 </Typography>
               }
               slotProps={{
@@ -232,11 +235,11 @@ const InputsWithRegisterForm = () => {
               }}
               variant="filled"
               maxDecimalPlaces={2}
-              stepAmount={0.5}
+              stepAmount={balanceStepAmount}
               showMarkers
               helperText={
                 <Typography color="seagreen">
-                  Press Arrow Up/Down keys to update input value
+                  {`Press Arrow Up/Down keys to update input value by ${balanceStepAmount}`}
                 </Typography>
               }
             />

@@ -65,16 +65,11 @@ type TextFieldInputProps = Omit<
 };
 
 function setInputValueAndNotify(input: HTMLInputElement, value: string) {
-  const valueSetter = Object.getOwnPropertyDescriptor(
+  const descriptor = Object.getOwnPropertyDescriptor(
     HTMLInputElement.prototype,
     'value'
-  )?.set;
-
-  if (valueSetter) {
-    valueSetter.call(input, value);
-  } else {
-    input.value = value;
-  }
+  );
+  descriptor?.set?.call(input, value);
   input.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
@@ -110,7 +105,7 @@ function isNativeNumberMarkerClick(
  * @param maxDecimalPlaces - The maximum number of decimal places allowed.
  * @returns A RegExp pattern for in-progress typing.
  */
-export function buildNumberInputDecimalPattern(
+function buildNumberInputDecimalPattern(
   nonNegative: boolean,
   onlyIntegers: boolean,
   maxDecimalPlaces?: number,
@@ -274,6 +269,27 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
+      if (
+        e.key === 'ArrowUp'
+        || e.key === 'ArrowDown'
+      ) {
+        const input = e.target instanceof HTMLInputElement
+          ? e.target
+          : null;
+
+        if (input) {
+          e.preventDefault();
+          setInputValueAndNotify(
+            input,
+            getSteppedInputValue(
+              input,
+              resolvedStepAmount,
+              e.key === 'ArrowUp' ? 1 : -1,
+              nonNegative
+            )
+          );
+        }
+      }
       if (onlyIntegers && (e.key === '.' || e.code === 'Period' || e.code === 'NumpadDecimal')) {
         e.preventDefault();
       }
@@ -313,7 +329,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
 
       onKeyDown?.(e);
     },
-    [nonNegative, onlyIntegers, onKeyDown]
+    [nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
   );
 
   const handlePaste = useCallback(
@@ -443,31 +459,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                 rhfOnBlur();
                 muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
               }}
-              onKeyDown={event => {
-                if (
-                  event.key === 'ArrowUp'
-                  || event.key === 'ArrowDown'
-                ) {
-                  const input = event.target instanceof HTMLInputElement
-                    ? event.target
-                    : null;
-
-                  if (input) {
-                    event.preventDefault();
-                    setInputValueAndNotify(
-                      input,
-                      getSteppedInputValue(
-                        input,
-                        resolvedStepAmount,
-                        event.key === 'ArrowUp' ? 1 : -1,
-                        nonNegative
-                      )
-                    );
-                  }
-                }
-
-                handleKeyDown(event);
-              }}
+              onKeyDown={handleKeyDown}
               onMouseDown={handleMouseDown}
               onPaste={handlePaste}
               slotProps={{
