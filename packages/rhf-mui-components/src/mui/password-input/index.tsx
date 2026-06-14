@@ -128,7 +128,7 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   customIds,
-  ...otherTextFieldProps
+  ...otherPasswordInputProps
 }: RHFPasswordInputProps<T>,
 ref: Ref<HTMLInputElement>) {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
@@ -203,7 +203,7 @@ ref: Ref<HTMLInputElement>) {
               />
             )}
             <TextField
-              {...otherTextFieldProps}
+              {...otherPasswordInputProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}

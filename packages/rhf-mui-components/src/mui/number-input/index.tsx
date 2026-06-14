@@ -36,12 +36,17 @@ import type {
   CustomComponentIds,
   CustomOnChangeProps
 } from '@/types';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  mergeRefs,
+  useFieldIds
+} from '@/utils';
 
 type OnValueChangeProps = {
   newValue: number | null;
   event: ChangeEvent<HTMLInputElement>;
 };
-import { fieldNameToLabel, keepLabelAboveFormField, mergeRefs, useFieldIds } from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -117,13 +122,19 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    * while typing or pasting.
   */
   nonNegative?: boolean;
+  /**
+   * Maximum number of decimal places allowed. When set, the user cannot type
+   * or paste more than this number of decimal places. Cannot be used together
+   * with `onlyIntegers`.
+   */
   maxDecimalPlaces?: number;
   /**
-   * Show the increment and decrement markers on number input.  Hidden by default.
+   * Show the increment and decrement markers on number input. Hidden by default.
    */
   showMarkers?: boolean;
   /**
-   * The amount to increase/decrease value when using arrow keys or input steppers
+   * The amount to increase/decrease value when using arrow keys or input steppers.
+   * @default 1
    */
   stepAmount?: number;
   /**
@@ -165,7 +176,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   customIds,
   onKeyDown,
   onPaste,
-  ...otherTextFieldProps
+  ...otherNumberInputProps
 }: RHFNumberInputProps<T>, ref: Ref<HTMLInputElement>) {
   const {
     fieldId,
@@ -290,7 +301,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               />
             )}
             <MuiTextField
-              {...otherTextFieldProps}
+              {...otherNumberInputProps}
               id={fieldId}
               name={rhfFieldName}
               type="number"
