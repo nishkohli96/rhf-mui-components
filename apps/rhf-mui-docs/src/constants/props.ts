@@ -421,13 +421,6 @@ const PropsDescription: Record<
       'An optional callback function to override the default `onChange` behavior of the color picker component. This invalidates the usage of `onValueChange` function. You can get the selected color value and the `setColor` function from the parameters to implement your custom logic and update the form state.',
     type: '({ color, setColor }) => void'
   },
-  onValueChange_ColorPicker_v1: {
-    name: 'onValueChange',
-    description:
-      'Callback function to get the selected color. Update form state by calling the `setValue` function, and passing the color value in preffered format.',
-    type: '(color: IColor) => void',
-    required: true
-  },
   onValueChange_RichTextEditor: {
     name: 'onValueChange',
     description:
@@ -445,12 +438,6 @@ const PropsDescription: Record<
     description:
       'Callback function to get details of input phone number, including the country details.',
     type: '({ phone: string, inputValue: string, country: ParsedCountry }) => void'
-  },
-  value_ColorPicker_v1: {
-    name: 'value',
-    description:
-      'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically. Defaults to **Black**(`#000000`).',
-    type: 'string'
   },
   defaultColor: {
     name: 'defaultColor',

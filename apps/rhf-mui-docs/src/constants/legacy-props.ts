@@ -95,12 +95,25 @@ const LegacyPropsDescription: Record<
     description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
     type: '(newValue, event, reason, details?) => void'
   },
-  value_ColorPicker: {
+  onValueChange_ColorPicker_v1: {
+    name: 'onValueChange',
+    description:
+      'Callback function to get the selected color. Update form state by calling the `setValue` function, and passing the color value in preffered format.',
+    type: '(color: IColor) => void',
+    required: true
+  },
+  value_ColorPicker_v2_v3: {
     name: 'value',
     description:
       'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically, else `defaultColor` is selected as the current color.',
     type: 'string',
     required: true
+  },
+  value_ColorPicker_v1: {
+    name: 'value',
+    description:
+      'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically. Defaults to **Black**(`#000000`).',
+    type: 'string'
   },
 });
 

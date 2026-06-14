@@ -15,7 +15,7 @@ const RHFColorPickerPropsTable = ({
       ? [
         PropsDescription.control,
         PropsDescription.registerOptions,
-        ...(v4AndAbove ? []: [PropsDescription.value_ColorPicker]),
+        ...(v4AndAbove ? []: [LegacyPropsDescription.value_ColorPicker_v2_v3]),
         PropsDescription.valueKey_ColorPicker,
         PropsDescription.defaultColor,
         PropsDescription.excludeAlpha,
@@ -27,8 +27,8 @@ const RHFColorPickerPropsTable = ({
         )
       ]
       : [
-        PropsDescription.value_ColorPicker_v1,
-        PropsDescription.onValueChange_ColorPicker_v1
+        LegacyPropsDescription.value_ColorPicker_v1,
+        LegacyPropsDescription.onValueChange_ColorPicker_v1
       ]),
     PropsDescription.disabled,
     ...(!v1
