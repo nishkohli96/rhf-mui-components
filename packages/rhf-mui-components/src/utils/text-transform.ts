@@ -36,3 +36,55 @@ export function fieldNameToId(fieldName: string): string {
 export function normalizeString(str: string) {
   return str.trim().toLowerCase().replace(/\s+/g, '');
 }
+
+/**
+ * Strips/truncates pasted text to fit the active numeric constraints.
+ * Returns `null` when nothing salvageable remains.
+ *
+ * @example
+ * sanitizePastedNumber('43.234',  false, true)      // '43'   (onlyIntegers)
+ * sanitizePastedNumber('-43.5',   true,  false)      // '43.5' (nonNegative strips '-')
+ * sanitizePastedNumber('3.14159', false, false, 2)   // '3.14' (maxDecimalPlaces=2)
+ * sanitizePastedNumber('-3.999',  false, true)       // '-3'   (both sign + integer)
+ */
+export function sanitizePastedNumber(
+  raw: string,
+  nonNegative: boolean,
+  onlyIntegers: boolean,
+  maxDecimalPlaces?: number,
+): string | null {
+  let s = raw.trim();
+  if (!s) {
+    return null;
+  }
+
+  /* Preserve sign only when negatives are allowed */
+  let sign = '';
+  if (s.startsWith('-')) {
+    if (!nonNegative) {
+      sign = '-';
+    }
+    s = s.slice(1);
+  }
+
+  /* Strip everything except digits and the first decimal point */
+  s = s.replace(/[^0-9.]/g, '');
+  const firstDot = s.indexOf('.');
+  if (firstDot !== -1) {
+    s = s.slice(0, firstDot + 1) + s.slice(firstDot + 1).replace(/\./g, '');
+  }
+
+  if (onlyIntegers) {
+    s = s.split('.')[0];
+  } else if (maxDecimalPlaces !== undefined) {
+    const n = Math.max(0, Math.floor(maxDecimalPlaces));
+    const [intPart, decPart] = s.split('.');
+    s = decPart !== undefined
+      ? intPart + (n > 0 ? `.${decPart.slice(0, n)}` : '')
+      : intPart;
+  }
+
+  /* Strip trailing dot — paste should never leave an in-progress state */
+  s = (sign + s).replace(/\.$/, '');
+  return s || null;
+}
