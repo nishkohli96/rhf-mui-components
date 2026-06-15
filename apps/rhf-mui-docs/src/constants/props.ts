@@ -222,7 +222,7 @@ const PropsDescription: Record<
     name: 'customOnChange',
     description:
       'Override the default `onChange` behavior of the slider, which can enable you to prevent the slider from going below a certain threshold.',
-    type: '(rhfOnChange, value: number OR number[], activeThumb: number, event) => void'
+    type: '({ rhfOnChange, newValue, activeThumb, event }) => void'
   },
   customOnChange_Rating: {
     name: 'customOnChange',
@@ -348,12 +348,7 @@ const PropsDescription: Record<
   onValueChange_Slider: {
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(value: number / number[], activeThumb: number, event) => void'
-  },
-  onValueChange_Slider_v1: {
-    name: 'onValueChange',
-    description: 'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(event: Event, value: number / number[], activeThumb: number) => void'
+    type: '({ event, newValue, activeThumb }) => void'
   },
   onValueChange_Switch: {
     name: 'onValueChange',
@@ -528,12 +523,6 @@ const PropsDescription: Record<
     name: 'fullWidth',
     description: 'Set the width of the file uploader component to 100%.',
     type: 'boolean'
-  },
-  defaultValue_Slider: {
-    name: 'defaultValue',
-    description: 'Initial value set for `RHFSlider` component on render.',
-    type: 'number / number[]',
-    required: true
   },
   showMarkers: {
     name: 'showMarkers',

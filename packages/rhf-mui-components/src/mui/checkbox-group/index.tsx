@@ -324,6 +324,7 @@ const RHFCheckboxGroup = <
               return (
                 <FormControlLabel
                   key={`${opnValue}-${idx}`}
+                  {...otherFormControlLabelProps}
                   control={
                     <Checkbox
                       {...checkboxProps}
@@ -338,7 +339,6 @@ const RHFCheckboxGroup = <
                   label={renderOption?.(option) ?? opnLabel}
                   sx={appliedFormControlLabelSx}
                   disabled={isOptionDisabled}
-                  {...otherFormControlLabelProps}
                 />
               );
             })}

@@ -167,7 +167,7 @@ const RHFRadioGroup = <
   formHelperTextProps,
   onBlur,
   customIds,
-  ...rest
+  ...otherRadioGroupProps
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   const {
     defaultFormControlLabelSx,
@@ -234,6 +234,7 @@ const RHFRadioGroup = <
               />
             )}
             <MuiRadioGroup
+              {...otherRadioGroupProps}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? ''}
@@ -269,7 +270,6 @@ const RHFRadioGroup = <
                     : helperTextId
                   : undefined
               }
-              {...rest}
             >
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -284,6 +284,7 @@ const RHFRadioGroup = <
                   = getOptionDisabled?.(option) || muiDisabled || false;
                 return (
                   <FormControlLabel
+                    {...otherFormControlLabelProps}
                     key={opnValue}
                     control={
                       <Radio id={`${fieldId}-${opnValue}`} {...radioProps} />
@@ -292,7 +293,6 @@ const RHFRadioGroup = <
                     label={renderOption?.(option) ?? opnLabel}
                     disabled={isOptionDisabled}
                     sx={appliedFormControlLabelSx}
-                    {...otherFormControlLabelProps}
                   />
                 );
               })}

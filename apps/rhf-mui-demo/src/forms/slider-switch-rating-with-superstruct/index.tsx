@@ -82,7 +82,6 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
               label="What is your score in class 10?"
               required
               helperText={`customOnChange handler will prevent you from sliding below ${sliderMinimumValue}`}
-              errorMessage={errors?.score?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }} sx={{ px: '20px' }}>
@@ -99,7 +98,6 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
               step={5}
               label="Select Temperature Range in your city"
               required
-              errorMessage={errors?.tempRange?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

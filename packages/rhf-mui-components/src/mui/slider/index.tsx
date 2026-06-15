@@ -5,7 +5,8 @@ import {
   useContext,
   forwardRef,
   type Ref,
-  type ReactNode
+  type ReactNode,
+  type JSX
 } from 'react';
 import {
   Controller,
@@ -49,19 +50,19 @@ export type RHFSliderProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   /**
- * Custom change handler for slider value updates.
- *
- * Allows you to control how the slider value is processed
- * before updating React Hook Form state.
- *
- * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
- * `onValueChange` is not invoked when using `customOnChange`.
- *
- * @param rhfOnChange - React Hook Form's internal change handler
- * @param value - The new slider value (number or range)
- * @param activeThumb - Index of the currently active thumb (for range sliders)
- * @param event - The change event triggered by the slider
- */
+   * Custom change handler for slider value updates.
+   *
+   * Allows you to control how the slider value is processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param value - The new slider value (number or range)
+   * @param activeThumb - Index of the currently active thumb (for range sliders)
+   * @param event - The change event triggered by the slider
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -78,6 +79,11 @@ export type RHFSliderProps<T extends FieldValues> = {
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -102,7 +108,7 @@ const RHFSliderInner = forwardRef(function RHFSlider<T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   customIds,
-  ...rest
+  ...otherSliderProps
 }: RHFSliderProps<T>,
 ref: Ref<HTMLSpanElement>) {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -155,6 +161,7 @@ ref: Ref<HTMLSpanElement>) {
               />
             )}
             <MuiSlider
+              {...otherSliderProps}
               ref={mergeRefs(rhfRef, ref)}
               id={fieldId}
               name={rhfFieldName}
@@ -195,7 +202,6 @@ ref: Ref<HTMLSpanElement>) {
                   : undefined
               }
               aria-invalid={isError || undefined}
-              {...rest}
             />
             <FormHelperText
               error={isError}

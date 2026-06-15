@@ -125,6 +125,16 @@ const LegacyPropsDescription: Record<
       'An optional callback function returning the value of the radio button being selected.',
     type: '(selectedItemValue, event) =>  void'
   },
+  onValueChange_Slider_v2_v3: {
+    name: 'onValueChange',
+    description: 'Optional callback function returning the selected value of `RHFSlider`.',
+    type: '(value: number / number[], activeThumb: number, event) => void'
+  },
+  onValueChange_Slider_v1: {
+    name: 'onValueChange',
+    description: 'Optional callback function returning the selected value of `RHFSlider`.',
+    type: '(event: Event, value: number / number[], activeThumb: number) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:
@@ -144,6 +154,12 @@ const LegacyPropsDescription: Record<
     description:
       'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically. Defaults to **Black**(`#000000`).',
     type: 'string'
+  },
+  defaultValue_Slider: {
+    name: 'defaultValue',
+    description: 'Initial value set for `RHFSlider` component on render.',
+    type: 'number / number[]',
+    required: true
   },
 });
 

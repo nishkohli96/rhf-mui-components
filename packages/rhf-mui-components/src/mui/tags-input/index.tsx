@@ -196,7 +196,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     autoComplete = defaultAutocompleteValue,
     renderTagLabel,
     customIds,
-    ...otherTextFieldProps
+    ...otherTagsInputProps
   }: RHFTagsInputProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -497,7 +497,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               />
             )}
             <MuiTextField
-              {...otherTextFieldProps}
+              {...otherTagsInputProps}
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
