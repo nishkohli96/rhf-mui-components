@@ -70,76 +70,76 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
- * Called before a tag is added.
- *
- * Use this callback to validate, transform, or prevent individual tags.
- *
- * Returning:
- * - `false` prevents the tag from being added.
- * - `string` replaces the original tag with the returned value.
- * - `true` or `void` allows the original tag to be added unchanged.
- *
- * @param newTag - The tag the user is attempting to add.
- * @param currentTags - The current list of tags before the new tag is added.
- * @returns `false` to block the tag, a replacement tag string, or nothing to allow the tag.
- */
+   * Called before a tag is added.
+   *
+   * Use this callback to validate, transform, or prevent individual tags.
+   *
+   * Returning:
+   * - `false` prevents the tag from being added.
+   * - `string` replaces the original tag with the returned value.
+   * - `true` or `void` allows the original tag to be added unchanged.
+   *
+   * @param newTag - The tag the user is attempting to add.
+   * @param currentTags - The current list of tags before the new tag is added.
+   * @returns `false` to block the tag, a replacement tag string, or nothing to allow the tag.
+   */
   onTagAdd?: (
     newTag: string,
     currentTags: string[]
   ) => boolean | string | void;
   /**
- * Called before a tag is removed.
- *
- * Use this callback to intercept or prevent tag deletion.
- *
- * Returning:
- * - `false` prevents the tag from being removed.
- * - `true` or `void` allows the tag to be removed.
- *
- * @param deletedTag - The tag being removed.
- * @param currentTags - The current list of tags before removal.
- * @returns `false` to prevent deletion, or nothing to allow it.
- */
+   * Called before a tag is removed.
+   *
+   * Use this callback to intercept or prevent tag deletion.
+   *
+   * Returning:
+   * - `false` prevents the tag from being removed.
+   * - `true` or `void` allows the tag to be removed.
+   *
+   * @param deletedTag - The tag being removed.
+   * @param currentTags - The current list of tags before removal.
+   * @returns `false` to prevent deletion, or nothing to allow it.
+   */
   onTagDelete?: (
     deletedTag: string,
     currentTags: string[]
   ) => boolean | void;
   /**
- * Called when one or more tags are pasted into the input.
- *
- * Return:
- * - `false` to prevent all pasted tags from being added.
- * - A `string[]` to replace the parsed tags with a custom set.
- * - `void` to use the parsed tags unchanged.
- *
- * Tags are split using the configured `delimiter`, trimmed,
- * and deduplicated before this callback is invoked.
- *
- * @param pastedTags - The parsed tags extracted from the pasted text.
- * @param currentTags - The current list of tags before the paste operation.
- */
+   * Called when one or more tags are pasted into the input.
+   *
+   * Return:
+   * - `false` to prevent all pasted tags from being added.
+   * - A `string[]` to replace the parsed tags with a custom set.
+   * - `void` to use the parsed tags unchanged.
+   *
+   * Tags are split using the configured `delimiter`, trimmed,
+   * and deduplicated before this callback is invoked.
+   *
+   * @param pastedTags - The parsed tags extracted from the pasted text.
+   * @param currentTags - The current list of tags before the paste operation.
+   */
   onTagPaste?: (
     pastedTags: string[],
     currentTags: string[]
   ) => string[] | boolean | void;
   /**
- * Character used to separate tags when typing or pasting.
- *
- * Pressing this key commits the current input as one or more tags.
- * Pasted values are also split using this delimiter.
- *
- * @default ','
- */
+   * Character used to separate tags when typing or pasting.
+   *
+   * Pressing this key commits the current input as one or more tags.
+   * Pasted values are also split using this delimiter.
+   *
+   * @default ','
+   */
   delimiter?: string;
   /**
- * Maximum number of tags that can be added.
- *
- * When the limit is reached:
- * - Additional tags entered from the keyboard are ignored.
- * - Pasted tags are truncated to fit the remaining available slots.
- *
- * By default, no limit is enforced.
- */
+   * Maximum number of tags that can be added.
+   *
+   * When the limit is reached:
+   * - Additional tags entered from the keyboard are ignored.
+   * - Pasted tags are truncated to fit the remaining available slots.
+   *
+   * By default, no limit is enforced.
+   */
   maxTags?: number;
   onValueChange?: ({ newValue }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;

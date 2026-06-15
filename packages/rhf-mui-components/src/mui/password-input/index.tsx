@@ -90,7 +90,21 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   hideLabel?: boolean;
+  /**
+   * Custom icon displayed when the password is currently hidden.
+   *
+   * Clicking this icon reveals the password value.
+   *
+   * @default Visibility icon
+   */
   showPasswordIcon?: ReactNode;
+  /**
+   * Custom icon displayed when the password is currently visible.
+   *
+   * Clicking this icon hides the password value.
+   *
+   * @default VisibilityOff icon
+   */
   hidePasswordIcon?: ReactNode;
   /**
    * @deprecated

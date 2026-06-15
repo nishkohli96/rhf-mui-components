@@ -84,7 +84,24 @@ export type RHFNativeSelectProps<
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
+  /**
+   * Custom renderer for dropdown options.
+   *
+   * Use this prop to customize how each option is displayed in the menu.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
   renderOption?: (option: Option) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being selected.
+   *
+   * @param option - The option being evaluated.
+   */
   getOptionDisabled?: (option: Option) => boolean;
   /**
    * Custom change handler that overrides the default native select update.
@@ -111,6 +128,12 @@ export type RHFNativeSelectProps<
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * Custom text displayed for the default option when
+   * `showDefaultOption` is enabled.
+   *
+   * @default `Select ${fieldLabel}`
+   */
   defaultOptionText?: string;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
