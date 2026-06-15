@@ -13,7 +13,7 @@ const RHFMultiAutocompleteObjectPropsTable = ({
       PropsDescription.onValueChange_MultiAutocompleteObject,
       PropsDescription.customOnChange_MultiAutocompleteObject
     ]
-    : [LegacyPropsDescription.onValueChange_MultiAutocompleteObject_v3]
+    : [LegacyPropsDescription.onValueChange_MultiAutocompleteObject_v3];
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,

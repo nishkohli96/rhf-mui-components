@@ -239,31 +239,31 @@ const PropsDescription: Record<
   onTagAdd: {
     name: 'onTagAdd',
     description:
-      'Callback function triggered whenever a new tag is added by pressing **Enter** or typing the delimiter key. If the return value is `false`, the tag addition is prevented. If a string is returned, this value is added as the new tag instead of the original input.',
-    type: '(newTag: string, currentTags: string[]) => boolean OR string OR void'
+    'Callback function triggered before a tag is added by pressing Enter or the configured delimiter key. Return `false` to prevent the tag from being added. Return a string to replace the original tag value before it is added.',
+    type: '(newTag: string, currentTags: string[]) => boolean / string / void'
   },
   onTagDelete: {
     name: 'onTagDelete',
     description:
-      'Callback function triggered when a tag is removed from the input. If the return value is `false`, the tag deletion is prevented.',
-    type: '(deletedTag: string, currentTags: string[]) => boolean OR string OR void'
+    'Callback function triggered before a tag is removed. Return `false` to prevent the tag from being deleted.',
+    type: '(deletedTag: string, currentTags: string[]) => boolean / void'
   },
   onTagPaste: {
     name: 'onTagPaste',
     description:
-      'Callback function called when a string or comma-separated values are pasted into the input field. You can modify the pasted tags or prevent the paste action by returning `false`.',
-    type: '(pastedTags: string, currentTags: string[]) => boolean OR string OR void'
+    'Callback function triggered when tags are pasted into the input. The pasted text is split using the configured delimiter, trimmed, and deduplicated before this callback is invoked. Return `false` to prevent all pasted tags from being added, or return a string array to replace the parsed tags.',
+    type: '(pastedTags: string[], currentTags: string[]) => boolean / string[] / void'
   },
   delimiter: {
     name: 'delimiter',
     description:
-      'Specifies the character used to split multiple tags entered or pasted at once (e.g., `\',\'` or `\';\'`).',
+    'Character used to separate tags when typing or pasting. Pressing the delimiter key commits the current input as one or more tags, and pasted values are split using the same delimiter.',
     type: 'string'
   },
   maxTags: {
     name: 'maxTags',
     description:
-      'Specifies the maximum number of tags that can be added to the input. Once the limit is reached, no further tags can be added.',
+    'Maximum number of tags that can be added. Once the limit is reached, additional tags entered from the keyboard are ignored, and pasted tags are truncated to the remaining available slots.',
     type: 'number'
   },
   onValueChange_Inputs: {
