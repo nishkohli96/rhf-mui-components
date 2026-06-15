@@ -35,9 +35,10 @@ type OnValueChangeProps<
     string
   >
 > = {
-  toggledValue: OptionValue<Option, ValueKey>;
-  newValue: OptionValue<Option, ValueKey>[];
   event: ChangeEvent<HTMLInputElement>;
+  newValue: OptionValue<Option, ValueKey>[];
+  toggledValue: OptionValue<Option, ValueKey>;
+  checked: boolean;
 };
 
 type CheckboxGroupCustomOnChangeProps<
@@ -49,7 +50,7 @@ type CheckboxGroupCustomOnChangeProps<
 > = {
   toggledValue: OptionValue<Option, ValueKey>;
   checked: boolean;
-  currentValues: OptionValue<Option, ValueKey>[];
+  currentValue: OptionValue<Option, ValueKey>[];
   event: ChangeEvent<HTMLInputElement>;
 };
 import {
@@ -74,50 +75,79 @@ export type RHFCheckboxGroupProps<
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of options to render as checkboxes. Best suited for smaller datasets, with
+   * upto 10 options. For larger datasets, consider using `RHFMultiAutocomplete`.
+   */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
+  /**
+   * Function to customize the label for each checkbox.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
   renderOption?: (option: Option) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being checked.
+   *
+   * @param option - The option being evaluated.
+   */
   getOptionDisabled?: (option: Option) => boolean;
   /**
- * Custom change handler for checkbox group selection.
- *
- * Allows full control over how selected values are added or removed
- * from the current array before updating React Hook Form state.
- *
- * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
- * `onValueChange` is not invoked when using `customOnChange`.
- *
- * @param rhfOnChange - React Hook Form's internal change handler
- * @param toggledValue - The value of the option being toggled
- * @param checked - Whether the option is checked or unchecked
- * @param currentValues - Current array of selected values
- * @param event - The change event triggered by the checkbox
- */
+   * Custom change handler for checkbox group selection.
+   *
+   * Allows full control over how selected values are added or removed
+   * from the current array before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param event - The change event triggered by the checkbox
+   * @param currentValue - Current array of selected values
+   * @param toggledValue - The value of the option being toggled
+   * @param checked - Whether the option has been checked or unchecked
+   */
   customOnChange?: ({
     rhfOnChange,
+    event,
+    currentValue,
     toggledValue,
-    checked,
-    currentValues,
-    event
+    checked
   }: CustomOnChangeProps<
     CheckboxGroupCustomOnChangeProps<Option, ValueKey>,
     OptionValue<Option, ValueKey>[]
   >) => void;
   onValueChange?: ({
-    toggledValue,
+    event,
     newValue,
-    event
+    toggledValue,
+    checked
   }: OnValueChangeProps<Option, ValueKey>) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  /**
+   * Props to pass down to each Checkbox component. Can be used to set
+   * a custom color, size, etc. for all checkboxes in the group.
+   */
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -156,7 +186,7 @@ const RHFCheckboxGroup = <
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  onBlur,
+  onBlur: muiOnBlur,
   customIds
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
   const {
@@ -227,7 +257,7 @@ const RHFCheckboxGroup = <
               rhfOnChange,
               toggledValue: normalizedValue,
               checked,
-              currentValues: rhfValue,
+              currentValue: rhfValue,
               event
             });
             return;
@@ -241,7 +271,8 @@ const RHFCheckboxGroup = <
           onValueChange?.({
             toggledValue: normalizedValue,
             newValue,
-            event
+            event,
+            checked
           });
         };
 
@@ -261,7 +292,7 @@ const RHFCheckboxGroup = <
               const relatedTarget = e.relatedTarget as Node | null;
               if (!currentTarget.contains(relatedTarget)) {
                 rhfOnBlur();
-                onBlur?.(e);
+                muiOnBlur?.(e);
               }
             }}
           >

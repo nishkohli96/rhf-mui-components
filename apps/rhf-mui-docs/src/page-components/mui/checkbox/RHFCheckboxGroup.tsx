@@ -16,7 +16,7 @@ const RHFCheckboxGroupPropsTable = ({
       PropsDescription.options_StrOrObj,
       PropsDescription.labelKey,
       PropsDescription.valueKey,
-      PropsDescription.onValueChange_CheckboxGroup_v1,
+      LegacyPropsDescription.onValueChange_CheckboxGroup_v1,
       LegacyPropsDescription.label_v1,
       getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
         muiVersion
@@ -47,7 +47,10 @@ const RHFCheckboxGroupPropsTable = ({
       PropsDescription.valueKey,
       PropsDescription.required,
       ...(v4AndAbove ? [PropsDescription.customOnChange_CheckboxGroup] : []),
-      PropsDescription.onValueChange_CheckboxGroup,
+      ...(v4AndAbove
+        ? [PropsDescription.onValueChange_CheckboxGroup]
+        : [LegacyPropsDescription.onValueChange_CheckboxGroup_v2_v3]
+      ),
       PropsDescription.disabled,
       ...(v4AndAbove
         ? [PropsDescription.renderOption, PropsDescription.getOptionDisabled]

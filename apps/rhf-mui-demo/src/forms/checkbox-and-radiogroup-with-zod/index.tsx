@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
+import { green } from '@mui/material/colors';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
 import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
@@ -96,8 +99,16 @@ const CheckboxRadioZodForm = () => {
               control={control}
               options={Object.values(Colors)}
               formControlLabelProps={{ sx: { color: 'orange' } }}
+              checkboxProps={{
+                icon: <FavoriteBorder />,
+                checkedIcon: <Favorite />,
+                sx: {
+                  '&.Mui-checked': {
+                    color: green[600]
+                  }
+                }
+              }}
               required
-              errorMessage={errors?.favouriteColors?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -110,8 +121,10 @@ const CheckboxRadioZodForm = () => {
               labelKey="country"
               valueKey="code"
               renderOption={opn => `${opn.country} (${opn.code})`}
+              onValueChange={({ newValue }) => {
+                toast.info(`You've visited ${newValue.join(', ')}`);
+              }}
               required
-              errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -120,9 +133,26 @@ const CheckboxRadioZodForm = () => {
               fieldName="marks"
               control={control}
               options={[10, 20, 30, 40, 50]}
+              customOnChange={({
+                rhfOnChange,
+                toggledValue,
+                event,
+                currentValue,
+                checked
+              }) => {
+                if (toggledValue === 20) {
+                  event.preventDefault();
+                  return;
+                }
+                if (checked) {
+                  rhfOnChange([...currentValue, toggledValue]);
+                } else {
+                  rhfOnChange(currentValue.filter((v) => v !== toggledValue));
+                }
+              }}
               required
               getOptionDisabled={opn => opn === 10}
-              errorMessage={errors?.marks?.message}
+              helperText="Note: 10 is disabled, 20 cannot be selected due to custom onChange logic"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

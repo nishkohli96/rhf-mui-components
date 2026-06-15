@@ -216,7 +216,7 @@ const PropsDescription: Record<
     name: 'customOnChange',
     description:
       'Callback function that allows custom logic to be executed whenever a checkbox value changes. You can use this to implement conditional selection, logging, or side effects before or after updating the form value.',
-    type: '(rhfOnChange: newValues => void, event, checked, currentValues) => void'
+    type: '({ rhfOnChange, event, currentValue, toggledValue, checked }) => void'
   },
   customOnChange_Slider: {
     name: 'customOnChange',
@@ -336,14 +336,8 @@ const PropsDescription: Record<
   onValueChange_CheckboxGroup: {
     name: 'onValueChange',
     description:
-      'An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.',
-    type: '(selectedItemValue, value, event) => void'
-  },
-  onValueChange_CheckboxGroup_v1: {
-    name: 'onValueChange',
-    description:
-      'An optional callback function returning the value of the selected control.',
-    type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
+      'An optional callback function triggered upon selection. The `toggledValue` parameter provides the value of the item being checked, while the `newValue` parameter returns the updated complete value of the form field.',
+    type: '({ event, newValue, toggledValue, checked }) => void'
   },
   onValueChange_RadioGroup: {
     name: 'onValueChange',

@@ -107,6 +107,18 @@ const LegacyPropsDescription: Record<
       'An optional callback function which returns the state of the checkbox.',
     type: '(isChecked: boolean, e: ChangeEvent) => void'
   },
+  onValueChange_CheckboxGroup_v1: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function returning the value of the selected control.',
+    type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
+  },
+  onValueChange_CheckboxGroup_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.',
+    type: '(selectedItemValue, value, event) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:

@@ -4,7 +4,7 @@ export const CountriesList = [
   { country: 'Bangladesh', code: 'BAN' },
   { country: 'Ireland', code: 'IRE' },
   { country: 'South Africa', code: 'SA' },
-  { country: 'Brazil', code: 'Brazil' },
+  { country: 'Brazil', code: 'BRA' },
   { country: 'United Arab Emirates', code: 'UAE' },
 ];
 

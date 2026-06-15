@@ -7,9 +7,9 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
+import { toast } from 'react-toastify';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
-import { FormSchema } from './validation';
 import {
   FormContainer,
   FormState,
@@ -21,6 +21,7 @@ import {
 import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { FormSchema } from './validation';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
 
@@ -130,7 +131,7 @@ const SelectFormWithClassValidator = () => {
               control={control}
               options={randomNumbers}
               onValueChange={({ newValue }) => {
-                alert(JSON.stringify(newValue, null, 2));
+                toast.info(JSON.stringify(newValue, null, 2));
               }}
               showDefaultOption
               showLabelAboveFormField
