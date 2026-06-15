@@ -162,7 +162,7 @@ const PropsDescription: Record<
   },
   getOptionDisabled: {
     name: 'getOptionDisabled',
-    description: 'Function to dynamically disable specific option(s) based on custom logic.',
+    description: 'Function used to dynamically disable specific option(s). Return `true` to disable the option and prevent it from being selected.',
     type: '(option) => boolean'
   },
   customIds: {

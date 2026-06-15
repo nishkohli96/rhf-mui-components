@@ -93,9 +93,39 @@ export type RHFSelectProps<
   labelKey?: LabelKey;
   valueKey?: ValueKey;
   renderOption?: (option: Option) => ReactNode;
+  /**
+ * Function to dynamically disable specific option(s).
+ *
+ * Return `true` to disable the option and prevent it from being selected.
+ *
+ * @param option - The option being evaluated.
+ */
   getOptionDisabled?: (option: Option) => boolean;
+  /**
+ * When `true`, allows multiple options to be selected.
+ *
+ * The field value is returned as an array of selected values instead of
+ * a single value.
+ *
+ * @default false
+ */
   multiple?: Multiple;
+  /**
+ * When `true`, displays a default placeholder option at the top of the
+ * dropdown menu.
+ *
+ * The option uses an empty string (`''`) as its value and is automatically
+ * disabled when the field is marked as required.
+ *
+ * @default false
+ */
   showDefaultOption?: boolean;
+  /**
+ * Custom text displayed for the default option when
+ * `showDefaultOption` is enabled.
+ *
+ * @default `Select ${fieldLabel}`
+ */
   defaultOptionText?: string;
   /**
    * Custom change handler that overrides the default value update behavior.
@@ -137,6 +167,12 @@ export type RHFSelectProps<
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  /**
+ * Placeholder text displayed when no option is selected.
+ *
+ * Unlike the default option, the placeholder is displayed in the select
+ * input itself and is not rendered as a selectable menu item.
+ */
   placeholder?: string;
   customIds?: CustomComponentIds;
 } & SelectProps;

@@ -89,7 +89,7 @@ const SelectFormWithClassValidator = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function and disabled options" />
+            <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
             <RHFSelect
               fieldName="iplTeams"
               control={control}
@@ -108,6 +108,13 @@ const SelectFormWithClassValidator = () => {
               renderOption={(option) => (
                 <span>{`${option.name} (${option.abbr})`}</span>
               )}
+              customOnChange={({ rhfOnChange, newValue, event }) => {
+                if(newValue.length > 4) {
+                  event.preventDefault();
+                  return;
+                }
+                rhfOnChange(newValue)
+              }}
               getOptionDisabled={option =>
                 ['LSG', 'RR'].includes(option.abbr)
               }
@@ -122,6 +129,9 @@ const SelectFormWithClassValidator = () => {
               fieldName="randomNum"
               control={control}
               options={randomNumbers}
+              onValueChange={({ newValue }) => {
+                alert(JSON.stringify(newValue, null, 2));
+              }}
               showDefaultOption
               showLabelAboveFormField
               hideLabel
@@ -144,7 +154,6 @@ const SelectFormWithClassValidator = () => {
               )}
               defaultOptionText="Select currency"
               required
-              errorMessage={errors?.currency?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -156,7 +165,6 @@ const SelectFormWithClassValidator = () => {
               label="Choose an age group"
               placeholder="Select age group"
               required
-              errorMessage={errors?.ageGroup?.message}
             />
           </Grid>
           <Grid size={12}>
