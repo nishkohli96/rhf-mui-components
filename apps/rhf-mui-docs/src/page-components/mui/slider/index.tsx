@@ -9,42 +9,48 @@ const RHFSliderPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
-  const binding = !v1
-    ? PropsDescription.control
-    : LegacyPropsDescription.register;
+  const versionContext = { docsVersion, muiVersion };
+
+  const baseRows = [
+    PropsDescription.fieldName,
+    v1 ? LegacyPropsDescription.register : PropsDescription.control,
+    PropsDescription.registerOptions,
+    ...(!v1 ? [PropsDescription.required] : [])
+  ];
+
+  const nonV1Rows = [
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Slider] : []),
+    v4AndAbove
+      ? PropsDescription.onValueChange_Slider
+      : LegacyPropsDescription.onValueChange_Slider_v2_v3,
+    getPropDetailsByVersion(PropsDescription.label, versionContext)
+  ];
+
+  const v1Rows = [
+    LegacyPropsDescription.defaultValue_Slider,
+    LegacyPropsDescription.onValueChange_Slider_v1,
+    LegacyPropsDescription.label_v1
+  ];
+
+  const commonRows = [
+    PropsDescription.showLabelAboveFormField_Default,
+    getPropDetailsByVersion(PropsDescription.formLabelProps, versionContext),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+      : []),
+    PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(
+      PropsDescription.formHelperTextProps,
+      versionContext
+    ),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+  ];
 
   const tableRows = [
-    PropsDescription.fieldName,
-    binding,
-    PropsDescription.registerOptions,
-    ...(!v1 ? [PropsDescription.required] : []),
-    ...(v4AndAbove ? [PropsDescription.customOnChange_Slider] : []),
-    ...(!v1
-      ? [
-        ...(v4AndAbove ? [PropsDescription.onValueChange_Slider] : [LegacyPropsDescription.onValueChange_Slider_v2_v3]),
-        getPropDetailsByVersion(PropsDescription.label, {
-          docsVersion,
-          muiVersion
-        })
-      ]
-      : [
-        LegacyPropsDescription.defaultValue_Slider,
-        LegacyPropsDescription.onValueChange_Slider_v1,
-        LegacyPropsDescription.label_v1
-      ]),
-    PropsDescription.showLabelAboveFormField_Default,
-    getPropDetailsByVersion(PropsDescription.formLabelProps, {
-      docsVersion,
-      muiVersion
-    }),
-    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    ...(!v4AndAbove ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })] : [] ),
-    PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
-      docsVersion,
-      muiVersion
-    }),
-    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+    ...baseRows,
+    ...(v1 ? v1Rows : nonV1Rows),
+    ...commonRows
   ];
 
   return (
