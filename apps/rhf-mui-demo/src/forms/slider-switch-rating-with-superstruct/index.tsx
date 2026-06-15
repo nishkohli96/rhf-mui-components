@@ -39,7 +39,7 @@ const initialValues = {
   tempRange: [5, 25],
 };
 
-const SwitchSliderRatingFormWithSuperstruct = () => {
+const SliderSwitchRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
   const {
     control,
@@ -146,4 +146,4 @@ const SwitchSliderRatingFormWithSuperstruct = () => {
   );
 };
 
-export default SwitchSliderRatingFormWithSuperstruct;
+export default SliderSwitchRatingFormWithSuperstruct;

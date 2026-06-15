@@ -11,7 +11,7 @@ import {
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-import SwitchSliderRatingFormWithSuperstruct from '@/forms/switch-slider-rating-with-superstruct/Client';
+import SliderSwitchRatingFormWithSuperstruct from '@/forms/slider-switch-rating-with-superstruct/Client';
 
 export const metadata = pageMetadata.switchSliderRating;
 
@@ -30,7 +30,7 @@ const SwitchSliderRatingFormPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
-      <SwitchSliderRatingFormWithSuperstruct />
+      <SliderSwitchRatingFormWithSuperstruct />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
