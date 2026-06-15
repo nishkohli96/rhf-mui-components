@@ -119,6 +119,12 @@ const LegacyPropsDescription: Record<
       'An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.',
     type: '(selectedItemValue, value, event) => void'
   },
+  onValueChange_RadioGroup_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function returning the value of the radio button being selected.',
+    type: '(selectedItemValue, event) =>  void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:

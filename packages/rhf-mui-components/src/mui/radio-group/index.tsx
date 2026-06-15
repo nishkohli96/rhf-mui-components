@@ -61,24 +61,43 @@ export type RHFRadioGroupProps<
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of options to render as radio buttons. Best suited for smaller datasets, with
+   * upto 10 options. For larger datasets, consider using `RHFAutocomplete`.
+   */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
+  /**
+   * Function to customize the label for each radio button.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
   renderOption?: (option: Option) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being checked.
+   *
+   * @param option - The option being evaluated.
+   */
   getOptionDisabled?: (option: Option) => boolean;
   /**
- * Custom change handler for radio group selection.
- *
- * Use this to intercept or transform the selected value
- * before updating React Hook Form state.
- *
- * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
- * `onValueChange` is not invoked when using `customOnChange`.
- *
- * @param rhfOnChange - React Hook Form's internal change handler
- * @param newValue - The newly selected value
- * @param event - The change event triggered by the radio input
- */
+   * Custom change handler for radio group selection.
+   *
+   * Use this to intercept or transform the selected value
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param newValue - The newly selected value
+   * @param event - The change event triggered by the radio input
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -96,10 +115,19 @@ export type RHFRadioGroupProps<
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  /**
+   * Props to pass down to each Radio component. Can be used to set
+   * a custom color, size, etc. for all radios in the group.
+   */
   radioProps?: RadioProps;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   required?: boolean;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
-import { green } from '@mui/material/colors';
+import { green, pink } from '@mui/material/colors';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
@@ -66,17 +66,40 @@ const CheckboxRadioZodForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Radio Group with onValueChange function" />
+            <FieldVariantInfo title="Radio Group with onValueChange function and renderOption" />
             <RHFRadioGroup
-              fieldName="gender"
-              control={control}
-              options={Object.values(Gender)}
-              onValueChange={({ newValue }) => {
-                toast.info(`You selected ${newValue}`);
-              }}
-              required
-              errorMessage={errors?.gender?.message}
-            />
+  fieldName="gender"
+  control={control}
+  options={Object.values(Gender)}
+  row
+  renderOption={option => {
+    switch (option) {
+      case Gender.Male:
+        return (
+          <span style={{ color: '#1976d2' }}>
+            Male ♂
+          </span>
+        );
+      case Gender.Female:
+        return (
+          <span style={{ color: '#d81b60' }}>
+            Female ♀
+          </span>
+        );
+      case Gender.Others:
+        return (
+          <span style={{ color: '#7b1fa2' }}>
+            Others ⚧
+          </span>
+        );
+      default:
+        return option;
+    }
+  }}
+  onValueChange={({ newValue }) => {
+    toast.info(`You selected ${newValue}`);
+  }}
+/>
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Radio Group with options as an array of objects" />
@@ -86,9 +109,16 @@ const CheckboxRadioZodForm = () => {
               options={ageGroupOptions}
               labelKey="ageGroup"
               valueKey="minAge"
+              radioProps={{
+                sx: {
+    color: pink[800],
+    '&.Mui-checked': {
+      color: pink[600],
+    }
+  }
+              }}
               required
               getOptionDisabled={opn => opn.minAge === 61 || opn.minAge === 1}
-              errorMessage={errors?.ageGroup?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

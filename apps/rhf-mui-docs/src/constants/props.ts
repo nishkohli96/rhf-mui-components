@@ -233,8 +233,8 @@ const PropsDescription: Record<
   customOnChange_RadioGroup: {
     name: 'customOnChange',
     description:
-      'Override the default `onChange` behavior of the radio group. You must pass the selected value to the **rhfOnChange** function to update the field value.',
-    type: '(rhfOnChange, event, selectedValue) => void'
+      'Override the default `onChange` behavior of the radio group. You must pass the selected `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event }) => void'
   },
   onTagAdd: {
     name: 'onTagAdd',
@@ -343,7 +343,7 @@ const PropsDescription: Record<
     name: 'onValueChange',
     description:
       'An optional callback function returning the value of the radio button being selected.',
-    type: '(selectedItemValue, event) =>  void'
+    type: '({ newValue, event }) =>  void'
   },
   onValueChange_Slider: {
     name: 'onValueChange',

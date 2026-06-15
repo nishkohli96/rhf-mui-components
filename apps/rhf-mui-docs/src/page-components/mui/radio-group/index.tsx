@@ -9,6 +9,10 @@ const RHFRadioGroupPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? PropsDescription.onValueChange_RadioGroup
+    : LegacyPropsDescription.onValueChange_RadioGroup_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -20,7 +24,7 @@ const RHFRadioGroupPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customOnChange_RadioGroup] : []),
     ...(!v1
       ? [
-        PropsDescription.onValueChange_RadioGroup,
+        onValueChange,
         PropsDescription.disabled,
         ...(v4AndAbove
           ? [
@@ -34,7 +38,7 @@ const RHFRadioGroupPropsTable = ({
         })
       ]
       : [
-        PropsDescription.onValueChange_CheckboxGroup_v1,
+        LegacyPropsDescription.onValueChange_CheckboxGroup_v1,
         LegacyPropsDescription.label_v1
       ]),
     PropsDescription.showLabelAboveFormField_Default,
@@ -48,15 +52,21 @@ const RHFRadioGroupPropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
+    ...(!v4AndAbove ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })] : []),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    })
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFRadioGroupPropsTable;

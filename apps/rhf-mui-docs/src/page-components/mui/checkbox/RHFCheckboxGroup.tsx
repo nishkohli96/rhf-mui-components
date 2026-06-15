@@ -83,7 +83,12 @@ const RHFCheckboxGroupPropsTable = ({
     ];
   }
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFCheckboxGroupPropsTable;
