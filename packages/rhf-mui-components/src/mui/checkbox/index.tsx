@@ -39,18 +39,18 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
- * Custom change handler that overrides the default checked state update.
- *
- * Useful when you need to intercept or transform the checkbox value
- * before updating React Hook Form state.
- *
- * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
- * `onValueChange` is not invoked when using `customOnChange`.
- *
- * @param rhfOnChange - React Hook Form's internal change handler
- * @param newValue - The new checked state of the checkbox
- * @param event - The change event triggered by the checkbox
- */
+   * Custom change handler that overrides the default checked state update.
+   *
+   * Useful when you need to intercept or transform the checkbox value
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param newValue - The new checked state of the checkbox
+   * @param event - The change event triggered by the checkbox
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -61,6 +61,11 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   hideLabel?: boolean;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -85,7 +90,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     onBlur,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherCheckboxProps
   }: RHFCheckboxProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -128,6 +133,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
             <FormControlLabel
               control={
                 <MuiCheckbox
+                  {...otherCheckboxProps}
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
@@ -166,7 +172,6 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                       ref: mergeRefs(rhfRef, ref)
                     }
                   }}
-                  {...rest}
                 />
               }
               label={hideLabel ? undefined : fieldLabel}

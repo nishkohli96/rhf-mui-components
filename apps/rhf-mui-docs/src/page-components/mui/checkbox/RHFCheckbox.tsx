@@ -9,6 +9,10 @@ const RHFCheckboxPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? PropsDescription.onValueChange_Cbx_Switch
+    : LegacyPropsDescription.onValueChange_Cbx_Switch_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -16,14 +20,14 @@ const RHFCheckboxPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customOnChange_Cbx_Switch] : []),
     ...(!v1
       ? [
-        PropsDescription.onValueChange_Checkbox,
+        onValueChange,
         getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
         })
       ]
       : [
-        PropsDescription.onValueChange_Checkbox_v1,
+        LegacyPropsDescription.onValueChange_Checkbox_v1,
         LegacyPropsDescription.label_v1
       ]),
     getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
@@ -31,12 +35,16 @@ const RHFCheckboxPropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+      : []
+    ),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    })
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

@@ -95,6 +95,18 @@ const LegacyPropsDescription: Record<
     description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
     type: '(newValue, event, reason, details?) => void'
   },
+  onValueChange_Checkbox_v1: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function which returns the state of the checkbox from `e.target.checked` value.',
+    type: '(e: ChangeEvent) => void'
+  },
+  onValueChange_Cbx_Switch_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function which returns the state of the checkbox.',
+    type: '(isChecked: boolean, e: ChangeEvent) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:

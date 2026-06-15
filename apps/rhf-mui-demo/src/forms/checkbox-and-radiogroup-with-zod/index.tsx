@@ -126,12 +126,14 @@ const CheckboxRadioZodForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single Checkbox" />
+            <FieldVariantInfo title="Single Checkbox with custom ID" />
             <RHFCheckbox
               fieldName="agreeTnC"
               control={control}
               label="Agree to Terms & Conditions"
-              errorMessage={errors?.agreeTnC?.message}
+              customIds={{
+                field: 'terms&Condition'
+              }}
             />
           </Grid>
           <Grid size={12}>

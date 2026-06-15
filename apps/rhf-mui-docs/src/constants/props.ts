@@ -210,7 +210,7 @@ const PropsDescription: Record<
     name: 'customOnChange',
     description:
       'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `event.target.checked` value to the **rhfOnChange** function to toggle the field.',
-    type: '(rhfOnChange, event) => void'
+    type: '({ rhfOnChange, newValue, event }) => void'
   },
   customOnChange_CheckboxGroup: {
     name: 'customOnChange',
@@ -327,17 +327,11 @@ const PropsDescription: Record<
       'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
     type: '(newValue, event, reason, details?) => void '
   },
-  onValueChange_Checkbox: {
+  onValueChange_Cbx_Switch: {
     name: 'onValueChange',
     description:
       'An optional callback function which returns the state of the checkbox.',
-    type: '(isChecked: boolean, e: ChangeEvent) => void'
-  },
-  onValueChange_Checkbox_v1: {
-    name: 'onValueChange',
-    description:
-      'An optional callback function which returns the state of the checkbox from `e.target.checked` value.',
-    type: '(e: ChangeEvent) => void'
+    type: '({ newValue, event }) => void'
   },
   onValueChange_CheckboxGroup: {
     name: 'onValueChange',

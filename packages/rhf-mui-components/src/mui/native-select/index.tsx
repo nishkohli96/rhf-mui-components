@@ -256,6 +256,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               />
             )}
             <NativeSelect
+              {...otherNativeSelectProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}
@@ -303,7 +304,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
                   margin: 0
                 }
               }}
-              {...otherNativeSelectProps}
             >
               <option value="" disabled={required}>
                 {defaultOptionLabel}
