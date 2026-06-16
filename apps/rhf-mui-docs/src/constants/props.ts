@@ -1,3 +1,14 @@
+/**
+ * A centralized file to store prop descriptions for all components, ensuring consistency and easier maintenance.
+ * Each prop description includes the prop name, a clear and concise description, the expected type, and whether
+ * the prop is required.
+ *
+ * Props used across multiple components and package versions.
+ *
+ * Props that are no longer used in v4 components have been moved to
+ * `legacy-props.ts`. 
+ */
+
 import { ExternalLinks } from '@site/src/constants';
 import { type PropsInfo, type PropsDescriptionArgs } from '@site/src/types';
 
