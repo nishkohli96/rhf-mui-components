@@ -117,4 +117,3 @@ export function validateFileList(
     errors: Array.from(errorsSet),
   };
 }
-

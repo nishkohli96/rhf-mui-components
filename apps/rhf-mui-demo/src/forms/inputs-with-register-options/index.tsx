@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -348,9 +349,24 @@ const InputsWithRegisterForm = () => {
               multiple
               fullWidth
               renderFileItem={(file, index) => (
-                <Typography variant="body2">
-                  {`${index + 1}.${file.name} - ${getFileSize(file.size, { precision: 2 })}`}
-                </Typography>
+                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: '4px' }}>
+                  <Box
+                    component="img"
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                    sx={{
+                      width: 64,
+                      height: 64,
+                      objectFit: 'cover',
+                      borderRadius: 1
+                    }}
+                  />
+                  <Typography variant="body2">
+                    {`${index + 1}. ${file.name} - ${getFileSize(file.size, {
+                      precision: 2
+                    })}`}
+                  </Typography>
+                </Stack>
               )}
               onUploadError={(errors, rejectedFiles) => {
                 toast.error(
