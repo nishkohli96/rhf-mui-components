@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -17,7 +16,6 @@ import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader2 from '@nish1896/rhf-mui-components/mui/file-uploader-v2';
-import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -35,6 +33,7 @@ import {
   showToastMessage,
   logFirebaseEvent
 } from '@/utils';
+import FilePreviewItem from './FilePreviewItem';
 
 type FormSchema = {
   firstName: string;
@@ -333,7 +332,6 @@ const InputsWithRegisterForm = () => {
                   url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
                 }
               ]}
-              showFileSize
               fullWidth
               disableDragAndDrop
               maxFiles={3}
@@ -348,25 +346,8 @@ const InputsWithRegisterForm = () => {
               label="Upload Pictures"
               multiple
               fullWidth
-              renderFileItem={(file, index) => (
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: '4px' }}>
-                  <Box
-                    component="img"
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                    sx={{
-                      width: 64,
-                      height: 64,
-                      objectFit: 'cover',
-                      borderRadius: 1
-                    }}
-                  />
-                  <Typography variant="body2">
-                    {`${index + 1}. ${file.name} - ${getFileSize(file.size, {
-                      precision: 2
-                    })}`}
-                  </Typography>
-                </Stack>
+              renderFileItem={({ file, index, removeFile }) => (
+                <FilePreviewItem file={file} index={index} onRemove={removeFile} />
               )}
               onUploadError={(errors, rejectedFiles) => {
                 toast.error(

@@ -36,7 +36,7 @@ import {
   mergeRefs,
   validateFileList
 } from '@/utils';
-import { FileItem, HiddenInput, UploadButton } from './components';
+import { HiddenInput, UploadButton } from './components';
 
 export type { FileUploadError };
 
@@ -49,7 +49,7 @@ export type ExistingUploadedFile = {
   name: string;
   /** URL used as the href on the file name link. */
   url: string;
-  /** Optional file size in bytes for display when `showFileSize` is true. */
+  /** Optional file size in bytes. */
   size?: number;
 };
 
@@ -79,6 +79,17 @@ type RHFFileUploaderDropZoneProps
       { isDragging, disabled, error }: RHFFileUploaderDropZoneState
     ) => Omit<BoxProps, 'children'>);
 
+type RenderExistingFileItemProps = {
+  file: ExistingUploadedFile;
+  index: number;
+};
+
+type RenderFileItemProps = {
+  file: File;
+  index: number;
+  removeFile: (event: MouseEvent<HTMLButtonElement>) => void;
+};
+
 export type RHFFileUploader2Props<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -105,19 +116,12 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
    */
   existingFiles?: ExistingUploadedFile[];
   /**
-   * Called when the user removes a pre-existing file.
-   * The parent is responsible for updating the `existingFiles` array.
-   */
-  onExistingFileRemove?: (file: ExistingUploadedFile, index: number) => void;
-  /**
    * Custom renderer for each pre-existing file row.
    * Falls back to a default name-link + remove-button layout when omitted.
    */
-  renderExistingFileItem?: (file: ExistingUploadedFile, index: number) => ReactNode;
-  showFileSize?: boolean;
-  hideFileList?: boolean;
+  renderExistingFileItem?: ({ file, index }: RenderExistingFileItemProps) => ReactNode;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
-  renderFileItem?: (file: File, index: number) => ReactNode;
+  renderFileItem?: ({ file, index, removeFile }: RenderFileItemProps) => ReactNode;
   onValueChange?: ({
     newValue,
     event
@@ -148,14 +152,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     control,
     registerOptions,
     existingFiles = [],
-    onExistingFileRemove,
     renderExistingFileItem,
     accept,
     multiple,
     maxFiles,
     maxSize,
-    hideFileList = false,
-    showFileSize = false,
     renderUploadButton,
     renderFileItem,
     onValueChange,
@@ -235,63 +236,6 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           requiredFiles: value => validateRequiredFiles(value)
         }
   };
-
-  // Default renderer for existing server files when renderExistingFileItem
-  // is not provided. Renders a name link and an optional remove button.
-  const defaultExistingFileRender = (
-    file: ExistingUploadedFile,
-    index: number
-  ): ReactNode => (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 1,
-        mt: 1
-      }}
-    >
-      <Box
-        component="a"
-        href={file.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={{ flexGrow: 1, wordBreak: 'break-all' }}
-      >
-        {file.name}
-        {showFileSize && file.size !== undefined && (
-          <Box
-            component="span"
-            sx={{ ml: 0.5, color: 'text.secondary', fontSize: '0.75rem' }}
-          >
-            (
-            {(file.size / 1024).toFixed(1)}
-            {' '}
-            KB)
-          </Box>
-        )}
-      </Box>
-      {onExistingFileRemove && (
-        <Box
-          component="button"
-          type="button"
-          onClick={() => onExistingFileRemove(file, index)}
-          aria-label={`Remove ${file.name}`}
-          sx={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            p: 0.5,
-            lineHeight: 1,
-            color: 'text.secondary',
-            '&:hover': { color: 'error.main' }
-          }}
-          disabled={muiDisabled}
-        >
-          ×
-        </Box>
-      )}
-    </Box>
-  );
 
   return (
     <Controller
@@ -408,7 +352,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           setIsDragging(false);
         };
 
-        const removeFile = (
+        const handleRemoveFile = (
           index: number,
           event: MouseEvent<HTMLButtonElement>
         ) => {
@@ -552,34 +496,23 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 ...formHelperTextProps
               }}
             />
-            {!hideFileList && (
-              <Box>
-                {/* Pre-existing server files rendered above new uploads */}
-                {existingFiles?.map((file, index) => (
-                  <Fragment key={`existing-${file.name}-${index}`}>
-                    {renderExistingFileItem
-                      ? renderExistingFileItem(file, index)
-                      : defaultExistingFileRender(file, index)}
-                  </Fragment>
-                ))}
-                {/* New uploads from the current session */}
-                {rhfValue
-                  && (Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
-                    (file: File, index: number) => (
-                      <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
-                        {renderFileItem?.(file, index) ?? (
-                          <FileItem
-                            index={index}
-                            file={file}
-                            showFileSize={showFileSize}
-                            removeFile={removeFile}
-                          />
-                        )}
-                      </Fragment>
-                    )
-                  )}
-              </Box>
-            )}
+            <Box>
+              {/* Pre-existing server files rendered above new uploads */}
+              {existingFiles.map((file, index) => (
+                <Fragment key={`existing-${file.name}-${index}`}>
+                  {renderExistingFileItem?.({ file, index }) ?? null}
+                </Fragment>
+              ))}
+              {/* New uploads from the current session */}
+              {rhfValue && renderFileItem
+                && (Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
+                  (file: File, index: number) => (
+                    <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
+                      {renderFileItem({ file, index, removeFile: event => handleRemoveFile(index, event) })}
+                    </Fragment>
+                  )
+                )}
+            </Box>
           </FormControl>
         );
       }}
