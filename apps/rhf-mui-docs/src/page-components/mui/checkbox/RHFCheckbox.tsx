@@ -10,8 +10,8 @@ const RHFCheckboxPropsTable = ({
   v4AndAbove
 }: VersionProps) => {
   const onValueChange = v4AndAbove
-    ? PropsDescription.onValueChange_Cbx_Switch
-    : LegacyPropsDescription.onValueChange_Cbx_Switch_v2_v3;
+    ? PropsDescription.onValueChange_Checkbox
+    : LegacyPropsDescription.onValueChange_Checkbox_v2_v3;
 
   const tableRows = [
     PropsDescription.fieldName,
@@ -34,6 +34,10 @@ const RHFCheckboxPropsTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     ...(!v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]

@@ -9,6 +9,10 @@ const RHFSwitchPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? PropsDescription.onValueChange_Switch
+    : LegacyPropsDescription.onValueChange_Switch_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -16,7 +20,7 @@ const RHFSwitchPropsTable = ({
     ...(v4AndAbove ? [PropsDescription.customOnChange_Cbx_Switch] : []),
     ...(!v1
       ? [
-        PropsDescription.onValueChange_Switch,
+        onValueChange,
         getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
@@ -27,19 +31,25 @@ const RHFSwitchPropsTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
     ...(!v1
       ? [
         getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-        getPropDetailsByVersion(PropsDescription.errorMessage, {
-          muiVersion
-        }),
+        ...(!v4AndAbove
+          ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+          : []
+        ),
         PropsDescription.hideErrorMessage,
         getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
           docsVersion,
           muiVersion
         })
       ]
-      : [])
+      : []),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

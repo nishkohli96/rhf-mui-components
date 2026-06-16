@@ -209,7 +209,7 @@ const PropsDescription: Record<
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
     description:
-      'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `event.target.checked` value to the **rhfOnChange** function to toggle the field.',
+      'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `newValue` value to the **rhfOnChange** function to toggle the field.',
     type: '({ rhfOnChange, newValue, event }) => void'
   },
   customOnChange_CheckboxGroup: {
@@ -327,10 +327,16 @@ const PropsDescription: Record<
       'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
     type: '(newValue, event, reason, details?) => void '
   },
-  onValueChange_Cbx_Switch: {
+  onValueChange_Checkbox: {
     name: 'onValueChange',
     description:
       'An optional callback function which returns the state of the checkbox.',
+    type: '({ newValue, event }) => void'
+  },
+  onValueChange_Switch: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function which returns whether the switch is turned on or not.',
     type: '({ newValue, event }) => void'
   },
   onValueChange_CheckboxGroup: {
@@ -349,12 +355,6 @@ const PropsDescription: Record<
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
     type: '({ event, newValue, activeThumb }) => void'
-  },
-  onValueChange_Switch: {
-    name: 'onValueChange',
-    description:
-      'A callback function that triggers when the switch is toggled, providing a boolean indicating whether the switch is on or off.',
-    type: '(isChecked: boolean, e: ChangeEvent) => void'
   },
   onValueChange_Rating: {
     name: 'onValueChange',

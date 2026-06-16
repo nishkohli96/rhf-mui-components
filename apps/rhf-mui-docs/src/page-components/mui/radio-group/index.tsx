@@ -31,9 +31,9 @@ const RHFRadioGroupPropsTable = ({
     PropsDescription.disabled,
     ...(v4AndAbove
       ? [
-          PropsDescription.renderOption,
-          PropsDescription.getOptionDisabled
-        ]
+        PropsDescription.renderOption,
+        PropsDescription.getOptionDisabled
+      ]
       : []),
     getPropDetailsByVersion(PropsDescription.label, versionContext)
   ];

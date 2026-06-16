@@ -35,6 +35,10 @@ const RHFSliderPropsTable = ({
   const commonRows = [
     PropsDescription.showLabelAboveFormField_Default,
     getPropDetailsByVersion(PropsDescription.formLabelProps, versionContext),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     ...(!v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]

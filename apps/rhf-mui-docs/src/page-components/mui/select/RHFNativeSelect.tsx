@@ -57,6 +57,9 @@ const RHFNativeSelectPropsTable = ({
           docsVersion,
           muiVersion
         }),
+        ...(v4AndAbove
+          ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+          : []),
         getPropDetailsByVersion(PropsDescription.helperText, { muiVersion })
       ]
       : [LegacyPropsDescription.label_v1]),

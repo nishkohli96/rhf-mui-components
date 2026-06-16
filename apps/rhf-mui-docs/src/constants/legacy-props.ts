@@ -101,10 +101,16 @@ const LegacyPropsDescription: Record<
       'An optional callback function which returns the state of the checkbox from `e.target.checked` value.',
     type: '(e: ChangeEvent) => void'
   },
-  onValueChange_Cbx_Switch_v2_v3: {
+  onValueChange_Checkbox_v2_v3: {
     name: 'onValueChange',
     description:
       'An optional callback function which returns the state of the checkbox.',
+    type: '(isChecked: boolean, e: ChangeEvent) => void'
+  },
+  onValueChange_Switch_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'A callback function that triggers when the switch is toggled, providing a boolean indicating whether the switch is on or off.',
     type: '(isChecked: boolean, e: ChangeEvent) => void'
   },
   onValueChange_CheckboxGroup_v1: {
