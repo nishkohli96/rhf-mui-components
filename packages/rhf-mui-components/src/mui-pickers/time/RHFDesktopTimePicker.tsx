@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, forwardRef, type Ref, type ReactNode } from 'react';
+import { useContext, forwardRef, type Ref, type ReactNode, type JSX } from 'react';
 import {
   Controller,
   type FieldValues,

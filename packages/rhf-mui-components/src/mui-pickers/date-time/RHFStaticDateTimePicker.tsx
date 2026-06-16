@@ -5,7 +5,8 @@ import {
   forwardRef,
   type Ref,
   type ReactNode,
-  type ComponentProps
+  type ComponentProps,
+  type JSX
 } from 'react';
 import {
   Controller,

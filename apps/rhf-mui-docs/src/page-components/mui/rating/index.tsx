@@ -9,41 +9,60 @@ const RHFRatingPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
-  const tableRows = [
+  const versionContext = { docsVersion, muiVersion };
+
+  const baseRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     ...(!v1
       ? [PropsDescription.registerOptions, PropsDescription.required]
-      : []),
-    ...(v4AndAbove ? [PropsDescription.customOnChange_Rating] : []),
-    ...(!v1
-      ? [
-        PropsDescription.onValueChange_Rating,
-        getPropDetailsByVersion(PropsDescription.label, {
-          docsVersion,
-          muiVersion
-        }),
-        PropsDescription.showLabelAboveFormField_Default
-      ]
-      : [
-        PropsDescription.onValueChange_Rating_v1,
-        LegacyPropsDescription.label_v1,
-        PropsDescription.showLabelAboveFormField
-      ]),
-    getPropDetailsByVersion(PropsDescription.formLabelProps, {
-      docsVersion,
-      muiVersion
-    }),
-    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
-    PropsDescription.hideErrorMessage,
-    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
-      docsVersion,
-      muiVersion
-    })
+      : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  const nonV1Rows = [
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Rating] : []),
+    v4AndAbove
+      ? PropsDescription.onValueChange_Rating
+      : LegacyPropsDescription.onValueChange_Rating_v2_v3,
+    getPropDetailsByVersion(PropsDescription.label, versionContext),
+    PropsDescription.showLabelAboveFormField_Default
+  ];
+
+  const v1Rows = [
+    LegacyPropsDescription.onValueChange_Rating_v1,
+    LegacyPropsDescription.label_v1,
+    PropsDescription.showLabelAboveFormField
+  ];
+
+  const commonRows = [
+    getPropDetailsByVersion(PropsDescription.formLabelProps, versionContext),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+      : []),
+    PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(
+      PropsDescription.formHelperTextProps,
+      versionContext
+    ),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+  ];
+
+  const tableRows = [
+    ...baseRows,
+    ...(v1 ? v1Rows : nonV1Rows),
+    ...commonRows
+  ];
+
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFRatingPropsTable;

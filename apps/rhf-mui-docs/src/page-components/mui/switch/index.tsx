@@ -9,50 +9,64 @@ const RHFSwitchPropsTable = ({
   v1,
   v4AndAbove
 }: VersionProps) => {
-  const onValueChange = v4AndAbove
-    ? PropsDescription.onValueChange_Switch
-    : LegacyPropsDescription.onValueChange_Switch_v2_v3;
+  const versionContext = { docsVersion, muiVersion };
 
-  const tableRows = [
+  const baseRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
-    ...(!v1 ? [PropsDescription.registerOptions] : []),
+    ...(!v1 ? [PropsDescription.registerOptions] : [])
+  ];
+
+  const nonV1Rows = [
     ...(v4AndAbove ? [PropsDescription.customOnChange_Cbx_Switch] : []),
-    ...(!v1
-      ? [
-        onValueChange,
-        getPropDetailsByVersion(PropsDescription.label, {
-          docsVersion,
-          muiVersion
-        })
-      ]
-      : [LegacyPropsDescription.label_v1, LegacyPropsDescription.label_v1]),
-    getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
-      docsVersion,
-      muiVersion
-    }),
+    v4AndAbove
+      ? PropsDescription.onValueChange_Switch
+      : LegacyPropsDescription.onValueChange_Switch_v2_v3,
+    getPropDetailsByVersion(PropsDescription.label, versionContext)
+  ];
+
+  const v1Rows = [
+    LegacyPropsDescription.label_v1
+  ];
+
+  const helperTextRows = !v1
+    ? [
+      getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+      ...(!v4AndAbove
+        ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+        : []),
+      PropsDescription.hideErrorMessage,
+      getPropDetailsByVersion(
+        PropsDescription.formHelperTextProps,
+        versionContext
+      )
+    ]
+    : [];
+
+  const commonRows = [
+    getPropDetailsByVersion(
+      PropsDescription.formControlLabelProps,
+      versionContext
+    ),
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-      : []
-    ),
-    ...(!v1
-      ? [
-        getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-        ...(!v4AndAbove
-          ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
-          : []
-        ),
-        PropsDescription.hideErrorMessage,
-        getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
-          docsVersion,
-          muiVersion
-        })
-      ]
       : []),
+    ...helperTextRows,
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  const tableRows = [
+    ...baseRows,
+    ...(v1 ? v1Rows : nonV1Rows),
+    ...commonRows
+  ];
+
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFSwitchPropsTable;

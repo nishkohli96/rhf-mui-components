@@ -141,6 +141,16 @@ const LegacyPropsDescription: Record<
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
     type: '(event: Event, value: number / number[], activeThumb: number) => void'
   },
+  onValueChange_Rating_v1: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(e: SyntheticEvent, newValue: number / null) => void'
+  },
+  onValueChange_Rating_v2_v3: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the changed value of rating component',
+    type: '(newValue: number / null, event) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:

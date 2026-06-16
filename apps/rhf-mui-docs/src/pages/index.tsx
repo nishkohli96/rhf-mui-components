@@ -52,7 +52,7 @@ const HomepageHeader = () => {
   );
 };
 
-const HomePage = (): JSX.Element => {
+const HomePage = () => {
   return (
     <Layout
       title="Homepage"

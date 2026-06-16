@@ -5,6 +5,7 @@ import {
   useRef,
   forwardRef,
   type ReactNode,
+  type JSX,
   type Ref
 } from 'react';
 import {

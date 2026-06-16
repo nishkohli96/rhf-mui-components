@@ -5,6 +5,7 @@ import {
   forwardRef,
   type Ref,
   type ReactNode,
+  type JSX,
   type SyntheticEvent
 } from 'react';
 import {
@@ -73,6 +74,11 @@ export type RHFRatingProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;

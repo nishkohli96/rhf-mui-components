@@ -228,7 +228,7 @@ const PropsDescription: Record<
     name: 'customOnChange',
     description:
       'Overrides the default `onChange` behavior of the **Rating** component, allowing you to enforce a minimum rating value and prevent users from selecting a value below the defined threshold.',
-    type: '(rhfOnChange, newValue: number OR null, event) => void'
+    type: '({ rhfOnChange, newValue, event }) => void'
   },
   customOnChange_RadioGroup: {
     name: 'customOnChange',
@@ -359,12 +359,7 @@ const PropsDescription: Record<
   onValueChange_Rating: {
     name: 'onValueChange',
     description: 'An optional callback function that returns the changed value of rating component',
-    type: '(newValue: number / null, event) => void'
-  },
-  onValueChange_Rating_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function that returns the changed value of rating component',
-    type: '(e: SyntheticEvent, newValue: number / null) => void'
+    type: '({ newValue, event }) => void'
   },
   onValueChange_DatePicker: {
     name: 'onValueChange',
