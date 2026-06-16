@@ -151,12 +151,24 @@ const LegacyPropsDescription: Record<
     description: 'An optional callback function that returns the changed value of rating component',
     type: '(newValue: number / null, event) => void'
   },
+  onValueChange_Pickers_v1: {
+    name: 'onValueChange',
+    description:
+      'An optional callback function which returns the selected date or time value.',
+    type: '(newValue: unknown) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:
       'Callback function to get the selected color. Update form state by calling the `setValue` function, and passing the color value in preffered format.',
     type: '(color: IColor) => void',
     required: true
+  },
+  onValueChange_RichTextEditor_v1: {
+    name: 'onValueChange',
+    description:
+      'Callback function returning the `event` object, editor value and editor details.',
+    type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void'
   },
   value_ColorPicker_v2_v3: {
     name: 'value',
@@ -169,6 +181,12 @@ const LegacyPropsDescription: Record<
     name: 'value',
     description:
       'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically. Defaults to **Black**(`#000000`).',
+    type: 'string'
+  },
+  value_RichTextEditor: {
+    name: 'value',
+    description:
+      'The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.',
     type: 'string'
   },
   defaultValue_Slider: {

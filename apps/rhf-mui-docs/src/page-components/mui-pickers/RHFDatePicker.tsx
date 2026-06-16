@@ -23,7 +23,7 @@ const RHFDatePickerPropsTable = ({
       ]
       : [
         LegacyPropsDescription.setValue,
-        PropsDescription.onValueChange_Pickers_v1,
+        LegacyPropsDescription.onValueChange_Pickers_v1,
         LegacyPropsDescription.label_v1
       ]),
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {

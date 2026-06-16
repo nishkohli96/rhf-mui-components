@@ -24,8 +24,8 @@ const RHFRichTextEditorPropsTable = ({
     ...(!v1
       ? [PropsDescription.onValueChange_RichTextEditor]
       : [
-        PropsDescription.value_RichTextEditor,
-        PropsDescription.onValueChange_RichTextEditor_v1
+        LegacyPropsDescription.value_RichTextEditor,
+        LegacyPropsDescription.onValueChange_RichTextEditor_v1
       ]),
     PropsDescription.onBlur_Rte,
     PropsDescription.disabled,

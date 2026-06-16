@@ -376,12 +376,6 @@ const PropsDescription: Record<
     description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
     type: '(newValue: PickerValidDate / null, dateTimeContext) => void'
   },
-  onValueChange_Pickers_v1: {
-    name: 'onValueChange',
-    description:
-      'An optional callback function which returns the selected date or time value.',
-    type: '(newValue: unknown) => void'
-  },
   valueKey_ColorPicker: {
     name: 'valueKey',
     description: 'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
@@ -405,12 +399,6 @@ const PropsDescription: Record<
       'Callback function returning the editor value, `event` object and editor details.',
     type: '(newValue: string, event: EventInfo, editor: ClassicEditor) => void'
   },
-  onValueChange_RichTextEditor_v1: {
-    name: 'onValueChange',
-    description:
-      'Callback function returning the `event` object, editor value and editor details.',
-    type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void'
-  },
   onValueChange_PhoneInput: {
     name: 'onValueChange',
     description:
@@ -428,12 +416,6 @@ const PropsDescription: Record<
     description:
       'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is `undefined` in the input color.',
     type: 'boolean'
-  },
-  value_RichTextEditor: {
-    name: 'value',
-    description:
-      'The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.',
-    type: 'string'
   },
   value_PhoneInput: {
     name: 'value',
