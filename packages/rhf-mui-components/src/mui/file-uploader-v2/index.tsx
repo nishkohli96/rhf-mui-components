@@ -54,7 +54,9 @@ export type ExistingUploadedFile = {
 };
 
 type RHFFileUploaderOnValueChangeProps = {
+  /** New form value after a successful upload, removal, or clear action. */
   newValue: File | File[] | null;
+  /** Event that triggered the value change. */
   event:
     | ChangeEvent<HTMLInputElement>
     | DragEvent<HTMLDivElement>
@@ -81,12 +83,15 @@ type RHFFileUploaderDropZoneProps
 
 type RenderExistingFileItemProps = {
   file: ExistingUploadedFile;
+  /** Zero-based index of the existing file. */
   index: number;
 };
 
 type RenderFileItemProps = {
   file: File;
+  /** Zero-based index of the newly selected file. */
   index: number;
+  /** Removes this newly selected file from the RHF field value. */
   removeFile: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -121,13 +126,22 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
    */
   renderExistingFileItem?: ({ file, index }: RenderExistingFileItemProps) => ReactNode;
   existingFileListProps?: Omit<BoxProps, 'children'>;
+  /** Props applied to the wrapper around newly selected file rows. */
   uploadedFileListProps?: Omit<BoxProps, 'children'>;
+  /** Custom upload button renderer. Receives the hidden file input as children/content. */
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
-  renderFileItem?: ({ file, index, removeFile }: RenderFileItemProps) => ReactNode;
+  /** Custom renderer for newly selected files. */
+  renderFileItem?: ({
+    file,
+    index,
+    removeFile
+  }: RenderFileItemProps) => ReactNode;
+  /** Fired when the field value changes because files were uploaded, removed, or cleared. */
   onValueChange?: ({
     newValue,
     event
   }: RHFFileUploaderOnValueChangeProps) => void;
+  /** Fired when uploaded files fail type, size, or count validation. */
   onUploadError?: (errors: FileUploadError[], rejectedFiles: File[]) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
@@ -395,6 +409,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 : undefined
             }
             aria-invalid={isError}
+            aria-required={isFieldRequired}
           />
         );
 
@@ -463,7 +478,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                   mb: 2,
                   cursor: muiDisabled ? 'not-allowed' : 'pointer'
                 },
-                ...(Array.isArray(dropZoneSx) ? dropZoneSx : [dropZoneSx])
+                ...(Array.isArray(dropZoneSx)
+                  ? dropZoneSx
+                  : dropZoneSx
+                    ? [dropZoneSx]
+                    : [])
               ]}
             >
               {uploadAreaContent}
@@ -479,7 +498,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
-                required={required}
+                required={isFieldRequired}
                 error={isError}
                 formLabelProps={{
                   id: labelId,
@@ -510,11 +529,6 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 ))}
               </Box>
             )}
-            {existingFiles.map((file, index) => (
-              <Fragment key={`existing-${file.name}-${index}`}>
-                {renderExistingFileItem?.({ file, index }) ?? null}
-              </Fragment>
-            ))}
             {/* New uploads from the current session */}
             {rhfValue && renderFileItem && (
               <Box {...uploadedFileListProps}>
