@@ -312,7 +312,7 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Customized label and allow upload of at max 2 pdf files only" />
+            <FieldVariantInfo title="Customized label and allow upload of at max 3 pdf files only; drag and drop disabled" />
             <RHFFileUploader2
               fieldName="documents"
               control={control}
@@ -334,18 +334,18 @@ const InputsWithRegisterForm = () => {
               ]}
               showFileSize
               fullWidth
+              disableDragAndDrop
               maxFiles={3}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
+            <FieldVariantInfo title="Upload multiple images showing, with renderFileItem function" />
             <RHFFileUploader2
               fieldName="pictures"
               control={control}
               accept="image/*"
               label="Upload Pictures"
               multiple
-              showFileSize
               fullWidth
               renderFileItem={(file, index) => (
                 <Typography variant="body2">

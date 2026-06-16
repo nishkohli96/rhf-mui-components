@@ -85,6 +85,21 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   /**
+   * Props applied to the drag-and-drop wrapper `Box`.
+   *
+   * Pass an object for static props, or a callback to style/render from the current
+   * drop-zone state. The returned `sx` is merged after the default drop-zone styles,
+   * and drag/drop handlers are composed with the internal handlers.
+   *
+   * This prop is ignored when `disableDragAndDrop` is `true`.
+   */
+  dropZoneProps?: RHFFileUploaderDropZoneProps;
+  /**
+   * Disable drag-and-drop functionality and only allow file selection via the upload button.
+   * @default false
+   */
+  disableDragAndDrop?: boolean;
+  /**
    * Pre-existing server-side files. Rendered in the file list above new
    * uploads and their count is deducted from `maxFiles` when validating.
    */
@@ -122,21 +137,6 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   fullWidth?: boolean;
-  /**
-   * Disable drag-and-drop functionality and only allow file selection via the upload button.
-   * @default false
-   */
-  disableDragAndDrop?: boolean;
-  /**
-   * Props applied to the drag-and-drop wrapper `Box`.
-   *
-   * Pass an object for static props, or a callback to style/render from the current
-   * drop-zone state. The returned `sx` is merged after the default drop-zone styles,
-   * and drag/drop handlers are composed with the internal handlers.
-   *
-   * This prop is ignored when `disableDragAndDrop` is `true`.
-   */
-  dropZoneProps?: RHFFileUploaderDropZoneProps;
   customIds?: CustomComponentIds;
 } & FileInputProps;
 
