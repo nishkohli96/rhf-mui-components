@@ -333,7 +333,7 @@ const InputsWithRegisterForm = () => {
               ]}
               showFileSize
               fullWidth
-              maxFiles={2}
+              maxFiles={3}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -348,8 +348,7 @@ const InputsWithRegisterForm = () => {
               fullWidth
               renderFileItem={(file, index) => (
                 <Typography variant="body2">
-                  {index + 1}.{file.name} -{' '}
-                  {getFileSize(file.size, { precision: 2 })}
+                  {`${index + 1}.${file.name} - ${getFileSize(file.size, { precision: 2 })}`}
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {

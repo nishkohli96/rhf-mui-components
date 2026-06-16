@@ -21,12 +21,12 @@ import {
 import Box from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  FileInputProps,
+import {
   FileUploadError,
-  CustomComponentIds
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type FileInputProps,
+  type CustomComponentIds
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -100,7 +100,11 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   fullWidth?: boolean;
-  enableDragAndDrop?: boolean;
+  /**
+   * Disable drag-and-drop functionality and only allow file selection via the upload button.
+   * @default false
+   */
+  disableDragAndDrop?: boolean;
   customIds?: CustomComponentIds;
 } & FileInputProps;
 
@@ -135,7 +139,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     hideErrorMessage,
     formHelperTextProps,
     fullWidth = false,
-    enableDragAndDrop = true,
+    disableDragAndDrop = false,
     customIds
   }: RHFFileUploader2Props<T>,
   ref: Ref<HTMLInputElement>
@@ -244,9 +248,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             return;
           }
 
-          // FIX: Accumulate files across re-uploads within the same session
-          // for multiple mode. Previously every new pick replaced rhfValue,
-          // so picking 2 files then 2 more left only the last 2 in the form.
+          const incomingFiles = Array.from(files);
           const previousFiles: File[] = multiple
             ? Array.isArray(rhfValue)
               ? rhfValue
@@ -255,26 +257,38 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 : []
             : [];
 
-          const candidates = multiple
-            ? [...previousFiles, ...Array.from(files)]
-            : Array.from(files);
-
-          // FIX: Deduct already-persisted server files from the maxFiles
-          // budget so total (existing + new) never exceeds the intended limit.
-          const effectiveMaxFiles
+          const remainingFileSlots
             = maxFiles !== undefined
-              ? Math.max(0, maxFiles - serverFileCount)
+              ? Math.max(0, maxFiles - serverFileCount - previousFiles.length)
               : undefined;
 
-          const { acceptedFiles, rejectedFiles, errors } = validateFileList(
-            candidates,
+          const validationResult = validateFileList(
+            incomingFiles,
             accept,
-            maxSize,
-            effectiveMaxFiles
+            maxSize
           );
-          if (errors?.length && rejectedFiles?.length) {
-            onUploadError?.(errors, rejectedFiles);
+          const rejectedFiles = [...(validationResult.rejectedFiles ?? [])];
+          const errors = new Set(validationResult.errors ?? []);
+          let acceptedIncomingFiles = validationResult.acceptedFiles;
+
+          if (
+            remainingFileSlots !== undefined
+            && acceptedIncomingFiles.length > remainingFileSlots
+          ) {
+            const excessFiles = acceptedIncomingFiles.slice(remainingFileSlots);
+            acceptedIncomingFiles
+              = acceptedIncomingFiles.slice(0, remainingFileSlots);
+            rejectedFiles.push(...excessFiles);
+            errors.add(FileUploadError.limitExceeded);
           }
+
+          if (errors.size > 0 && rejectedFiles.length > 0) {
+            onUploadError?.(Array.from(errors), rejectedFiles);
+          }
+
+          const acceptedFiles = multiple
+            ? [...previousFiles, ...acceptedIncomingFiles]
+            : acceptedIncomingFiles;
           const newValue = multiple
             ? acceptedFiles.length > 0
               ? acceptedFiles
@@ -296,6 +310,9 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           if (muiDisabled) {
             return;
           }
+          if (event.dataTransfer.files.length === 0) {
+            return;
+          }
           processFiles(event.dataTransfer.files, event);
         };
 
@@ -306,7 +323,10 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           }
         };
 
-        const handleDragLeave = () => {
+        const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+          if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            return;
+          }
           setIsDragging(false);
         };
 
@@ -362,9 +382,10 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             </UploadButton>
           );
 
-        const dropZoneContent = enableDragAndDrop
+        const dropZoneContent = !disableDragAndDrop
           ? (
             <Box
+              onDragEnter={handleDragOver}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
@@ -427,21 +448,15 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 {rhfValue
                   && (Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
                     (file: File, index: number) => (
-                      <Fragment
-                        key={`${file.name}-${file.lastModified}-${index}`}
-                      >
-                        {renderFileItem
-                          ? (
-                            renderFileItem(file, index)
-                          )
-                          : (
-                            <FileItem
-                              index={index}
-                              file={file}
-                              showFileSize={showFileSize}
-                              removeFile={removeFile}
-                            />
-                          )}
+                      <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
+                        {renderFileItem?.(file, index) ?? (
+                          <FileItem
+                            index={index}
+                            file={file}
+                            showFileSize={showFileSize}
+                            removeFile={removeFile}
+                          />
+                        )}
                       </Fragment>
                     )
                   )}
