@@ -95,7 +95,7 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('First Name')
                 }
               }}
-                            customOnChange={({ rhfOnChange, newValue }) => {
+              customOnChange={({ rhfOnChange, newValue }) => {
                 rhfOnChange(newValue.toUpperCase());
               }}
               required
@@ -126,9 +126,10 @@ const InputsWithRegisterForm = () => {
               control={control}
               registerOptions={{
                 pattern: {
-    value: /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
-    message: "Enter a valid email address",
-  },
+                  value:
+                    /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
+                  message: 'Enter a valid email address'
+                }
               }}
               customIds={{
                 field: 'userEmail',
@@ -363,7 +364,7 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="FileUploader with custom button" />
+            <FieldVariantInfo title="FileUploader with custom button and customized dropzone style" />
             <RHFFileUploader2
               fieldName="resume"
               control={control}
@@ -378,6 +379,24 @@ const InputsWithRegisterForm = () => {
                   </IconButton>
                 </div>
               )}
+              dropZoneProps={({ isDragging, disabled, error }) => {
+                let borderColor = 'divider';
+                if (error) {
+                  borderColor = 'error.main';
+                } else if (isDragging) {
+                  borderColor = 'success.main';
+                }
+                return {
+                  sx: {
+                    border: '2px solid',
+                    borderColor,
+                    bgcolor: isDragging ? 'success.50' : 'background.paper',
+                    opacity: disabled ? 0.5 : 1,
+                    p: 3,
+                    borderRadius: 1
+                  }
+                };
+              }}
             />
           </Grid>
           <Grid size={12}>

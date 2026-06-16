@@ -61,16 +61,16 @@ type RHFFileUploaderOnValueChangeProps = {
     | MouseEvent<HTMLButtonElement>;
 };
 
-export type RHFFileUploaderDropZoneState = {
+type RHFFileUploaderDropZoneState = {
   isDragging: boolean;
   disabled: boolean;
   error: boolean;
 };
 
-export type RHFFileUploaderDropZoneProps
+type RHFFileUploaderDropZoneProps
   = | Omit<BoxProps, 'children'>
     | ((
-      state: RHFFileUploaderDropZoneState
+      { isDragging, disabled, error }: RHFFileUploaderDropZoneState
     ) => Omit<BoxProps, 'children'>);
 
 export type RHFFileUploader2Props<T extends FieldValues> = {
