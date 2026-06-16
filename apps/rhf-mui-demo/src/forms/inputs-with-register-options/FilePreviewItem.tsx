@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -8,80 +8,84 @@ import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 
 type FilePreviewItemProps = {
   file: File;
-  index: number;
   onRemove: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export default function FilePreviewItem({
   file,
-  index,
   onRemove
 }: FilePreviewItemProps) {
-  const previewUrl = useMemo(
-		() => URL.createObjectURL(file),
+  const previewUrlRef = useRef<string | null>(null);
+
+  const setImageRef = useCallback(
+    (node: HTMLImageElement | null) => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+        previewUrlRef.current = null;
+      }
+
+      if (node) {
+        const previewUrl = URL.createObjectURL(file);
+        previewUrlRef.current = previewUrl;
+        node.src = previewUrl;
+      }
+    },
     [file]
   );
-	console.log('previewUrl: ', previewUrl);
-
-  useEffect(() => {
-    return () => URL.revokeObjectURL(previewUrl);
-  }, [previewUrl]);
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        width: 96
-      }}
-    >
-      <IconButton
-        size="small"
-        onClick={onRemove}
+    <Stack spacing={1} alignItems="center">
+      <Box
         sx={{
-          position: 'absolute',
-          top: -8,
-          right: -8,
-          zIndex: 1,
-          bgcolor: 'background.paper',
-          boxShadow: 1,
-          '&:hover': {
-            bgcolor: 'background.paper'
-          }
+          position: 'relative',
+          width: 50,
+          height: 50
         }}
       >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-
-      <Stack spacing={1}>
         <Box
           component="img"
-          src={previewUrl}
+          ref={setImageRef}
           alt={file.name}
           sx={{
-            width: 96,
-            height: 96,
+            width: 50,
+            height: 50,
             objectFit: 'cover',
             borderRadius: 1,
-            border: theme => `1px solid ${theme.palette.divider}`
+            border: (theme) => `1px solid ${theme.palette.divider}`
           }}
         />
-        <Typography
-          variant="caption"
-          textAlign="center"
+
+        <IconButton
+          size="small"
+          onClick={onRemove}
           sx={{
-            wordBreak: 'break-word'
+            position: 'absolute',
+            top: -8,
+            right: -8,
+            zIndex: 1,
+            width: 20,
+            height: 20,
+            bgcolor: 'background.paper',
+            boxShadow: 1,
+            '&:hover': {
+              bgcolor: 'background.paper'
+            }
           }}
         >
-          {file.name}
-        </Typography>
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          textAlign="center"
-        >
-          {getFileSize(file.size, { precision: 2 })}
-        </Typography>
-      </Stack>
-    </Box>
+          <CloseIcon sx={{ fontSize: 14 }} />
+        </IconButton>
+      </Box>
+      <Typography
+        variant="caption"
+        textAlign="center"
+        sx={{ wordBreak: 'break-word' }}
+      >
+        {file.name}
+      </Typography>
+
+      <Typography variant="caption" color="text.secondary" textAlign="center">
+        {getFileSize(file.size, { precision: 2 })}
+      </Typography>
+    </Stack>
   );
 }

@@ -346,8 +346,8 @@ const InputsWithRegisterForm = () => {
               label="Upload Pictures"
               multiple
               fullWidth
-              renderFileItem={({ file, index, removeFile }) => (
-                <FilePreviewItem file={file} index={index} onRemove={removeFile} />
+              renderFileItem={({ file, removeFile }) => (
+                <FilePreviewItem file={file} onRemove={removeFile} />
               )}
               onUploadError={(errors, rejectedFiles) => {
                 toast.error(
