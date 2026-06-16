@@ -44,7 +44,7 @@ export type { FileUploadError };
  * Metadata for a file that has already been uploaded and is being
  * passed as initial value for the field in the file uploader component.
  */
-export type ExistingFileInfo = {
+export type ExistingUploadedFile = {
   /** Displayed file name. */
   name: string;
   /** URL used as the href on the file name link. */
@@ -61,9 +61,15 @@ type RHFFileUploaderOnValueChangeProps = {
     | MouseEvent<HTMLButtonElement>;
 };
 
+/**
+ * State passed to `dropZoneProps` when it is provided as a callback.
+ */
 type RHFFileUploaderDropZoneState = {
+  /** Whether a file is currently being dragged over the drop zone. */
   isDragging: boolean;
+  /** Whether the uploader is disabled. */
   disabled: boolean;
+  /** Whether the uploader is currently displaying a validation error. */
   error: boolean;
 };
 
@@ -82,17 +88,17 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
    * Pre-existing server-side files. Rendered in the file list above new
    * uploads and their count is deducted from `maxFiles` when validating.
    */
-  existingFiles?: ExistingFileInfo[];
+  existingFiles?: ExistingUploadedFile[];
   /**
    * Called when the user removes a pre-existing file.
    * The parent is responsible for updating the `existingFiles` array.
    */
-  onExistingFileRemove?: (file: ExistingFileInfo, index: number) => void;
+  onExistingFileRemove?: (file: ExistingUploadedFile, index: number) => void;
   /**
    * Custom renderer for each pre-existing file row.
    * Falls back to a default name-link + remove-button layout when omitted.
    */
-  renderExistingFileItem?: (file: ExistingFileInfo, index: number) => ReactNode;
+  renderExistingFileItem?: (file: ExistingUploadedFile, index: number) => ReactNode;
   showFileSize?: boolean;
   hideFileList?: boolean;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
@@ -233,7 +239,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   // Default renderer for existing server files when renderExistingFileItem
   // is not provided. Renders a name link and an optional remove button.
   const defaultExistingFileRender = (
-    file: ExistingFileInfo,
+    file: ExistingUploadedFile,
     index: number
   ): ReactNode => (
     <Box

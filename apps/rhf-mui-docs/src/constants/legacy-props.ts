@@ -1,7 +1,7 @@
 /**
  * Legacy props that are no longer supported from v4 onwards in their respective
  * components, but are still documented for older versions.
- * 
+ *
  * The keys follow the format of [propName]_[componentName]_[versionInfo], where
  * versionInfo indicates the applicable versions (e.g., v2_v3 for versions 2 and 3,
  * v1 for version 1).

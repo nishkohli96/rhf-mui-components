@@ -6,7 +6,7 @@
  * Props used across multiple components and package versions.
  *
  * Props that are no longer used in v4 components have been moved to
- * `legacy-props.ts`. 
+ * `legacy-props.ts`.
  */
 
 import { ExternalLinks } from '@site/src/constants';
