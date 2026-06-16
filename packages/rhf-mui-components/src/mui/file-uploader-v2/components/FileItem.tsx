@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -8,7 +9,7 @@ type FileItemProps = {
   index: number;
   file: File;
   showFileSize?: boolean;
-  removeFile: (index: number) => void;
+  removeFile: (index: number, event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 const FileItem = ({
@@ -25,7 +26,7 @@ const FileItem = ({
       </Typography>
       <IconButton
         size="small"
-        onClick={() => removeFile(index)}
+        onClick={event => removeFile(index, event)}
         aria-label={`Remove file ${fileText.trim()}`}
       >
         <DeleteIcon fontSize="small" />

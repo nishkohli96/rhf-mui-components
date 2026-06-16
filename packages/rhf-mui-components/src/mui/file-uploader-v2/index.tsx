@@ -9,7 +9,8 @@ import {
   type ReactNode,
   type JSX,
   type ChangeEvent,
-  type DragEvent
+  type DragEvent,
+  type MouseEvent
 } from 'react';
 import {
   Controller,
@@ -18,7 +19,7 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
 import {
@@ -54,8 +55,23 @@ export type ExistingFileInfo = {
 
 type RHFFileUploaderOnValueChangeProps = {
   newValue: File | File[] | null;
-  event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>;
+  event:
+    | ChangeEvent<HTMLInputElement>
+    | DragEvent<HTMLDivElement>
+    | MouseEvent<HTMLButtonElement>;
 };
+
+export type RHFFileUploaderDropZoneState = {
+  isDragging: boolean;
+  disabled: boolean;
+  error: boolean;
+};
+
+export type RHFFileUploaderDropZoneProps
+  = | Omit<BoxProps, 'children'>
+    | ((
+      state: RHFFileUploaderDropZoneState
+    ) => Omit<BoxProps, 'children'>);
 
 export type RHFFileUploader2Props<T extends FieldValues> = {
   fieldName: Path<T>;
@@ -105,6 +121,16 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
    * @default false
    */
   disableDragAndDrop?: boolean;
+  /**
+   * Props applied to the drag-and-drop wrapper `Box`.
+   *
+   * Pass an object for static props, or a callback to style/render from the current
+   * drop-zone state. The returned `sx` is merged after the default drop-zone styles,
+   * and drag/drop handlers are composed with the internal handlers.
+   *
+   * This prop is ignored when `disableDragAndDrop` is `true`.
+   */
+  dropZoneProps?: RHFFileUploaderDropZoneProps;
   customIds?: CustomComponentIds;
 } & FileInputProps;
 
@@ -140,6 +166,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     formHelperTextProps,
     fullWidth = false,
     disableDragAndDrop = false,
+    dropZoneProps,
     customIds
   }: RHFFileUploader2Props<T>,
   ref: Ref<HTMLInputElement>
@@ -158,6 +185,50 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   );
 
   const serverFileCount = existingFiles.length;
+  const {
+    required: registerRequired,
+    validate: registerValidate,
+    ...controllerRulesBase
+  } = registerOptions ?? {};
+  const isRegisterRequired = typeof registerRequired === 'object'
+    ? registerRequired.value
+    : !!registerRequired;
+  const isFieldRequired = required || isRegisterRequired;
+  const requiredMessage
+    = typeof registerRequired === 'string'
+      ? registerRequired
+      : typeof registerRequired === 'object'
+        ? registerRequired.message
+        : 'This field is required';
+
+  const validateRequiredFiles = (value: File | File[] | null) => {
+    if (!isFieldRequired || serverFileCount > 0) {
+      return true;
+    }
+    if (Array.isArray(value)) {
+      return value.length > 0 || requiredMessage;
+    }
+    return value instanceof File || requiredMessage;
+  };
+
+  const controllerRules: RegisterOptions<T, Path<T>> = {
+    ...controllerRulesBase,
+    validate:
+      typeof registerValidate === 'function'
+        ? async (value, formValues) => {
+          const requiredValidation = validateRequiredFiles(
+            value
+          );
+          if (requiredValidation !== true) {
+            return requiredValidation;
+          }
+          return registerValidate(value, formValues);
+        }
+        : {
+          ...registerValidate,
+          requiredFiles: value => validateRequiredFiles(value)
+        }
+  };
 
   // Default renderer for existing server files when renderExistingFileItem
   // is not provided. Renders a name link and an optional remove button.
@@ -193,7 +264,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           </Box>
         )}
       </Box>
-      {!muiDisabled && onExistingFileRemove && (
+      {onExistingFileRemove && (
         <Box
           component="button"
           type="button"
@@ -208,6 +279,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             color: 'text.secondary',
             '&:hover': { color: 'error.main' }
           }}
+          disabled={muiDisabled}
         >
           ×
         </Box>
@@ -219,7 +291,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     <Controller
       name={fieldName}
       control={control}
-      rules={registerOptions}
+      rules={controllerRules}
       render={({
         field: {
           name: rhfFieldName,
@@ -330,15 +402,23 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           setIsDragging(false);
         };
 
-        const removeFile = (index: number) => {
+        const removeFile = (
+          index: number,
+          event: MouseEvent<HTMLButtonElement>
+        ) => {
+          let newValue: File | File[] | null;
+
           if (multiple && Array.isArray(rhfValue)) {
             const newFiles = rhfValue.filter(
               (_: File, i: number) => i !== index
             );
-            rhfOnChange(newFiles.length > 0 ? newFiles : null);
+            newValue = newFiles.length > 0 ? newFiles : null;
           } else {
-            rhfOnChange(null);
+            newValue = null;
           }
+
+          rhfOnChange(newValue);
+          onValueChange?.({ newValue, event });
         };
 
         const InputComponent = (
@@ -382,23 +462,55 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             </UploadButton>
           );
 
+        const resolvedDropZoneProps = typeof dropZoneProps === 'function'
+          ? dropZoneProps({
+            isDragging,
+            disabled: !!muiDisabled,
+            error: isError
+          })
+          : (dropZoneProps ?? {});
+        const {
+          sx: dropZoneSx,
+          onDragEnter: dropZoneOnDragEnter,
+          onDragOver: dropZoneOnDragOver,
+          onDragLeave: dropZoneOnDragLeave,
+          onDrop: dropZoneOnDrop,
+          ...restDropZoneProps
+        } = resolvedDropZoneProps;
+
         const dropZoneContent = !disableDragAndDrop
           ? (
             <Box
-              onDragEnter={handleDragOver}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              sx={{
-                border: '2px dashed',
-                borderColor: isDragging ? 'primary.main' : 'grey.400',
-                borderRadius: 2,
-                p: 2,
-                textAlign: 'center',
-                transition: 'border-color 0.2s ease-in-out',
-                mb: 2,
-                cursor: muiDisabled ? 'not-allowed' : 'pointer'
+              {...restDropZoneProps}
+              onDragEnter={event => {
+                handleDragOver(event);
+                dropZoneOnDragEnter?.(event);
               }}
+              onDragOver={event => {
+                handleDragOver(event);
+                dropZoneOnDragOver?.(event);
+              }}
+              onDragLeave={event => {
+                handleDragLeave(event);
+                dropZoneOnDragLeave?.(event);
+              }}
+              onDrop={event => {
+                handleDrop(event);
+                dropZoneOnDrop?.(event);
+              }}
+              sx={[
+                {
+                  border: '2px dashed',
+                  borderColor: isDragging ? 'primary.main' : 'grey.400',
+                  borderRadius: 2,
+                  p: 2,
+                  textAlign: 'center',
+                  transition: 'border-color 0.2s ease-in-out',
+                  mb: 2,
+                  cursor: muiDisabled ? 'not-allowed' : 'pointer'
+                },
+                ...(Array.isArray(dropZoneSx) ? dropZoneSx : [dropZoneSx])
+              ]}
             >
               {uploadAreaContent}
             </Box>
