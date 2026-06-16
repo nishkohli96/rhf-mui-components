@@ -346,6 +346,14 @@ const InputsWithRegisterForm = () => {
               label="Upload Pictures"
               multiple
               fullWidth
+              uploadedFileListProps={{
+                sx: {
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '8px 16px',
+                  mt: 1
+                }
+              }}
               renderFileItem={({ file, removeFile }) => (
                 <FilePreviewItem file={file} onRemove={removeFile} />
               )}

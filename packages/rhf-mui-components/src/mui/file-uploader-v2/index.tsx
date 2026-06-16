@@ -120,6 +120,8 @@ export type RHFFileUploader2Props<T extends FieldValues> = {
    * Falls back to a default name-link + remove-button layout when omitted.
    */
   renderExistingFileItem?: ({ file, index }: RenderExistingFileItemProps) => ReactNode;
+  existingFileListProps?: Omit<BoxProps, 'children'>;
+  uploadedFileListProps?: Omit<BoxProps, 'children'>;
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
   renderFileItem?: ({ file, index, removeFile }: RenderFileItemProps) => ReactNode;
   onValueChange?: ({
@@ -151,12 +153,14 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     fieldName,
     control,
     registerOptions,
-    existingFiles = [],
-    renderExistingFileItem,
     accept,
     multiple,
     maxFiles,
     maxSize,
+    existingFiles = [],
+    renderExistingFileItem,
+    existingFileListProps,
+    uploadedFileListProps,
     renderUploadButton,
     renderFileItem,
     onValueChange,
@@ -496,23 +500,37 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 ...formHelperTextProps
               }}
             />
-            <Box>
-              {/* Pre-existing server files rendered above new uploads */}
-              {existingFiles.map((file, index) => (
-                <Fragment key={`existing-${file.name}-${index}`}>
-                  {renderExistingFileItem?.({ file, index }) ?? null}
-                </Fragment>
-              ))}
-              {/* New uploads from the current session */}
-              {rhfValue && renderFileItem
-                && (Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
+            {/* Pre-existing server files rendered above new uploads */}
+            {existingFiles.length > 0 && renderExistingFileItem && (
+              <Box {...existingFileListProps}>
+                {existingFiles.map((file, index) => (
+                  <Fragment key={`existing-${file.name}-${index}`}>
+                    {renderExistingFileItem({ file, index })}
+                  </Fragment>
+                ))}
+              </Box>
+            )}
+            {existingFiles.map((file, index) => (
+              <Fragment key={`existing-${file.name}-${index}`}>
+                {renderExistingFileItem?.({ file, index }) ?? null}
+              </Fragment>
+            ))}
+            {/* New uploads from the current session */}
+            {rhfValue && renderFileItem && (
+              <Box {...uploadedFileListProps}>
+                {(Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
                   (file: File, index: number) => (
                     <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
-                      {renderFileItem({ file, index, removeFile: event => handleRemoveFile(index, event) })}
+                      {renderFileItem({
+                        file,
+                        index,
+                        removeFile: event => handleRemoveFile(index, event)
+                      })}
                     </Fragment>
                   )
                 )}
-            </Box>
+              </Box>
+            )}
           </FormControl>
         );
       }}

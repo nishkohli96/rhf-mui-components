@@ -34,7 +34,7 @@ export default function FilePreviewItem({
   );
 
   return (
-    <Stack spacing={1} alignItems="center">
+    <Stack alignItems="center">
       <Box
         sx={{
           position: 'relative',
@@ -78,11 +78,10 @@ export default function FilePreviewItem({
       <Typography
         variant="caption"
         textAlign="center"
-        sx={{ wordBreak: 'break-word' }}
+        sx={{ wordBreak: 'break-word', fontWeight: 600 }}
       >
         {file.name}
       </Typography>
-
       <Typography variant="caption" color="text.secondary" textAlign="center">
         {getFileSize(file.size, { precision: 2 })}
       </Typography>
