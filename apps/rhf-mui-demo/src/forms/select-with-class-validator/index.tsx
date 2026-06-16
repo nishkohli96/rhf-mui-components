@@ -60,12 +60,12 @@ const SelectFormWithClassValidator = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single select field with helpertext and renderOption" />
+            <FieldVariantInfo title="Single select field with helpertext and renderOptionLabel" />
             <RHFSelect
               fieldName="favouriteColor"
               control={control}
               options={Object.values(Colors)}
-              renderOption={opn => (
+              renderOptionLabel={opn => (
                 <span style={{ color: opn }}>{opn}</span>
               )}
               {...(watch('favouriteColor') && {
@@ -106,7 +106,7 @@ const SelectFormWithClassValidator = () => {
                   Select your favourite IPL teams
                 </div>
               }
-              renderOption={(option) => (
+              renderOptionLabel={(option) => (
                 <span>{`${option.name} (${option.abbr})`}</span>
               )}
               customOnChange={({ rhfOnChange, newValue, event }) => {
@@ -150,7 +150,7 @@ const SelectFormWithClassValidator = () => {
               valueKey="code"
               label="Choose a currency"
               getOptionDisabled={opn => opn.code === 'INR'}
-              renderOption={opn => (
+              renderOptionLabel={opn => (
                 <>{`${opn.code} - ${opn.name} `}</>
               )}
               defaultOptionText="Select currency"

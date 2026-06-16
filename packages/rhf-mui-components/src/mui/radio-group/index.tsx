@@ -76,7 +76,7 @@ export type RHFRadioGroupProps<
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOption?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -147,7 +147,7 @@ const RHFRadioGroup = <
   control,
   registerOptions,
   options,
-  renderOption,
+  renderOptionLabel,
   getOptionDisabled,
   labelKey,
   valueKey,
@@ -290,7 +290,7 @@ const RHFRadioGroup = <
                       <Radio id={`${fieldId}-${opnValue}`} {...radioProps} />
                     }
                     value={opnValue}
-                    label={renderOption?.(option) ?? opnLabel}
+                    label={renderOptionLabel?.(option) ?? opnLabel}
                     disabled={isOptionDisabled}
                     sx={appliedFormControlLabelSx}
                   />

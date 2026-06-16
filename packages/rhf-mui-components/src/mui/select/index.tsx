@@ -95,14 +95,14 @@ export type RHFSelectProps<
   /**
    * Custom renderer for dropdown options.
    *
-   * Use this prop to customize how each option is displayed in the menu.
+   * Use this prop to customize the label for each option in the `MenuItem` component.
    * When not provided, the option label derived from `labelKey` (or the
    * option value itself for primitive options) is rendered.
    *
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOption?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -209,7 +209,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     options,
     labelKey,
     valueKey,
-    renderOption,
+    renderOptionLabel,
     getOptionDisabled,
     multiple,
     showDefaultOption,
@@ -451,7 +451,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                     value={opnValue}
                     disabled={isOptionDisabled}
                   >
-                    {renderOption?.(option) ?? opnLabel}
+                    {renderOptionLabel?.(option) ?? opnLabel}
                   </MenuItem>
                 );
               })}

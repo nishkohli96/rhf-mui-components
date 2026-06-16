@@ -53,7 +53,7 @@ const RHFCheckboxGroupPropsTable = ({
       ),
       PropsDescription.disabled,
       ...(v4AndAbove
-        ? [PropsDescription.renderOption, PropsDescription.getOptionDisabled]
+        ? [PropsDescription.renderOptionLabel, PropsDescription.getOptionDisabled]
         : []),
       getPropDetailsByVersion(PropsDescription.label, {
         docsVersion,

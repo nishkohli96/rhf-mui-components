@@ -28,7 +28,7 @@ const RHFMultiAutocompletePropsTable = ({
       docsVersion,
       muiVersion
     }),
-    ...(v4AndAbove ? [PropsDescription.renderOptionLabel] : []),
+    // ...(v4AndAbove ? [PropsDescription.renderOptionLabel] : []),
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),

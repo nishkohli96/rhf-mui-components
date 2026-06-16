@@ -32,7 +32,7 @@ const RHFNativeSelectPropsTable = ({
     PropsDescription.valueKey,
     ...(v4AndAbove
       ? [
-        PropsDescription.renderOption,
+        PropsDescription.renderOptionLabel,
         PropsDescription.getOptionDisabled,
         PropsDescription.customOnChange_NativeSelect
       ]

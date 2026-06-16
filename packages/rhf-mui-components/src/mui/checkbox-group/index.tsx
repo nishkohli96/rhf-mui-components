@@ -90,7 +90,7 @@ export type RHFCheckboxGroupProps<
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOption?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -170,7 +170,7 @@ const RHFCheckboxGroup = <
   options,
   labelKey,
   valueKey,
-  renderOption,
+  renderOptionLabel,
   getOptionDisabled,
   customOnChange,
   onValueChange,
@@ -336,7 +336,7 @@ const RHFCheckboxGroup = <
                         handleChange(e, e.target.checked, opnValue)}
                     />
                   }
-                  label={renderOption?.(option) ?? opnLabel}
+                  label={renderOptionLabel?.(option) ?? opnLabel}
                   sx={appliedFormControlLabelSx}
                   disabled={isOptionDisabled}
                 />

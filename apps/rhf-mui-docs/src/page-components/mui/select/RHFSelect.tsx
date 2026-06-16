@@ -32,7 +32,7 @@ const RHFSelectPropsTable = ({
     PropsDescription.valueKey,
     ...(v4AndAbove
       ? [
-        PropsDescription.renderOption,
+        PropsDescription.renderOptionLabel,
         PropsDescription.getOptionDisabled,
         PropsDescription.customOnChange_Select
       ]

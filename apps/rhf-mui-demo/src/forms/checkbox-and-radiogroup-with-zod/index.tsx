@@ -66,13 +66,13 @@ const CheckboxRadioZodForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Radio Group with onValueChange function and renderOption" />
+            <FieldVariantInfo title="Radio Group with onValueChange function and renderOptionLabel" />
             <RHFRadioGroup
   fieldName="gender"
   control={control}
   options={Object.values(Gender)}
   row
-  renderOption={option => {
+  renderOptionLabel={option => {
     switch (option) {
       case Gender.Male:
         return (
@@ -150,7 +150,7 @@ const CheckboxRadioZodForm = () => {
               options={CountriesList}
               labelKey="country"
               valueKey="code"
-              renderOption={opn => `${opn.country} (${opn.code})`}
+              renderOptionLabel={opn => `${opn.country} (${opn.code})`}
               onValueChange={({ newValue }) => {
                 toast.info(`You've visited ${newValue.join(', ')}`);
               }}

@@ -8,8 +8,7 @@ const PropsDescription: Record<
 > = Object.freeze({
   fieldName: {
     name: 'fieldName',
-    description:
-      'React Hook Form requires `name` as a key for the registration process. This is a required prop for all components.',
+    description: 'Name of the field registered with React Hook Form. This prop is required for all components.',
     required: true,
     type: 'string'
   },
@@ -22,7 +21,7 @@ const PropsDescription: Record<
   },
   registerOptions: {
     name: 'registerOptions',
-    description: `[Register](${ExternalLinks.rhfApi.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
+    description: `React Hook Form [validation rules](${ExternalLinks.rhfApi.register}). Useful when not using a schema validation library such as [Yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
     type: 'RegisterOptions'
   },
   required: {
@@ -51,40 +50,37 @@ const PropsDescription: Record<
   },
   labelKey: {
     name: 'labelKey',
-    description:
-      'The key of object in options array, whose value would be shown as the label in the formfield. Only required when input options is an array of objects.',
+    description: 'Property name used as the visible label for each option. Required when `options` is an array of objects.',
     type: 'string',
     required: true
   },
   labelKey_Obj: {
     name: 'labelKey',
-    description: 'The key of object in options array, whose value would be shown as the label in the formfield.',
+    description: 'Property name used as the visible label for each option.',
     type: 'string',
     required: true
   },
   valueKey: {
     name: 'valueKey',
-    description:
-      'The key of object in options array, whose value would be actual value of the option selected in the formfield. Only required when input options is an array of objects.',
+    description: 'Property name used as the stored value for each option. Required when `options` is an array of objects.',
     type: 'string',
     required: true
   },
   valueKey_Obj: {
     name: 'valueKey',
-    description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield.',
+    description: 'Property name used as the stored value for each option.',
     type: 'string',
     required: true
   },
   customOnChange: {
     name: 'customOnChange',
-    description:
-      'An optional callback function to **override** the default `onChange` behavior of the form field. This invalidates the usage of `onValueChange` function. **rhfOnChange(newValue)** must be called to update the field value in form state.',
+    description: 'Overrides the default `onChange` behavior. When provided, `onValueChange` is not called. You must call `rhfOnChange(newValue)` to update the form state.',
     type: '(rhfOnChange, event, ...args) => void'
   },
   onValueChange: {
     name: 'onValueChange',
     description:
-      'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
+      'Callback function triggered when the field value changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
   label: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
@@ -98,12 +94,12 @@ const PropsDescription: Record<
       `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default form label component or prefer to render a fully custom label instead.`,
     type: 'boolean'
   }),
-  renderOptionLabel: {
-    name: 'renderOptionLabel',
-    description:
-      'Render the option label content corresponding to each checkbox. The `selectAllText` parameter can be used to ensure that your option logic does not affect the "Select All" option.',
-    type: '(option, selectAllText, state) => ReactNode'
-  },
+  // renderOptionLabel: {
+  //   name: 'renderOptionLabel',
+  //   description:
+  //     'Render the option label content corresponding to each checkbox. The `selectAllText` parameter can be used to ensure that your option logic does not affect the "Select All" option.',
+  //   type: '(option, selectAllText, state) => ReactNode'
+  // },
   placeholder_Select: {
     name: 'placeholder',
     description:
@@ -155,14 +151,14 @@ const PropsDescription: Record<
     type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)})`,
     hasLinkInType: true
   }),
-  renderOption: {
-    name: 'renderOption',
-    description: 'Render the option content',
+  renderOptionLabel: {
+    name: 'renderOptionLabel',
+    description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`.',
     type: '(option) => ReactNode'
   },
   getOptionDisabled: {
     name: 'getOptionDisabled',
-    description: 'Function used to dynamically disable specific option(s). Return `true` to disable the option and prevent it from being selected.',
+    description: 'Function used to determine whether an option should be disabled. Return `true` to disable the option and prevent it from being selected.',
     type: '(option) => boolean'
   },
   customIds: {
@@ -269,7 +265,7 @@ const PropsDescription: Record<
   onValueChange_Inputs: {
     name: 'onValueChange',
     description:
-      'An optional callback function when the value of a field changes.',
+      'Callback function triggered when the field value changes.',
     type: '({ newValue, event }) => void'
   },
   onValueChange_numberInput: {

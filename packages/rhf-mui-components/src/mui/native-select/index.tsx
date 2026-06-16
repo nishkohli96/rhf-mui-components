@@ -87,14 +87,14 @@ export type RHFNativeSelectProps<
   /**
    * Custom renderer for dropdown options.
    *
-   * Use this prop to customize how each option is displayed in the menu.
+   * Use this prop to customize how each option is displayed in the `<option>` element.
    * When not provided, the option label derived from `labelKey` (or the
    * option value itself for primitive options) is rendered.
    *
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOption?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -167,7 +167,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     control,
     registerOptions,
     options,
-    renderOption,
+    renderOptionLabel,
     getOptionDisabled,
     labelKey,
     valueKey,
@@ -325,7 +325,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
                     disabled={isOptionDisabled}
                     aria-disabled={isOptionDisabled}
                   >
-                    {renderOption?.(option) ?? opnLabel}
+                    {renderOptionLabel?.(option) ?? opnLabel}
                   </option>
                 );
               })}
