@@ -163,7 +163,7 @@ const PropsDescription: Record<
   },
   customIds: {
     name: 'customIds',
-    description: 'Overrides the values of default `id`, `labelId`, `helperTextId`, and `errorId` for each form field component to improve accessibility.',
+    description: 'Overrides the default **field**, **label**, **helper text**, and **error** IDs used for accessibility.',
     type: '{ field, label, helperText, error }'
   },
   customOnChange_Inputs: {
@@ -270,7 +270,7 @@ const PropsDescription: Record<
   },
   onValueChange_numberInput: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
+    description: 'Callback function that returns the parsed numeric value as an integer, decimal, or `null` when the input is empty.',
     type: '(value: number / null) => void'
   },
   onValueChange_tagsInput: {
@@ -354,7 +354,7 @@ const PropsDescription: Record<
   },
   onValueChange_Rating: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the changed value of rating component',
+    description: 'Callback function triggered when the rating value changes.',
     type: '({ newValue, event }) => void'
   },
   onValueChange_DatePicker: {
@@ -422,13 +422,13 @@ const PropsDescription: Record<
   showPasswordIcon: {
     name: 'showPasswordIcon',
     description:
-      'Icon component to show password, such as `VisibilityIcon` from `@mui/icons-material/Visibility`.',
+      'Custom icon displayed when the password value is hidden, such as `VisibilityIcon` from `@mui/icons-material/Visibility`.',
     type: 'ReactNode'
   },
   hidePasswordIcon: {
     name: 'hidePasswordIcon',
     description:
-      'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
+      'Custom icon displayed when the password value is visible, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode'
   },
   hideFileList: {
@@ -529,7 +529,7 @@ const PropsDescription: Record<
   },
   showDefaultOption: {
     name: 'showDefaultOption',
-    description: 'Displays the default label for the disabled option when the value is `\'\'`.This text can be customized using the `defaultOptionText` prop',
+    description: 'Displays a default option with an empty value (`\'\'`) at the top of the dropdown. The displayed text can be customized using `defaultOptionText`.',
     type: 'boolean'
   },
   defaultOptionText: {
@@ -623,8 +623,7 @@ const PropsDescription: Record<
   }),
   multiple: {
     name: 'multiple',
-    description:
-      'Allow selection of single or multiple values for a formfield.',
+    description: 'Allows multiple values to be selected.',
     type: 'boolean'
   },
   selectAllText: {
@@ -663,7 +662,7 @@ const PropsDescription: Record<
   },
   getLimitTagsText: {
     name: 'getLimitTagsText',
-    description: 'The label to display when the tags are truncated',
+    description: 'Custom renderer for the summary label displayed when tags are hidden.',
     type: '(hiddenTags: number) => ReactNode'
   },
   displayFlagOnSelect: {
