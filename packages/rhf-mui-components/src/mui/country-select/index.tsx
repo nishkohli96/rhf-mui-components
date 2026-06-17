@@ -37,7 +37,6 @@ import type {
   CountryISO,
   FormLabelProps,
   FormHelperTextProps,
-  AutocompleteNewValue,
   AutoCompleteTextFieldProps,
   MuiChipProps,
   CustomComponentIds,
@@ -52,11 +51,26 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
 
+type CountrySelectStoredPrimitive = CountryDetails[
+  keyof Omit<CountryDetails, 'emoji'>
+];
+
+type CountrySelectStoredItem = CountryDetails | CountrySelectStoredPrimitive;
+
+type CountrySelectStoredValue<
+  Multiple extends boolean,
+  DisableClearable extends boolean
+> = [Multiple] extends [true]
+  ? CountrySelectStoredItem[]
+  : [DisableClearable] extends [true]
+    ? CountrySelectStoredItem
+    : CountrySelectStoredItem | null;
+
 type OnValueChangeProps<
   Multiple extends boolean,
   DisableClearable extends boolean
 > = {
-  newValue: AutocompleteNewValue<Multiple, DisableClearable>;
+  newValue: CountrySelectStoredValue<Multiple, DisableClearable>;
   event: SyntheticEvent;
   reason: AutocompleteChangeReason;
   details?: AutocompleteChangeDetails<CountryDetails>;
@@ -104,6 +118,12 @@ export type RHFCountrySelectProps<
   countries?: CountryDetails[];
   multiple?: Multiple;
   preferredCountries?: CountryISO[];
+  /**
+   * Country property to store in React Hook Form state.
+   *
+   * When omitted, the full selected `CountryDetails` object is stored. When
+   * provided, only `country[valueKey]` is stored.
+   */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   onValueChange?: ({
     newValue,
@@ -120,8 +140,8 @@ export type RHFCountrySelectProps<
    * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
    * `onValueChange` is not invoked when using `customOnChange`.
    *
-   * @param rhfOnChange - React Hook Form's internal change handler (pass the stored key(s))
-   * @param newValue - Value(s) written to the form: primitives from **valueKey** (`string[]` when `multiple`, else `string`), or `null` when clearable and cleared.
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param newValue - Value(s) written to the form: full country object(s) when `valueKey` is omitted, primitives from `valueKey` when it is provided, or `null` when clearable and cleared.
    * @param event - The event that triggered the change
    * @param reason - The reason for the change
    * @param details - The details of the change
@@ -134,7 +154,7 @@ export type RHFCountrySelectProps<
     details
   }: CustomOnChangeProps<
     OnValueChangeProps<Multiple, DisableClearable>,
-    AutocompleteNewValue<Multiple, DisableClearable>
+    CountrySelectStoredValue<Multiple, DisableClearable>
   >) => void;
   disableClearable?: DisableClearable;
   label?: ReactNode;
@@ -167,7 +187,7 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<
   registerOptions,
   countries,
   preferredCountries,
-  valueKey = 'iso',
+  valueKey,
   onValueChange,
   disabled: muiDisabled,
   customOnChange,
@@ -229,9 +249,12 @@ ref: Ref<HTMLInputElement>) {
   }, [countryOptions, preferredCountries]);
 
   const countryMap = useMemo(() => {
-    const map = new Map<string, CountryDetails>();
-    countrySelectOptions.forEach(c => {
-      map.set(c[valueKey], c);
+    if (!valueKey) {
+      return null;
+    }
+    const map = new Map<CountrySelectStoredPrimitive, CountryDetails>();
+    countrySelectOptions.forEach(country => {
+      map.set(country[valueKey], country);
     });
     return map;
   }, [countrySelectOptions, valueKey]);
@@ -259,17 +282,21 @@ ref: Ref<HTMLInputElement>) {
           || (isError && !hideErrorMessage)
         );
 
-        const fieldValue = rhfValue as AutocompleteNewValue<
+        const fieldValue = rhfValue as CountrySelectStoredValue<
           Multiple,
           DisableClearable
         >;
         const selectedCountries = multiple
-          ? (Array.isArray(fieldValue) ? fieldValue : [])
-            .map(val => countryMap.get(val))
-            .filter((country): country is CountryDetails => !!country)
-          : typeof fieldValue === 'string'
-            ? (countryMap.get(fieldValue) ?? null)
-            : null;
+          ? Array.isArray(fieldValue)
+            ? valueKey && countryMap
+              ? fieldValue
+                .map(val => countryMap.get(val as CountrySelectStoredPrimitive))
+                .filter((country): country is CountryDetails => !!country)
+              : fieldValue
+            : []
+          : valueKey && countryMap
+            ? countryMap.get(fieldValue as CountrySelectStoredPrimitive) ?? null
+            : fieldValue ?? null;
 
         return (
           <FormControl error={isError}>
@@ -297,14 +324,19 @@ ref: Ref<HTMLInputElement>) {
                 >
               }
               onChange={(event, newValue, reason, details) => {
-                const newValueKey = multiple
-                  ? (Array.isArray(newValue) ? newValue : []).map(
-                    (item: CountryDetails) => item[valueKey]
-                  )
-                  : !Array.isArray(newValue) && newValue !== null
-                    ? newValue[valueKey]
-                    : null;
-                const storedValue = newValueKey as AutocompleteNewValue<Multiple, DisableClearable>;
+                const storedValue = (
+                  multiple
+                    ? Array.isArray(newValue)
+                      ? valueKey
+                        ? newValue.map(item => item[valueKey])
+                        : newValue
+                      : []
+                    : !Array.isArray(newValue) && newValue !== null
+                      ? valueKey
+                        ? newValue[valueKey]
+                        : newValue
+                      : null
+                ) as CountrySelectStoredValue<Multiple, DisableClearable>;
                 if (customOnChange) {
                   customOnChange({
                     rhfOnChange,
@@ -336,10 +368,14 @@ ref: Ref<HTMLInputElement>) {
               limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
-              getOptionKey={option => option[valueKey]}
+              getOptionKey={option => String(
+                valueKey ? option[valueKey] : option.iso
+              )}
               getOptionLabel={option => option.name}
               isOptionEqualToValue={(option, value) =>
-                option[valueKey] === value[valueKey]}
+                valueKey
+                  ? option[valueKey] === value[valueKey]
+                  : option.iso === value.iso}
               renderInput={params => {
                 const {
                   InputProps,
