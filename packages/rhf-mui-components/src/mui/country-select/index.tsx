@@ -117,20 +117,23 @@ export type RHFCountrySelectProps<
   registerOptions?: RegisterOptions<T, Path<T>>;
   countries?: CountryDetails[];
   multiple?: Multiple;
+  /**
+   * List of country ISO codes to pin at the top of the dropdown.
+   *
+   * Countries are displayed in the same order as provided in this array,
+   * followed by the remaining countries sorted in their default order.
+   *
+   * @example
+   * preferredCountries={['US', 'CA', 'IN']}
+   */
   preferredCountries?: CountryISO[];
   /**
-   * Country property to store in React Hook Form state.
-   *
-   * When omitted, the full selected `CountryDetails` object is stored. When
-   * provided, only `country[valueKey]` is stored.
+   * - When `valueKey` is provided, selected value(s) are stored using the
+   *   specified country property.
+   * - When `valueKey` is omitted, selected value(s) are stored as complete
+   *   country objects.
    */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
-  onValueChange?: ({
-    newValue,
-    event,
-    reason,
-    details
-  }: OnValueChangeProps<Multiple, DisableClearable>) => void;
   /**
    * Custom change handler that overrides the default value update behavior.
    *
@@ -156,6 +159,12 @@ export type RHFCountrySelectProps<
     OnValueChangeProps<Multiple, DisableClearable>,
     CountrySelectStoredValue<Multiple, DisableClearable>
   >) => void;
+  onValueChange?: ({
+    newValue,
+    event,
+    reason,
+    details
+  }: OnValueChangeProps<Multiple, DisableClearable>) => void;
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;

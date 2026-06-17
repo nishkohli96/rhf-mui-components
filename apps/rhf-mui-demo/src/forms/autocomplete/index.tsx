@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFCountrySelect, { countryList } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFAutocompleteObject from '@nish1896/rhf-mui-components/mui/autocomplete-object';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
@@ -28,17 +28,17 @@ import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/util
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
 type FormSchema = {
-  sourceAirport?: string;
-  destinationAirports?: string[];
-  nationality?: string;
-  countriesVisited: string[];
-  employeeOfMonth?: (typeof employeeList)[number];
-  employeesToLayoff?: (typeof employeeList)[number];
-  employeesToPromote?: (typeof employeeList)[number][];
-  dreamDestinations?: string[];
-  colors?: Colors[];
-  iplTeams?: string[];
-  pokemons?: string[];
+  sourceAirport: string;
+  destinationAirports: string[];
+  nationality: string;
+  countriesVisited: (typeof countryList)[number][];
+  employeeOfMonth: (typeof employeeList)[number];
+  employeesToLayoff: (typeof employeeList)[number];
+  employeesToPromote: (typeof employeeList)[number][];
+  dreamDestinations: string[];
+  colors: Colors[];
+  iplTeams: string[];
+  pokemons: string[];
 };
 
 const LIMIT = 50;
@@ -52,14 +52,12 @@ const AutocompleteForm = () => {
   const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
 
-  const initialValues: FormSchema = {
-    countriesVisited: ['AU', 'SG'],
+  const initialValues: Partial<FormSchema> = {
     sourceAirport: airportList[2].iataCode,
     iplTeams: ['MI', 'CSK'],
     colors: [Colors.Pink, Colors.Green]
   };
 
-  const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
   const {
     control,
     handleSubmit,
@@ -487,7 +485,8 @@ const AutocompleteForm = () => {
                   message: 'Choose the country of your nationality'
                 }
               }}
-              renderOptionLabel={(option) => {
+              valueKey="iso3"
+              renderOptionLabel={option => {
                 return (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <span>{option.emoji}</span>
@@ -504,7 +503,7 @@ const AutocompleteForm = () => {
             <RHFCountrySelect
               fieldName="countriesVisited"
               control={control}
-              preferredCountries={preferredCountries}
+              preferredCountries={['IN', 'AU', 'JP']}
               multiple
               renderValue={(value) => {
                 return (
