@@ -379,7 +379,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              renderOptionLabel={(option, selectAllText) => (
+              renderOptionLabel={({ option, selectAllText }) => (
                 <Box
                   sx={{
                     display: 'flex',

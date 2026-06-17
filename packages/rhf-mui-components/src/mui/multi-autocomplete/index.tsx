@@ -62,6 +62,7 @@ type MultiAutoCompleteProps<
   FreeSolo extends boolean = false
 > = Omit<
   AutocompleteProps<Option, true, DisableClearable, FreeSolo>,
+  | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
   | 'renderOption'
@@ -73,7 +74,6 @@ type MultiAutoCompleteProps<
   | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
-  | 'autoHighlight'
   | 'blurOnSelect'
   | 'disableClearable'
   | 'disableCloseOnSelect'
@@ -84,6 +84,12 @@ type MultiAutoCompleteProps<
 type OnValueChangeProps = {
   newValue: string[];
   selectedOption?: string;
+};
+
+type RenderOptionLabelProps<Option extends StrObjOption = StrObjOption> = {
+  option: Option;
+  selectAllText: string;
+  state: AutocompleteRenderOptionState;
 };
 
 export type RHFMultiAutocompleteProps<
@@ -118,13 +124,22 @@ export type RHFMultiAutocompleteProps<
    * @default false
    */
   disableClearable?: DisableClearable;
+  /**
+   * When true, the user may type any value not present in `options`.
+   *
+   * The typed string is stored in RHF state as-is. `selectedOption` in
+   * callbacks is of type `(Option | string)[]`.
+   *
+   * To keep things predictable and type-safe, `freeSolo` is not compatible with
+   * `selectAllText` and will hide the "Select All" option.
+   */
   freeSolo?: FreeSolo;
   label?: ReactNode;
-  renderOptionLabel?: (
-    option: Option,
-    selectAllText: string,
-    state: AutocompleteRenderOptionState
-  ) => ReactNode;
+  renderOptionLabel?: ({
+    option,
+    selectAllText,
+    state
+  }: RenderOptionLabelProps<Option>) => ReactNode;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
@@ -168,6 +183,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     labelKey,
     valueKey,
     disableClearable,
+    autoHighlight = true,
     freeSolo,
     selectAllText = defaultSelectAllOptionLabel,
     onValueChange,
@@ -194,7 +210,8 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     customIds,
     getOptionDisabled,
     limitTags = 2,
-    ...otherAutoCompleteProps
+    getLimitTagsText,
+    ...otherMultiAutoCompleteProps
   }: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable, FreeSolo>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -359,6 +376,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               />
             )}
             <Autocomplete
+              {...otherMultiAutoCompleteProps}
               id={fieldId}
               options={autoCompleteOptions}
               freeSolo={freeSolo}
@@ -438,8 +456,9 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
-                    option[valueKey]
-                    === (typeof value === 'object' ? value[valueKey] : value)
+                    option[valueKey] === (typeof value === 'object' && value !== null
+                      ? value[valueKey]
+                      : value)
                   );
                 }
                 return option === value;
@@ -472,14 +491,14 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 };
                 return (
                   <TextField
+                    {...otherTextFieldProps}
+                    {...otherInputParams}
                     name={rhfFieldName}
                     inputRef={mergeRefs(rhfRef, ref)}
                     disabled={paramsDisabled || muiDisabled}
-                    {...otherTextFieldProps}
                     placeholder={
                       selectedOptions.length > 0 ? undefined : placeholder
                     }
-                    {...otherInputParams}
                     label={
                       !isLabelAboveFormField
                         ? (
@@ -518,7 +537,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
                       label={
-                        renderOptionLabel?.(option, selectAllText, state)
+                        renderOptionLabel?.({ option, selectAllText, state })
                         ?? optionLabel
                       }
                       disabled={isOptionDisabled}
@@ -559,8 +578,8 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 );
               }}
               limitTags={limitTags}
-              getLimitTagsText={value => `+${value} More`}
-              autoHighlight
+              getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
+              autoHighlight={autoHighlight}
               disableCloseOnSelect
               disableClearable={disableClearable}
               blurOnSelect={false}
@@ -574,7 +593,6 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   'aria-multiselectable': true
                 }
               }}
-              {...otherAutoCompleteProps}
             />
             <FormHelperText
               error={isError}

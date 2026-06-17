@@ -70,7 +70,6 @@ type OmittedAutocompleteProps<
   | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
-  | 'autoHighlight'
   | 'blurOnSelect'
   | 'disableClearable'
   | 'disableCloseOnSelect'
@@ -215,6 +214,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     labelKey,
     valueKey,
     freeSolo,
+    autoHighlight = true,
     disableClearable,
     onValueChange,
     customOnChange,
@@ -529,7 +529,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   />
                 );
               }}
-              autoHighlight
+              autoHighlight={autoHighlight}
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               disableClearable={disableClearable}
