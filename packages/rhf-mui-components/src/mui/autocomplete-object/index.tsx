@@ -66,12 +66,10 @@ type OmittedAutocompleteProps<
   | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
-  | 'autoHighlight'
   | 'blurOnSelect'
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'ref'
-  | 'renderTags'
   | 'disableClearable'
 >;
 
@@ -164,8 +162,9 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
     labelKey,
     valueKey,
     disableClearable,
-    onValueChange,
+    autoHighlight = true,
     customOnChange,
+    onValueChange,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -179,12 +178,13 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
     textFieldProps,
     slotProps,
     ChipProps,
-    onBlur,
+    onBlur: muiOnBlur,
     onFocus,
     loading,
     limitTags = 2,
+    getLimitTagsText,
     customIds,
-    ...otherAutoCompleteProps
+    ...otherAutocompleteObjectProps
   }: RHFAutocompleteObjectProps<
     T,
     Option,
@@ -218,9 +218,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const renderOptionLabel = useCallback(
-    (option: Option): string => {
-      return option[labelKey];
-    },
+    (option: Option): string => String(option[labelKey]),
     [labelKey]
   );
 
@@ -262,6 +260,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
               />
             )}
             <Autocomplete
+              {...otherAutocompleteObjectProps}
               id={fieldId}
               options={options}
               multiple={multiple}
@@ -302,15 +301,11 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
               onFocus={onFocus}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               getOptionLabel={option => renderOptionLabel(option)}
-              isOptionEqualToValue={(option, value) => {
-                if (!value) {
-                  return false;
-                }
-                return option[valueKey] === value[valueKey];
-              }}
+              isOptionEqualToValue={(option, value) =>
+                option[valueKey] === value?.[valueKey]}
               renderInput={params => {
                 const {
                   InputProps,
@@ -370,19 +365,19 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                   />
                 );
               }}
-              autoHighlight
+              autoHighlight={autoHighlight}
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               disableClearable={disableClearable}
               fullWidth
               loading={loading}
               limitTags={limitTags}
-              getLimitTagsText={value => `+${value} More`}
+              freeSolo={false}
+              getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
               slotProps={{
                 ...slotProps,
                 chip: ChipProps
               }}
-              {...otherAutoCompleteProps}
             />
             <FormHelperText
               error={isError}
