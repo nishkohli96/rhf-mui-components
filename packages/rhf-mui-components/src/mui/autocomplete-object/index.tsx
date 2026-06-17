@@ -402,6 +402,15 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
   );
 });
 
+/**
+ * The component is designed to store complete option object(s) in form state.
+ * 
+ * `freeSolo` is not supported in `RHFAutocompleteObject` as it would introduce
+ * string values alongside objects (`Option | string`), making the field value
+ * less predictable and type-safe.
+ *
+ * Use `RHFAutocomplete` instead when `freeSolo` behavior is required.
+ */
 const RHFAutocompleteObject = RHFAutocompleteObjectInner as <
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
