@@ -211,6 +211,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     getOptionDisabled,
     limitTags = 2,
     getLimitTagsText,
+    autoSelect,
     ...otherMultiAutoCompleteProps
   }: RHFMultiAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable, FreeSolo>,
   ref: Ref<HTMLInputElement>
@@ -580,6 +581,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               limitTags={limitTags}
               getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
               autoHighlight={autoHighlight}
+              autoSelect={freeSolo || autoSelect}
               disableCloseOnSelect
               disableClearable={disableClearable}
               blurOnSelect={false}

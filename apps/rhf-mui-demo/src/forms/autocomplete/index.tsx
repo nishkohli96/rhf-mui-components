@@ -98,7 +98,7 @@ const AutocompleteForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete with custom renderOption" />
+            <FieldVariantInfo title="Autocomplete with freeSolo, custom renderOption and renderValue" />
             <RHFAutocomplete
               fieldName="sourceAirport"
               control={control}
@@ -172,7 +172,7 @@ const AutocompleteForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete accepting multiple options and customized chip" />
+            <FieldVariantInfo title="FreeSolo Autocomplete accepting multiple options and customized chip" />
             <RHFAutocomplete
               fieldName="destinationAirports"
               control={control}
@@ -356,13 +356,14 @@ const AutocompleteForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multi Autocomplete With String Options" />
+            <FieldVariantInfo title="Multi Autocomplete With String Options and freeSolo" />
             <RHFMultiAutocomplete
               fieldName="colors"
               control={control}
               options={Object.values(Colors)}
               label="Which colors do you like ?"
               textFieldProps={{ placeholder: 'Select colors' }}
+              freeSolo
               registerOptions={{
                 required: {
                   value: true,
