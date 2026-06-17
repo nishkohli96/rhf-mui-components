@@ -55,9 +55,10 @@ import {
 type OmittedAutocompleteProps<
   Option extends StrObjOption = StrObjOption,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
 > = Omit<
-  AutocompleteProps<Option, Multiple, DisableClearable, false>,
+  AutocompleteProps<Option, Multiple, DisableClearable, FreeSolo>,
   | 'freeSolo'
   | 'multiple'
   | 'fullWidth'
@@ -80,16 +81,23 @@ type OmittedAutocompleteProps<
 type AutocompleteFieldValue<
   Option,
   Multiple extends boolean,
-  DisableClearable extends boolean
-> = AutocompleteValue<Option, Multiple, DisableClearable, false>;
+  DisableClearable extends boolean,
+  FreeSolo extends boolean
+> = AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>;
 
 type OnValueChangeProps<
   Option,
   Multiple extends boolean,
-  DisableClearable extends boolean
+  DisableClearable extends boolean,
+  FreeSolo extends boolean
 > = {
   newValue: AutocompleteNewValue<Multiple, DisableClearable>;
-  selectedOption: AutocompleteValue<Option, Multiple, DisableClearable, false>;
+  selectedOption: AutocompleteValue<
+    Option,
+    Multiple,
+    DisableClearable,
+    FreeSolo
+  >;
   event: SyntheticEvent<Element, Event>;
   reason: AutocompleteChangeReason;
   details?: AutocompleteChangeDetails<Option>;
@@ -107,7 +115,8 @@ export type RHFAutocompleteProps<
     string
   >,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
 > = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -116,14 +125,21 @@ export type RHFAutocompleteProps<
   multiple?: Multiple;
   labelKey?: LabelKey;
   valueKey?: ValueKey;
+  /**
+   * When true, the user may type any value not present in `options`.
+   *
+   * The typed string is stored in RHF state as-is. `selectedOption` in
+   * callbacks reflects `Option | string` for single selection, or
+   * `(Option | string)[]` when `multiple` is true.
+   */
+  freeSolo?: FreeSolo;
   onValueChange?: ({
     newValue,
     selectedOption,
     event,
     reason,
     details
-  }: OnValueChangeProps<Option, Multiple, DisableClearable>
-  ) => void;
+  }: OnValueChangeProps<Option, Multiple, DisableClearable, FreeSolo>) => void;
   /**
    * Custom change handler that overrides the default value update behavior.
    *
@@ -148,11 +164,11 @@ export type RHFAutocompleteProps<
     reason,
     details
   }: CustomOnChangeProps<
-    OnValueChangeProps<Option, Multiple, DisableClearable>,
+    OnValueChangeProps<Option, Multiple, DisableClearable, FreeSolo>,
     AutocompleteNewValue<Multiple, DisableClearable>
   >) => void;
   /**
-   * If true, the input can't be cleared.
+   * If true, the input cannot be cleared.
    * @default false
    */
   disableClearable?: DisableClearable;
@@ -173,7 +189,7 @@ export type RHFAutocompleteProps<
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
   customIds?: CustomComponentIds;
-} & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
+} & OmittedAutocompleteProps<Option, Multiple, DisableClearable, FreeSolo>;
 
 const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
   T extends FieldValues,
@@ -187,7 +203,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     string
   >,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
 >(
   {
     fieldName,
@@ -197,6 +214,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     multiple,
     labelKey,
     valueKey,
+    freeSolo,
     disableClearable,
     onValueChange,
     customOnChange,
@@ -218,6 +236,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     loading,
     limitTags = 2,
     customIds,
+    autoSelect,
+    getLimitTagsText,
     ...otherAutoCompleteProps
   }: RHFAutocompleteProps<
     T,
@@ -225,7 +245,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     LabelKey,
     ValueKey,
     Multiple,
-    DisableClearable
+    DisableClearable,
+    FreeSolo
   >,
   ref: Ref<HTMLInputElement>
 ) {
@@ -272,7 +293,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
         return option;
       }
       if (labelKey && isKeyValueOption(option, labelKey, valueKey)) {
-        return option[labelKey];
+        return String(option[labelKey]);
       }
       return String(option);
     },
@@ -302,21 +323,48 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
           || (isError && !hideErrorMessage)
         );
 
-        let selectedOptions: Option | Option[] | null;
+        let selectedOptions: AutocompleteFieldValue<
+          Option,
+          Multiple,
+          DisableClearable,
+          FreeSolo
+        >;
         if (multiple) {
-          selectedOptions = (rhfValue ?? []).flatMap(val => {
+          const multiValue: (Option | string)[] = [];
+
+          for (const val of Array.isArray(rhfValue) ? rhfValue : []) {
             const option = optionsMap
               ? optionsMap.get(val)
               : options.find(opn => opn === val);
-            return option ? [option] : [];
-          });
+            if (option) {
+              multiValue.push(option);
+            } else if (freeSolo) {
+              multiValue.push(String(val));
+            }
+          }
+
+          selectedOptions = multiValue as AutocompleteFieldValue<
+            Option,
+            Multiple,
+            DisableClearable,
+            FreeSolo
+          >;
         } else {
-          selectedOptions
+          const singleOption
             = rhfValue === null || rhfValue === undefined
               ? null
               : optionsMap
-                ? (optionsMap.get(rhfValue) ?? null)
-                : (options.find(opn => opn === rhfValue) ?? null);
+                ? optionsMap.get(rhfValue)
+                ?? (freeSolo ? (rhfValue) : null)
+                : options.find(opn => opn === rhfValue)
+                  ?? (freeSolo ? (rhfValue) : null);
+
+          selectedOptions = singleOption as AutocompleteFieldValue<
+            Option,
+            Multiple,
+            DisableClearable,
+            FreeSolo
+          >;
         }
 
         return (
@@ -340,16 +388,13 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
              * MUI v7 deprecates `renderTags` in favor of `renderValue`.
              */}
             <Autocomplete
+              {...otherAutoCompleteProps}
               id={fieldId}
               options={options}
               multiple={multiple}
-              value={
-                selectedOptions as AutocompleteFieldValue<
-                  Option,
-                  Multiple,
-                  DisableClearable
-                >
-              }
+              freeSolo={freeSolo}
+              autoSelect={freeSolo || autoSelect}
+              value={selectedOptions}
               disabled={muiDisabled}
               onChange={(
                 event,
@@ -362,17 +407,22 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                     ? null
                     : Array.isArray(newValue)
                       ? newValue.map(item =>
-                        valueKey && isKeyValueOption(item, labelKey, valueKey)
+                        typeof item !== 'string'
+                        && valueKey
+                        && isKeyValueOption(item, labelKey, valueKey)
                           ? item[valueKey]
                           : (item as string))
-                      : valueKey
+                      : typeof newValue !== 'string'
+                        && valueKey
                         && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
                         : (newValue as string);
+
                 const storedValue = fieldValue as AutocompleteNewValue<
                   Multiple,
                   DisableClearable
                 >;
+
                 if (customOnChange) {
                   customOnChange({
                     rhfOnChange,
@@ -403,10 +453,16 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                 if (!value) {
                   return false;
                 }
+                if (typeof option === 'string') {
+                  return option === (
+                    typeof value === 'string' ? value : String(value)
+                  );
+                }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
                   return (
-                    option[valueKey]
-                    === (typeof value === 'object' ? value[valueKey] : value)
+                    option[valueKey] === (typeof value === 'object' && value !== null
+                      ? value[valueKey]
+                      : value)
                   );
                 }
                 return option === value;
@@ -446,7 +502,10 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                     label={
                       !isLabelAboveFormField
                         ? (
-                          <FormLabelText label={fieldLabel} required={required} />
+                          <FormLabelText
+                            label={fieldLabel}
+                            required={required}
+                          />
                         )
                         : undefined
                     }
@@ -477,12 +536,11 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
               fullWidth
               loading={loading}
               limitTags={limitTags}
-              getLimitTagsText={value => `+${value} More`}
+              getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
               slotProps={{
                 ...slotProps,
                 chip: ChipProps
               }}
-              {...otherAutoCompleteProps}
             />
             <FormHelperText
               error={isError}
@@ -514,7 +572,8 @@ const RHFAutocomplete = RHFAutocompleteInner as <
     string
   >,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
 >(
   props: RHFAutocompleteProps<
     T,
@@ -522,7 +581,8 @@ const RHFAutocomplete = RHFAutocompleteInner as <
     LabelKey,
     ValueKey,
     Multiple,
-    DisableClearable
+    DisableClearable,
+    FreeSolo
   > & {
     ref?: Ref<HTMLInputElement>;
   }

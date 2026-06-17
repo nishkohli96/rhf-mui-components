@@ -108,6 +108,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 }
               }}
+              freeSolo
               options={airportList}
               renderOption={({ key, ...props }, option) => {
                 return (
@@ -156,7 +157,7 @@ const AutocompleteForm = () => {
               renderValue={(value) => {
                 return (
                   <Chip
-                    label={`${value.name} - ${value.iataCode}`}
+                    label={typeof value === 'string' ? value : `${value.name} - ${value.iataCode}`}
                     sx={{
                       bgcolor: '#007ABA',
                       fontWeight: 800,
@@ -185,8 +186,9 @@ const AutocompleteForm = () => {
               labelKey="name"
               valueKey="iataCode"
               multiple
+              freeSolo
               textFieldProps={{ variant: 'standard' }}
-              getLimitTagsText={(value) => `+${value} Airport(s)`}
+              getLimitTagsText={more => `+${more} Airport(s)`}
               ChipProps={{
                 sx: {
                   bgcolor: '#ea3677',
