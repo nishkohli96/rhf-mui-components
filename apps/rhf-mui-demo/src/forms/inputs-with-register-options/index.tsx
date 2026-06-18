@@ -23,7 +23,9 @@ import {
   FieldVariantInfo,
   FormState,
   SubmitButton,
-  ResetButton
+  ResetButton,
+  UploadedFile,
+  UploadedImage
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import {
@@ -33,7 +35,6 @@ import {
   showToastMessage,
   logFirebaseEvent
 } from '@/utils';
-import FilePreviewItem from './FilePreviewItem';
 
 type FormSchema = {
   firstName: string;
@@ -332,6 +333,35 @@ const InputsWithRegisterForm = () => {
                   url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
                 }
               ]}
+              existingFileListProps={{
+                sx: {
+                  mt: '10px',
+                  p: '4px',
+                  background: '#abcded',
+                  borderRadius: '8px'
+                }
+              }}
+              uploadedFileListProps={{
+                sx: {
+                  mt: '10px',
+                  p: '4px',
+                  background: '#4c4c4c',
+                  borderRadius: '8px'
+                }
+              }}
+              renderExistingFileItem={({ file }) => (
+                <a
+                  href={file.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-white decoration-blue-500 underline decoration-2 underline-offset-2"
+                >
+                  {file.name}
+                </a>
+              )}
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedFile file={file} onRemove={removeFile} />
+              )}
               fullWidth
               disableDragAndDrop
               maxFiles={3}
@@ -355,7 +385,7 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               renderFileItem={({ file, removeFile }) => (
-                <FilePreviewItem file={file} onRemove={removeFile} />
+                <UploadedImage file={file} onRemove={removeFile} />
               )}
               onUploadError={(errors, rejectedFiles) => {
                 toast.error(
@@ -419,6 +449,9 @@ const InputsWithRegisterForm = () => {
                   }
                 };
               }}
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedFile file={file} onRemove={removeFile} />
+              )}
             />
           </Grid>
           <Grid size={12}>

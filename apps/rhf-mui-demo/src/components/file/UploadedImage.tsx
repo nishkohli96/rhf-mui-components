@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -6,15 +8,15 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 
-type FilePreviewItemProps = {
+type UploadedImageProps = {
   file: File;
   onRemove: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export default function FilePreviewItem({
+export default function UploadedImage({
   file,
   onRemove
-}: FilePreviewItemProps) {
+}: UploadedImageProps) {
   const previewUrlRef = useRef<string | null>(null);
 
   const setImageRef = useCallback(

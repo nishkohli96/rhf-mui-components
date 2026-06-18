@@ -38,7 +38,8 @@ import {
   GridContainer,
   FormState,
   SubmitButton,
-  ResetButton
+  ResetButton,
+  UploadedFile
 } from '@/components';
 import {
   CountriesList,
@@ -214,6 +215,9 @@ const CompleteForm = () => {
                   }
                 }}
                 required
+                renderFileItem={({ file, removeFile }) => (
+                  <UploadedFile file={file} onRemove={removeFile} />
+                )}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

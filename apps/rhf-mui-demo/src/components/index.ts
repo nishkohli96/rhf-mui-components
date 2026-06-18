@@ -3,6 +3,7 @@ export * from './buttons';
 export { default as ConfigProviderWrapper } from './config-provider';
 export * from './containers';
 export { default as Drawer } from './drawer';
+export * from './file';
 export { default as FirebaseAnalytics } from './firebase-analytics';
 export { default as Footer } from './footer';
 export { default as FormState } from './form-state';
