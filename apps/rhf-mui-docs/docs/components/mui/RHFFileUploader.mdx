@@ -1,19 +1,19 @@
 ---
 sidebar_position: 5
-sidebar_label: File Uploader 2
-title: RHFFileUploader2
-description: RHFFileUploader2 is a customizable drag-and-drop file upload component for React Hook Form, supporting single and multi-file uploads with file count and size validation, and customizable upload area.
+sidebar_label: File Uploader
+title: RHFFileUploader
+description: RHFFileUploader is a customizable drag-and-drop file upload component for React Hook Form, supporting single and multi-file uploads with file count and size validation, and customizable upload area.
 ---
 
 import { RHFFileUploaderPropsTable } from '@site/src/page-components';
 import { AvailabilityBanner } from '@site/src/components';
 import { ExternalLinks } from '@site/src/constants';
 
-# RHFFileUploader2
+# RHFFileUploader
 
 <AvailabilityBanner componentName="RHFFileUploader" version="2.1" />
 
-**RHFFileUploader2** is a flexible file upload component for React Hook Form supporting:
+**RHFFileUploader** is a flexible file upload component for React Hook Form supporting:
 - Single and multiple file uploads
 - Drag-and-drop uploads
 - Existing server-side files
@@ -24,16 +24,24 @@ import { ExternalLinks } from '@site/src/constants';
 - Custom file item rendering
 - Custom drop zone styling and behavior
 
+:::note
+
+`RHFFileUploader` was completely rewritten in **v4** to introduce drag-and-drop support, existing file handling, enhanced customization options, and improved validation behavior.
+
+If you're upgrading from **v3**, please refer to the [migration guide](../../migration/v4#rhffileuploader) for breaking changes and migration steps.
+
+:::
+
 ## Usage
 
 ```js
-import RHFFileUploader2, { RHFFileUploader2Props, FileUploadError } from '@nish1896/rhf-mui-components/mui/file-uploader-v2';
+import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from '@nish1896/rhf-mui-components/mui/file-uploader';
 ```
 
 Here’s a basic example of the component configured to accept a single file:
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="resume"
   control={control}
 />
@@ -75,7 +83,7 @@ See:
 
 ### Multiple Files & Validation
 
-`RHFFileUploader2` can be configured to:
+`RHFFileUploader` can be configured to:
 - Accept multiple files
 - Restrict file types using `accept`
 - Limit file size using `maxSize`
@@ -85,7 +93,7 @@ See:
 - Render custom file items
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="pictures"
   control={control}
   multiple
@@ -103,7 +111,7 @@ See:
 Drag-and-drop uploads are enabled by default.
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
 />
@@ -112,7 +120,7 @@ Drag-and-drop uploads are enabled by default.
 Disable drag-and-drop:
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   disableDragAndDrop
@@ -124,7 +132,7 @@ Disable drag-and-drop:
 Customize the drop zone appearance and behavior using `dropZoneProps`.
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   dropZoneProps={({ isDragging, disabled, error }) => ({
@@ -157,7 +165,7 @@ type RHFFileUploaderDropZoneState = {
 Use `existingFiles` to display files that have already been uploaded and stored on the server.
 
 ```tsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   existingFiles={[
@@ -182,7 +190,7 @@ Existing files are rendered separately from newly uploaded files and count towar
 Use `renderUploadButton` to provide a fully custom upload UI.
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   renderUploadButton={fileInput => (
@@ -203,7 +211,7 @@ Use `renderUploadButton` to provide a fully custom upload UI.
 Use `renderFileItem` to customize how newly uploaded files are displayed.
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   multiple
@@ -241,7 +249,7 @@ The renderer receives:
 Use `renderExistingFileItem` to customize how server-side files are displayed.
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   existingFiles={[
@@ -282,7 +290,7 @@ The renderer receives:
 - The field is cleared
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   onValueChange={({ newValue, event }) => {
@@ -296,7 +304,7 @@ The renderer receives:
 Use `onUploadError` to handle validation failures.
 
 ```jsx
-<RHFFileUploader2
+<RHFFileUploader
   fieldName="documents"
   control={control}
   accept="image/*"
