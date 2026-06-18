@@ -284,6 +284,74 @@ The renderer receives:
 ```
 
 ### Value Change Events
+
+Depending on your use case, you can either use `customOnChange` to gain complete control over file
+validation and form state updates, or use `onValueChange` to react to file uploads, removals, and
+clear actions after the field value has changed.
+
+#### customOnChange
+
+Use `customOnChange` when you need full control over how uploaded files are processed before updating the React Hook Form field value.
+
+Unlike `onValueChange`, which is a notification callback, `customOnChange` overrides the default update behavior.
+
+:::warning
+When using `customOnChange`, you are responsible for calling `rhfOnChange` manually. If `rhfOnChange` is not called, the form value will not be updated.
+:::
+
+```ts
+customOnChange?: ({
+  rhfOnChange,
+  newValue,
+  event
+}) => void;
+```
+
+**Example: Restrict Total File Size**
+
+```tsx
+<RHFFileUploader
+  fieldName="documents"
+  control={control}
+  multiple
+  customOnChange={({ rhfOnChange, newValue }) => {
+    const files = Array.isArray(newValue)
+      ? newValue
+      : newValue
+        ? [newValue]
+        : [];
+    const totalSize = files.reduce(
+      (sum, file) => sum + file.size,
+      0
+    );
+    const maxTotalSize = 20 * 1024 * 1024; // 20 MB
+    if (totalSize > maxTotalSize) {
+      alert('Total file size cannot exceed 20 MB');
+      return;
+    }
+    rhfOnChange(newValue);
+  }}
+/>
+```
+
+**Example: Filter Files Before Saving**
+
+```tsx
+<RHFFileUploader
+  fieldName="documents"
+  control={control}
+  multiple
+  customOnChange={({ rhfOnChange, newValue }) => {
+    const files = Array.isArray(newValue)
+      ? newValue.filter(file => !file.name.startsWith('temp_'))
+      : newValue;
+    rhfOnChange(files);
+  }}
+/>
+```
+
+#### onValueChange
+
 `onValueChange` is called whenever:
 - Files are uploaded
 - Files are removed
@@ -311,7 +379,7 @@ Use `onUploadError` to handle validation failures.
   maxSize={2 * 1024 * 1024}
   maxFiles={3}
   onUploadError={errors => {
-    // [{ file, errors: [FileUploadError.sizeExceeded] }]
+    /* [{ file, errors: [FileUploadError.sizeExceeded] }] */
     console.log(errors);
   }}
 />
