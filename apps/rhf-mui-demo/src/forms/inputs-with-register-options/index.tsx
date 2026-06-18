@@ -15,7 +15,9 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
-import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
+import RHFFileUploader, {
+  type FileUploadErrorDetails
+} from '@nish1896/rhf-mui-components/mui/file-uploader';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -387,13 +389,14 @@ const InputsWithRegisterForm = () => {
               renderFileItem={({ file, removeFile }) => (
                 <UploadedImage file={file} onRemove={removeFile} />
               )}
-              onUploadError={(errors, rejectedFiles) => {
+              onUploadError={(errors: FileUploadErrorDetails[]) => {
                 toast.error(
                   `${
-                    rejectedFiles.length
-                  } file(s) were rejected as ${errors.join(' ,')}`
+                    new Set(errors.map(({ file }) => file)).size
+                  } file(s) were rejected as ${errors
+                    .flatMap(({ errors: fileErrors }) => fileErrors)
+                    .join(' ,')}`
                 );
-                console.log('rejectedFiles: ', rejectedFiles);
                 console.log('errors: ', errors);
               }}
               customOnChange={({ rhfOnChange, newValue }) => {

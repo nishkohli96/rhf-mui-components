@@ -100,8 +100,8 @@ See:
   accept="image/*"
   maxFiles={3}
   maxSize={5 * 1024 * 1024}
-  onUploadError={(errors, rejectedFiles) => {
-    alert(`${rejectedFiles.length} file(s) were rejected: ${errors.join(', ')}`);
+  onUploadError={(errors) => {
+    alert(`${errors.length} file(s) were rejected.`);
   }}
 />
 ```
@@ -310,9 +310,9 @@ Use `onUploadError` to handle validation failures.
   accept="image/*"
   maxSize={2 * 1024 * 1024}
   maxFiles={3}
-  onUploadError={(errors, rejectedFiles) => {
+  onUploadError={errors => {
+    // [{ file, errors: [FileUploadError.sizeExceeded] }]
     console.log(errors);
-    console.log(rejectedFiles);
   }}
 />
 ```

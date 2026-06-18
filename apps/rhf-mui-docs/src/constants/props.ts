@@ -485,8 +485,8 @@ const PropsDescription: Record<
   onUploadError: {
     name: 'onUploadError',
     description:
-      'Callback function that returns the error message and rejected files when uploaded files fail the validation during upload.',
-    type: '(errors: FileUploadError[], rejectedFiles: File[]) => void'
+      'Callback function that returns validation errors grouped by rejected file.',
+    type: 'Array<{ file, errors }> => void'
   },
   fullWidth_FileUploader: {
     name: 'fullWidth',

@@ -2,7 +2,7 @@
 sidebar_position: 4
 sidebar_label: validateFileList
 title: validateFileList
-description: Validates a list of files based on size limit and extension to return an array of acceptedFiles, rejectedFiles and errors.
+description: Validates a list of files based on size limit and extension to return accepted files, rejected files, and per-file validation errors.
 ---
 
 # validateFileList
@@ -10,8 +10,11 @@ description: Validates a list of files based on size limit and extension to retu
 ```ts
 type ProcessFilesResult = {
   acceptedFiles: File[];
-  rejectedFiles?: File[]; 
-  errors?: FileUploadError[];
+  rejectedFiles: File[];
+  fileErrors: {
+    file: File;
+    errors: FileUploadError[];
+  }[];
 }
 
 function validateFileList(
@@ -49,7 +52,7 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 
 1. `acceptedFiles`: A list of accepted files.
 2. `rejectedFiles`: A list of rejected files.
-3. `errors`: A set of validation errors which can be any of:
+3. `fileErrors`: A list of rejected files and their validation errors. Error values can be any of:
     - `FILE_SIZE_EXCEEDED`
     - `FILE_TYPE_NOT_ALLOWED`
     - `FILE_LIMIT_EXCEEDED`

@@ -1,4 +1,7 @@
-import { FileUploadError } from '@/mui/file-uploader';
+import {
+  FileUploadError,
+  type FileUploadErrorDetails
+} from '@/mui/file-uploader';
 
 type FileSizeOptions = {
   valueAsNumber?: boolean;
@@ -7,8 +10,8 @@ type FileSizeOptions = {
 
 type ProcessFilesResult = {
   acceptedFiles: File[];
-  rejectedFiles?: File[];
-  errors?: FileUploadError[];
+  rejectedFiles: File[];
+  fileErrors: FileUploadErrorDetails[];
 };
 
 export function getFileSize(size: number, options?: FileSizeOptions): string {
@@ -56,7 +59,7 @@ export function validateFileList(
   const files = Array.from(fileList);
   const acceptedFiles: File[] = [];
   const rejectedFiles: File[] = [];
-  const errorsSet = new Set<FileUploadError>();
+  const fileErrorsList: FileUploadErrorDetails[] = [];
 
   /* Parse the accept string into an array of acceptable types/extensions */
   const acceptedTypes = accept
@@ -86,19 +89,19 @@ export function validateFileList(
   };
 
   files.forEach(file => {
-    const fileErrors: FileUploadError[] = [];
+    const validationErrors: FileUploadError[] = [];
 
     if (maxSize && file.size > maxSize) {
-      fileErrors.push(FileUploadError.sizeExceeded);
+      validationErrors.push(FileUploadError.sizeExceeded);
     }
 
     if (!isTypeAllowed(file)) {
-      fileErrors.push(FileUploadError.invalidExtension);
+      validationErrors.push(FileUploadError.invalidExtension);
     }
 
-    if (fileErrors.length > 0) {
+    if (validationErrors.length > 0) {
       rejectedFiles.push(file);
-      fileErrors.forEach(err => errorsSet.add(err));
+      fileErrorsList.push({ file, errors: validationErrors });
     } else {
       acceptedFiles.push(file);
     }
@@ -108,12 +111,17 @@ export function validateFileList(
     const excessFiles = acceptedFiles.slice(maxFiles);
     acceptedFiles.splice(maxFiles);
     rejectedFiles.push(...excessFiles);
-    errorsSet.add(FileUploadError.limitExceeded);
+    fileErrorsList.push(
+      ...excessFiles.map(file => ({
+        file,
+        errors: [FileUploadError.limitExceeded]
+      }))
+    );
   }
 
   return {
     acceptedFiles,
     rejectedFiles,
-    errors: Array.from(errorsSet),
+    fileErrors: fileErrorsList,
   };
 }

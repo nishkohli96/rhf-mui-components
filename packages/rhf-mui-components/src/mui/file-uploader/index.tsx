@@ -43,6 +43,13 @@ export enum FileUploadError {
   limitExceeded = 'FILE_LIMIT_EXCEEDED',
 }
 
+export type FileUploadErrorDetails = {
+  /** File that failed upload validation. */
+  file: File;
+  /** Validation errors reported for the file. */
+  errors: FileUploadError[];
+};
+
 /**
  * Metadata for a file that has already been uploaded and is being
  * passed as initial value for the field in the file uploader component.
@@ -211,7 +218,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   /**
    * Fired when uploaded files fail type, size, or count validation.
    */
-  onUploadError?: (errors: FileUploadError[], rejectedFiles: File[]) => void;
+  onUploadError?: (errors: FileUploadErrorDetails[]) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -387,8 +394,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             accept,
             maxSize
           );
-          const rejectedFiles = [...(validationResult.rejectedFiles ?? [])];
-          const errors = new Set(validationResult.errors ?? []);
+          const fileErrors = [...validationResult.fileErrors];
           let acceptedIncomingFiles = validationResult.acceptedFiles;
 
           if (
@@ -398,12 +404,16 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             const excessFiles = acceptedIncomingFiles.slice(remainingFileSlots);
             acceptedIncomingFiles
               = acceptedIncomingFiles.slice(0, remainingFileSlots);
-            rejectedFiles.push(...excessFiles);
-            errors.add(FileUploadError.limitExceeded);
+            fileErrors.push(
+              ...excessFiles.map(file => ({
+                file,
+                errors: [FileUploadError.limitExceeded]
+              }))
+            );
           }
 
-          if (errors.size > 0 && rejectedFiles.length > 0) {
-            onUploadError?.(Array.from(errors), rejectedFiles);
+          if (fileErrors.length > 0) {
+            onUploadError?.(fileErrors);
           }
 
           const acceptedFiles = multiple

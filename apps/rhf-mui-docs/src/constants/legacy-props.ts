@@ -246,6 +246,11 @@ const LegacyPropsDescription: Record<
       `Custom render function to replace the default file item in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
     type: '(file: File, index: number) => ReactNode'
   }),
+  onUploadError_v2_v3: {
+    name: 'onUploadError',
+    description: 'Callback function that returns the error message and rejected files when uploaded files fail the validation during upload.',
+    type: '(errors: FileUploadError[], rejectedFiles: File[]) => void'
+  }
 });
 
 export default LegacyPropsDescription;

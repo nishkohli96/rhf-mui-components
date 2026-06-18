@@ -22,7 +22,7 @@ const RHFFileUploaderLegacyPropsTable = ({
     LegacyPropsDescription.showFileSize,
     LegacyPropsDescription.hideFileList,
     LegacyPropsDescription.onValueChange_FileUploader_v2_v3,
-    PropsDescription.onUploadError,
+    LegacyPropsDescription.onUploadError_v2_v3,
     getPropDetailsByVersion(LegacyPropsDescription.renderUploadButton_v2_v3, {
       docsVersion
     }),
