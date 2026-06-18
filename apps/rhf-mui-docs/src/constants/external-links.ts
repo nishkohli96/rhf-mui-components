@@ -48,6 +48,8 @@ const ExternalLinks = Object.freeze({
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/switch/`,
     chip: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/chip/`,
+    box: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/box/`,
   },
   rhfApi: {
     control: 'https://react-hook-form.com/docs/useform/control',

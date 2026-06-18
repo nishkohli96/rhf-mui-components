@@ -59,6 +59,11 @@ const LegacyPropsDescription: Record<
     description: 'Callback function that returns the updated list of tags.',
     type: '(tags: string[]) => void'
   },
+  onValueChange_FileUploader_v2_v3: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
+    type: '(files: File / File[] / null) => void'
+  },
   onValueChange_Select_v1: {
     name: 'onValueChange',
     description:
@@ -204,7 +209,43 @@ const LegacyPropsDescription: Record<
     description: 'Initial value for `RHFSlider`.',
     type: 'number / number[]',
     required: true
-  }
+  },
+  accept_v2: {
+    name: 'accept',
+    description:
+      'The file types to accept in the file uploader component.  Eg: `image/*` or `.pdf,.docx`.',
+    required: true,
+    type: 'string'
+  },
+  maxFiles_v2_v3: {
+    name: 'maxFiles',
+    description:
+      'The maximum number of files allowed to be uploaded in the file uploader component. Extra files will be rejected.',
+    type: 'number'
+  },
+  showFileSize: {
+    name: 'showFileSize',
+    description:
+      'Show the file size of the uploaded file(s) in the file uploader component.',
+    type: 'boolean'
+  },
+  hideFileList: {
+    name: 'hideFileList',
+    description: 'Hide the list of files uploaded in the file uploader component.',
+    type: 'boolean'
+  },
+  renderUploadButton_v2_v3: ({ docsVersion }: PropsDescriptionArgs) => ({
+    name: 'renderUploadButton',
+    description:
+      `Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
+    type: '(fileInput: ReactNode) => ReactNode'
+  }),
+  renderFileItem_v2_v3: ({ docsVersion }: PropsDescriptionArgs) => ({
+    name: 'renderFileItem',
+    description:
+      `Custom render function to replace the default file item in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
+    type: '(file: File, index: number) => ReactNode'
+  }),
 });
 
 export default LegacyPropsDescription;

@@ -23,10 +23,8 @@ import Box, { type BoxProps } from '@mui/material/Box';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
 import {
-  FileUploadError,
   type FormLabelProps,
   type FormHelperTextProps,
-  type FileInputProps,
   type CustomComponentIds
 } from '@/types';
 import {
@@ -38,7 +36,11 @@ import {
 } from '@/utils';
 import { HiddenInput, UploadButton } from './components';
 
-export { FileUploadError };
+export enum FileUploadError {
+  sizeExceeded = 'FILE_SIZE_EXCEEDED',
+  invalidExtension = 'FILE_TYPE_NOT_ALLOWED',
+  limitExceeded = 'FILE_LIMIT_EXCEEDED',
+}
 
 /**
  * Metadata for a file that has already been uploaded and is being
@@ -101,6 +103,42 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
   /**
+   * Comma-separated list of accepted file types.
+   *
+   * Examples:
+   * - `image/*`
+   * - `.pdf,.doc,.docx`
+   * - `image/png,image/jpeg`
+   */
+  accept?: string;
+  /**
+   * Allows selecting multiple files.
+   *
+   * @default false
+   */
+  multiple?: boolean;
+  /**
+   * Maximum file size (in bytes) eligible for upload.
+   * Files exceeding this size will be rejected and trigger an error callback.
+   *
+   * For example, to set a maximum file size of 5 MB:
+   * `maxSize={5 * 1024 * 1024}`
+   */
+  maxSize?: number;
+  /**
+   * Maximum number of files that can be uploaded.
+   *
+   * When the limit is exceeded, additional files are rejected and
+   * reported through the error callback.
+   */
+  maxFiles?: number;
+  /**
+   * Disables the file input and prevents file selection.
+   *
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * Props applied to the drag-and-drop wrapper `Box`.
    *
    * Pass an object for static props, or a callback to style/render from the current
@@ -116,6 +154,10 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   disableDragAndDrop?: boolean;
   /**
+   * Custom upload button renderer. Receives the hidden file input as children/content.
+   */
+  renderUploadButton?: (fileInput: ReactNode) => ReactNode;
+  /**
    * Pre-existing server-side files. Rendered in the file list above new
    * uploads and their count is deducted from `maxFiles` when validating.
    */
@@ -125,34 +167,43 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    * Falls back to a default name-link + remove-button layout when omitted.
    */
   renderExistingFileItem?: ({ file, index }: RenderExistingFileItemProps) => ReactNode;
+  /**
+   * Props applied to the wrapper Box that contains pre-existing server-side files.
+   */
   existingFileListProps?: Omit<BoxProps, 'children'>;
-  /** Props applied to the wrapper around newly selected file rows. */
+  /**
+   * Props applied to the wrapper Box that contains newly selected/uploaded files.
+   */
   uploadedFileListProps?: Omit<BoxProps, 'children'>;
-  /** Custom upload button renderer. Receives the hidden file input as children/content. */
-  renderUploadButton?: (fileInput: ReactNode) => ReactNode;
-  /** Custom renderer for newly selected files. */
+  /**
+   * Custom renderer for newly selected files.
+   */
   renderFileItem?: ({
     file,
     index,
     removeFile
   }: RenderFileItemProps) => ReactNode;
-  /** Fired when the field value changes because files were uploaded, removed, or cleared. */
+  /**
+   * Fired when the field value changes because files were uploaded, removed, or cleared. 
+   */
   onValueChange?: ({
     newValue,
     event
   }: RHFFileUploaderOnValueChangeProps) => void;
-  /** Fired when uploaded files fail type, size, or count validation. */
+  /**
+   * Fired when uploaded files fail type, size, or count validation.
+   */
   onUploadError?: (errors: FileUploadError[], rejectedFiles: File[]) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   fullWidth?: boolean;
   customIds?: CustomComponentIds;
-} & FileInputProps;
+};
 
 const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   T extends FieldValues
@@ -176,8 +227,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     onUploadError,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     required,
     helperText,
     hideErrorMessage,
@@ -367,7 +418,6 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           event: MouseEvent<HTMLButtonElement>
         ) => {
           let newValue: File | File[] | null;
-
           if (multiple && Array.isArray(rhfValue)) {
             const newFiles = rhfValue.filter(
               (_: File, i: number) => i !== index
@@ -376,7 +426,6 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           } else {
             newValue = null;
           }
-
           rhfOnChange(newValue);
           onValueChange?.({ newValue, event });
         };

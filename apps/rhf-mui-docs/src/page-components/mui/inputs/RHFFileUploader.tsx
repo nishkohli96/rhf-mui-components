@@ -6,29 +6,29 @@ import { getPropDetailsByVersion } from '@site/src/utils';
 const RHFFileUploaderPropsTable = ({
   muiVersion,
   docsVersion,
-  v2,
-  v4AndAbove
 }: VersionProps) => {
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
     PropsDescription.required,
-    ...(!v2
-      ? [PropsDescription.accept_FileUploader]
-      : [PropsDescription.accept_FileUploader_v2]),
+    PropsDescription.accept,
     PropsDescription.multiple_FileUploader,
+    PropsDescription.maxSize,
     PropsDescription.maxFiles,
-    PropsDescription.maxSize_FileUploader,
-    PropsDescription.showFileSize,
-    PropsDescription.hideFileList,
-    PropsDescription.onValueChange_FileUploader,
-    PropsDescription.onUploadError,
+    PropsDescription.disabled,
+    getPropDetailsByVersion(PropsDescription.dropZoneProps, { muiVersion }),
+    PropsDescription.disableDragAndDrop,
     getPropDetailsByVersion(PropsDescription.renderUploadButton, {
       docsVersion
     }),
+    PropsDescription.existingFiles,
+    PropsDescription.renderExistingFileItem,
+    getPropDetailsByVersion(PropsDescription.existingFileListProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.uploadedFileListProps, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.renderFileItem, { docsVersion }),
-    PropsDescription.disabled,
+    PropsDescription.onValueChange_FileUploader,
+    PropsDescription.onUploadError,
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
@@ -40,18 +40,15 @@ const RHFFileUploaderPropsTable = ({
       docsVersion,
       muiVersion
     }),
-    ...(v4AndAbove
-      ? [PropsDescription.hideLabel]
-      : [
-        getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })
-      ]),
+    PropsDescription.hideLabel,
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
     }),
-    PropsDescription.fullWidth_FileUploader
+    PropsDescription.fullWidth_FileUploader,
+    PropsDescription.customIds
   ];
 
   return (

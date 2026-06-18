@@ -291,8 +291,8 @@ const PropsDescription: Record<
   },
   onValueChange_FileUploader: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
-    type: '(files: File / File[] / null) => void'
+    description: 'Optional callback fired when files are uploaded, removed, or cleared. Receives the updated field value and the event that triggered the change.',
+    type: '({ newValue: File / File[] / null, event: ChangeEvent / DragEvent / MouseEvent }) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
@@ -442,60 +442,39 @@ const PropsDescription: Record<
       'Custom icon displayed when the password value is visible, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode'
   },
-  hideFileList: {
-    name: 'hideFileList',
-    description:
-      'Hide the list of files uploaded in the file uploader component.',
-    type: 'boolean'
-  },
-  accept_FileUploader: {
+  accept: {
     name: 'accept',
     description:
       'The file types to accept in the file uploader component. Eg: `image/*` or `.pdf,.docx`.',
     type: 'string'
   },
-  accept_FileUploader_v2: {
-    name: 'accept',
-    description:
-      'The file types to accept in the file uploader component.  Eg: `image/*` or `.pdf,.docx`.',
-    required: true,
-    type: 'string'
-  },
   multiple_FileUploader: {
     name: 'multiple',
     description:
-      'Allow selection of single or multiple values for a formfield.',
+      'Allows selecting and uploading multiple files. When disabled, only a single file can be selected.',
     type: 'boolean'
   },
-  maxSize_FileUploader: {
+  maxSize: {
     name: 'maxSize',
-    description:
-      'The maximum file size in bytes allowed for each uploaded file.',
+    description: 'The maximum **file size in bytes** allowed for each uploaded file.',
     type: 'number'
   },
   maxFiles: {
     name: 'maxFiles',
     description:
-      'The maximum number of files allowed to be uploaded in the file uploader component. Extra files will be rejected.',
+      'Maximum number of files allowed. Any files exceeding this limit will be rejected. Files provided via `existingFiles` are also counted toward the limit.',
     type: 'number'
-  },
-  showFileSize: {
-    name: 'showFileSize',
-    description:
-      'Show the file size of the uploaded file(s) in the file uploader component.',
-    type: 'boolean'
   },
   renderUploadButton: ({ docsVersion }: PropsDescriptionArgs) => ({
     name: 'renderUploadButton',
     description:
-      `Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
+      `Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#custom-upload-button) for more details.`,
     type: '(fileInput: ReactNode) => ReactNode'
   }),
   renderFileItem: ({ docsVersion }: PropsDescriptionArgs) => ({
     name: 'renderFileItem',
-    description:
-      `Custom render function to replace the default file item in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#advanced-usage) for more details.`,
-    type: '(file: File, index: number) => ReactNode'
+    description: `Custom renderer for files selected during the current session. Receives the file, its index, and a helper function to remove the file. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader2#custom-file-rendering) for more details.`,
+    type: '({ file, index, removeFile }) => ReactNode'
   }),
   onUploadError: {
     name: 'onUploadError',
@@ -563,8 +542,7 @@ const PropsDescription: Record<
   }),
   disabled: {
     name: 'disabled',
-    description:
-      'A `boolean` value to enable or disable editing of the form field.',
+    description: 'Disables the component and prevents user interaction.',
     type: 'boolean'
   },
   editorConfig: {
@@ -681,7 +659,42 @@ const PropsDescription: Record<
     description:
       'Show the flag of the selected country alongside its name in the tag. Works only when `multiple` is **true**.',
     type: 'boolean'
-  }
+  },
+  dropZoneProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'dropZoneProps',
+    description:
+      `Props applied to the drag-and-drop wrapper. Accepts either a [BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)}) object or a callback that receives the current drop-zone state and returns \`BoxProps\` dynamically.`,
+    type: 'BoxProps / ({ isDragging, disabled, error }) => BoxProps',
+  }),
+  disableDragAndDrop: {
+    name: 'disableDragAndDrop',
+    description:
+    'Disables drag-and-drop uploads and only allows file selection through the upload button.',
+    type: 'boolean'
+  },
+  existingFiles: {
+    name: 'existingFiles',
+    description:
+    'List of files that already exist on the server. These files are rendered separately from newly uploaded files and count toward the `maxFiles` limit.',
+    type: 'Array<{ name, url, size }>'
+  },
+  renderExistingFileItem: {
+    name: 'renderExistingFileItem',
+    description: 'Custom renderer for each file provided via `existingFiles`.',
+    type: '({ file, index }) => ReactNode'
+  },
+  existingFileListProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'existingFileListProps',
+    description: 'Props applied to the wrapper `Box` element that contains files provided via `existingFiles`.',
+    type: `[BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  uploadedFileListProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'uploadedFileListProps',
+    description: 'Props applied to the wrapper `Box` element that contains files selected during the current session.',
+    type: `[BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)})`,
+    hasLinkInType: true
+  }),
 });
 
 export default PropsDescription;
