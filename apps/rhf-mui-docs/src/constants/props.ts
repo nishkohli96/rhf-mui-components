@@ -183,6 +183,12 @@ const PropsDescription: Record<
       'Override the default `onChange` behavior of the input. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
     type: '({ rhfOnChange, newValue, event }) => void'
   },
+  customOnChange_FileUploader: {
+    name: 'customOnChange',
+    description:
+      'Custom change handler that overrides the default file upload behavior. Receives the updated value, the triggering event, and `rhfOnChange`. Use this to perform custom validation or transform files before updating the form state. When provided, you are responsible for calling `rhfOnChange` manually.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
   customOnChange_Select: {
     name: 'customOnChange',
     description:

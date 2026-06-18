@@ -25,7 +25,8 @@ import { FormControl, FormLabel, FormHelperText } from '@/common';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
-  type CustomComponentIds
+  type CustomComponentIds,
+  type CustomOnChangeProps
 } from '@/types';
 import {
   fieldNameToLabel,
@@ -184,7 +185,24 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     removeFile
   }: RenderFileItemProps) => ReactNode;
   /**
-   * Fired when the field value changes because files were uploaded, removed, or cleared. 
+   * Custom change handler that overrides the default value update behavior.
+   *
+   * Use this when you need full control over how selected files are processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<
+    RHFFileUploaderOnValueChangeProps,
+    File | File[] | null
+  >) => void;
+  /**
+   * Fired when the field value changes because files were uploaded, removed, or cleared.
    */
   onValueChange?: ({
     newValue,
@@ -222,6 +240,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     uploadedFileListProps,
     renderUploadButton,
     renderFileItem,
+    customOnChange,
     onValueChange,
     disabled: muiDisabled,
     onUploadError,
@@ -321,13 +340,31 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           || (isError && !hideErrorMessage)
         );
 
+        const updateFieldValue = (
+          newValue: File | File[] | null,
+          event:
+            | ChangeEvent<HTMLInputElement>
+            | DragEvent<HTMLDivElement>
+            | MouseEvent<HTMLButtonElement>
+        ) => {
+          if (customOnChange) {
+            customOnChange({
+              rhfOnChange,
+              newValue,
+              event
+            });
+            return;
+          }
+          rhfOnChange(newValue);
+          onValueChange?.({ newValue, event });
+        };
+
         const processFiles = (
           files: FileList | File[] | null,
           event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>
         ) => {
           if (!files || files.length === 0) {
-            rhfOnChange(null);
-            onValueChange?.({ newValue: null, event });
+            updateFieldValue(null, event);
             return;
           }
 
@@ -377,8 +414,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               ? acceptedFiles
               : null
             : (acceptedFiles[0] ?? null);
-          rhfOnChange(newValue);
-          onValueChange?.({ newValue, event });
+          updateFieldValue(newValue, event);
         };
 
         const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -426,8 +462,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           } else {
             newValue = null;
           }
-          rhfOnChange(newValue);
-          onValueChange?.({ newValue, event });
+          updateFieldValue(newValue, event);
         };
 
         const InputComponent = (

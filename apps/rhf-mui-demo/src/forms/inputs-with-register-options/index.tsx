@@ -338,7 +338,7 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Upload multiple images showing, with renderFileItem function" />
+            <FieldVariantInfo title="Upload multiple images showing, with renderFileItem function. customOnChange function prevents upload if total files exceed the specified file limit" />
             <RHFFileUploader
               fieldName="pictures"
               control={control}
@@ -366,6 +366,23 @@ const InputsWithRegisterForm = () => {
                 console.log('rejectedFiles: ', rejectedFiles);
                 console.log('errors: ', errors);
               }}
+              customOnChange={({ rhfOnChange, newValue }) => {
+                const files = Array.isArray(newValue)
+                  ? newValue
+                  : newValue
+                    ? [newValue]
+                    : [];
+                const totalSize = files.reduce(
+                  (sum, file) => sum + file.size,
+                  0
+                );
+                if (totalSize > 20 * 1024 * 1024) {
+                  toast.error('Total file size cannot exceed 20 MB');
+                  return;
+                }
+                rhfOnChange(newValue);
+              }}
+              helperText="If sum of sizes of files exceed 20 MB, further uploads will not be permitted"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

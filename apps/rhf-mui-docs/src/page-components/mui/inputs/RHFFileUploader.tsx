@@ -27,6 +27,7 @@ const RHFFileUploaderPropsTable = ({
     getPropDetailsByVersion(PropsDescription.existingFileListProps, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.uploadedFileListProps, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.renderFileItem, { docsVersion }),
+    PropsDescription.customOnChange_FileUploader,
     PropsDescription.onValueChange_FileUploader,
     PropsDescription.onUploadError,
     getPropDetailsByVersion(PropsDescription.label, {
