@@ -135,7 +135,6 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.email?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -145,7 +144,6 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -155,7 +153,6 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.password?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -165,7 +162,6 @@ const CompleteFormWithJoi = () => {
                 disabled={areAllFieldsDisabled}
                 required
                 helperText="Type a dish and press Enter"
-                errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -174,7 +170,6 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.resume?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -186,7 +181,6 @@ const CompleteFormWithJoi = () => {
                 showDefaultOption
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.favouriteColor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -199,7 +193,6 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -213,7 +206,6 @@ const CompleteFormWithJoi = () => {
                 multiple
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -223,7 +215,6 @@ const CompleteFormWithJoi = () => {
                 options={Object.values(Sports)}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -239,7 +230,6 @@ const CompleteFormWithJoi = () => {
                 }}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.hobby?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -248,7 +238,6 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 options={GroceryList}
                 required
-                errorMessage={errors?.groceryList?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -256,9 +245,9 @@ const CompleteFormWithJoi = () => {
                 fieldName="countryCode"
                 control={control}
                 label="Country Code of Nationality"
+                valueKey="iso3"
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.countryCode?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -273,7 +262,6 @@ const CompleteFormWithJoi = () => {
                   console.log('Is checked', newValue);
                 }}
                 disabled={areAllFieldsDisabled}
-                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -285,7 +273,6 @@ const CompleteFormWithJoi = () => {
                 options={Object.values(Colors)}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.colors?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -298,7 +285,6 @@ const CompleteFormWithJoi = () => {
                 valueKey="code"
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.countries?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -309,7 +295,6 @@ const CompleteFormWithJoi = () => {
                 row
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.gender?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -326,7 +311,6 @@ const CompleteFormWithJoi = () => {
                 }}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -356,7 +340,6 @@ const CompleteFormWithJoi = () => {
                 helperText="min:10; max:100"
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.weight?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -367,7 +350,6 @@ const CompleteFormWithJoi = () => {
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.rating?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

@@ -15,7 +15,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
-import RHFFileUploader2 from '@nish1896/rhf-mui-components/mui/file-uploader-v2';
+import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -313,7 +313,7 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Customized label and allow upload of at max 3 pdf files only; drag and drop disabled" />
-            <RHFFileUploader2
+            <RHFFileUploader
               fieldName="documents"
               control={control}
               accept=".pdf"
@@ -339,7 +339,7 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Upload multiple images showing, with renderFileItem function" />
-            <RHFFileUploader2
+            <RHFFileUploader
               fieldName="pictures"
               control={control}
               accept="image/*"
@@ -370,7 +370,7 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="FileUploader with custom button and customized dropzone style" />
-            <RHFFileUploader2
+            <RHFFileUploader
               fieldName="resume"
               control={control}
               label="Upload Resume"

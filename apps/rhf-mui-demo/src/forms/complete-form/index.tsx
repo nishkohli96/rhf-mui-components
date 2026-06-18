@@ -142,7 +142,6 @@ const CompleteForm = () => {
                 }}
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.email?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -161,7 +160,6 @@ const CompleteForm = () => {
                 showLabelAboveFormField
                 showMarkers
                 required
-                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -185,7 +183,6 @@ const CompleteForm = () => {
                 }}
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.password?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -204,7 +201,6 @@ const CompleteForm = () => {
                 }}
                 required
                 helperText="Type a dish and press Enter"
-                errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -218,7 +214,6 @@ const CompleteForm = () => {
                   }
                 }}
                 required
-                errorMessage={errors?.resume?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -235,7 +230,6 @@ const CompleteForm = () => {
                 defaultOptionText="--- Select ---"
                 showDefaultOption
                 required
-                errorMessage={errors?.favouriteColor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -257,7 +251,6 @@ const CompleteForm = () => {
                 multiple
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -280,7 +273,6 @@ const CompleteForm = () => {
                 options={IPLTeams}
                 multiple
                 required
-                errorMessage={errors?.iplTeams?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -295,7 +287,6 @@ const CompleteForm = () => {
                 }}
                 options={Object.values(Sports)}
                 required
-                errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -310,7 +301,6 @@ const CompleteForm = () => {
                 }}
                 options={HobbiesList}
                 required
-                errorMessage={errors?.hobby?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -333,7 +323,6 @@ const CompleteForm = () => {
                 }}
                 options={GroceryList}
                 required
-                errorMessage={errors?.groceryList?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -346,9 +335,9 @@ const CompleteForm = () => {
                     message: reqdMessage('countryCode')
                   }
                 }}
+                valueKey="iso3"
                 label="Country Code of Nationality"
                 required
-                errorMessage={errors?.countryCode?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -368,7 +357,6 @@ const CompleteForm = () => {
                 onValueChange={({ newValue }) => {
                   console.log('Is checked', newValue);
                 }}
-                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -385,7 +373,6 @@ const CompleteForm = () => {
                 showLabelAboveFormField
                 options={Object.values(Colors)}
                 required
-                errorMessage={errors?.colors?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -407,7 +394,6 @@ const CompleteForm = () => {
                 labelKey="country"
                 valueKey="code"
                 required
-                errorMessage={errors?.countries?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -423,7 +409,6 @@ const CompleteForm = () => {
                 options={Object.values(Gender)}
                 row
                 required
-                errorMessage={errors?.gender?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -444,7 +429,6 @@ const CompleteForm = () => {
                   toast.info(`selectedValue: ${newValue}`);
                 }}
                 required
-                errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -459,7 +443,6 @@ const CompleteForm = () => {
                   toggleTheme();
                 }}
                 helperText="Toggling this changes theme"
-                errorMessage={errors?.darkTheme?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -481,7 +464,6 @@ const CompleteForm = () => {
                 max={100}
                 helperText="min:10; max:100"
                 required
-                errorMessage={errors?.weight?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -501,7 +483,6 @@ const CompleteForm = () => {
                 max={10}
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.rating?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
