@@ -17,7 +17,7 @@ import NewImg from '@site/static/img/new.png';
 to support **multi-selection of object-based options**, returning the **entire selected objects**
 instead of primitive values.
 
-It also includes a built-in **"Select All"** option with proper handling of:
+It also includes a built-in "**Select All**" option with proper handling of:
 
 - Full selection
 - Partial (indeterminate) state
@@ -46,13 +46,20 @@ import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-a
 ```
 
 :::warning
-
 Both `labelKey` and `valueKey` are required. This component only supports object-based options.
-
-The internally injected **"Select All"** option is not included in the final form value.
+The internally injected "**Select All**" option is not included in the final form value.
 Only actual options are returned.
+:::
 
-`freeSolo` is not supported, similar to other autocomplete components in this library.
+:::note
+`freeSolo` is **NOT SUPPORTED** in `RHFMultiAutocompleteObject`.
+
+This component stores complete option objects in form state, whereas enabling
+`freeSolo` would introduce string values alongside option objects, resulting in
+mixed value types.
+
+If you need users to enter custom values that are not present in the provided
+options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
 :::
 
 ### Select All Behavior

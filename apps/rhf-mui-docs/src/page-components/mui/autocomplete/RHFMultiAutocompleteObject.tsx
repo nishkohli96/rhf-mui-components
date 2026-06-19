@@ -10,10 +10,11 @@ const RHFMultiAutocompleteObjectPropsTable = ({
 }: VersionProps) => {
   const onValueChange = v4AndAbove
     ? [
-      PropsDescription.onValueChange_MultiAutocompleteObject,
-      PropsDescription.customOnChange_MultiAutocompleteObject
+      PropsDescription.customOnChange_MultiAutocompleteObject,
+      PropsDescription.onValueChange_MultiAutocompleteObject
     ]
     : [LegacyPropsDescription.onValueChange_MultiAutocompleteObject_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -21,21 +22,29 @@ const RHFMultiAutocompleteObjectPropsTable = ({
     PropsDescription.options_Obj,
     PropsDescription.labelKey_Obj,
     PropsDescription.valueKey_Obj,
+    ...onValueChange,
     PropsDescription.selectAllText,
     PropsDescription.hideSelectAllOption_MultiAutocompleteObject,
-    PropsDescription.required,
-    ...onValueChange,
-    PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
+    getPropDetailsByVersion(PropsDescription.label, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
       : []),
-    PropsDescription.formLabelProps,
-    getPropDetailsByVersion(PropsDescription.checkboxProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.checkboxProps_MultiAutocomplete, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
       docsVersion,
       muiVersion
     }),
+    PropsDescription.required,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     ...(v4AndAbove
       ? []

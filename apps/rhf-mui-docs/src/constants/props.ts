@@ -635,18 +635,18 @@ const PropsDescription: Record<
   selectAllText: {
     name: 'selectAllText',
     description:
-      'Custom text to render in place of the "Select All" option that enables user to select all available options in the Autocomplete.',
+      'Custom text to render in place of the "**Select All**" option that enables user to select all available options in the Autocomplete.',
     type: 'string'
   },
-  hideSelectAllOption: {
+  hideSelectAllOption_MultiAutocomplete: {
     name: 'hideSelectAllOption',
     description:
-      'A flag to hide the "**Select All**" option that enables user to select all available options in multi-autocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
+      'A flag to hide the "**Select All**" option that enables user to select all available options. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
     type: 'boolean'
   },
   hideSelectAllOption_MultiAutocompleteObject: {
     name: 'hideSelectAllOption',
-    description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocompleteObject. This option will be automatically hidden when there are less than 2 options to select from.',
+    description: 'A flag to hide the "**Select All**" option that enables user to select all available options. This option will be automatically hidden when there are less than 2 options to select from.',
     type: 'boolean'
   },
   ChipProps_TagsInput: ({ muiVersion }: PropsDescriptionArgs) => ({

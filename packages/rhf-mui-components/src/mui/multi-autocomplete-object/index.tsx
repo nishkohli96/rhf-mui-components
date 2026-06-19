@@ -107,12 +107,13 @@ export type RHFMultiAutocompleteObjectProps<
   labelKey?: LabelKey;
   valueKey?: ValueKey;
   selectAllText?: string;
-  onValueChange?: (props: OnValueChangeProps<Option>) => void;
+  hideSelectAllOption?: boolean;
   customOnChange?: ({
     rhfOnChange,
     newValue,
     selectedOption
   }: CustomOnChangeProps<OnValueChangeProps<Option>, Option[]>) => void;
+  onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps<Option>) => void;
   /**
    * If true, the input can't be cleared.
    * @default false
@@ -141,7 +142,6 @@ export type RHFMultiAutocompleteObjectProps<
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
-  hideSelectAllOption?: boolean;
   customIds?: CustomComponentIds;
 } & MultiAutoCompleteProps<Option, DisableClearable>;
 
@@ -168,8 +168,9 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     disableClearable,
     autoHighlight = true,
     selectAllText = defaultSelectAllOptionLabel,
-    onValueChange,
+    hideSelectAllOption,
     customOnChange,
+    onValueChange,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -188,7 +189,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     ChipProps,
     onBlur,
     loading,
-    hideSelectAllOption,
     customIds,
     getOptionDisabled,
     limitTags = 2,

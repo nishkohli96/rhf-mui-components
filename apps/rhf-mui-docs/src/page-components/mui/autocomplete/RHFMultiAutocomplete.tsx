@@ -26,7 +26,7 @@ const RHFMultiAutocompletePropsTable = ({
     PropsDescription.freeSolo,
     ...onValueChangeProp,
     PropsDescription.selectAllText,
-    ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption] : []),
+    ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption_MultiAutocomplete] : []),
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion

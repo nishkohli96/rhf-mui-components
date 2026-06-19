@@ -57,9 +57,9 @@ const RHFAutocompletePropsTable = ({
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
     ...(v4AndAbove
       ? [
-          getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
-          PropsDescription.customIds
-        ]
+        getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
+        PropsDescription.customIds
+      ]
       : []
     )
   ];
