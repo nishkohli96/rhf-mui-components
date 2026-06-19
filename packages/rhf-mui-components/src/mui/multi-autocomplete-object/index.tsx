@@ -62,7 +62,7 @@ type MultiAutoCompleteProps<
   Option extends KeyValueOption = KeyValueOption,
   DisableClearable extends boolean = false
 > = Omit<
-  AutocompleteProps<AutocompleteOption<Option>, true, DisableClearable, false>,
+  AutocompleteProps<Option, true, DisableClearable, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -368,7 +368,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
             <Autocomplete
               {...otherMultiAutocompleteObjectProps}
               id={fieldId}
-              options={autoCompleteOptions}
+              options={autoCompleteOptions as Option[]}
               value={selectedOptions}
               loading={loading}
               disabled={muiDisabled}

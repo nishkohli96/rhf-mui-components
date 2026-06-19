@@ -167,6 +167,12 @@ const PropsDescription: Record<
     description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`.',
     type: '(option) => ReactNode'
   },
+  renderOptionLabel_MultiAutocomplete: {
+    name: 'renderOptionLabel',
+    description:
+      'Custom renderer for regular option labels. Use `renderSelectAllOptionLabel` to customize the "Select All" label separately.',
+    type: '({ option, state }) => ReactNode'
+  },
   getOptionDisabled: {
     name: 'getOptionDisabled',
     description: 'Function used to determine whether an option should be disabled. Return `true` to disable the option and prevent it from being selected.',
