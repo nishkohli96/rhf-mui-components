@@ -105,12 +105,11 @@ const PropsDescription: Record<
       `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default form label component or prefer to render a fully custom label instead.`,
     type: 'boolean'
   }),
-  // renderOptionLabel: {
-  //   name: 'renderOptionLabel',
-  //   description:
-  //     'Render the option label content corresponding to each checkbox. The `selectAllText` parameter can be used to ensure that your option logic does not affect the "Select All" option.',
-  //   type: '(option, selectAllText, state) => ReactNode'
-  // },
+  renderOptionLabel_MultiAutocomplete: {
+    name: 'renderOptionLabel',
+    description: 'Render the option label content corresponding to each checkbox.',
+    type: '({ option, state }) => ReactNode'
+  },
   placeholder_Select: {
     name: 'placeholder',
     description:
@@ -167,12 +166,6 @@ const PropsDescription: Record<
     description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`.',
     type: '(option) => ReactNode'
   },
-  renderOptionLabel_MultiAutocomplete: {
-    name: 'renderOptionLabel',
-    description:
-      'Custom renderer for regular option labels. Use `renderSelectAllOptionLabel` to customize the "Select All" label separately.',
-    type: '({ option, state }) => ReactNode'
-  },
   getOptionDisabled: {
     name: 'getOptionDisabled',
     description: 'Function used to determine whether an option should be disabled. Return `true` to disable the option and prevent it from being selected.',
@@ -218,6 +211,12 @@ const PropsDescription: Record<
     description:
       'Override the default `onChange` behavior of the autocomplete.',
     type: '({ rhfOnChange, newValue, event, reason, details }) => void'
+  },
+  customOnChange_MultiAutocomplete: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the multi-autocomplete.',
+    type: '({ rhfOnChange, newValue, selectedOption }) => void'
   },
   customOnChange_MultiAutocompleteObject: {
     name: 'customOnChange',
@@ -546,6 +545,12 @@ const PropsDescription: Record<
     type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
     hasLinkInType: true
   }),
+  checkboxProps_MultiAutocomplete: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'checkboxProps',
+    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox(muiVersion)}) used to customize the checkbox rendered alongside each autocomplete option.`,
+    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
+    hasLinkInType: true
+  }),
   radioProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'radioProps',
     description: `[Radio Props](${ExternalLinks.muiComponentApi.radio(muiVersion)}) to customise each radio button in radiobutton group.`,
@@ -636,7 +641,7 @@ const PropsDescription: Record<
   hideSelectAllOption: {
     name: 'hideSelectAllOption',
     description:
-      'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
+      'A flag to hide the "**Select All**" option that enables user to select all available options in multi-autocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
     type: 'boolean'
   },
   hideSelectAllOption_MultiAutocompleteObject: {

@@ -111,18 +111,6 @@ export type RHFMultiAutocompleteProps<
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
-  selectAllText?: string;
-  onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps) => void;
-  customOnChange?: ({
-    rhfOnChange,
-    newValue,
-    selectedOption
-  }: CustomOnChangeProps<OnValueChangeProps, string[]>) => void;
-  /**
-   * If true, the input can't be cleared.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * When true, the user may type any value not present in `options`.
    *
@@ -133,14 +121,30 @@ export type RHFMultiAutocompleteProps<
    * `selectAllText` and will hide the "Select All" option.
    */
   freeSolo?: FreeSolo;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    selectedOption,
+  }: CustomOnChangeProps<OnValueChangeProps, string[]>) => void;
+  onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps) => void;
+  /**
+   * If true, the input can't be cleared.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
+  /**
+   * Override the default "Select All" option text
+   */
+  selectAllText?: string;
+  hideSelectAllOption?: boolean;
   label?: ReactNode;
   renderOptionLabel?: ({
     option,
     state
   }: RenderOptionLabelProps<Option>) => ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
@@ -155,7 +159,6 @@ export type RHFMultiAutocompleteProps<
   formHelperTextProps?: FormHelperTextProps;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
-  hideSelectAllOption?: boolean;
   customIds?: CustomComponentIds;
 } & MultiAutoCompleteProps<Option, DisableClearable, FreeSolo>;
 
@@ -180,17 +183,18 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     options,
     labelKey,
     valueKey,
+    freeSolo,
     disableClearable,
     autoHighlight = true,
-    freeSolo,
     selectAllText = defaultSelectAllOptionLabel,
-    onValueChange,
+    hideSelectAllOption,
     customOnChange,
+    onValueChange,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     checkboxProps,
     renderOptionLabel,
     formControlLabelProps,
@@ -204,7 +208,6 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
     ChipProps,
     onBlur,
     loading,
-    hideSelectAllOption,
     customIds,
     getOptionDisabled,
     limitTags = 2,
@@ -393,7 +396,10 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                     return;
                   }
                   rhfOnChange([]);
-                  onValueChange?.({ newValue: [], selectedOption: undefined });
+                  onValueChange?.({
+                    newValue: [],
+                    selectedOption: undefined
+                  });
                   return;
                 }
                 const isSelectAllSelected

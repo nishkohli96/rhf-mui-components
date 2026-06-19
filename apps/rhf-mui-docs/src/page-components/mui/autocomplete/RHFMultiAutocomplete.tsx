@@ -10,8 +10,11 @@ const RHFMultiAutocompletePropsTable = ({
   v4AndAbove
 }: VersionProps) => {
   const onValueChangeProp = v4AndAbove
-    ? PropsDescription.onValueChange_MultiAutocomplete
-    : LegacyPropsDescription.onValueChange_MultiAutocomplete_v2_v3;
+    ? [
+      PropsDescription.customOnChange_MultiAutocomplete,
+      PropsDescription.onValueChange_MultiAutocomplete
+    ]
+    : [LegacyPropsDescription.onValueChange_MultiAutocomplete_v2_v3];
 
   const tableRows = [
     PropsDescription.fieldName,
@@ -20,18 +23,17 @@ const RHFMultiAutocompletePropsTable = ({
     PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
+    PropsDescription.freeSolo,
+    ...onValueChangeProp,
     PropsDescription.selectAllText,
     ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption] : []),
-    PropsDescription.required,
-    onValueChangeProp,
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
     }),
     ...(v4AndAbove
       ? [
-        PropsDescription.renderOptionLabel_MultiAutocomplete,
-        PropsDescription.renderSelectAllOptionLabel
+        PropsDescription.renderOptionLabel_MultiAutocomplete
       ]
       : []),
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
@@ -44,11 +46,12 @@ const RHFMultiAutocompletePropsTable = ({
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
       : []),
-    getPropDetailsByVersion(PropsDescription.checkboxProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.checkboxProps_MultiAutocomplete, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
       docsVersion,
       muiVersion
     }),
+    PropsDescription.required,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     ...(v4AndAbove
       ? []
@@ -60,7 +63,7 @@ const RHFMultiAutocompletePropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.ChipPChipProps_Autocompleterops, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 

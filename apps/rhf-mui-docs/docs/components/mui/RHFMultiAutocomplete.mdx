@@ -22,7 +22,20 @@ The implementation ensures flexibility while maintaining a seamless user experie
 same validation, customization, and styling options as `RHFAutocomplete`.
 
 :::note
-The `freeSolo` prop of **Autocomplete** is not supported for this component.
+Starting with **v4**, the `freeSolo` prop is supported in **RHFMultiAutocomplete**, allowing users to
+enter values that are not present in the provided options.
+
+When `freeSolo` is enabled, the **Select All** option is automatically hidden. This is intentional
+because the field can contain both predefined option values and custom user-entered values, so
+selecting "all" only from the predefined options can create confusing behavior.
+
+When using `freeSolo` with object-based options, custom renderers such as `renderValue`, `renderTags`,
+or `renderOptionLabel` should handle both option objects and user-entered string values. A common approach is:
+
+```ts
+typeof value === 'string'
+```
+to distinguish free-form input from predefined option objects.
 :::
 
 ## Usage
@@ -59,7 +72,7 @@ are required. If either is missing, an error will be thrown.
 ## Examples
 - [RHFMultiAutocomplete](https://rhf-mui-components-examples.netlify.app/autocomplete)
 - [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
-- [Autocomplete with Checkboxes](https://v7.mui.com/material-ui/react-autocomplete/#checkboxes)
+- [Autocomplete with Checkboxes](https://v7.mui.com/material-ui/react-autocomplete/#selection-indicators)
 - [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
 
 ## API
