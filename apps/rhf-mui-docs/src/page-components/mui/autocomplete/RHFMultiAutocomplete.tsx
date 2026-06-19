@@ -60,7 +60,7 @@ const RHFMultiAutocompletePropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.ChipProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipPChipProps_Autocompleterops, { muiVersion }),
     ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 

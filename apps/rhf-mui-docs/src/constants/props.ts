@@ -644,9 +644,15 @@ const PropsDescription: Record<
     description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocompleteObject. This option will be automatically hidden when there are less than 2 options to select from.',
     type: 'boolean'
   },
-  ChipProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+  ChipProps_TagsInput: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'ChipProps',
     description: `Props to customise the [Chip](${ExternalLinks.muiComponents.chip(muiVersion)}) component for each input tag.`,
+    type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  ChipProps_Autocomplete: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'ChipProps',
+    description: `Props applied to the [Chip](${ExternalLinks.muiComponents.chip(muiVersion)}) component used to render selected values.`,
     type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
     hasLinkInType: true
   }),
@@ -707,6 +713,11 @@ const PropsDescription: Record<
     type: `[BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)})`,
     hasLinkInType: true
   }),
+  freeSolo: {
+    name: 'freeSolo',
+    description: 'Allows users to enter values that are not present in the autocomplete options. Supported from v4 onwards.',
+    type: 'boolean'
+  }
 });
 
 export default PropsDescription;

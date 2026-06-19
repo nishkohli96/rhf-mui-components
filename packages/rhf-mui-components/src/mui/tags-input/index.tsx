@@ -153,6 +153,12 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props applied to the Chip component used to render each tag.
+   *
+   * Useful for customizing the appearance and behavior of tags,
+   * such as color, size, variant, icon, or delete functionality.
+   */
   ChipProps?: MuiChipProps;
   limitTags?: number;
   getLimitTagsText?: (hiddenTags: number) => ReactNode;

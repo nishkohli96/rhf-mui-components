@@ -121,9 +121,9 @@ export type RHFAutocompleteProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   options: Option[];
-  multiple?: Multiple;
   labelKey?: LabelKey;
   valueKey?: ValueKey;
+  multiple?: Multiple;
   /**
    * When true, the user may type any value not present in `options`.
    *
@@ -132,13 +132,6 @@ export type RHFAutocompleteProps<
    * `(Option | string)[]` when `multiple` is true.
    */
   freeSolo?: FreeSolo;
-  onValueChange?: ({
-    newValue,
-    selectedOption,
-    event,
-    reason,
-    details
-  }: OnValueChangeProps<Option, Multiple, DisableClearable, FreeSolo>) => void;
   /**
    * Custom change handler that overrides the default value update behavior.
    *
@@ -166,6 +159,13 @@ export type RHFAutocompleteProps<
     OnValueChangeProps<Option, Multiple, DisableClearable, FreeSolo>,
     AutocompleteNewValue<Multiple, DisableClearable>
   >) => void;
+  onValueChange?: ({
+    newValue,
+    selectedOption,
+    event,
+    reason,
+    details
+  }: OnValueChangeProps<Option, Multiple, DisableClearable, FreeSolo>) => void;
   /**
    * If true, the input cannot be cleared.
    * @default false
@@ -210,9 +210,9 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     control,
     registerOptions,
     options,
-    multiple,
     labelKey,
     valueKey,
+    multiple,
     freeSolo,
     autoHighlight = true,
     disableClearable,

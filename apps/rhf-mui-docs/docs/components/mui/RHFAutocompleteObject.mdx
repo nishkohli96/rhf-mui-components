@@ -48,12 +48,19 @@ import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf
 ```
 
 :::warning
-
 Both `labelKey` and `valueKey` props are mandatory. Since this component works
 exclusively with object-based options, omitting either will result in an error.
+:::
 
-This component does not support the `freeSolo` prop, similar to [RHFAutocomplete](./RHFAutocomplete.mdx).
-Users can only select values from the provided options.
+:::note
+`freeSolo` is **NOT SUPPORTED** in `RHFAutocompleteObject`.
+
+This component stores complete option objects in form state, whereas enabling
+`freeSolo` would introduce string values alongside option objects, resulting in
+mixed value types.
+
+If you need users to enter custom values that are not present in the provided
+options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
 :::
 
 ### Example Option Structure
@@ -66,9 +73,13 @@ const countryList = [
 ];
 ```
 
-**Stored Value (Multiple)**
+**Stored Value**
 
 ```js
+// Single
+{ name: 'India', code: 'IN', currency: 'INR' },
+
+// Multiple
 [
   { name: 'India', code: 'IN', currency: 'INR' },
   { name: 'Canada', code: 'CA', currency: 'CAD' }

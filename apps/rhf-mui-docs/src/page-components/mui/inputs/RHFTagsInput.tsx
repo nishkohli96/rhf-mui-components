@@ -40,7 +40,7 @@ const RHFTagsInputPropsTable = ({
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
       : []),
-    getPropDetailsByVersion(PropsDescription.ChipProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipProps_TagsInput, { muiVersion }),
     PropsDescription.limitTags,
     PropsDescription.getLimitTagsText,
     ...(!v4AndAbove

@@ -36,7 +36,7 @@ const RHFCountrySelectPropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.ChipProps, { muiVersion })
+    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion })
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

@@ -10,8 +10,8 @@ const RHFAutocompletePropsTable = ({
 }: VersionProps) => {
   const onValueChange = v4AndAbove
     ? [
-      PropsDescription.onValueChange_Autocomplete,
-      PropsDescription.customOnChange_Autocomplete
+      PropsDescription.customOnChange_Autocomplete,
+      PropsDescription.onValueChange_Autocomplete
     ]
     : [LegacyPropsDescription.onValueChange_Autocomplete_v2_v3];
 
@@ -22,8 +22,11 @@ const RHFAutocompletePropsTable = ({
     PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    PropsDescription.required,
     PropsDescription.multiple,
+    ...(v4AndAbove
+      ? [PropsDescription.freeSolo]
+      : []
+    ),
     ...onValueChange,
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
@@ -38,17 +41,27 @@ const RHFAutocompletePropsTable = ({
     }),
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-      : [
-        getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })
-      ]),
+      : []
+    ),
+    PropsDescription.required,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+      : []
+    ),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
-    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+    ...(v4AndAbove
+      ? [
+          getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
+          PropsDescription.customIds
+        ]
+      : []
+    )
   ];
 
   return (
