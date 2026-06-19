@@ -512,13 +512,11 @@ const CompleteForm = () => {
                   }
                 }}
                 label="Date of Birth"
-                // format="DD MMM YYYY"
-                // disableFuture
+                format="DD MMM YYYY"
+                disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                // disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -533,10 +531,8 @@ const CompleteForm = () => {
                   valueAsDate: true,
                 }}
                 label="Time"
-                // ampm={false}
-                // disabled={areAllFieldsDisabled}
+                ampm={false}
                 required
-                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -551,10 +547,8 @@ const CompleteForm = () => {
                   valueAsDate: true,
                 }}
                 showLabelAboveFormField
-                // ampm={false}
-                // disabled={areAllFieldsDisabled}
+                ampm={false}
                 required
-                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

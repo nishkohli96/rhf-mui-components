@@ -99,7 +99,6 @@ export default function StyledReusableComponentForm() {
                     The name that matches on your passport
                   </Typography>
                 }
-                errorMessage={errors?.firstName?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -116,7 +115,6 @@ export default function StyledReusableComponentForm() {
                     message: maxCharMsg(10),
                   },
                 }}
-                errorMessage={errors?.lastName?.message}
               />
             </Grid>
             <Grid size={6}>
@@ -145,13 +143,13 @@ export default function StyledReusableComponentForm() {
                 control={control}
                 fieldName="airports"
                 label="Airports"
+                options={airportList}
+                labelKey="name"
+                valueKey="iataCode"
+                helperText="You can select multiple airports"
                 textFieldProps={{
                   placeholder: 'Select Airport(s) You\'ve travelled to'
                 }}
-                options={airportList}
-                labelKey="name"
-                helperText="You can select multiple airports"
-                valueKey="iataCode"
               />
             </Grid>
             <Grid size={12}>

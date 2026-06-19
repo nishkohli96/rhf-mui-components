@@ -31,12 +31,10 @@ const DateTimePickersForm = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors, dirtyFields, touchedFields },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
   });
-    console.log('touchedFields: ', touchedFields);
-    console.log('dirtyFields: ', dirtyFields);
 
   async function onFormSubmit(formValues: DateTimeFormData) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -57,7 +55,6 @@ const DateTimePickersForm = () => {
                 label="Date of Birth"
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -67,7 +64,6 @@ const DateTimePickersForm = () => {
                 control={control}
                 label="Father's Date of Birth"
                 required
-                errorMessage={errors?.dobFather?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -78,7 +74,6 @@ const DateTimePickersForm = () => {
                 label="Arrival Time"
                 ampm={false}
                 required
-                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -90,7 +85,6 @@ const DateTimePickersForm = () => {
                 ampm={false}
                 required
                 helperText="Select a future date"
-                errorMessage={errors?.dateOfJourney?.message}
               />
             </Grid>
             <Grid size={12}>

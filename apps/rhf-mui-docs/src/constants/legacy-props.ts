@@ -183,6 +183,21 @@ const LegacyPropsDescription: Record<
       'Callback function triggered when the selected date or time value changes.',
     type: '(newValue: unknown) => void'
   },
+  onValueChange_DatePicker_v2_v3: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate / null, dateContext) => void'
+  },
+  onValueChange_TimePicker_v2_v3: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate / null, timeContext) => void'
+  },
+  onValueChange_DateTimePicker_v2_v3: {
+    name: 'onValueChange',
+    description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
+    type: '(newValue: PickerValidDate / null, dateTimeContext) => void'
+  },
   onValueChange_ColorPicker_v1: {
     name: 'onValueChange',
     description:

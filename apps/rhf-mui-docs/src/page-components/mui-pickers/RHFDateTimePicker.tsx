@@ -6,16 +6,24 @@ import { getPropDetailsByVersion } from '@site/src/utils';
 const RHFDateTimePickerPropsTable = ({
   docsVersion,
   muiVersion,
-  v1
+  v1,
+  v4AndAbove
 }: VersionProps) => {
+  const pickerChangeProps = v4AndAbove
+    ? [
+      PropsDescription.customOnChange_DateTimePicker,
+      PropsDescription.onValueChange_DateTimePicker
+    ]
+    : [LegacyPropsDescription.onValueChange_DateTimePicker_v2_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1 ? [PropsDescription.control] : [LegacyPropsDescription.register]),
+    !v1 ? PropsDescription.control : LegacyPropsDescription.register,
     PropsDescription.registerOptions,
     ...(!v1
       ? [
         PropsDescription.required,
-        PropsDescription.onValueChange_DateTimePicker,
+        ...pickerChangeProps,
         getPropDetailsByVersion(PropsDescription.label, {
           docsVersion,
           muiVersion
@@ -33,16 +41,29 @@ const RHFDateTimePickerPropsTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion }),
+    ...(v4AndAbove
+      ? []
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    })
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFDateTimePickerPropsTable;

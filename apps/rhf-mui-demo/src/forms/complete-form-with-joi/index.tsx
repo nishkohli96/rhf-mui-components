@@ -361,13 +361,12 @@ const CompleteFormWithJoi = () => {
                 fieldName="dob"
                 control={control}
                 label="Date of Birth"
-                // format="DD MMM YYYY"
-                // disableFuture
+                format="DD MMM YYYY"
+                disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
-                // disabled={areAllFieldsDisabled}
+                disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -375,10 +374,9 @@ const CompleteFormWithJoi = () => {
                 fieldName="time"
                 control={control}
                 label="Time"
-                // ampm={false}
-                // disabled={areAllFieldsDisabled}
+                ampm={false}
+                disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -386,10 +384,9 @@ const CompleteFormWithJoi = () => {
                 fieldName="dateTime"
                 control={control}
                 showLabelAboveFormField
-                // ampm={false}
-                // disabled={areAllFieldsDisabled}
+                ampm={false}
+                disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

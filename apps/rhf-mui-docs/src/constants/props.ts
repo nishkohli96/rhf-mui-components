@@ -259,6 +259,24 @@ const PropsDescription: Record<
       'Override the default `onChange` behavior of the radio group. You must pass the selected `newValue` to the **rhfOnChange** function to update the field value.',
     type: '({ rhfOnChange, newValue, event }) => void'
   },
+  customOnChange_DatePicker: {
+    name: 'customOnChange',
+    description:
+      'Custom change handler that overrides the default date value update behavior. Receives `rhfOnChange`, the updated date value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, context }) => void'
+  },
+  customOnChange_TimePicker: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default time value update behavior. Receives `rhfOnChange`, the updated time value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, context }) => void'
+  },
+  customOnChange_DateTimePicker: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default date and time value update behavior. Receives `rhfOnChange`, the updated value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, context }) => void'
+  },
   onTagAdd: {
     name: 'onTagAdd',
     description:
@@ -385,18 +403,18 @@ const PropsDescription: Record<
   },
   onValueChange_DatePicker: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate / null, dateContext) => void'
+    description: 'Optional callback fired when the selected date changes and the picker value is valid. Receives the updated date value and the MUI picker change context.',
+    type: '({ newValue, context }) => void'
   },
   onValueChange_TimePicker: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate / null, timeContext) => void'
+    description: 'Optional callback fired when the selected time changes and the picker value is valid. Receives the updated time value and the MUI picker change context.',
+    type: '({ newValue, context }) => void'
   },
   onValueChange_DateTimePicker: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate / null, dateTimeContext) => void'
+    description: 'Optional callback fired when the selected date and time changes and the picker value is valid. Receives the updated value and the MUI picker change context.',
+    type: '({ newValue, context }) => void'
   },
   valueKey_ColorPicker: {
     name: 'valueKey',
