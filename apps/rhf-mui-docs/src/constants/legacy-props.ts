@@ -25,6 +25,11 @@ const LegacyPropsDescription: Record<
     type: `[UseFormRegister](${ExternalLinks.rhfApi.register})`,
     hasLinkInType: true
   },
+  errorMessage: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'errorMessage',
+    description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component.`,
+    type: 'ReactNode'
+  }),
   setValue: {
     name: 'setValue',
     description: `The [setValue](${ExternalLinks.rhfApi.setValue}) function returned by the \`useForm\` hook.`,

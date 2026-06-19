@@ -46,7 +46,7 @@ const RHFCountrySelectPropsTable = ({
       : [PropsDescription.displayFlagOnSelect]),
     PropsDescription.required,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    ...(!v4AndAbove ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })] : []),
+    ...(!v4AndAbove ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })] : []),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,

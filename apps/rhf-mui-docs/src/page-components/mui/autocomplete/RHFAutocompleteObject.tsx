@@ -1,5 +1,5 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { LegacyPropsDescription, PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type VersionProps, type PropsInfo } from '@site/src/types';
 import { getPropDetailsByVersion } from '@site/src/utils';
 
@@ -39,7 +39,7 @@ const RHFAutocompleteObjectPropsTable = ({
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
       : [
-        getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })
+        getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })
       ]),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     PropsDescription.hideErrorMessage,

@@ -50,7 +50,7 @@ const RHFColorPickerPropsTable = ({
     }),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     ...(!v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })]
+      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
       : []
     ),
     PropsDescription.hideErrorMessage,

@@ -45,7 +45,7 @@ const RHFRichTextEditorPropsTable = ({
     }),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     PropsDescription.onError_Rte,
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
+    getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,

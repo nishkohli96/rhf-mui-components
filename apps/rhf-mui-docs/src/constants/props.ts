@@ -149,11 +149,6 @@ const PropsDescription: Record<
       `The content to display within the [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component below the field. If the field validation fails, this content will be overridden by the corresponding error message.`,
     type: 'ReactNode'
   }),
-  errorMessage: ({ muiVersion }: PropsDescriptionArgs) => ({
-    name: 'errorMessage',
-    description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component.`,
-    type: 'ReactNode'
-  }),
   hideErrorMessage: {
     name: 'hideErrorMessage',
     description:
