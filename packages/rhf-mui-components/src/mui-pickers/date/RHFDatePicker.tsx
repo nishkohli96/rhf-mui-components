@@ -41,6 +41,16 @@ type DatePickerInputProps = Omit<
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 
+type PickerOnValueChangeProps<ValidationError> = {
+  newValue: PickerValidDate;
+  context: PickerChangeHandlerContext<ValidationError>;
+};
+
+type PickerCustomOnChangeProps<ValidationError>
+  = PickerOnValueChangeProps<ValidationError> & {
+    rhfOnChange: (value: PickerValidDate) => void;
+  };
+
 /**
  * Without `customOnChange`, valid picker changes update the form value in **onChange**.
  * **onAccept** forwards the MUI accept event and marks the field as touched.
@@ -61,23 +71,28 @@ export type RHFDatePickerProps<T extends FieldValues> = {
    * @param newValue - Value from the picker (`null` when empty / cleared)
    * @param context - MUI picker change context (validation error, shortcut, etc.)
    */
-  customOnChange?: (
-    rhfOnChange: (value: PickerValidDate) => void,
-    newValue: PickerValidDate,
-    context: PickerChangeHandlerContext<DateValidationError>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    context
+  }: PickerCustomOnChangeProps<DateValidationError>) => void;
   /**
    * Fired when the picker value changes and **context.validationError** is `null`.
    * Not invoked when **customOnChange** is set.
    */
-  onValueChange?: (
-    newValue: PickerValidDate,
-    context: PickerChangeHandlerContext<DateValidationError>
-  ) => void;
+  onValueChange?: ({
+    newValue,
+    context
+  }: PickerOnValueChangeProps<DateValidationError>) => void;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -173,7 +188,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {
-                    customOnChange(rhfOnChange, newValue, context);
+                    customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
 
@@ -182,7 +197,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                   }
 
                   rhfOnChange(newValue);
-                  onValueChange?.(newValue, context);
+                  onValueChange?.({ newValue, context });
                 }}
                 onAccept={(newValue, context) => {
                   muiOnAccept?.(newValue, context);

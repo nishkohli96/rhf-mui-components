@@ -42,6 +42,16 @@ type StaticTimePickerInputProps = Omit<
   'value' | 'ref'
 >;
 
+type PickerOnValueChangeProps<ValidationError> = {
+  newValue: PickerValidDate;
+  context: PickerChangeHandlerContext<ValidationError>;
+};
+
+type PickerCustomOnChangeProps<ValidationError>
+  = PickerOnValueChangeProps<ValidationError> & {
+    rhfOnChange: (value: PickerValidDate) => void;
+  };
+
 export type RHFStaticTimePickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -54,24 +64,29 @@ export type RHFStaticTimePickerProps<T extends FieldValues> = {
    *
    * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
    */
-  customOnChange?: (
-    rhfOnChange: (value: PickerValidDate) => void,
-    newValue: PickerValidDate,
-    context: PickerChangeHandlerContext<TimeValidationError>
-  ) => void;
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    context
+  }: PickerCustomOnChangeProps<TimeValidationError>) => void;
   /**
    * Fired when the picker value changes and **context.validationError** is `null`.
    * Not invoked when **customOnChange** is set.
    */
-  onValueChange?: (
-    newValue: PickerValidDate,
-    context: PickerChangeHandlerContext<TimeValidationError>
-  ) => void;
+  onValueChange?: ({
+    newValue,
+    context
+  }: PickerOnValueChangeProps<TimeValidationError>) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -184,7 +199,7 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                   onChange={(newValue, context) => {
                     muiOnChange?.(newValue, context);
                     if (customOnChange) {
-                      customOnChange(rhfOnChange, newValue, context);
+                      customOnChange({ rhfOnChange, newValue, context });
                       return;
                     }
 
@@ -193,7 +208,7 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                     }
 
                     rhfOnChange(newValue);
-                    onValueChange?.(newValue, context);
+                    onValueChange?.({ newValue, context });
                   }}
                   onAccept={(newValue, context) => {
                     muiOnAccept?.(newValue, context);
