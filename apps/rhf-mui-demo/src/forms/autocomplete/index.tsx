@@ -378,7 +378,7 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              renderOptionLabel={({ option, selectAllText }) => (
+              renderOptionLabel={({ option }) => (
                 <Box
                   sx={{
                     display: 'flex',
@@ -387,18 +387,18 @@ const AutocompleteForm = () => {
                     textTransform: 'capitalize'
                   }}
                 >
-                  {option !== selectAllText && (
-                    <Box
-                      sx={{
-                        width: 12,
-                        height: 12,
-                        borderRadius: '50%',
-                        border: '1px solid #ccc',
-                        backgroundColor: option
-                      }}
-                    />
-                  )}
-                  <span>{option}</span>
+                  <Box
+                    sx={{
+                      width: 12,
+                      height: 12,
+                      borderRadius: '50%',
+                      border: '1px solid #ccc',
+                      backgroundColor: option
+                    }}
+                  />
+                  <Typography component="span">
+                    {option}
+                  </Typography>
                 </Box>
               )}
               getLimitTagsText={(more) => `+${more} Color(s)`}

@@ -88,7 +88,6 @@ type OnValueChangeProps = {
 
 type RenderOptionLabelProps<Option extends StrObjOption = StrObjOption> = {
   option: Option;
-  selectAllText: string;
   state: AutocompleteRenderOptionState;
 };
 
@@ -137,7 +136,6 @@ export type RHFMultiAutocompleteProps<
   label?: ReactNode;
   renderOptionLabel?: ({
     option,
-    selectAllText,
     state
   }: RenderOptionLabelProps<Option>) => ReactNode;
   showLabelAboveFormField?: boolean;
@@ -530,15 +528,48 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               renderOption={({ key, ...optionProps }, option, state) => {
                 const isSelectAll = isSelectAllOption(option);
                 const optionLabel = displayOptionLabel(option);
-                const optionValue = isSelectAll
-                  ? selectAllOptionValue
-                  : getOptionLabelOrValue(option, valueKey);
-                const isOptionDisabled = getOptionDisabled?.(option) || muiDisabled;
+                if (isSelectAll) {
+                  return (
+                    <Box component="li" key={key} {...optionProps}>
+                      <FormControlLabel
+                        label={optionLabel}
+                        disabled={muiDisabled}
+                        control={
+                          <Checkbox
+                            {...checkboxProps}
+                            id={`${fieldName}_${selectAllOptionValue}`}
+                            name={`${fieldName}_${selectAllOptionValue}`}
+                            value={selectAllOptionValue}
+                            checked={areAllSelected}
+                            indeterminate={isIndeterminate}
+                          />
+                        }
+                        sx={{ ...appliedFormControlLabelSx, width: '100%' }}
+                        onClick={e => {
+                          e.preventDefault();
+                          changeFieldState(
+                            handleCheckboxChange(
+                              selectedValues,
+                              selectAllOptionValue,
+                              !areAllSelected
+                            ),
+                            selectAllOptionValue
+                          );
+                        }}
+                        {...otherFormControlLabelProps}
+                      />
+                    </Box>
+                  );
+                }
+
+                const optionValue = getOptionLabelOrValue(option, valueKey);
+                const isOptionDisabled
+                  = getOptionDisabled?.(option) || muiDisabled;
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
                       label={
-                        renderOptionLabel?.({ option, selectAllText, state })
+                        renderOptionLabel?.({ option, state })
                         ?? optionLabel
                       }
                       disabled={isOptionDisabled}
@@ -549,21 +580,14 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                           name={`${fieldName}_${optionValue}`}
                           value={optionValue}
                           checked={
-                            isSelectAll
-                              ? areAllSelected
-                              : selectedValues.includes(optionValue)
-                          }
-                          indeterminate={
-                            isSelectAll ? isIndeterminate : undefined
+                            selectedValues.includes(optionValue)
                           }
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       onClick={e => {
                         e.preventDefault();
-                        const checked = isSelectAll
-                          ? !areAllSelected
-                          : !selectedValues.includes(optionValue);
+                        const checked = !selectedValues.includes(optionValue);
                         changeFieldState(
                           handleCheckboxChange(
                             selectedValues,

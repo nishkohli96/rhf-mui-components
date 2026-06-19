@@ -237,14 +237,9 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
   }, [options, selectAllText, shouldHideSelectAllOptions]);
 
   const isSelectAllOption = useCallback(
-    (option: AutocompleteOption<Option>) => option === selectAllText,
+    (option: AutocompleteOption<Option>): option is string =>
+      option === selectAllText,
     [selectAllText]
-  );
-
-  const isRealOption = useCallback(
-    (option: AutocompleteOption<Option>): option is Option =>
-      !isSelectAllOption(option),
-    [isSelectAllOption]
   );
 
   const getOptionLabelOrValue = useCallback(
@@ -339,9 +334,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
           if (isSelectAllOption(rowOption)) {
             return checked ? [...options] : [];
           }
-          if (!isRealOption(rowOption)) {
-            return currentValue;
-          }
           /* When one of the options is selected */
           return checked
             ? selectionContainsOption(currentValue, rowOption)
@@ -408,9 +400,9 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
 
                 const clickedOption = details?.option;
                 const finalValue = newSelectedOptions.filter(
-                  (option): option is Option => isRealOption(option)
+                  option => !isSelectAllOption(option)
                 );
-                const selectedOption = clickedOption && isRealOption(clickedOption)
+                const selectedOption = clickedOption && !isSelectAllOption(clickedOption)
                   ? clickedOption
                   : undefined;
                 if (customOnChange) {
@@ -434,9 +426,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               getOptionLabel={option => displayOptionLabel(option, true)}
               isOptionEqualToValue={(option, value) => {
                 if (isSelectAllOption(option)) {
-                  return false;
-                }
-                if (!isRealOption(option) || !isRealOption(value)) {
                   return false;
                 }
                 if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
@@ -543,9 +532,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                       />
                     </Box>
                   );
-                }
-                if (!isRealOption(option)) {
-                  return null;
                 }
                 const optionValue = getOptionLabelOrValue(option, valueKey);
                 const isOptionDisabled
