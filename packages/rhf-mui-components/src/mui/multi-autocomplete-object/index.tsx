@@ -126,7 +126,6 @@ export type RHFMultiAutocompleteObjectProps<
   checkboxProps?: CheckboxProps;
   renderOptionLabel?: (
     option: Option,
-    selectAllText: string,
     state: AutocompleteRenderOptionState
   ) => ReactNode;
   formControlLabelProps?: FormControlLabelProps;
@@ -540,7 +539,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
                       label={
-                        renderOptionLabel?.(option, selectAllText, state)
+                        renderOptionLabel?.(option, state)
                         ?? optionLabel
                       }
                       disabled={isOptionDisabled}

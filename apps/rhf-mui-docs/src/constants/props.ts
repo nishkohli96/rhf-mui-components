@@ -108,7 +108,7 @@ const PropsDescription: Record<
   renderOptionLabel_MultiAutocomplete: {
     name: 'renderOptionLabel',
     description: 'Render the option label content corresponding to each checkbox.',
-    type: '({ option, state }) => ReactNode'
+    type: '(option, state) => ReactNode'
   },
   renderOptionLabel_CountrySelect: {
     name: 'renderOptionLabel',

@@ -32,13 +32,16 @@ const RHFMultiAutocompleteObjectPropsTable = ({
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),
-    ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-      : []),
     getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderOptionLabel_MultiAutocomplete
+      ]
+      : []),
     getPropDetailsByVersion(PropsDescription.checkboxProps_MultiAutocomplete, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
       docsVersion,

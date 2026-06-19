@@ -86,11 +86,6 @@ type OnValueChangeProps = {
   selectedOption?: string;
 };
 
-type RenderOptionLabelProps<Option extends StrObjOption = StrObjOption> = {
-  option: Option;
-  state: AutocompleteRenderOptionState;
-};
-
 export type RHFMultiAutocompleteProps<
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
@@ -138,10 +133,10 @@ export type RHFMultiAutocompleteProps<
   selectAllText?: string;
   hideSelectAllOption?: boolean;
   label?: ReactNode;
-  renderOptionLabel?: ({
-    option,
-    state
-  }: RenderOptionLabelProps<Option>) => ReactNode;
+  renderOptionLabel?: (
+    option: Option,
+    state: AutocompleteRenderOptionState
+  ) => ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   hideLabel?: boolean;
@@ -575,7 +570,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
                       label={
-                        renderOptionLabel?.({ option, state })
+                        renderOptionLabel?.(option, state)
                         ?? optionLabel
                       }
                       disabled={isOptionDisabled}

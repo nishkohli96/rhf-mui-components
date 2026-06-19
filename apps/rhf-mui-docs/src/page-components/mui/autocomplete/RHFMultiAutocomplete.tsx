@@ -31,11 +31,6 @@ const RHFMultiAutocompletePropsTable = ({
       docsVersion,
       muiVersion
     }),
-    ...(v4AndAbove
-      ? [
-        PropsDescription.renderOptionLabel_MultiAutocomplete
-      ]
-      : []),
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),
@@ -44,7 +39,10 @@ const RHFMultiAutocompletePropsTable = ({
       muiVersion
     }),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderOptionLabel_MultiAutocomplete
+      ]
       : []),
     getPropDetailsByVersion(PropsDescription.checkboxProps_MultiAutocomplete, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
