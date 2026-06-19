@@ -49,7 +49,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
   /**
    * Override the default picker value update. Call **rhfOnChange** with the value to store in
    * the form (including `null` when cleared). Use **context.validationError** if you need the
-   * same “only commit when valid” rule as **onValueChange**.
+   * same “only update when valid” rule as **onValueChange**.
    *
    * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
    */
@@ -59,7 +59,8 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<DateTimeValidationError>
   ) => void;
   /**
-   * Fired only when **context.validationError** is `null`. Not invoked when **customOnChange** is set.
+   * Fired when the picker value changes and **context.validationError** is `null`.
+   * Not invoked when **customOnChange** is set.
    */
   onValueChange?: (
     newValue: PickerValidDate,
@@ -164,28 +165,20 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                 value={rhfValue ?? null}
                 disabled={muiDisabled}
                 onChange={(newValue, context) => {
-                  /**
-                   * Forward the MUI onChange event and synchronize RHF
-                   * when the value becomes null (clear action), while
-                   * keeping the accept-based update for normal selections.
-                   */
                   muiOnChange?.(newValue, context);
-                  if (newValue === null) {
-                    if (customOnChange) {
-                      customOnChange(rhfOnChange, null, context);
-                      return;
-                    }
-                    rhfOnChange(null);
-                    onValueChange?.(null, context);
-                  }
-                }}
-                onAccept={(newValue, context) => {
                   if (customOnChange) {
                     customOnChange(rhfOnChange, newValue, context);
                     return;
                   }
+
+                  if (context.validationError !== null) {
+                    return;
+                  }
+
                   rhfOnChange(newValue);
                   onValueChange?.(newValue, context);
+                }}
+                onAccept={(newValue, context) => {
                   muiOnAccept?.(newValue, context);
                   rhfOnBlur();
                 }}

@@ -31,11 +31,13 @@ const DateTimePickersForm = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, dirtyFields, touchedFields },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
   });
- 
+    console.log('touchedFields: ', touchedFields);
+    console.log('dirtyFields: ', dirtyFields);
+
   async function onFormSubmit(formValues: DateTimeFormData) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
