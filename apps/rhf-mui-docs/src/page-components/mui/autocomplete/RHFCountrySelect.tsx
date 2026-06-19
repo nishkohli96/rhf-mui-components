@@ -1,22 +1,32 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
 import { type PropsInfo, type VersionProps } from '@site/src/types';
 import { getPropDetailsByVersion } from '@site/src/utils';
 
 const RHFCountrySelectPropsTable = ({
   docsVersion,
-  muiVersion
+  muiVersion,
+  v4AndAbove
 }: VersionProps) => {
+  const valueKey = v4AndAbove
+    ? PropsDescription.valueKey_CountrySelect
+    : LegacyPropsDescription.valueKey_CountrySelect_v2_v3;
+  const valueChangeProps = v4AndAbove
+    ? [
+      PropsDescription.customOnChange_CountrySelect,
+      PropsDescription.onValueChange_CountrySelect
+    ]
+    : [LegacyPropsDescription.onValueChange_CountrySelect_v2_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
     PropsDescription.countries,
+    PropsDescription.multiple_CountrySelect,
     PropsDescription.preferredCountries,
-    PropsDescription.valueKey_CountrySelect,
-    PropsDescription.required,
-    PropsDescription.onValueChange_CountrySelect,
-    PropsDescription.displayFlagOnSelect,
+    valueKey,
+    ...valueChangeProps,
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion
@@ -28,15 +38,23 @@ const RHFCountrySelectPropsTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderOptionLabel_CountrySelect
+      ]
+      : [PropsDescription.displayFlagOnSelect]),
+    PropsDescription.required,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion }),
+    ...(!v4AndAbove ? [getPropDetailsByVersion(PropsDescription.errorMessage, { muiVersion })] : []),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion })
+    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;

@@ -106,6 +106,12 @@ const LegacyPropsDescription: Record<
       'Callback function that returns the selected object options in `newValue`. The **Select All** option is not included in the final form value.',
     type: '(newValue, event, reason, details?) => void'
   },
+  onValueChange_CountrySelect_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
+    type: '(newValue, event, reason, details?) => void '
+  },
   onValueChange_Checkbox_v1: {
     name: 'onValueChange',
     description:
@@ -250,7 +256,12 @@ const LegacyPropsDescription: Record<
     name: 'onUploadError',
     description: 'Callback function that returns the error message and rejected files when uploaded files fail the validation during upload.',
     type: '(errors: FileUploadError[], rejectedFiles: File[]) => void'
-  }
+  },
+  valueKey_CountrySelect_v2_v3: {
+    name: 'valueKey',
+    description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
+    type: '`name` / `iso` / `iso3`',
+  },
 });
 
 export default LegacyPropsDescription;

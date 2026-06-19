@@ -98,7 +98,6 @@ type AutoCompleteProps<
   | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
-  | 'autoHighlight'
   | 'blurOnSelect'
   | 'disableClearable'
   | 'disableCloseOnSelect'
@@ -116,6 +115,9 @@ export type RHFCountrySelectProps<
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   countries?: CountryDetails[];
+  /**
+   * If `true`, allow selection of more than one countries.
+   */
   multiple?: Multiple;
   /**
    * List of country ISO codes to pin at the top of the dropdown.
@@ -168,8 +170,8 @@ export type RHFCountrySelectProps<
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   renderOptionLabel?: (option: CountryDetails) => ReactNode;
   required?: boolean;
   helperText?: ReactNode;
@@ -197,13 +199,14 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<
   countries,
   preferredCountries,
   valueKey,
-  onValueChange,
   disabled: muiDisabled,
+  autoHighlight = true,
   customOnChange,
+  onValueChange,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   renderOptionLabel,
   required,
   helperText,
@@ -214,10 +217,12 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
+  onBlur: muiOnBlur,
   disableClearable,
   customIds,
-  ...otherAutoCompleteProps
+  limitTags = 2,
+  getLimitTagsText,
+  ...otherCountrySelectProps
 }: RHFCountrySelectProps<T, Multiple, DisableClearable>,
 ref: Ref<HTMLInputElement>) {
   const {
@@ -323,15 +328,18 @@ ref: Ref<HTMLInputElement>) {
               />
             )}
             <Autocomplete
+              {...otherCountrySelectProps}
               id={fieldId}
               options={countrySelectOptions}
               multiple={multiple}
+              freeSolo={false}
               value={
                 selectedCountries as CountrySelectFieldValue<
                   Multiple,
                   DisableClearable
                 >
               }
+              disabled={muiDisabled}
               onChange={(event, newValue, reason, details) => {
                 const storedValue = (
                   multiple
@@ -366,17 +374,15 @@ ref: Ref<HTMLInputElement>) {
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
-              autoHighlight
+              autoHighlight={autoHighlight}
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               disableClearable={disableClearable}
               fullWidth
-              disabled={muiDisabled}
-              limitTags={2}
-              getLimitTagsText={more =>
-                more === 1 ? '+1 Country' : `+${more} Countries`}
+              limitTags={limitTags}
+              getLimitTagsText={more => getLimitTagsText?.(more) ?? ( more === 1 ? '+1 Country' : `+${more} Countries`)}
               getOptionKey={option => String(
                 valueKey ? option[valueKey] : option.iso
               )}
@@ -452,7 +458,6 @@ ref: Ref<HTMLInputElement>) {
                 ...slotProps,
                 chip: ChipProps
               }}
-              {...otherAutoCompleteProps}
             />
             <FormHelperText
               error={isError}

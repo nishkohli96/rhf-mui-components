@@ -7,6 +7,7 @@ description: Customizable autocomplete field that allows user to select one or m
 
 import { RHFCountrySelectPropsTable } from '@site/src/page-components';
 import { AvailabilityBanner } from '@site/src/components';
+import { ExternalLinks } from '@site/src/constants';
 
 # RHFCountrySelect
 
@@ -14,7 +15,8 @@ import { AvailabilityBanner } from '@site/src/components';
 
 **RHFCountrySelect** leverages the [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) 
 component from Material-UI to enable users to select one or more countries
-from a comprehensive list of 250 options. It offers flexibility in retrieving
+from a comprehensive list of <a href={ExternalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</a>.
+It offers flexibility in retrieving
 the selected country's value as its name, ISO code, or ISO3 code. Additionally,
 each option is displayed with the respective country's flag, enhancing the
 component's visual appeal and user experience.
@@ -30,12 +32,32 @@ import RHFCountrySelect, {
 } from '@nish1896/rhf-mui-components/mui/country-select';
 ```
 
+:::note
+From **v4** onwards, `RHFCountrySelect` returns the country property specified by `valueKey`.
+If `valueKey` is omitted, the complete country object is returned instead.
+:::
+
 ```jsx
 <RHFCountrySelect
   fieldName="nationality"
   control={control}
-  errorMessage={errors?.nationality?.message}
+  valueKey="iso"
 />
+// Returns "IN", "AU"
+
+<RHFCountrySelect
+  fieldName="countriesVisited"
+  control={control}
+/>
+/**
+ * Returns
+ * {
+ *   name: 'India',
+ *   iso: 'IN',
+ *   iso3: 'IND',
+ *   emoji: '🇮🇳'
+ * }
+ */
 ```
 
 Each option in the list of 250 countries is represented as an object
@@ -83,7 +105,6 @@ const filteredCountries = countryList.filter(
   preferredCountries={['IN', 'AU', 'JP']}
   countries={filteredCountries}
   multiple
-  errorMessage={errors?.dreamDestinations?.message}
 />
 ```
 
@@ -98,4 +119,5 @@ and accepts the following additional props:
 
 <RHFCountrySelectPropsTable
   muiVersion={7}
+  v4AndAbove
 />

@@ -110,6 +110,11 @@ const PropsDescription: Record<
     description: 'Render the option label content corresponding to each checkbox.',
     type: '({ option, state }) => ReactNode'
   },
+  renderOptionLabel_CountrySelect: {
+    name: 'renderOptionLabel',
+    description: 'Custom renderer for each country option in the dropdown. Receives the country object and should return the label/content to render.',
+    type: '(option: CountryDetails) => ReactNode'
+  },
   placeholder_Select: {
     name: 'placeholder',
     description:
@@ -223,6 +228,11 @@ const PropsDescription: Record<
     description:
       'Override the default `onChange` behavior of the autocomplete.',
     type: '({ rhfOnChange, newValue, selectedOption }) => void'
+  },
+  customOnChange_CountrySelect: {
+    name: 'customOnChange',
+    description: 'Custom change handler that overrides the default update behavior. Receives the updated value, the triggering event, and `rhfOnChange`. Use this to validate, transform, or conditionally update country selections before updating form state. When provided, you must call `rhfOnChange` manually.',
+    type: '({ rhfOnChange, newValue, event, reason, details? }) => void'
   },
   customOnChange_Cbx_Switch: {
     name: 'customOnChange',
@@ -341,9 +351,8 @@ const PropsDescription: Record<
   },
   onValueChange_CountrySelect: {
     name: 'onValueChange',
-    description:
-      'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
-    type: '(newValue, event, reason, details?) => void '
+    description: 'Called when the selected country value changes. Returns the selected country property defined by `valueKey`, or the complete country object when `valueKey` is not provided. Returns an array when `multiple` is enabled and `null` when no selection is made.',
+    type: '({ newValue, event, reason, details? }) => void'
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
@@ -610,6 +619,11 @@ const PropsDescription: Record<
       `The [list of countries](${ExternalLinks.githubRepo.countriesList}) to render for selection in the Autocomplete. By default all countries will be listed.`,
     type: 'CountryDetails[]'
   },
+  multiple_CountrySelect: {
+    name: 'multiple',
+    description: 'Allow selection of more than one countries',
+    type: 'boolean'
+  },
   preferredCountries: {
     name: 'preferredCountries',
     description:
@@ -618,7 +632,7 @@ const PropsDescription: Record<
   },
   valueKey_CountrySelect: {
     name: 'valueKey',
-    description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
+    description: 'Determines which country property is stored as the selected value. If not provided, the complete country object is returned.',
     type: '`name` / `iso` / `iso3`',
   },
   textFieldProps: ({ muiVersion }: PropsDescriptionArgs) => ({
