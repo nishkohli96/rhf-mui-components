@@ -5,7 +5,15 @@
 
 'use client';
 
-import { useContext, useMemo, useRef, type ReactNode } from 'react';
+import {
+  useContext,
+  useMemo,
+  useRef,
+  forwardRef,
+  type JSX,
+  type ReactNode,
+  type Ref
+} from 'react';
 import {
   Controller,
   useWatch,
@@ -46,6 +54,7 @@ import type {
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
+  mergeRefs,
   useFieldIds
 } from '@/utils';
 import 'react-international-phone/style.css';
@@ -176,29 +185,34 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
-const RHFPhoneInput = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  customOnChange,
-  onValueChange,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  disabled: muiDisabled,
-  phoneInputProps,
-  slotProps,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  customIds,
-  ...otherRHFPhoneInputProps
-}: RHFPhoneInputProps<T>) => {
+const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    customOnChange,
+    onValueChange,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    disabled: muiDisabled,
+    phoneInputProps,
+    slotProps,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    customIds,
+    ...otherRHFPhoneInputProps
+  }: RHFPhoneInputProps<T>,
+  ref: Ref<HTMLInputElement>
+) {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
@@ -405,10 +419,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               {...otherRHFPhoneInputProps}
               id={fieldId}
               name={rhfFieldName}
-              inputRef={ref => {
-                rhfRef(ref);
-                inputRef.current = ref;
-              }}
+              inputRef={mergeRefs(rhfRef, inputRef, ref)}
               value={inputValue}
               autoComplete={autoComplete}
               type="tel"
@@ -463,6 +474,12 @@ const RHFPhoneInput = <T extends FieldValues>({
       }}
     />
   );
-};
+});
+
+const RHFPhoneInput = RHFPhoneInputInner as <T extends FieldValues>(
+  props: RHFPhoneInputProps<T> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default RHFPhoneInput;
