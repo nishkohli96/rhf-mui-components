@@ -208,7 +208,7 @@ const RHFColorPicker = <T extends FieldValues>({
                     onValueChange?.(color);
                   }}
                   height={height}
-                  hideInput={muiDisabled ? true : hideInput}
+                  hideInput={muiDisabled || rhfDisabled ? true : hideInput}
                   {...otherProps}
                 />
               )}
