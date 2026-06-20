@@ -138,23 +138,6 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Controlled phone value passed to `react-international-phone`.
-   *
-   * A string is treated as the full phone value. A structured value uses its
-   * `phone` field, which keeps existing values compatible while RHF stores the
-   * richer object shape on change.
-   */
-  value?: string | RHFPhoneInputValue;
-  /**
-   * Fired after the phone value changes and the structured value is stored in the field.
-   *
-   * Not invoked when `customOnChange` is set.
-   */
-  onValueChange?: ({
-    newValue,
-    phoneData
-  }: RHFPhoneInputOnValueChangeProps) => void;
-  /**
    * Override the default phone value update.
    *
    * Call `rhfOnChange(newValue)` with the structured value you want stored in
@@ -165,9 +148,19 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     newValue,
     phoneData
   }: RHFPhoneInputCustomOnChangeProps) => void;
+  /**
+   * Fired after the phone value changes and the structured value is stored in
+   * the field.
+   *
+   * Not invoked when `customOnChange` is set.
+   */
+  onValueChange?: ({
+    newValue,
+    phoneData
+  }: RHFPhoneInputOnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   /**
    * @deprecated
    * Field error message is now automatically derived from form state.
@@ -187,14 +180,13 @@ const RHFPhoneInput = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  required,
-  value,
-  onValueChange,
   customOnChange,
+  onValueChange,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
+  required,
   helperText,
   errorMessage,
   hideErrorMessage,
@@ -218,7 +210,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const watchedValue = useWatch({ control, name: fieldName });
-  const currentPhoneValue = getPhoneValue(value ?? watchedValue);
+  const currentPhoneValue = getPhoneValue(watchedValue);
   const phoneChangeHandlerRef = useRef<
     ((phoneData: PhoneInputChangeReturnValue) => void) | null
   >(null);

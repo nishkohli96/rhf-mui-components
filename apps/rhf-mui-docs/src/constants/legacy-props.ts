@@ -217,6 +217,12 @@ const LegacyPropsDescription: Record<
       'Callback function returning the editor value, `event` object and editor details.',
     type: '(newValue: string, event: EventInfo, editor: ClassicEditor) => void'
   },
+  onValueChange_PhoneInput_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'Callback function to get details of input phone number, including the country details.',
+    type: '({ phone: string, inputValue: string, country: ParsedCountry }) => void'
+  },
   value_ColorPicker_v2_v3: {
     name: 'value',
     description:
@@ -235,6 +241,12 @@ const LegacyPropsDescription: Record<
     description:
       'Content rendered in the Rich Text Editor. It can be plain text or an HTML string.',
     type: 'string'
+  },
+  value_PhoneInput: {
+    name: 'value',
+    description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
+    type: 'string / undefined',
+    required: true
   },
   defaultValue_Slider: {
     name: 'defaultValue',

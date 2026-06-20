@@ -12,12 +12,15 @@ import { AvailabilityBanner } from '@site/src/components';
 
 <AvailabilityBanner componentName="RHFPhoneInput" version="2.0" />
 
-The **RHFPhoneInput** component is based on [react-international-phone](https://www.npmjs.com/package/react-international-phone),
-a React library that simplifies handling international phone inputs.
-It integrates seamlessly with Material-UI, utilizing the [Textfield](https://v7.mui.com/material-ui/react-text-field/)
-component with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
-API from `react-international-phone` to enables users in selecting
-their country and input phone numbers in the specific format.
+The **RHFPhoneInput** component is built on top of [react-international-phone](https://www.npmjs.com/package/react-international-phone),
+a React library for handling international phone numbers.
+
+It integrates seamlessly with Material UI by leveraging the [TextField](https://v7.mui.com/material-ui/react-text-field/)
+component together with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
+hook from `react-international-phone`, allowing users to select a country and enter phone numbers
+in the appropriate international format.
+
+## Installation
 
 ```
 npm i react-international-phone
@@ -27,32 +30,103 @@ npm i react-international-phone
 yarn add react-international-phone
 ```
 
-### Usage
+:::warning Field value shape changed
 
-```js
-import RHFPhoneInput, { RHFPhoneInputProps } from '@nish1896/rhf-mui-components/misc/phone-input';
+From **v4** onwards, `RHFPhoneInput` stores an object in React Hook Form
+state instead of a plain phone number string.
+
+If you are upgrading from an earlier version, update your form schemas,
+default values, validation logic, and submission handlers to work with
+the new `RHFPhoneInputValue` type.
+
+For backward compatibility, initial/default values may still be provided as strings,
+but any value produced after user interaction will be returned as an `RHFPhoneInputValue` object.
+:::
+
+## Usage
+
+```ts
+import RHFPhoneInput, {
+  type RHFPhoneInputProps,
+  type RHFPhoneInputValue
+} from '@nish1896/rhf-mui-components/misc/phone-input';
+
 ```
 
 ```jsx
 <RHFPhoneInput
   fieldName="contactNumber"
   control={control}
-  value={getValues("contactNumber")}
   phoneInputProps={{
     defaultCountry: "in",
     preferredCountries: ["in", "us", "au"]
   }}
-  errorMessage={errors?.contactNumber?.message}
 />
 ```
 
-The returned phone value after input is of the type -
-- "+91 99887-76655"
-- "+1 (765) 232-3423"
+:::info
+For validation, consider enforcing the following minimum lengths:
 
-:::note
-For field validation, make sure to set the minimum length to atleast **6**.
+- `phone` and `phoneNo`: at least **6** characters
+- `country`: exactly **2** characters (ISO country code)
+- `dialCode`: typically **1–4** digits, depending on the selected country
 :::
+
+### Return Value
+
+Starting from **v4**, the field value is represented as an `RHFPhoneInputValue` object:
+
+```ts
+type RHFPhoneInputValue = {
+  phone: string;
+  country: CountryIso2;  // imported from 'react-international-phone'
+  dialCode: string;
+  phoneNo: string;
+}
+```
+
+The returned phone value after input is of the form:
+```js
+{
+  phone: "+918885511000"
+  country: "in"
+  dialCode: "91"
+  phoneNo: "8885511000"
+}
+```
+
+Where:
+
+| Property | Description |
+|-|-|
+| `phone` | Full phone number including country dial code |
+| `country` | Selected ISO 3166-1 alpha-2 country code |
+| `dialCode` | Country dialing code without the `+` prefix |
+| `phoneNo` | National phone number without the dial code |
+
+**Why is the country stored separately?**
+
+Some countries and territories share the same dialing code. For example:
+
+- 🇺🇸 United States: `+1 (765) 232-3423`
+- 🇨🇦 Canada: `+1 (416) 345-6234`
+- 🇵🇷 Puerto Rico: `+1 (787) 234-4442`
+
+Although all three numbers begin with `+1`, they belong to different countries
+or territories. Storing the selected country separately removes this ambiguity
+and makes it easier to perform country-specific validation and processing.
+
+For example:
+
+```ts
+const { phone, country, phoneNo } = value;
+```
+
+Use:
+
+- `phone` when you need the complete international number.
+- `phoneNo` when you only need the national number.
+- `country` for country-specific logic or validation.
 
 ## Examples
 - [RHFPhoneInput](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
@@ -64,4 +138,5 @@ and accepts the following additional props:
 
 <RHFPhoneInputPropsTable
   muiVersion={7}
+  v4AndAbove
 />

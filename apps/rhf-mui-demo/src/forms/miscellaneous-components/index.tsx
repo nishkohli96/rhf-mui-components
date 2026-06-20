@@ -4,9 +4,15 @@ import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { defaultCountries, parseCountry, type CountryIso2 } from 'react-international-phone';
+import {
+  defaultCountries,
+  parseCountry,
+  type CountryIso2
+} from 'react-international-phone';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
-import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import RHFPhoneInput, {
+  type RHFPhoneInputValue
+} from '@nish1896/rhf-mui-components/misc/phone-input';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
   FormContainer,
@@ -21,17 +27,26 @@ import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type FormSchema = {
   bio: string;
-  contactNumber: string;
-  contactNumber2: string;
+  contactNumber: RHFPhoneInputValue;
+  contactNumber2: RHFPhoneInputValue;
   favouriteColor: string;
   secondFavColor: string;
   thirdFavColor: string;
   countries: string;
 };
 
-const initialValues = {
+function getPhoneNo(value: string | RHFPhoneInputValue | undefined) {
+  return typeof value === 'string' ? value : value?.phoneNo;
+}
+
+const initialValues: Partial<FormSchema> = {
   favouriteColor: 'hsl(201 100% 73% / 1)',
-  contactNumber: '+1 (765) 232-3423',
+  contactNumber: {
+    phone: '+17652323423',
+    country: 'us',
+    dialCode: '1',
+    phoneNo: '7652323423'
+  },
   countries: 'Angola'
 };
 
@@ -157,8 +172,6 @@ const MiscellaneousComponentsForm = () => {
             <RHFPhoneInput
               fieldName="contactNumber"
               control={control}
-              value={getValues('contactNumber')}
-              errorMessage={errors?.contactNumber?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -166,7 +179,6 @@ const MiscellaneousComponentsForm = () => {
             <RHFPhoneInput
               fieldName="contactNumber2"
               control={control}
-              value={getValues('contactNumber2')}
               showLabelAboveFormField
               variant="standard"
               phoneInputProps={{
@@ -179,13 +191,15 @@ const MiscellaneousComponentsForm = () => {
                   value: true,
                   message: 'Please enter your phone number'
                 },
-                minLength: {
-                  value: 6,
-                  message: 'Minimum 6 characters required'
+                validate: {
+                  requiredPhoneNumber: value =>
+                    !!getPhoneNo(value) || 'Please enter your phone number',
+                  minLength: value =>
+                    (getPhoneNo(value)?.length ?? 0) >= 6
+                    || 'Minimum 6 characters required'
                 }
               }}
               required
-              errorMessage={errors?.contactNumber2?.message}
             />
           </Grid>
           <Grid size={12}>

@@ -1,5 +1,5 @@
 import RHFColorPicker, { type RHFColorPickerProps } from './color-picker';
-import RHFPhoneInput, { type RHFPhoneInputProps } from './phone-input';
+import RHFPhoneInput, { type RHFPhoneInputProps, type RHFPhoneInputValue } from './phone-input';
 import RHFRichTextEditor, {
   DefaultEditorConfig,
   type RHFRichTextEditorProps
@@ -15,6 +15,7 @@ export {
 export type {
   RHFColorPickerProps,
   RHFPhoneInputProps,
+  RHFPhoneInputValue,
   RHFRichTextEditorProps
 };
 

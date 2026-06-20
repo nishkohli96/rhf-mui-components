@@ -289,6 +289,12 @@ const PropsDescription: Record<
     'Custom change handler that overrides the default editor value update behavior. Receives `rhfOnChange`, the updated HTML string, change event, and CKEditor instance. When provided, you must call `rhfOnChange` manually to update the form value.',
     type: '({ rhfOnChange, newValue, event, editor }) => void'
   },
+  customOnChange_PhoneInput: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default phone value update behavior. Receives `rhfOnChange`, the structured `RHFPhoneInputValue`, and the raw change payload from `react-international-phone`. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, phoneData }) => void'
+  },
   onTagAdd: {
     name: 'onTagAdd',
     description:
@@ -449,8 +455,8 @@ const PropsDescription: Record<
   onValueChange_PhoneInput: {
     name: 'onValueChange',
     description:
-      'Callback function to get details of input phone number, including the country details.',
-    type: '({ phone: string, inputValue: string, country: ParsedCountry }) => void'
+    'Optional callback fired after the phone value changes and the structured `RHFPhoneInputValue` is stored in the form field. Receives the updated value and the raw change payload from `react-international-phone`.',
+    type: '({ newValue, phoneData }) => void'
   },
   defaultColor: {
     name: 'defaultColor',
@@ -463,12 +469,6 @@ const PropsDescription: Record<
     description:
       'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is `undefined` in the input color.',
     type: 'boolean'
-  },
-  value_PhoneInput: {
-    name: 'value',
-    description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
-    type: 'string / undefined',
-    required: true
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -630,7 +630,7 @@ const PropsDescription: Record<
   phoneInputProps: {
     name: 'phoneInputProps',
     description: 'Props to pass in the `usePhoneInput` hook for customization.',
-    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean}',
+    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean }',
     hasLinkInType: true
   },
   countries: {
