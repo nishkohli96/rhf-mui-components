@@ -46,13 +46,43 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Color format stored in the React Hook Form field.
+   *
+   * `hex` stores the color hex string. Other formats are converted to a CSS color string.
+   * @default 'hex'
+   * Options: `hex`, `rgb`, `hsv`
+   */
   valueKey?: ColorFormat;
+  /**
+   * Initial color used by the picker when the field does not already have a value.
+   * @default '#000000'
+   */
   defaultColor?: string;
+  /**
+   * Excludes the alpha channel when storing non-hex color formats.
+   */
   excludeAlpha?: boolean;
   required?: boolean;
+  /**
+   * Height, in pixels, of the color picker saturation area.
+   * @default 200
+   */
   height?: number;
+  /**
+   * Hides the alpha input/control rendered by `react-color-palette`.
+   */
   hideAlpha?: boolean;
+  /**
+   * Hides picker input fields rendered by `react-color-palette`.
+   *
+   * Pass `true` to hide all inputs, or pass specific `IColor` keys to hide only
+   * those inputs.
+   */
   hideInput?: (keyof IColor)[] | boolean;
+  /**
+   * Fired after the picker value changes and the formatted value is stored in the field.
+   */
   onValueChange?: (color: IColor) => void;
   /**
    * Override the default `onChange` behavior of the color picker.
@@ -70,8 +100,8 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -98,15 +128,15 @@ const RHFColorPicker = <T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   height = 200,
   customIds,
-  ...otherProps
+  hideAlpha,
 }: RHFColorPickerProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
@@ -209,7 +239,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   }}
                   height={height}
                   hideInput={muiDisabled || rhfDisabled ? true : hideInput}
-                  {...otherProps}
+                  hideAlpha={hideAlpha}
                 />
               )}
             <FormHelperText

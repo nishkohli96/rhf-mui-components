@@ -22,9 +22,10 @@ import { logFirebaseEvent, showToastMessage } from '@/utils';
 type FormSchema = {
   bio: string;
   contactNumber: string;
-  contactNumber2?: string;
+  contactNumber2: string;
   favouriteColor: string;
-  secondFavColor?: string;
+  secondFavColor: string;
+  thirdFavColor: string;
   countries: string;
 };
 
@@ -83,7 +84,7 @@ const MiscellaneousComponentsForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Color Picker" />
+            <FieldVariantInfo title="Color Picker with Hex" />
             <RHFColorPicker
               fieldName="favouriteColor"
               control={control}
@@ -131,6 +132,24 @@ const MiscellaneousComponentsForm = () => {
                   Color wont change if red value is greater than 128
                 </Typography>
               )}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Color Picker with HSL and excludeAlpha" />
+            <RHFColorPicker
+              fieldName="thirdFavColor"
+              control={control}
+              valueKey="hsv"
+              defaultColor="orange"
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
+              label="Third Favourite Color"
+              required
+              excludeAlpha
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

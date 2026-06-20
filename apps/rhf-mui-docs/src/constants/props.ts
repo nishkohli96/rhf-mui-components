@@ -418,7 +418,8 @@ const PropsDescription: Record<
   },
   valueKey_ColorPicker: {
     name: 'valueKey',
-    description: 'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
+    description:
+    'Determines the format of the selected color value. Returns a `hex`, `rgba`, or `hsva` representation of the selected color. When `excludeAlpha` is enabled, alpha information is omitted from the returned value. Defaults to `hex`.',
     type: 'hex / rgb / hsv'
   },
   onValueChange_ColorPicker: {
