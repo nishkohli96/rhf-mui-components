@@ -5,12 +5,12 @@
 
 'use client';
 
-import { useContext, useMemo, type ReactNode } from 'react';
+import { useContext, useMemo, useRef, type ReactNode } from 'react';
 import {
   Controller,
+  useWatch,
   type FieldValues,
   type Path,
-  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
@@ -56,6 +56,34 @@ type PhoneInputChangeReturnValue = {
   country: ParsedCountry;
 };
 
+/**
+ * Structured phone value stored in RHF state.
+ * `country` is captured directly from the picker because dial codes like +1
+ * are shared across multiple countries and cannot be disambiguated later.
+ */
+export type RHFPhoneInputValue = {
+  /** Full E.164-style phone value with dial code, e.g. "+15551234567". */
+  phone: string;
+  /** Selected ISO 3166-1 alpha-2 country code, e.g. "us" or "ca". */
+  country: CountryIso2;
+  /** Country calling code without the "+" prefix, e.g. "1". */
+  dialCode: string;
+  /** National significant number with the dial code stripped. */
+  phoneNo: string;
+};
+
+type RHFPhoneInputOnValueChangeProps = {
+  /** Structured value stored in the React Hook Form field. */
+  newValue: RHFPhoneInputValue;
+  /** Raw change payload returned by `react-international-phone`. */
+  phoneData: PhoneInputChangeReturnValue;
+};
+
+type RHFPhoneInputCustomOnChangeProps = RHFPhoneInputOnValueChangeProps & {
+  /** React Hook Form field change handler. Call this to update form state. */
+  rhfOnChange: (newValue: RHFPhoneInputValue) => void;
+};
+
 type InputTextFieldProps = Omit<
   TextFieldProps,
   | 'name'
@@ -69,21 +97,88 @@ type InputTextFieldProps = Omit<
 >;
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
+  /**
+   * Hides and disables the country dropdown.
+   *
+   * When true, the dial code is forced so users cannot remove it from the input.
+   */
   hideDropdown?: boolean;
 };
+
+function toStructuredValue(
+  phoneData: PhoneInputChangeReturnValue
+): RHFPhoneInputValue {
+  const { phone, country } = phoneData;
+  const phoneNo = phone.startsWith(`+${country.dialCode}`)
+    ? phone.slice(country.dialCode.length + 1)
+    : phone;
+
+  return {
+    phone,
+    country: country.iso2,
+    dialCode: country.dialCode,
+    phoneNo
+  };
+}
+
+function getPhoneValue(value: unknown): string | undefined {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (value && typeof value === 'object' && 'phone' in value) {
+    return String(value.phone ?? '');
+  }
+
+  return undefined;
+}
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  value?: string;
-  onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
+  /**
+   * Controlled phone value passed to `react-international-phone`.
+   *
+   * A string is treated as the full phone value. A structured value uses its
+   * `phone` field, which keeps existing values compatible while RHF stores the
+   * richer object shape on change.
+   */
+  value?: string | RHFPhoneInputValue;
+  /**
+   * Fired after the phone value changes and the structured value is stored in the field.
+   *
+   * Not invoked when `customOnChange` is set.
+   */
+  onValueChange?: ({
+    newValue,
+    phoneData
+  }: RHFPhoneInputOnValueChangeProps) => void;
+  /**
+   * Override the default phone value update.
+   *
+   * Call `rhfOnChange(newValue)` with the structured value you want stored in
+   * React Hook Form. `onValueChange` is not invoked when this callback is set.
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    phoneData
+  }: RHFPhoneInputCustomOnChangeProps) => void;
   showLabelAboveFormField?: boolean;
   hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
+   */
   phoneInputProps?: PhoneInputProps;
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
@@ -95,6 +190,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   required,
   value,
   onValueChange,
+  customOnChange,
   label,
   showLabelAboveFormField,
   hideLabel,
@@ -109,7 +205,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   onBlur,
   autoComplete = defaultAutocompleteValue,
   customIds,
-  ...rest
+  ...otherRHFPhoneInputProps
 }: RHFPhoneInputProps<T>) => {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
@@ -121,6 +217,11 @@ const RHFPhoneInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const watchedValue = useWatch({ control, name: fieldName });
+  const currentPhoneValue = getPhoneValue(value ?? watchedValue);
+  const phoneChangeHandlerRef = useRef<
+    ((phoneData: PhoneInputChangeReturnValue) => void) | null
+  >(null);
 
   const {
     countries,
@@ -164,9 +265,9 @@ const RHFPhoneInput = <T extends FieldValues>({
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
       ...otherPhoneInputProps,
-      value,
+      value: currentPhoneValue,
       onChange: (phoneData: PhoneInputChangeReturnValue) => {
-        onValueChange?.(phoneData);
+        phoneChangeHandlerRef.current?.(phoneData);
       },
       countries: countryOptions,
       preferredCountries,
@@ -178,7 +279,6 @@ const RHFPhoneInput = <T extends FieldValues>({
       name={fieldName}
       control={control}
       rules={registerOptions}
-      defaultValue={inputValue as PathValue<T, Path<T>>}
       render={({
         field: {
           name: rhfFieldName,
@@ -196,6 +296,17 @@ const RHFPhoneInput = <T extends FieldValues>({
           helperText
           || (isError && !hideErrorMessage)
         );
+
+        const handleChange = (phoneData: PhoneInputChangeReturnValue) => {
+          const newValue = toStructuredValue(phoneData);
+          if (customOnChange) {
+            customOnChange({ rhfOnChange, newValue, phoneData });
+            return;
+          }
+          rhfOnChange(newValue);
+          onValueChange?.({ newValue, phoneData });
+        };
+        phoneChangeHandlerRef.current = handleChange;
 
         const startAdornment = (
           <InputAdornment
@@ -299,6 +410,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               />
             )}
             <MuiTextField
+              {...otherRHFPhoneInputProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={ref => {
@@ -310,7 +422,6 @@ const RHFPhoneInput = <T extends FieldValues>({
               type="tel"
               onChange={e => {
                 handlePhoneValueChange(e);
-                rhfOnChange(e.target.value);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
@@ -343,7 +454,6 @@ const RHFPhoneInput = <T extends FieldValues>({
                   startAdornment
                 }
               }}
-              {...rest}
             />
             <FormHelperText
               error={isError}
