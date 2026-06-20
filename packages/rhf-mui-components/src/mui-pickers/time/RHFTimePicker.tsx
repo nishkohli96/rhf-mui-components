@@ -144,7 +144,8 @@ ref: Ref<HTMLInputElement>) {
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           },
           fieldState: { error: fieldStateError }
         }) => {
@@ -174,7 +175,7 @@ ref: Ref<HTMLInputElement>) {
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={muiDisabled}
+                disabled={muiDisabled || rhfDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {

@@ -184,7 +184,8 @@ const RHFPhoneInput = <T extends FieldValues>({
           name: rhfFieldName,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -233,7 +234,7 @@ const RHFPhoneInput = <T extends FieldValues>({
                 }
               }}
               value={country.iso2}
-              disabled={muiDisabled || hideDropdown}
+              disabled={muiDisabled || rhfDisabled || hideDropdown}
               onChange={e => {
                 setCountry(e.target.value);
               }}
@@ -334,7 +335,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }
               aria-required={required}
               error={isError}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               slotProps={{
                 ...slotProps,
                 input: {

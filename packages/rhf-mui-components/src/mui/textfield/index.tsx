@@ -128,7 +128,8 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -169,7 +170,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const newValue = event.target.value;
                 if (customOnChange) {

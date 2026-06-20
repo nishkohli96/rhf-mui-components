@@ -288,7 +288,8 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -362,7 +363,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               options={autoCompleteOptions as Option[]}
               value={selectedOptions}
               loading={loading}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   if (customOnChange) {
@@ -464,7 +465,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                   <TextField
                     name={rhfFieldName}
                     inputRef={mergeRefs(rhfRef, ref)}
-                    disabled={paramsDisabled || muiDisabled}
+                    disabled={paramsDisabled}
                     {...otherTextFieldProps}
                     placeholder={
                       selectedOptions.length > 0 ? undefined : placeholder
@@ -499,12 +500,13 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               }}
               renderOption={({ key, ...optionProps }, option, state) => {
                 const optionLabel = displayOptionLabel(option);
+                const isDisabled = muiDisabled || rhfDisabled;
                 if (isSelectAllOption(option)) {
                   return (
                     <Box component="li" key={key} {...optionProps}>
                       <FormControlLabel
                         label={optionLabel}
-                        disabled={muiDisabled}
+                        disabled={isDisabled}
                         control={(
                           <Checkbox
                             {...checkboxProps}
@@ -534,7 +536,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                 }
                 const optionValue = getOptionLabelOrValue(option, valueKey);
                 const isOptionDisabled
-                  = getOptionDisabled?.(option) || muiDisabled;
+                  = getOptionDisabled?.(option) || isDisabled;
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
@@ -552,6 +554,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                           checked={
                             selectionContainsOption(selectedOptions, option)
                           }
+                          disabled={isOptionDisabled}
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}

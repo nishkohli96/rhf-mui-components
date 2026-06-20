@@ -207,7 +207,8 @@ const RHFRadioGroup = <
           name: rhfFieldName,
           value: rhfValue,
           onChange: rhfOnChange,
-          onBlur: rhfOnBlur
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -270,6 +271,7 @@ const RHFRadioGroup = <
                     : helperTextId
                   : undefined
               }
+              aria-disabled={muiDisabled || rhfDisabled}
             >
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -281,13 +283,17 @@ const RHFRadioGroup = <
                   ? String(option[labelKey!])
                   : String(option);
                 const isOptionDisabled
-                  = getOptionDisabled?.(option) || muiDisabled || false;
+                  = getOptionDisabled?.(option) || muiDisabled || rhfDisabled || false;
                 return (
                   <FormControlLabel
                     {...otherFormControlLabelProps}
                     key={opnValue}
                     control={
-                      <Radio id={`${fieldId}-${opnValue}`} {...radioProps} />
+                      <Radio
+                        {...radioProps}
+                        id={`${fieldId}-${opnValue}`}
+                        disabled={isOptionDisabled}
+                      />
                     }
                     value={opnValue}
                     label={renderOptionLabel?.(option) ?? opnLabel}

@@ -311,7 +311,8 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -395,7 +396,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
               freeSolo={freeSolo}
               autoSelect={freeSolo || autoSelect}
               value={selectedOptions}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(
                 event,
                 newValue,
@@ -496,7 +497,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   <TextField
                     name={rhfFieldName}
                     inputRef={mergeRefs(rhfRef, ref)}
-                    disabled={paramsDisabled || muiDisabled}
+                    disabled={paramsDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={

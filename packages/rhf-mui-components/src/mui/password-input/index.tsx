@@ -190,7 +190,8 @@ ref: Ref<HTMLInputElement>) {
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -231,7 +232,7 @@ ref: Ref<HTMLInputElement>) {
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const newValue = changeEvent.target.value;

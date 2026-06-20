@@ -278,7 +278,8 @@ const RHFSelectInner = forwardRef(function RHFSelect<
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -353,7 +354,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               multiple={multiple}
               aria-multiselectable={multiple || undefined}
               displayEmpty={isValueEmpty}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(event, child) => {
                 const selectEvent = event as SelectChangeEvent<
                   SelectValue<OptionValue<Option, ValueKey>, Multiple>

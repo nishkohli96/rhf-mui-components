@@ -231,11 +231,13 @@ const RHFCheckboxGroup = <
         const {
           value,
           onChange: rhfOnChange,
-          onBlur: rhfOnBlur
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
         } = field as {
           value: OptionValue<Option, ValueKey>[];
           onChange: (v: OptionValue<Option, ValueKey>[]) => void;
           onBlur: () => void;
+          disabled: boolean;
         };
         const rhfValue = value ?? [];
         const fieldErrorMessage
@@ -320,7 +322,7 @@ const RHFCheckboxGroup = <
                 : String(option);
               const checked = rhfValue.includes(opnValue);
               const isOptionDisabled
-                = muiDisabled || getOptionDisabled?.(option) || false;
+                = muiDisabled || rhfDisabled || getOptionDisabled?.(option) || false;
               return (
                 <FormControlLabel
                   key={`${opnValue}-${idx}`}
@@ -332,6 +334,7 @@ const RHFCheckboxGroup = <
                       name={fieldName}
                       value={opnValue}
                       checked={checked}
+                      disabled={isOptionDisabled}
                       onChange={e =>
                         handleChange(e, e.target.checked, opnValue)}
                     />

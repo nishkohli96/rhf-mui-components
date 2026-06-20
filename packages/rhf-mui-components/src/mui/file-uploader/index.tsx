@@ -336,7 +336,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -485,7 +486,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             multiple={multiple}
             onChange={handleFileChange}
             onBlur={rhfOnBlur}
-            disabled={muiDisabled}
+            disabled={muiDisabled || rhfDisabled}
             aria-labelledby={isLabelAboveFormField ? labelId : undefined}
             aria-describedby={
               showHelperTextElement
@@ -511,7 +512,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                   : `Upload ${formattedFieldName}`
               }
               fieldName={fieldName}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
             >
               {InputComponent}
             </UploadButton>
@@ -520,7 +521,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
         const resolvedDropZoneProps = typeof dropZoneProps === 'function'
           ? dropZoneProps({
             isDragging,
-            disabled: !!muiDisabled,
+            disabled: !!muiDisabled || !!rhfDisabled,
             error: isError
           })
           : (dropZoneProps ?? {});

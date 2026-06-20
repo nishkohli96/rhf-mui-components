@@ -425,7 +425,8 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
           value: rhfValue = [],
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -460,7 +461,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                 id={`${fieldNameToId(tag)}-${index}`}
                 role="listitem"
                 label={renderTagLabel?.(tag) ?? tag}
-                disabled={muiDisabled}
+                disabled={muiDisabled || rhfDisabled}
                 onDelete={() => {
                   const shouldDelete = onTagDelete?.(tag, rhfValue);
                   if (shouldDelete === false) {
@@ -481,7 +482,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                   getLimitTagsText?.(rhfValue.length - limitTags)
                   ?? `+${rhfValue.length - limitTags} more`
                 }
-                disabled={muiDisabled}
+                disabled={muiDisabled || rhfDisabled}
               />
             )}
           </Box>
@@ -533,7 +534,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                 rhfOnBlur();
                 onBlur?.(e);
               }}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               error={isError}
               sx={{
                 ...muiTextFieldSx,

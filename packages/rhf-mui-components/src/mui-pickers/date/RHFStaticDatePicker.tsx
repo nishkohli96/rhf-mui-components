@@ -147,7 +147,8 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           },
           fieldState: { error: fieldStateError }
         }) => {
@@ -195,7 +196,7 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
                 <MuiStaticDatePicker
                   ref={mergeRefs(rhfRef, ref)}
                   value={rhfValue ?? null}
-                  disabled={muiDisabled}
+                  disabled={muiDisabled || rhfDisabled}
                   onChange={(newValue, context) => {
                     muiOnChange?.(newValue, context);
                     if (customOnChange) {

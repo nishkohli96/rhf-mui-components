@@ -123,6 +123,11 @@ const CompleteForm = () => {
                 label="Disable All Fields"
               />
             </Grid>
+            <Grid size={12}>
+              When the disabled checkbox is clicked, the disabled prop is being passed in useForm,
+              which omits all form fields when clicked om submit button as per the default rhf behaviour.
+              Hence the submit button is disabled in this case.
+            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <RHFTextField
                 fieldName="email"
@@ -607,7 +612,7 @@ const CompleteForm = () => {
               />
             </Grid>
             <Grid size={12}>
-              <SubmitButton />
+              <SubmitButton disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
               <FormState formValues={watch()} errors={errors} />

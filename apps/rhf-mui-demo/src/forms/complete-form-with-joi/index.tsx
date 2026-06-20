@@ -129,6 +129,11 @@ const CompleteFormWithJoi = () => {
                 control={control}
               />
             </Grid>
+            <Grid size={12}>
+              When the disabled checkbox is clicked, the disabled prop is being passed
+              individually for each component, which prevents any input, but still allows
+              the form to be submitted with all the fields.
+            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <RHFTextField
                 fieldName="email"

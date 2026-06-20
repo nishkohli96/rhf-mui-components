@@ -117,7 +117,8 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -137,7 +138,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled}
+                  disabled={muiDisabled || rhfDisabled}
                   onChange={(event, checked) => {
                     if (customOnChange) {
                       customOnChange({ rhfOnChange, newValue: checked, event });

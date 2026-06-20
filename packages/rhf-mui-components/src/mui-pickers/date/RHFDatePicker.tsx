@@ -154,7 +154,8 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           },
           fieldState: { error: fieldStateError }
         }) => {
@@ -184,7 +185,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={muiDisabled}
+                disabled={muiDisabled || rhfDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {

@@ -366,7 +366,8 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -411,7 +412,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   ? ''
                   : rhfValue
               }
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const { value: inputValue, validity } = changeEvent.target;

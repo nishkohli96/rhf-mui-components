@@ -137,6 +137,7 @@ const RHFColorPicker = <T extends FieldValues>({
       render={({
         field: {
           onChange: rhfOnChange,
+          disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
@@ -173,7 +174,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   <Saturation
                     height={height}
                     color={color}
-                    disabled={muiDisabled}
+                    disabled={muiDisabled || rhfDisabled}
                     onChange={color => {
                       if(customOnChange) {
                         customOnChange({ color, setColor: wrappedSetColor });
@@ -187,7 +188,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   />
                   <Hue
                     color={color}
-                    disabled={muiDisabled}
+                    disabled={muiDisabled || rhfDisabled}
                     onChange={setColor}
                   />
                 </Fragment>
@@ -195,7 +196,7 @@ const RHFColorPicker = <T extends FieldValues>({
               : (
                 <ReactColorPicker
                   color={color}
-                  disabled={muiDisabled}
+                  disabled={muiDisabled || rhfDisabled}
                   onChange={color => {
                     if(customOnChange) {
                       customOnChange({ color, setColor: wrappedSetColor });
