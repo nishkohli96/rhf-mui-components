@@ -46,7 +46,6 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 <RHFRichTextEditor
   fieldName='bio'
   control={control}
-  errorMessage={errors?.bio?.message}
 />
 ```
 
@@ -92,7 +91,6 @@ as follows:​
         licenseKey: 'YOUR_LICENSE_KEY',
         ...DefaultEditorConfig,
       }}
-      errorMessage={errors?.bio?.message}
     />
     ```
 
@@ -103,7 +101,7 @@ as follows:​
 
 ## Examples
 - [RHFRichTextEditor](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
-- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
+- [CKEditor5](https://ckeditor.com/docs/ckeditor5/latest/examples/index.html)
 
 ## Alternatives
 I chose CKEditor for its advanced features, customization options and
@@ -119,4 +117,5 @@ If you're looking for a simpler solution, you can consider implementing
 
 <RHFRichTextEditorPropsTable
   muiVersion={7}
+  v4AndAbove
 />

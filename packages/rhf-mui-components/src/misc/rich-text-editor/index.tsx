@@ -45,21 +45,48 @@ type ErrorDetails = {
   willContextRestart?: boolean;
 };
 
+type RHFRichTextEditorOnValueChangeProps = {
+  newValue: string;
+  event: EventInfo;
+  editor: ClassicEditor;
+};
+
+type RHFRichTextEditorCustomOnChangeProps
+  = RHFRichTextEditorOnValueChangeProps & {
+    rhfOnChange: (newValue: string) => void;
+  };
+
 export type RHFRichTextEditorProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
+  /**
+   * HTML id applied to the CKEditor instance.
+   *
+   * Defaults to the generated field id.
+   */
   id?: string;
+  /**
+   * CKEditor configuration passed to `ClassicEditor`.
+   *
+   * Defaults to this package's `DefaultEditorConfig`.
+   */
   editorConfig?: EditorConfig;
+  /**
+   * Fired when the CKEditor instance is ready.
+   */
   onReady?: (editor: ClassicEditor) => void;
+  /**
+   * Fired when the CKEditor instance receives focus.
+   */
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
+  /**
+   * Fired when the CKEditor instance loses focus.
+   *
+   * The wrapper also marks the React Hook Form field as touched.
+   */
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  onValueChange?: (
-    newValue: string,
-    event: EventInfo,
-    editor: ClassicEditor
-  ) => void;
   /**
    * Override the default `onChange` behavior of the rich text editor.
    * Call **rhfOnChange** with the value that should be stored in the form (omit it to keep the
@@ -72,20 +99,38 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    * @param newValue - Current editor value
    * @param event - Change event from the underlying editor
    * @param editor - ClassicEditor instance
+  */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event,
+    editor
+  }: RHFRichTextEditorCustomOnChangeProps) => void;
+  /**
+   * Fired after editor content changes and the new HTML string is stored in the field.
+   *
+   * Not invoked when `customOnChange` is set.
    */
-  customOnChange?: (
-    rhfOnChange: (newValue: string) => void,
-    newValue: string,
-    event: EventInfo,
-    editor: ClassicEditor
-  ) => void;
+  onValueChange?: ({
+    newValue,
+    event,
+    editor
+  }: RHFRichTextEditorOnValueChangeProps) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
+  /**
+   * Fired when CKEditor reports an initialization or runtime error.
+   */
   onError?: (error: Error, details: ErrorDetails) => void;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
@@ -110,8 +155,8 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     helperText,
     onError,
     errorMessage,
@@ -198,7 +243,12 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
                     committedValue = newValue;
                     rhfOnChange(newValue);
                   };
-                  customOnChange(wrappedRhfOnChange, content, event, editor);
+                  customOnChange({
+                    rhfOnChange: wrappedRhfOnChange,
+                    newValue: content,
+                    event,
+                    editor
+                  });
                   const target = rhfChangeCalled
                     ? committedValue
                     : String(rhfValue ?? '');
@@ -209,7 +259,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
                   return;
                 }
                 rhfOnChange(content);
-                onValueChange?.(content, event, editor);
+                onValueChange?.({ newValue: content, event, editor });
               }}
               ref={mergeRefs(rhfRef, ref)}
               onReady={onReady}

@@ -58,8 +58,8 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   label?: ReactNode;
-  hideLabel?: boolean;
   formControlLabelProps?: FormControlLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -81,8 +81,8 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     onValueChange,
     disabled: muiDisabled,
     label,
-    hideLabel,
     formControlLabelProps,
+    hideLabel,
     helperText,
     errorMessage,
     hideErrorMessage,

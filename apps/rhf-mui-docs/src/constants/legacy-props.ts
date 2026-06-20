@@ -211,6 +211,12 @@ const LegacyPropsDescription: Record<
       'Callback function that returns the editor event, updated editor value, and editor instance.',
     type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void'
   },
+  onValueChange_RichTextEditor_v2_v3: {
+    name: 'onValueChange',
+    description:
+      'Callback function returning the editor value, `event` object and editor details.',
+    type: '(newValue: string, event: EventInfo, editor: ClassicEditor) => void'
+  },
   value_ColorPicker_v2_v3: {
     name: 'value',
     description:

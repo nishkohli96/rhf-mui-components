@@ -79,8 +79,8 @@ export type RHFStaticTimePickerProps<T extends FieldValues> = {
   }: PickerOnValueChangeProps<TimeValidationError>) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -108,8 +108,8 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     helperText,
     errorMessage,
     hideErrorMessage,

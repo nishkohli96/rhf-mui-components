@@ -70,9 +70,9 @@ export type RHFRatingProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   label?: ReactNode;
-  hideLabel?: boolean;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -95,8 +95,8 @@ const RHFRatingInner = forwardRef(function RHFRating<T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   helperText,
   errorMessage,
   hideErrorMessage,

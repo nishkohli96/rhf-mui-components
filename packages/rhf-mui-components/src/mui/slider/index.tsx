@@ -76,8 +76,8 @@ export type RHFSliderProps<T extends FieldValues> = {
   }: OnValueChangeProps) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -100,8 +100,8 @@ const RHFSliderInner = forwardRef(function RHFSlider<T extends FieldValues>({
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   helperText,
   errorMessage,
   hideErrorMessage,

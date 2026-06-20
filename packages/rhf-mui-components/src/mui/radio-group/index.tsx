@@ -113,8 +113,8 @@ export type RHFRadioGroupProps<
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   /**
    * Props to pass down to each Radio component. Can be used to set
    * a custom color, size, etc. for all radios in the group.
@@ -156,8 +156,8 @@ const RHFRadioGroup = <
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   radioProps,
   formControlLabelProps,
   required,

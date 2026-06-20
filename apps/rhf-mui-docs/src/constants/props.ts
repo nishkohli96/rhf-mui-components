@@ -277,6 +277,18 @@ const PropsDescription: Record<
     'Custom change handler that overrides the default date and time value update behavior. Receives `rhfOnChange`, the updated value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
     type: '({ rhfOnChange, newValue, context }) => void'
   },
+  customOnChange_ColorPicker: {
+    name: 'customOnChange',
+    description:
+      'An optional callback function to override the default `onChange` behavior of the color picker component. This invalidates the usage of `onValueChange` function. You can get the selected color value and the `setColor` function from the parameters to implement your custom logic and update the form state.',
+    type: '({ color, setColor }) => void'
+  },
+  customOnChange_RichTextEditor: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default editor value update behavior. Receives `rhfOnChange`, the updated HTML string, change event, and CKEditor instance. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, event, editor }) => void'
+  },
   onTagAdd: {
     name: 'onTagAdd',
     description:
@@ -428,17 +440,11 @@ const PropsDescription: Record<
       'Callback function to get the selected color in `hex`, `rgb` or `hsv` format. The color format being set in field value can be configured by the `valueKey` prop.',
     type: '(color: IColor) => void'
   },
-  customOnChange_ColorPicker: {
-    name: 'customOnChange',
-    description:
-      'An optional callback function to override the default `onChange` behavior of the color picker component. This invalidates the usage of `onValueChange` function. You can get the selected color value and the `setColor` function from the parameters to implement your custom logic and update the form state.',
-    type: '({ color, setColor }) => void'
-  },
   onValueChange_RichTextEditor: {
     name: 'onValueChange',
     description:
-      'Callback function returning the editor value, `event` object and editor details.',
-    type: '(newValue: string, event: EventInfo, editor: ClassicEditor) => void'
+    'Optional callback fired after the editor content changes and the updated HTML string is stored in the form field. Receives the latest editor value, change event, and CKEditor instance.',
+    type: '({ newValue, event, editor }) => void'
   },
   onValueChange_PhoneInput: {
     name: 'onValueChange',

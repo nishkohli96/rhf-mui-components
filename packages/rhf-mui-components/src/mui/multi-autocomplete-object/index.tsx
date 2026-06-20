@@ -121,8 +121,8 @@ export type RHFMultiAutocompleteObjectProps<
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   checkboxProps?: CheckboxProps;
   renderOptionLabel?: (
     option: Option,
@@ -173,8 +173,8 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     checkboxProps,
     renderOptionLabel,
     formControlLabelProps,

@@ -133,8 +133,8 @@ export type RHFCheckboxGroupProps<
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   /**
    * Props to pass down to each Checkbox component. Can be used to set
    * a custom color, size, etc. for all checkboxes in the group.
@@ -177,8 +177,8 @@ const RHFCheckboxGroup = <
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
-  hideLabel,
   formLabelProps,
+  hideLabel,
   checkboxProps,
   formControlLabelProps,
   required,

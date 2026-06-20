@@ -77,8 +77,8 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
     context
   }: PickerOnValueChangeProps<TimeValidationError>) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -106,8 +106,8 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     helperText,
     errorMessage,
     hideErrorMessage,

@@ -77,8 +77,8 @@ export type RHFDesktopDateTimePickerProps<T extends FieldValues> = {
     context
   }: PickerOnValueChangeProps<DateTimeValidationError>) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -106,8 +106,8 @@ const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePick
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     helperText,
     errorMessage,
     hideErrorMessage,

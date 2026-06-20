@@ -122,8 +122,8 @@ export type RHFAutocompleteObjectProps<
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   required?: boolean;
   helperText?: ReactNode;
   /**
@@ -168,8 +168,8 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     required,
     helperText,
     errorMessage,

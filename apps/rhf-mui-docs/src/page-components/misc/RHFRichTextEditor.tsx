@@ -6,8 +6,14 @@ import { getPropDetailsByVersion } from '@site/src/utils';
 const RHFRichTextEditorPropsTable = ({
   docsVersion,
   muiVersion,
-  v1
+  v1,
+  v4AndAbove
 }: VersionProps) => {
+  const valueChangeProps = v4AndAbove
+    ? [PropsDescription.customOnChange_RichTextEditor,
+      PropsDescription.onValueChange_RichTextEditor]
+    : [LegacyPropsDescription.onValueChange_RichTextEditor_v2_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     ...(!v1
@@ -21,13 +27,13 @@ const RHFRichTextEditorPropsTable = ({
     PropsDescription.editorConfig,
     PropsDescription.onReady_Rte,
     PropsDescription.onFocus_Rte,
+    PropsDescription.onBlur_Rte,
     ...(!v1
-      ? [PropsDescription.onValueChange_RichTextEditor]
+      ? valueChangeProps
       : [
         LegacyPropsDescription.value_RichTextEditor,
         LegacyPropsDescription.onValueChange_RichTextEditor_v1
       ]),
-    PropsDescription.onBlur_Rte,
     PropsDescription.disabled,
     ...(!v1
       ? [
@@ -36,24 +42,36 @@ const RHFRichTextEditorPropsTable = ({
           muiVersion
         }),
         PropsDescription.showLabelAboveFormField_Default,
-        PropsDescription.hideLabel
       ]
       : [LegacyPropsDescription.label_v1]),
     getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     PropsDescription.onError_Rte,
-    getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion }),
+    ...(v4AndAbove
+      ? []
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
-    })
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFRichTextEditorPropsTable;

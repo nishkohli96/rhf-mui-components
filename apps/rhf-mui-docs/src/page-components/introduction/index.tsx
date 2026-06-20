@@ -30,9 +30,6 @@ const IntroductionPageTable = ({
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),
-    ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-      : []),
     getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
@@ -41,6 +38,9 @@ const IntroductionPageTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     ...(v4AndAbove
       ? []

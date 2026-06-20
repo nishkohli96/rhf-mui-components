@@ -77,8 +77,8 @@ export type RHFMobileDatePickerProps<T extends FieldValues> = {
     context
   }: PickerOnValueChangeProps<DateValidationError>) => void;
   showLabelAboveFormField?: boolean;
-  hideLabel?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -106,8 +106,8 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
-    hideLabel,
     formLabelProps,
+    hideLabel,
     helperText,
     errorMessage,
     hideErrorMessage,

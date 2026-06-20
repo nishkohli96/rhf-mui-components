@@ -28,11 +28,11 @@ const RHFPhoneInputPropsTable = ({
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),
-    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     getPropDetailsByVersion(PropsDescription.formLabelProps, {
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove ? [PropsDescription.hideLabel] : []),
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion }),
     PropsDescription.hideErrorMessage,
