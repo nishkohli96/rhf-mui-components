@@ -1,4 +1,5 @@
 import { type Moment } from 'moment';
+import { RHFPhoneInputValue } from '@nish1896/rhf-mui-components/misc/phone-input';
 import { type Colors, type Gender, type Sports } from './enums';
 
 export type Person = {
@@ -17,7 +18,7 @@ export type Person = {
   gender: Gender | null;
   country: string;
   countryCode?: string;
-  phoneNumber?: string;
+  phoneNumber?: RHFPhoneInputValue;
   darkTheme: boolean;
   age: number;
   weight: number;

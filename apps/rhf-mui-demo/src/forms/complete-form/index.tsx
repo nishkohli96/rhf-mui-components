@@ -50,7 +50,7 @@ import {
 } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
@@ -66,7 +66,6 @@ const CompleteForm = () => {
   const {
     control,
     watch,
-    getValues,
     reset,
     formState: { errors },
     handleSubmit
@@ -584,7 +583,6 @@ const CompleteForm = () => {
                   }
                 }}
                 required
-                errorMessage={errors?.feedback?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -597,18 +595,19 @@ const CompleteForm = () => {
                     message: reqdMessage('phoneNumber')
                   },
                   validate: {
-                    minLength: value =>
-                      (value?.length ?? 0) >= 10 || minLengthMsg(10)
+                                    requiredPhoneNumber: value =>
+                                      !!getPhoneNoValue(value) || reqdMessage('phoneNumber'),
+                                    minLength: value =>
+                                      (getPhoneNoValue(value)?.length ?? 0) >= 6
+                                      || 'Minimum 6 characters required'
                   }
                 }}
-                value={getValues('phoneNumber')}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{
                   defaultCountry: 'in'
                 }}
                 required
-                errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
             <Grid size={12}>

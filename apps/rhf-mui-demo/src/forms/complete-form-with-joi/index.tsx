@@ -58,31 +58,15 @@ const CompleteFormWithJoi = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
 
-  const initialValues: FormSchema = {
+  const initialValues: Partial<FormSchema> = {
     email: 'hello@example.com',
-    password: '',
     favouriteFoods: ['Rajma Rice'],
-    favouriteColor: '',
     sports: [Sports.Badminton],
-    iplTeams: [],
-    favouriteSport: '',
     agreeTnC: true,
-    colors: [],
-    countries: [],
-    hobby: '',
-    groceryList: [],
-    gender: null,
-    country: '',
-    phoneNumber: '+91 9876598765',
     darkTheme: currentTheme === 'dark',
     age: 25,
     weight: 60,
-    rating: null,
-    dob: null,
-    time: null,
-    dateTime: null,
     bgColor: '#007ABA',
-    feedback: '',
     disableAllFields: false
   };
 
@@ -408,14 +392,12 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.feedback?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <RHFPhoneInput
                 fieldName="phoneNumber"
                 control={control}
-                value={getValues('phoneNumber')}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{
@@ -423,7 +405,6 @@ const CompleteFormWithJoi = () => {
                 }}
                 disabled={areAllFieldsDisabled}
                 required
-                errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
             <Grid size={12}>

@@ -12,6 +12,13 @@ const fileSchema = Joi.object({
   lastModified: Joi.number().required()
 });
 
+const phoneInputValueSchema = Joi.object({
+  phone: Joi.string().required().min(2),
+  country: Joi.string().required().length(2),
+  dialCode: Joi.string().required().min(1).max(4),
+  phoneNo: Joi.string().required().min(6)
+}).required();
+
 export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required().min(8),
@@ -93,7 +100,7 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
     }),
   country: Joi.string().required(),
   countryCode: Joi.string().required(),
-  phoneNumber: Joi.string().required().min(8),
+  phoneNumber: phoneInputValueSchema,
   darkTheme: Joi.boolean().required(),
   age: Joi.number().required().positive().min(10),
   weight: Joi.number().required().positive().min(10).max(100),
@@ -104,5 +111,6 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   time: Joi.date().required(),
   dateTime: Joi.date().required(),
   bgColor: Joi.string().required(),
-  feedback: Joi.string().required()
+  feedback: Joi.string().required(),
+  disableAllFields: Joi.boolean().optional()
 });

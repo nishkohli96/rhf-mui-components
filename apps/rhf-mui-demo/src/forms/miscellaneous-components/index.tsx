@@ -23,7 +23,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
 
 type FormSchema = {
   bio: string;
@@ -34,10 +34,6 @@ type FormSchema = {
   thirdFavColor: string;
   countries: string;
 };
-
-function getPhoneNo(value: string | RHFPhoneInputValue | undefined) {
-  return typeof value === 'string' ? value : value?.phoneNo;
-}
 
 const initialValues: Partial<FormSchema> = {
   favouriteColor: 'hsl(201 100% 73% / 1)',
@@ -193,9 +189,9 @@ const MiscellaneousComponentsForm = () => {
                 },
                 validate: {
                   requiredPhoneNumber: value =>
-                    !!getPhoneNo(value) || 'Please enter your phone number',
+                    !!getPhoneNoValue(value) || 'Please enter your phone number',
                   minLength: value =>
-                    (getPhoneNo(value)?.length ?? 0) >= 6
+                    (getPhoneNoValue(value)?.length ?? 0) >= 6
                     || 'Minimum 6 characters required'
                 }
               }}

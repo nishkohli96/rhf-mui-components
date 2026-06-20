@@ -103,6 +103,7 @@ type InputTextFieldProps = Omit<
   | 'inputRef'
   | 'type'
   | 'FormHelperTextProps'
+  | 'ref'
 >;
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
