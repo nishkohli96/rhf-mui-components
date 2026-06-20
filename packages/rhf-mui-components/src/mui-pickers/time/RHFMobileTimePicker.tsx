@@ -114,7 +114,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherMobileTimePickerProps
   }: RHFMobileTimePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -176,6 +176,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                 />
               )}
               <MuiMobileTimePicker
+                {...otherMobileTimePickerProps}
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
@@ -186,11 +187,9 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                     customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
-
                   if (context.validationError !== null) {
                     return;
                   }
-
                   rhfOnChange(newValue);
                   onValueChange?.({ newValue, context });
                 }}
@@ -233,7 +232,6 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                     ...textFieldSlotProps
                   }
                 }}
-                {...rest}
               />
               <FormHelperText
                 error={isError}

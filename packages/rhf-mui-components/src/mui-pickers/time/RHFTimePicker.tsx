@@ -107,7 +107,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
   formHelperTextProps,
   slotProps: muiSlotProps,
   customIds,
-  ...rest
+  ...otherTimePickerProps
 }: RHFTimePickerProps<T>,
 ref: Ref<HTMLInputElement>) {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -172,6 +172,7 @@ ref: Ref<HTMLInputElement>) {
                 />
               )}
               <MuiTimePicker
+                {...otherTimePickerProps}
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
@@ -225,7 +226,6 @@ ref: Ref<HTMLInputElement>) {
                     ...textFieldSlotProps,
                   },
                 }}
-                {...rest}
               />
               <FormHelperText
                 error={isError}

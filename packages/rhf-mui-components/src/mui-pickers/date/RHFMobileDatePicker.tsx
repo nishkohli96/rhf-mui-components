@@ -114,7 +114,7 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherMobileDatePickerProps
   }: RHFMobileDatePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -176,6 +176,7 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
                 />
               )}
               <MuiMobileDatePicker
+                {...otherMobileDatePickerProps}
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
@@ -186,11 +187,9 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
                     customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
-
                   if (context.validationError !== null) {
                     return;
                   }
-
                   rhfOnChange(newValue);
                   onValueChange?.({ newValue, context });
                 }}
@@ -233,7 +232,6 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
                     ...textFieldSlotProps
                   }
                 }}
-                {...rest}
               />
               <FormHelperText
                 error={isError}

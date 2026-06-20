@@ -116,7 +116,7 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherStaticTimePickerProps
   }: RHFStaticTimePickerProps<T>,
   ref: Ref<HTMLDivElement>
 ) {
@@ -194,6 +194,7 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                 }
               >
                 <MuiStaticTimePicker
+                  {...otherStaticTimePickerProps}
                   ref={mergeRefs(rhfRef, ref)}
                   value={rhfValue ?? null}
                   disabled={muiDisabled || rhfDisabled}
@@ -203,11 +204,9 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                       customOnChange({ rhfOnChange, newValue, context });
                       return;
                     }
-
                     if (context.validationError !== null) {
                       return;
                     }
-
                     rhfOnChange(newValue);
                     onValueChange?.({ newValue, context });
                   }}
@@ -216,7 +215,6 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
                     rhfOnBlur();
                   }}
                   slotProps={muiSlotProps}
-                  {...rest}
                 />
               </div>
               <FormHelperText

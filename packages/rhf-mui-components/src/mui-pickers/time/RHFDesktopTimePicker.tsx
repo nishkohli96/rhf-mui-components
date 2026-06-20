@@ -114,7 +114,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherDesktopTimePickerProps
   }: RHFDesktopTimePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -176,6 +176,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                 />
               )}
               <MuiDesktopTimePicker
+                {...otherDesktopTimePickerProps}
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
@@ -186,11 +187,9 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                     customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
-
                   if (context.validationError !== null) {
                     return;
                   }
-
                   rhfOnChange(newValue);
                   onValueChange?.({ newValue, context });
                 }}
@@ -233,7 +232,6 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                     ...textFieldSlotProps
                   }
                 }}
-                {...rest}
               />
               <FormHelperText
                 error={isError}

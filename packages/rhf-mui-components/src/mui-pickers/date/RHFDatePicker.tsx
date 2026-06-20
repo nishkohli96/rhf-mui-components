@@ -120,7 +120,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherDatePickerProps
   }: RHFDatePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -182,6 +182,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 />
               )}
               <MuiDatePicker
+                {...otherDatePickerProps}
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
@@ -192,11 +193,9 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                     customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
-
                   if (context.validationError !== null) {
                     return;
                   }
-
                   rhfOnChange(newValue);
                   onValueChange?.({ newValue, context });
                 }}
@@ -238,7 +237,6 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                     ...textFieldSlotProps
                   }
                 }}
-                {...rest}
               />
               <FormHelperText
                 error={isError}

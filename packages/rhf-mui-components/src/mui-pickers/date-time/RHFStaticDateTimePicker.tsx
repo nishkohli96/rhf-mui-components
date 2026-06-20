@@ -115,7 +115,7 @@ const RHFStaticDateTimePickerInner = forwardRef(
       formHelperTextProps,
       slotProps: muiSlotProps,
       customIds,
-      ...rest
+      ...otherStaticDateTimePickerProps
     }: RHFStaticDateTimePickerProps<T>,
     ref: Ref<HTMLDivElement>
   ) {
@@ -194,6 +194,7 @@ const RHFStaticDateTimePickerInner = forwardRef(
                   }
                 >
                   <MuiStaticDateTimePicker
+                    {...otherStaticDateTimePickerProps}
                     ref={mergeRefs(rhfRef, ref)}
                     value={rhfValue ?? null}
                     disabled={muiDisabled || rhfDisabled}
@@ -203,11 +204,9 @@ const RHFStaticDateTimePickerInner = forwardRef(
                         customOnChange({ rhfOnChange, newValue, context });
                         return;
                       }
-
                       if (context.validationError !== null) {
                         return;
                       }
-
                       rhfOnChange(newValue);
                       onValueChange?.({ newValue, context });
                     }}
@@ -216,7 +215,6 @@ const RHFStaticDateTimePickerInner = forwardRef(
                       rhfOnBlur();
                     }}
                     slotProps={muiSlotProps}
-                    {...rest}
                   />
                 </div>
                 <FormHelperText

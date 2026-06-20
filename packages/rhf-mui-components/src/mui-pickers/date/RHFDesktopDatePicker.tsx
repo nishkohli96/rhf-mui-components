@@ -114,7 +114,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherDesktopDatePickerProps
   }: RHFDesktopDatePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -176,6 +176,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                 />
               )}
               <MuiDesktopDatePicker
+                {...otherDesktopDatePickerProps}
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
@@ -186,11 +187,9 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                     customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
-
                   if (context.validationError !== null) {
                     return;
                   }
-
                   rhfOnChange(newValue);
                   onValueChange?.({ newValue, context });
                 }}
@@ -232,7 +231,6 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                     ...textFieldSlotProps
                   }
                 }}
-                {...rest}
               />
               <FormHelperText
                 error={isError}

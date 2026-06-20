@@ -114,7 +114,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     formHelperTextProps,
     slotProps: muiSlotProps,
     customIds,
-    ...rest
+    ...otherDateTimePickerProps
   }: RHFDateTimePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
@@ -186,11 +186,9 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                     customOnChange({ rhfOnChange, newValue, context });
                     return;
                   }
-
                   if (context.validationError !== null) {
                     return;
                   }
-
                   rhfOnChange(newValue);
                   onValueChange?.({ newValue, context });
                 }}
@@ -233,7 +231,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                     ...textFieldSlotProps
                   }
                 }}
-                {...rest}
+                {...otherDateTimePickerProps}
               />
               <FormHelperText
                 error={isError}
