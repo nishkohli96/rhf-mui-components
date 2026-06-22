@@ -12,7 +12,8 @@ const RHFPhoneInputPropsTable = ({
   const valueChangeProps = v4AndAbove
     ? [
       PropsDescription.customOnChange_PhoneInput,
-      PropsDescription.onValueChange_PhoneInput
+      PropsDescription.onValueChange_PhoneInput,
+      PropsDescription.searchCountryProps
     ]
     : [LegacyPropsDescription.onValueChange_PhoneInput_v2_v3];
 
@@ -55,7 +56,12 @@ const RHFPhoneInputPropsTable = ({
       muiVersion
     }),
     PropsDescription.phoneInputProps,
-    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+    ...(v4AndAbove ?
+      [
+      PropsDescription.disableDropdown,
+      PropsDescription.customIds
+    ] : []
+  )
   ];
 
   return (

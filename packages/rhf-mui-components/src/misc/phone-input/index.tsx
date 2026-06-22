@@ -122,26 +122,19 @@ type SearchCountryProps = {
   /**
    * Props applied to the textfield component to search country.
    */
-  textFieldProps?: Omit<TextFieldProps, 'value'>;
+  textFieldProps?: Omit<TextFieldProps, 'value' | 'label'>;
+  /**
+   * Customize the content of each `MenuItem` in the country search dropdown.
+   */
+  renderCountryMenuItem?: (country: ParsedCountry) => ReactNode;
   /**
    * Text shown when the country search does not match any available country.
    * @default 'No countries found'
    */
   noCountryFoundText?: string;
-  /**
-   * Customize the content of each `MenuItem` in the country search dropdown.
-   */
-  renderCountryMenuItem?: (country: ParsedCountry) => ReactNode;
 };
 
-type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
-  /**
-   * Disables the dropdown to select country.
-   *
-   * When true, the dial code is forced so users cannot remove it from the input.
-   */
-  disableDropdown?: boolean;
-};
+type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
 
 function toStructuredValue(
   phoneData: PhoneInputChangeReturnValue
@@ -206,18 +199,18 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   hideLabel?: boolean;
-  /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   */
-  errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   /**
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
   phoneInputProps?: PhoneInputProps;
+  /**
+   * Disables the dropdown to select country.
+   *
+   * When true, the dial code is forced so users cannot change the country.
+   */
+  disableDropdown?: boolean;
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
@@ -236,7 +229,6 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     hideLabel,
     required,
     helperText,
-    errorMessage,
     hideErrorMessage,
     formHelperTextProps,
     disabled: muiDisabled,
@@ -245,6 +237,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     onBlur,
     autoComplete = defaultAutocompleteValue,
     customIds,
+    disableDropdown,
     searchCountryProps,
     ...otherRHFPhoneInputProps
   }: RHFPhoneInputProps<T>,
@@ -271,25 +264,25 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
 
   const {
     countries,
-    disableDropdown,
     preferredCountries,
     forceDialCode,
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
   const countryOptions = countries ?? defaultCountries;
+  const shouldDisableCountrySelection = disableDropdown || forceDialCode;
 
   const {
     textFieldProps: searchCountryTextFieldProps,
     allowCountrySearch = true,
-    noCountryFoundText = 'No countries found',
     renderCountryMenuItem,
+    noCountryFoundText = 'No countries found'
   } = searchCountryProps ?? {};
 
   const {
     id: searchCountryTextFieldId = `${fieldName}_search-country`,
     fullWidth: searchCountryFullWidth = true,
     size: searchCountrySize = 'small',
-    placeholder: searchCountryPlaceholder = 'Search country',
+    placeholder: searchCountryPlaceholder = 'Search by country or dial code',
     onChange: searchCountryOnChange,
     onClick: searchCountryOnClick,
     onKeyDown: searchCountryOnKeyDown,
@@ -382,7 +375,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
       },
       countries: countryOptions,
       preferredCountries,
-      forceDialCode: disableDropdown ?? forceDialCode
+      forceDialCode: shouldDisableCountrySelection
     });
 
   return (
@@ -401,7 +394,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         fieldState: { error: fieldStateError }
       }) => {
         const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
+          = fieldStateError?.message?.toString();
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText
@@ -467,7 +460,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 }
               }}
               value={country.iso2}
-              disabled={muiDisabled || rhfDisabled || disableDropdown}
+              disabled={muiDisabled || rhfDisabled || shouldDisableCountrySelection}
               onOpen={updateCountryMenuLeft}
               onClose={() => {
                 setCountrySearch('');
@@ -492,6 +485,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 >
                   <MuiTextField
                     {...otherSearchCountryTextFieldProps}
+                    label={null}
                     id={searchCountryTextFieldId}
                     fullWidth={searchCountryFullWidth}
                     placeholder={searchCountryPlaceholder}
@@ -508,6 +502,12 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                     onKeyDown={event => {
                       event.stopPropagation();
                       searchCountryOnKeyDown?.(event);
+                    }}
+                    onPaste={event => {
+                      if(disableDropdown) {
+                        event.preventDefault();
+                        return
+                      }
                     }}
                   />
                 </ListSubheader>

@@ -165,11 +165,23 @@ const MiscellaneousComponentsForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Phone Input" />
+            <FieldVariantInfo title="Phone Input with renderCountryMenuItem" />
             <RHFPhoneInput
               fieldName="contactNumber"
               control={control}
+              disableDropdown
+              // phoneInputProps={{
+              //   forceDialCode: true
+              // }}
               searchCountryProps={{
+                textFieldProps: {
+                  variant: 'filled',
+                  sx: {
+                    '& .MuiInputBase-input': {
+                      color: theme => theme.palette.primary.main
+                    }
+                  }
+                },
                 renderCountryMenuItem: country => (
                   <CountryMenuItem country={country} />
                 )

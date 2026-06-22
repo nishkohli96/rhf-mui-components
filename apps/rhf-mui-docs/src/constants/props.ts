@@ -756,6 +756,16 @@ const PropsDescription: Record<
     name: 'freeSolo',
     description: 'Allows users to enter values that are not present in the autocomplete options. Supported from v4 onwards.',
     type: 'boolean'
+  },
+  searchCountryProps: {
+    name: 'searchCountryProps',
+    description: 'Props to customize the country search field and country menu item rendering',
+    type: `{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText }`,
+  },
+  disableDropdown: {
+    name: 'disableDropdown',
+    description: 'Disables the dropdown to select country. When true, the dial code is forced so users cannot change the country.',
+    type: 'boolean'
   }
 });
 

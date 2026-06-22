@@ -2,7 +2,7 @@
 sidebar_position: 3
 sidebar_label: Phone Input
 title: RHFPhoneInput
-description: Documentation and API for a customizable phone input components with international number support.
+description: Documentation and API for a customizable phone input component with international number support.
 ---
 
 import { RHFPhoneInputPropsTable } from '@site/src/page-components';
@@ -32,7 +32,7 @@ yarn add react-international-phone
 
 :::warning Field value shape changed
 
-From **v4** onwards, `RHFPhoneInput` stores an object in React Hook Form
+From **v4** onward, `RHFPhoneInput` stores an object in React Hook Form
 state instead of a plain phone number string.
 
 If you are upgrading from an earlier version, update your form schemas,
@@ -74,7 +74,7 @@ For validation, consider enforcing the following minimum lengths:
 
 ### Return Value
 
-Starting from **v4**, the field value is represented as an `RHFPhoneInputValue` object:
+Starting in **v4**, the field value is represented as an `RHFPhoneInputValue` object:
 
 ```ts
 type RHFPhoneInputValue = {
@@ -85,7 +85,7 @@ type RHFPhoneInputValue = {
 }
 ```
 
-The returned phone value after input is of the form:
+After input, the returned phone value has the following shape:
 ```js
 {
   phone: "+918885511000"
@@ -127,6 +127,40 @@ Use:
 - `phone` when you need the complete international number.
 - `phoneNo` when you only need the national number.
 - `country` for country-specific logic or validation.
+
+**This is the main reason the field value shape has been changed from a `string` to an `object`
+starting in `v4`.**
+
+### Search Countries
+
+Since the list of countries is quite large, `v4` introduces an inline search field
+that allows users to search for and select their preferred country. The search matches the
+country name, ISO2 country code, and dial code.
+
+The search field is enabled by default and can be customized using `searchCountryProps`, an object
+with the following properties:
+
+- `allowCountrySearch` - Shows or hides the inline search field. Defaults to `true`.
+- `textFieldProps` - [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) for customizing the search text field.
+- `renderCountryMenuItem` - Customizes the content of each `MenuItem` in the country search dropdown.
+- `noCountryFoundText` - Text shown when no countries match the search. Defaults to "**No countries found**".
+
+```jsx
+<RHFPhoneInput
+  fieldName="phoneNumber"
+  control={control}
+  searchCountryProps={{
+    textFieldProps: {
+      variant: 'outlined'
+    }
+    renderCountryMenuItem: country => `${country.dialCode} - ${country.name}`,
+    noCountryFoundText: 'No matching country found'
+  }}
+/>
+```
+
+The search field is rendered inside the country dropdown and remains pinned at the top while the
+country list is scrolled.
 
 ## Examples
 - [RHFPhoneInput](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
