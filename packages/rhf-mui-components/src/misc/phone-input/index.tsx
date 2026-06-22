@@ -205,12 +205,6 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
   phoneInputProps?: PhoneInputProps;
-  /**
-   * Disables the dropdown to select country.
-   *
-   * When true, the dial code is forced so users cannot change the country.
-   */
-  disableDropdown?: boolean;
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
@@ -237,7 +231,6 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     onBlur,
     autoComplete = defaultAutocompleteValue,
     customIds,
-    disableDropdown,
     searchCountryProps,
     ...otherRHFPhoneInputProps
   }: RHFPhoneInputProps<T>,
@@ -269,7 +262,6 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
   const countryOptions = countries ?? defaultCountries;
-  const shouldDisableCountrySelection = disableDropdown || forceDialCode;
 
   const {
     textFieldProps: searchCountryTextFieldProps,
@@ -375,7 +367,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
       },
       countries: countryOptions,
       preferredCountries,
-      forceDialCode: shouldDisableCountrySelection
+      forceDialCode
     });
 
   return (
@@ -460,7 +452,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 }
               }}
               value={country.iso2}
-              disabled={muiDisabled || rhfDisabled || shouldDisableCountrySelection}
+              disabled={muiDisabled || rhfDisabled || forceDialCode}
               onOpen={updateCountryMenuLeft}
               onClose={() => {
                 setCountrySearch('');
@@ -502,12 +494,6 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                     onKeyDown={event => {
                       event.stopPropagation();
                       searchCountryOnKeyDown?.(event);
-                    }}
-                    onPaste={event => {
-                      if(disableDropdown) {
-                        event.preventDefault();
-                        return
-                      }
                     }}
                   />
                 </ListSubheader>

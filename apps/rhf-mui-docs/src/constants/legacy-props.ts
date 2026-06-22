@@ -300,6 +300,12 @@ const LegacyPropsDescription: Record<
     description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
     type: '`name` / `iso` / `iso3`',
   },
+  phoneInputProps_v2_v3: {
+    name: 'phoneInputProps',
+    description: 'Props to pass in the `usePhoneInput` hook for customization.',
+    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean }',
+    hasLinkInType: true
+  },
 });
 
 export default LegacyPropsDescription;

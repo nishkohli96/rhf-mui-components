@@ -29,7 +29,8 @@ import CountryMenuItem from './CountryMenuItem';
 type FormSchema = {
   bio: string;
   contactNumber: RHFPhoneInputValue;
-  contactNumber2: RHFPhoneInputValue;
+  otherContactNumber: RHFPhoneInputValue;
+  officeCell: RHFPhoneInputValue;
   favouriteColor: string;
   secondFavColor: string;
   thirdFavColor: string;
@@ -39,10 +40,10 @@ type FormSchema = {
 const initialValues: Partial<FormSchema> = {
   favouriteColor: 'hsl(201 100% 73% / 1)',
   contactNumber: {
-    phone: '+17652323423',
-    country: 'us',
+    phone: '+14163456234',
+    country: 'ca',
     dialCode: '1',
-    phoneNo: '7652323423'
+    phoneNo: '4163456234'
   },
   countries: 'Angola'
 };
@@ -165,14 +166,10 @@ const MiscellaneousComponentsForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Phone Input with renderCountryMenuItem" />
+            <FieldVariantInfo title="Phone Input with customized country search input & renderCountryMenuItem" />
             <RHFPhoneInput
               fieldName="contactNumber"
               control={control}
-              disableDropdown
-              // phoneInputProps={{
-              //   forceDialCode: true
-              // }}
               searchCountryProps={{
                 textFieldProps: {
                   variant: 'filled',
@@ -191,7 +188,7 @@ const MiscellaneousComponentsForm = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top & hidden search" />
             <RHFPhoneInput
-              fieldName="contactNumber2"
+              fieldName="otherContactNumber"
               control={control}
               showLabelAboveFormField
               variant="standard"
@@ -217,6 +214,27 @@ const MiscellaneousComponentsForm = () => {
                 allowCountrySearch: false
               }}
               required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Phone Input with forced country code" />
+            <RHFPhoneInput
+              fieldName="officeCell"
+              control={control}
+              phoneInputProps={{
+                defaultCountry: 'us',
+                /**
+                 * Disables dropdown to select country. Dial code can't be removed/changed
+                 * by keyboard events, but it can be changed by pasting another country phone value.
+                 */
+                forceDialCode: true,
+                /**
+                 * If true alongside `forceDialCode` prop, even the paste event will not trigger
+                 * change of country, including pasting a Canadian number when pre-selected country
+                 * is "USA".
+                 */
+                disableCountryGuess: true
+              }}
             />
           </Grid>
           <Grid size={12}>

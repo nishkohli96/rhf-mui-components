@@ -55,12 +55,11 @@ const RHFPhoneInputPropsTable = ({
       docsVersion,
       muiVersion
     }),
-    PropsDescription.phoneInputProps,
     ...(v4AndAbove ?
       [
-      PropsDescription.disableDropdown,
+      PropsDescription.phoneInputProps,
       PropsDescription.customIds
-    ] : []
+    ] : [LegacyPropsDescription.phoneInputProps_v2_v3]
   )
   ];
 

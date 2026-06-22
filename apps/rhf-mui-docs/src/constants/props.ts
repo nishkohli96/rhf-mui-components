@@ -630,7 +630,7 @@ const PropsDescription: Record<
   phoneInputProps: {
     name: 'phoneInputProps',
     description: 'Props to pass in the `usePhoneInput` hook for customization.',
-    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean }',
+    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput)',
     hasLinkInType: true
   },
   countries: {
@@ -762,11 +762,6 @@ const PropsDescription: Record<
     description: 'Props to customize the country search field and country menu item rendering',
     type: `{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText }`,
   },
-  disableDropdown: {
-    name: 'disableDropdown',
-    description: 'Disables the dropdown to select country. When true, the dial code is forced so users cannot change the country.',
-    type: 'boolean'
-  }
 });
 
 export default PropsDescription;
