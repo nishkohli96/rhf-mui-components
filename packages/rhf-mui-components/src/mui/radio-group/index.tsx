@@ -36,7 +36,6 @@ type OnValueChangeProps<
 };
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   normalizeSelectValue,
   getOptionValue,
@@ -171,15 +170,8 @@ const RHFRadioGroup = <
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   const {
     defaultFormControlLabelSx,
-    allLabelsAboveFields,
-    skipValidationInEnvs
+    allLabelsAboveFields
   } = useContext(RHFMuiConfigContext);
-  if (
-    options.length
-    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
-  ) {
-    validateArray('RHFRadioGroup', options, labelKey, valueKey);
-  }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

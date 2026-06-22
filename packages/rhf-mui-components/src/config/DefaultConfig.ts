@@ -15,5 +15,4 @@ export const DefaultRHFMuiConfig: RHFMuiConfig = {
     mt: DefaultStyles.margin.top,
     ml: DefaultStyles.margin.left
   },
-  skipValidationInEnvs: ['production']
 };

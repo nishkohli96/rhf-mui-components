@@ -55,7 +55,6 @@ type CheckboxGroupCustomOnChangeProps<
 };
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   coerceValue,
   getOptionValue,
@@ -191,16 +190,8 @@ const RHFCheckboxGroup = <
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
   const {
     defaultFormControlLabelSx,
-    allLabelsAboveFields,
-    skipValidationInEnvs
+    allLabelsAboveFields
   } = useContext(RHFMuiConfigContext);
-
-  if (
-    options.length
-    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
-  ) {
-    validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
-  }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

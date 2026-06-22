@@ -38,7 +38,6 @@ import {
   getOptionValue,
   isKeyValueOption,
   normalizeSelectValue,
-  validateArray,
   useFieldIds,
   generateLargeOptionsErrMsg,
   mergeRefs,
@@ -193,18 +192,9 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
   }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>,
   ref: Ref<HTMLInputElement>
 ) {
-  const {
-    allLabelsAboveFields,
-    skipValidationInEnvs
-  } = useContext(RHFMuiConfigContext);
-  if (
-    options.length
-    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
-  ) {
-    validateArray(componentName, options, labelKey, valueKey);
-    if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
-      console.warn(generateLargeOptionsErrMsg(componentName, options.length));
-    }
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
+    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
   }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(

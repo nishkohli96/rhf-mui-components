@@ -48,7 +48,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
@@ -199,14 +198,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
   const {
     allLabelsAboveFields,
     defaultFormControlLabelSx,
-    skipValidationInEnvs
   } = useContext(RHFMuiConfigContext);
-  if (
-    options.length
-    && !skipValidationInEnvs.includes(process?.env?.NODE_ENV ?? 'production')
-  ) {
-    validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
-  }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
