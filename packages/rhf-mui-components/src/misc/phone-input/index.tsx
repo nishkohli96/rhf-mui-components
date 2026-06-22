@@ -7,6 +7,7 @@
 
 import {
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -29,7 +30,6 @@ import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
 import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
 import {
   defaultCountries,
   FlagImage,
@@ -59,6 +59,7 @@ import {
   mergeRefs,
   useFieldIds
 } from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
 import 'react-international-phone/style.css';
 
 type PhoneInputChangeReturnValue = {
@@ -66,6 +67,10 @@ type PhoneInputChangeReturnValue = {
   inputValue: string;
   country: ParsedCountry;
 };
+
+const countryMenuWidth = 350;
+const countryMenuLeftOffset = -34;
+const countryMenuViewportGutter = 32;
 
 /**
  * Structured phone value stored in RHF state.
@@ -253,6 +258,8 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
   const watchedValue = useWatch({ control, name: fieldName });
   const currentPhoneValue = getPhoneValue(watchedValue);
   const [countrySearch, setCountrySearch] = useState('');
+  const [countryMenuLeft, setCountryMenuLeft] = useState(0);
+  const phoneInputRootRef = useRef<HTMLDivElement | null>(null);
   const phoneChangeHandlerRef = useRef<
     ((phoneData: PhoneInputChangeReturnValue) => void) | null
   >(null);
@@ -277,6 +284,34 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     noCountryFoundText = 'No countries found',
     ...otherSearchCountryProps
   } = searchCountryProps ?? {};
+
+  /**
+   * For smaller viewports, when width of input field is less than menu width,
+   * prefer center aligning the country-select menu wrt the phone input field,
+   * else align it so that both their left borders are in a straight line.
+   */
+  const updateCountryMenuLeft = () => {
+    const inputWidth = phoneInputRootRef.current?.offsetWidth ?? 0;
+    const hasViewportRoom
+      = window.innerWidth
+        > countryMenuWidth
+        + Math.abs(countryMenuLeftOffset)
+        + countryMenuViewportGutter;
+
+    setCountryMenuLeft(
+      inputWidth > countryMenuWidth && hasViewportRoom
+        ? countryMenuLeftOffset
+        : 0
+    );
+  };
+
+  useEffect(() => {
+    updateCountryMenuLeft();
+    window.addEventListener('resize', updateCountryMenuLeft);
+    return () => {
+      window.removeEventListener('resize', updateCountryMenuLeft);
+    };
+  }, []);
 
   /**
    * Render preferred countries at the top of the list.
@@ -384,8 +419,8 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 autoFocus: false,
                 PaperProps: {
                   sx: {
-                    width: 350,
-                    maxWidth: 350,
+                    width: `min(${countryMenuWidth}px, calc(100vw - 32px))`,
+                    maxWidth: 'calc(100vw - 32px)',
                     maxHeight: 300
                   }
                 },
@@ -396,7 +431,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 },
                 style: {
                   top: '10px',
-                  left: '-34px'
+                  left: countryMenuLeft
                 },
                 transformOrigin: {
                   vertical: 'top',
@@ -423,6 +458,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               }}
               value={country.iso2}
               disabled={muiDisabled || rhfDisabled || hideDropdown}
+              onOpen={updateCountryMenuLeft}
               onClose={() => {
                 setCountrySearch('');
               }}
@@ -470,17 +506,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 const countryInfo = parseCountry(c);
                 return (
                   <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                    <FlagImage
-                      iso2={countryInfo.iso2}
-                      style={{ marginRight: '8px' }}
-                    />
-                    <Typography marginRight="8px">
-                      {countryInfo.name}
-                    </Typography>
-                    <Typography color="gray">
-                      +
-                      {countryInfo.dialCode}
-                    </Typography>
+                    <CountryMenuItem country={countryInfo} />
                   </MenuItem>
                 );
               })}
@@ -491,17 +517,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 const countryInfo = parseCountry(c);
                 return (
                   <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                    <FlagImage
-                      iso2={countryInfo.iso2}
-                      style={{ marginRight: '8px' }}
-                    />
-                    <Typography marginRight="8px">
-                      {countryInfo.name}
-                    </Typography>
-                    <Typography color="gray">
-                      +
-                      {countryInfo.dialCode}
-                    </Typography>
+                    <CountryMenuItem country={countryInfo} />
                   </MenuItem>
                 );
               })}
@@ -532,6 +548,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
             )}
             <MuiTextField
               {...otherRHFPhoneInputProps}
+              ref={phoneInputRootRef}
               id={fieldId}
               name={rhfFieldName}
               inputRef={mergeRefs(rhfRef, inputRef, ref)}
