@@ -95,7 +95,6 @@ type AutoCompleteProps<
   | 'value'
   | 'defaultValue'
   | 'onChange'
-  | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
   | 'blurOnSelect'
@@ -222,6 +221,7 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<
   customIds,
   limitTags = 2,
   getLimitTagsText,
+  getOptionKey,
   ...otherCountrySelectProps
 }: RHFCountrySelectProps<T, Multiple, DisableClearable>,
 ref: Ref<HTMLInputElement>) {
@@ -384,9 +384,9 @@ ref: Ref<HTMLInputElement>) {
               fullWidth
               limitTags={limitTags}
               getLimitTagsText={more => getLimitTagsText?.(more) ?? ( more === 1 ? '+1 Country' : `+${more} Countries`)}
-              getOptionKey={option => String(
+              getOptionKey={getOptionKey ?? (option => String(
                 valueKey ? option[valueKey] : option.iso
-              )}
+              ))}
               getOptionLabel={option => option.name}
               isOptionEqualToValue={(option, value) =>
                 valueKey

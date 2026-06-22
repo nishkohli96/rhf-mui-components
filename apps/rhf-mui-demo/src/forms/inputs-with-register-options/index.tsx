@@ -15,9 +15,7 @@ import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
-import RHFFileUploader, {
-  type FileUploadErrorDetails
-} from '@nish1896/rhf-mui-components/mui/file-uploader';
+import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -364,6 +362,9 @@ const InputsWithRegisterForm = () => {
               renderFileItem={({ file, removeFile }) => (
                 <UploadedFile file={file} onRemove={removeFile} />
               )}
+              onUploadError={errors => {
+                toast.error(`${errors.length} file(s) were rejected`);
+              }}
               fullWidth
               disableDragAndDrop
               maxFiles={3}
@@ -389,7 +390,7 @@ const InputsWithRegisterForm = () => {
               renderFileItem={({ file, removeFile }) => (
                 <UploadedImage file={file} onRemove={removeFile} />
               )}
-              onUploadError={(errors: FileUploadErrorDetails[]) => {
+              onUploadError={errors => {
                 toast.error(
                   `${
                     new Set(errors.map(({ file }) => file)).size
