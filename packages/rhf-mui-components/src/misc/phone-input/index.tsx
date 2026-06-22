@@ -9,6 +9,7 @@ import {
   useContext,
   useMemo,
   useRef,
+  useState,
   forwardRef,
   type JSX,
   type ReactNode,
@@ -26,6 +27,7 @@ import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
+import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import {
@@ -106,6 +108,14 @@ type InputTextFieldProps = Omit<
   | 'ref'
 >;
 
+type SearchCountryProps = Omit<
+  TextFieldProps,
+  | 'value'
+> & {
+  allowCountrySearch?: boolean;
+  noCountryFoundText?: string;
+};
+
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
   /**
    * Hides and disables the country dropdown.
@@ -168,6 +178,7 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     newValue,
     phoneData
   }: RHFPhoneInputOnValueChangeProps) => void;
+  searchCountryProps?: SearchCountryProps;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
   hideLabel?: boolean;
@@ -210,6 +221,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     onBlur,
     autoComplete = defaultAutocompleteValue,
     customIds,
+    searchCountryProps,
     ...otherRHFPhoneInputProps
   }: RHFPhoneInputProps<T>,
   ref: Ref<HTMLInputElement>
@@ -226,6 +238,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const watchedValue = useWatch({ control, name: fieldName });
   const currentPhoneValue = getPhoneValue(watchedValue);
+  const [countrySearch, setCountrySearch] = useState('');
   const phoneChangeHandlerRef = useRef<
     ((phoneData: PhoneInputChangeReturnValue) => void) | null
   >(null);
@@ -238,6 +251,18 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
   const countryOptions = countries ?? defaultCountries;
+
+  const {
+    fullWidth: searchCountryFullWidth = true,
+    size: searchCountrySize = 'small',
+    placeholder: searchCountryPlaceholder = 'Search country',
+    onChange: searchCountryOnChange,
+    onClick: searchCountryOnClick,
+    onKeyDown: searchCountryOnKeyDown,
+    allowCountrySearch = true,
+    noCountryFoundText = 'No countries found',
+    ...otherSearchCountryProps
+  } = searchCountryProps ?? {};
 
   /**
    * Render preferred countries at the top of the list.
@@ -268,6 +293,26 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
 
     return { countriesToList, countriesToListAtTop };
   }, [countryOptions, preferredCountries]);
+
+  const filterCountry = (countryData: CountryData) => {
+    const search = countrySearch.trim().toLowerCase();
+    if (!search) {
+      return true;
+    }
+
+    const countryInfo = parseCountry(countryData);
+    const dialCodeSearch = search.replace('+', '');
+
+    return (
+      countryInfo.name.toLowerCase().includes(search)
+      || countryInfo.iso2.toLowerCase().includes(search)
+      || countryInfo.dialCode.includes(dialCodeSearch)
+    );
+  };
+
+  const filteredCountriesToListAtTop
+    = countriesToListAtTop.filter(filterCountry);
+  const filteredCountriesToList = countriesToList.filter(filterCountry);
 
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
@@ -322,9 +367,15 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
           >
             <Select
               MenuProps={{
+                autoFocus: false,
+                PaperProps: {
+                  sx: {
+                    width: 350,
+                    maxWidth: 350
+                  }
+                },
                 style: {
                   height: '300px',
-                  width: '360px',
                   top: '10px',
                   left: '-34px'
                 },
@@ -353,6 +404,9 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               }}
               value={country.iso2}
               disabled={muiDisabled || rhfDisabled || hideDropdown}
+              onClose={() => {
+                setCountrySearch('');
+              }}
               onChange={e => {
                 setCountry(e.target.value);
               }}
@@ -360,7 +414,29 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 <FlagImage iso2={value} style={{ display: 'flex' }} />
               )}
             >
-              {countriesToListAtTop.map(c => {
+              {allowCountrySearch && (
+                <ListSubheader>
+                  <MuiTextField
+                    {...otherSearchCountryProps}
+                    fullWidth={searchCountryFullWidth}
+                    placeholder={searchCountryPlaceholder}
+                    size={searchCountrySize}
+                    value={countrySearch}
+                    onChange={event => {
+                      setCountrySearch(event.target.value);
+                    }}
+                    onClick={event => {
+                      event.stopPropagation();
+                      searchCountryOnClick?.(event);
+                    }}
+                    onKeyDown={event => {
+                      event.stopPropagation();
+                      searchCountryOnKeyDown?.(event);
+                    }}
+                  />
+                </ListSubheader>
+              )}
+              {filteredCountriesToListAtTop.map(c => {
                 const countryInfo = parseCountry(c);
                 return (
                   <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
@@ -378,8 +454,10 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                   </MenuItem>
                 );
               })}
-              {countriesToListAtTop.length > 0 && <Divider />}
-              {countriesToList.map(c => {
+              {filteredCountriesToListAtTop.length > 0
+                && filteredCountriesToList.length > 0
+                && <Divider />}
+              {filteredCountriesToList.map(c => {
                 const countryInfo = parseCountry(c);
                 return (
                   <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
@@ -397,6 +475,12 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                   </MenuItem>
                 );
               })}
+              {filteredCountriesToListAtTop.length === 0
+                && filteredCountriesToList.length === 0 && (
+                <MenuItem disabled>
+                  {noCountryFoundText}
+                </MenuItem>
+              )}
             </Select>
           </InputAdornment>
         );
