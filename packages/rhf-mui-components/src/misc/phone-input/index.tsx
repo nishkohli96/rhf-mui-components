@@ -112,7 +112,15 @@ type SearchCountryProps = Omit<
   TextFieldProps,
   | 'value'
 > & {
+  /**
+   * Whether to show the inline country search field inside the country dropdown.
+   * @default true
+   */
   allowCountrySearch?: boolean;
+  /**
+   * Text shown when the country search does not match any available country.
+   * @default 'No countries found'
+   */
   noCountryFoundText?: string;
 };
 
@@ -178,6 +186,12 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     newValue,
     phoneData
   }: RHFPhoneInputOnValueChangeProps) => void;
+  /**
+   * Props for the inline country search field rendered at the top of the country dropdown.
+   *
+   * The search matches country name, ISO2 code, and dial code. Use
+   * `allowCountrySearch: false` to hide the search field.
+   */
   searchCountryProps?: SearchCountryProps;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
@@ -371,11 +385,16 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 PaperProps: {
                   sx: {
                     width: 350,
-                    maxWidth: 350
+                    maxWidth: 350,
+                    maxHeight: 300
+                  }
+                },
+                MenuListProps: {
+                  sx: {
+                    pt: 0
                   }
                 },
                 style: {
-                  height: '300px',
                   top: '10px',
                   left: '-34px'
                 },
@@ -408,14 +427,24 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 setCountrySearch('');
               }}
               onChange={e => {
-                setCountry(e.target.value);
+                setCountry(e.target.value, { focusOnInput: true });
               }}
               renderValue={value => (
                 <FlagImage iso2={value} style={{ display: 'flex' }} />
               )}
             >
               {allowCountrySearch && (
-                <ListSubheader>
+                <ListSubheader
+                  sx={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
+                    bgcolor: 'background.paper',
+                    lineHeight: 'normal',
+                    px: 1,
+                    py: 1
+                  }}
+                >
                   <MuiTextField
                     {...otherSearchCountryProps}
                     fullWidth={searchCountryFullWidth}
@@ -424,6 +453,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                     value={countrySearch}
                     onChange={event => {
                       setCountrySearch(event.target.value);
+                      searchCountryOnChange?.(event);
                     }}
                     onClick={event => {
                       event.stopPropagation();
