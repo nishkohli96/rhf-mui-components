@@ -24,6 +24,7 @@ import {
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
 
 type FormSchema = {
   bio: string;
@@ -168,10 +169,15 @@ const MiscellaneousComponentsForm = () => {
             <RHFPhoneInput
               fieldName="contactNumber"
               control={control}
+              searchCountryProps={{
+                renderCountryMenuItem: country => (
+                  <CountryMenuItem country={country} />
+                )
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top" />
+            <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top & hidden search" />
             <RHFPhoneInput
               fieldName="contactNumber2"
               control={control}
@@ -194,6 +200,9 @@ const MiscellaneousComponentsForm = () => {
                     (getPhoneNoValue(value)?.length ?? 0) >= 6
                     || 'Minimum 6 characters required'
                 }
+              }}
+              searchCountryProps={{
+                allowCountrySearch: false
               }}
               required
             />

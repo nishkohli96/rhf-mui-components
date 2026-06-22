@@ -113,29 +113,34 @@ type InputTextFieldProps = Omit<
   | 'ref'
 >;
 
-type SearchCountryProps = Omit<
-  TextFieldProps,
-  | 'value'
-> & {
+type SearchCountryProps = {
   /**
    * Whether to show the inline country search field inside the country dropdown.
    * @default true
    */
   allowCountrySearch?: boolean;
   /**
+   * Props applied to the textfield component to search country.
+   */
+  textFieldProps?: Omit<TextFieldProps, 'value'>;
+  /**
    * Text shown when the country search does not match any available country.
    * @default 'No countries found'
    */
   noCountryFoundText?: string;
+  /**
+   * Customize the content of each `MenuItem` in the country search dropdown.
+   */
+  renderCountryMenuItem?: (country: ParsedCountry) => ReactNode;
 };
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
   /**
-   * Hides and disables the country dropdown.
+   * Disables the dropdown to select country.
    *
    * When true, the dial code is forced so users cannot remove it from the input.
    */
-  hideDropdown?: boolean;
+  disableDropdown?: boolean;
 };
 
 function toStructuredValue(
@@ -266,7 +271,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
 
   const {
     countries,
-    hideDropdown,
+    disableDropdown,
     preferredCountries,
     forceDialCode,
     ...otherPhoneInputProps
@@ -274,21 +279,26 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
   const countryOptions = countries ?? defaultCountries;
 
   const {
+    textFieldProps: searchCountryTextFieldProps,
+    allowCountrySearch = true,
+    noCountryFoundText = 'No countries found',
+    renderCountryMenuItem,
+  } = searchCountryProps ?? {};
+
+  const {
+    id: searchCountryTextFieldId = `${fieldName}_search-country`,
     fullWidth: searchCountryFullWidth = true,
     size: searchCountrySize = 'small',
     placeholder: searchCountryPlaceholder = 'Search country',
     onChange: searchCountryOnChange,
     onClick: searchCountryOnClick,
     onKeyDown: searchCountryOnKeyDown,
-    allowCountrySearch = true,
-    noCountryFoundText = 'No countries found',
-    ...otherSearchCountryProps
-  } = searchCountryProps ?? {};
+    ...otherSearchCountryTextFieldProps
+  } = searchCountryTextFieldProps ?? {};
 
-  /**
-   * For smaller viewports, when width of input field is less than menu width,
-   * prefer center aligning the country-select menu wrt the phone input field,
-   * else align it so that both their left borders are in a straight line.
+  /*
+   * Keep the country menu tucked under the flag selector on wide inputs, but
+   * avoid that left shift when the viewport is too narrow to contain it.
    */
   const updateCountryMenuLeft = () => {
     const inputWidth = phoneInputRootRef.current?.offsetWidth ?? 0;
@@ -372,7 +382,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
       },
       countries: countryOptions,
       preferredCountries,
-      forceDialCode: hideDropdown ?? forceDialCode
+      forceDialCode: disableDropdown ?? forceDialCode
     });
 
   return (
@@ -426,7 +436,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 },
                 MenuListProps: {
                   sx: {
-                    pt: 0
+                    pt: allowCountrySearch ? 0 : '8px'
                   }
                 },
                 style: {
@@ -457,7 +467,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 }
               }}
               value={country.iso2}
-              disabled={muiDisabled || rhfDisabled || hideDropdown}
+              disabled={muiDisabled || rhfDisabled || disableDropdown}
               onOpen={updateCountryMenuLeft}
               onClose={() => {
                 setCountrySearch('');
@@ -477,12 +487,12 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                     zIndex: 1,
                     bgcolor: 'background.paper',
                     lineHeight: 'normal',
-                    px: 1,
-                    py: 1
+                    padding: '8px',
                   }}
                 >
                   <MuiTextField
-                    {...otherSearchCountryProps}
+                    {...otherSearchCountryTextFieldProps}
+                    id={searchCountryTextFieldId}
                     fullWidth={searchCountryFullWidth}
                     placeholder={searchCountryPlaceholder}
                     size={searchCountrySize}
@@ -506,7 +516,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 const countryInfo = parseCountry(c);
                 return (
                   <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                    <CountryMenuItem country={countryInfo} />
+                    {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
                   </MenuItem>
                 );
               })}
@@ -517,7 +527,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 const countryInfo = parseCountry(c);
                 return (
                   <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                    <CountryMenuItem country={countryInfo} />
+                    {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
                   </MenuItem>
                 );
               })}
