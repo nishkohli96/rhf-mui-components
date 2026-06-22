@@ -1,5 +1,7 @@
 packages:
   - packages/*
   - apps/*
+minimumReleaseAgeExclude:
+  - axios@1.18.1
 overrides:
   rhf-mui-components: link:../../Library/pnpm/global/5/node_modules/@nish1896/rhf-mui-components
