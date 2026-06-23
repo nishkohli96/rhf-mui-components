@@ -13,8 +13,8 @@ import NewImg from '@site/static/img/new.png';
 
 <AvailabilityBanner componentName="RHFAutocompleteObject" version="3.3" />
 
-**RHFAutocompleteObject** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/),
-designed for use cases where you need to work with the **entire selected option object**
+**RHFAutocompleteObject** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+and is designed for cases where you need to work with the **entire selected option object**
 instead of just a primitive value.
 
 Unlike **RHFAutocomplete**, which stores only the value derived from `valueKey`, this
@@ -53,7 +53,7 @@ exclusively with object-based options, omitting either will result in an error.
 :::
 
 :::note
-`freeSolo` is **NOT SUPPORTED** in `RHFAutocompleteObject`.
+`freeSolo` is **not supported** in `RHFAutocompleteObject`.
 
 This component stores complete option objects in form state, whereas enabling
 `freeSolo` would introduce string values alongside option objects, resulting in

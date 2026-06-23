@@ -32,14 +32,14 @@ yarn add react-international-phone
 
 :::warning Field value shape changed
 
-From **v4** onward, `RHFPhoneInput` stores an object in React Hook Form
-state instead of a plain phone number string.
+From **v4** onward, `RHFPhoneInput` stores an object in React Hook Form state
+instead of a plain phone number string.
 
 If you are upgrading from an earlier version, update your form schemas,
 default values, validation logic, and submission handlers to work with
 the new `RHFPhoneInputValue` type.
 
-For backward compatibility, initial/default values may still be provided as strings,
+For backward compatibility, initial and default values may still be provided as strings,
 but any value produced after user interaction will be returned as an `RHFPhoneInputValue` object.
 :::
 
@@ -85,7 +85,7 @@ type RHFPhoneInputValue = {
 }
 ```
 
-After input, the returned phone value has the following shape:
+After input, the returned phone value has this shape:
 ```js
 {
   phone: "+918885511000"
@@ -113,7 +113,7 @@ Some countries and territories share the same dialing code. For example:
 - 🇵🇷 Puerto Rico: `+1 (787) 234-4442`
 
 Although all three numbers begin with `+1`, they belong to different countries
-or territories. Storing the selected country separately removes this ambiguity
+or territories. Storing the selected country separately removes that ambiguity
 and makes it easier to perform country-specific validation and processing.
 
 For example:
@@ -128,12 +128,12 @@ Use:
 - `phoneNo` when you only need the national number.
 - `country` for country-specific logic or validation.
 
-**This is the main reason the field value shape has been changed from a `string` to an `object`
-starting in `v4`.**
+**This is the main reason the field value shape changed from a `string` to an `object`
+in `v4`.**
 
 ### Search Countries
 
-Since the list of countries is quite large, `v4` introduces an inline search field
+Because the country list is large, `v4` introduces an inline search field
 that allows users to search for and select their preferred country. The search matches the
 country name, ISO2 country code, and dial code.
 
@@ -159,7 +159,7 @@ with the following properties:
 />
 ```
 
-The search field is rendered inside the country dropdown and remains pinned at the top while the
+The search field is rendered inside the country dropdown and remains pinned to the top while the
 country list is scrolled.
 
 ## Examples

@@ -2,7 +2,7 @@
 sidebar_position: 5
 sidebar_label: File Uploader
 title: RHFFileUploader
-description: RHFFileUploader is a customizable drag-and-drop file upload component for React Hook Form, supporting single and multi-file uploads with file count and size validation, and customizable upload area.
+description: RHFFileUploader is a customizable drag-and-drop file upload component for React Hook Form, supporting single and multiple file uploads, file count and size validation, and customizable upload areas.
 ---
 
 import { RHFFileUploaderPropsTable } from '@site/src/page-components';
@@ -13,7 +13,7 @@ import { ExternalLinks } from '@site/src/constants';
 
 <AvailabilityBanner componentName="RHFFileUploader" version="2.1" />
 
-**RHFFileUploader** is a flexible file upload component for React Hook Form supporting:
+**RHFFileUploader** is a flexible file upload component for React Hook Form. It supports:
 - Single and multiple file uploads
 - Drag-and-drop uploads
 - Existing server-side files
@@ -39,7 +39,7 @@ for breaking changes and migration steps.
 import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from '@nish1896/rhf-mui-components/mui/file-uploader';
 ```
 
-Here’s a basic example of the component configured to accept a single file:
+Here is a basic example of the component configured to accept a single file:
 
 ```jsx
 <RHFFileUploader
@@ -60,14 +60,14 @@ A file object has the following properties:
   webkitRelativePath: ""
 }
 ```
-When uploading files via an API, the files are sent within a **FormData** object.
+When uploading files through an API, send them in a **FormData** object.
 
 ```ts
 async function onFormSubmit(formValues: FormSchema) {
   const formData = new FormData();
   const { resume, pictures } = formValues;
 
-  /* resume can be null, hence handle the null check */
+  /* resume can be null, so handle the null check */
   resume && formData.append('resume', resume);
 
   Array.isArray(pictures) && pictures.forEach(file => {
@@ -77,7 +77,7 @@ async function onFormSubmit(formValues: FormSchema) {
 }
 ```
 
-On a Node.js Express server, you can handle this incoming data using the [Multer](https://www.npmjs.com/package/multer) middleware.
+On a Node.js Express server, you can handle this incoming data with the [Multer](https://www.npmjs.com/package/multer) middleware.
 See:
 - <a href={ExternalLinks.githubExamples.multerFileUpload} target="_blank" rel="noopener noreferrer">Multer File Upload Example</a>
 - <a href={ExternalLinks.githubExamples.fileUploadMiddleware} target="_blank" rel="noopener noreferrer">File Upload Middleware Examples</a>
@@ -149,7 +149,7 @@ Customize the drop zone appearance and behavior using `dropZoneProps`.
 />
 ```
 
-where
+Where:
 ```ts
 type RHFFileUploaderDropZoneState = {
   /** Whether a file is currently being dragged over the drop zone. */
@@ -183,12 +183,12 @@ Use `existingFiles` to display files that have already been uploaded and stored 
 />
 ```
 
-Existing files are rendered separately from newly uploaded files and count toward the `maxFiles` limit.
+Existing files are rendered separately from newly uploaded files and are counted toward the `maxFiles` limit.
 
 
 ### Custom Upload Button
 
-Use `renderUploadButton` to provide a fully custom upload UI.
+Use `renderUploadButton` to provide a fully custom upload control.
 
 ```jsx
 <RHFFileUploader
@@ -286,8 +286,8 @@ The renderer receives:
 
 ### Value Change Events
 
-Depending on your use case, you can either use `customOnChange` to gain complete control over file
-validation and form state updates, or use `onValueChange` to react to file uploads, removals, and
+Depending on your use case, you can use `customOnChange` to gain complete control over file
+validation and form state updates, or use `onValueChange` to respond to file uploads, removals, and
 clear actions after the field value has changed.
 
 #### customOnChange

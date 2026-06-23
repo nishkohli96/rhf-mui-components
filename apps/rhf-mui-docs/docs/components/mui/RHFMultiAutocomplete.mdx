@@ -13,12 +13,12 @@ import { AvailabilityBanner } from '@site/src/components';
 <AvailabilityBanner componentName="RHFMultiAutocomplete" version="2.0" />
 
 **RHFMultiAutocomplete** is an enhanced version of [RHFAutocomplete](./RHFAutocomplete.mdx)
-that supports selecting multiple options from the dataset. This component also includes
+that supports selecting multiple options from a dataset. It also includes
 a **"Select All"** feature, allowing users to quickly select all available options with a single click.
 
 This feature is particularly useful for scenarios where users need to handle bulk selections,
 such as assigning multiple tags, selecting categories, or choosing items in batch operations.
-The implementation ensures flexibility while maintaining a seamless user experience, with the
+The implementation stays flexible while preserving the
 same validation, customization, and styling options as `RHFAutocomplete`.
 
 :::note
@@ -26,7 +26,7 @@ Starting with **v4**, the `freeSolo` prop is supported in **RHFMultiAutocomplete
 enter values that are not present in the provided options.
 
 When `freeSolo` is enabled, the **Select All** option is automatically hidden. This is intentional
-because the field can contain both predefined option values and custom user-entered values, so
+because the field can contain both predefined values and custom user-entered values, so
 selecting "all" only from the predefined options can create confusing behavior.
 
 When using `freeSolo` with object-based options, custom renderers such as `renderValue`, `renderTags`,
