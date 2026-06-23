@@ -10,8 +10,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "lib:build": "tsdown && cp package.json dist/ && cp README.md dist/ && cp .npmignore dist/",
-    "lint": "eslint --fix ."
+    "lib:build": "tsdown && node scripts/prepare-package-json.mjs && cp README.md dist/ && cp .npmignore dist/"
   },
   "type": "module",
   "sideEffects": false,
@@ -48,16 +47,16 @@
     "react-hook-form": "^7.0.0"
   },
   "exports": {
-    "./package.json": "./package.json",
-    ".": "./index.js",
-    "./config": "./config/index.js",
-    "./form-helpers": "./form-helpers/index.js",
-    "./mui": "./mui/index.js",
-    "./mui/*": "./mui/*/index.js",
-    "./mui-pickers": "./mui-pickers/index.js",
-    "./mui-pickers/*": "./mui-pickers/*/index.js",
-    "./misc": "./misc/index.js",
-    "./misc/*": "./misc/*/index.js"
+    "./package.json": "./dist/package.json",
+    ".": "./dist/index.js",
+    "./config": "./dist/config/index.js",
+    "./form-helpers": "./dist/form-helpers/index.js",
+    "./mui": "./dist/mui/index.js",
+    "./mui/*": "./dist/mui/*/index.js",
+    "./mui-pickers": "./dist/mui-pickers/index.js",
+    "./mui-pickers/*": "./dist/mui-pickers/*/index.js",
+    "./misc": "./dist/misc/index.js",
+    "./misc/*": "./dist/misc/*/index.js"
   },
   "types": "./index.d.ts",
   "keywords": [

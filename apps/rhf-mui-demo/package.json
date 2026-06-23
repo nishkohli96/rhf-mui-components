@@ -20,7 +20,7 @@
     "@mui/material": "^7.3.9",
     "@mui/material-nextjs": "^7.3.9",
     "@mui/x-date-pickers": "^8.27.2",
-    "@nish1896/rhf-mui-components": "link:../../packages/rhf-mui-components/dist",
+    "@nish1896/rhf-mui-components": "workspace:*",
     "axios": "^1.18.1",
     "ckeditor5": "^43.0.0",
     "class-transformer": "^0.5.1",
