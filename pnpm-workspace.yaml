@@ -1,7 +1,27 @@
 packages:
   - packages/*
   - apps/*
+# Explicitly allows or blocks install/postinstall scripts.
+#
+# Equivalent to approving packages through:
+# pnpm approve-builds
+allowBuilds:
+  '@firebase/util': true
+  core-js: true
+  protobufjs: true
+  sharp: true
+  unrs-resolver: false
+# Suppresses warnings for blocked build scripts.
+ignoredBuiltDependencies:
+  - unrs-resolver
+# minimumReleaseAgeExclude is a whitelist.
+# meaning the below packages can be installed immediately
+# regardless of age restrictions.
 minimumReleaseAgeExclude:
-  - axios@1.18.1
-overrides:
-  rhf-mui-components: link:../../Library/pnpm/global/5/node_modules/@nish1896/rhf-mui-components
+  - axios
+# Only these packages are allowed to execute install/build scripts.
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - core-js
+  - protobufjs
+  - sharp

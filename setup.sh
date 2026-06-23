@@ -2,7 +2,6 @@
 
 REQUIRED_PNPM_VERSION="11.8.0"
 PKG_NAME="@nish1896/rhf-mui-components"
-PKG_PATH="packages/rhf-mui-components"
 
 echo "🏁 Initiating Setup..."
 
@@ -45,9 +44,5 @@ pnpm --filter "$PKG_NAME" run lib:build
 
 # Globally install rimraf
 npm i -g rimraf
-
-echo "Linking Package @nish1896/rhf-mui-demo workspace. 🔗"
-cd "./apps/rhf-mui-demo"
-pnpm add "../../$PKG_PATH/dist"
 
 echo "✅ Setup Complete! 🎉🎉🎉"
