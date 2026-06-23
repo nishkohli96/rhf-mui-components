@@ -1,8 +1,8 @@
-name: Build Docs Website
+name: Build Docs Website v3
 on: [push]
 jobs:
   build-docs:
-    name: Build Docs
+    name: Build Docs v3
     runs-on: ubuntu-latest
     env:
       GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}

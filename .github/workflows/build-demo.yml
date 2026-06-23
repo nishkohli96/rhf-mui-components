@@ -1,8 +1,8 @@
-name: Build Examples Website
+name: Build Examples Website v3
 on: [push]
 jobs:
   build-demo:
-    name: Build Examples
+    name: Build Examples v3
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

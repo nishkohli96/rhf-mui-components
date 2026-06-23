@@ -3,7 +3,7 @@ name: Publish package on npm
 on:
   push:
     tags:
-      - 'v*'
+      - 'v3.*'
 
 permissions:
   id-token: write
@@ -23,6 +23,10 @@ jobs:
         run: yarn
       - name: Build package
         run: yarn lib
+      # Running the below command would ensure that latest
+      # "v3.x" of this package would only be installed
+      #
+      # npm install @nish1896/rhf-mui-components@v3
       - name: Publish package on npm
-        run: npm publish --tag latest
+        run: npm publish --tag v3
         working-directory: packages/rhf-mui-components/dist
