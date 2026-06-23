@@ -3,6 +3,9 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type { ThemeConfig } from '@docusaurus/preset-classic';
 
+const examplesUrl = process.env.EXAMPLES_URL
+  ?? 'https://rhf-mui-components-examples.netlify.app';
+
 const config: Config = {
   title: '@nish1896/rhf-mui-components',
   url: 'https://rhf-mui-components.github.io',
@@ -13,7 +16,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
   trailingSlash: false,
   customFields: {
-    EXAMPLES_URL: process.env.DOCUSAURUS_EXAMPLES_URL
+    EXAMPLES_URL: examplesUrl
   },
   markdown: {
     format: 'detect',
@@ -72,7 +75,7 @@ const config: Config = {
       },
       items: [
         {
-          href: 'https://rhf-mui-components-examples.netlify.app/',
+          href: examplesUrl,
           label: 'Playground',
           position: 'right'
         },
