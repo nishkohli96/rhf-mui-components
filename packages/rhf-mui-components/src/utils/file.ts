@@ -10,8 +10,7 @@ type FileSizeOptions = {
 
 type ProcessFilesResult = {
   acceptedFiles: File[];
-  rejectedFiles: File[];
-  fileErrors: FileUploadErrorDetails[];
+  rejectedFiles: FileUploadErrorDetails[];
 };
 
 type ValidateFileListOptions = {
@@ -63,8 +62,7 @@ export function validateFileList(
   const { accept, maxFiles, maxSize } = options ?? {};
   const files = Array.from(fileList);
   const acceptedFiles: File[] = [];
-  const rejectedFiles: File[] = [];
-  const fileErrorsList: FileUploadErrorDetails[] = [];
+  const rejectedFiles: FileUploadErrorDetails[] = [];
 
   /* Parse the accept string into an array of acceptable types/extensions */
   const acceptedTypes = accept
@@ -105,8 +103,7 @@ export function validateFileList(
     }
 
     if (validationErrors.length > 0) {
-      rejectedFiles.push(file);
-      fileErrorsList.push({ file, errors: validationErrors });
+      rejectedFiles.push({ file, errors: validationErrors });
     } else {
       acceptedFiles.push(file);
     }
@@ -115,8 +112,7 @@ export function validateFileList(
   if (maxFiles && acceptedFiles.length > maxFiles) {
     const excessFiles = acceptedFiles.slice(maxFiles);
     acceptedFiles.splice(maxFiles);
-    rejectedFiles.push(...excessFiles);
-    fileErrorsList.push(
+    rejectedFiles.push(
       ...excessFiles.map(file => ({
         file,
         errors: [FileUploadError.limitExceeded]
@@ -127,6 +123,5 @@ export function validateFileList(
   return {
     acceptedFiles,
     rejectedFiles,
-    fileErrors: fileErrorsList,
   };
 }

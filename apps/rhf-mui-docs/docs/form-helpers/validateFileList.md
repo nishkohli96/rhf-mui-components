@@ -23,8 +23,7 @@ type ValidateFileListOptions = {
 
 type ProcessFilesResult = {
   acceptedFiles: File[];
-  rejectedFiles: File[];
-  fileErrors: {
+  rejectedFiles: {
     file: File;
     errors: FileUploadError[];
   }[];
@@ -45,34 +44,56 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 ### Parameters
 
 1. `fileList`: The set of input files to run this validation against.
-
-2. `accept`: An optional string that specifies the allowed file types or extensions, following the standard input[type="file"] accept attribute format (e.g., `.png, .jpg, image/*`). Files not matching the criteria will be rejected.
-
-3. `maxSize`: An optional numeric value (in bytes) that sets the maximum allowed file size. Files exceeding this limit will be rejected.
-
-4. `maxFiles`: Maximum number of files allowed for upload. Any additional files, even if valid, will be added to the `rejectedFiles` array and excluded from the accepted files.
+2. `options`: Validation options used when processing the file list.
+    - `accept` — Optional string specifying the allowed file types or extensions, following the standard `input[type="file"]` `accept` attribute format (for example, `.png, .jpg, image/*`). Files that do not match the specified criteria will be added to `rejectedFiles`.
+    - `maxSize` — Optional maximum file size in bytes. Files exceeding this limit will be added to `rejectedFiles`.
+    - `maxFiles` — Optional maximum number of files allowed. If the number of valid files exceeds this limit, the additional files will be added to `rejectedFiles` with a `FILE_LIMIT_EXCEEDED` error and excluded from `acceptedFiles`.
 
 ### Returns
 
-1. `acceptedFiles`: A list of accepted files.
-2. `rejectedFiles`: A list of rejected files.
-3. `fileErrors`: A list of rejected files and their validation errors. Error values can be any of:
-  - `FILE_SIZE_EXCEEDED`
-  - `FILE_TYPE_NOT_ALLOWED`
-  - `FILE_LIMIT_EXCEEDED`
+1. `acceptedFiles` — Files that passed validation (`File[]`).
+
+2. `rejectedFiles` — Files that failed validation, along with the reasons for rejection, and is of the type:
+
+    ```ts
+    type FileUploadErrorDetails = {
+      /** File that failed validation. */
+      file: File;
+
+      /** Validation errors reported for the file. */
+      errors: FileUploadError[];
+    };
+    ```
+
+    Possible `FileUploadError` values:
+    - `FILE_SIZE_EXCEEDED`
+    - `FILE_TYPE_NOT_ALLOWED`
+    - `FILE_LIMIT_EXCEEDED`
 
 :::warning
-The `validateFileList` method signature has changed in **v4** and now accepts a single options object instead of multiple positional arguments.
+
+The `validateFileList` method signature and return value have changed in **v4**.
+
+- The function now accepts a single options object instead of multiple positional arguments.
+- The returned `errors` array has been removed. Validation errors are now returned as part of `rejectedFiles`.
 
 If you are using this utility directly in your application, update existing calls accordingly:
 
 ```diff
-- validateFileList(fileList, '*', 5 * 1024 * 1024, 3)
-+ validateFileList(fileList, {
+- const {
+-   acceptedFiles,
+-   rejectedFiles,
+-   errors
+- } = validateFileList(fileList, '*', 5 * 1024 * 1024, 3);
+
++ const {
++   acceptedFiles,
++   rejectedFiles
++ } = validateFileList(fileList, {
 +   accept: '*',
 +   maxSize: 5 * 1024 * 1024,
 +   maxFiles: 3
-+ })
++ });
 ```
 :::
 

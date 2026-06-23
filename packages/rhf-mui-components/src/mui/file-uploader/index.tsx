@@ -390,12 +390,12 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               ? Math.max(0, maxFiles - serverFileCount - previousFiles.length)
               : undefined;
 
-          const validationResult = validateFileList(incomingFiles, {
+          const { acceptedFiles, rejectedFiles } = validateFileList(incomingFiles, {
             accept,
             maxSize
           });
-          const fileErrors = [...validationResult.fileErrors];
-          let acceptedIncomingFiles = validationResult.acceptedFiles;
+          const fileErrors = [...rejectedFiles];
+          let acceptedIncomingFiles = acceptedFiles;
 
           if (
             remainingFileSlots !== undefined
@@ -411,25 +411,27 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               }))
             );
           }
-
           if (fileErrors.length > 0) {
             onUploadError?.(fileErrors);
           }
 
-          const acceptedFiles = multiple
+          const finalAcceptedFiles = multiple
             ? [...previousFiles, ...acceptedIncomingFiles]
             : acceptedIncomingFiles;
           const newValue = multiple
-            ? acceptedFiles.length > 0
-              ? acceptedFiles
+            ? finalAcceptedFiles.length > 0
+              ? finalAcceptedFiles
               : null
-            : (acceptedFiles[0] ?? null);
+            : (finalAcceptedFiles[0] ?? null);
           updateFieldValue(newValue, event);
         };
 
         const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
           processFiles(event.target.files, event);
-          // Reset so the same file(s) can be selected again in a subsequent pick
+          /**
+           * Reset so the same file(s) can be selected again in
+           * a subsequent pick
+           */
           event.target.value = '';
         };
 
