@@ -7,6 +7,8 @@ description: Returns the size of a file to the nearest bytes, KB, MB or GB.
 
 # getFileSize
 
+This function returns the file size in bytes, kilobytes (**KB**), megabytes (**MB**), or gigabytes (**GB**), rounded to the nearest whole number or to the specified precision.
+
 ```ts
 function getFileSize(
   size: number,
@@ -16,8 +18,6 @@ function getFileSize(
   }
 ): string;
 ```
-
-This function returns the file size in bytes, kilobytes (KB), megabytes (MB), or gigabytes (GB), rounded to the nearest whole number or to the specified precision.
 
 ## Usage
 

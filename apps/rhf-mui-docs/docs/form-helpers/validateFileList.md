@@ -7,7 +7,20 @@ description: Validates a list of files based on size limit and extension to retu
 
 # validateFileList
 
+`validateFileList` function processes a list of uploaded files, validating each file against:
+
+- Maximum file size in bytes (if provided)
+- Accepted file types (based on the `accept` attribute)
+
+This function utilized by [RHFFileUploader](../components/mui/RHFFileUploader.mdx) ensures only files meeting the required criteria are passed for further processing.
+
 ```ts
+type ValidateFileListOptions = {
+  accept?: string,
+  maxSize?: number,
+  maxFiles?: number
+}
+
 type ProcessFilesResult = {
   acceptedFiles: File[];
   rejectedFiles: File[];
@@ -19,18 +32,9 @@ type ProcessFilesResult = {
 
 function validateFileList(
   fileList: FileList,
-  accept?: string
-  maxSize?: number,
-  maxFiles?: number;
+  options?: ValidateFileListOptions
 ): ProcessFilesResult
 ```
-
-`validateFileList` function processes a list of uploaded files, validating each file against:
-
-- Maximum file size in bytes (if provided)
-- Accepted file types (based on the `accept` attribute)
-
-This function utilized by [RHFFileUploader](../components/mui/RHFFileUploader.mdx) ensures only files meeting the required criteria are passed for further processing.
 
 ## Usage
 
@@ -53,19 +57,34 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 1. `acceptedFiles`: A list of accepted files.
 2. `rejectedFiles`: A list of rejected files.
 3. `fileErrors`: A list of rejected files and their validation errors. Error values can be any of:
-    - `FILE_SIZE_EXCEEDED`
-    - `FILE_TYPE_NOT_ALLOWED`
-    - `FILE_LIMIT_EXCEEDED`
+  - `FILE_SIZE_EXCEEDED`
+  - `FILE_TYPE_NOT_ALLOWED`
+  - `FILE_LIMIT_EXCEEDED`
+
+:::warning
+The `validateFileList` method signature has changed in **v4** and now accepts a single options object instead of multiple positional arguments.
+
+If you are using this utility directly in your application, update existing calls accordingly:
+
+```diff
+- validateFileList(fileList, '*', 5 * 1024 * 1024, 3)
++ validateFileList(fileList, {
++   accept: '*',
++   maxSize: 5 * 1024 * 1024,
++   maxFiles: 3
++ })
+```
+:::
 
 ## Examples
 
 ```ts
 // Allow any file, but max allowed size for each file should be 5 MB.
-validateFileList(fileList, '*', 5 * 1024 * 1024);
+validateFileList(fileList, { accept: '*', maxSize: 5 * 1024 * 1024 });
 
 // Allow only image mimetype
-validateFileList(fileList, 'image/*');
+validateFileList(fileList, { accept: 'image/*' });
 
 // Allow at max 3 files
-validateFileList(fileList, undefined, undefined, 3);
+validateFileList(fileList, { maxFiles: 3 });
 ```

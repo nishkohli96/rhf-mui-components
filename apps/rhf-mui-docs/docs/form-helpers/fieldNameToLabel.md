@@ -7,11 +7,11 @@ description: Definition and usage of a function to generate user-friendly label 
 
 # fieldNameToLabel
 
+This function generates a user-friendly label for the form field based on its `fieldName` prop, eliminating the need for the developer to explicitly provide the `label` prop, unless required.
+
 ```ts
 function fieldNameToLabel(fieldName: string): string;
 ```
-
-This function generates a user-friendly label for the form field based on its `fieldName` prop, eliminating the need for the developer to explicitly provide the `label` prop, unless required.
 
 ## Usage
 

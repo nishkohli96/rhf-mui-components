@@ -3,7 +3,7 @@ name: Publish package on npm
 on:
   push:
     tags:
-      - 'v*'
+      - 'v4.*'
 
 permissions:
   id-token: write

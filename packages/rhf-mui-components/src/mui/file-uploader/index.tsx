@@ -390,11 +390,10 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               ? Math.max(0, maxFiles - serverFileCount - previousFiles.length)
               : undefined;
 
-          const validationResult = validateFileList(
-            incomingFiles,
+          const validationResult = validateFileList(incomingFiles, {
             accept,
             maxSize
-          );
+          });
           const fileErrors = [...validationResult.fileErrors];
           let acceptedIncomingFiles = validationResult.acceptedFiles;
 

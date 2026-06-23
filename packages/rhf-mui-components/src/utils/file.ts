@@ -14,6 +14,12 @@ type ProcessFilesResult = {
   fileErrors: FileUploadErrorDetails[];
 };
 
+type ValidateFileListOptions = {
+  accept?: string,
+  maxSize?: number,
+  maxFiles?: number
+}
+
 export function getFileSize(size: number, options?: FileSizeOptions): string {
   if (size < 0) {
     throw new Error('Invalid file size. It must be a positive number.');
@@ -52,10 +58,9 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
 
 export function validateFileList(
   fileList: FileList | File[],
-  accept?: string,
-  maxSize?: number,
-  maxFiles?: number
+  options?: ValidateFileListOptions
 ): ProcessFilesResult {
+  const { accept, maxFiles, maxSize } = options ?? {};
   const files = Array.from(fileList);
   const acceptedFiles: File[] = [];
   const rejectedFiles: File[] = [];
