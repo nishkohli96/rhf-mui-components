@@ -71,16 +71,22 @@ const AutocompleteForm = () => {
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   const loadPokemons = useCallback(async () => {
-    if (loading || !hasMore) {
+    if (!hasMore) {
       return;
     }
     setLoading(true);
     const data = await fetchPokemons(LIMIT, offset);
-    setPokemonList(prev => [...prev, ...data.results]);
+    setPokemonList(prev => {
+      const existingIds = new Set(prev.map(pokemon => pokemon.id));
+      const uniqueResults = data.results.filter(
+        pokemon => !existingIds.has(pokemon.id)
+      );
+      return uniqueResults.length ? [...prev, ...uniqueResults] : prev;
+    });
     setHasMore(!!data.next);
     setOffset(prev => prev + LIMIT);
     setLoading(false);
-  }, [offset, hasMore, loading]);
+  }, [offset, hasMore]);
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -91,11 +97,14 @@ const AutocompleteForm = () => {
     /**
      * Load the first page once on mount; pagination is handled from the
      * listbox scroll event.
+     *
+     * "loadPokemons" is purposely NOT added to the effect dependency array,
+     * as `offset` and `hasMore` change after each call which recreates
+     * loadPokemons that runs until `hasMore` becomes false.
      */
     const loadInitialPokemons = async () => {
       await loadPokemons();
     };
-
     loadInitialPokemons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
