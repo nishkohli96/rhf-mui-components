@@ -33,7 +33,7 @@
 - Added `customOnChange` for all components, allowing developers to intercept, validate, or transform values before they are committed to form state.
 - Added external `ref` forwarding support across supported components.
 - Added `customIds` and improved element-level ARIA attributes for better accessibility.
-- Allow `freeSolo` for `RHFAutocomplete` and `RHFMultiAutocomplete`
+- Added support for `freeSolo` in `RHFAutocomplete` and `RHFMultiAutocomplete`, allowing users to enter values that are not present in the provided options.
 - Added Desktop, Mobile, and Static Date/Time picker variants.
 - `RHFFileUploader` now supports drag-and-drop uploads, `existingFiles`, `dropZoneProps`, and file-specific upload errors.
 - `RHFPhoneInput` now stores a structured value object with `phone`, `country`, `dialCode`, and `phoneNo`, and includes searchable country selection.
