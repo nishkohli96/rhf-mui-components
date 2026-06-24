@@ -36,7 +36,7 @@ export const componentsDocsLink: Record<string, PageInfo> = {
   },
   rhfMultiAutocomplete: {
     title: 'RHFMultiAutocomplete',
-    href: `${ENV_VARS.DOCS_URL}components/mui/rhfMultiAutocomplete`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFMultiAutocomplete`
   },
   rhfCountrySelect: {
     title: 'RHFCountrySelect',

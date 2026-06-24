@@ -166,13 +166,25 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
   /**
-   * Pre-existing server-side files. Rendered in the file list above new
-   * uploads and their count is deducted from `maxFiles` when validating.
+   * Pre-existing server-side files.
+   *
+   * Use `renderExistingFileItem` to render these files in the file list.
+   * Existing files are displayed separately from newly uploaded files, and
+   * their count is deducted from `maxFiles` during validation.
    */
   existingFiles?: ExistingUploadedFile[];
   /**
-   * Custom renderer for each pre-existing file row.
-   * Falls back to a default name-link + remove-button layout when omitted.
+   * Custom renderer for each file passed through `existingFiles`.
+   *
+   * Use this to render server-side files that were uploaded before the
+   * current form session. The callback receives the file metadata and its
+   * zero-based index.
+   *
+   * Existing files are not stored in the RHF field value and this component
+   * does not remove them automatically. Handle deletion in your own renderer
+   * if server-side files need to be removed.
+   *
+   * When omitted, existing files are not rendered.
    */
   renderExistingFileItem?: ({ file, index }: RenderExistingFileItemProps) => ReactNode;
   /**
@@ -184,7 +196,14 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   uploadedFileListProps?: Omit<BoxProps, 'children'>;
   /**
-   * Custom renderer for newly selected files.
+   * Custom renderer for each newly selected file stored in the RHF field value.
+   *
+   * The callback receives the `File`, its zero-based index, and a `removeFile`
+   * helper. Call `removeFile(event)` from your remove/delete button to remove
+   * that file from the RHF value. Removal also triggers `onValueChange` unless
+   * `customOnChange` is provided.
+   *
+   * When omitted, newly selected files are not rendered.
    */
   renderFileItem?: ({
     file,
@@ -347,6 +366,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           helperText
           || (isError && !hideErrorMessage)
         );
+        const isDisabled = muiDisabled || rhfDisabled;
 
         const updateFieldValue = (
           newValue: File | File[] | null,
@@ -438,7 +458,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
         const handleDrop = (event: DragEvent<HTMLDivElement>) => {
           event.preventDefault();
           setIsDragging(false);
-          if (muiDisabled) {
+          if (isDisabled) {
             return;
           }
           if (event.dataTransfer.files.length === 0) {
@@ -449,7 +469,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
 
         const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
           event.preventDefault();
-          if (!muiDisabled) {
+          if (!isDisabled) {
             setIsDragging(true);
           }
         };
@@ -487,7 +507,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             multiple={multiple}
             onChange={handleFileChange}
             onBlur={rhfOnBlur}
-            disabled={muiDisabled || rhfDisabled}
+            disabled={isDisabled}
             aria-labelledby={isLabelAboveFormField ? labelId : undefined}
             aria-describedby={
               showHelperTextElement
@@ -513,7 +533,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                   : `Upload ${formattedFieldName}`
               }
               fieldName={fieldName}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
             >
               {InputComponent}
             </UploadButton>
@@ -522,7 +542,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
         const resolvedDropZoneProps = typeof dropZoneProps === 'function'
           ? dropZoneProps({
             isDragging,
-            disabled: !!muiDisabled || !!rhfDisabled,
+            disabled: !!isDisabled,
             error: isError
           })
           : (dropZoneProps ?? {});
@@ -564,7 +584,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                   textAlign: 'center',
                   transition: 'border-color 0.2s ease-in-out',
                   mb: 2,
-                  cursor: muiDisabled ? 'not-allowed' : 'pointer'
+                  cursor: isDisabled ? 'not-allowed' : 'pointer'
                 },
                 ...(Array.isArray(dropZoneSx)
                   ? dropZoneSx
