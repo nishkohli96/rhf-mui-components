@@ -2,7 +2,6 @@
 
 import {
   useContext,
-  Fragment,
   type FocusEvent,
   type ReactNode,
   type ChangeEvent
@@ -24,52 +23,144 @@ import type {
   FormControlLabelProps,
   CheckboxProps,
   OptionValue,
-  StrNumObjOption
+  StrNumObjOption,
+  CustomComponentIds,
+  CustomOnChangeProps
 } from '@/types';
+
+type OnValueChangeProps<
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
+> = {
+  event: ChangeEvent<HTMLInputElement>;
+  newValue: OptionValue<Option, ValueKey>[];
+  toggledValue: OptionValue<Option, ValueKey>;
+  checked: boolean;
+};
+
+type CheckboxGroupCustomOnChangeProps<
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
+> = {
+  toggledValue: OptionValue<Option, ValueKey>;
+  checked: boolean;
+  currentValue: OptionValue<Option, ValueKey>[];
+  event: ChangeEvent<HTMLInputElement>;
+};
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   coerceValue,
   getOptionValue,
-  useFieldIds
+  useFieldIds,
+  resolveLabelAboveControl
 } from '@/utils';
 
 export type RHFCheckboxGroupProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of options to render as checkboxes. Best suited for smaller datasets, with
+   * upto 10 options. For larger datasets, consider using `RHFMultiAutocomplete`.
+   */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
-  onValueChange?: (
-    selectedItemValue: OptionValue<Option, ValueKey>,
-    newValue: OptionValue<Option, ValueKey>[],
-    event: ChangeEvent<HTMLInputElement>
-  ) => void;
+  /**
+   * Function to customize the label for each checkbox.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
+  renderOptionLabel?: (option: Option) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being checked.
+   *
+   * @param option - The option being evaluated.
+   */
+  getOptionDisabled?: (option: Option) => boolean;
+  /**
+   * Custom change handler for checkbox group selection.
+   *
+   * Allows full control over how selected values are added or removed
+   * from the current array before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param event - The change event triggered by the checkbox
+   * @param currentValue - Current array of selected values
+   * @param toggledValue - The value of the option being toggled
+   * @param checked - Whether the option has been checked or unchecked
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    event,
+    currentValue,
+    toggledValue,
+    checked
+  }: CustomOnChangeProps<
+    CheckboxGroupCustomOnChangeProps<Option, ValueKey>,
+    OptionValue<Option, ValueKey>[]
+  >) => void;
+  onValueChange?: ({
+    event,
+    newValue,
+    toggledValue,
+    checked
+  }: OnValueChangeProps<Option, ValueKey>) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
+  /**
+   * Props to pass down to each Checkbox component. Can be used to set
+   * a custom color, size, etc. for all checkboxes in the group.
+   */
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
   onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
+  customIds?: CustomComponentIds;
 };
 
 const RHFCheckboxGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
@@ -78,11 +169,15 @@ const RHFCheckboxGroup = <
   options,
   labelKey,
   valueKey,
+  renderOptionLabel,
+  getOptionDisabled,
+  customOnChange,
   onValueChange,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
+  hideLabel,
   checkboxProps,
   formControlLabelProps,
   required,
@@ -90,38 +185,45 @@ const RHFCheckboxGroup = <
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
-  onBlur
+  onBlur: muiOnBlur,
+  customIds
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
-
   const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName);
+    defaultFormControlLabelSx,
+    allLabelsAboveFields
+  } = useContext(RHFMuiConfigContext);
 
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
+
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
     ...sx
   };
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
     <Controller
       name={fieldName}
       control={control}
       rules={registerOptions}
-      render={({ field }) => {
+      render={({
+        field,
+        fieldState: { error: fieldStateError }
+      }) => {
         const {
           value,
           onChange: rhfOnChange,
-          onBlur: rhfOnBlur
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
         } = field as {
           value: OptionValue<Option, ValueKey>[];
           onChange: (v: OptionValue<Option, ValueKey>[]) => void;
@@ -129,44 +231,68 @@ const RHFCheckboxGroup = <
           disabled: boolean;
         };
         const rhfValue = value ?? [];
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
 
         const handleChange = (
           event: ChangeEvent<HTMLInputElement>,
           checked: boolean,
           optionValue: OptionValue<Option, ValueKey>
         ) => {
-          const normalized = coerceValue(event.target.value, optionValue);
+          const normalizedValue = coerceValue(event.target.value, optionValue);
+          if (customOnChange) {
+            customOnChange({
+              rhfOnChange,
+              toggledValue: normalizedValue,
+              checked,
+              currentValue: rhfValue,
+              event
+            });
+            return;
+          }
           const newValue = checked
-            ? rhfValue.includes(normalized)
+            ? rhfValue.includes(normalizedValue)
               ? rhfValue
-              : [...rhfValue, normalized]
-            : rhfValue.filter(v => v !== normalized);
+              : [...rhfValue, normalizedValue]
+            : rhfValue.filter(v => v !== normalizedValue);
           rhfOnChange(newValue);
-          onValueChange?.(normalized, newValue, event);
+          onValueChange?.({
+            toggledValue: normalizedValue,
+            newValue,
+            event,
+            checked
+          });
         };
 
         return (
           <FormControl
             component="fieldset"
+            aria-labelledby={!hideLabel ? labelId : undefined}
+            aria-label={hideLabel ? String(fieldLabel) : undefined}
             error={isError}
+            /**
+             * Trigger blur event only if focus is moving OUTSIDE
+             * the checkbox group, instead of calling onBlur for
+             * every checkbox.
+             */
             onBlur={e => {
               const currentTarget = e.currentTarget;
               const relatedTarget = e.relatedTarget as Node | null;
-              /**
-               * Trigger blur event only if focus is moving OUTSIDE
-               * the checkbox group, instead of calling onBlur for
-               * every checkbox.
-               */
               if (!currentTarget.contains(relatedTarget)) {
                 rhfOnBlur();
-                onBlur?.(e);
+                muiOnBlur?.(e);
               }
             }}
           >
-            <Fragment>
+            {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
-                isVisible={showLabelAboveFormField ?? true}
+                isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
                 formLabelProps={{
@@ -175,45 +301,52 @@ const RHFCheckboxGroup = <
                   ...formLabelProps
                 }}
               />
-              {options.map((option, idx) => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
-                const opnLabel = isObject
-                  ? String(option[labelKey!])
-                  : String(option);
-                const checked = rhfValue.includes(opnValue);
-                return (
-                  <FormControlLabel
-                    key={`${opnValue}-${idx}`}
-                    control={
-                      <Checkbox
-                        {...checkboxProps}
-                        id={`${fieldId}-${opnValue}`}
-                        name={`${fieldName}-${idx}`}
-                        value={opnValue}
-                        checked={checked}
-                        onChange={e => handleChange(e, e.target.checked, opnValue)}
-                      />
-                    }
-                    label={opnLabel}
-                    sx={appliedFormControlLabelSx}
-                    disabled={muiDisabled}
-                    {...otherFormControlLabelProps}
-                  />
-                );
-              })}
-              <FormHelperText
-                error={isError}
-                errorMessage={errorMessage}
-                hideErrorMessage={hideErrorMessage}
-                helperText={helperText}
-                showHelperTextElement={showHelperTextElement}
-                formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
-                }}
-              />
-            </Fragment>
+            )}
+            {options.map((option, idx) => {
+              const isObject = isKeyValueOption(option, labelKey, valueKey);
+              const opnValue = getOptionValue<Option, ValueKey>(
+                option,
+                valueKey
+              );
+              const opnLabel = isObject
+                ? String(option[labelKey!])
+                : String(option);
+              const checked = rhfValue.includes(opnValue);
+              const isOptionDisabled
+                = muiDisabled || rhfDisabled || getOptionDisabled?.(option) || false;
+              return (
+                <FormControlLabel
+                  key={`${opnValue}-${idx}`}
+                  {...otherFormControlLabelProps}
+                  control={
+                    <Checkbox
+                      {...checkboxProps}
+                      id={`${fieldId}-${opnValue}`}
+                      name={fieldName}
+                      value={opnValue}
+                      checked={checked}
+                      disabled={isOptionDisabled}
+                      onChange={e =>
+                        handleChange(e, e.target.checked, opnValue)}
+                    />
+                  }
+                  label={renderOptionLabel?.(option) ?? opnLabel}
+                  sx={appliedFormControlLabelSx}
+                  disabled={isOptionDisabled}
+                />
+              );
+            })}
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
           </FormControl>
         );
       }}

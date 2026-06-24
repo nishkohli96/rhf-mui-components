@@ -1,24 +1,65 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFTagsInputPropsTable = () => {
+const RHFTagsInputPropsTable = ({
+  muiVersion,
+  docsVersion,
+  v4AndAbove
+}: VersionProps) => {
+  const onValueChangeProp = v4AndAbove
+    ? PropsDescription.onValueChange_tagsInput
+    : LegacyPropsDescription.onValueChange_tagsInput_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    PropsDescription.onValueChange_tagsInput,
-    PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
-    PropsDescription.ChipProps,
+    ...(v4AndAbove
+      ? [
+        PropsDescription.onTagAdd,
+        PropsDescription.onTagDelete,
+        PropsDescription.onTagPaste,
+        PropsDescription.delimiter,
+        PropsDescription.maxTags
+      ]
+      : []),
+    onValueChangeProp,
+    getPropDetailsByVersion(PropsDescription.label, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []),
+    getPropDetailsByVersion(PropsDescription.ChipProps_TagsInput, { muiVersion }),
     PropsDescription.limitTags,
     PropsDescription.getLimitTagsText,
-    PropsDescription.errorMessage,
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+      : []),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFTagsInputPropsTable;

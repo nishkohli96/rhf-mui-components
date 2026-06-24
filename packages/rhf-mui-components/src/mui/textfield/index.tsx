@@ -1,6 +1,13 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type JSX,
+  type ReactNode,
+  type ChangeEvent,
+  type Ref
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -17,136 +24,202 @@ import {
   FormHelperText,
   defaultAutocompleteValue
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  TextFieldProps,
+  CustomComponentIds,
+  CustomOnChangeProps
+} from '@/types';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  mergeRefs,
+  useFieldIds
+} from '@/utils';
+
+type OnValueChangeProps = {
+  newValue: string;
+  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+};
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  onValueChange?: (
-    value: string,
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  /**
+   * Custom change handler that overrides the default text value update.
+   *
+   * Use when you need to intercept or transform the field value before
+   * updating React Hook Form state (e.g. masking, normalization).
+   *
+   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - Updated input string value
+   * @param event - Change event from the underlying input
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
+  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in
+   * the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & TextFieldProps;
 
-const RHFTextField = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  ...rest
-}: RHFTextFieldProps<T>) => {
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName);
-
+const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    customOnChange,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    onBlur: muiOnBlur,
+    autoComplete = defaultAutocompleteValue,
+    slotProps: muiSlotProps,
+    customIds,
+    ...otherTextFieldProps
+  }: RHFTextFieldProps<T>,
+  ref: Ref<HTMLInputElement>
+) {
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             <MuiTextField
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
-              inputRef={rhfRef}
+              inputRef={mergeRefs(rhfRef, ref)}
               autoComplete={autoComplete}
               label={
-                !isLabelAboveFormField
+                !hideLabel && !isLabelAboveFormField
                   ? (
                     <FormLabelText label={fieldLabel} required={required} />
                   )
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const newValue = event.target.value;
+                if (customOnChange) {
+                  customOnChange({ rhfOnChange, newValue, event });
+                  return;
+                }
                 rhfOnChange(newValue);
-                onValueChange?.(newValue, event);
+                onValueChange?.({ newValue, event });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
-              {...rest}
+              slotProps={{
+                ...muiSlotProps,
+                htmlInput: {
+                  ...muiSlotProps?.htmlInput,
+                  'aria-labelledby':
+                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined,
+                  'aria-required': required
+                }
+              }}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
-};
+});
+
+const RHFTextField = RHFTextFieldInner as <T extends FieldValues>(
+  props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }
+) => JSX.Element;
 
 export default RHFTextField;

@@ -11,13 +11,18 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { docsLink, githubRepoLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 
-export const SubmitButton = () => {
+type SubmitButtonProps = {
+  disabled?: boolean;
+};
+
+export const SubmitButton = ({ disabled }: SubmitButtonProps) => {
   return (
     <Button
       variant="contained"
       color="primary"
       type="submit"
       sx={{ mr: '20px' }}
+      disabled={disabled}
     >
       Submit
     </Button>

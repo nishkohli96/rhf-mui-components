@@ -1,21 +1,24 @@
-import dynamic from 'next/dynamic';
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-
-const ClientForm = dynamic(() => import('@/forms/styled-form-with-reusable-component'), { ssr: false });
+import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component/Client';
 
 export const metadata = pageMetadata.customization;
 
 const CustomizationPage = () => {
   const links = [
-    DocsLinks.rhfTextField,
-    DocsLinks.rhfDatePicker,
+    componentsDocsLink.rhfTextField,
+    componentsDocsLink.rhfDatePicker,
     ValidationLibLinks.luxon
   ];
   const codeLinks = [
@@ -27,7 +30,7 @@ const CustomizationPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
-      <ClientForm />
+      <StyledReusableComponentForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

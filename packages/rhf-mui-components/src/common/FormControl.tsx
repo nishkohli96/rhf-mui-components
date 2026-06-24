@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { ReactNode } from 'react';
 import MuiFormControl, {
   type FormControlProps as MuiFormControlProps
 } from '@mui/material/FormControl';
@@ -6,7 +6,7 @@ import MuiFormControl, {
 type OmittedFormControlProps = Omit<MuiFormControlProps, 'children' | 'error'>;
 
 type FormControlProps = {
-  children: ReactElement | ReactElement[];
+  children: ReactNode | ReactNode[];
   error: boolean;
 } & OmittedFormControlProps;
 

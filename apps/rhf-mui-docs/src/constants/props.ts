@@ -1,35 +1,44 @@
-import { ExternalLinks } from '@site/src/constants';
-import { type PropsInfo } from '@site/src/types';
+/**
+ * A centralized file to store prop descriptions for all components, ensuring consistency and easier maintenance.
+ * Each prop description includes the prop name, a clear and concise description, the expected type, and whether
+ * the prop is required.
+ *
+ * Props used across multiple components and package versions.
+ *
+ * Props that are no longer used in v4 components have been moved to
+ * `legacy-props.ts`.
+ */
 
-const PropsDescription: Record<string, PropsInfo> = Object.freeze({
+import { ExternalLinks } from '@site/src/constants';
+import { type PropsInfo, type PropsDescriptionArgs } from '@site/src/types';
+
+const PropsDescription: Record<
+  string,
+  | PropsInfo
+  | (({ docsVersion, muiVersion }: PropsDescriptionArgs) => PropsInfo)
+> = Object.freeze({
   fieldName: {
     name: 'fieldName',
-    description: 'React Hook Form requires `name` as a key for the registration process. This is a required prop for all components.',
+    description: 'Name of the field registered with React Hook Form. This prop is required for all components.',
     required: true,
     type: 'string'
   },
-  register: {
-    name: 'register',
-    description: `The [register](${ExternalLinks.rhfLinks.register}) option yielded on calling the \`useForm\` hook.`,
-    required: true,
-    type: `[UseFormRegister](${ExternalLinks.rhfLinks.register})`,
-    hasLinkInType: true
-  },
   control: {
     name: 'control',
-    description: `The [control](${ExternalLinks.rhfLinks.control}) option yielded on calling the \`useForm\` hook.`,
+    description: `The [control](${ExternalLinks.rhfApi.control}) option yielded on calling the [useForm](${ExternalLinks.rhfApi.useForm}) hook.`,
     required: true,
-    type: `[UseFormControl](${ExternalLinks.rhfLinks.control})`,
+    type: `[UseFormControl](${ExternalLinks.rhfApi.control})`,
     hasLinkInType: true
   },
   registerOptions: {
     name: 'registerOptions',
-    description: `[Register](${ExternalLinks.rhfLinks.register}) options for validation if using react-hook-form without any validation libraries like [yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
+    description: `React Hook Form [validation rules](${ExternalLinks.rhfApi.register}). Useful when not using a schema validation library such as [Yup](${ExternalLinks.validationLibs.yup}) or [Joi](${ExternalLinks.validationLibs.joi}).`,
     type: 'RegisterOptions'
   },
   required: {
     name: 'required',
-    description: 'Indicates that the field is mandatory by adding an asterisk symbol (*) to the `formLabel`. This visual cue helps users quickly identify required fields in the form.',
+    description:
+      'Indicates that the field is mandatory by adding an asterisk symbol (*) to the `formLabel`. This visual cue helps users quickly identify required fields in the form.',
     type: 'boolean'
   },
   options: {
@@ -52,418 +61,553 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   },
   labelKey: {
     name: 'labelKey',
-    description: 'The key of object in options array, whose value would be shown as the label in the formfield. Only required when input options is an array of objects.',
+    description: 'Property name used as the visible label for each option. Required when `options` is an array of objects.',
     type: 'string',
     required: true
   },
   labelKey_Obj: {
     name: 'labelKey',
-    description: 'The key of object in options array, whose value would be shown as the label in the formfield.',
+    description: 'Property name used as the visible label for each option.',
     type: 'string',
     required: true
   },
   valueKey: {
     name: 'valueKey',
-    description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield. Only required when input options is an array of objects.',
+    description: 'Property name used as the stored value for each option. Required when `options` is an array of objects.',
     type: 'string',
     required: true
   },
   valueKey_Obj: {
     name: 'valueKey',
-    description: 'The key of object in options array, whose value would be actual value of the option selected in the formfield.',
+    description: 'Property name used as the stored value for each option.',
     type: 'string',
     required: true
   },
-  setValue: {
-    name: 'setValue',
-    description: `The [setValue](${ExternalLinks.rhfLinks.setValue}) option yielded on calling the \`useForm\` hook.`,
-    required: true,
-    type: '(name: string, value: unknown, config?: Object) => void'
+  customOnChange: {
+    name: 'customOnChange',
+    description: 'Overrides the default `onChange` behavior. When provided, `onValueChange` is not called. You must call `rhfOnChange(newValue)` to update the form state.',
+    type: '(rhfOnChange, event, ...args) => void'
   },
   onValueChange: {
     name: 'onValueChange',
-    description: 'An optional callback function when the value of a field changes. Method signature can be viewed for each component in its documentation page.',
+    description:
+      'Callback function triggered when the field value changes. Method signature can be viewed for each component in its documentation page.',
     type: 'Function'
   },
-  label: {
+  label: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'label',
-    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**" using the [fieldNameToLabel](/form-helpers/fieldNameToLabel) function.',
+    description: `The text to render in the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
     type: 'ReactNode'
+  }),
+  hideLabel: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'hideLabel',
+    description:
+      `Hides the [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component if you don’t want to display the default form label component or prefer to render a fully custom label instead.`,
+    type: 'boolean'
+  }),
+  renderOptionLabel_MultiAutocomplete: {
+    name: 'renderOptionLabel',
+    description: 'Render the option label content corresponding to each checkbox.',
+    type: '(option, state) => ReactNode'
   },
-  label_v1: {
-    name: 'label',
-    description: 'The text to render in `FormLabel` component. By default, the value of `fieldName` such as _firstName_ will be transformed to display "**First Name**".',
-    type: 'ReactNode'
+  renderOptionLabel_CountrySelect: {
+    name: 'renderOptionLabel',
+    description: 'Custom renderer for each country option in the dropdown. Receives the country object and should return the label/content to render.',
+    type: '(option: CountryDetails) => ReactNode'
   },
   placeholder_Select: {
     name: 'placeholder',
-    description: 'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
+    description:
+      'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
     type: 'string'
   },
-  formLabelProps: {
+  formLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formLabelProps',
-    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel}) to customise \`FormLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
-    type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel})`,
+    description: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) to customise [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
+    type: `[FormLabelProps](${ExternalLinks.muiComponentApi.formLabel(muiVersion)})`,
     hasLinkInType: true
-  },
-  formControlLabelProps: {
+  }),
+  formControlLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formControlLabelProps',
-    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
-    type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel})`,
+    description: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)}) to customise \`FormControlLabel\` component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
+    type: `[FormControlLabelProps](${ExternalLinks.muiComponentApi.formControlLabel(muiVersion)})`,
     hasLinkInType: true
-  },
-  showLabelAboveFormField: {
+  }),
+  showLabelAboveFormField: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel}) component.`,
+    description: `Render form label above the form field in [FormLabel](${ExternalLinks.muiComponentApi.formLabel(muiVersion)}) component.`,
     type: 'boolean'
-  },
+  }),
   showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
-    description: 'Renders the form label above the field by default. Set this prop to `false` to hide the label.',
+    description: 'Renders the form label above the field.',
     type: 'boolean'
   },
-  helperText: {
+  helperText: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'helperText',
-    description: 'The content to display within the `FormHelperText` component below the field. If the field validation fails, this content will be overridden by the corresponding error message.',
-    type: 'ReactNode',
-  },
-  errorMessage: {
-    name: 'errorMessage',
-    description: `Error message to be shown for a field in [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText}) component.`,
+    description:
+      `The content to display within the [FormHelperText](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) component below the field. If the field validation fails, this content will be overridden by the corresponding error message.`,
     type: 'ReactNode'
-  },
+  }),
   hideErrorMessage: {
     name: 'hideErrorMessage',
-    description: 'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
-    type: 'boolean',
+    description:
+      'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
+    type: 'boolean'
   },
-  formHelperTextProps: {
+  formHelperTextProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formHelperTextProps',
-    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](/customization) component.`,
-    type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText})`,
+    description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
+    type: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)})`,
     hasLinkInType: true
+  }),
+  renderOptionLabel: {
+    name: 'renderOptionLabel',
+    description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`.',
+    type: '(option) => ReactNode'
   },
-  onValueChange_Default_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value`.',
-    type: '(e: ChangeEvent) => void'
+  getOptionDisabled: {
+    name: 'getOptionDisabled',
+    description: 'Function used to determine whether an option should be disabled. Return `true` to disable the option and prevent it from being selected.',
+    type: '(option) => boolean'
+  },
+  customIds: {
+    name: 'customIds',
+    description: 'Overrides the default **field**, **label**, **helper text**, and **error** IDs used for accessibility.',
+    type: '{ field, label, helperText, error }'
+  },
+  customOnChange_Inputs: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the input. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
+  customOnChange_FileUploader: {
+    name: 'customOnChange',
+    description:
+      'Custom change handler that overrides the default file upload behavior. Receives the updated value, the triggering event, and `rhfOnChange`. Use this to perform custom validation or transform files before updating the form state. When provided, you are responsible for calling `rhfOnChange` manually.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
+  customOnChange_Select: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the select component. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event, child }) => void'
+  },
+  customOnChange_NativeSelect: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the native select component. You must pass the updated `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
+  customOnChange_Autocomplete: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the autocomplete.',
+    type: '({ rhfOnChange, newValue, selectedOption, event, reason, details }) => void'
+  },
+  customOnChange_AutocompleteObject: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the autocomplete.',
+    type: '({ rhfOnChange, newValue, event, reason, details }) => void'
+  },
+  customOnChange_MultiAutocomplete: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the multi-autocomplete.',
+    type: '({ rhfOnChange, newValue, selectedOption }) => void'
+  },
+  customOnChange_MultiAutocompleteObject: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the autocomplete.',
+    type: '({ rhfOnChange, newValue, selectedOption }) => void'
+  },
+  customOnChange_CountrySelect: {
+    name: 'customOnChange',
+    description: 'Custom change handler that overrides the default update behavior. Receives the updated value, the triggering event, and `rhfOnChange`. Use this to validate, transform, or conditionally update country selections before updating form state. When provided, you must call `rhfOnChange` manually.',
+    type: '({ rhfOnChange, newValue, event, reason, details? }) => void'
+  },
+  customOnChange_Cbx_Switch: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the component. You can also prevent the toggle behaviour using `event.preventDefault()` based on your business logic, but must pass the updated `newValue` value to the **rhfOnChange** function to toggle the field.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
+  customOnChange_CheckboxGroup: {
+    name: 'customOnChange',
+    description:
+      'Callback function that allows custom logic to be executed whenever a checkbox value changes. You can use this to implement conditional selection, logging, or side effects before or after updating the form value.',
+    type: '({ rhfOnChange, event, currentValue, toggledValue, checked }) => void'
+  },
+  customOnChange_Slider: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the slider, which can enable you to prevent the slider from going below a certain threshold.',
+    type: '({ rhfOnChange, newValue, activeThumb, event }) => void'
+  },
+  customOnChange_Rating: {
+    name: 'customOnChange',
+    description:
+      'Overrides the default `onChange` behavior of the **Rating** component, allowing you to enforce a minimum rating value and prevent users from selecting a value below the defined threshold.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
+  customOnChange_RadioGroup: {
+    name: 'customOnChange',
+    description:
+      'Override the default `onChange` behavior of the radio group. You must pass the selected `newValue` to the **rhfOnChange** function to update the field value.',
+    type: '({ rhfOnChange, newValue, event }) => void'
+  },
+  customOnChange_DatePicker: {
+    name: 'customOnChange',
+    description:
+      'Custom change handler that overrides the default date value update behavior. Receives `rhfOnChange`, the updated date value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, context }) => void'
+  },
+  customOnChange_TimePicker: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default time value update behavior. Receives `rhfOnChange`, the updated time value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, context }) => void'
+  },
+  customOnChange_DateTimePicker: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default date and time value update behavior. Receives `rhfOnChange`, the updated value, and the MUI picker change context. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, context }) => void'
+  },
+  customOnChange_ColorPicker: {
+    name: 'customOnChange',
+    description:
+      'An optional callback function to override the default `onChange` behavior of the color picker component. This invalidates the usage of `onValueChange` function. You can get the selected color value and the `setColor` function from the parameters to implement your custom logic and update the form state.',
+    type: '({ color, setColor }) => void'
+  },
+  customOnChange_RichTextEditor: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default editor value update behavior. Receives `rhfOnChange`, the updated HTML string, change event, and CKEditor instance. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, event, editor }) => void'
+  },
+  customOnChange_PhoneInput: {
+    name: 'customOnChange',
+    description:
+    'Custom change handler that overrides the default phone value update behavior. Receives `rhfOnChange`, the structured `RHFPhoneInputValue`, and the raw change payload from `react-international-phone`. When provided, you must call `rhfOnChange` manually to update the form value.',
+    type: '({ rhfOnChange, newValue, phoneData }) => void'
+  },
+  onTagAdd: {
+    name: 'onTagAdd',
+    description:
+    'Callback function triggered before a tag is added by pressing Enter or the configured delimiter key. Receives the tag being added and the current field value. Return `false` to prevent the tag from being added. Return a string to replace the original tag value before it is added.',
+    type: '({ currentValue, newTag }) => boolean / string / void'
+  },
+  onTagDelete: {
+    name: 'onTagDelete',
+    description:
+    'Callback function triggered before a tag is removed. Receives the tag being deleted and the current field value. Return `false` to prevent the tag from being deleted.',
+    type: '({ currentValue, deletedTag }) => boolean / void'
+  },
+  onTagPaste: {
+    name: 'onTagPaste',
+    description:
+    'Callback function triggered when tags are pasted into the input. The pasted text is split using the configured delimiter, trimmed, and deduplicated before this callback is invoked. Receives the parsed tags and the current field value. Return `false` to prevent all pasted tags from being added, or return a string array to replace the parsed tags.',
+    type: '({ currentValue, pastedTags }) => boolean / string[] / void'
+  },
+  delimiter: {
+    name: 'delimiter',
+    description:
+    'Character used to separate tags when typing or pasting. Pressing the delimiter key commits the current input as one or more tags, and pasted values are split using the same delimiter.',
+    type: 'string'
+  },
+  maxTags: {
+    name: 'maxTags',
+    description:
+    'Maximum number of tags that can be added. Once the limit is reached, additional tags entered from the keyboard are ignored, and pasted tags are truncated to the remaining available slots.',
+    type: 'number'
   },
   onValueChange_Inputs: {
     name: 'onValueChange',
-    description: 'An optional callback function when the value of a field changes.',
-    type: '(value: string, event: ChangeEvent) => void'
+    description:
+      'Callback function triggered when the field value changes.',
+    type: '({ newValue, event }) => void'
   },
   onValueChange_numberInput: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the parsed numeric value, which can be an **integer**, **float**, or **null** if the input is empty.',
+    description: 'Callback function that returns the parsed numeric value as an integer, decimal, or `null` when the input is empty.',
     type: '(value: number / null) => void'
   },
   onValueChange_tagsInput: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns an array of strings.',
-    type: '(tags: string[]) => void'
+    description: 'An optional callback function that returns all tags present in the input.',
+    type: '({ newValue }) => void'
   },
   onValueChange_FileUploader: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the file(s) uploaded in the file uploader component.',
-    type: '(files: File / File[] / null) => void'
+    description: 'Optional callback fired when files are uploaded, removed, or cleared. Receives the updated field value and the event that triggered the change.',
+    type: '({ newValue: File / File[] / null, event: ChangeEvent / DragEvent / MouseEvent }) => void'
   },
   onValueChange_Select: {
     name: 'onValueChange',
-    description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
-    type: '(newValue, event, child) => void'
-  },
-  onValueChange_Select_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function when the value of a field changes. The changed value can be obtained from `e.target.value` ',
-    type: '(e: SelectChangeEvent) => void'
+    description:
+      'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
+    type: '({ newValue, event, child }) => void'
   },
   onValueChange_NativeSelect: {
     name: 'onValueChange',
-    description: 'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
-    type: '(newValue, event) => void'
+    description:
+      'An optional callback function when an option is selected. The latest value can be obtained from `newValue` argument.',
+    type: '({ newValue, event }) => void'
   },
   onValueChange_Autocomplete: {
     name: 'onValueChange',
-    description: 'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `details`.',
-    type: '(newValue, event, reason, details?) => void'
+    description:
+      'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `selectedOption`.',
+    type: '({ newValue, selectedOption, event, reason, details }) => void'
   },
   onValueChange_AutocompleteObject: {
     name: 'onValueChange',
     description: 'Returns the entire object option(s) selected by the user in `newValue` parameter. The last selected option can be obtained from `details`.',
-    type: '(newValue, event, reason, details?) => void'
-  },
-  onValueChange_MultiAutocompleteObject: {
-    name: 'onValueChange',
-    description: 'Returns the entire object options selected by the user in `newValue` parameter. The **"Select All"** option is not included in the final form value.',
-    type: '(newValue, event, reason, details?) => void'
+    type: '({ newValue, event, reason, details }) => void'
   },
   onValueChange_MultiAutocomplete: {
     name: 'onValueChange',
-    description: 'Callback function that returns the latest fieldValue and value of the item selected.',
-    type: '(fieldValue: string[], targetValue?: string) => void'
+    description:
+      'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `selectedOption`.',
+    type: '({ newValue, selectedOption }) => void'
+  },
+  onValueChange_MultiAutocompleteObject: {
+    name: 'onValueChange',
+    description: 'Returns the latest value of the field in `newValue` parameter. The last selected option can be obtained from `selectedOption`.',
+    type: '({ newValue, selectedOption }) => void'
   },
   onValueChange_CountrySelect: {
     name: 'onValueChange',
-    description: 'Returns **newValue** as `CountryDetails` or `CountryDetails[]` based on the `multiple` prop. Returns `null` if no selection has been made.',
-    type: '(newValue, event, reason, details?) => void '
+    description: 'Called when the selected country value changes. Returns the selected country property defined by `valueKey`, or the complete country object when `valueKey` is not provided. Returns an array when `multiple` is enabled and `null` when no selection is made.',
+    type: '({ newValue, event, reason, details? }) => void'
   },
   onValueChange_Checkbox: {
     name: 'onValueChange',
-    description: 'An optional callback function which returns the state of the checkbox.',
-    type: '(isChecked: boolean, e: ChangeEvent) => void'
+    description:
+      'An optional callback function which returns the state of the checkbox.',
+    type: '({ newValue, event }) => void'
   },
-  onValueChange_Checkbox_v1: {
+  onValueChange_Switch: {
     name: 'onValueChange',
-    description: 'An optional callback function which returns the state of the checkbox from `e.target.checked` value.',
-    type: '(e: ChangeEvent) => void'
+    description:
+      'An optional callback function which returns whether the switch is turned on or not.',
+    type: '({ newValue, event }) => void'
   },
   onValueChange_CheckboxGroup: {
     name: 'onValueChange',
-    description: 'An optional callback function triggered upon selection. The `selectedItemValue` parameter provides the value of the item being checked, while the `value` parameter returns the updated complete value of the form field.',
-    type: '(selectedItemValue, value, event) => void'
-  },
-  onValueChange_CheckboxGroup_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function returning the value of the selected control.',
-    type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
+    description:
+      'An optional callback function triggered upon selection. The `toggledValue` parameter provides the value of the item being checked, while the `newValue` parameter returns the updated complete value of the form field.',
+    type: '({ event, newValue, toggledValue, checked }) => void'
   },
   onValueChange_RadioGroup: {
     name: 'onValueChange',
-    description: 'An optional callback function returning the value of the radio button being selected.',
-    type: '(selectedItemValue, event) =>  void'
+    description:
+      'An optional callback function returning the value of the radio button being selected.',
+    type: '({ newValue, event }) =>  void'
   },
   onValueChange_Slider: {
     name: 'onValueChange',
     description: 'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(value: number / number[], activeThumb: number, event) => void'
-  },
-  onValueChange_Slider_v1: {
-    name: 'onValueChange',
-    description: 'Optional callback function returning the selected value of `RHFSlider`.',
-    type: '(event: Event, value: number / number[], activeThumb: number) => void'
-  },
-  onValueChange_Switch: {
-    name: 'onValueChange',
-    description: 'A callback function that triggers when the switch is toggled, providing a boolean indicating whether the switch is on or off.',
-    type: '(isChecked: boolean, e: ChangeEvent) => void'
+    type: '({ event, newValue, activeThumb }) => void'
   },
   onValueChange_Rating: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the changed value of rating component',
-    type: '(newValue: number / null, event) => void'
-  },
-  onValueChange_Rating_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function that returns the changed value of rating component',
-    type: '(e: SyntheticEvent, newValue: number / null) => void'
+    description: 'Callback function triggered when the rating value changes.',
+    type: '({ newValue, event }) => void'
   },
   onValueChange_DatePicker: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the selected date as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate / null, dateContext) => void'
+    description: 'Optional callback fired when the selected date changes and the picker value is valid. Receives the updated date value and the MUI picker change context.',
+    type: '({ newValue, context }) => void'
   },
   onValueChange_TimePicker: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the selected time as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate / null, timeContext) => void'
+    description: 'Optional callback fired when the selected time changes and the picker value is valid. Receives the updated time value and the MUI picker change context.',
+    type: '({ newValue, context }) => void'
   },
   onValueChange_DateTimePicker: {
     name: 'onValueChange',
-    description: 'An optional callback function that returns the selected dateTime as per the specified `dateAdapter`.',
-    type: '(newValue: PickerValidDate / null, dateTimeContext) => void'
-  },
-  onValueChange_Pickers_v1: {
-    name: 'onValueChange',
-    description: 'An optional callback function which returns the selected date or time value.',
-    type: '(newValue: unknown) => void'
+    description: 'Optional callback fired when the selected date and time changes and the picker value is valid. Receives the updated value and the MUI picker change context.',
+    type: '({ newValue, context }) => void'
   },
   valueKey_ColorPicker: {
     name: 'valueKey',
-    description: 'Returns the `hex`, `rgba` or `hsva` string for the selected color. Returns **hex code** by default.',
+    description:
+    'Determines the format of the selected color value. Returns a `hex`, `rgba`, or `hsva` representation of the selected color. When `excludeAlpha` is enabled, alpha information is omitted from the returned value. Defaults to `hex`.',
     type: 'hex / rgb / hsv'
   },
   onValueChange_ColorPicker: {
     name: 'onValueChange',
-    description: 'Callback function to get the selected color in `hex`, `rgb` or `hsv` format. The color format being set in field value can be configured by the `valueKey` prop.',
+    description:
+      'Callback function to get the selected color in `hex`, `rgb` or `hsv` format. The color format being set in field value can be configured by the `valueKey` prop.',
     type: '(color: IColor) => void'
-  },
-  onValueChange_ColorPicker_v1: {
-    name: 'onValueChange',
-    description: 'Callback function to get the selected color. Update form state by calling the `setValue` function, and passing the color value in preffered format.',
-    type: '(color: IColor) => void',
-    required: true
   },
   onValueChange_RichTextEditor: {
     name: 'onValueChange',
-    description: 'Callback function returning the editor value, `event` object and editor details.',
-    type: '(newValue: string, event: EventInfo, editor: ClassicEditor) => void',
-  },
-  onValueChange_RichTextEditor_v1: {
-    name: 'onValueChange',
-    description: 'Callback function returning the `event` object, editor value and editor details.',
-    type: '(event: EventInfo, newValue: string, editor: ClassicEditor) => void',
+    description:
+    'Optional callback fired after the editor content changes and the updated HTML string is stored in the form field. Receives the latest editor value, change event, and CKEditor instance.',
+    type: '({ newValue, event, editor }) => void'
   },
   onValueChange_PhoneInput: {
     name: 'onValueChange',
-    description: 'Callback function to get details of input phone number, including the country details.',
-    type: '({ phone: string, inputValue: string, country: ParsedCountry }) => void',
-  },
-  value_ColorPicker: {
-    name: 'value',
-    description: 'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically, else `defaultColor` is selected as the current color.',
-    type: 'string',
-    required: true
-  },
-  value_ColorPicker_v1: {
-    name: 'value',
-    description: 'Defines the selected color in the RHFColorPicker component. Use `getValues(\'fieldName\')` to set the value dynamically. Defaults to **Black**(`#000000`).',
-    type: 'string'
+    description:
+    'Optional callback fired after the phone value changes and the structured `RHFPhoneInputValue` is stored in the form field. Receives the updated value and the raw change payload from `react-international-phone`.',
+    type: '({ newValue, phoneData }) => void'
   },
   defaultColor: {
     name: 'defaultColor',
-    description: 'The default color to select when the field is not initialized. The default value **Black**(`#000000`) can be overridden by providing a valid color string, hex, rgb or hsv value.',
+    description:
+      'The default color to select when the field is not initialized. The default value **Black**(`#000000`) can be overridden by providing a valid color string, hex, rgb or hsv value.',
     type: 'string'
   },
   excludeAlpha: {
     name: 'excludeAlpha',
-    description: 'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is `undefined` in the input color.',
+    description:
+      'Specifies whether to exclude **alpha** from the color string when the `valueKey` is **rgb** or **hsv**. Alpha will only be excluded if its value is `1` or is `undefined` in the input color.',
     type: 'boolean'
-  },
-  value_RichTextEditor: {
-    name: 'value',
-    description: 'The content to render in the Rich Text Editor. It can be a plain text string or an HTML string.',
-    type: 'string',
-  },
-  value_PhoneInput: {
-    name: 'value',
-    description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
-    type: 'string / undefined',
-    required: true
   },
   showPasswordIcon: {
     name: 'showPasswordIcon',
-    description: 'Icon component to show password, such as `VisibilityIcon` from `@mui/icons-material/Visibility`.',
+    description:
+      'Custom icon displayed when the password value is hidden, such as `VisibilityIcon` from `@mui/icons-material/Visibility`.',
     type: 'ReactNode'
   },
   hidePasswordIcon: {
     name: 'hidePasswordIcon',
-    description: 'Icon component to hide password text, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
-    type: 'ReactNode',
+    description:
+      'Custom icon displayed when the password value is visible, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
+    type: 'ReactNode'
   },
-  hideFileList: {
-    name: 'hideFileList',
-    description: 'Hide the list of files uploaded in the file uploader component.',
-    type: 'boolean'
-  },
-  accept_FileUploader: {
+  accept: {
     name: 'accept',
-    description: 'The file types to accept in the file uploader component. Eg: `image/*` or `.pdf,.docx`.',
-    type: 'string'
-  },
-  accept_FileUploader_v2: {
-    name: 'accept',
-    description: 'The file types to accept in the file uploader component.  Eg: `image/*` or `.pdf,.docx`.',
-    required: true,
+    description:
+      'The file types to accept in the file uploader component. Eg: `image/*` or `.pdf,.docx`.',
     type: 'string'
   },
   multiple_FileUploader: {
     name: 'multiple',
-    description: 'Allow selection of single or multiple values for a formfield.',
+    description:
+      'Allows selecting and uploading multiple files. When disabled, only a single file can be selected.',
     type: 'boolean'
   },
-  maxSize_FileUploader: {
+  maxSize: {
     name: 'maxSize',
-    description: 'The maximum file size in bytes allowed for each uploaded file.',
+    description: 'The maximum **file size in bytes** allowed for each uploaded file.',
     type: 'number'
   },
   maxFiles: {
     name: 'maxFiles',
-    description: 'The maximum number of files allowed to be uploaded in the file uploader component. Extra files will be rejected.',
+    description:
+      'Maximum number of files allowed. Any files exceeding this limit will be rejected. Files provided via `existingFiles` are also counted toward the limit.',
     type: 'number'
   },
-  showFileSize: {
-    name: 'showFileSize',
-    description: 'Show the file size of the uploaded file(s) in the file uploader component.',
-    type: 'boolean'
-  },
-  renderUploadButton: {
+  renderUploadButton: ({ docsVersion }: PropsDescriptionArgs) => ({
     name: 'renderUploadButton',
-    description: 'Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
+    description:
+      `Custom render function to replace the default upload button in the file uploader component. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader#custom-upload-button) for more details.`,
     type: '(fileInput: ReactNode) => ReactNode'
-  },
-  renderFileItem: {
+  }),
+  renderFileItem: ({ docsVersion }: PropsDescriptionArgs) => ({
     name: 'renderFileItem',
-    description: 'Custom render function to replace the default file item in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
-    type: '(file: File, index: number) => ReactNode'
-  },
+    description: `Custom renderer for files selected during the current session. Receives the file, its index, and a helper function to remove the file. Refer to the [example](/${docsVersion ? `v${docsVersion}/` : ''}components/mui/RHFFileUploader2#custom-file-rendering) for more details.`,
+    type: '({ file, index, removeFile }) => ReactNode'
+  }),
   onUploadError: {
     name: 'onUploadError',
-    description: 'Callback function that returns the error message and rejected files when uploaded files fail the validation during upload.',
-    type: '(errors: FileUploadError[], rejectedFiles: File[]) => void'
+    description:
+      'Callback function that returns validation errors grouped by rejected file.',
+    type: 'Array<{ file, errors }> => void'
   },
   fullWidth_FileUploader: {
     name: 'fullWidth',
     description: 'Set the width of the file uploader component to 100%.',
     type: 'boolean'
   },
-  defaultValue: {
-    name: 'defaultValue',
-    description: 'When rendering `RHFSelect` or `RHFNativeSelect` with some initial value, pass the value in this prop, so that this value is selected. The value would be an array if `multiple=true`',
-    type: 'string / string[] / number / number[]',
-  },
-  defaultValue_Slider: {
-    name: 'defaultValue',
-    description: 'Initial value set for `RHFSlider` component on render.',
-    type: 'number / number[]',
-    required: true
-  },
   showMarkers: {
     name: 'showMarkers',
-    description: 'Show the increment and decrement markers on number input.  Hidden by default.',
+    description:
+      'Show the increment and decrement markers on number input.  Hidden by default.',
     type: 'boolean'
+  },
+  onlyIntegers: {
+    name: 'onlyIntegers',
+    description:
+      'When `true`, restricts input to zero, positive and negative integers only.',
+    type: 'boolean'
+  },
+  nonNegative: {
+    name: 'nonNegative',
+    description:
+      'When `true`, restricts input to non-negative numbers (including zero) and sets `min` to `0` on the underlying input. When `false` or omitted, negative values and a leading `-` are allowed while typing.',
+    type: 'boolean'
+  },
+  maxDecimalPlaces: {
+    name: 'maxDecimalPlaces',
+    description:
+      'Limits how many digits a user can enter after the decimal point',
+    type: 'number'
+  },
+  stepAmount: {
+    name: 'stepAmount',
+    description:
+      'The amount to increase/decrease value when using arrow keys or input steppers',
+    type: 'number'
   },
   showDefaultOption: {
     name: 'showDefaultOption',
-    description: 'Show default Label of the disabled option when value of `RHFSelect` or `RHFNativeSelect` is `\'\'`. This text can be changed using the `defaultOptionText` prop.',
+    description: 'Displays a default option with an empty value (`\'\'`) at the top of the dropdown. The displayed text can be customized using `defaultOptionText`.',
     type: 'boolean'
   },
   defaultOptionText: {
     name: 'defaultOptionText',
-    description: 'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
+    description:
+      'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
     type: 'string'
   },
-  checkboxProps: {
+  checkboxProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'checkboxProps',
-    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox}) to customise each checkbox in checkbox group.`,
-    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox})`,
+    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox(muiVersion)}) to customise each checkbox in checkbox group.`,
+    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
     hasLinkInType: true
-  },
-  radioProps: {
+  }),
+  checkboxProps_MultiAutocomplete: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'checkboxProps',
+    description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox(muiVersion)}) used to customize the checkbox rendered alongside each autocomplete option.`,
+    type: `[CheckboxProps](${ExternalLinks.muiComponentApi.checkbox(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  radioProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'radioProps',
-    description: `[Radio Props](${ExternalLinks.muiComponentApi.radio}) to customise each radio button in radiobutton group.`,
-    type: `[RadioProps](${ExternalLinks.muiComponentApi.radio})`,
+    description: `[Radio Props](${ExternalLinks.muiComponentApi.radio(muiVersion)}) to customise each radio button in radiobutton group.`,
+    type: `[RadioProps](${ExternalLinks.muiComponentApi.radio(muiVersion)})`,
     hasLinkInType: true
-  },
+  }),
   disabled: {
     name: 'disabled',
-    description: 'A `boolean` value to enable or disable editing of the form field.',
+    description: 'Disables the component and prevents user interaction.',
     type: 'boolean'
   },
   editorConfig: {
     name: 'editorConfig',
-    description: 'A Configuration object for CkEditor to customize formatting controls and toolbar positioning, as per requirement. Refer to the [toolbar positioning guide](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/toolbar.html) for more details.',
+    description:
+      'A Configuration object for CkEditor to customize formatting controls and toolbar positioning, as per requirement. Refer to the [toolbar positioning guide](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/toolbar.html) for more details.',
     type: '[EditorConfig](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html)',
     hasLinkInType: true
   },
   id_Rte: {
     name: 'id',
-    description: 'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration.',
+    description:
+      'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration.',
     type: 'string'
   },
   onReady_Rte: {
     name: 'onReady',
-    description: 'A function called when the context is ready and all editors inside were (re)initialized with the context instance.',
+    description:
+      'A function called when the context is ready and all editors inside were (re)initialized with the context instance.',
     type: '(editor: ClassicEditor) => void'
   },
   onFocus_Rte: {
@@ -473,82 +617,151 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   },
   onBlur_Rte: {
     name: 'onBlur',
-    description: 'Callback function triggered when the editor gains loses focus.',
+    description:
+      'Callback function triggered when the editor gains loses focus.',
     type: '(event: EventInfo<string, unknown>, editor: ClassicEditor) => void'
   },
   onError_Rte: {
     name: 'onError',
-    description: 'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
+    description:
+      'A function called when the editor has crashed during the initialization or runtime. It receives two arguments: the error instance and the error details.',
     type: '(error: Error, details: ErrorDetails) => void'
   },
   phoneInputProps: {
     name: 'phoneInputProps',
     description: 'Props to pass in the `usePhoneInput` hook for customization.',
-    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean}',
+    type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput)',
     hasLinkInType: true
   },
   countries: {
     name: 'countries',
-    description: 'The list of countries to render for selection in the Autocomplete. By default all countries will be listed.',
-    type: 'CountryDetails[]',
+    description:
+      `The [list of countries](${ExternalLinks.githubRepo.countriesList}) to render for selection in the Autocomplete. By default all countries will be listed.`,
+    type: 'CountryDetails[]'
+  },
+  multiple_CountrySelect: {
+    name: 'multiple',
+    description: 'Allow selection of more than one countries',
+    type: 'boolean'
   },
   preferredCountries: {
     name: 'preferredCountries',
-    description: 'The countries to show at the top of the list. The array requires the `iso` values of the countries.',
-    type: 'CountryISO[]',
+    description:
+      'The countries to show at the top of the list. The array requires the `iso` values of the countries.',
+    type: 'CountryISO[]'
   },
   valueKey_CountrySelect: {
     name: 'valueKey',
-    description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
+    description: 'Determines which country property is stored as the selected value. If not provided, the complete country object is returned.',
     type: '`name` / `iso` / `iso3`',
   },
-  textFieldProps: {
+  textFieldProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'textFieldProps',
-    description: 'Props to customise the Autocomplete Textfield.',
-    type: '[TextFieldProps](https://mui.com/material-ui/api/text-field/)',
+    description: `Props to customise the Autocomplete [Textfield](${ExternalLinks.muiComponents.textField(muiVersion)}).`,
+    type: `[TextFieldProps](${ExternalLinks.muiComponentApi.textField(muiVersion)})`,
     hasLinkInType: true
-  },
+  }),
   multiple: {
     name: 'multiple',
-    description: 'Allow selection of single or multiple values for a formfield.',
+    description: 'Allows multiple values to be selected.',
     type: 'boolean'
   },
   selectAllText: {
     name: 'selectAllText',
-    description: 'Custom text to render in place of the "Select All" option that enables user to select all available options in the Autocomplete.',
+    description:
+      'Custom text to render in place of the "**Select All**" option that enables user to select all available options in the Autocomplete.',
     type: 'string'
   },
-  hideSelectAllOption: {
+  hideSelectAllOption_MultiAutocomplete: {
     name: 'hideSelectAllOption',
-    description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocomplete. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2.0` and above.',
+    description:
+      'A flag to hide the "**Select All**" option that enables user to select all available options. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
     type: 'boolean'
   },
   hideSelectAllOption_MultiAutocompleteObject: {
     name: 'hideSelectAllOption',
-    description: 'A flag to hide the "Select All" option that enables user to select all available options in RHFMultiAutocompleteObject. This option will be automatically hidden when there are less than 2 options to select from.',
+    description: 'A flag to hide the "**Select All**" option that enables user to select all available options. This option will be automatically hidden when there are less than 2 options to select from.',
     type: 'boolean'
   },
-  ChipProps: {
+  ChipProps_TagsInput: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'ChipProps',
-    description: 'Props to customise the `Chip` component for each input tag.',
-    type: '[ChipProps](https://mui.com/material-ui/api/chip/)',
+    description: `Props to customise the [Chip](${ExternalLinks.muiComponents.chip(muiVersion)}) component for each input tag.`,
+    type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
     hasLinkInType: true
+  }),
+  ChipProps_Autocomplete: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'ChipProps',
+    description: `Props applied to the [Chip](${ExternalLinks.muiComponents.chip(muiVersion)}) component used to render selected values.`,
+    type: `[ChipProps](${ExternalLinks.muiComponentApi.chip(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  renderTagLabel: {
+    name: 'renderTagLabel',
+    description: 'Function to render the label for each tag.',
+    type: '(tag: string) => ReactNode'
   },
   limitTags: {
     name: 'limitTags',
-    description: 'Maximum number of tags to show when the input is not focused. The default value is `2`. Provide value as `-1` to show all tags.',
+    description:
+      'Maximum number of tags to show when the input is not focused. The default value is `2`. Provide value as `-1` to show all tags.',
     type: 'number'
   },
   getLimitTagsText: {
     name: 'getLimitTagsText',
-    description: 'The label to display when the tags are truncated',
+    description: 'Custom renderer for the summary label displayed when tags are hidden.',
     type: '(hiddenTags: number) => ReactNode'
   },
   displayFlagOnSelect: {
     name: 'displayFlagOnSelect',
-    description: 'Show the flag of the selected country alongside its name in the tag. Works only when `multiple` is **true**.',
+    description:
+      'Show the flag of the selected country alongside its name in the tag. Works only when `multiple` is **true**.',
     type: 'boolean'
-  }
+  },
+  dropZoneProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'dropZoneProps',
+    description:
+      `Props applied to the drag-and-drop wrapper. Accepts either a [BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)}) object or a callback that receives the current drop-zone state and returns \`BoxProps\` dynamically.`,
+    type: 'BoxProps / ({ isDragging, disabled, error }) => BoxProps',
+  }),
+  disableDragAndDrop: {
+    name: 'disableDragAndDrop',
+    description:
+    'Disables drag-and-drop uploads and only allows file selection through the upload button.',
+    type: 'boolean'
+  },
+  existingFiles: {
+    name: 'existingFiles',
+    description:
+    'List of files that already exist on the server. These files are rendered separately from newly uploaded files and count toward the `maxFiles` limit.',
+    type: 'Array<{ name, url, size }>'
+  },
+  renderExistingFileItem: {
+    name: 'renderExistingFileItem',
+    description: 'Custom renderer for each file provided via `existingFiles`.',
+    type: '({ file, index }) => ReactNode'
+  },
+  existingFileListProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'existingFileListProps',
+    description: 'Props applied to the wrapper `Box` element that contains files provided via `existingFiles`.',
+    type: `[BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  uploadedFileListProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'uploadedFileListProps',
+    description: 'Props applied to the wrapper `Box` element that contains files selected during the current session.',
+    type: `[BoxProps](${ExternalLinks.muiComponentApi.box(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  freeSolo: {
+    name: 'freeSolo',
+    description: 'Allows users to enter values that are not present in the autocomplete options. Supported from v4 onwards.',
+    type: 'boolean'
+  },
+  searchCountryProps: {
+    name: 'searchCountryProps',
+    description: 'Props to customize the country search field and country menu item rendering',
+    type: '{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText }',
+  },
 });
 
 export default PropsDescription;

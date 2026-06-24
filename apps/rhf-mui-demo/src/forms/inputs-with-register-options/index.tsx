@@ -1,10 +1,12 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
+import { useForm, useWatch } from 'react-hook-form';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
@@ -14,7 +16,6 @@ import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
-import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -22,7 +23,9 @@ import {
   FieldVariantInfo,
   FormState,
   SubmitButton,
-  ResetButton
+  ResetButton,
+  UploadedFile,
+  UploadedImage
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import {
@@ -40,6 +43,8 @@ type FormSchema = {
   password: string;
   confirmPassword: string;
   age?: number;
+  weight?: number;
+  balance?: number;
   tags?: string[];
   keywords?: string[];
   resume?: File;
@@ -56,30 +61,32 @@ const initialValues: FormSchema = {
   keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
+const weightStepAmount = 2;
+const balanceStepAmount = 0.5;
+
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
   const {
     control,
-    watch,
     reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 
-  console.log('pictures, resume, documents ', watch(['resume', 'pictures', 'documents']));
   return (
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Basic Input field with required validation" />
+            <FieldVariantInfo title="Basic Input field with required validation and customOnChange" />
             <RHFTextField
               fieldName="firstName"
               control={control}
@@ -89,8 +96,10 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('First Name')
                 }
               }}
+              customOnChange={({ rhfOnChange, newValue }) => {
+                rhfOnChange(newValue.toUpperCase());
+              }}
               required
-              errorMessage={errors?.firstName?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -108,27 +117,33 @@ const InputsWithRegisterForm = () => {
                   message: maxCharMsg(10)
                 }
               }}
-              errorMessage={errors?.lastName?.message}
+              helperText="Enter min 4 and max 10 characters"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Input with pattern validation & label above form-field" />
+            <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
             <RHFTextField
               fieldName="email"
               control={control}
-              errorMessage={errors?.email?.message}
               registerOptions={{
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'Invalid Email Id'
+                  value:
+                    /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
+                  message: 'Enter a valid email address'
                 }
+              }}
+              customIds={{
+                field: 'userEmail',
+                label: 'userEmail-label',
+                error: 'userEmail-error'
               }}
               variant="standard"
               showLabelAboveFormField
+              formLabelProps={{ sx: { color: 'blue', fontWeight: 600 } }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Simple Password Field" />
+            <FieldVariantInfo title="Simple Password Field with hidden label" />
             <RHFPasswordInput
               fieldName="password"
               control={control}
@@ -142,8 +157,9 @@ const InputsWithRegisterForm = () => {
                   message: minCharMsg(4)
                 }
               }}
+              placeholder="Enter a secure password"
+              hideLabel
               required
-              errorMessage={errors?.password?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -157,7 +173,8 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: v => (v && `${String(v)}`.length >= 4) || minCharMsg(4),
+                  minLen: v =>
+                    (v && `${String(v)}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
                 }
@@ -167,22 +184,70 @@ const InputsWithRegisterForm = () => {
               hidePasswordIcon={<VisibilityTwoToneIcon />}
               showLabelAboveFormField
               required
-              errorMessage={errors?.confirmPassword?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Number Input with Typography as a helper text & return value as a number" />
+            <FieldVariantInfo title="Number Input with integer value & Typography as a helper text" />
             <RHFNumberInput
               fieldName="age"
               control={control}
-              errorMessage={errors?.age?.message}
               variant="filled"
               placeholder="What is your age?"
+              nonNegative
+              onlyIntegers
+              onFocus={e => e.target.select()}
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Tags Input with upto 4 visible tags when not focussed and custom limit text" />
+            <FieldVariantInfo title="Number Input with decimal place limit and integer stepAmount" />
+            <RHFNumberInput
+              fieldName="weight"
+              control={control}
+              maxDecimalPlaces={3}
+              placeholder="Enter your weight"
+              stepAmount={weightStepAmount}
+              showMarkers
+              nonNegative
+              helperText={
+                <Typography color="seagreen">
+                  {`Press Arrow Up/Down keys to update input value by ${weightStepAmount}; negative
+                  values are not allowed`}
+                </Typography>
+              }
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">kg</InputAdornment>
+                  )
+                }
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Number Input with 2 decimal places and stepAmount" />
+            <RHFNumberInput
+              fieldName="balance"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('balance')
+                }
+              }}
+              variant="filled"
+              maxDecimalPlaces={2}
+              stepAmount={balanceStepAmount}
+              showMarkers
+              helperText={
+                <Typography color="seagreen">
+                  {`Press Arrow Up/Down keys to update input value by ${balanceStepAmount}`}
+                </Typography>
+              }
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Tags Input with upto 4 visible tags, and custom onTagAdd, onTagDelete and onTagPaste events" />
             <RHFTagsInput
               fieldName="tags"
               control={control}
@@ -192,18 +257,37 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('tags')
                 }
               }}
-              limitTags={4}
+              limitTags={0}
+              onTagAdd={({ newTag }) => {
+                if (newTag.length < 3) {
+                  return false;
+                }
+                if (newTag.toLowerCase().includes('sh')) {
+                  return false;
+                }
+              }}
+              onTagDelete={({ deletedTag }) => {
+                if (deletedTag.length === 4) {
+                  return false;
+                }
+              }}
+              onTagPaste={({ pastedTags }) => {
+                const filteredTags = pastedTags.filter(
+                  t => t.length >= 3 && !t.toLowerCase().includes('sh')
+                );
+                return filteredTags;
+              }}
               getLimitTagsText={hiddenTags => (
                 <Typography color="green">
                   {`& ${hiddenTags} More`}
                 </Typography>
               )}
               required
-              errorMessage={errors?.tags?.message}
+              helperText="Enter min 3 characters; no 'sh' substring allowed"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Tags Input with styled chips and all tags visible" />
+            <FieldVariantInfo title="Tags Input with styled chips, custom delimiter and all tags visible" />
             <RHFTagsInput
               fieldName="keywords"
               control={control}
@@ -221,61 +305,125 @@ const InputsWithRegisterForm = () => {
                   backgroundColor: theme => theme.palette.secondary.main
                 }
               }}
+              delimiter="|"
               variant="filled"
               showLabelAboveFormField
+              maxTags={8}
               limitTags={-1}
               required
-              errorMessage={errors?.keywords?.message}
+              helperText="Use '|' to separate tags; max 8 tags allowed"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Customized label and allow upload of at max 2 pdf files only" />
+            <FieldVariantInfo title="Customized label and allow upload of at max 3 pdf files only; drag and drop disabled" />
             <RHFFileUploader
               fieldName="documents"
               control={control}
               accept=".pdf"
               multiple
               label={
-                <Typography color="secondary" sx={{ fontWeight: 600 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <CloudUploadIcon />
-                  {' Upload Documents'}
-                </Typography>
+                  <Typography color="secondary" sx={{ fontWeight: 600 }}>
+                    Upload Documents (PDFs only)
+                  </Typography>
+                </Box>
               }
-              showFileSize
+              existingFiles={[
+                {
+                  name: 'SampleDocument.pdf',
+                  url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+                }
+              ]}
+              existingFileListProps={{
+                sx: {
+                  mt: '10px',
+                  p: '4px',
+                  background: '#abcded',
+                  borderRadius: '8px'
+                }
+              }}
+              uploadedFileListProps={{
+                sx: {
+                  mt: '10px',
+                  p: '4px',
+                  background: '#4c4c4c',
+                  borderRadius: '8px'
+                }
+              }}
+              renderExistingFileItem={({ file }) => (
+                <a
+                  href={file.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-white decoration-blue-500 underline decoration-2 underline-offset-2"
+                >
+                  {file.name}
+                </a>
+              )}
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedFile file={file} onRemove={removeFile} />
+              )}
+              onUploadError={errors => {
+                toast.error(`${errors.length} file(s) were rejected`);
+              }}
               fullWidth
-              maxFiles={2}
+              disableDragAndDrop
+              maxFiles={3}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Upload multiple images showing and show files uploaded" />
+            <FieldVariantInfo title="Upload multiple images showing, with renderFileItem function. customOnChange function prevents upload if total files exceed the specified file limit" />
             <RHFFileUploader
               fieldName="pictures"
               control={control}
               accept="image/*"
               label="Upload Pictures"
               multiple
-              showFileSize
               fullWidth
-              renderFileItem={(file, index) => (
-                <Typography variant="body2">
-                  {index + 1}
-                  .
-                  {file.name}
-                  {' '}
-                  -
-                  {' '}
-                  {getFileSize(file.size, { precision: 2 })}
-                </Typography>
+              uploadedFileListProps={{
+                sx: {
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '8px 16px',
+                  mt: 1
+                }
+              }}
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedImage file={file} onRemove={removeFile} />
               )}
-              onUploadError={(errors, rejectedFiles) => {
-                toast.error(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`);
-                console.log('rejectedFiles: ', rejectedFiles);
+              onUploadError={errors => {
+                toast.error(
+                  `${
+                    new Set(errors.map(({ file }) => file)).size
+                  } file(s) were rejected as ${errors
+                    .flatMap(({ errors: fileErrors }) => fileErrors)
+                    .join(' ,')}`
+                );
                 console.log('errors: ', errors);
               }}
+              customOnChange={({ rhfOnChange, newValue }) => {
+                let files: File[] = [];
+                if (Array.isArray(newValue)) {
+                  files = newValue;
+                } else if (newValue) {
+                  files = [newValue];
+                }
+                const totalSize = files.reduce(
+                  (sum, file) => sum + file.size,
+                  0
+                );
+                if (totalSize > 20 * 1024 * 1024) {
+                  toast.error('Total file size cannot exceed 20 MB');
+                  return;
+                }
+                rhfOnChange(newValue);
+              }}
+              helperText="If sum of sizes of files exceed 20 MB, further uploads will not be permitted"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="FileUploader with custom button" />
+            <FieldVariantInfo title="FileUploader with custom button and customized dropzone style" />
             <RHFFileUploader
               fieldName="resume"
               control={control}
@@ -290,6 +438,27 @@ const InputsWithRegisterForm = () => {
                   </IconButton>
                 </div>
               )}
+              dropZoneProps={({ isDragging, disabled, error }) => {
+                let borderColor = 'divider';
+                if (error) {
+                  borderColor = 'error.main';
+                } else if (isDragging) {
+                  borderColor = 'success.main';
+                }
+                return {
+                  sx: {
+                    border: '2px solid',
+                    borderColor,
+                    bgcolor: isDragging ? 'success.50' : 'background.paper',
+                    opacity: disabled ? 0.5 : 1,
+                    p: 3,
+                    borderRadius: 1
+                  }
+                };
+              }}
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedFile file={file} onRemove={removeFile} />
+              )}
             />
           </Grid>
           <Grid size={12}>
@@ -297,7 +466,7 @@ const InputsWithRegisterForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

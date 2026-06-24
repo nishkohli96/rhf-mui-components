@@ -1,6 +1,13 @@
 'use client';
 
-import { Fragment, type ReactNode } from 'react';
+import {
+  Fragment,
+  useContext,
+  forwardRef,
+  type Ref,
+  type ReactNode,
+  type JSX
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -9,9 +16,20 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { FormLabel, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds,
+  CustomOnChangeProps
+} from '@/types';
+import {
+  fieldNameToLabel,
+  mergeRefs,
+  resolveLabelAboveControl,
+  useFieldIds
+} from '@/utils';
 
 type SliderInputProps = Omit<
   SliderProps,
@@ -20,92 +38,163 @@ type SliderInputProps = Omit<
   | 'onChange'
 >;
 
+type OnValueChangeProps = {
+  newValue: number | number[];
+  activeThumb: number;
+  event: Event;
+};
+
 export type RHFSliderProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
   required?: boolean;
-  onValueChange?: (
-    value: number | number[],
-    activeThumb: number,
-    event: Event,
-  ) => void;
+  /**
+   * Custom change handler for slider value updates.
+   *
+   * Allows you to control how the slider value is processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param value - The new slider value (number or range)
+   * @param activeThumb - Index of the currently active thumb (for range sliders)
+   * @param event - The change event triggered by the slider
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    activeThumb,
+    event
+  }: CustomOnChangeProps<OnValueChangeProps, number | number[]>) => void;
+  onValueChange?: ({
+    newValue,
+    activeThumb,
+    event
+  }: OnValueChangeProps) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & SliderInputProps;
 
-const RHFSlider = <T extends FieldValues>({
+const RHFSliderInner = forwardRef(function RHFSlider<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
   required,
+  customOnChange,
   onValueChange,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
+  hideLabel,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
-  ...rest
-}: RHFSliderProps<T>) => {
+  customIds,
+  ...otherSliderProps
+}: RHFSliderProps<T>,
+ref: Ref<HTMLSpanElement>) {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
+  } = useFieldIds(fieldName, customIds);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   return (
-    <Fragment>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+        return (
+          <Fragment>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveControl}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             <MuiSlider
+              {...otherSliderProps}
+              ref={mergeRefs(rhfRef, ref)}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? 0}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(event, value, activeThumb) => {
+                if (customOnChange) {
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: value,
+                    activeThumb,
+                    event
+                  });
+                  return;
+                }
                 rhfOnChange(value);
-                onValueChange?.(value, activeThumb, event);
+                onValueChange?.({ newValue: value, activeThumb, event });
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-required={required || undefined}
+              aria-labelledby={
+                !hideLabel && isLabelAboveControl ? labelId : undefined
+              }
+              aria-label={hideLabel ? String(fieldLabel) : undefined}
+              aria-valuetext={
+                Array.isArray(rhfValue)
+                  ? rhfValue.join(' to ')
+                  : String(rhfValue)
+              }
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -114,24 +203,27 @@ const RHFSlider = <T extends FieldValues>({
                   : undefined
               }
               aria-invalid={isError || undefined}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </Fragment>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </Fragment>
+        );
+      }}
+    />
   );
-};
+});
+
+const RHFSlider = RHFSliderInner as <T extends FieldValues>(
+  props: RHFSliderProps<T> & { ref?: Ref<HTMLSpanElement> }
+) => JSX.Element;
 
 export default RHFSlider;

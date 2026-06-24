@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { type FieldErrors, type FieldValues } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';
 

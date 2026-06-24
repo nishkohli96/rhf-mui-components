@@ -1,7 +1,12 @@
 'use client';
 
-import { Fragment, type ReactNode } from 'react';
 import {
+  useContext,
+  Fragment,
+  type ReactNode
+} from 'react';
+import {
+  useWatch,
   Controller,
   type FieldValues,
   type Path,
@@ -16,67 +21,138 @@ import {
   type IColor
 } from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, colorToString, useFieldIds } from '@/utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type {
+  FormLabelProps,
+  FormHelperTextProps,
+  CustomComponentIds
+} from '@/types';
+import {
+  fieldNameToLabel,
+  colorToString,
+  useFieldIds,
+  resolveLabelAboveControl
+} from '@/utils';
 import 'react-color-palette/css';
 
 type ColorFormat = keyof IColor;
+
+type RHFColorPickerCustomOnChangeProps = {
+  color: IColor;
+  setColor: (newColor: IColor) => void;
+};
 
 export type RHFColorPickerProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
-  value?: string;
+  /**
+   * Color format stored in the React Hook Form field.
+   *
+   * `hex` stores the color hex string. Other formats are converted to a CSS color string.
+   * @default 'hex'
+   * Options: `hex`, `rgb`, `hsv`
+   */
   valueKey?: ColorFormat;
+  /**
+   * Initial color used by the picker when the field does not already have a value.
+   * @default '#000000'
+   */
   defaultColor?: string;
+  /**
+   * Excludes the alpha channel when storing non-hex color formats.
+   */
   excludeAlpha?: boolean;
   required?: boolean;
+  /**
+   * Height, in pixels, of the color picker saturation area.
+   * @default 200
+   */
   height?: number;
+  /**
+   * Hides the alpha input/control rendered by `react-color-palette`.
+   */
   hideAlpha?: boolean;
+  /**
+   * Hides picker input fields rendered by `react-color-palette`.
+   *
+   * Pass `true` to hide all inputs, or pass specific `IColor` keys to hide only
+   * those inputs.
+   */
   hideInput?: (keyof IColor)[] | boolean;
+  /**
+   * Fired after the picker value changes and the formatted value is stored in the field.
+   */
   onValueChange?: (color: IColor) => void;
+  /**
+   * Override the default `onChange` behavior of the color picker.
+   * You must pass the updated `color` to the **setColor** function to update the field value.
+   *
+   * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param color - Newly selected color value
+   * @param setColor - react-color-palette `setColor` function
+   */
+  customOnChange?: ({
+    color,
+    setColor
+  }: RHFColorPickerCustomOnChangeProps) => void;
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
+  hideLabel?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 };
 
 const RHFColorPicker = <T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
-  value,
   valueKey = 'hex',
   defaultColor = '#000000',
   excludeAlpha,
   required,
   hideInput,
   onValueChange,
+  customOnChange,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
+  hideLabel,
   helperText,
   errorMessage,
   hideErrorMessage,
   formHelperTextProps,
   height = 200,
-  ...otherProps
+  customIds,
+  hideAlpha,
 }: RHFColorPickerProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     labelId,
     helperTextId,
     errorId
-  } = useFieldIds(fieldName);
-  const [color, setColor] = useColor(value ?? defaultColor);
+  } = useFieldIds(fieldName, customIds);
+
+  const watchedValue = useWatch({ control, name: fieldName });
+  const [color, setColor] = useColor(watchedValue ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   const getFormattedColor = (color: IColor) =>
     valueKey === 'hex'
@@ -84,35 +160,56 @@ const RHFColorPicker = <T extends FieldValues>({
       : colorToString(color[valueKey], excludeAlpha);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            onChange: rhfOnChange
-          }
-        }) => (
-          <Fragment>
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          onChange: rhfOnChange,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+
+        const wrappedSetColor = (newColor: IColor) => {
+          setColor(newColor);
+          rhfOnChange(getFormattedColor(newColor));
+        };
+
+        return (
+          <FormControl error={isError}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveControl}
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  ...formLabelProps
+                }}
+              />
+            )}
             {renderHSLView
               ? (
                 <Fragment>
                   <Saturation
                     height={height}
                     color={color}
-                    disabled={muiDisabled}
+                    disabled={muiDisabled || rhfDisabled}
                     onChange={color => {
+                      if(customOnChange) {
+                        customOnChange({ color, setColor: wrappedSetColor });
+                        return;
+                      }
                       setColor(color);
                       const appliedColor = getFormattedColor(color);
                       rhfOnChange(appliedColor);
@@ -121,7 +218,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   />
                   <Hue
                     color={color}
-                    disabled={muiDisabled}
+                    disabled={muiDisabled || rhfDisabled}
                     onChange={setColor}
                   />
                 </Fragment>
@@ -129,33 +226,37 @@ const RHFColorPicker = <T extends FieldValues>({
               : (
                 <ReactColorPicker
                   color={color}
-                  disabled={muiDisabled}
+                  disabled={muiDisabled || rhfDisabled}
                   onChange={color => {
+                    if(customOnChange) {
+                      customOnChange({ color, setColor: wrappedSetColor });
+                      return;
+                    }
                     setColor(color);
                     const appliedColor = getFormattedColor(color);
                     rhfOnChange(appliedColor);
                     onValueChange?.(color);
                   }}
                   height={height}
-                  hideInput={muiDisabled ? true : hideInput}
-                  {...otherProps}
+                  hideInput={muiDisabled || rhfDisabled ? true : hideInput}
+                  hideAlpha={hideAlpha}
                 />
               )}
-          </Fragment>
-        )}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

@@ -1,12 +1,18 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
+import { useForm, useWatch } from 'react-hook-form';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { defaultCountries, parseCountry, type CountryIso2 } from 'react-international-phone';
+import {
+  defaultCountries,
+  parseCountry,
+  type CountryIso2
+} from 'react-international-phone';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
-import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import RHFPhoneInput, {
+  type RHFPhoneInputValue
+} from '@nish1896/rhf-mui-components/misc/phone-input';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
   FormContainer,
@@ -17,20 +23,28 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
 
 type FormSchema = {
   bio: string;
-  contactNumber: string;
-  contactNumber2?: string;
+  contactNumber: RHFPhoneInputValue;
+  otherContactNumber: RHFPhoneInputValue;
+  officeCell: RHFPhoneInputValue;
   favouriteColor: string;
-  secondFavColor?: string;
+  secondFavColor: string;
+  thirdFavColor: string;
   countries: string;
 };
 
-const initialValues = {
+const initialValues: Partial<FormSchema> = {
   favouriteColor: 'hsl(201 100% 73% / 1)',
-  contactNumber: '+1 (765) 232-3423',
+  contactNumber: {
+    phone: '+14163456234',
+    country: 'ca',
+    dialCode: '1',
+    phoneNo: '4163456234'
+  },
   countries: 'Angola'
 };
 
@@ -39,13 +53,13 @@ const MiscellaneousComponentsForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     getValues,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'cn', 'gb', 'vn'];
   const countries = defaultCountries.filter(country => {
@@ -83,7 +97,7 @@ const MiscellaneousComponentsForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Color Picker" />
+            <FieldVariantInfo title="Color Picker with Hex" />
             <RHFColorPicker
               fieldName="favouriteColor"
               control={control}
@@ -93,7 +107,6 @@ const MiscellaneousComponentsForm = () => {
                   message: 'select a color'
                 }
               }}
-              value={getValues('favouriteColor')}
               onValueChange={newColor => {
                 console.log('newColor: ', newColor);
               }}
@@ -103,7 +116,6 @@ const MiscellaneousComponentsForm = () => {
                   Your favouriteColor is being applied on this text.
                 </Typography>
               )}
-              errorMessage={errors?.favouriteColor?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -120,31 +132,64 @@ const MiscellaneousComponentsForm = () => {
                 }
               }}
               label="Second Favourite Color"
-              value={getValues('secondFavColor')}
+              customOnChange={({ color, setColor }) => {
+                console.log('color: ', color);
+                if(color.rgb.r > 128) {
+                  return;
+                }
+                setColor(color);
+              }}
               required
               helperText={(
                 <Typography color={getValues('secondFavColor')}>
-                  Your secondFavColor is being applied on this text.
+                  Color wont change if red value is greater than 128
                 </Typography>
               )}
-              errorMessage={errors?.secondFavColor?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Phone Input" />
+            <FieldVariantInfo title="Color Picker with HSL and excludeAlpha" />
+            <RHFColorPicker
+              fieldName="thirdFavColor"
+              control={control}
+              valueKey="hsv"
+              defaultColor="orange"
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
+              label="Third Favourite Color"
+              required
+              excludeAlpha
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Phone Input with customized country search input & renderCountryMenuItem" />
             <RHFPhoneInput
               fieldName="contactNumber"
               control={control}
-              value={getValues('contactNumber')}
-              errorMessage={errors?.contactNumber?.message}
+              searchCountryProps={{
+                textFieldProps: {
+                  variant: 'filled',
+                  sx: {
+                    '& .MuiInputBase-input': {
+                      color: theme => theme.palette.primary.main
+                    }
+                  }
+                },
+                renderCountryMenuItem: country => (
+                  <CountryMenuItem country={country} />
+                )
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top" />
+            <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top & hidden search" />
             <RHFPhoneInput
-              fieldName="contactNumber2"
+              fieldName="otherContactNumber"
               control={control}
-              value={getValues('contactNumber2')}
               showLabelAboveFormField
               variant="standard"
               phoneInputProps={{
@@ -157,13 +202,39 @@ const MiscellaneousComponentsForm = () => {
                   value: true,
                   message: 'Please enter your phone number'
                 },
-                minLength: {
-                  value: 6,
-                  message: 'Minimum 6 characters required'
+                validate: {
+                  requiredPhoneNumber: value =>
+                    !!getPhoneNoValue(value) || 'Please enter your phone number',
+                  minLength: value =>
+                    (getPhoneNoValue(value)?.length ?? 0) >= 6
+                    || 'Minimum 6 characters required'
                 }
               }}
+              searchCountryProps={{
+                allowCountrySearch: false
+              }}
               required
-              errorMessage={errors?.contactNumber2?.message}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Phone Input with forced country code" />
+            <RHFPhoneInput
+              fieldName="officeCell"
+              control={control}
+              phoneInputProps={{
+                defaultCountry: 'us',
+                /**
+                 * Disables dropdown to select country. Dial code can't be removed/changed
+                 * by keyboard events, but it can be changed by pasting another country phone value.
+                 */
+                forceDialCode: true,
+                /**
+                 * If true alongside `forceDialCode` prop, even the paste event will not trigger
+                 * change of country, including pasting a Canadian number when pre-selected country
+                 * is "USA".
+                 */
+                disableCountryGuess: true
+              }}
             />
           </Grid>
           <Grid size={12}>
@@ -171,7 +242,7 @@ const MiscellaneousComponentsForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

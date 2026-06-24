@@ -6,12 +6,13 @@ description: Learn how to use RHFCheckbox with react-hook-form to create customi
 ---
 
 import RHFCheckboxPropsTable from '@site/src/page-components/mui/checkbox/RHFCheckbox';
+import { DemoLink } from '@site/src/components';
 
 # RHFCheckbox
 
-The **RHFCheckbox** component renders a checkbox, allowing users to toggle options on or off, 
-such as subscribing to newsletters. It extends the [Checkbox](https://mui.com/material-ui/react-checkbox/)
-component from MUI, accepting most of its props and offering similar 
+The **RHFCheckbox** component renders a checkbox, allowing users to toggle an option on or off,
+such as subscribing to a newsletter. It extends the [Checkbox](https://v7.mui.com/material-ui/react-checkbox/)
+component from MUI, accepts most of its props, and offers similar
 customization options.
 
 ## Usage
@@ -25,17 +26,19 @@ import RHFCheckbox, { RHFCheckboxProps } from '@nish1896/rhf-mui-components/mui/
   fieldName="agreeTnC"
   control={control}
   label="Agree to Terms & Conditions"
-  errorMessage={errors?.agreeTnC?.message}
 />
 ```
 
 ## Examples
-- [RHFCheckbox](https://rhf-mui-components-examples.netlify.app/checkbox-and-radiogroup)
-- [Checkbox](https://mui.com/material-ui/react-checkbox/)
-- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+- <DemoLink path="/checkbox-and-radiogroup">RHFCheckbox</DemoLink>
+- [Checkbox](https://v7.mui.com/material-ui/react-checkbox/)
+- <DemoLink path="/complete-form">Complete Form</DemoLink>
 
 ## API
-`RHFCheckboxProps` extends [CheckboxProps](https://mui.com/material-ui/api/checkbox/) 
+`RHFCheckboxProps` extends [CheckboxProps](https://v7.mui.com/material-ui/api/checkbox/) 
 and accepts the following additional props:
 
-<RHFCheckboxPropsTable />
+<RHFCheckboxPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

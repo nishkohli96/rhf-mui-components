@@ -1,8 +1,21 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove }: VersionProps) => {
+const RHFMultiAutocompletePropsTable = ({
+  docsVersion,
+  muiVersion,
+  v3_2AndAbove,
+  v4AndAbove
+}: VersionProps) => {
+  const onValueChangeProp = v4AndAbove
+    ? [
+      PropsDescription.customOnChange_MultiAutocomplete,
+      PropsDescription.onValueChange_MultiAutocomplete
+    ]
+    : [LegacyPropsDescription.onValueChange_MultiAutocomplete_v2_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -10,26 +23,49 @@ const RHFMultiAutocompletePropsTable = ({ v3_2AndAbove }: VersionProps) => {
     PropsDescription.options_StrOrObj,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
+    PropsDescription.freeSolo,
+    ...onValueChangeProp,
     PropsDescription.selectAllText,
-    ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption] : []),
+    ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption_MultiAutocomplete] : []),
+    getPropDetailsByVersion(PropsDescription.label, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderOptionLabel_MultiAutocomplete
+      ]
+      : []),
+    getPropDetailsByVersion(PropsDescription.checkboxProps_MultiAutocomplete, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
     PropsDescription.required,
-    PropsDescription.onValueChange_MultiAutocomplete,
-    PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
-    PropsDescription.checkboxProps,
-    PropsDescription.formControlLabelProps,
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(v4AndAbove
+      ? []
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
-    PropsDescription.textFieldProps,
-    PropsDescription.ChipProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return (
-    <MarkdownTable rows={tableRows} showType/>
-  );
+  return <MarkdownTable rows={tableRows as PropsInfo[]} showType />;
 };
 
 export default RHFMultiAutocompletePropsTable;

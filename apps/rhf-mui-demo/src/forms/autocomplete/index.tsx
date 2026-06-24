@@ -3,12 +3,13 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
+import RHFCountrySelect, { countryList } from '@nish1896/rhf-mui-components/mui/country-select';
 import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
 import RHFAutocompleteObject from '@nish1896/rhf-mui-components/mui/autocomplete-object';
 import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
@@ -25,19 +26,19 @@ import { Colors } from '@/types';
 import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
 import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
-import { Chip } from '@mui/material';
 
 type FormSchema = {
-  sourceAirport?: string;
-  destinationAirports?: string[];
-  nationality?: string;
-  countriesVisited: string[];
-  employeeOfMonth?: (typeof employeeList)[number];
-  employeesToPromote?: (typeof employeeList)[number][];
-  dreamDestinations?: string[];
-  colors?: Colors[];
-  iplTeams?: string[];
-  pokemons?: string[];
+  sourceAirport: string;
+  destinationAirports: string[];
+  nationality: string;
+  countriesVisited: (typeof countryList)[number][];
+  employeeOfMonth: (typeof employeeList)[number];
+  employeesToLayoff: (typeof employeeList)[number];
+  employeesToPromote: (typeof employeeList)[number][];
+  dreamDestinations: string[];
+  colors: Colors[];
+  iplTeams: string[];
+  pokemons: string[];
 };
 
 const LIMIT = 50;
@@ -51,37 +52,41 @@ const AutocompleteForm = () => {
   const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
 
-  const initialValues: FormSchema = {
-    countriesVisited: ['AU', 'SG'],
+  const initialValues: Partial<FormSchema> = {
     sourceAirport: airportList[2].iataCode,
     iplTeams: ['MI', 'CSK'],
     colors: [Colors.Pink, Colors.Green]
   };
 
-  const preferredCountries: CountryISO[] = ['IN', 'AU', 'JP'];
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   const loadPokemons = useCallback(async () => {
-    if (loading || !hasMore) {
+    if (!hasMore) {
       return;
     }
     setLoading(true);
     const data = await fetchPokemons(LIMIT, offset);
-    setPokemonList(prev => [...prev, ...data.results]);
+    setPokemonList(prev => {
+      const existingIds = new Set(prev.map(pokemon => pokemon.id));
+      const uniqueResults = data.results.filter(
+        pokemon => !existingIds.has(pokemon.id)
+      );
+      return uniqueResults.length ? [...prev, ...uniqueResults] : prev;
+    });
     setHasMore(!!data.next);
     setOffset(prev => prev + LIMIT);
     setLoading(false);
-  }, [offset, hasMore, loading]);
+  }, [offset, hasMore]);
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -89,7 +94,19 @@ const AutocompleteForm = () => {
   }
 
   useEffect(() => {
-    loadPokemons();
+    /**
+     * Load the first page once on mount; pagination is handled from the
+     * listbox scroll event.
+     *
+     * "loadPokemons" is purposely NOT added to the effect dependency array,
+     * as `offset` and `hasMore` change after each call which recreates
+     * loadPokemons that runs until `hasMore` becomes false.
+     */
+    const loadInitialPokemons = async () => {
+      await loadPokemons();
+    };
+    loadInitialPokemons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -97,7 +114,7 @@ const AutocompleteForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete with custom renderOption" />
+            <FieldVariantInfo title="Autocomplete with freeSolo, custom renderOption and renderValue" />
             <RHFAutocomplete
               fieldName="sourceAirport"
               control={control}
@@ -107,12 +124,13 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 }
               }}
+              freeSolo
               options={airportList}
               renderOption={({ key, ...props }, option) => {
                 return (
                   <Box
-                    key={key}
                     component="li"
+                    key={key}
                     {...props}
                     sx={{
                       px: 1.25,
@@ -152,14 +170,25 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
+              renderValue={value => {
+                return (
+                  <Chip
+                    label={typeof value === 'string' ? value : `${value.name} - ${value.iataCode}`}
+                    sx={{
+                      bgcolor: '#007ABA',
+                      fontWeight: 800,
+                      color: 'white'
+                    }}
+                  />
+                );
+              }}
               labelKey="name"
               valueKey="iataCode"
               required
-              errorMessage={errors?.sourceAirport?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Autocomplete accepting multiple options and customized chip" />
+            <FieldVariantInfo title="FreeSolo Autocomplete accepting multiple options and customized chip" />
             <RHFAutocomplete
               fieldName="destinationAirports"
               control={control}
@@ -173,9 +202,9 @@ const AutocompleteForm = () => {
               labelKey="name"
               valueKey="iataCode"
               multiple
-              showLabelAboveFormField
+              freeSolo
               textFieldProps={{ variant: 'standard' }}
-              errorMessage={errors?.destinationAirports?.message}
+              getLimitTagsText={more => `+${more} Airport(s)`}
               ChipProps={{
                 sx: {
                   bgcolor: '#ea3677',
@@ -241,8 +270,30 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
+              renderValue={value => {
+                return (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {value.map(item => {
+                      return (
+                        <Chip
+                          key={item.id}
+                          label={item.name}
+                          avatar={
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={30}
+                              height={30}
+                              style={{ objectFit: 'contain' }}
+                            />
+                          }
+                        />
+                      );
+                    })}
+                  </Box>
+                );
+              }}
               textFieldProps={{ variant: 'standard' }}
-              errorMessage={errors?.pokemons?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -276,17 +327,67 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
-              errorMessage={errors?.employeeOfMonth?.message}
+              renderValue={value => {
+                return (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Image
+                      src={value.avatar}
+                      alt={value.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain', borderRadius: '50%' }}
+                    />
+                    <Typography component="span">
+                      {value.name}
+                    </Typography>
+                  </Box>
+                );
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multi Autocomplete With String Options" />
+            <FieldVariantInfo title="Autocomplete Object with render option" />
+            <RHFAutocompleteObject
+              fieldName="employeesToLayoff"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'This field is required'
+                }
+              }}
+              options={employeeList}
+              labelKey="name"
+              valueKey="_id"
+              multiple
+              label="Employee(s) to Layoff"
+              renderOption={({ key, ...props }, option) => {
+                return (
+                  <Box component="li" key={key} {...props}>
+                    <Image
+                      src={option.avatar}
+                      alt={option.name}
+                      width={40}
+                      height={40}
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <Typography sx={{ ml: '5px' }}>
+                      {option.name}
+                    </Typography>
+                  </Box>
+                );
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Multi Autocomplete With String Options and freeSolo" />
             <RHFMultiAutocomplete
               fieldName="colors"
               control={control}
               options={Object.values(Colors)}
               label="Which colors do you like ?"
               textFieldProps={{ placeholder: 'Select colors' }}
+              freeSolo
               registerOptions={{
                 required: {
                   value: true,
@@ -303,14 +404,32 @@ const AutocompleteForm = () => {
                   }
                 }
               }}
-              onValueChange={(value, targetValue) => {
-                console.log('value', value, typeof value);
-                console.log('targetValue', targetValue);
-              }}
+              renderOptionLabel={option => (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    textTransform: 'capitalize'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 12,
+                      height: 12,
+                      borderRadius: '50%',
+                      border: '1px solid #ccc',
+                      backgroundColor: option
+                    }}
+                  />
+                  <Typography component="span">
+                    {option}
+                  </Typography>
+                </Box>
+              )}
               getLimitTagsText={more => `+${more} Color(s)`}
               helperText="Choose at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
-              errorMessage={errors?.colors?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -348,7 +467,6 @@ const AutocompleteForm = () => {
                 }
               }}
               required
-              errorMessage={errors?.iplTeams?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -367,29 +485,23 @@ const AutocompleteForm = () => {
               valueKey="_id"
               label="Employees to promote"
               textFieldProps={{ placeholder: 'Select employees to promote' }}
-              renderTags={(value, getTagProps) => {
+              renderValue={(value, getTagProps) => {
                 return value.map((option, index) => {
                   const { key, ...otherChipProps } = getTagProps({ index });
                   return (
                     <Chip
                       key={key}
                       {...otherChipProps}
-                      avatar={
-                        <Avatar
-                          src={option.avatar}
-                          alt={option.name}
-                        />
-                      }
+                      avatar={<Avatar src={option.avatar} alt={option.name} />}
                       label={option.name}
                     />
                   );
                 });
               }}
-              errorMessage={errors?.employeesToPromote?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="CountrySelect with customized textfield" />
+            <FieldVariantInfo title="CountrySelect with customized textfield and option Label" />
             <RHFCountrySelect
               fieldName="nationality"
               control={control}
@@ -399,20 +511,49 @@ const AutocompleteForm = () => {
                   message: 'Choose the country of your nationality'
                 }
               }}
+              valueKey="iso3"
+              renderOptionLabel={option => {
+                return (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <span>
+                      {option.emoji}
+                    </span>
+                    <Typography>
+                      {`${option.name} - ${option.iso3}`}
+                    </Typography>
+                  </Box>
+                );
+              }}
               textFieldProps={{ variant: 'filled' }}
               required
-              errorMessage={errors?.nationality?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="CountrySelect - Multiple selection with default values & preferredCountries" />
+            <FieldVariantInfo title="CountrySelect - Multiple selection with default values & preferredCountries and customized renderValue" />
             <RHFCountrySelect
               fieldName="countriesVisited"
               control={control}
-              preferredCountries={preferredCountries}
+              preferredCountries={['IN', 'AU', 'JP']}
               multiple
-              displayFlagOnSelect
-              errorMessage={errors?.countriesVisited?.message}
+              renderValue={value => {
+                return (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 0.5
+                    }}
+                  >
+                    {value.map(item => (
+                      <Chip
+                        key={item.iso3}
+                        label={`${item.emoji} ${item.name}`}
+                        sx={{ bgcolor: '#009966', color: 'white' }}
+                      />
+                    ))}
+                  </Box>
+                );
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -438,8 +579,8 @@ const AutocompleteForm = () => {
                 }
               }}
               valueKey="name"
-              preferredCountries={['IN', 'AU', 'JP']}
               countries={filteredCountries}
+              preferredCountries={['US', 'AU']}
               multiple
               showLabelAboveFormField
               label="What are your Dream Destinations?"
@@ -454,7 +595,6 @@ const AutocompleteForm = () => {
                 </Typography>
               }
               required
-              errorMessage={errors?.dreamDestinations?.message}
             />
           </Grid>
           <Grid size={12}>
@@ -462,7 +602,7 @@ const AutocompleteForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

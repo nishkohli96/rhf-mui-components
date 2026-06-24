@@ -2,13 +2,13 @@
 
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
+import { useForm, useWatch } from 'react-hook-form';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
-import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
+import { RHFDatePicker } from '@nish1896/rhf-mui-components/mui-pickers/date';
 import {
   FormContainer,
   FieldVariantInfo,
@@ -54,13 +54,13 @@ export default function StyledReusableComponentForm() {
   const pathName = usePathname();
   const {
     control,
-    watch,
     reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues,
   });
+  const formValues = useWatch({ control });
   const airportList = useMemo(() => generateAirportNames(100), []);
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -99,7 +99,6 @@ export default function StyledReusableComponentForm() {
                     The name that matches on your passport
                   </Typography>
                 }
-                errorMessage={errors?.firstName?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -116,7 +115,6 @@ export default function StyledReusableComponentForm() {
                     message: maxCharMsg(10),
                   },
                 }}
-                errorMessage={errors?.lastName?.message}
               />
             </Grid>
             <Grid size={6}>
@@ -145,13 +143,13 @@ export default function StyledReusableComponentForm() {
                 control={control}
                 fieldName="airports"
                 label="Airports"
+                options={airportList}
+                labelKey="name"
+                valueKey="iataCode"
+                helperText="You can select multiple airports"
                 textFieldProps={{
                   placeholder: 'Select Airport(s) You\'ve travelled to'
                 }}
-                options={airportList}
-                labelKey="name"
-                helperText="You can select multiple airports"
-                valueKey="iataCode"
               />
             </Grid>
             <Grid size={12}>
@@ -159,7 +157,7 @@ export default function StyledReusableComponentForm() {
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

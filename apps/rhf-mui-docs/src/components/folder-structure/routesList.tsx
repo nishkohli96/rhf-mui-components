@@ -1,4 +1,9 @@
-import { MuiComponents, MuiPickersComponents, MiscComponents } from '@site/src/types/component-names';
+import {
+  MuiComponents,
+  MuiPickersComponents,
+  MiscComponents,
+  type DocsVersion
+} from '@site/src/types';
 
 const rootDir = '/components';
 const muiPrefix = '/mui';
@@ -46,25 +51,31 @@ export const newlyAddedComponents = [
   MuiComponents.TagsInput,
   MiscComponents.PhoneInput,
   MuiComponents.NumberInput,
-  MuiComponents.FileUploader,
+  MuiComponents.FileUploader
 ];
 
 export const newlyAddedV3_3Components = [
   MuiComponents.AutocompleteObject,
-  MuiComponents.MultiAutocompleteObject,
+  MuiComponents.MultiAutocompleteObject
 ];
 
-export const muiFoldersList = muiComponents.map(component => ({
-  name: component,
-  path: `${rootDir}${muiPrefix}/${component}`
-}));
+export function getMuiFoldersList(docsVersion?: DocsVersion) {
+  return muiComponents.map(component => ({
+    name: component,
+    path: `${docsVersion ? `/v${docsVersion}` : ''}${rootDir}${muiPrefix}/${component}`
+  }));
+}
 
-export const muiPickersFoldersList = muiPickersComponents.map(component => ({
-  name: component,
-  path: `${rootDir}${muiPickersPrefix}/${component}`
-}));
+export function getMuiPickersFoldersList(docsVersion?: DocsVersion) {
+  return muiPickersComponents.map(component => ({
+    name: component,
+    path: `${docsVersion ? `/v${docsVersion}` : ''}${rootDir}${muiPickersPrefix}/${component}`
+  }));
+}
 
-export const miscFoldersList = miscComponents.map(component => ({
-  name: component,
-  path: `${rootDir}${miscPrefix}/${component}`
-}));
+export function getMiscFoldersList(docsVersion?: DocsVersion) {
+  return miscComponents.map(component => ({
+    name: component,
+    path: `${docsVersion ? `/v${docsVersion}` : ''}${rootDir}${miscPrefix}/${component}`
+  }));
+}

@@ -35,12 +35,14 @@ export type FormHelperTextProps = Omit<
 
 export type TextFieldProps = Omit<
   MuiTextFieldProps,
+  | 'id'
   | 'name'
   | 'value'
   | 'defaultValue'
   | 'onChange'
   | 'error'
   | 'FormHelperTextProps'
+  | 'ref'
 >;
 
 export type CheckboxProps = Omit<
@@ -79,6 +81,8 @@ export type AutoCompleteTextFieldProps = Omit<
   | 'label'
   | 'required'
   | 'error'
+  | 'ref'
+  | 'inputRef'
 >;
 
 export type OmittedAutocompleteProps
@@ -107,14 +111,6 @@ export type MuiChipProps = Omit<
 
 export type MuiPickersAdapter = new (...args: any) => any;
 
-export type RHFMuiConfigInput = {
-  defaultFormLabelSx?: SxProps;
-  defaultFormControlLabelSx?: SxProps;
-  defaultFormHelperTextSx?: SxProps;
-  dateAdapter?: MuiPickersAdapter;
-  allLabelsAboveFields?: boolean;
-};
-
 export type RHFMuiConfig = {
   defaultFormLabelSx: SxProps;
   defaultFormControlLabelSx: SxProps;
@@ -122,3 +118,5 @@ export type RHFMuiConfig = {
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
 };
+
+export type RHFMuiConfigInput = Partial<RHFMuiConfig>;

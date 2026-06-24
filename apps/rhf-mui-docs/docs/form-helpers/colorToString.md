@@ -7,11 +7,11 @@ description: Function to convert a color object in RGB or HSV format into a vali
 
 # colorToString
 
+Converts a color object in RGB or HSV format into a valid CSS color string, best used with [RHFColorPicker](../components/misc/RHFColorPicker.mdx).
+
 ```ts
 function colorToString(color: ColorObject, excludeAlpha?: boolean): string;
 ```
-
-Converts a color object in RGB or HSV format into a valid CSS color string, best used with [RHFColorPicker](../components/misc/RHFColorPicker.mdx).
 
 ## Usage
 

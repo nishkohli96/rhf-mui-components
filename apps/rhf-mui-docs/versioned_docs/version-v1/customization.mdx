@@ -14,13 +14,13 @@ available for all components. This section provides even more flexibility,
 enabling you to style components globally, eliminating the need to 
 duplicate code across your application.
 
-All components share at least two common props: [FormLabel](https://mui.com/material-ui/api/form-label/) 
-and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/). Components like checkboxes or switches 
-also include a [FormControlLabel](https://mui.com/material-ui/api/form-control-label/). 
+All components share at least two common props: [FormLabel](https://v5.mui.com/material-ui/api/form-label/) 
+and [FormHelperText](https://v5.mui.com/material-ui/api/form-helper-text/). Components like checkboxes or switches 
+also include a [FormControlLabel](https://v5.mui.com/material-ui/api/form-control-label/). 
 These can be preconfigured to apply uniform styles across all components. 
 Additionally, there's an option to customize the `dateAdapter` for 
 date and time pickers, with `AdapterDayjs` set as the default, following 
-[MUI's recommendation](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+[MUI's recommendation](https://v6.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 ### ConfigProvider
 
@@ -44,9 +44,9 @@ type RHFMuiConfigInput = {
 ```
 
 The values listed below represent the default **sx** styles applied to the
-[FormLabel](https://mui.com/material-ui/api/form-label/),
-[FormControlLabel](https://mui.com/material-ui/api/form-control-label/),
-and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/) components.
+[FormLabel](https://v5.mui.com/material-ui/api/form-label/),
+[FormControlLabel](https://v5.mui.com/material-ui/api/form-control-label/),
+and [FormHelperText](https://v5.mui.com/material-ui/api/form-helper-text/) components.
 
 <DefaultConfigValuesTable />
 
@@ -58,11 +58,11 @@ import { ConfigProvider, DefaultRHFMuiConfig } from '@nish1896/rhf-mui-component
 
 Override the default `FormLabel` and `FormHelperText` values by providing
 the desired values in `defaultFormLabelSx` and `defaultFormHelperTextSx` props
-which accepts all valid values in the [`sx` prop](https://mui.com/material-ui/customization/how-to-customize/#the-sx-prop).
+which accepts all valid values in the [`sx` prop](https://v5.mui.com/material-ui/customization/how-to-customize/#the-sx-prop).
 
 Additionally you also need to specify a `dateAdapter` for date and time pickers using 
 `ConfigProvider` component. For a full list of available date adapters, see the 
-[MUI date library options](https://mui.com/x/react-date-pickers/base-concepts/#date-library).
+[MUI date library options](https://v6.mui.com/x/react-date-pickers/base-concepts/#date-library).
 Please do install the npm package of the corresponding date library.
 
 ```jsx

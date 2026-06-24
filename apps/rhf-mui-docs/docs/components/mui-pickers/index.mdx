@@ -1,0 +1,47 @@
+---
+title: Date & Time Pickers
+description: A guide to integrating and customizing MUI date and time pickers for form input.
+---
+
+import DocCardList from '@theme/DocCardList';
+
+# Date & Time Pickers
+
+Many forms require date or time input, such as a date of birth or appointment time. This package includes date and time picker components to cover those common form requirements.
+
+The date and time pickers are derived from [MUI X Pickers](https://v8.mui.com/x/react-date-pickers/).
+Follow the [installation guide](https://v8.mui.com/x/react-date-pickers/getting-started/) and review the
+[base concepts](https://v8.mui.com/x/react-date-pickers/base-concepts/) to start integrating these components.
+Each picker component is wrapped with a [LocalizationProvider](https://v8.mui.com/x/api/date-pickers/localization-provider/).
+
+:::info
+This package is compatible with MUI X Pickers **v6**, **v7**, and **v8**.
+:::
+
+To use date and time pickers, you need to provide a default `dateAdapter` 
+using the [ConfigProvider](../../customization) component. This can be done at the root level of your
+application, especially if it includes multiple forms with date and time pickers. To view the list of
+available libraries, refer to [this page](https://v8.mui.com/x/react-date-pickers/base-concepts/#available-libraries).
+
+```jsx
+<ConfigProvider dateAdapter={AdapterDayjs}>
+  <form>
+    {/* form content */}
+  </form>
+</ConfigProvider>
+```
+
+The recommended `dateAdapter` library is [dayjs](https://www.npmjs.com/package/dayjs), so ensure it is installed along
+with the [@mui/x-date-pickers package](https://www.npmjs.com/package/@mui/x-date-pickers).
+For more context, read the [MUI X recommended library guide](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+
+```
+npm install @mui/x-date-pickers
+npm install dayjs
+```
+```
+yarn add @mui/x-date-pickers
+yarn add dayjs
+```
+
+<DocCardList />

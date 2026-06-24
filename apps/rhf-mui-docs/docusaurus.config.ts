@@ -3,19 +3,27 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type { ThemeConfig } from '@docusaurus/preset-classic';
 
+const examplesUrl = process.env.EXAMPLES_URL
+  ?? 'https://rhf-mui-components-examples.vercel.app';
+
 const config: Config = {
+  title: '@nish1896/rhf-mui-components',
   url: 'https://rhf-mui-components.github.io',
   baseUrl: '/',
   projectName: '@nish1896/rhf-mui-components',
   organizationName: 'nish1896',
-  title: '@nish1896/rhf-mui-components',
   tagline: 'Create and Style forms effortlessly within minutes!',
   favicon: 'img/favicon.ico',
   trailingSlash: false,
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   customFields: {
-    EXAMPLES_URL: process.env.DOCUSAURUS_EXAMPLES_URL,
+    EXAMPLES_URL: examplesUrl
+  },
+  markdown: {
+    format: 'detect',
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'throw'
+    }
   },
   i18n: {
     defaultLocale: 'en',
@@ -33,9 +41,9 @@ const config: Config = {
           lastVersion: 'current',
           versions: {
             current: {
-              label: 'v3',
-            },
-          },
+              label: 'v4'
+            }
+          }
         }
       }
     ]
@@ -45,9 +53,9 @@ const config: Config = {
       '@docusaurus/plugin-google-gtag',
       {
         trackingID: process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID,
-        anonymizeIP: true,
-      },
-    ],
+        anonymizeIP: true
+      }
+    ]
   ],
   themeConfig: {
     colorMode: {
@@ -57,7 +65,7 @@ const config: Config = {
     },
     tableOfContents: {
       minHeadingLevel: 2,
-      maxHeadingLevel: 4,
+      maxHeadingLevel: 4
     },
     navbar: {
       title: 'RHF-MUI Components',
@@ -67,7 +75,7 @@ const config: Config = {
       },
       items: [
         {
-          href: 'https://rhf-mui-components-examples.netlify.app/',
+          href: examplesUrl,
           label: 'Playground',
           position: 'right'
         },
@@ -83,8 +91,8 @@ const config: Config = {
         },
         {
           type: 'docsVersionDropdown',
-          position: 'right',
-        },
+          position: 'right'
+        }
       ]
     },
     footer: {
@@ -112,7 +120,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.vsDark,
-      additionalLanguages: ['diff'],
+      additionalLanguages: ['diff']
     },
     customFields: {
       githubLink: `

@@ -90,9 +90,15 @@ export function normalizeSelectValue<
 }
 
 export function getDisplayLabelForSelectValue<
-  Option extends StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string>,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
 >(
   rawValue: unknown,
   options: Option[],

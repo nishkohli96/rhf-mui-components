@@ -2,14 +2,14 @@
 
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
+import { toast } from 'react-toastify';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
-import { FormSchema } from './validation';
 import {
   FormContainer,
   FormState,
@@ -21,6 +21,7 @@ import {
 import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { FormSchema } from './validation';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
 
@@ -41,12 +42,16 @@ const SelectFormWithClassValidator = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
     resolver: classValidatorResolver(FormSchema)
+  });
+  const formValues = useWatch({ control });
+  const favouriteColor = useWatch({
+    control,
+    name: 'favouriteColor'
   });
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -59,16 +64,20 @@ const SelectFormWithClassValidator = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single select field with helpertext" />
+            <FieldVariantInfo title="Single select field with helpertext and renderOptionLabel" />
             <RHFSelect
               fieldName="favouriteColor"
               control={control}
               options={Object.values(Colors)}
-              errorMessage={errors?.favouriteColor?.message}
-              {...(watch('favouriteColor') && {
+              renderOptionLabel={opn => (
+                <span style={{ color: opn }}>
+                  {opn}
+                </span>
+              )}
+              {...(favouriteColor && {
                 helperText: (
-                  <Typography color={watch('favouriteColor')}>
-                    {`Select an option to change selected text color from ${watch('favouriteColor')}`}
+                  <Typography color={favouriteColor}>
+                    {`Select an option to change selected text color from ${favouriteColor}`}
                   </Typography>
                 )
               })}
@@ -76,18 +85,18 @@ const SelectFormWithClassValidator = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single select with multiple options as an array of strings" />
+            <FieldVariantInfo title="Single select with multiple options as an array of strings and customIds" />
             <RHFSelect
               fieldName="languages"
               control={control}
               options={languagesList}
-              errorMessage={errors?.languages?.message}
               multiple
               required
+              customIds={{ field: 'languages-field' }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multiple Select with options as an array of objects" />
+            <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
             <RHFSelect
               fieldName="iplTeams"
               control={control}
@@ -97,15 +106,28 @@ const SelectFormWithClassValidator = () => {
               showLabelAboveFormField
               placeholder="Choose IPL teams"
               showDefaultOption
-              defaultOptionText="Select IPL teams"
+              defaultOptionText="--- Select IPL teams ---"
               label={
-                <div style={{ color: '#007aba' }}>
+                <div style={{ color: '#27bb40' }}>
                   Select your favourite IPL teams
                 </div>
               }
+              renderOptionLabel={option => (
+                <span>
+                  {`${option.name} (${option.abbr})`}
+                </span>
+              )}
+              customOnChange={({ rhfOnChange, newValue, event }) => {
+                if(newValue.length > 4) {
+                  event.preventDefault();
+                  return;
+                }
+                rhfOnChange(newValue);
+              }}
+              getOptionDisabled={option =>
+                ['LSG', 'RR'].includes(option.abbr)}
               required
               multiple
-              errorMessage={errors?.iplTeams?.message}
               helperText="Select one or more teams"
             />
           </Grid>
@@ -115,8 +137,13 @@ const SelectFormWithClassValidator = () => {
               fieldName="randomNum"
               control={control}
               options={randomNumbers}
+              onValueChange={({ newValue }) => {
+                toast.info(JSON.stringify(newValue, null, 2));
+              }}
+              showDefaultOption
               showLabelAboveFormField
-              errorMessage={errors?.randomNum?.message}
+              hideLabel
+              helperText="Select a random number"
               required
             />
           </Grid>
@@ -129,8 +156,14 @@ const SelectFormWithClassValidator = () => {
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
+              getOptionDisabled={opn => opn.code === 'INR'}
+              renderOptionLabel={opn => (
+                <>
+                  {`${opn.code} - ${opn.name} `}
+                </>
+              )}
+              defaultOptionText="Select currency"
               required
-              errorMessage={errors?.currency?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -142,7 +175,6 @@ const SelectFormWithClassValidator = () => {
               label="Choose an age group"
               placeholder="Select age group"
               required
-              errorMessage={errors?.ageGroup?.message}
             />
           </Grid>
           <Grid size={12}>
@@ -150,7 +182,7 @@ const SelectFormWithClassValidator = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

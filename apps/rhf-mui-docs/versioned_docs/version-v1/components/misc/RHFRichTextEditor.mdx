@@ -6,6 +6,7 @@ description: RHFTextEditor is a customizable rich text editor for forms, offerin
 ---
 
 import { RHFRichTextEditorPropsTable } from '@site/src/page-components';
+import { ExternalLinks } from '@site/src/constants';
 
 # RHFRichTextEditor
 
@@ -34,7 +35,7 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 
 ```jsx
 <RHFRichTextEditor
-  fieldName='bio'
+  fieldName="bio"
   value={getValues('bio')}
   setValue={setValue}
 />
@@ -43,19 +44,20 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 To reorder formatting options or add advanced features, you can provide
 a custom configuration via the `editorConfig` prop, or override the existing
 configuration by modifying the `DefaultEditorConfig` object. You can check the 
-[default configuration here](https://github.com/nishkohli96/rhf-mui-components/blob/main/packages/rhf-mui-components/src/components/miscellaneous/rich-text-editor/config.ts).
+<a href={ExternalLinks.githubRepo.rteConfig} target="_blank" rel="noopener noreferrer">default configuration here</a>.
 
 To customize editor theme, check the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
 
 For advanced features like **findAndReplace**, **inserting images**, 
-**markdown support**, and **word count**, refer to [this example](https://github.com/nishkohli96/react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx). 
+**markdown support**, and **word count**, refer to
+<a href={ExternalLinks.githubExamples.ckEditorAdvanced} target="_blank" rel="noopener noreferrer">this example</a>. 
 For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
 
 :::note
 If your website supports both light and dark themes, styling `CKEditor5` for theme switching
 can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
 To address this, you can override the editor's CSS based on the active theme by
-referring [this gist](https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5).
+referring <a href={ExternalLinks.githubExamples.ckEditorCssGist} target="_blank" rel="noopener noreferrer">this gist</a>.
 
 You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
 for a better understanding.
@@ -63,7 +65,6 @@ for a better understanding.
 
 ### Examples
 - [RHFRichTextEditor](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
-- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
 
 ### Alternatives
 I chose CKEditor for its advanced features, customization options and
@@ -75,4 +76,8 @@ If you're looking for a simpler solution, you can consider implementing
 ### API
 `RHFRichTextEditorProps` accepts the following props:
 
-<RHFRichTextEditorPropsTable v1 />
+<RHFRichTextEditorPropsTable
+  docsVersion={1}
+  muiVersion={5}
+  v1
+/>

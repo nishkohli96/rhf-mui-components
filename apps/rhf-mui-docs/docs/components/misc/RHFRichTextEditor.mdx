@@ -2,20 +2,22 @@
 sidebar_position: 2
 sidebar_label: Rich Text Editor
 title: RHFRichTextEditor
-description: RHFTextEditor is a customizable rich text editor for forms, offering formatting options like bold, italic, and lists. Easily integrates with React Hook Form for seamless form handling and validation.
+description: RHFRichTextEditor is a customizable rich text editor for forms, with formatting options such as bold, italic, lists, links, and images.
 ---
 
 import { RHFRichTextEditorPropsTable } from '@site/src/page-components';
+import { DemoLink } from '@site/src/components';
+import { ExternalLinks } from '@site/src/constants';
 
 # RHFRichTextEditor
 
-**RHFRichTextEditor** is a powerful and flexible rich text editor designed for 
-content creation within forms. It allows users to format text with features 
-like _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_, 
+**RHFRichTextEditor** is a powerful and flexible rich text editor designed for
+content creation within forms. It allows users to format text with features
+such as _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_,
 and more, making it suitable for blog posts, comments, or any content 
 requiring rich formatting. This component is built on top of 
 [CkEditor](https://ckeditor.com/docs/ckeditor5/latest/index.html),
-a highly customizable editor that supports advanced features like 
+a highly customizable editor that supports advanced features such as
 `codeBlocks`, `findAndReplace`, `tables`, and more.
 
 ## Installation
@@ -43,30 +45,30 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 
 ```jsx
 <RHFRichTextEditor
-  fieldName='bio'
+  fieldName="bio"
   control={control}
-  errorMessage={errors?.bio?.message}
 />
 ```
 
 To reorder formatting options or add advanced features, you can provide
 a custom configuration via the `editorConfig` prop, or override the existing
 configuration by modifying the `DefaultEditorConfig` object. You can check the 
-[default configuration here](https://github.com/nishkohli96/rhf-mui-components/blob/main/packages/rhf-mui-components/src/components/miscellaneous/rich-text-editor/config.ts).
+<a href={ExternalLinks.githubRepo.rteConfig} target="_blank" rel="noopener noreferrer">default configuration here</a>.
 
-To customize editor theme, check the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
+To customize the editor theme, review the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
 
 For advanced features like **findAndReplace**, **inserting images**, 
-**markdown support**, and **word count**, refer to [this example](https://github.com/nishkohli96/react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx). 
+**markdown support**, and **word count**, refer to
+<a href={ExternalLinks.githubExamples.ckEditorAdvanced} target="_blank" rel="noopener noreferrer">this example</a>. 
 For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
 
 :::note
 If your website supports both light and dark themes, styling `CKEditor5` for theme switching
 can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
 To address this, you can override the editor's CSS based on the active theme by
-referring [this gist](https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5).
+referring to <a href={ExternalLinks.githubExamples.ckEditorCssGist} target="_blank" rel="noopener noreferrer">this gist</a>.
 
-You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
+You may also refer to the [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
 for a better understanding.
 :::
 
@@ -84,35 +86,38 @@ as follows:​
     import RHFRichTextEditor, { DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 
     <RHFRichTextEditor
-      fieldName='bio'
+      fieldName="bio"
       control={control}
       editorConfig={{
         licenseKey: 'YOUR_LICENSE_KEY',
         ...DefaultEditorConfig,
       }}
-      errorMessage={errors?.bio?.message}
     />
     ```
 
-    Replace **'YOUR_LICENSE_KEY'** with the license key you've obtained. Additionally you can 
-    also configure your own [editor settings](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html#configuring-editor-settings) 
-    in favor of the default configuration.
+    Replace **'YOUR_LICENSE_KEY'** with the license key you obtained. You can also
+    configure your own [editor settings](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html#configuring-editor-settings)
+    instead of using the default configuration.
 
 
 ## Examples
-- [RHFRichTextEditor](https://rhf-mui-components-examples.netlify.app/miscellaneous-components)
-- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
+- <DemoLink path="/miscellaneous-components">RHFRichTextEditor</DemoLink>
+- [CKEditor5](https://ckeditor.com/docs/ckeditor5/latest/examples/index.html)
 
 ## Alternatives
-I chose CKEditor for its advanced features, customization options and
-support for multiple languages. Although the documentation can be overwhelming, 
-I've provided both basic and advanced configuration options for this component. 
-If you're looking for a simpler solution, you can consider implementing 
+I chose CKEditor for its advanced features, customization options, and
+support for multiple languages. Although the documentation can be extensive,
+this component provides both basic and advanced configuration options.
+If you're looking for a simpler solution, consider implementing
 [mui-rte](https://www.npmjs.com/package/mui-rte).
 
-[Quill](https://quilljs.com/) and [TipTap](https://tiptap.dev/) are excellent alternatives, offering a wide range of rich text editor features along with well-documented examples and guides.
+[Quill](https://quilljs.com/) and [TipTap](https://tiptap.dev/) are excellent alternatives.
+They offer a wide range of rich text editor features along with well-documented examples and guides.
 
 ## API
 `RHFRichTextEditorProps` accepts the following props:
 
-<RHFRichTextEditorPropsTable />
+<RHFRichTextEditorPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

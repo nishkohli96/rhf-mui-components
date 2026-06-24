@@ -1,23 +1,25 @@
-import dynamic from 'next/dynamic';
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
+  componentsDocsLink,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
-
-const ClientForm = dynamic(() => import('@/forms/switch-slider-rating-with-superstruct'), { ssr: false });
-
+import SliderSwitchRatingFormWithSuperstruct from '@/forms/slider-switch-rating-with-superstruct/Client';
 
 export const metadata = pageMetadata.switchSliderRating;
 
 const SwitchSliderRatingFormPage = () => {
   const links = [
-    DocsLinks.rhfSwitch,
-    DocsLinks.rhfSlider,
-    DocsLinks.rhfRating,
+    componentsDocsLink.rhfSwitch,
+    componentsDocsLink.rhfSlider,
+    componentsDocsLink.rhfRating,
     ValidationLibLinks.superstruct
   ];
   const codeLinks = [
@@ -27,8 +29,8 @@ const SwitchSliderRatingFormPage = () => {
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
-      <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      <SubHeading title={metadata.description as string} />
+      <SliderSwitchRatingFormWithSuperstruct />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>

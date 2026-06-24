@@ -5,27 +5,33 @@ import { type VersionProps } from '@site/src/types';
 import FileView from './FileView';
 import { FolderIcon, FileIcon } from './Icons';
 import {
-  muiFoldersList,
-  muiPickersFoldersList,
-  miscFoldersList,
+  getMuiFoldersList,
+  getMuiPickersFoldersList,
+  getMiscFoldersList,
   newlyAddedComponents,
   newlyAddedV3_3Components,
 } from './routesList';
 
-const FolderStructure = ({ v1, v3_3AndAbove }: VersionProps) => {
-  const muiList = v1
-    ? muiFoldersList.filter(
-      folder => !newlyAddedComponents.includes(folder.name),
-    )
-    : v3_3AndAbove
-      ? muiFoldersList
-      : muiFoldersList.filter(
-        folder => !newlyAddedV3_3Components.includes(folder.name),
-      );
+const FolderStructure = ({ v1, v3_3AndAbove, docsVersion }: VersionProps) => {
+  const muiFolders = getMuiFoldersList(docsVersion);
+  let muiList;
+  if (v1) {
+    muiList = muiFolders.filter(
+      folder => !newlyAddedComponents.includes(folder.name)
+    );
+  } else if (v3_3AndAbove) {
+    muiList = muiFolders;
+  } else {
+    muiList = muiFolders.filter(
+      folder => !newlyAddedV3_3Components.includes(folder.name)
+    );
+  }
 
   const miscList = v1
-    ? miscFoldersList.filter(folder => !newlyAddedComponents.includes(folder.name))
-    : miscFoldersList;
+    ? getMiscFoldersList(docsVersion).filter(
+      folder => !newlyAddedComponents.includes(folder.name)
+    )
+    : getMiscFoldersList(docsVersion);
 
   return (
     <SimpleTreeView
@@ -45,7 +51,7 @@ const FolderStructure = ({ v1, v3_3AndAbove }: VersionProps) => {
         <FileView
           itemId="3"
           folderName="mui-pickers"
-          fileList={muiPickersFoldersList}
+          fileList={getMuiPickersFoldersList(docsVersion)}
         />
         <FileView
           itemId="4"
@@ -55,7 +61,7 @@ const FolderStructure = ({ v1, v3_3AndAbove }: VersionProps) => {
         <TreeItem
           itemId="5"
           label={(
-            <Link href="/customization">
+            <Link href="customization">
               config
             </Link>
           )}
@@ -65,7 +71,7 @@ const FolderStructure = ({ v1, v3_3AndAbove }: VersionProps) => {
           <TreeItem
             itemId="6"
             label={(
-              <Link href="/form-helpers">
+              <Link href="form-helpers">
                 form-helpers
               </Link>
             )}

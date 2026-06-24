@@ -2,37 +2,53 @@
 sidebar_position: 2
 sidebar_label: Time
 title: RHFTimePicker
-description: Use RHFTimePicker with react-hook-form to create customizable time input fields. Explore examples and API details for enhanced functionality.
+description: Use RHFTimePicker with react-hook-form to create customizable time input fields.
 ---
 
 import { RHFTimePickerPropsTable } from '@site/src/page-components';
+import { DemoLink } from '@site/src/components';
 
 # RHFTimePicker
 
-**RHFTimePicker** extends the [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
-component to allow users to select time for an event.
+**RHFTimePicker** extends the [TimePicker](https://v8.mui.com/x/react-date-pickers/time-picker/)
+component to allow users to select a time for an event.
+
+Starting with **version 4**, this module also exports additional variant
+components like `RHFDesktopTimePicker`, `RHFMobileTimePicker`, and
+`RHFStaticTimePicker`.
 
 ## Usage
 
-```js
-import RHFTimePicker, { RHFTimePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/time';
+```ts
+import {
+  RHFTimePicker,
+  RHFDesktopTimePicker,
+  RHFMobileTimePicker,
+  RHFStaticTimePicker,
+  type RHFTimePickerProps,
+  type RHFDesktopTimePickerProps,
+  type RHFMobileTimePickerProps,
+  type RHFStaticTimePickerProps
+} from '@nish1896/rhf-mui-components/mui-pickers/time';
 ```
 
 ```jsx
 <RHFTimePicker
   fieldName="wakeUpTime"
   control={control}
-  errorMessage={errors?.wakeUpTime?.message}
 />
 ```
 
 ## Examples
-- [RHFTimePicker](https://rhf-mui-components-examples.netlify.app/date-time-pickers)
-- [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
-- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+- <DemoLink path="/date-time-pickers">RHFTimePicker</DemoLink>
+- [TimePicker](https://v8.mui.com/x/react-date-pickers/time-picker/)
+- <DemoLink path="/complete-form">Complete Form</DemoLink>
 
 ## API
-`RHFTimePickerProps` extends [TimePickerProps](https://mui.com/x/api/date-pickers/time-picker/) 
+`RHFTimePickerProps` extends [TimePickerProps](https://v8.mui.com/x/api/date-pickers/time-picker/) 
 and accepts the following additional props:
 
-<RHFTimePickerPropsTable />
+<RHFTimePickerPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

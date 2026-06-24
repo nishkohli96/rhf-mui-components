@@ -1,29 +1,62 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFCheckboxPropsTable = ({ v1 }: VersionProps) => {
+const RHFCheckboxPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? PropsDescription.onValueChange_Checkbox
+    : LegacyPropsDescription.onValueChange_Checkbox_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
+    ...(!v1 ? [PropsDescription.registerOptions] : []),
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Cbx_Switch] : []),
     ...(!v1
       ? [
-        PropsDescription.registerOptions,
-        PropsDescription.onValueChange_Checkbox,
-        PropsDescription.label
+        onValueChange,
+        getPropDetailsByVersion(PropsDescription.label, {
+          docsVersion,
+          muiVersion
+        })
       ]
       : [
-        PropsDescription.onValueChange_Checkbox_v1,
-        PropsDescription.label_v1
+        LegacyPropsDescription.onValueChange_Checkbox_v1,
+        LegacyPropsDescription.label_v1
       ]),
-    PropsDescription.formControlLabelProps,
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.formControlLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
+    ),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+      : []
+    ),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFCheckboxPropsTable;

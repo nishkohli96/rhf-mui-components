@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { type Path, useForm } from 'react-hook-form';
-import Grid from '@mui/material/Grid2';
+import { type Path, useForm, useWatch } from 'react-hook-form';
+import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import useTheme from '@mui/material/styles/useTheme';
+import { useTheme } from '@mui/material/styles';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { toast } from 'react-toastify';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
@@ -25,20 +26,20 @@ import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
 import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
 import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
 import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
-import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
-import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
-import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
+import { RHFDatePicker } from '@nish1896/rhf-mui-components/mui-pickers/date';
+import { RHFDateTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import { RHFTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
-import { toast } from 'react-toastify';
 import {
   FormContainer,
   GridContainer,
   FormState,
   SubmitButton,
-  ResetButton
+  ResetButton,
+  UploadedFile
 } from '@/components';
 import {
   CountriesList,
@@ -49,7 +50,7 @@ import {
 } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
@@ -64,8 +65,6 @@ const CompleteForm = () => {
 
   const {
     control,
-    watch,
-    getValues,
     reset,
     formState: { errors },
     handleSubmit
@@ -73,6 +72,7 @@ const CompleteForm = () => {
     defaultValues: initialValues,
     disabled: disableAllFields
   });
+  const formValues = useWatch({ control });
 
   function reqdMessage(fieldName: Path<Person>) {
     return `${fieldNameToLabel(fieldName)} is required`;
@@ -122,6 +122,11 @@ const CompleteForm = () => {
                 label="Disable All Fields"
               />
             </Grid>
+            <Grid size={12}>
+              When the disabled checkbox is clicked, the disabled prop is being passed in useForm,
+              which omits all form fields when clicked om submit button as per the default rhf behaviour.
+              Hence the submit button is disabled in this case.
+            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <RHFTextField
                 fieldName="email"
@@ -142,7 +147,6 @@ const CompleteForm = () => {
                 }}
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.email?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -161,7 +165,6 @@ const CompleteForm = () => {
                 showLabelAboveFormField
                 showMarkers
                 required
-                errorMessage={errors?.age?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -185,7 +188,6 @@ const CompleteForm = () => {
                 }}
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.password?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -204,7 +206,6 @@ const CompleteForm = () => {
                 }}
                 required
                 helperText="Type a dish and press Enter"
-                errorMessage={errors?.favouriteFoods?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -218,7 +219,9 @@ const CompleteForm = () => {
                   }
                 }}
                 required
-                errorMessage={errors?.resume?.message}
+                renderFileItem={({ file, removeFile }) => (
+                  <UploadedFile file={file} onRemove={removeFile} />
+                )}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -235,7 +238,6 @@ const CompleteForm = () => {
                 defaultOptionText="--- Select ---"
                 showDefaultOption
                 required
-                errorMessage={errors?.favouriteColor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -257,7 +259,6 @@ const CompleteForm = () => {
                 multiple
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.sports?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -280,7 +281,6 @@ const CompleteForm = () => {
                 options={IPLTeams}
                 multiple
                 required
-                errorMessage={errors?.iplTeams?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -295,7 +295,6 @@ const CompleteForm = () => {
                 }}
                 options={Object.values(Sports)}
                 required
-                errorMessage={errors?.favouriteSport?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -310,7 +309,6 @@ const CompleteForm = () => {
                 }}
                 options={HobbiesList}
                 required
-                errorMessage={errors?.hobby?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -333,7 +331,6 @@ const CompleteForm = () => {
                 }}
                 options={GroceryList}
                 required
-                errorMessage={errors?.groceryList?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -346,9 +343,9 @@ const CompleteForm = () => {
                     message: reqdMessage('countryCode')
                   }
                 }}
+                valueKey="iso3"
                 label="Country Code of Nationality"
                 required
-                errorMessage={errors?.countryCode?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -365,10 +362,9 @@ const CompleteForm = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={isChecked => {
-                  console.log('Is checked', isChecked);
+                onValueChange={({ newValue }) => {
+                  console.log('Is checked', newValue);
                 }}
-                errorMessage={errors?.agreeTnC?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -385,7 +381,6 @@ const CompleteForm = () => {
                 showLabelAboveFormField
                 options={Object.values(Colors)}
                 required
-                errorMessage={errors?.colors?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -407,7 +402,6 @@ const CompleteForm = () => {
                 labelKey="country"
                 valueKey="code"
                 required
-                errorMessage={errors?.countries?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -423,7 +417,6 @@ const CompleteForm = () => {
                 options={Object.values(Gender)}
                 row
                 required
-                errorMessage={errors?.gender?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -440,11 +433,10 @@ const CompleteForm = () => {
                 labelKey="country"
                 valueKey="code"
                 row
-                onValueChange={selectedValue => {
-                  toast.info(`selectedValue: ${selectedValue}`);
+                onValueChange={({ newValue }) => {
+                  toast.info(`selectedValue: ${newValue}`);
                 }}
                 required
-                errorMessage={errors?.country?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -455,9 +447,10 @@ const CompleteForm = () => {
                 formControlLabelProps={{
                   labelPlacement: 'end'
                 }}
-                onValueChange={() => toggleTheme()}
+                onValueChange={() => {
+                  toggleTheme();
+                }}
                 helperText="Toggling this changes theme"
-                errorMessage={errors?.darkTheme?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -479,7 +472,6 @@ const CompleteForm = () => {
                 max={100}
                 helperText="min:10; max:100"
                 required
-                errorMessage={errors?.weight?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -499,7 +491,6 @@ const CompleteForm = () => {
                 max={10}
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.rating?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -530,7 +521,6 @@ const CompleteForm = () => {
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
                 required
-                errorMessage={errors?.dob?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -547,7 +537,6 @@ const CompleteForm = () => {
                 label="Time"
                 ampm={false}
                 required
-                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -564,7 +553,6 @@ const CompleteForm = () => {
                 showLabelAboveFormField
                 ampm={false}
                 required
-                errorMessage={errors?.dateTime?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -577,9 +565,7 @@ const CompleteForm = () => {
                     message: reqdMessage('bgColor')
                   }
                 }}
-                value={getValues('bgColor')}
                 required
-                errorMessage={errors?.bgColor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -597,7 +583,6 @@ const CompleteForm = () => {
                   }
                 }}
                 required
-                errorMessage={errors?.feedback?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -610,25 +595,26 @@ const CompleteForm = () => {
                     message: reqdMessage('phoneNumber')
                   },
                   validate: {
+                    requiredPhoneNumber: value =>
+                      !!getPhoneNoValue(value) || reqdMessage('phoneNumber'),
                     minLength: value =>
-                      (value?.length ?? 0) >= 10 || minLengthMsg(10)
+                      (getPhoneNoValue(value)?.length ?? 0) >= 6
+                      || 'Minimum 6 characters required'
                   }
                 }}
-                value={getValues('phoneNumber')}
                 showLabelAboveFormField
                 variant="standard"
                 phoneInputProps={{
                   defaultCountry: 'in'
                 }}
                 required
-                errorMessage={errors?.phoneNumber?.message}
               />
             </Grid>
             <Grid size={12}>
-              <SubmitButton />
+              <SubmitButton disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
           </GridContainer>

@@ -1,43 +1,76 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFSelectPropsTable = ({ v1, v3_1AndAbove }: VersionProps) => {
+const RHFSelectPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v3_1AndAbove,
+  v4AndAbove
+}: VersionProps) => {
+  const binding = !v1
+    ? PropsDescription.control
+    : LegacyPropsDescription.register;
+
+  let onValueChangeProp;
+  if (v4AndAbove) {
+    onValueChangeProp = PropsDescription.onValueChange_Select;
+  } else if (v1) {
+    onValueChangeProp = LegacyPropsDescription.onValueChange_Select_v1;
+  } else {
+    onValueChangeProp = LegacyPropsDescription.onValueChange_Select_v2_v3;
+  }
+
   const tableRows = [
     PropsDescription.fieldName,
-    ...(!v1
-      ? [PropsDescription.control]
-      : [PropsDescription.register]
-    ),
+    binding,
     PropsDescription.registerOptions,
     PropsDescription.options,
     PropsDescription.labelKey,
     PropsDescription.valueKey,
-    ...(!v1
-      ? []
-      : [PropsDescription.defaultValue]
-    ),
+    ...(v4AndAbove
+      ? [
+        PropsDescription.renderOptionLabel,
+        PropsDescription.getOptionDisabled,
+        PropsDescription.customOnChange_Select
+      ]
+      : []),
+    onValueChangeProp,
+    ...(!v1 ? [] : [LegacyPropsDescription.defaultValue]),
     PropsDescription.showDefaultOption,
     PropsDescription.defaultOptionText,
-    ...(!v1
-      ? [PropsDescription.onValueChange_Select]
-      : [PropsDescription.onValueChange_Select_v1]
-    ),
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
-    ...(v3_1AndAbove
-      ? [PropsDescription.placeholder_Select]
-      : []
-    ),
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    getPropDetailsByVersion(PropsDescription.label, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []),
+    ...(v3_1AndAbove ? [PropsDescription.placeholder_Select] : []),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+      : []),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return (
     <MarkdownTable
-      rows={tableRows}
+      rows={tableRows as PropsInfo[]}
       showType
     />
   );

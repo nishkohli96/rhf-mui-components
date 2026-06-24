@@ -1,7 +1,20 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type VersionProps, type PropsInfo } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFAutocompleteObjectPropsTable = () => {
+const RHFAutocompleteObjectPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v4AndAbove
+}: VersionProps) => {
+  const onValueChange = v4AndAbove
+    ? [
+      PropsDescription.onValueChange_AutocompleteObject,
+      PropsDescription.customOnChange_AutocompleteObject
+    ]
+    : [LegacyPropsDescription.onValueChange_AutocompleteObject_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
@@ -11,19 +24,35 @@ const RHFAutocompleteObjectPropsTable = () => {
     PropsDescription.valueKey_Obj,
     PropsDescription.required,
     PropsDescription.multiple,
-    PropsDescription.onValueChange_AutocompleteObject,
-    PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    ...onValueChange,
+    getPropDetailsByVersion(PropsDescription.label, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : [
+        getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })
+      ]),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
-    PropsDescription.textFieldProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
   return (
-    <MarkdownTable rows={tableRows} showType/>
+    <MarkdownTable rows={tableRows as PropsInfo[]} showType/>
   );
 };
 

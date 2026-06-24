@@ -1,33 +1,75 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
-import { type VersionProps } from '@site/src/types';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFPhoneInputPropsTable = ({ v1 }: VersionProps) => {
+const RHFPhoneInputPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps) => {
+  const valueChangeProps = v4AndAbove
+    ? [
+      PropsDescription.customOnChange_PhoneInput,
+      PropsDescription.onValueChange_PhoneInput,
+      PropsDescription.searchCountryProps
+    ]
+    : [LegacyPropsDescription.onValueChange_PhoneInput_v2_v3];
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    ...(!v1 ? [PropsDescription.required] : []),
-    PropsDescription.value_PhoneInput,
-    PropsDescription.required,
-    PropsDescription.onValueChange_PhoneInput,
     ...(!v1
-      ? [PropsDescription.label]
-      : [PropsDescription.label_v1]
+      ? [
+        ...valueChangeProps,
+        getPropDetailsByVersion(PropsDescription.label, {
+          docsVersion,
+          muiVersion
+        })
+      ]
+      : [
+        LegacyPropsDescription.value_PhoneInput,
+        LegacyPropsDescription.label_v1
+      ]),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      : []
     ),
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
-    PropsDescription.helperText,
-    PropsDescription.errorMessage,
+    ...(!v1 ? [PropsDescription.required] : []),
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
+    ...(v4AndAbove
+      ? []
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps,
-    PropsDescription.phoneInputProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [
+        PropsDescription.phoneInputProps,
+        PropsDescription.customIds
+      ]
+      : [LegacyPropsDescription.phoneInputProps_v2_v3]
+    )
   ];
 
   return (
-    <MarkdownTable rows={tableRows} showType/>
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
   );
 };
 
 export default RHFPhoneInputPropsTable;
-

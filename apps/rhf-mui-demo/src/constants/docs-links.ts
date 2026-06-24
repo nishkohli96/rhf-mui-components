@@ -1,7 +1,7 @@
 import { type PageInfo } from '@/types';
 import { ENV_VARS } from './environment';
 
-export const DocsLinks: Record<string, PageInfo> = {
+export const componentsDocsLink: Record<string, PageInfo> = {
   rhfTextField: {
     title: 'RHFTextField',
     href: `${ENV_VARS.DOCS_URL}components/mui/RHFTextField`
@@ -36,7 +36,7 @@ export const DocsLinks: Record<string, PageInfo> = {
   },
   rhfMultiAutocomplete: {
     title: 'RHFMultiAutocomplete',
-    href: `${ENV_VARS.DOCS_URL}components/mui/rhfMultiAutocomplete`
+    href: `${ENV_VARS.DOCS_URL}components/mui/RHFMultiAutocomplete`
   },
   rhfCountrySelect: {
     title: 'RHFCountrySelect',
@@ -93,4 +93,4 @@ export const DocsLinks: Record<string, PageInfo> = {
 };
 
 export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
-export const docsLink = 'https://rhf-mui-components.netlify.app/';
+export const docsLink = 'https://rhf-mui-components.vercel.app/';

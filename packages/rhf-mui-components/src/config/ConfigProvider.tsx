@@ -32,14 +32,14 @@ export const ConfigProvider = ({
         ...defaultFormHelperTextSx
       },
       dateAdapter,
-      allLabelsAboveFields
+      allLabelsAboveFields,
     }),
     [
       defaultFormHelperTextSx,
       defaultFormControlLabelSx,
       defaultFormLabelSx,
       dateAdapter,
-      allLabelsAboveFields
+      allLabelsAboveFields,
     ],
   );
 

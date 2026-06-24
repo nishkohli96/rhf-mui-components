@@ -2,37 +2,52 @@
 sidebar_position: 3
 sidebar_label: Date Time
 title: RHFDateTimePicker
-description: Integrate RHFDateTimePicker with react-hook-form for customizable date and time inputs. Supports various date adapters and flexible props. Check examples and API details for seamless integration.
+description: Integrate RHFDateTimePicker with react-hook-form for customizable date and time inputs.
 ---
 
 import { RHFDateTimePickerPropsTable } from '@site/src/page-components';
+import { DemoLink } from '@site/src/components';
 
 # RHFDateTimePicker
 
-**RHFDateTimePicker** extends [DateTimePicker](https://mui.com/x/react-date-pickers/date-time-picker/)
-component, allowing users to select the date and time for an event.
+**RHFDateTimePicker** extends the [DateTimePicker](https://v8.mui.com/x/react-date-pickers/date-time-picker/)
+component, allowing users to select a date and time for an event.
+
+Starting with **version 4**, this module also exports `RHFDesktopDateTimePicker`,
+`RHFMobileDateTimePicker`, and `RHFStaticDateTimePicker`.
 
 ## Usage
 
-```js
-import RHFDateTimePicker, { RHFDateTimePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+```ts
+import {
+  RHFDateTimePicker,
+  RHFDesktopDateTimePicker,
+  RHFMobileDateTimePicker,
+  RHFStaticDateTimePicker,
+  type RHFDateTimePickerProps,
+  type RHFDesktopDateTimePickerProps,
+  type RHFMobileDateTimePickerProps,
+  type RHFStaticDateTimePickerProps
+} from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 ```
 
 ```jsx
 <RHFDateTimePicker
-  fieldName="departureOfFlight"
+  fieldName="meetingDateTime"
   control={control}
-  errorMessage={errors?.departureOfFlight?.message}
 />
 ```
 
 ## Examples
-- [RHFDateTimePicker Example](https://rhf-mui-components-examples.netlify.app/date-time-pickers)
-- [DateTimePicker](https://mui.com/x/react-date-pickers/date-time-picker/)
-- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+- <DemoLink path="/date-time-pickers">RHFDateTimePicker Example</DemoLink>
+- [DateTimePicker](https://v8.mui.com/x/react-date-pickers/date-time-picker/)
+- <DemoLink path="/complete-form">Complete Form</DemoLink>
 
 ## API
-`RHFDateTimePickerProps` extends [DateTimePickerProps](https://mui.com/x/api/date-pickers/date-time-picker/) 
+`RHFDateTimePickerProps` extends [DateTimePickerProps](https://v8.mui.com/x/api/date-pickers/date-time-picker/) 
 and accepts the following additional props:
 
-<RHFDateTimePickerPropsTable />
+<RHFDateTimePickerPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

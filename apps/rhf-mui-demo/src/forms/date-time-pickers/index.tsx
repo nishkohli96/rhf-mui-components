@@ -1,14 +1,17 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
-import RHFDatePicker from '@nish1896/rhf-mui-components/mui-pickers/date';
-import RHFTimePicker from '@nish1896/rhf-mui-components/mui-pickers/time';
-import RHFDateTimePicker from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import {
+  RHFDatePicker,
+  RHFMobileDatePicker
+} from '@nish1896/rhf-mui-components/mui-pickers/date';
+import { RHFTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/time';
+import { RHFDateTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 import {
   FormContainer,
   FormState,
@@ -26,12 +29,12 @@ const DateTimePickersForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: DateTimeFormData) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -52,7 +55,15 @@ const DateTimePickersForm = () => {
                 label="Date of Birth"
                 showLabelAboveFormField
                 required
-                errorMessage={errors?.dob?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="MobileDatePicker" />
+              <RHFMobileDatePicker
+                fieldName="dobFather"
+                control={control}
+                label="Father's Date of Birth"
+                required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -63,7 +74,6 @@ const DateTimePickersForm = () => {
                 label="Arrival Time"
                 ampm={false}
                 required
-                errorMessage={errors?.time?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -75,7 +85,6 @@ const DateTimePickersForm = () => {
                 ampm={false}
                 required
                 helperText="Select a future date"
-                errorMessage={errors?.dateOfJourney?.message}
               />
             </Grid>
             <Grid size={12}>
@@ -83,7 +92,7 @@ const DateTimePickersForm = () => {
               <ResetButton onClick={() => reset()} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

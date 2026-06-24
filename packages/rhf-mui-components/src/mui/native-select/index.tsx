@@ -1,6 +1,13 @@
 'use client';
 
-import { type ReactNode, type ChangeEvent } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type JSX,
+  type ReactNode,
+  type Ref,
+  type ChangeEvent
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -9,194 +16,341 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
-import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
+import NativeSelect, {
+  type NativeSelectProps
+} from '@mui/material/NativeSelect';
+import {
+  FormLabel,
+  FormHelperText,
+  defaultAutocompleteValue,
+  MUISELECT_OPTIONS_THRESHOLD
+} from '@/common';
 import type {
+  CustomComponentIds,
   FormHelperTextProps,
   FormLabelProps,
-  StringOrNumber,
+  OptionValue,
   StrNumObjOption,
+  CustomOnChangeProps
 } from '@/types';
 import {
   fieldNameToLabel,
   getOptionValue,
   isKeyValueOption,
   normalizeSelectValue,
-  validateArray,
-  useFieldIds
+  useFieldIds,
+  generateLargeOptionsErrMsg,
+  mergeRefs,
+  resolveLabelAboveControl
 } from '@/utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 
 type InputNativeSelectProps = Omit<
   NativeSelectProps,
-  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value'
+  'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'ref'
 >;
+
+type OnValueChangeProps<
+  Option extends StrNumObjOption = StrNumObjOption,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >
+> = {
+  newValue: OptionValue<Option, ValueKey>;
+  event: ChangeEvent<HTMLSelectElement>;
+};
 
 export type RHFNativeSelectProps<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   fieldName: Path<T>;
   control: Control<T>;
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of options to display in the dropdown.
+   * Note:
+   * - Works best for small to moderate datasets.
+   * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMultiAutocomplete` is
+   *   recommended for improved searchability, keyboard navigation, and performance.
+   */
   options: Option[];
   labelKey?: LabelKey;
   valueKey?: ValueKey;
-  onValueChange?: (
-    value: StringOrNumber | StringOrNumber[],
-    event: ChangeEvent<HTMLSelectElement>
-  ) => void;
+  /**
+   * Custom renderer for dropdown options.
+   *
+   * Use this prop to customize how each option is displayed in the `<option>` element.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
+  renderOptionLabel?: (option: Option) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being selected.
+   *
+   * @param option - The option being evaluated.
+   */
+  getOptionDisabled?: (option: Option) => boolean;
+  /**
+   * Custom change handler that overrides the default native select update.
+   *
+   * Use when you need to intercept or transform the selected value before
+   * updating React Hook Form state.
+   *
+   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when this callback is provided.
+   *
+   * @param rhfOnChange - React Hook Form field change handler
+   * @param newValue - option value from the selection
+   * @param event - Change event from the `<select>` element
+   */
+  customOnChange?: ({
+    rhfOnChange,
+    newValue,
+    event
+  }: CustomOnChangeProps<
+    OnValueChangeProps<Option, ValueKey>,
+    OptionValue<Option, ValueKey>
+  >) => void;
+  onValueChange?: ({
+    newValue,
+    event
+  }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * Custom text displayed for the default option when
+   * `showDefaultOption` is enabled.
+   *
+   * @default `Select ${fieldLabel}`
+   */
   defaultOptionText?: string;
+  label?: ReactNode;
   showLabelAboveFormField?: boolean;
   formLabelProps?: FormLabelProps;
-  label?: ReactNode;
+  hideLabel?: boolean;
   helperText?: ReactNode;
+  /**
+   * @deprecated
+   * Field error message is now automatically derived from form state.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
   formHelperTextProps?: FormHelperTextProps;
+  customIds?: CustomComponentIds;
 } & InputNativeSelectProps;
 
-const RHFNativeSelect = <
+const componentName = 'RHFNativeSelect';
+
+const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
-  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
->({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  labelKey,
-  valueKey,
-  onValueChange,
-  disabled: muiDisabled,
-  defaultOptionText,
-  showLabelAboveFormField,
-  formLabelProps,
-  label,
-  required,
-  helperText,
-  errorMessage,
-  hideErrorMessage,
-  formHelperTextProps,
-  sx,
-  onBlur,
-  autoComplete = defaultAutocompleteValue,
-  placeholder,
-  ...otherNativeSelectProps
-}: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFNativeSelect', options, labelKey, valueKey);
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    renderOptionLabel,
+    getOptionDisabled,
+    labelKey,
+    valueKey,
+    customOnChange,
+    onValueChange,
+    disabled: muiDisabled,
+    defaultOptionText,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    required,
+    helperText,
+    errorMessage,
+    hideErrorMessage,
+    formHelperTextProps,
+    sx,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    placeholder,
+    customIds,
+    ...otherNativeSelectProps
+  }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>,
+  ref: Ref<HTMLInputElement>
+) {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
+    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
+  }
 
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName);
-
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-  const blankOptionText = defaultOptionText ?? placeholder ?? '';
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+  const defaultOptionLabel = defaultOptionText ?? placeholder ?? '';
 
   return (
-    <FormControl fullWidth error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef
-          }
-        }) => (
-          <NativeSelect
-            id={fieldId}
-            name={rhfFieldName}
-            autoComplete={autoComplete}
-            aria-required={required}
-            aria-invalid={isError}
-            aria-describedby={
-              showHelperTextElement
-                ? (isError ? errorId : helperTextId)
-                : undefined
-            }
-            value={rhfValue ?? ''}
-            inputRef={rhfRef}
-            disabled={muiDisabled}
-            onChange={event => {
-              const selectedValue = event.target.value;
-              const normalizedValue = normalizeSelectValue(
-                selectedValue,
-                options,
-                labelKey,
-                valueKey
-              );
-              rhfOnChange(normalizedValue);
-              onValueChange?.(normalizedValue, event);
-            }}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              onBlur?.(blurEvent);
-            }}
-            sx={{
-              ...sx,
-              '&.MuiNativeSelect-root': {
-                margin: 0
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        },
+        fieldState: { error: fieldStateError }
+      }) => {
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
+        return (
+          <FormControl fullWidth error={isError}>
+            {!hideLabel && isLabelAboveControl && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible
+                required={required}
+                error={isError}
+                formLabelProps={{
+                  id: labelId,
+                  htmlFor: fieldId,
+                  ...formLabelProps
+                }}
+              />
+            )}
+            <NativeSelect
+              {...otherNativeSelectProps}
+              id={fieldId}
+              name={rhfFieldName}
+              inputRef={mergeRefs(rhfRef, ref)}
+              autoComplete={autoComplete}
+              aria-required={required}
+              aria-invalid={isError}
+              aria-labelledby={
+                !hideLabel && !isLabelAboveControl ? labelId : undefined
               }
-            }}
-            {...otherNativeSelectProps}
-          >
-            <option value="" disabled={required}>
-              {blankOptionText}
-            </option>
-            {options.map(option => {
-              const isObject = isKeyValueOption(option, labelKey, valueKey);
-              const opnValue = getOptionValue<Option, ValueKey>(
-                option,
-                valueKey
-              );
-              const opnLabel = isObject
-                ? String(option[labelKey!])
-                : String(option);
-              return (
-                <option key={opnValue} value={opnValue}>
-                  {opnLabel}
-                </option>
-              );
-            })}
-          </NativeSelect>
-        )}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              value={rhfValue ?? ''}
+              disabled={muiDisabled || rhfDisabled}
+              onChange={event => {
+                const selectedValue = event.target.value;
+                const normalizedValue = normalizeSelectValue(
+                  selectedValue,
+                  options,
+                  labelKey,
+                  valueKey
+                ) as OptionValue<Option, ValueKey>;
+                if (customOnChange) {
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: normalizedValue,
+                    event
+                  });
+                  return;
+                }
+                rhfOnChange(normalizedValue);
+                onValueChange?.({ newValue: normalizedValue, event });
+              }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                onBlur?.(blurEvent);
+              }}
+              sx={{
+                ...sx,
+                '&.MuiNativeSelect-root': {
+                  margin: 0
+                }
+              }}
+            >
+              <option value="" disabled={required}>
+                {defaultOptionLabel}
+              </option>
+              {options.map((option, index) => {
+                const isObject = isKeyValueOption(option, labelKey, valueKey);
+                const opnValue = getOptionValue<Option, ValueKey>(
+                  option,
+                  valueKey
+                );
+                const opnLabel = isObject
+                  ? String(option[labelKey!])
+                  : String(option);
+                const isOptionDisabled = getOptionDisabled?.(option) ?? false;
+                return (
+                  <option
+                    key={`${opnValue}-${index}`}
+                    value={opnValue}
+                    disabled={isOptionDisabled}
+                    aria-disabled={isOptionDisabled}
+                  >
+                    {renderOptionLabel?.(option) ?? opnLabel}
+                  </option>
+                );
+              })}
+            </NativeSelect>
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                id: isError ? errorId : helperTextId,
+                ...formHelperTextProps
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
-};
+});
+
+const RHFNativeSelect = RHFNativeSelectInner as <
+  T extends FieldValues,
+  Option extends StrNumObjOption = StrNumObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+>(
+  props: RHFNativeSelectProps<T, Option, LabelKey, ValueKey> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default RHFNativeSelect;

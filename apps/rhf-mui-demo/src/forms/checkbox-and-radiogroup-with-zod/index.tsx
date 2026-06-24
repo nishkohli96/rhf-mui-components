@@ -1,9 +1,12 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
+import { green, pink } from '@mui/material/colors';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
 import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
@@ -45,13 +48,13 @@ const CheckboxRadioZodForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: PersonInfo) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -63,14 +66,39 @@ const CheckboxRadioZodForm = () => {
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Radio Group with onValueChange function" />
+            <FieldVariantInfo title="Radio Group with onValueChange function and renderOptionLabel" />
             <RHFRadioGroup
               fieldName="gender"
               control={control}
               options={Object.values(Gender)}
-              onValueChange={newVal => toast.info(`You selected ${newVal}`)}
-              required
-              errorMessage={errors?.gender?.message}
+              row
+              renderOptionLabel={option => {
+                switch (option) {
+                  case Gender.Male:
+                    return (
+                      <span style={{ color: '#1976d2' }}>
+                        Male ♂
+                      </span>
+                    );
+                  case Gender.Female:
+                    return (
+                      <span style={{ color: '#d81b60' }}>
+                        Female ♀
+                      </span>
+                    );
+                  case Gender.Others:
+                    return (
+                      <span style={{ color: '#7b1fa2' }}>
+                        Others ⚧
+                      </span>
+                    );
+                  default:
+                    return option;
+                }
+              }}
+              onValueChange={({ newValue }) => {
+                toast.info(`You selected ${newValue}`);
+              }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -81,8 +109,16 @@ const CheckboxRadioZodForm = () => {
               options={ageGroupOptions}
               labelKey="ageGroup"
               valueKey="minAge"
+              radioProps={{
+                sx: {
+                  color: pink[800],
+                  '&.Mui-checked': {
+                    color: pink[600],
+                  }
+                }
+              }}
               required
-              errorMessage={errors?.ageGroup?.message}
+              getOptionDisabled={opn => opn.minAge === 61 || opn.minAge === 1}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -93,8 +129,16 @@ const CheckboxRadioZodForm = () => {
               control={control}
               options={Object.values(Colors)}
               formControlLabelProps={{ sx: { color: 'orange' } }}
+              checkboxProps={{
+                icon: <FavoriteBorder />,
+                checkedIcon: <Favorite />,
+                sx: {
+                  '&.Mui-checked': {
+                    color: green[600]
+                  }
+                }
+              }}
               required
-              errorMessage={errors?.favouriteColors?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -106,8 +150,11 @@ const CheckboxRadioZodForm = () => {
               options={CountriesList}
               labelKey="country"
               valueKey="code"
+              renderOptionLabel={opn => `${opn.country} (${opn.code})`}
+              onValueChange={({ newValue }) => {
+                toast.info(`You've visited ${newValue.join(', ')}`);
+              }}
               required
-              errorMessage={errors?.countriesVisited?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -116,17 +163,37 @@ const CheckboxRadioZodForm = () => {
               fieldName="marks"
               control={control}
               options={[10, 20, 30, 40, 50]}
+              customOnChange={({
+                rhfOnChange,
+                toggledValue,
+                event,
+                currentValue,
+                checked
+              }) => {
+                if (toggledValue === 20) {
+                  event.preventDefault();
+                  return;
+                }
+                if (checked) {
+                  rhfOnChange([...currentValue, toggledValue]);
+                } else {
+                  rhfOnChange(currentValue.filter(v => v !== toggledValue));
+                }
+              }}
               required
-              errorMessage={errors?.marks?.message}
+              getOptionDisabled={opn => opn === 10}
+              helperText="Note: 10 is disabled, 20 cannot be selected due to custom onChange logic"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single Checkbox" />
+            <FieldVariantInfo title="Single Checkbox with custom ID" />
             <RHFCheckbox
               fieldName="agreeTnC"
               control={control}
               label="Agree to Terms & Conditions"
-              errorMessage={errors?.agreeTnC?.message}
+              customIds={{
+                field: 'terms&Condition'
+              }}
             />
           </Grid>
           <Grid size={12}>
@@ -134,7 +201,7 @@ const CheckboxRadioZodForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

@@ -10,7 +10,9 @@ import RHFCountrySelect, {
 } from './country-select';
 import RHFFileUploader, {
   type RHFFileUploaderProps,
-  type FileUploadError
+  type FileUploadError,
+  type ExistingUploadedFile,
+  type FileUploadErrorDetails
 } from './file-uploader';
 import RHFMultiAutocomplete, {
   type RHFMultiAutocompleteProps,
@@ -57,6 +59,8 @@ export type {
   RHFCountrySelectProps,
   RHFFileUploaderProps,
   FileUploadError,
+  ExistingUploadedFile,
+  FileUploadErrorDetails,
   RHFMultiAutocompleteProps,
   RHFNativeSelectProps,
   RHFNumberInputProps,

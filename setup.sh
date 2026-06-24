@@ -1,26 +1,48 @@
-# Install Dependencies & Build Package
+#!/bin/bash
+
+REQUIRED_PNPM_VERSION="11.8.0"
+PKG_NAME="@nish1896/rhf-mui-components"
+
 echo "🏁 Initiating Setup..."
 
-# Check for yarn
-if ! command -v yarn &> /dev/null; then
-  echo "📦 yarn not found. Installing..."
-  npm install -g yarn@1.22.22
+# Ensure nvm is loaded
+export NVM_DIR="$HOME/.nvm"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"
 else
-  echo "✅ yarn is globally installed."
+  echo "❌ nvm is not installed. Please install nvm first."
+  exit 1
 fi
 
+# Use Node version from .nvmrc
+if [ -f ".nvmrc" ]; then
+  echo "🔧 Using Node version from .nvmrc..."
+  nvm install
+  nvm use
+else
+  echo "⚠️ .nvmrc not found. Skipping Node version setup."
+fi
+
+# Check if pnpm is installed and the version
+if command -v pnpm &> /dev/null; then
+  CURRENT_PNPM_VERSION=$(pnpm -v)
+  if [ "$(printf '%s\n' "$REQUIRED_PNPM_VERSION" "$CURRENT_PNPM_VERSION" | sort -V | head -n1)" != "$REQUIRED_PNPM_VERSION" ]; then
+    echo "⚠️ pnpm version $CURRENT_PNPM_VERSION is older than $REQUIRED_PNPM_VERSION. Upgrading..."
+    npm install -g pnpm@$REQUIRED_PNPM_VERSION
+  else
+    echo "✅ pnpm v$CURRENT_PNPM_VERSION is installed."
+  fi
+else
+  echo "📦 pnpm not found. Installing v$REQUIRED_PNPM_VERSION..."
+  npm install -g pnpm@$REQUIRED_PNPM_VERSION
+fi
+
+# Install dependencies and build the local package
 echo "Installing Dependencies & Building Package 🛠️"
-yarn
-yarn lib
+pnpm install
+pnpm --filter "$PKG_NAME" run lib:build
 
 # Globally install rimraf
 npm i -g rimraf
 
-# Link the package
-echo "Linking Package... 🔗"
-cd packages/rhf-mui-components/dist
-yarn link
-
-cd ../../../apps/rhf-mui-demo
-yarn link @nish1896/rhf-mui-components
-echo " ✅ Setup Complete! 🎉🎉🎉"
+echo "✅ Setup Complete! 🎉🎉🎉"

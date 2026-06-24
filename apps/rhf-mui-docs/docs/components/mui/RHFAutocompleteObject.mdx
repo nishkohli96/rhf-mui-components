@@ -6,15 +6,15 @@ description: Autocomplete component that returns full option objects instead of 
 ---
 
 import { RHFAutocompleteObjectPropsTable } from '@site/src/page-components';
-import { AvailabilityBanner } from '@site/src/components';
+import { AvailabilityBanner, DemoLink } from '@site/src/components';
 import NewImg from '@site/static/img/new.png';
 
 # RHFAutocompleteObject<sup><img src={NewImg} alt="NEW" height="40" /></sup>
 
 <AvailabilityBanner componentName="RHFAutocompleteObject" version="3.3" />
 
-**RHFAutocompleteObject** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/),
-designed for use cases where you need to work with the **entire selected option object**
+**RHFAutocompleteObject** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+and is designed for cases where you need to work with the **entire selected option object**
 instead of just a primitive value.
 
 Unlike **RHFAutocomplete**, which stores only the value derived from `valueKey`, this
@@ -31,10 +31,11 @@ elsewhere in your form or application.
 | Requires `labelKey` | Optional | ✅ Required |
 | Requires `valueKey` | Optional | ✅ Required |
 | Use case | Simple forms | Metadata-driven forms |
+| Custom values (`freeSolo`) | ✅ Users can enter values not present in `options` | ❌ Not supported |
 
 ## Usage
 
-```js
+```jsx
 import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf-mui-components/mui/autocomplete-object';
 
 <RHFAutocompleteObject
@@ -44,17 +45,23 @@ import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf
   labelKey="name"
   valueKey="code"
   multiple           // omit this prop for single selection
-  errorMessage={errors?.country?.message}
 />
 ```
 
 :::warning
-
 Both `labelKey` and `valueKey` props are mandatory. Since this component works
 exclusively with object-based options, omitting either will result in an error.
+:::
 
-This component does not support the `freeSolo` prop, similar to [RHFAutocomplete](./RHFAutocomplete.mdx).
-Users can only select values from the provided options.
+:::note
+`freeSolo` is **not supported** in `RHFAutocompleteObject`.
+
+This component stores complete option objects in form state, whereas enabling
+`freeSolo` would introduce string values alongside option objects, resulting in
+mixed value types.
+
+If you need users to enter custom values that are not present in the provided
+options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
 :::
 
 ### Example Option Structure
@@ -67,9 +74,13 @@ const countryList = [
 ];
 ```
 
-**Stored Value (Multiple)**
+**Stored Value**
 
 ```js
+// Single
+{ name: 'India', code: 'IN', currency: 'INR' },
+
+// Multiple
 [
   { name: 'India', code: 'IN', currency: 'INR' },
   { name: 'Canada', code: 'CA', currency: 'CAD' }
@@ -86,11 +97,14 @@ Use RHFAutocompleteObject when:
 
 
 ## Examples
-- [RHFAutocompleteObject](https://rhf-mui-components-examples.netlify.app/autocomplete)
-- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
+- <DemoLink path="/autocomplete">RHFAutocompleteObject</DemoLink>
+- [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
 
 ## API
-The `RHFAutocompleteObjectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+The `RHFAutocompleteObjectProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/) 
 and accepts the following additional props:
 
-<RHFAutocompleteObjectPropsTable />
+<RHFAutocompleteObjectPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

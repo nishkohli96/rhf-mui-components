@@ -1,16 +1,24 @@
-import dynamic from 'next/dynamic';
-import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
-
-const ClientForm = dynamic(() => import('@/forms/date-time-pickers'), { ssr: false });
+import {
+  ContentContainer,
+  LinksList,
+  PageHeading,
+  SubHeading
+} from '@/components';
+import {
+  pageMetadata,
+  componentsDocsLink,
+  SourceCodeLinks,
+  CodeSandboxLinks
+} from '@/constants';
+import DateTimePickersForm from '@/forms/date-time-pickers/Client';
 
 export const metadata = pageMetadata.dateTimePickers;
 
 const DateTimePickerFormPage = () => {
   const links = [
-    DocsLinks.rhfDatePicker,
-    DocsLinks.rhfTimePicker,
-    DocsLinks.rhfDateTimePicker
+    componentsDocsLink.rhfDatePicker,
+    componentsDocsLink.rhfTimePicker,
+    componentsDocsLink.rhfDateTimePicker
   ];
   const codeLinks = [
     SourceCodeLinks.dateTimePickers,
@@ -20,8 +28,8 @@ const DateTimePickerFormPage = () => {
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
-      <SubHeading title={metadata.description as string}/>
-      <ClientForm />
+      <SubHeading title={metadata.description as string} />
+      <DateTimePickersForm />
       <LinksList links={links} />
       <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
@@ -29,4 +37,3 @@ const DateTimePickerFormPage = () => {
 };
 
 export default DateTimePickerFormPage;
-

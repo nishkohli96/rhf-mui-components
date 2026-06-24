@@ -1,22 +1,61 @@
 import MarkdownTable from '@site/src/components/markdown-table';
-import { PropsDescription } from '@site/src/constants';
+import { PropsDescription, LegacyPropsDescription } from '@site/src/constants';
+import { type PropsInfo, type VersionProps } from '@site/src/types';
+import { getPropDetailsByVersion } from '@site/src/utils';
 
-const RHFNumberInputPropsTable = () => {
+const RHFNumberInputPropsTable = ({
+  docsVersion,
+  muiVersion,
+  v4AndAbove
+}: VersionProps) => {
+  const valueChangeProp = v4AndAbove
+    ? PropsDescription.onValueChange_Inputs
+    : LegacyPropsDescription.onValueChange_Inputs_v2_v3;
+
   const tableRows = [
     PropsDescription.fieldName,
     PropsDescription.control,
     PropsDescription.registerOptions,
-    PropsDescription.onValueChange_numberInput,
-    PropsDescription.label,
-    PropsDescription.showLabelAboveFormField,
-    PropsDescription.formLabelProps,
+    ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
+    valueChangeProp,
+    getPropDetailsByVersion(PropsDescription.label, {
+      docsVersion,
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
+      muiVersion
+    }),
+    getPropDetailsByVersion(PropsDescription.formLabelProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.onlyIntegers,
+        PropsDescription.nonNegative,
+        PropsDescription.maxDecimalPlaces,
+        PropsDescription.stepAmount
+      ]
+      : []),
     PropsDescription.showMarkers,
-    PropsDescription.errorMessage,
+    ...(!v4AndAbove
+      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+      : []),
     PropsDescription.hideErrorMessage,
-    PropsDescription.formHelperTextProps
+    getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
+      docsVersion,
+      muiVersion
+    }),
+    ...(v4AndAbove ? [PropsDescription.customIds] : [])
   ];
 
-  return <MarkdownTable rows={tableRows} showType />;
+  return (
+    <MarkdownTable
+      rows={tableRows as PropsInfo[]}
+      showType
+    />
+  );
 };
 
 export default RHFNumberInputPropsTable;

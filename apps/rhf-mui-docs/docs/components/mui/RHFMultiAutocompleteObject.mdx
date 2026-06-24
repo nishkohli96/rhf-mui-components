@@ -6,18 +6,18 @@ description: Multi-select autocomplete component with object-based values and bu
 ---
 
 import { RHFMultiAutocompleteObjectPropsTable } from '@site/src/page-components';
-import { AvailabilityBanner } from '@site/src/components';
+import { AvailabilityBanner, DemoLink } from '@site/src/components';
 import NewImg from '@site/static/img/new.png';
 
 # RHFMultiAutocompleteObject<sup><img src={NewImg} alt="NEW" height="40" /></sup>
 
 <AvailabilityBanner componentName="RHFMultiAutocompleteObject" version="3.3" />
 
-**RHFMultiAutocompleteObject** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
+**RHFMultiAutocompleteObject** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
 to support **multi-selection of object-based options**, returning the **entire selected objects**
 instead of primitive values.
 
-It also includes a built-in **"Select All"** option with proper handling of:
+It also includes a built-in "**Select All**" option with proper handling of:
 
 - Full selection
 - Partial (indeterminate) state
@@ -33,7 +33,7 @@ It also includes a built-in **"Select All"** option with proper handling of:
 
 ## Usage
 
-```js
+```jsx
 import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
 
 <RHFMultiAutocompleteObject
@@ -42,37 +42,46 @@ import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-a
   options={countryList}
   labelKey="name"
   valueKey="code"
-  errorMessage={errors?.countries?.message}
 />
 ```
 
 :::warning
-
 Both `labelKey` and `valueKey` are required. This component only supports object-based options.
-
-The internally injected **"Select All"** option is not included in the final form value.
+The internally injected "**Select All**" option is not included in the final form value.
 Only actual options are returned.
+:::
 
-`freeSolo` is not supported, similar to other autocomplete components in this library.
+:::note
+`freeSolo` is **not supported** in `RHFMultiAutocompleteObject`.
+
+This component stores complete option objects in form state, whereas enabling
+`freeSolo` would introduce string values alongside option objects, resulting in
+mixed value types.
+
+If you need users to enter custom values that are not present in the provided
+options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
 :::
 
 ### Select All Behavior
 
-✔ When clicked:
+When clicked:
 - Selects all available options
 - Stores full array of objects
 
-✔ When all selected:
-- Clicking again → clears all selections
+When all options are selected:
+- Clicking again clears all selections
 
-✔ Indeterminate state:
+Indeterminate state:
 - Triggered when some but not all options are selected
 
 ## Examples
-- [RHFMultiAutocompleteObject](https://rhf-mui-components-examples.netlify.app/autocomplete)
+- <DemoLink path="/autocomplete">RHFMultiAutocompleteObject</DemoLink>
 
 ## API
-The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/) 
 and accepts the following additional props:
 
-<RHFMultiAutocompleteObjectPropsTable />
+<RHFMultiAutocompleteObjectPropsTable
+  muiVersion={7}
+  v4AndAbove
+/>

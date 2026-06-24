@@ -1,32 +1,75 @@
+import { type MuiVersion } from '@site/src/types';
+
+const githubProfile = 'https://github.com/nishkohli96/';
+const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
+const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
+
 const ExternalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
+  examplesRepo: `${githubProfile}rhf-mui-examples`,
   muiComponents: {
-    checkbox: 'https://mui.com/material-ui/react-checkbox/',
-    checkboxGroup: 'https://mui.com/material-ui/react-checkbox/#formgroup',
-    nativeSelect: 'https://mui.com/material-ui/react-select/#native-select',
-    radioGroup: 'https://mui.com/material-ui/react-radio-button/',
-    select: 'https://mui.com/material-ui/react-select/',
-    switch: 'https://mui.com/material-ui/react-switch/',
-    textField: 'https://mui.com/material-ui/react-text-field/',
+    textField: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-text-field/`,
+    select: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-select/`,
+    nativeSelect: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-select/#native-select`,
+    checkbox: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-checkbox/`,
+    checkboxGroup: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-checkbox/#formgroup`,
+    radioGroup: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-radio-button/`,
+    switch: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-switch/`,
+    chip: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-chip/`,
   },
   muiComponentApi: {
-    checkbox: 'https://mui.com/material-ui/api/checkbox/',
-    formLabel: 'https://mui.com/material-ui/api/form-label/',
-    formControlLabel: 'https://mui.com/material-ui/api/form-control-label/',
-    formHelperText: 'https://mui.com/material-ui/api/form-helper-text/',
+    textField: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/text-field/`,
+    select: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/select/`,
+    checkbox: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/checkbox/`,
+    formLabel: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/form-label/`,
+    formControlLabel: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/form-control-label/`,
+    formHelperText: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/form-helper-text/`,
     nativeSelect: 'https://mui.com/material-ui/api/native-select/',
-    radio: 'https://mui.com/material-ui/api/radio/',
-    radioGroup: 'https://mui.com/material-ui/api/radio-group/',
-    select: 'https://mui.com/material-ui/api/select/',
-    switch: 'https://mui.com/material-ui/api/switch/',
-    textField: 'https://mui.com/material-ui/api/text-field/',
+    radio: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/radio/`,
+    radioGroup: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/radio-group/`,
+    switch: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/switch/`,
+    chip: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/chip/`,
+    box: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/box/`,
   },
-  rhfLinks: {
+  rhfApi: {
     control: 'https://react-hook-form.com/docs/useform/control',
     register: 'https://react-hook-form.com/docs/useform/register',
-    resolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
-    setValue: 'https://react-hook-form.com/docs/useform/setvalue'
+    setValue: 'https://react-hook-form.com/docs/useform/setvalue',
+    useForm: 'https://react-hook-form.com/docs/useform',
+  },
+  rhfResolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
+  githubRepo: {
+    countriesList: `${pkgRepoLink}packages/rhf-mui-components/src/mui/country-select/countries.ts`,
+    rteConfig: `${pkgRepoLink}packages/rhf-mui-components/src/misc/rich-text-editor/config.ts`
+  },
+  githubExamples: {
+    multerFileUpload: `${cslRepo}apps/express-server/src/routes/file/controller.ts`,
+    fileUploadMiddleware: `${cslRepo}apps/express-server/src/middleware/file-uploader.ts`,
+    ckEditorAdvanced: `${githubProfile}react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx`,
+    ckEditorCssGist: 'https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5',
+    styledTextField: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledTextField.tsx`,
+    styledSelect: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledSelect.tsx`,
+    styledAutocomplete: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledAutocomplete.tsx`,
   },
   validationLibs: {
     joi: 'https://www.npmjs.com/package/joi',
@@ -37,4 +80,3 @@ const ExternalLinks = Object.freeze({
 });
 
 export default ExternalLinks;
-

@@ -6,24 +6,31 @@ description: Customizable autocomplete component for efficient searching in larg
 ---
 
 import { RHFAutocompletePropsTable } from '@site/src/page-components';
-import { AvailabilityBanner } from '@site/src/components';
+import { AvailabilityBanner, DemoLink } from '@site/src/components';
+import { ExternalLinks } from '@site/src/constants';
 
 # RHFAutocomplete
 
 <AvailabilityBanner componentName="RHFAutocomplete" version="2.0" />
 
-**RHFAutocomplete** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/),
-designed for searching and selecting an option from large datasets. Similar to
+**RHFAutocomplete** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+and is designed for searching and selecting options from large datasets. Similar to
 [RHFSelect](./RHFSelect.mdx), it supports selecting single or multiple options and
 accepts options as an array of strings or an array of objects. This component is ideal
-for use cases requiring dynamic filtering or managing extensive options seamlessly.
+for use cases that require dynamic filtering or large option lists.
 
 :::note
-Due to the complexity of supporting arbitrary values in the Autocomplete while ensuring
-existing functionality remains unaffected, this component currently does **not** support
-the `freeSolo` prop of **Autocomplete**. This means users are restricted to selecting
-values exclusively from the dataset provided in the `options` prop, and cannot enter custom
-values.
+Starting with **v4**, the `freeSolo` prop is supported in **RHFAutocomplete**, allowing users to enter
+values that are not present in the provided options.
+
+When using `freeSolo` with object-based options, custom renderers such as `renderValue`, `renderTags`,
+or `renderOptionLabel` should account for both option objects and user-entered string values. A common
+approach is:
+
+```ts
+typeof value === 'string'
+```
+to distinguish free-form input from predefined option objects.
 :::
 
 ## Usage
@@ -37,7 +44,6 @@ import RHFAutocomplete, { RHFAutocompleteProps } from '@nish1896/rhf-mui-compone
   fieldName="countriesVisited"
   control={control}
   options={['Azerbaijan', 'Canada', 'India']}
-  errorMessage={errors?.countriesVisited?.message}
 />
 ```
 
@@ -50,7 +56,6 @@ For options as an array of objects:
   options={countryList} // imported from RHFCountrySelect
   labelKey="name"
   valueKey="name"
-  errorMessage={errors?.countriesVisited?.message}
 />
 ```
 
@@ -61,17 +66,20 @@ are required. If either is missing, an error will be thrown.
 
 You can extend or reuse the `RHFAutocomplete` component by creating your own wrapper component.
 
-👉 [StyledAutocomplete Example (GitHub)](https://github.com/nishkohli96/rhf-mui-components/blob/main/apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledAutocomplete.tsx)
+👉 <a href={ExternalLinks.githubExamples.styledAutocomplete} target="_blank" rel="noopener noreferrer">StyledAutocomplete (GitHub)</a>
 
 
 ## Examples
-- [RHFAutocomplete](https://rhf-mui-components-examples.netlify.app/autocomplete)
-- [Styled Autocomplete](https://rhf-mui-components-examples.netlify.app/customization)
-- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
-- [Complete Form](https://rhf-mui-components-examples.netlify.app/complete-form)
+- <DemoLink path="/autocomplete">RHFAutocomplete</DemoLink>
+- <DemoLink path="/customization">Styled Autocomplete</DemoLink>
+- [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
+- <DemoLink path="/complete-form">Complete Form</DemoLink>
 
 ## API
-The `RHFAutocompleteProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) 
+The `RHFAutocompleteProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/) 
 and accepts the following additional props:
 
-<RHFAutocompletePropsTable />
+<RHFAutocompletePropsTable
+  muiVersion={7}
+  v4AndAbove
+/>
