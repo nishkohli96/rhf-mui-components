@@ -47,6 +47,32 @@ import RHFTagsInput, { RHFTagsInputProps } from '@nish1896/rhf-mui-components/mu
 />
 ```
 
+### Tag Events
+
+Use `onTagAdd`, `onTagDelete`, and `onTagPaste` to validate, transform, or prevent
+tag changes before the form value is updated. Each callback receives a single object
+argument with the current field value available as `currentValue`.
+
+```jsx
+<RHFTagsInput
+  fieldName="tags"
+  control={control}
+  onTagAdd={({ newTag, currentValue }) => {
+    if (newTag.length < 3 || currentValue.includes(newTag)) {
+      return false;
+    }
+  }}
+  onTagDelete={({ deletedTag }) => {
+    if (deletedTag.includes('sh')) {
+      return false;
+    }
+  }}
+  onTagPaste={({ pastedTags }) => (
+    pastedTags.filter(tag => tag.length >= 3)
+  )}
+/>
+```
+
 ## Examples
 - <DemoLink path="/inputs">RHFTagsInput</DemoLink>
 - [TextField](https://v7.mui.com/material-ui/react-text-field/)

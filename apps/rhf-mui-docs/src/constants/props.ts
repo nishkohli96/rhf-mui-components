@@ -298,20 +298,20 @@ const PropsDescription: Record<
   onTagAdd: {
     name: 'onTagAdd',
     description:
-    'Callback function triggered before a tag is added by pressing Enter or the configured delimiter key. Return `false` to prevent the tag from being added. Return a string to replace the original tag value before it is added.',
-    type: '(newTag: string, currentTags: string[]) => boolean / string / void'
+    'Callback function triggered before a tag is added by pressing Enter or the configured delimiter key. Receives the tag being added and the current field value. Return `false` to prevent the tag from being added. Return a string to replace the original tag value before it is added.',
+    type: '({ currentValue, newTag }) => boolean / string / void'
   },
   onTagDelete: {
     name: 'onTagDelete',
     description:
-    'Callback function triggered before a tag is removed. Return `false` to prevent the tag from being deleted.',
-    type: '(deletedTag: string, currentTags: string[]) => boolean / void'
+    'Callback function triggered before a tag is removed. Receives the tag being deleted and the current field value. Return `false` to prevent the tag from being deleted.',
+    type: '({ currentValue, deletedTag }) => boolean / void'
   },
   onTagPaste: {
     name: 'onTagPaste',
     description:
-    'Callback function triggered when tags are pasted into the input. The pasted text is split using the configured delimiter, trimmed, and deduplicated before this callback is invoked. Return `false` to prevent all pasted tags from being added, or return a string array to replace the parsed tags.',
-    type: '(pastedTags: string[], currentTags: string[]) => boolean / string[] / void'
+    'Callback function triggered when tags are pasted into the input. The pasted text is split using the configured delimiter, trimmed, and deduplicated before this callback is invoked. Receives the parsed tags and the current field value. Return `false` to prevent all pasted tags from being added, or return a string array to replace the parsed tags.',
+    type: '({ currentValue, pastedTags }) => boolean / string[] / void'
   },
   delimiter: {
     name: 'delimiter',

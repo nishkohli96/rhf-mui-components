@@ -65,6 +65,21 @@ type OnValueChangeProps = {
   newValue: string[];
 };
 
+type RHFTagsInputOnTagAddProps = {
+  currentValue: string[];
+  newTag: string;
+};
+
+type RHFTagsInputOnTagDeleteProps = {
+  currentValue: string[];
+  deletedTag: string;
+};
+
+type RHFTagsInputOnTagPasteProps = {
+  currentValue: string[];
+  pastedTags: string[];
+};
+
 export type RHFTagsInputProps<T extends FieldValues> = {
   fieldName: Path<T>;
   control: Control<T>;
@@ -79,14 +94,15 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * - `string` replaces the original tag with the returned value.
    * - `true` or `void` allows the original tag to be added unchanged.
    *
-   * @param newTag - The tag the user is attempting to add.
-   * @param currentTags - The current list of tags before the new tag is added.
+   * @param props - Details for the tag add action.
+   * @param props.currentValue - The current field value before the new tag is added.
+   * @param props.newTag - The tag the user is attempting to add.
    * @returns `false` to block the tag, a replacement tag string, or nothing to allow the tag.
    */
-  onTagAdd?: (
-    newTag: string,
-    currentTags: string[]
-  ) => boolean | string | void;
+  onTagAdd?: ({
+    currentValue,
+    newTag
+  }: RHFTagsInputOnTagAddProps) => boolean | string | void;
   /**
    * Called before a tag is removed.
    *
@@ -96,14 +112,15 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * - `false` prevents the tag from being removed.
    * - `true` or `void` allows the tag to be removed.
    *
-   * @param deletedTag - The tag being removed.
-   * @param currentTags - The current list of tags before removal.
+   * @param props - Details for the tag delete action.
+   * @param props.currentValue - The current field value before the tag is removed.
+   * @param props.deletedTag - The tag being removed.
    * @returns `false` to prevent deletion, or nothing to allow it.
    */
-  onTagDelete?: (
-    deletedTag: string,
-    currentTags: string[]
-  ) => boolean | void;
+  onTagDelete?: ({
+    currentValue,
+    deletedTag
+  }: RHFTagsInputOnTagDeleteProps) => boolean | void;
   /**
    * Called when one or more tags are pasted into the input.
    *
@@ -115,13 +132,14 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * Tags are split using the configured `delimiter`, trimmed,
    * and deduplicated before this callback is invoked.
    *
-   * @param pastedTags - The parsed tags extracted from the pasted text.
-   * @param currentTags - The current list of tags before the paste operation.
+   * @param props - Details for the tag paste action.
+   * @param props.currentValue - The current field value before the paste operation.
+   * @param props.pastedTags - The parsed tags extracted from the pasted text.
    */
-  onTagPaste?: (
-    pastedTags: string[],
-    currentTags: string[]
-  ) => string[] | boolean | void;
+  onTagPaste?: ({
+    currentValue,
+    pastedTags
+  }: RHFTagsInputOnTagPasteProps) => string[] | boolean | void;
   /**
    * Character used to separate tags when typing or pasting.
    *
@@ -315,7 +333,10 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
             ) {
               break;
             }
-            const result = onTagAdd?.(tag, value);
+            const result = onTagAdd?.({
+              currentValue: value,
+              newTag: tag
+            });
             if (result !== false) {
               const finalTag = (
                 typeof result === 'string' ? result : tag
@@ -346,7 +367,10 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
         }
 
         const deletedTag = value[value.length - 1];
-        const shouldDelete = onTagDelete?.(deletedTag, value);
+        const shouldDelete = onTagDelete?.({
+          currentValue: value,
+          deletedTag
+        });
         if (shouldDelete === false) {
           return;
         }
@@ -386,7 +410,10 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
           return acc;
         }, []);
 
-      const result = onTagPaste?.(newTags, value);
+      const result = onTagPaste?.({
+        currentValue: value,
+        pastedTags: newTags
+      });
       if (result === false) {
         return;
       }
@@ -463,7 +490,10 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                 label={renderTagLabel?.(tag) ?? tag}
                 disabled={muiDisabled || rhfDisabled}
                 onDelete={() => {
-                  const shouldDelete = onTagDelete?.(tag, rhfValue);
+                  const shouldDelete = onTagDelete?.({
+                    currentValue: rhfValue,
+                    deletedTag: tag
+                  });
                   if (shouldDelete === false) {
                     return;
                   }

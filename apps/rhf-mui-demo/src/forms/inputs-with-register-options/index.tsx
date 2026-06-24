@@ -258,7 +258,7 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               limitTags={0}
-              onTagAdd={(newTag) => {
+              onTagAdd={({ newTag }) => {
                 if (newTag.length < 3) {
                   return false;
                 }
@@ -266,12 +266,12 @@ const InputsWithRegisterForm = () => {
                   return false;
                 }
               }}
-              onTagDelete={(deletedTag) => {
+              onTagDelete={({ deletedTag }) => {
                 if (deletedTag.length === 4) {
                   return false;
                 }
               }}
-              onTagPaste={(pastedTags) => {
+              onTagPaste={({ pastedTags }) => {
                 const filteredTags = pastedTags.filter(
                   (t) => t.length >= 3 && !t.toLowerCase().includes('sh')
                 );
