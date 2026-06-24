@@ -162,7 +162,7 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
@@ -209,6 +209,7 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
+                  ...textFieldSlotProps,
                   textField: {
                     id: fieldId,
                     error: isError,
@@ -231,7 +232,6 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
                       'aria-invalid': isError || undefined,
                       'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps
                   }
                 }}
               />

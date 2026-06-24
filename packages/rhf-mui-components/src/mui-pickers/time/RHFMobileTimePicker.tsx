@@ -162,7 +162,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
@@ -209,6 +209,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
+                  ...textFieldSlotProps,
                   textField: {
                     id: fieldId,
                     error: isError,
@@ -231,7 +232,6 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                       'aria-invalid': isError || undefined,
                       'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps
                   }
                 }}
               />

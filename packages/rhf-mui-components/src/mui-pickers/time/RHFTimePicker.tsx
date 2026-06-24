@@ -158,7 +158,7 @@ ref: Ref<HTMLInputElement>) {
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
@@ -204,6 +204,7 @@ ref: Ref<HTMLInputElement>) {
                 }
                 slotProps={{
                   ...otherSlotProps,
+                  ...textFieldSlotProps,
                   textField: {
                     id: fieldId,
                     error: isError,
@@ -225,7 +226,6 @@ ref: Ref<HTMLInputElement>) {
                       'aria-invalid': isError || undefined,
                       'aria-required': required || undefined,
                     },
-                    ...textFieldSlotProps,
                   },
                 }}
               />

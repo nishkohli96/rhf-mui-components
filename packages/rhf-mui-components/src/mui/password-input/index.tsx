@@ -204,7 +204,7 @@ ref: Ref<HTMLInputElement>) {
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

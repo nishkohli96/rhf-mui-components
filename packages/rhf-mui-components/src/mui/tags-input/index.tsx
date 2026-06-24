@@ -541,7 +541,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

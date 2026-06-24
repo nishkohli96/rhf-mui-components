@@ -529,7 +529,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

@@ -132,6 +132,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
         return (
           <Fragment>
             <FormControlLabel
+              {...otherFormControlLabelProps}
               control={
                 <Switch
                   {...otherSwitchProps}
@@ -181,7 +182,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
               }
               label={hideLabel ? undefined : fieldLabel}
               sx={appliedFormControlLabelSx}
-              {...otherFormControlLabelProps}
+              disabled={isDisabled}
             />
             <FormHelperText
               error={isError}

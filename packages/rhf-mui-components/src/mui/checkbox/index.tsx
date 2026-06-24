@@ -133,6 +133,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
         return (
           <Fragment>
             <FormControlLabel
+              {...otherFormControlLabelProps}
               control={
                 <MuiCheckbox
                   {...otherCheckboxProps}
@@ -178,7 +179,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
               }
               label={hideLabel ? undefined : fieldLabel}
               sx={appliedFormControlLabelSx}
-              {...otherFormControlLabelProps}
+              disabled={isDisabled}
             />
             <FormHelperText
               error={isError}

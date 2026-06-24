@@ -162,7 +162,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
@@ -208,6 +208,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
+                  ...textFieldSlotProps,
                   textField: {
                     id: fieldId,
                     error: isError,
@@ -230,7 +231,6 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                       'aria-invalid': isError || undefined,
                       'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps
                   }
                 }}
                 {...otherDateTimePickerProps}

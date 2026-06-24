@@ -162,7 +162,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
@@ -209,6 +209,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
+                  ...textFieldSlotProps,
                   textField: {
                     id: fieldId,
                     error: isError,
@@ -231,7 +232,6 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                       'aria-invalid': isError || undefined,
                       'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps
                   }
                 }}
               />

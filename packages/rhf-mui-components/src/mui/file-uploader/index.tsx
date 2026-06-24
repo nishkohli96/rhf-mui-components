@@ -602,7 +602,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           );
 
         return (
-          <FormControl fullWidth={fullWidth} error={isError}>
+          <FormControl
+            fullWidth={fullWidth}
+            error={isError}
+            disabled={isDisabled}
+          >
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

@@ -336,7 +336,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         };
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

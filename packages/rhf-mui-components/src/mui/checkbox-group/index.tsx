@@ -276,6 +276,7 @@ const RHFCheckboxGroup = <
             aria-labelledby={!hideLabel ? labelId : undefined}
             aria-label={hideLabel ? String(fieldLabel) : undefined}
             error={isError}
+            disabled={isDisabled}
             /**
              * Trigger blur event only if focus is moving OUTSIDE
              * the checkbox group, instead of calling onBlur for

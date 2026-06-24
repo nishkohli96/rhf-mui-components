@@ -380,7 +380,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
@@ -483,6 +483,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               }}
               error={isError}
               sx={{
+                ...muiSx,
                 ...(!showMarkers && {
                   '& input[type=number]': {
                     MozAppearance: 'textfield',
@@ -490,7 +491,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                     '&::-webkit-inner-spin-button': { display: 'none' },
                   },
                 }),
-                ...muiSx,
               }}
               multiline={false}
             />

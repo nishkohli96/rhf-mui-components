@@ -143,7 +143,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

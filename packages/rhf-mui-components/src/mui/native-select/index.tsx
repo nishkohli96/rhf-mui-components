@@ -233,7 +233,11 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl fullWidth error={isError}>
+          <FormControl
+            error={isError}
+            disabled={isDisabled}
+            fullWidth
+          >
             {!hideLabel && isLabelAboveControl && (
               <FormLabel
                 label={fieldLabel}

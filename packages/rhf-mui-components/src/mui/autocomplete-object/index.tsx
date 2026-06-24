@@ -237,7 +237,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

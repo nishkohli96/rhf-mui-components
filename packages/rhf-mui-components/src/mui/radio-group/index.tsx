@@ -213,7 +213,11 @@ const RHFRadioGroup = <
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl component="fieldset" error={isError}>
+          <FormControl
+            component="fieldset"
+            error={isError}
+            disabled={isDisabled}
+          >
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}

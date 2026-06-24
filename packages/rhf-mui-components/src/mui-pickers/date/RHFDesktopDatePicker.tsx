@@ -162,7 +162,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
@@ -208,6 +208,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
+                  ...textFieldSlotProps,
                   textField: {
                     id: fieldId,
                     error: isError,
@@ -230,7 +231,6 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                       'aria-invalid': isError || undefined,
                       'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps
                   }
                 }}
               />

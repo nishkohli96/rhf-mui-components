@@ -14,13 +14,15 @@ const FormControl = ({
   children,
   error,
   fullWidth = true,
+  disabled,
   ...otherFormControlProps
 }: FormControlProps) => {
   return (
     <MuiFormControl
+      {...otherFormControlProps}
       fullWidth={fullWidth}
       error={error}
-      {...otherFormControlProps}
+      disabled={disabled}
     >
       {children}
     </MuiFormControl>

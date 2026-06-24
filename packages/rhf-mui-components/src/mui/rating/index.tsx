@@ -103,7 +103,7 @@ const RHFRatingInner = forwardRef(function RHFRating<T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   customIds,
-  ...rest
+  ...otherRatingProps
 }: RHFRatingProps<T>,
 ref: Ref<HTMLSpanElement>) {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -144,7 +144,11 @@ ref: Ref<HTMLSpanElement>) {
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl component="fieldset" error={isError}>
+          <FormControl
+            component="fieldset"
+            error={isError}
+            disabled={isDisabled}
+          >
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
@@ -193,7 +197,7 @@ ref: Ref<HTMLSpanElement>) {
                   : undefined
               }
               aria-invalid={isError || undefined}
-              {...rest}
+              {...otherRatingProps}
             />
             <FormHelperText
               error={isError}

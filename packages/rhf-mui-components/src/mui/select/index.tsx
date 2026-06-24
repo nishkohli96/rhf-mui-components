@@ -297,7 +297,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
@@ -317,6 +317,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                 id={labelId}
                 htmlFor={fieldId}
                 shrink={!isValueEmpty}
+                disabled={isDisabled}
               >
                 {SelectFormLabel}
               </InputLabel>

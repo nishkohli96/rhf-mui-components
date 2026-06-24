@@ -186,7 +186,7 @@ const RHFColorPicker = <T extends FieldValues>({
         };
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
