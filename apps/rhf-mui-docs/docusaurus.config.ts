@@ -4,7 +4,7 @@ import type { Config } from '@docusaurus/types';
 import type { ThemeConfig } from '@docusaurus/preset-classic';
 
 const examplesUrl = process.env.EXAMPLES_URL
-  ?? 'https://rhf-mui-components-examples.netlify.app';
+  ?? 'https://rhf-mui-components-examples.vercel.app';
 
 const config: Config = {
   title: '@nish1896/rhf-mui-components',
