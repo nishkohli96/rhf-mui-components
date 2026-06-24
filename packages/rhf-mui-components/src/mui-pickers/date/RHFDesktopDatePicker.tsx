@@ -161,6 +161,9 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
             helperText
             || (isError && !hideErrorMessage)
           );
+          const resolvedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
+            ? undefined
+            : textFieldSlotProps;
           return (
             <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
@@ -208,12 +211,13 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
-                  ...textFieldSlotProps,
                   textField: {
+                    ...resolvedTextFieldSlotProps,
                     id: fieldId,
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
+                      ...resolvedTextFieldSlotProps?.inputProps,
                       'aria-labelledby':
                         !hideLabel && isLabelAboveFormField
                           ? labelId

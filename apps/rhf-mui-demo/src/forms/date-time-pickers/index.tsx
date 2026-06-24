@@ -47,13 +47,24 @@ const DateTimePickersForm = () => {
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="DatePicker with disabled future" />
+              <FieldVariantInfo title="DatePicker with disabled future and textField slotProps" />
               <RHFDatePicker
                 fieldName="dob"
                 control={control}
                 disableFuture
                 label="Date of Birth"
                 showLabelAboveFormField
+                slotProps={{
+                  textField: {
+                    variant: 'filled',
+                    sx: {
+                      '& .MuiInputBase-input, & .MuiPickersInputBase-sectionContent': {
+                        color: '#2e7d32',
+                        fontWeight: 700
+                      }
+                    }
+                  }
+                }}
                 required
               />
             </Grid>
