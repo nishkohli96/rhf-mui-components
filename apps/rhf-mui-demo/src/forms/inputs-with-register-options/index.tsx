@@ -257,7 +257,6 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('tags')
                 }
               }}
-              limitTags={0}
               onTagAdd={({ newTag }) => {
                 if (newTag.length < 3) {
                   return false;
@@ -277,9 +276,9 @@ const InputsWithRegisterForm = () => {
                 );
                 return filteredTags;
               }}
-              getLimitTagsText={hiddenTags => (
+              getLimitTagsText={moreTags => (
                 <Typography color="green">
-                  {`& ${hiddenTags} More`}
+                  {`& ${moreTags} More`}
                 </Typography>
               )}
               required

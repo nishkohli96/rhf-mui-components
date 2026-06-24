@@ -178,8 +178,27 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * such as color, size, variant, icon, or delete functionality.
    */
   ChipProps?: MuiChipProps;
+  /**
+   * Maximum number of tags shown when the input is not focused.
+   *
+   * Set to `-1` to always show all tags.
+   *
+   * @default 2
+   */
   limitTags?: number;
-  getLimitTagsText?: (hiddenTags: number) => ReactNode;
+  /**
+   * Custom label rendered for the hidden tags counter.
+   *
+   * Receives the number of hidden tags.
+   *
+   * @default moreTags => `+${moreTags} more`
+   */
+  getLimitTagsText?: (moreTags: number) => ReactNode;
+  /**
+   * Custom renderer for each visible tag label.
+   *
+   * Receives the tag value and should return the content displayed inside the chip.
+   */
   renderTagLabel?: (tag: string) => ReactNode;
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
@@ -457,6 +476,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -484,11 +504,12 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
           >
             {visibleTags.map((tag, index) => (
               <Chip
+                {...ChipProps}
                 key={`${fieldNameToId(tag)}-${index}`}
                 id={`${fieldNameToId(tag)}-${index}`}
                 role="listitem"
                 label={renderTagLabel?.(tag) ?? tag}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onDelete={() => {
                   const shouldDelete = onTagDelete?.({
                     currentValue: rhfValue,
@@ -502,17 +523,18 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                     rhfOnChange as RhfOnChange
                   );
                 }}
-                {...ChipProps}
               />
             ))}
             {!showAllTags && !isFocused && rhfValue.length > limitTags && (
               <Chip
+                {...ChipProps}
+                id={`${fieldNameToId(fieldName)}-more`}
                 role="listitem"
                 label={
                   getLimitTagsText?.(rhfValue.length - limitTags)
                   ?? `+${rhfValue.length - limitTags} more`
                 }
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
               />
             )}
           </Box>
