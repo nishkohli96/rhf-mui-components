@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
@@ -48,13 +48,13 @@ const CheckboxRadioZodForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: PersonInfo) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -201,7 +201,7 @@ const CheckboxRadioZodForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

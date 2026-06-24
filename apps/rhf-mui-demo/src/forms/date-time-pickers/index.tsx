@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -29,12 +29,12 @@ const DateTimePickersForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: DateTimeFormData) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -92,7 +92,7 @@ const DateTimePickersForm = () => {
               <ResetButton onClick={() => reset()} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {
@@ -53,13 +53,13 @@ const MiscellaneousComponentsForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     getValues,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'cn', 'gb', 'vn'];
   const countries = defaultCountries.filter(country => {
@@ -242,7 +242,7 @@ const MiscellaneousComponentsForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { type Path, useForm } from 'react-hook-form';
+import { type Path, useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -65,7 +65,6 @@ const CompleteForm = () => {
 
   const {
     control,
-    watch,
     reset,
     formState: { errors },
     handleSubmit
@@ -73,6 +72,7 @@ const CompleteForm = () => {
     defaultValues: initialValues,
     disabled: disableAllFields
   });
+  const formValues = useWatch({ control });
 
   function reqdMessage(fieldName: Path<Person>) {
     return `${fieldNameToLabel(fieldName)} is required`;
@@ -614,7 +614,7 @@ const CompleteForm = () => {
               <SubmitButton disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
           </GridContainer>

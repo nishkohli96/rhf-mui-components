@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
@@ -54,13 +54,13 @@ export default function StyledReusableComponentForm() {
   const pathName = usePathname();
   const {
     control,
-    watch,
     reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues,
   });
+  const formValues = useWatch({ control });
   const airportList = useMemo(() => generateAirportNames(100), []);
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -157,7 +157,7 @@ export default function StyledReusableComponentForm() {
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

@@ -1,9 +1,9 @@
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { type PaletteMode } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import { getTheme } from './theme';
 
@@ -20,7 +20,7 @@ const ThemeContext = createContext<ThemeContextProps>({
 export const useThemeContext = () => useContext(ThemeContext);
 
 export const AppThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [currentTheme, setCurrentTheme] = useState<PaletteMode>('dark');
 
   // useEffect(() => {

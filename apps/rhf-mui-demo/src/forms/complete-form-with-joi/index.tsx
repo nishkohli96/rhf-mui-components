@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
@@ -72,7 +72,6 @@ const CompleteFormWithJoi = () => {
 
   const {
     control,
-    watch,
     getValues,
     reset,
     formState: { errors },
@@ -81,6 +80,7 @@ const CompleteFormWithJoi = () => {
     defaultValues: initialValues,
     resolver: joiResolver(JoiFormSchema)
   });
+  const formValues = useWatch({ control });
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -412,7 +412,7 @@ const CompleteFormWithJoi = () => {
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={watch()} errors={errors} />
+              <FormState formValues={formValues} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

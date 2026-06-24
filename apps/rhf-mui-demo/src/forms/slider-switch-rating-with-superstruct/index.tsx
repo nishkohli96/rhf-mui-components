@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { toast } from 'react-toastify';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -44,13 +44,13 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
     resolver: superstructResolver(formSchema)
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -136,7 +136,7 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

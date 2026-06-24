@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -42,12 +42,16 @@ const SelectFormWithClassValidator = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
     resolver: classValidatorResolver(FormSchema)
+  });
+  const formValues = useWatch({ control });
+  const favouriteColor = useWatch({
+    control,
+    name: 'favouriteColor'
   });
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -70,10 +74,10 @@ const SelectFormWithClassValidator = () => {
                   {opn}
                 </span>
               )}
-              {...(watch('favouriteColor') && {
+              {...(favouriteColor && {
                 helperText: (
-                  <Typography color={watch('favouriteColor')}>
-                    {`Select an option to change selected text color from ${watch('favouriteColor')}`}
+                  <Typography color={favouriteColor}>
+                    {`Select an option to change selected text color from ${favouriteColor}`}
                   </Typography>
                 )
               })}
@@ -178,7 +182,7 @@ const SelectFormWithClassValidator = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

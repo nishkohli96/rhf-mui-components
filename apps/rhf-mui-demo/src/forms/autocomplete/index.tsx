@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -61,12 +61,12 @@ const AutocompleteForm = () => {
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
@@ -88,7 +88,16 @@ const AutocompleteForm = () => {
   }
 
   useEffect(() => {
-    loadPokemons();
+    /**
+     * Load the first page once on mount; pagination is handled from the
+     * listbox scroll event.
+     */
+    const loadInitialPokemons = async () => {
+      await loadPokemons();
+    };
+
+    loadInitialPokemons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -584,7 +593,7 @@ const AutocompleteForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

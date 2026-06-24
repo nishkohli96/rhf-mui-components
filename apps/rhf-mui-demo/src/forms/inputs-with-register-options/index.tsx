@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -68,13 +68,13 @@ const InputsWithRegisterForm = () => {
   const pathName = usePathname();
   const {
     control,
-    watch,
     reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues
   });
+  const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -403,11 +403,12 @@ const InputsWithRegisterForm = () => {
                 console.log('errors: ', errors);
               }}
               customOnChange={({ rhfOnChange, newValue }) => {
-                const files = Array.isArray(newValue)
-                  ? newValue
-                  : newValue
-                    ? [newValue]
-                    : [];
+                let files: File[] = [];
+                if (Array.isArray(newValue)) {
+                  files = newValue;
+                } else if (newValue) {
+                  files = [newValue];
+                }
                 const totalSize = files.reduce(
                   (sum, file) => sum + file.size,
                   0
@@ -465,7 +466,7 @@ const InputsWithRegisterForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={watch()} errors={errors} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>
