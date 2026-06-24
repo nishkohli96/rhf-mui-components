@@ -66,7 +66,9 @@ const SelectFormWithClassValidator = () => {
               control={control}
               options={Object.values(Colors)}
               renderOptionLabel={opn => (
-                <span style={{ color: opn }}>{opn}</span>
+                <span style={{ color: opn }}>
+                  {opn}
+                </span>
               )}
               {...(watch('favouriteColor') && {
                 helperText: (
@@ -106,19 +108,20 @@ const SelectFormWithClassValidator = () => {
                   Select your favourite IPL teams
                 </div>
               }
-              renderOptionLabel={(option) => (
-                <span>{`${option.name} (${option.abbr})`}</span>
+              renderOptionLabel={option => (
+                <span>
+                  {`${option.name} (${option.abbr})`}
+                </span>
               )}
               customOnChange={({ rhfOnChange, newValue, event }) => {
                 if(newValue.length > 4) {
                   event.preventDefault();
                   return;
                 }
-                rhfOnChange(newValue)
+                rhfOnChange(newValue);
               }}
               getOptionDisabled={option =>
-                ['LSG', 'RR'].includes(option.abbr)
-              }
+                ['LSG', 'RR'].includes(option.abbr)}
               required
               multiple
               helperText="Select one or more teams"
@@ -151,7 +154,9 @@ const SelectFormWithClassValidator = () => {
               label="Choose a currency"
               getOptionDisabled={opn => opn.code === 'INR'}
               renderOptionLabel={opn => (
-                <>{`${opn.code} - ${opn.name} `}</>
+                <>
+                  {`${opn.code} - ${opn.name} `}
+                </>
               )}
               defaultOptionText="Select currency"
               required

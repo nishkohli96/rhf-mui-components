@@ -13,22 +13,22 @@ import RHFAutocomplete, {
 import type { StrObjOption } from '@nish1896/rhf-mui-components/types';
 
 type StyledAutocompleteProps<
-	T extends FieldValues,
-	Option extends StrObjOption = StrObjOption,
-	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   DisableClearable extends boolean = false
 > = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey, true, DisableClearable>, 'multiple'>;
 
 const StyledAutocomplete = <
-	T extends FieldValues,
-	Option extends StrObjOption = StrObjOption,
-	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  T extends FieldValues,
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   DisableClearable extends boolean = false
 >({
-    ...rest
-  }: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable>) => {
+  ...rest
+}: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable>) => {
   return (
     <RHFAutocomplete
       formHelperTextProps={{

@@ -42,8 +42,8 @@ const StyledSelect = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false
 >({
-    ...rest
-  }: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+  ...rest
+}: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   return (
     <RHFSelect
       showLabelAboveFormField

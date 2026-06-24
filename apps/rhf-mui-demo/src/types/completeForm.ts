@@ -1,5 +1,5 @@
 import { type Moment } from 'moment';
-import { RHFPhoneInputValue } from '@nish1896/rhf-mui-components/misc/phone-input';
+import { type RHFPhoneInputValue } from '@nish1896/rhf-mui-components/misc/phone-input';
 import { type Colors, type Gender, type Sports } from './enums';
 
 export type Person = {

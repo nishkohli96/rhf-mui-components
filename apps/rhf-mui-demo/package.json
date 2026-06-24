@@ -7,7 +7,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start -p 3001",
-    "lint": "eslint"
+    "lint": "eslint --fix ."
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",

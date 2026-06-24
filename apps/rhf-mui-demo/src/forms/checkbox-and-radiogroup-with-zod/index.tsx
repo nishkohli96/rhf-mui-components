@@ -68,38 +68,38 @@ const CheckboxRadioZodForm = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Radio Group with onValueChange function and renderOptionLabel" />
             <RHFRadioGroup
-  fieldName="gender"
-  control={control}
-  options={Object.values(Gender)}
-  row
-  renderOptionLabel={option => {
-    switch (option) {
-      case Gender.Male:
-        return (
-          <span style={{ color: '#1976d2' }}>
-            Male ♂
-          </span>
-        );
-      case Gender.Female:
-        return (
-          <span style={{ color: '#d81b60' }}>
-            Female ♀
-          </span>
-        );
-      case Gender.Others:
-        return (
-          <span style={{ color: '#7b1fa2' }}>
-            Others ⚧
-          </span>
-        );
-      default:
-        return option;
-    }
-  }}
-  onValueChange={({ newValue }) => {
-    toast.info(`You selected ${newValue}`);
-  }}
-/>
+              fieldName="gender"
+              control={control}
+              options={Object.values(Gender)}
+              row
+              renderOptionLabel={option => {
+                switch (option) {
+                  case Gender.Male:
+                    return (
+                      <span style={{ color: '#1976d2' }}>
+                        Male ♂
+                      </span>
+                    );
+                  case Gender.Female:
+                    return (
+                      <span style={{ color: '#d81b60' }}>
+                        Female ♀
+                      </span>
+                    );
+                  case Gender.Others:
+                    return (
+                      <span style={{ color: '#7b1fa2' }}>
+                        Others ⚧
+                      </span>
+                    );
+                  default:
+                    return option;
+                }
+              }}
+              onValueChange={({ newValue }) => {
+                toast.info(`You selected ${newValue}`);
+              }}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Radio Group with options as an array of objects" />
@@ -111,11 +111,11 @@ const CheckboxRadioZodForm = () => {
               valueKey="minAge"
               radioProps={{
                 sx: {
-    color: pink[800],
-    '&.Mui-checked': {
-      color: pink[600],
-    }
-  }
+                  color: pink[800],
+                  '&.Mui-checked': {
+                    color: pink[600],
+                  }
+                }
               }}
               required
               getOptionDisabled={opn => opn.minAge === 61 || opn.minAge === 1}
@@ -177,7 +177,7 @@ const CheckboxRadioZodForm = () => {
                 if (checked) {
                   rhfOnChange([...currentValue, toggledValue]);
                 } else {
-                  rhfOnChange(currentValue.filter((v) => v !== toggledValue));
+                  rhfOnChange(currentValue.filter(v => v !== toggledValue));
                 }
               }}
               required

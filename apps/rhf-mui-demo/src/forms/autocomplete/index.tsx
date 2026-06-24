@@ -152,7 +152,7 @@ const AutocompleteForm = () => {
                   </Box>
                 );
               }}
-              renderValue={(value) => {
+              renderValue={value => {
                 return (
                   <Chip
                     label={typeof value === 'string' ? value : `${value.name} - ${value.iataCode}`}
@@ -233,27 +233,29 @@ const AutocompleteForm = () => {
                       height={40}
                       style={{ objectFit: 'contain' }}
                     />
-                    <Typography>{option.name}</Typography>
+                    <Typography>
+                      {option.name}
+                    </Typography>
                   </Box>
                 );
               }}
               slotProps={{
                 listbox: {
-                  onScroll: (event) => {
+                  onScroll: event => {
                     const listboxNode = event.currentTarget;
-                    const scrollBottom =
-                      listboxNode.scrollTop + listboxNode.clientHeight >=
-                      listboxNode.scrollHeight - 5;
+                    const scrollBottom
+                      = listboxNode.scrollTop + listboxNode.clientHeight
+                        >= listboxNode.scrollHeight - 5;
                     if (scrollBottom && !loading) {
                       loadPokemons();
                     }
                   }
                 }
               }}
-              renderValue={(value) => {
+              renderValue={value => {
                 return (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {value.map((item) => {
+                    {value.map(item => {
                       return (
                         <Chip
                           key={item.id}
@@ -301,11 +303,13 @@ const AutocompleteForm = () => {
                       height={40}
                       style={{ objectFit: 'contain' }}
                     />
-                    <Typography sx={{ ml: '5px' }}>{option.name}</Typography>
+                    <Typography sx={{ ml: '5px' }}>
+                      {option.name}
+                    </Typography>
                   </Box>
                 );
               }}
-              renderValue={(value) => {
+              renderValue={value => {
                 return (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Image
@@ -315,7 +319,9 @@ const AutocompleteForm = () => {
                       height={40}
                       style={{ objectFit: 'contain', borderRadius: '50%' }}
                     />
-                    <Typography component="span">{value.name}</Typography>
+                    <Typography component="span">
+                      {value.name}
+                    </Typography>
                   </Box>
                 );
               }}
@@ -347,7 +353,9 @@ const AutocompleteForm = () => {
                       height={40}
                       style={{ objectFit: 'contain' }}
                     />
-                    <Typography sx={{ ml: '5px' }}>{option.name}</Typography>
+                    <Typography sx={{ ml: '5px' }}>
+                      {option.name}
+                    </Typography>
                   </Box>
                 );
               }}
@@ -368,7 +376,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -401,7 +409,7 @@ const AutocompleteForm = () => {
                   </Typography>
                 </Box>
               )}
-              getLimitTagsText={(more) => `+${more} Color(s)`}
+              getLimitTagsText={more => `+${more} Color(s)`}
               helperText="Choose at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
             />
@@ -422,7 +430,7 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (Array.isArray(value)) {
                       return value.length >= 2
                         ? true
@@ -437,7 +445,7 @@ const AutocompleteForm = () => {
               ChipProps={{
                 sx: {
                   bgcolor: '#006699',
-                  color: (theme) => theme.palette.secondary.main
+                  color: theme => theme.palette.secondary.main
                 }
               }}
               required
@@ -489,8 +497,12 @@ const AutocompleteForm = () => {
               renderOptionLabel={option => {
                 return (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <span>{option.emoji}</span>
-                    <Typography>{`${option.name} - ${option.iso3}`}</Typography>
+                    <span>
+                      {option.emoji}
+                    </span>
+                    <Typography>
+                      {`${option.name} - ${option.iso3}`}
+                    </Typography>
                   </Box>
                 );
               }}
@@ -505,7 +517,7 @@ const AutocompleteForm = () => {
               control={control}
               preferredCountries={['IN', 'AU', 'JP']}
               multiple
-              renderValue={(value) => {
+              renderValue={value => {
                 return (
                   <Box
                     sx={{
@@ -514,7 +526,7 @@ const AutocompleteForm = () => {
                       gap: 0.5
                     }}
                   >
-                    {value.map((item) => (
+                    {value.map(item => (
                       <Chip
                         key={item.iso3}
                         label={`${item.emoji} ${item.name}`}
@@ -537,10 +549,10 @@ const AutocompleteForm = () => {
                   message: 'This field is required'
                 },
                 validate: {
-                  minItems: (value) => {
+                  minItems: value => {
                     if (
-                      Array.isArray(value) &&
-                      value.every((item) => typeof item === 'string')
+                      Array.isArray(value)
+                      && value.every(item => typeof item === 'string')
                     ) {
                       return value.length >= 3 || 'Select at least 3 countries';
                     }
@@ -556,7 +568,7 @@ const AutocompleteForm = () => {
               label="What are your Dream Destinations?"
               ChipProps={{
                 sx: {
-                  background: (theme) => theme.palette.primary.main
+                  background: theme => theme.palette.primary.main
                 }
               }}
               helperText={

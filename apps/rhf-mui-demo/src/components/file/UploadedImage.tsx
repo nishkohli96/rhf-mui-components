@@ -53,7 +53,7 @@ export default function UploadedImage({
             height: 50,
             objectFit: 'cover',
             borderRadius: 1,
-            border: (theme) => `1px solid ${theme.palette.divider}`
+            border: theme => `1px solid ${theme.palette.divider}`
           }}
         />
 

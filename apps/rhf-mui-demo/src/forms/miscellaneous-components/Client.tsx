@@ -3,5 +3,5 @@
 import dynamic from 'next/dynamic';
 
 export default dynamic(() => import('.'), {
-	ssr: false,
+  ssr: false,
 });

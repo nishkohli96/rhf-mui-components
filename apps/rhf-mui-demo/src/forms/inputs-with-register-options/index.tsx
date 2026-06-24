@@ -173,7 +173,7 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('your password again')
                 },
                 validate: {
-                  minLen: (v) =>
+                  minLen: v =>
                     (v && `${String(v)}`.length >= 4) || minCharMsg(4),
                   isPswdMatch: (value, formValues) =>
                     value === formValues.password || 'Passwords do not match'
@@ -195,7 +195,7 @@ const InputsWithRegisterForm = () => {
               placeholder="What is your age?"
               nonNegative
               onlyIntegers
-              onFocus={(e) => e.target.select()}
+              onFocus={e => e.target.select()}
               helperText={<Typography color="seagreen">Optional</Typography>}
             />
           </Grid>
@@ -273,12 +273,14 @@ const InputsWithRegisterForm = () => {
               }}
               onTagPaste={({ pastedTags }) => {
                 const filteredTags = pastedTags.filter(
-                  (t) => t.length >= 3 && !t.toLowerCase().includes('sh')
+                  t => t.length >= 3 && !t.toLowerCase().includes('sh')
                 );
                 return filteredTags;
               }}
-              getLimitTagsText={(hiddenTags) => (
-                <Typography color="green">{`& ${hiddenTags} More`}</Typography>
+              getLimitTagsText={hiddenTags => (
+                <Typography color="green">
+                  {`& ${hiddenTags} More`}
+                </Typography>
               )}
               required
               helperText="Enter min 3 characters; no 'sh' substring allowed"
@@ -300,7 +302,7 @@ const InputsWithRegisterForm = () => {
                 sx: {
                   color: 'white',
                   variant: 'filled',
-                  backgroundColor: (theme) => theme.palette.secondary.main
+                  backgroundColor: theme => theme.palette.secondary.main
                 }
               }}
               delimiter="|"
@@ -427,7 +429,7 @@ const InputsWithRegisterForm = () => {
               label="Upload Resume"
               showLabelAboveFormField
               accept="application/pdf"
-              renderUploadButton={(fileInput) => (
+              renderUploadButton={fileInput => (
                 <div style={{ width: '200px' }}>
                   <IconButton component="label" tabIndex={-1}>
                     <UploadFileIcon />

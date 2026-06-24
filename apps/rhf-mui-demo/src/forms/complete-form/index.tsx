@@ -595,11 +595,11 @@ const CompleteForm = () => {
                     message: reqdMessage('phoneNumber')
                   },
                   validate: {
-                                    requiredPhoneNumber: value =>
-                                      !!getPhoneNoValue(value) || reqdMessage('phoneNumber'),
-                                    minLength: value =>
-                                      (getPhoneNoValue(value)?.length ?? 0) >= 6
-                                      || 'Minimum 6 characters required'
+                    requiredPhoneNumber: value =>
+                      !!getPhoneNoValue(value) || reqdMessage('phoneNumber'),
+                    minLength: value =>
+                      (getPhoneNoValue(value)?.length ?? 0) >= 6
+                      || 'Minimum 6 characters required'
                   }
                 }}
                 showLabelAboveFormField

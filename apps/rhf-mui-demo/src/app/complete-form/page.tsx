@@ -16,7 +16,7 @@ export const metadata = pageMetadata.completeForm;
 
 const CompleteFormPage = () => {
   const links = Object.keys(componentsDocsLink).map(
-    (k) => componentsDocsLink[k]
+    k => componentsDocsLink[k]
   );
   const codeLinks = [
     SourceCodeLinks.completeForm,

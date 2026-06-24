@@ -23,14 +23,14 @@ export const AppThemeProvider = ({ children }: { children: React.ReactNode }) =>
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [currentTheme, setCurrentTheme] = useState<PaletteMode>('dark');
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setCurrentTheme(savedTheme as PaletteMode);
-    } else {
-      setCurrentTheme(prefersDarkMode ? 'dark' : 'light');
-    }
-  }, [prefersDarkMode]);
+  // useEffect(() => {
+  //   const savedTheme = localStorage.getItem('theme');
+  //   if (savedTheme) {
+  //     setCurrentTheme(savedTheme as PaletteMode);
+  //   } else {
+  //     setCurrentTheme(prefersDarkMode ? 'dark' : 'light');
+  //   }
+  // }, [prefersDarkMode]);
 
   const toggleTheme = () => {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';

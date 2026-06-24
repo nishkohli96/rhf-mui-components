@@ -13,7 +13,7 @@ import { useThemeContext } from '@/theme';
 
 type SubmitButtonProps = {
   disabled?: boolean;
-}
+};
 
 export const SubmitButton = ({ disabled }: SubmitButtonProps) => {
   return (
