@@ -204,6 +204,7 @@ const RHFRadioGroup = <
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -263,7 +264,7 @@ const RHFRadioGroup = <
                     : helperTextId
                   : undefined
               }
-              aria-disabled={muiDisabled || rhfDisabled}
+              aria-disabled={isDisabled}
             >
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -275,7 +276,7 @@ const RHFRadioGroup = <
                   ? String(option[labelKey!])
                   : String(option);
                 const isOptionDisabled
-                  = getOptionDisabled?.(option) || muiDisabled || rhfDisabled || false;
+                  = getOptionDisabled?.(option) || isDisabled || false;
                 return (
                   <FormControlLabel
                     {...otherFormControlLabelProps}

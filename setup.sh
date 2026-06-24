@@ -39,7 +39,7 @@ fi
 
 # Install dependencies and build the local package
 echo "Installing Dependencies & Building Package 🛠️"
-pnpm install
+pnpm install --frozen-lockfile
 pnpm --filter "$PKG_NAME" run lib:build
 
 # Globally install rimraf

@@ -178,6 +178,7 @@ const RHFColorPicker = <T extends FieldValues>({
           helperText
           || (isError && !hideErrorMessage)
         );
+        const isDisabled = muiDisabled || rhfDisabled;
 
         const wrappedSetColor = (newColor: IColor) => {
           setColor(newColor);
@@ -204,7 +205,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   <Saturation
                     height={height}
                     color={color}
-                    disabled={muiDisabled || rhfDisabled}
+                    disabled={isDisabled}
                     onChange={color => {
                       if(customOnChange) {
                         customOnChange({ color, setColor: wrappedSetColor });
@@ -218,7 +219,7 @@ const RHFColorPicker = <T extends FieldValues>({
                   />
                   <Hue
                     color={color}
-                    disabled={muiDisabled || rhfDisabled}
+                    disabled={isDisabled}
                     onChange={setColor}
                   />
                 </Fragment>
@@ -226,7 +227,7 @@ const RHFColorPicker = <T extends FieldValues>({
               : (
                 <ReactColorPicker
                   color={color}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={isDisabled}
                   onChange={color => {
                     if(customOnChange) {
                       customOnChange({ color, setColor: wrappedSetColor });
@@ -238,7 +239,7 @@ const RHFColorPicker = <T extends FieldValues>({
                     onValueChange?.(color);
                   }}
                   height={height}
-                  hideInput={muiDisabled || rhfDisabled ? true : hideInput}
+                  hideInput={isDisabled ? true : hideInput}
                   hideAlpha={hideAlpha}
                 />
               )}

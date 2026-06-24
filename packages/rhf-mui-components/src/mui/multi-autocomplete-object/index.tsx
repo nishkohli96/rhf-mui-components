@@ -285,6 +285,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const selectedOptions: Option[] = rhfValue ?? [];
 
         const selectionContainsOption = (selected: Option[], opt: Option) =>
@@ -355,7 +356,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               options={autoCompleteOptions as Option[]}
               value={selectedOptions}
               loading={loading}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   if (customOnChange) {
@@ -492,11 +493,11 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               }}
               renderOption={({ key, ...optionProps }, option, state) => {
                 const optionLabel = displayOptionLabel(option);
-                const isDisabled = muiDisabled || rhfDisabled;
                 if (isSelectAllOption(option)) {
                   return (
                     <Box component="li" key={key} {...optionProps}>
                       <FormControlLabel
+                        {...otherFormControlLabelProps}
                         label={optionLabel}
                         disabled={isDisabled}
                         control={(
@@ -507,6 +508,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                             value={selectAllOptionValue}
                             checked={areAllSelected}
                             indeterminate={isIndeterminate}
+                            disabled={isDisabled}
                           />
                         )}
                         sx={{ ...appliedFormControlLabelSx, width: '100%' }}
@@ -521,7 +523,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                             selectAllOptionValue
                           );
                         }}
-                        {...otherFormControlLabelProps}
                       />
                     </Box>
                   );
@@ -532,6 +533,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
+                        {...otherFormControlLabelProps}
                       label={
                         renderOptionLabel?.(option, state)
                         ?? optionLabel
@@ -565,7 +567,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                           option
                         );
                       }}
-                      {...otherFormControlLabelProps}
                     />
                   </Box>
                 );

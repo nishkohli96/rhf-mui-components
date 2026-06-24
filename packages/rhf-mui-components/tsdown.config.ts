@@ -14,6 +14,7 @@ export default defineConfig({
     'src/types/index.ts'
   ],
   outDir: 'dist',
+  root: 'src',
   format: ['esm'],
   target: ['es2024'],
   /* Removes outDir before building. */
@@ -34,5 +35,11 @@ export default defineConfig({
   },
   outExtensions() {
     return { js: '.js' };
-  }
+  },
+  outputOptions(options) {
+    return {
+      ...options,
+      sanitizeFileName: false,
+    }
+  },
 });
