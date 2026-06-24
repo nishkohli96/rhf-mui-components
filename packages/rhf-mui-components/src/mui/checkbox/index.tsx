@@ -68,7 +68,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & CheckboxProps;
 
@@ -122,6 +122,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -138,7 +139,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={isDisabled}
                   onChange={(event, checked) => {
                     if (customOnChange) {
                       customOnChange({ rhfOnChange, newValue: checked, event });
@@ -186,8 +187,8 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

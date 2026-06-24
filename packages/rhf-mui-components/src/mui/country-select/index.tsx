@@ -169,7 +169,7 @@ export type RHFCountrySelectProps<
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   renderOptionLabel?: (option: CountryDetails) => ReactNode;
   required?: boolean;
@@ -181,7 +181,7 @@ export type RHFCountrySelectProps<
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
   customIds?: CustomComponentIds;
@@ -289,6 +289,7 @@ ref: Ref<HTMLInputElement>) {
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -321,10 +322,11 @@ ref: Ref<HTMLInputElement>) {
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -340,7 +342,7 @@ ref: Ref<HTMLInputElement>) {
                   DisableClearable
                 >
               }
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, newValue, reason, details) => {
                 const storedValue = (
                   multiple
@@ -467,8 +469,8 @@ ref: Ref<HTMLInputElement>) {
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

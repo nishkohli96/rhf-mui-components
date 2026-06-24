@@ -121,7 +121,7 @@ export type RHFAutocompleteObjectProps<
   disableClearable?: DisableClearable;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   required?: boolean;
   helperText?: ReactNode;
@@ -132,7 +132,7 @@ export type RHFAutocompleteObjectProps<
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
   customIds?: CustomComponentIds;
@@ -228,6 +228,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -243,10 +244,11 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -263,7 +265,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                   false
                 >
               }
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(
                 event,
                 newValue,
@@ -377,8 +379,8 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

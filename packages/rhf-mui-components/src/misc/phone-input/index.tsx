@@ -197,10 +197,10 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   searchCountryProps?: SearchCountryProps;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
@@ -385,6 +385,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString();
         const isError = !!fieldErrorMessage;
@@ -452,7 +453,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 }
               }}
               value={country.iso2}
-              disabled={muiDisabled || rhfDisabled || forceDialCode}
+              disabled={isDisabled || forceDialCode}
               onOpen={updateCountryMenuLeft}
               onClose={() => {
                 setCountrySearch('');
@@ -535,10 +536,11 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -577,7 +579,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               }
               aria-required={required}
               error={isError}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               slotProps={{
                 ...slotProps,
                 input: {
@@ -593,8 +595,8 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

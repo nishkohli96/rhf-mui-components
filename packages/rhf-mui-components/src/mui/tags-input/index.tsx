@@ -161,7 +161,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   maxTags?: number;
   onValueChange?: ({ newValue }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   /**
    * @deprecated
@@ -170,7 +170,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
    * Props applied to the Chip component used to render each tag.
    *
@@ -548,10 +548,11 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -586,7 +587,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                 rhfOnBlur();
                 onBlur?.(e);
               }}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               error={isError}
               sx={{
                 ...muiTextFieldSx,
@@ -624,8 +625,8 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

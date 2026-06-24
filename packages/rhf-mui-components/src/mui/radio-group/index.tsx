@@ -112,7 +112,7 @@ export type RHFRadioGroupProps<
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   /**
    * Props to pass down to each Radio component. Can be used to set
@@ -129,7 +129,7 @@ export type RHFRadioGroupProps<
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & RadioGroupInputProps;
 
@@ -220,10 +220,11 @@ const RHFRadioGroup = <
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  component: 'legend',
-                  ...formLabelProps
+                  component: 'legend'
                 }}
               />
             )}
@@ -303,8 +304,8 @@ const RHFRadioGroup = <
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

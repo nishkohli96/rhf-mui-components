@@ -137,7 +137,7 @@ export type RHFMultiAutocompleteProps<
     state: AutocompleteRenderOptionState
   ) => ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
@@ -150,7 +150,7 @@ export type RHFMultiAutocompleteProps<
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
   customIds?: CustomComponentIds;
@@ -298,6 +298,13 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
         const selectedValues: string[] = rhfValue ?? [];
         const selectedSet = new Set(selectedValues);
 
@@ -315,13 +322,6 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               selectedSet.has(getOptionLabelOrValue(option, valueKey)));
         const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
-        const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
 
         const changeFieldState = (
           newValues: string[],
@@ -359,10 +359,11 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -623,8 +624,8 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

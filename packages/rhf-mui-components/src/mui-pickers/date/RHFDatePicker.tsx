@@ -85,7 +85,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
     context
   }: PickerOnValueChangeProps<DateValidationError>) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -95,7 +95,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & DatePickerInputProps;
 
@@ -159,6 +159,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
           },
           fieldState: { error: fieldStateError }
         }) => {
+          const isDisabled = muiDisabled || rhfDisabled;
           const fieldErrorMessage
             = fieldStateError?.message?.toString() ?? errorMessage;
           const isError = !!fieldErrorMessage;
@@ -174,10 +175,11 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                   isVisible={isLabelAboveFormField}
                   required={required}
                   error={isError}
+                  disabled={isDisabled}
                   formLabelProps={{
+                    ...formLabelProps,
                     id: labelId,
-                    htmlFor: fieldId,
-                    ...formLabelProps
+                    htmlFor: fieldId
                   }}
                 />
               )}
@@ -186,7 +188,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {
@@ -245,8 +247,8 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
             </FormControl>

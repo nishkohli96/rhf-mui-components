@@ -165,7 +165,7 @@ export type RHFSelectProps<
     child
   }: OnValueChangeProps<Option, ValueKey, Multiple>) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -175,7 +175,7 @@ export type RHFSelectProps<
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
    * Placeholder text displayed when no option is selected.
    *
@@ -280,13 +280,14 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
         const showPlaceholder = isValueEmpty && !!placeholder;
         const selectLabelValue
-          = hideLabel || isLabelAboveFormField || showPlaceholder
+          = hideLabel || isLabelAboveFormField || showPlaceholder || isValueEmpty
             ? undefined
             : SelectFormLabel;
         const selectLabelId = isLabelAboveFormField || hideLabel
           ? undefined
           : labelId;
 
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -303,10 +304,11 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -344,7 +346,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               multiple={multiple}
               aria-multiselectable={multiple || undefined}
               displayEmpty={isValueEmpty}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, child) => {
                 const selectEvent = event as SelectChangeEvent<
                   SelectValue<OptionValue<Option, ValueKey>, Multiple>
@@ -454,8 +456,8 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

@@ -67,7 +67,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   /**
    * @deprecated
@@ -77,7 +77,7 @@ export type RHFTextFieldProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & TextFieldProps;
 
@@ -133,6 +133,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -149,10 +150,11 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -170,7 +172,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={event => {
                 const newValue = event.target.value;
                 if (customOnChange) {
@@ -207,8 +209,8 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

@@ -88,7 +88,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   /**
    * Custom icon displayed when the password is currently hidden.
@@ -114,7 +114,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & InputPasswordProps;
 
@@ -195,6 +195,7 @@ ref: Ref<HTMLInputElement>) {
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -210,10 +211,11 @@ ref: Ref<HTMLInputElement>) {
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -232,7 +234,7 @@ ref: Ref<HTMLInputElement>) {
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const newValue = changeEvent.target.value;
@@ -284,8 +286,8 @@ ref: Ref<HTMLInputElement>) {
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

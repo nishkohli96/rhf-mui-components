@@ -240,11 +240,11 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   onUploadError?: (errors: FileUploadErrorDetails[]) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   fullWidth?: boolean;
   customIds?: CustomComponentIds;
 };
@@ -360,13 +360,14 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const fieldErrorMessage = fieldStateError?.message?.toString();
+        const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString();
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText
           || (isError && !hideErrorMessage)
         );
-        const isDisabled = muiDisabled || rhfDisabled;
 
         const updateFieldValue = (
           newValue: File | File[] | null,
@@ -608,10 +609,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
                 isVisible={isLabelAboveFormField}
                 required={isFieldRequired}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -623,8 +625,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
             {/* Pre-existing server files rendered above new uploads */}

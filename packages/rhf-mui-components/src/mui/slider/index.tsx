@@ -76,7 +76,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   }: OnValueChangeProps) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -86,7 +86,7 @@ export type RHFSliderProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
@@ -140,6 +140,7 @@ ref: Ref<HTMLSpanElement>) {
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -155,9 +156,10 @@ ref: Ref<HTMLSpanElement>) {
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
-                  id: labelId,
-                  ...formLabelProps
+                  ...formLabelProps,
+                  id: labelId
                 }}
               />
             )}
@@ -167,7 +169,7 @@ ref: Ref<HTMLSpanElement>) {
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? 0}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, value, activeThumb) => {
                 if (customOnChange) {
                   customOnChange({
@@ -211,8 +213,8 @@ ref: Ref<HTMLSpanElement>) {
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

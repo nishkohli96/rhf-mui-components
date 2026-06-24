@@ -73,7 +73,7 @@ export type RHFTimePickerProps<T extends FieldValues> = {
     context
   }: PickerOnValueChangeProps<TimeValidationError>) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -83,7 +83,7 @@ export type RHFTimePickerProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & TimePickerInputProps;
 
@@ -149,6 +149,7 @@ ref: Ref<HTMLInputElement>) {
           },
           fieldState: { error: fieldStateError }
         }) => {
+          const isDisabled = muiDisabled || rhfDisabled;
           const fieldErrorMessage
             = fieldStateError?.message?.toString() ?? errorMessage;
           const isError = !!fieldErrorMessage;
@@ -164,10 +165,11 @@ ref: Ref<HTMLInputElement>) {
                   isVisible={isLabelAboveFormField}
                   required={required}
                   error={isError}
+                  disabled={isDisabled}
                   formLabelProps={{
+                    ...formLabelProps,
                     id: labelId,
-                    htmlFor: fieldId,
-                    ...formLabelProps
+                    htmlFor: fieldId
                   }}
                 />
               )}
@@ -176,7 +178,7 @@ ref: Ref<HTMLInputElement>) {
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {
@@ -234,8 +236,8 @@ ref: Ref<HTMLInputElement>) {
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
             </FormControl>

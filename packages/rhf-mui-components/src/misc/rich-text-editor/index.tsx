@@ -119,7 +119,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -133,7 +133,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 };
 
@@ -193,6 +193,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -209,10 +210,11 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -280,7 +282,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
               aria-required={required}
               onFocus={onFocus}
               onError={onError}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
             />
             <FormHelperText
               error={isError}
@@ -289,8 +291,8 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

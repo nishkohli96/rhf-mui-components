@@ -67,7 +67,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange'>;
 
@@ -121,6 +121,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -137,7 +138,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={isDisabled}
                   onChange={(event, isChecked) => {
                     if(customOnChange) {
                       customOnChange({
@@ -189,8 +190,8 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

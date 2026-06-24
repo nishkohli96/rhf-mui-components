@@ -132,7 +132,7 @@ export type RHFCheckboxGroupProps<
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   /**
    * Props to pass down to each Checkbox component. Can be used to set
@@ -149,7 +149,7 @@ export type RHFCheckboxGroupProps<
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
   customIds?: CustomComponentIds;
 };
@@ -231,6 +231,7 @@ const RHFCheckboxGroup = <
           disabled: boolean;
         };
         const rhfValue = value ?? [];
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -295,10 +296,11 @@ const RHFCheckboxGroup = <
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  component: 'legend',
-                  ...formLabelProps
+                  component: 'legend'
                 }}
               />
             )}
@@ -313,7 +315,7 @@ const RHFCheckboxGroup = <
                 : String(option);
               const checked = rhfValue.includes(opnValue);
               const isOptionDisabled
-                = muiDisabled || rhfDisabled || getOptionDisabled?.(option) || false;
+                = isDisabled || getOptionDisabled?.(option) || false;
               return (
                 <FormControlLabel
                   key={`${opnValue}-${idx}`}
@@ -343,8 +345,8 @@ const RHFCheckboxGroup = <
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

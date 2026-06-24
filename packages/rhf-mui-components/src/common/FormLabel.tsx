@@ -6,9 +6,10 @@ import type { FormLabelProps } from '@/types';
 
 type Props = {
   label: ReactNode;
-  isVisible?: boolean;
   required?: boolean;
   error: boolean;
+  isVisible?: boolean;
+  disabled?: boolean;
   formLabelProps?: FormLabelProps;
 };
 
@@ -24,9 +25,10 @@ const StyledFormLabel = styled(MuiFormLabel)(() => ({
 
 const FormLabel = ({
   label,
-  isVisible,
   required,
   error,
+  isVisible,
+  disabled,
   formLabelProps
 }: Props) => {
   const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
@@ -41,6 +43,7 @@ const FormLabel = ({
       {isVisible && (
         <StyledFormLabel
           {...otherLabelProps}
+          disabled={disabled}
           required={required}
           error={error}
           sx={appliedLabelSx}

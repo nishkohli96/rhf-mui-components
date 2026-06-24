@@ -145,7 +145,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   /**
    * When `true`, only integer values are allowed. Decimal input is blocked.
@@ -179,7 +179,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
@@ -371,6 +371,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -386,10 +387,11 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -412,7 +414,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   ? ''
                   : rhfValue
               }
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const { value: inputValue, validity } = changeEvent.target;
@@ -499,8 +501,8 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

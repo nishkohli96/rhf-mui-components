@@ -77,7 +77,7 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
     context
   }: PickerOnValueChangeProps<TimeValidationError>) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -87,7 +87,7 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & MobileTimePickerInputProps;
 
@@ -153,6 +153,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
           },
           fieldState: { error: fieldStateError }
         }) => {
+          const isDisabled = muiDisabled || rhfDisabled;
           const fieldErrorMessage
             = fieldStateError?.message?.toString() ?? errorMessage;
           const isError = !!fieldErrorMessage;
@@ -168,10 +169,11 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                   isVisible={isLabelAboveFormField}
                   required={required}
                   error={isError}
+                  disabled={isDisabled}
                   formLabelProps={{
+                    ...formLabelProps,
                     id: labelId,
-                    htmlFor: fieldId,
-                    ...formLabelProps
+                    htmlFor: fieldId
                   }}
                 />
               )}
@@ -180,7 +182,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {
@@ -240,8 +242,8 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
             </FormControl>

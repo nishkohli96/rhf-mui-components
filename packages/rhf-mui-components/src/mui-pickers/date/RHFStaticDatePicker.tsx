@@ -79,7 +79,7 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
   }: PickerOnValueChangeProps<DateValidationError>) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   hideLabel?: boolean;
   helperText?: ReactNode;
   /**
@@ -89,7 +89,7 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   customIds?: CustomComponentIds;
 } & StaticDatePickerInputProps;
 
@@ -152,6 +152,7 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
           },
           fieldState: { error: fieldStateError }
         }) => {
+          const isDisabled = muiDisabled || rhfDisabled;
           const fieldErrorMessage
             = fieldStateError?.message?.toString() ?? errorMessage;
           const isError = !!fieldErrorMessage;
@@ -167,10 +168,11 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
                   isVisible={isLabelAboveFormField}
                   required={required}
                   error={isError}
+                  disabled={isDisabled}
                   formLabelProps={{
+                    ...formLabelProps,
                     id: labelId,
-                    htmlFor: fieldId,
-                    ...formLabelProps
+                    htmlFor: fieldId
                   }}
                 />
               )}
@@ -197,7 +199,7 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
                   {...otherStaticDatePickerProps}
                   ref={mergeRefs(rhfRef, ref)}
                   value={rhfValue ?? null}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={isDisabled}
                   onChange={(newValue, context) => {
                     muiOnChange?.(newValue, context);
                     if (customOnChange) {
@@ -224,8 +226,8 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
             </FormControl>
