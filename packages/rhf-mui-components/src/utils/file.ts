@@ -14,10 +14,10 @@ type ProcessFilesResult = {
 };
 
 type ValidateFileListOptions = {
-  accept?: string,
-  maxSize?: number,
-  maxFiles?: number
-}
+  accept?: string;
+  maxSize?: number;
+  maxFiles?: number;
+};
 
 export function getFileSize(size: number, options?: FileSizeOptions): string {
   if (size < 0) {

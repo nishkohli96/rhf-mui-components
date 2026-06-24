@@ -55,12 +55,13 @@ const RHFPhoneInputPropsTable = ({
       docsVersion,
       muiVersion
     }),
-    ...(v4AndAbove ?
-      [
-      PropsDescription.phoneInputProps,
-      PropsDescription.customIds
-    ] : [LegacyPropsDescription.phoneInputProps_v2_v3]
-  )
+    ...(v4AndAbove
+      ? [
+        PropsDescription.phoneInputProps,
+        PropsDescription.customIds
+      ]
+      : [LegacyPropsDescription.phoneInputProps_v2_v3]
+    )
   ];
 
   return (

@@ -760,7 +760,7 @@ const PropsDescription: Record<
   searchCountryProps: {
     name: 'searchCountryProps',
     description: 'Props to customize the country search field and country menu item rendering',
-    type: `{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText }`,
+    type: '{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText }',
   },
 });
 

@@ -10,7 +10,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "lib:build": "tsdown && node scripts/prepare-package-json.mjs && cp README.md dist/ && cp .npmignore dist/"
+    "lib:build": "tsdown && node scripts/prepare-package-json.mjs && cp README.md dist/ && cp .npmignore dist/",
+    "lint": "eslint --fix ."
   },
   "type": "module",
   "sideEffects": false,
