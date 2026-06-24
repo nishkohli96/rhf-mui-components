@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Grid from '@mui/material/Grid';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -16,6 +17,10 @@ import {
   Footer
 } from '@/components';
 import { AppThemeProvider } from '@/theme';
+import {
+  colorSchemeAttribute,
+  modeStorageKey
+} from '@/theme/constants';
 import './globals.css';
 
 type RootLayoutProps = {
@@ -35,8 +40,18 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+        {/*
+          Runs as a blocking script BEFORE React hydrates.
+          Reads localStorage → applies data-color-scheme on <html>.
+          Falls back to system preference if no stored value.
+        */}
+        <InitColorSchemeScript
+          attribute={colorSchemeAttribute}
+          defaultMode="system"
+          modeStorageKey={modeStorageKey}
+        />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
             <AppBar />
