@@ -46,6 +46,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           Runs as a blocking script BEFORE React hydrates.
           Reads localStorage → applies data-color-scheme on <html>.
           Falls back to system preference if no stored value.
+          Must come before the <main> element
         */}
         <InitColorSchemeScript
           attribute={colorSchemeAttribute}

@@ -1,3 +1,7 @@
+/**
+ * https://mui.com/material-ui/customization/css-theme-variables/configuration/
+ */
+
 'use client';
 
 import { createTheme, type Theme } from '@mui/material/styles';

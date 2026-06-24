@@ -362,8 +362,6 @@ Run shared picker scenarios for all picker variants:
 - User input stores structured object: `{ phone, country, dialCode, phoneNo }`.
 - Country selection updates `country`, `dialCode`, `phone`, and `phoneNo`.
 - Shared dial code countries such as US/Canada preserve selected `country`.
-- Pasting another country number respects `disableDropdown`/preselected country behavior.
-- `disableDropdown` prevents country changes.
 - Inline country search filters by country name, ISO2, and dial code.
 - Search field stays pinned while country list scrolls.
 - Country menu width behaves correctly on desktop and mobile.

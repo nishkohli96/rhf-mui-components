@@ -15,11 +15,11 @@
 
 ## Features ✨
 
-- Each component is fully functional with just 3-4 props — core logic handled internally.
+- Each component is fully functional with just 2-3 props — core logic handled internally.
 - Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.vercel.app/customization#configprovider).
 - Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect) and [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput), saving development time.
+- Provides full control over value validation and transformation before updates are committed to form state.
 - Comprehensive docs showcasing multiple variations for each component.
-
 
 ## Explore and Get Started 🚀
 
@@ -50,10 +50,10 @@ This will perform the following tasks:
 
 - Install `node_modules` in workspace root
 - Build the `@nish1896/rhf-mui-components` package.
-- Link this package to `@nish1896/rhf-mui-demo` repo to test new and existing components
+- Add this package as a dependency in `@nish1896/rhf-mui-demo` repo to test new and existing components
 
 To apply any changes made to the package, rebuild it by running the command below:
 
 ```
-yarn lib
+pnpm lib
 ```
