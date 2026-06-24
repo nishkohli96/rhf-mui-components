@@ -370,6 +370,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               id={fieldId}
               options={autoCompleteOptions}
               freeSolo={freeSolo}
+              autoSelect={freeSolo ? autoSelect ?? true : autoSelect}
               value={selectedOptions}
               loading={loading}
               disabled={muiDisabled || rhfDisabled}
@@ -600,7 +601,6 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
               limitTags={limitTags}
               getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
               autoHighlight={autoHighlight}
-              autoSelect={freeSolo || autoSelect}
               disableCloseOnSelect
               disableClearable={disableClearable}
               blurOnSelect={false}

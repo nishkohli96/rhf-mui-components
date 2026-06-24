@@ -47,6 +47,8 @@ export const AppThemeProvider = ({ children }: { children: React.ReactNode }) =>
     disableTransitionOnChange
   >
     <CssBaseline enableColorScheme />
-    <ThemeContextBridge>{children}</ThemeContextBridge>
+    <ThemeContextBridge>
+      {children}
+    </ThemeContextBridge>
   </ThemeProvider>
 );
