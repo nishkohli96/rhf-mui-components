@@ -5,9 +5,8 @@ title: RHFDateTimePicker
 description: Integrate RHFDateTimePicker with react-hook-form for customizable date and time inputs.
 ---
 
-import { DemoLink } from '@site/src/components';
-
 import { RHFDateTimePickerPropsTable } from '@site/src/page-components';
+import { DemoLink } from '@site/src/components';
 
 # RHFDateTimePicker
 
@@ -20,12 +19,21 @@ Starting with **version 4**, this module also exports `RHFDesktopDateTimePicker`
 ## Usage
 
 ```ts
-import { RHFDateTimePicker, type RHFDateTimePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import {
+  RHFDateTimePicker,
+  RHFDesktopDateTimePicker,
+  RHFMobileDateTimePicker,
+  RHFStaticDateTimePicker,
+  type RHFDateTimePickerProps,
+  type RHFDesktopDateTimePickerProps,
+  type RHFMobileDateTimePickerProps,
+  type RHFStaticDateTimePickerProps
+} from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 ```
 
 ```jsx
 <RHFDateTimePicker
-  fieldName="departureOfFlight"
+  fieldName="meetingDateTime"
   control={control}
 />
 ```

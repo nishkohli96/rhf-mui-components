@@ -45,7 +45,7 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 
 1. `fileList`: The set of input files to run this validation against.
 2. `options`: Validation options used when processing the file list.
-    - `accept` — Optional string specifying the allowed file types or extensions, following the standard `input[type="file"]` `accept` attribute format (for example, `.png, .jpg, image/*`). Files that do not match the specified criteria will be added to `rejectedFiles`.
+    - `accept` — Optional string specifying the allowed file types or extensions, following the standard **input[type="file"]** `accept` attribute format (for example, `.png, .jpg, image/*`). Files that do not match the specified criteria will be added to `rejectedFiles`.
     - `maxSize` — Optional maximum file size in bytes. Files exceeding this limit will be added to `rejectedFiles`.
     - `maxFiles` — Optional maximum number of files allowed. If the number of valid files exceeds this limit, the additional files will be added to `rejectedFiles` with a `FILE_LIMIT_EXCEEDED` error and excluded from `acceptedFiles`.
 
@@ -59,7 +59,6 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
     type FileUploadErrorDetails = {
       /** File that failed validation. */
       file: File;
-
       /** Validation errors reported for the file. */
       errors: FileUploadError[];
     };
