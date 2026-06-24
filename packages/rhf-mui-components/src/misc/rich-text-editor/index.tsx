@@ -104,7 +104,8 @@ const RHFRichTextEditor = <T extends FieldValues>({
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => (
           <CKEditor
@@ -133,7 +134,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
             }
             onFocus={onFocus}
             onError={onError}
-            disabled={muiDisabled}
+            disabled={muiDisabled || rhfDisabled}
           />
         )}
       />

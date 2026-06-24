@@ -134,7 +134,8 @@ const RHFRadioGroup = <
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
-            onBlur: rhfOnBlur
+            onBlur: rhfOnBlur,
+            disabled: rhfDisabled
           }
         }) => {
           return (
@@ -185,7 +186,7 @@ const RHFRadioGroup = <
                     }
                     value={opnValue}
                     label={opnLabel}
-                    disabled={muiDisabled}
+                    disabled={muiDisabled || rhfDisabled}
                     sx={appliedFormControlLabelSx}
                     {...otherFormControlLabelProps}
                   />

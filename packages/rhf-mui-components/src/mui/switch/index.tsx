@@ -80,7 +80,8 @@ const RHFSwitch = <T extends FieldValues>({
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         }
       }) => {
         return (
@@ -91,7 +92,7 @@ const RHFSwitch = <T extends FieldValues>({
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled}
+                  disabled={muiDisabled || rhfDisabled}
                   onChange={(event, isChecked) => {
                     rhfOnChange(isChecked);
                     onValueChange?.(isChecked, event);

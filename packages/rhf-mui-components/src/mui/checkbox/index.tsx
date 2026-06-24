@@ -82,7 +82,8 @@ const RHFCheckbox = <T extends FieldValues>({
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           return (
@@ -92,7 +93,7 @@ const RHFCheckbox = <T extends FieldValues>({
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled}
+                  disabled={muiDisabled || rhfDisabled}
                   aria-describedby={
                     showHelperTextElement
                       ? isError

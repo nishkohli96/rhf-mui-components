@@ -232,7 +232,8 @@ const RHFMultiAutocomplete = <
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           const selectedValues: string[] = rhfValue ?? [];
@@ -262,7 +263,7 @@ const RHFMultiAutocomplete = <
               multiple
               autoHighlight
               disableCloseOnSelect
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   rhfOnChange([]);
@@ -339,7 +340,7 @@ const RHFMultiAutocomplete = <
                   <TextField
                     name={rhfFieldName}
                     inputRef={rhfRef}
-                    disabled={paramsDisabled || muiDisabled}
+                    disabled={paramsDisabled}
                     {...otherTextFieldProps}
                     placeholder={
                       selectedOptions.length > 0

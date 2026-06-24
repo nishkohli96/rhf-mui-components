@@ -126,7 +126,8 @@ const RHFPasswordInput = <T extends FieldValues>({
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           const endAdornment = (
@@ -158,7 +159,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const newValue = event.target.value;
                 rhfOnChange(newValue);

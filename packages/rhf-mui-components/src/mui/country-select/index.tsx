@@ -189,7 +189,8 @@ const RHFCountrySelect = <T extends FieldValues>({
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           const selectedCountries = multiple
@@ -219,7 +220,7 @@ const RHFCountrySelect = <T extends FieldValues>({
               blurOnSelect={!multiple}
               disableCloseOnSelect={multiple}
               fullWidth
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               limitTags={2}
               getLimitTagsText={more =>
                 more === 1 ? '+1 Country' : `+${more} Countries`}
@@ -252,7 +253,7 @@ const RHFCountrySelect = <T extends FieldValues>({
                   <TextField
                     name={rhfFieldName}
                     inputRef={rhfRef}
-                    disabled={paramsDisabled || muiDisabled}
+                    disabled={paramsDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={

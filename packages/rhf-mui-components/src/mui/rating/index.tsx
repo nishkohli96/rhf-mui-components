@@ -90,7 +90,8 @@ const RHFRating = <T extends FieldValues>({
             name: rhfFieldName,
             value: rhfValue,
             onChange: rhfOnChange,
-            onBlur: rhfOnBlur
+            onBlur: rhfOnBlur,
+            disabled: rhfDisabled
           }
         }) => {
           return (
@@ -98,7 +99,7 @@ const RHFRating = <T extends FieldValues>({
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? null}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(event, newValue) => {
                 rhfOnChange(newValue);
                 onValueChange?.(newValue, event);

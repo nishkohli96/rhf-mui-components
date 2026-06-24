@@ -123,7 +123,8 @@ const RHFNativeSelect = <
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => (
           <NativeSelect
@@ -139,7 +140,7 @@ const RHFNativeSelect = <
             }
             value={rhfValue ?? ''}
             inputRef={rhfRef}
-            disabled={muiDisabled}
+            disabled={muiDisabled || rhfDisabled}
             onChange={event => {
               const selectedValue = event.target.value;
               const normalizedValue = normalizeSelectValue(

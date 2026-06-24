@@ -209,10 +209,12 @@ const RHFTagsInput = <T extends FieldValues>({
             value: rhfValue = [],
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
-          const hideInput = muiDisabled && rhfValue.length > 0;
+          const isDisabled = muiDisabled || rhfDisabled;
+          const hideInput = isDisabled && rhfValue.length > 0;
           const visibleTags = showAllTags
             ? rhfValue
             : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
@@ -239,7 +241,7 @@ const RHFTagsInput = <T extends FieldValues>({
                   id={`${fieldNameToId(tag)}-${index}`}
                   role="listitem"
                   label={tag}
-                  disabled={muiDisabled}
+                  disabled={isDisabled}
                   onDelete={() => {
                     const newValues = rhfValue.filter(
                       item => item !== tag
@@ -256,7 +258,7 @@ const RHFTagsInput = <T extends FieldValues>({
                     getLimitTagsText?.(rhfValue.length - limitTags)
                     ?? `+${rhfValue.length - limitTags} more`
                   }
-                  disabled={muiDisabled}
+                  disabled={isDisabled}
                 />
               )}
             </Box>
@@ -293,7 +295,7 @@ const RHFTagsInput = <T extends FieldValues>({
               onPaste={event => {
                 triggerChangeEvents(handlePaste(event, rhfValue));
               }}
-              disabled={muiDisabled}
+              disabled={isDisabled}
               error={isError}
               aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={

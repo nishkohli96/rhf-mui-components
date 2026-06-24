@@ -123,7 +123,8 @@ const RHFFileUploader = <T extends FieldValues>({
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +183,7 @@ const RHFFileUploader = <T extends FieldValues>({
               multiple={multiple}
               onChange={handleFileChange}
               onBlur={rhfOnBlur}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               aria-labelledby={isLabelAboveFormField ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
@@ -203,7 +204,7 @@ const RHFFileUploader = <T extends FieldValues>({
                   <UploadButton
                     label={fieldLabel}
                     fieldName={`btn_${fieldId}`}
-                    disabled={muiDisabled}
+                    disabled={muiDisabled || rhfDisabled}
                   >
                     {InputComponent}
                   </UploadButton>

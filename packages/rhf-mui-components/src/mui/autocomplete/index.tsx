@@ -189,7 +189,8 @@ const RHFAutocomplete = <
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           let selectedOptions;
@@ -231,7 +232,7 @@ const RHFAutocomplete = <
                     />
                   );
                 })}
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={(
                 event,
                 newValue,
@@ -293,7 +294,7 @@ const RHFAutocomplete = <
                   <TextField
                     name={rhfFieldName}
                     inputRef={rhfRef}
-                    disabled={paramsDisabled || muiDisabled}
+                    disabled={paramsDisabled}
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={

@@ -100,7 +100,8 @@ const RHFNumberInput = <T extends FieldValues>({
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef
+            ref: rhfRef,
+            disabled: rhfDisabled
           }
         }) => {
           return (
@@ -124,7 +125,7 @@ const RHFNumberInput = <T extends FieldValues>({
                   ? ''
                   : rhfValue
               }
-              disabled={muiDisabled}
+              disabled={muiDisabled || rhfDisabled}
               onChange={event => {
                 const fieldValue
                   = event.target.value === '' ? null : Number(event.target.value);

@@ -101,48 +101,52 @@ const RHFColorPicker = <T extends FieldValues>({
         rules={registerOptions}
         render={({
           field: {
-            onChange: rhfOnChange
+            onChange: rhfOnChange,
+            disabled: rhfDisabled
           }
-        }) => (
-          <Fragment>
-            {renderHSLView
-              ? (
-                <Fragment>
-                  <Saturation
-                    height={height}
+        }) => {
+          const isDisabled = muiDisabled || rhfDisabled;
+          return (
+            <Fragment>
+              {renderHSLView
+                ? (
+                  <Fragment>
+                    <Saturation
+                      height={height}
+                      color={color}
+                      disabled={isDisabled}
+                      onChange={color => {
+                        setColor(color);
+                        const appliedColor = getFormattedColor(color);
+                        rhfOnChange(appliedColor);
+                        onValueChange?.(color);
+                      }}
+                    />
+                    <Hue
+                      color={color}
+                      disabled={isDisabled}
+                      onChange={setColor}
+                    />
+                  </Fragment>
+                )
+                : (
+                  <ReactColorPicker
                     color={color}
-                    disabled={muiDisabled}
+                    disabled={isDisabled}
                     onChange={color => {
                       setColor(color);
                       const appliedColor = getFormattedColor(color);
                       rhfOnChange(appliedColor);
                       onValueChange?.(color);
                     }}
+                    height={height}
+                    hideInput={isDisabled ? true : hideInput}
+                    {...otherProps}
                   />
-                  <Hue
-                    color={color}
-                    disabled={muiDisabled}
-                    onChange={setColor}
-                  />
-                </Fragment>
-              )
-              : (
-                <ReactColorPicker
-                  color={color}
-                  disabled={muiDisabled}
-                  onChange={color => {
-                    setColor(color);
-                    const appliedColor = getFormattedColor(color);
-                    rhfOnChange(appliedColor);
-                    onValueChange?.(color);
-                  }}
-                  height={height}
-                  hideInput={muiDisabled ? true : hideInput}
-                  {...otherProps}
-                />
-              )}
-          </Fragment>
-        )}
+                )}
+            </Fragment>
+          );
+        }}
       />
       <FormHelperText
         error={isError}
