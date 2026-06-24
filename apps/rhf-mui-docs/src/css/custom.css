@@ -11,10 +11,49 @@
   --ifm-navbar-height: 4.5rem;
 }
 
-/* For the light theme */
+/* CSS for the Light theme */
 html[data-theme='light'] .footer {
   background-color: #ffffff; /* Light theme background color */
   color: #212529; /* Light theme text color */
+}
+
+html[data-theme='light'] .navbar [class*='toggleButton'] {
+  color: #2b3137;
+}
+
+html[data-theme='light'] .navbar [class*='toggleButton']:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* CSS for the Dark theme */
+html[data-theme='dark'] .navbar {
+  background-color: var(--ifm-background-color);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+html[data-theme='dark'] .navbar__brand,
+html[data-theme='dark'] .navbar__link,
+html[data-theme='dark'] .navbar__item,
+html[data-theme='dark'] .navbar__toggle {
+  color: var(--ifm-font-color-base);
+}
+
+html[data-theme='dark'] .navbar__link:hover,
+html[data-theme='dark'] .navbar__link--active {
+  color: var(--ifm-link-color);
+}
+
+html[data-theme='dark'] .footer {
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+html[data-theme='dark'] .navbar [class*='toggleButton'] {
+  color: var(--ifm-font-color-base);
+}
+
+html[data-theme='dark'] .navbar [class*='toggleButton']:hover {
+  background: var(--ifm-color-emphasis-200);
 }
 
 .navbar__logo {
