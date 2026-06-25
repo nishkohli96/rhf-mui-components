@@ -23,25 +23,94 @@ import 'react-color-palette/css';
 type ColorFormat = keyof IColor;
 
 export type RHFColorPickerProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /** Initial color value used by the color picker. */
   value?: string;
+  /**
+   * Color format stored in the React Hook Form field.
+   *
+   * `hex` stores the color hex string. Other formats are converted to a CSS color string.
+   * @default 'hex'
+   * Options: `hex`, `rgb`, `hsv`
+   */
   valueKey?: ColorFormat;
+  /**
+   * Initial color used by the picker when the field does not already have a value.
+   * @default '#000000'
+   */
   defaultColor?: string;
+  /**
+   * When true, omits alpha from emitted color values.
+   */
   excludeAlpha?: boolean;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Height, in pixels, of the color picker control.
+   * @default 200
+   */
   height?: number;
+  /**
+   * When true, hides alpha controls in the color picker.
+   */
   hideAlpha?: boolean;
+  /**
+   * Hides picker input fields rendered by `react-color-palette`.
+   *
+   * Pass `true` to hide all inputs, or pass specific `IColor` keys to hide only
+   * those inputs.
+   */
   hideInput?: (keyof IColor)[] | boolean;
+  /**
+   * Fired after the picker value changes and the formatted value is stored in the field.
+   */
   onValueChange?: (color: IColor) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 };
 

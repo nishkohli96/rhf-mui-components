@@ -33,29 +33,83 @@ import { FileItem, HiddenInput, UploadButton } from './components';
 export type { FileUploadError };
 
 export type RHFFileUploaderProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * If true, displays each selected file size in the default file list.
+   */
   showFileSize?: boolean;
+  /**
+   * If true, hides the selected file list.
+   */
   hideFileList?: boolean;
+  /**
+   * Custom upload button renderer. Receives the hidden file input as children/content.
+   */
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
+  /**
+   * Custom renderer for each selected file item.
+   */
   renderFileItem?: (file: File, index: number) => ReactNode;
+  /** Callback fired with accepted file(s) after the RHF value is updated. */
   onValueChange?: (
     acceptedFiles: File | File[] | null,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
+  /**
+   * Callback fired when uploaded files fail type, size, or count validation.
+   */
   onUploadError?: (
     errors: FileUploadError[],
     rejectedFiles: File[],
   ) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * When true, the component expands to fill its container width.
+   */
   fullWidth?: boolean;
 } & FileInputProps;
 

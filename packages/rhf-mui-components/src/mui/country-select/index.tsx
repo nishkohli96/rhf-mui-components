@@ -69,28 +69,91 @@ type AutoCompleteProps = Omit<
 >;
 
 export type RHFCountrySelectProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of countries to display in the country selector.
+   *
+   * Defaults to all countries from `countryList`.
+   */
   countries?: CountryDetails[];
+  /**
+   * List of country ISO codes to pin at the top of the dropdown.
+   *
+   * Countries are displayed in the same order as provided in this array,
+   * followed by the remaining countries sorted in their default order.
+   *
+   * @example
+   * preferredCountries={['US', 'CA', 'IN']}
+   */
   preferredCountries?: CountryISO[];
+  /**
+   * Country object key stored in the RHF field value.
+   * @default `iso`.
+   */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
+  /** Callback fired with the selected country object(s) after the RHF value is updated. */
   onValueChange?: (
     newValue: CountryDetails | CountryDetails[] | null,
     event: SyntheticEvent,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryDetails>
   ) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Props forwarded to the internal MUI `TextField` used to render the input.
+   */
   textFieldProps?: AutoCompleteTextFieldProps;
+  /**
+   * If true, renders the country flag in selected value chips.
+   */
   displayFlagOnSelect?: boolean;
+  /**
+   * Props forwarded to chips rendered for selected values.
+   */
   ChipProps?: MuiChipProps;
 } & AutoCompleteProps;
 

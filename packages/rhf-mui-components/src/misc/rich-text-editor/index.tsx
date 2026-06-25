@@ -29,24 +29,89 @@ type ErrorDetails = {
 };
 
 export type RHFRichTextEditorProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * HTML id applied to the CKEditor instance.
+   *
+   * Defaults to the generated field id.
+   */
   id?: string;
+  /**
+   * CKEditor configuration passed to `ClassicEditor`.
+   *
+   * Defaults to this package's `DefaultEditorConfig`.
+   */
   editorConfig?: EditorConfig;
+  /**
+   * Callback fired when the CKEditor instance is ready.
+   */
   onReady?: (editor: ClassicEditor) => void;
+  /**
+   * Callback fired when the CKEditor instance receives focus.
+   */
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
+  /**
+   * Callback fired when the CKEditor instance loses focus.
+   *
+   * The wrapper also marks the React Hook Form field as touched.
+   */
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
+  /**
+   * Callback fired after editor content changes and the new HTML string is stored in the field.
+   */
   onValueChange?: (newValue: string, event: EventInfo, editor: ClassicEditor) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Callback fired when CKEditor reports an initialization or runtime error.
+   */
   onError?: (error: Error, details: ErrorDetails) => void;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 };
 

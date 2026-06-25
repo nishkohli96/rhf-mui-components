@@ -21,18 +21,48 @@ import type { FormControlLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /** Callback fired with the checked state after the RHF value is updated. */
   onValueChange?: (
     isChecked: boolean,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * Props forwarded to the switch `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & Omit<SwitchProps, 'name'>;
 

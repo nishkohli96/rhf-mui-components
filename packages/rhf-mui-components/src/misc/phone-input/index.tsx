@@ -70,16 +70,51 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
 };
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Initial phone number value passed to `react-international-phone`.
+   */
   value?: string;
+  /**
+   * Callback fired with phone input metadata after the phone value changes.
+   */
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
+   */
   phoneInputProps?: PhoneInputProps;
 } & InputTextFieldProps;
 

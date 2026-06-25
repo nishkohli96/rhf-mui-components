@@ -40,19 +40,60 @@ type InputPasswordProps = Omit<
 >;
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /** Callback fired with the password value after the RHF value is updated. */
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Custom icon displayed when the password is currently hidden.
+   *
+   * Clicking this icon reveals the password value.
+   *
+   * @default Visibility icon
+   */
   showPasswordIcon?: ReactNode;
+  /**
+   * Custom icon displayed when the password is currently visible.
+   *
+   * Clicking this icon hides the password value.
+   *
+   * @default VisibilityOff icon
+   */
   hidePasswordIcon?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & InputPasswordProps;
 
