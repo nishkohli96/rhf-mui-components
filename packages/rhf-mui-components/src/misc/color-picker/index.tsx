@@ -38,11 +38,11 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 };
 
 const RHFColorPicker = <T extends FieldValues>({
@@ -65,7 +65,7 @@ const RHFColorPicker = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   height = 200,
-  ...otherProps
+  ...otherColorPickerProps
 }: RHFColorPickerProps<T>) => {
   const {
     labelId,
@@ -75,8 +75,6 @@ const RHFColorPicker = <T extends FieldValues>({
   const [color, setColor] = useColor(value ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const getFormattedColor = (color: IColor) =>
     valueKey === 'hex'
@@ -84,29 +82,33 @@ const RHFColorPicker = <T extends FieldValues>({
       : colorToString(color[valueKey], excludeAlpha);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            onChange: rhfOnChange,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const isDisabled = muiDisabled || rhfDisabled;
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          onChange: rhfOnChange,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={showLabelAboveFormField ?? true}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId
+              }}
+            />
             <Fragment>
               {renderHSLView
                 ? (
@@ -131,6 +133,7 @@ const RHFColorPicker = <T extends FieldValues>({
                 )
                 : (
                   <ReactColorPicker
+                    {...otherColorPickerProps}
                     color={color}
                     disabled={isDisabled}
                     onChange={color => {
@@ -141,25 +144,24 @@ const RHFColorPicker = <T extends FieldValues>({
                     }}
                     height={height}
                     hideInput={isDisabled ? true : hideInput}
-                    {...otherProps}
                   />
                 )}
             </Fragment>
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

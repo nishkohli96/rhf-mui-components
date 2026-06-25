@@ -86,14 +86,14 @@ export type RHFMultiAutocompleteProps<
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
   hideSelectAllOption?: boolean;
@@ -156,8 +156,6 @@ const RHFMultiAutocomplete = <
     ...defaultFormControlLabelSx,
     ...sx
   };
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const shouldHideSelectAllOptions
     = hideSelectAllOption || (options.length === 0 || options.length === 1);
@@ -210,51 +208,57 @@ const RHFMultiAutocomplete = <
   );
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const selectedValues: string[] = rhfValue ?? [];
-          const selectedOptions = (rhfValue ?? []).flatMap(val => {
-            if (optionsMap) {
-              const option = optionsMap.get(val);
-              return option ? [option] : [];
-            }
-            const option = options.find(opn => opn === val);
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        const selectedValues: string[] = rhfValue ?? [];
+        const selectedOptions = (rhfValue ?? []).flatMap(val => {
+          if (optionsMap) {
+            const option = optionsMap.get(val);
             return option ? [option] : [];
-          });
+          }
+          const option = options.find(opn => opn === val);
+          return option ? [option] : [];
+        });
 
-          const areAllSelected
-            = options.length > 0
-              && selectedValues.length === options.length
-              && options.every(option =>
-                selectedValues.includes(getOptionLabelOrValue(option, valueKey)));
-          const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
+        const areAllSelected
+          = options.length > 0
+            && selectedValues.length === options.length
+            && options.every(option =>
+              selectedValues.includes(getOptionLabelOrValue(option, valueKey)));
+        const isIndeterminate = selectedValues.length > 0 && !areAllSelected;
 
-          return (
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <Autocomplete
+              {...otherAutoCompleteProps}
               id={fieldId}
               options={autoCompleteOptions}
               value={selectedOptions}
@@ -263,7 +267,7 @@ const RHFMultiAutocomplete = <
               multiple
               autoHighlight
               disableCloseOnSelect
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   rhfOnChange([]);
@@ -338,16 +342,16 @@ const RHFMultiAutocomplete = <
                 };
                 return (
                   <TextField
+                    {...otherTextFieldProps}
+                    {...otherInputParams}
                     name={rhfFieldName}
                     inputRef={rhfRef}
                     disabled={paramsDisabled}
-                    {...otherTextFieldProps}
                     placeholder={
                       selectedOptions.length > 0
                         ? undefined
                         : placeholder
                     }
-                    {...otherInputParams}
                     label={
                       !isLabelAboveFormField
                         ? (
@@ -404,8 +408,9 @@ const RHFMultiAutocomplete = <
                 return (
                   <Box component="li" {...optionProps}>
                     <FormControlLabel
+                      {...otherFormControlLabelProps}
                       label={label}
-                      onClick={e => e.preventDefault()}
+                      disabled={isDisabled}
                       control={
                         <Checkbox
                           {...checkboxProps}
@@ -420,10 +425,11 @@ const RHFMultiAutocomplete = <
                           indeterminate={
                             isSelectAll ? isIndeterminate : undefined
                           }
+                          disabled={isDisabled}
                         />
                       }
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
-                      {...otherFormControlLabelProps}
+                      onClick={e => e.preventDefault()}
                     />
                   </Box>
                 );
@@ -441,23 +447,22 @@ const RHFMultiAutocomplete = <
                   );
                 })}
               {...(isAboveMuiV5 ? { slotProps } : { ChipProps })}
-              {...otherAutoCompleteProps}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

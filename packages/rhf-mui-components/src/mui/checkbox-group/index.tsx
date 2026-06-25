@@ -55,14 +55,14 @@ export type RHFCheckboxGroupProps<
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   checkboxProps?: CheckboxProps;
   formControlLabelProps?: FormControlLabelProps;
   required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
 };
 
@@ -109,9 +109,6 @@ const RHFCheckboxGroup = <
     ...defaultFormControlLabelSx,
     ...sx
   };
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
     <Controller
       name={fieldName}
@@ -130,6 +127,9 @@ const RHFCheckboxGroup = <
           disabled: boolean;
         };
         const rhfValue = value ?? [];
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
         const handleChange = (
           event: ChangeEvent<HTMLInputElement>,
@@ -150,6 +150,7 @@ const RHFCheckboxGroup = <
           <FormControl
             component="fieldset"
             error={isError}
+            disabled={isDisabled}
             onBlur={e => {
               const currentTarget = e.currentTarget;
               const relatedTarget = e.relatedTarget as Node | null;
@@ -170,10 +171,11 @@ const RHFCheckboxGroup = <
                 isVisible={showLabelAboveFormField ?? true}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  component: 'legend',
-                  ...formLabelProps
+                  component: 'legend'
                 }}
               />
               {options.map((option, idx) => {
@@ -185,6 +187,7 @@ const RHFCheckboxGroup = <
                 const checked = rhfValue.includes(opnValue);
                 return (
                   <FormControlLabel
+                    {...otherFormControlLabelProps}
                     key={`${opnValue}-${idx}`}
                     control={
                       <Checkbox
@@ -193,13 +196,13 @@ const RHFCheckboxGroup = <
                         name={`${fieldName}-${idx}`}
                         value={opnValue}
                         checked={checked}
+                        disabled={isDisabled}
                         onChange={e => handleChange(e, e.target.checked, opnValue)}
                       />
                     }
                     label={opnLabel}
                     sx={appliedFormControlLabelSx}
-                    disabled={muiDisabled || rhfDisabled}
-                    {...otherFormControlLabelProps}
+                    disabled={isDisabled}
                   />
                 );
               })}
@@ -210,8 +213,8 @@ const RHFCheckboxGroup = <
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
             </Fragment>

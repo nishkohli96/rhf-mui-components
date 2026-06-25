@@ -33,11 +33,11 @@ export type RHFRatingProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & InputRatingProps;
 
 const RHFRating = <T extends FieldValues>({
@@ -55,7 +55,7 @@ const RHFRating = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
-  ...rest
+  ...otherRatingProps
 }: RHFRatingProps<T>) => {
   const {
     fieldId,
@@ -65,41 +65,48 @@ const RHFRating = <T extends FieldValues>({
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
-    <FormControl component="fieldset" error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          component: 'legend',
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <FormControl
+            component="fieldset"
+            error={isError}
+            disabled={isDisabled}
+          >
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isFormLabelVisible}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                component: 'legend'
+              }}
+            />
             <MuiRating
+              {...otherRatingProps}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? null}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, newValue) => {
                 rhfOnChange(newValue);
                 onValueChange?.(newValue, event);
@@ -117,25 +124,23 @@ const RHFRating = <T extends FieldValues>({
                   : undefined
               }
               aria-invalid={isError || undefined}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 
 export default RHFRating;
-

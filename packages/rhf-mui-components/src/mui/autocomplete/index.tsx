@@ -86,12 +86,12 @@ export type RHFAutocompleteProps<
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   required?: boolean;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   textFieldProps?: AutoCompleteTextFieldProps;
   ChipProps?: MuiChipProps;
 } & OmittedAutocompleteProps<Option>;
@@ -141,8 +141,6 @@ const RHFAutocomplete = <
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   const optionsMap = useMemo(() => {
     if (!valueKey) {
@@ -167,50 +165,56 @@ const RHFAutocomplete = <
   );
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          let selectedOptions;
-          if (multiple) {
-            selectedOptions = (rhfValue ?? []).flatMap(val => {
-              const option = optionsMap
-                ? optionsMap.get(val)
-                : options.find(opn => opn === val);
-              return option ? [option] : [];
-            });
-          } else {
-            selectedOptions = rhfValue === null || rhfValue === undefined
-              ? null
-              : optionsMap
-                ? optionsMap.get(rhfValue) ?? null
-                : options.find(opn => opn === rhfValue) ?? null;
-          }
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-          return (
+        let selectedOptions;
+        if (multiple) {
+          selectedOptions = (rhfValue ?? []).flatMap(val => {
+            const option = optionsMap
+              ? optionsMap.get(val)
+              : options.find(opn => opn === val);
+            return option ? [option] : [];
+          });
+        } else {
+          selectedOptions = rhfValue === null || rhfValue === undefined
+            ? null
+            : optionsMap
+              ? optionsMap.get(rhfValue) ?? null
+              : options.find(opn => opn === rhfValue) ?? null;
+        }
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <Autocomplete
+              {...otherAutoCompleteProps}
               id={fieldId}
               options={options}
               multiple={multiple}
@@ -232,7 +236,7 @@ const RHFAutocomplete = <
                     />
                   );
                 })}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(
                 event,
                 newValue,
@@ -292,11 +296,11 @@ const RHFAutocomplete = <
                 };
                 return (
                   <TextField
+                    {...otherTextFieldProps}
+                    {...otherInputParams}
                     name={rhfFieldName}
                     inputRef={rhfRef}
                     disabled={paramsDisabled}
-                    {...otherTextFieldProps}
-                    {...otherInputParams}
                     label={
                       !isLabelAboveFormField
                         ? (
@@ -353,23 +357,22 @@ const RHFAutocomplete = <
                   }
                 }
                 : { ChipProps, slotProps })}
-              {...otherAutoCompleteProps}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

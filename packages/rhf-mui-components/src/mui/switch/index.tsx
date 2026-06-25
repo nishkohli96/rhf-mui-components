@@ -33,7 +33,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & Omit<SwitchProps, 'name'>;
 
 const RHFSwitch = <T extends FieldValues>({
@@ -50,7 +50,7 @@ const RHFSwitch = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   slotProps: muiSlotProps,
-  ...rest
+  ...otherSwitchProps
 }: RHFSwitchProps<T>) => {
   const {
     fieldId,
@@ -66,9 +66,6 @@ const RHFSwitch = <T extends FieldValues>({
     ...sx,
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
     <Controller
       name={fieldName}
@@ -84,15 +81,20 @@ const RHFSwitch = <T extends FieldValues>({
           disabled: rhfDisabled
         }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
         return (
           <Fragment>
             <FormControlLabel
               control={
                 <Switch
+                  {...otherSwitchProps}
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={isDisabled}
                   onChange={(event, isChecked) => {
                     rhfOnChange(isChecked);
                     onValueChange?.(isChecked, event);
@@ -116,10 +118,10 @@ const RHFSwitch = <T extends FieldValues>({
                       ref: rhfRef
                     }
                   }}
-                  {...rest}
                 />
               }
               label={fieldLabel}
+              disabled={isDisabled}
               sx={appliedFormControlLabelSx}
               {...otherFormControlLabelProps}
             />
@@ -130,8 +132,8 @@ const RHFSwitch = <T extends FieldValues>({
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

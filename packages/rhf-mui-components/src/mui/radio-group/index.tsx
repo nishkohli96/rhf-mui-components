@@ -56,14 +56,14 @@ export type RHFRadioGroupProps<
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   radioProps?: RadioProps;
   formControlLabelProps?: FormControlLabelProps;
   helperText?: ReactNode;
   required?: boolean;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & RadioGroupInputProps;
 
 const RHFRadioGroup = <
@@ -91,7 +91,7 @@ const RHFRadioGroup = <
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
-  ...rest
+  ...otherRadioGroupProps
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   validateArray('RHFRadioGroup', options, labelKey, valueKey);
 
@@ -109,37 +109,40 @@ const RHFRadioGroup = <
     ...defaultFormControlLabelSx,
     ...sx
   };
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
-    <FormControl component="fieldset" error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={showLabelAboveFormField ?? true}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          component: 'legend',
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <FormControl component="fieldset" error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={showLabelAboveFormField ?? true}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                component: 'legend'
+              }}
+            />
             <MuiRadioGroup
+              {...otherRadioGroupProps}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? ''}
@@ -159,6 +162,7 @@ const RHFRadioGroup = <
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
+              aria-required={required || undefined}
               aria-labelledby={labelId}
               aria-describedby={
                 showHelperTextElement
@@ -167,47 +171,51 @@ const RHFRadioGroup = <
                     : helperTextId
                   : undefined
               }
-              {...rest}
+              aria-disabled={isDisabled}
             >
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = getOptionValue<Option, ValueKey>(option, valueKey);
+                const opnValue = getOptionValue<Option, ValueKey>(
+                  option,
+                  valueKey
+                );
                 const opnLabel = isObject
                   ? String(option[labelKey!])
                   : String(option);
                 return (
                   <FormControlLabel
+                    {...otherFormControlLabelProps}
                     key={opnValue}
                     control={
                       <Radio
-                        id={`${fieldId}-${opnValue}`}
                         {...radioProps}
+                        id={`${fieldId}-${opnValue}`}
+                        disabled={isDisabled}
                       />
                     }
                     value={opnValue}
                     label={opnLabel}
-                    disabled={muiDisabled || rhfDisabled}
+                    disabled={isDisabled}
                     sx={appliedFormControlLabelSx}
-                    {...otherFormControlLabelProps}
                   />
                 );
               })}
             </MuiRadioGroup>
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

@@ -48,12 +48,12 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   showPasswordIcon?: ReactNode;
   hidePasswordIcon?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & InputPasswordProps;
 
 const RHFPasswordInput = <T extends FieldValues>({
@@ -76,7 +76,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   onBlur,
   autoComplete = defaultAutocompleteValue,
   InputProps,
-  ...rest
+  ...otherPasswordInputProps
 }: RHFPasswordInputProps<T>) => {
   const {
     fieldId,
@@ -91,9 +91,6 @@ const RHFPasswordInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   const [showPassword, setShowPassword] = useState(false);
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;
   const HidePasswordIcon = hidePasswordIcon ?? <VisibilityIcon />;
@@ -104,48 +101,55 @@ const RHFPasswordInput = <T extends FieldValues>({
   };
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const endAdornment = (
-            <InputAdornment position="end">
-              <IconButton
-                type="button"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? HidePasswordIcon : ShowPasswordIcon}
-              </IconButton>
-            </InputAdornment>
-          );
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-          return (
+        const endAdornment = (
+          <InputAdornment position="end">
+            <IconButton
+              type="button"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+              disabled={isDisabled}
+            >
+              {showPassword ? HidePasswordIcon : ShowPasswordIcon}
+            </IconButton>
+          </InputAdornment>
+        );
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <TextField
+              {...otherPasswordInputProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={rhfRef}
@@ -159,7 +163,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={event => {
                 const newValue = event.target.value;
                 rhfOnChange(newValue);
@@ -195,23 +199,22 @@ const RHFPasswordInput = <T extends FieldValues>({
                     endAdornment
                   }
                 })}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

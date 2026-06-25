@@ -32,11 +32,11 @@ export type RHFSliderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & SliderInputProps;
 
 const RHFSlider = <T extends FieldValues>({
@@ -54,7 +54,7 @@ const RHFSlider = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
-  ...rest
+  ...otherSliderProps
 }: RHFSliderProps<T>) => {
   const {
     fieldId,
@@ -64,40 +64,43 @@ const RHFSlider = <T extends FieldValues>({
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
-    <Fragment>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            disabled: rhfDisabled
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <Fragment>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isFormLabelVisible}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId
+              }}
+            />
             <MuiSlider
+              {...otherSliderProps}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? 0}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, value, activeThumb) => {
                 rhfOnChange(value);
                 onValueChange?.(value, activeThumb, event);
@@ -115,23 +118,22 @@ const RHFSlider = <T extends FieldValues>({
                   : undefined
               }
               aria-invalid={isError || undefined}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </Fragment>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </Fragment>
+        );
+      }}
+    />
   );
 };
 

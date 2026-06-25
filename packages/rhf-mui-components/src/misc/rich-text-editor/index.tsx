@@ -42,12 +42,12 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   disabled?: boolean;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   helperText?: ReactNode;
   onError?: (error: Error, details: ErrorDetails) => void;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 };
 
 const RHFRichTextEditor = <T extends FieldValues>({
@@ -79,77 +79,82 @@ const RHFRichTextEditor = <T extends FieldValues>({
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = Boolean(errorMessage);
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => (
-          <CKEditor
-            id={id ?? fieldId}
-            editor={ClassicEditor}
-            config={editorConfig ?? DefaultEditorConfig}
-            data={rhfValue}
-            onChange={(event, editor) => {
-              const content = editor.getData();
-              rhfOnChange(content);
-              onValueChange?.(content, event, editor);
-            }}
-            ref={rhfRef}
-            onReady={onReady}
-            onBlur={(event, editor) => {
-              rhfOnBlur();
-              onBlur?.(event, editor);
-            }}
-            aria-labelledby={isFormLabelVisible ? labelId : undefined}
-            aria-describedby={
-              showHelperTextElement
-                ? isError
-                  ? errorId
-                  : helperTextId
-                : undefined
-            }
-            onFocus={onFocus}
-            onError={onError}
-            disabled={muiDisabled || rhfDisabled}
-          />
-        )}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = Boolean(errorMessage);
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isFormLabelVisible}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
+            <CKEditor
+              id={id ?? fieldId}
+              editor={ClassicEditor}
+              config={editorConfig ?? DefaultEditorConfig}
+              data={rhfValue}
+              onChange={(event, editor) => {
+                const content = editor.getData();
+                rhfOnChange(content);
+                onValueChange?.(content, event, editor);
+              }}
+              ref={rhfRef}
+              onReady={onReady}
+              onBlur={(event, editor) => {
+                rhfOnBlur();
+                onBlur?.(event, editor);
+              }}
+              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-describedby={
+                showHelperTextElement
+                  ? isError
+                    ? errorId
+                    : helperTextId
+                  : undefined
+              }
+              onFocus={onFocus}
+              onError={onError}
+              disabled={isDisabled}
+            />
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

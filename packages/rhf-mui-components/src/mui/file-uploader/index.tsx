@@ -51,11 +51,11 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   ) => void;
   label?: ReactNode;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   errorMessage?: ReactNode;
   helperText?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   fullWidth?: boolean;
 } & FileInputProps;
 
@@ -97,104 +97,111 @@ const RHFFileUploader = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   return (
-    <FormControl fullWidth={fullWidth} error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+          const fileList = event.target.files;
+          /* Reset so same file can be selected again */
+          event.target.value = '';
+          if (!fileList || fileList.length === 0) {
+            rhfOnChange(null);
+            onValueChange?.(null, event);
+            return;
           }
-        }) => {
-          const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-            const fileList = event.target.files;
-            /* Reset so same file can be selected again */
-            event.target.value = '';
-            if (!fileList || fileList.length === 0) {
-              rhfOnChange(null);
-              onValueChange?.(null, event);
-              return;
-            }
 
-            const { acceptedFiles, rejectedFiles, errors } = validateFileList(
-              fileList,
-              accept,
-              maxSize,
-              maxFiles
-            );
-
-            if (
-              errors
-              && errors.length > 0
-              && rejectedFiles
-              && rejectedFiles.length > 0
-            ) {
-              onUploadError?.(errors, rejectedFiles);
-            }
-
-            const selectedFiles = multiple
-              ? acceptedFiles.length > 0
-                ? acceptedFiles
-                : null
-              : (acceptedFiles[0] ?? null);
-            rhfOnChange(selectedFiles);
-            onValueChange?.(selectedFiles, event);
-          };
-
-          const removeFile = (index: number) => {
-            if (multiple && Array.isArray(rhfValue)) {
-              const newFiles = rhfValue.filter(
-                (_: File, i: number) => i !== index
-              );
-              rhfOnChange(newFiles.length > 0 ? newFiles : null);
-            } else {
-              rhfOnChange(null);
-            }
-          };
-
-          const InputComponent = (
-            <HiddenInput
-              id={fieldId}
-              name={rhfFieldName}
-              type="file"
-              ref={rhfRef}
-              accept={accept}
-              multiple={multiple}
-              onChange={handleFileChange}
-              onBlur={rhfOnBlur}
-              disabled={muiDisabled || rhfDisabled}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? (isError ? errorId : helperTextId)
-                  : undefined
-              }
-              aria-invalid={isError}
-            />
+          const { acceptedFiles, rejectedFiles, errors } = validateFileList(
+            fileList,
+            accept,
+            maxSize,
+            maxFiles
           );
 
-          return (
+          if (
+            errors
+            && errors.length > 0
+            && rejectedFiles
+            && rejectedFiles.length > 0
+          ) {
+            onUploadError?.(errors, rejectedFiles);
+          }
+
+          const selectedFiles = multiple
+            ? acceptedFiles.length > 0
+              ? acceptedFiles
+              : null
+            : (acceptedFiles[0] ?? null);
+          rhfOnChange(selectedFiles);
+          onValueChange?.(selectedFiles, event);
+        };
+
+        const removeFile = (index: number) => {
+          if (multiple && Array.isArray(rhfValue)) {
+            const newFiles = rhfValue.filter(
+              (_: File, i: number) => i !== index
+            );
+            rhfOnChange(newFiles.length > 0 ? newFiles : null);
+          } else {
+            rhfOnChange(null);
+          }
+        };
+
+        const InputComponent = (
+          <HiddenInput
+            id={fieldId}
+            name={rhfFieldName}
+            type="file"
+            ref={rhfRef}
+            accept={accept}
+            multiple={multiple}
+            onChange={handleFileChange}
+            onBlur={rhfOnBlur}
+            disabled={isDisabled}
+            aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+            aria-describedby={
+              showHelperTextElement
+                ? (isError ? errorId : helperTextId)
+                : undefined
+            }
+            aria-invalid={isError}
+          />
+        );
+
+        return (
+          <FormControl
+            fullWidth={fullWidth}
+            error={isError}
+            disabled={isDisabled}
+          >
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <Fragment>
               {renderUploadButton
                 ? (
@@ -204,7 +211,7 @@ const RHFFileUploader = <T extends FieldValues>({
                   <UploadButton
                     label={fieldLabel}
                     fieldName={`btn_${fieldId}`}
-                    disabled={muiDisabled || rhfDisabled}
+                    disabled={isDisabled}
                   >
                     {InputComponent}
                   </UploadButton>
@@ -216,8 +223,8 @@ const RHFFileUploader = <T extends FieldValues>({
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
               {!hideFileList && rhfValue && (
@@ -243,10 +250,10 @@ const RHFFileUploader = <T extends FieldValues>({
                 </Box>
               )}
             </Fragment>
-          );
-        }}
-      />
-    </FormControl>
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

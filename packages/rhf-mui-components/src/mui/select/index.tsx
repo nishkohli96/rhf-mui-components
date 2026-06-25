@@ -63,11 +63,11 @@ export type RHFSelectProps<
     child: ReactNode
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   placeholder?: string;
 } & SelectProps;
 
@@ -119,50 +119,52 @@ const RHFSelect = <
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
   );
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef,
-            disabled: rhfDisabled
-          }
-        }) => {
-          const isValueEmpty
-            = !rhfValue
-              || rhfValue === ''
-              || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
-          const showPlaceholder = isValueEmpty && !!placeholder;
-          const selectLabelProp
-            = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
-          const selectLabelId = isLabelAboveFormField ? undefined : labelId;
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-          return (
+        const isValueEmpty
+          = !rhfValue
+            || rhfValue === ''
+            || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
+        const showPlaceholder = isValueEmpty && !!placeholder;
+        const selectLabelProp
+          = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
+        const selectLabelId = isLabelAboveFormField ? undefined : labelId;
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
                 <InputLabel id={labelId} shrink={!isValueEmpty}>
@@ -170,6 +172,7 @@ const RHFSelect = <
                 </InputLabel>
               )}
               <MuiSelect
+                {...otherSelectProps}
                 id={fieldId}
                 name={rhfFieldName}
                 autoComplete={autoComplete}
@@ -187,7 +190,7 @@ const RHFSelect = <
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
                 inputRef={rhfRef}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(
@@ -205,7 +208,6 @@ const RHFSelect = <
                     child
                   );
                 }}
-                {...otherSelectProps}
                 onBlur={blurEvent => {
                   rhfOnBlur();
                   onBlur?.(blurEvent);
@@ -270,21 +272,21 @@ const RHFSelect = <
                 })}
               </MuiSelect>
             </Fragment>
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

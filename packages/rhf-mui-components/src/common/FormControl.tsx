@@ -8,18 +8,21 @@ type OmittedFormControlProps = Omit<MuiFormControlProps, 'children' | 'error'>;
 type FormControlProps = {
   children: ReactElement | ReactElement[];
   error: boolean;
+  disabled?: boolean;
 } & OmittedFormControlProps;
 
 const FormControl = ({
   children,
-  error,
   fullWidth = true,
+  error,
+  disabled,
   ...otherFormControlProps
 }: FormControlProps) => {
   return (
     <MuiFormControl
       fullWidth={fullWidth}
       error={error}
+      disabled={disabled}
       {...otherFormControlProps}
     >
       {children}

@@ -43,11 +43,11 @@ export type RHFDatePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
   helperText?: ReactNode;
   errorMessage?: ReactNode;
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & DatePickerInputProps;
 
 const RHFDatePicker = <T extends FieldValues>({
@@ -67,7 +67,7 @@ const RHFDatePicker = <T extends FieldValues>({
   slotProps: muiSlotProps,
   onChange: muiOnChange,
   onAccept: muiOnAccept,
-  ...rest
+  ...otherDatePickerProps
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
@@ -89,43 +89,46 @@ const RHFDatePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <LocalizationProvider dateAdapter={dateAdapter}>
-        <Controller
-          name={fieldName}
-          control={control}
-          rules={registerOptions}
-          render={({
-            field: {
-              name: rhfFieldName,
-              value: rhfValue,
-              onChange: rhfOnChange,
-              onBlur: rhfOnBlur,
-              ref: rhfRef,
-              disabled: rhfDisabled
-            }
-          }) => {
-            return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <LocalizationProvider dateAdapter={dateAdapter}>
+            <FormControl error={isError} disabled={isDisabled}>
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                disabled={isDisabled}
+                formLabelProps={{
+                  ...formLabelProps,
+                  id: labelId,
+                  htmlFor: fieldId
+                }}
+              />
               <MuiDatePicker
+                {...otherDatePickerProps}
                 name={rhfFieldName}
                 inputRef={rhfRef}
                 value={rhfValue || null}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onChange={(newValue, context) => {
                   /**
                    * Forward the MUI onChange event and synchronize RHF
@@ -169,24 +172,23 @@ const RHFDatePicker = <T extends FieldValues>({
                     ...textFieldSlotProps,
                   },
                 }}
-                {...rest}
               />
-            );
-          }}
-        />
-      </LocalizationProvider>
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+              <FormHelperText
+                error={isError}
+                errorMessage={errorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
+                }}
+              />
+            </FormControl>
+          </LocalizationProvider>
+        );
+      }}
+    />
   );
 };
 
