@@ -555,6 +555,9 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       onClick={e => {
                         e.preventDefault();
+                        if (isOptionDisabled) {
+                          return;
+                        }
                         const checked = !selectionContainsOption(
                           selectedOptions,
                           option

@@ -319,8 +319,8 @@ const RHFCheckboxGroup = <
                 = isDisabled || getOptionDisabled?.(option) || false;
               return (
                 <FormControlLabel
-                  key={`${opnValue}-${idx}`}
                   {...otherFormControlLabelProps}
+                  key={`${opnValue}-${idx}`}
                   control={
                     <Checkbox
                       {...checkboxProps}

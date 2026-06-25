@@ -565,6 +565,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
+                      {...otherFormControlLabelProps}
                       label={
                         renderOptionLabel?.(option, state)
                         ?? optionLabel
@@ -585,6 +586,9 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       onClick={e => {
                         e.preventDefault();
+                        if (isOptionDisabled) {
+                          return;
+                        }
                         const checked = !selectedValues.includes(optionValue);
                         changeFieldState(
                           handleCheckboxChange(
@@ -595,7 +599,6 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
                           optionValue
                         );
                       }}
-                      {...otherFormControlLabelProps}
                     />
                   </Box>
                 );
