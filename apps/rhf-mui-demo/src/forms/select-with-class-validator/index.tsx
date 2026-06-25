@@ -1,9 +1,11 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
@@ -38,6 +40,7 @@ const initialValues = { favouriteColor: Colors.Orange };
 const SelectFormWithClassValidator = () => {
   const pathName = usePathname();
   const languagesList = useMemo(() => getLanguagesList(10), []);
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const {
     control,
@@ -46,7 +49,8 @@ const SelectFormWithClassValidator = () => {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
-    resolver: classValidatorResolver(FormSchema)
+    resolver: classValidatorResolver(FormSchema),
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
   const favouriteColor = useWatch({
@@ -63,6 +67,19 @@ const SelectFormWithClassValidator = () => {
     <FormContainer title="Select Component with Class-Validator">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select field with helpertext and renderOptionLabel" />
             <RHFSelect

@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useForm, useWatch } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
@@ -48,6 +50,7 @@ const AutocompleteForm = () => {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
@@ -64,7 +67,8 @@ const AutocompleteForm = () => {
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
 
@@ -113,6 +117,19 @@ const AutocompleteForm = () => {
     <FormContainer title="Autocomplete variations with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Autocomplete with freeSolo, custom renderOption and renderValue" />
             <RHFAutocomplete

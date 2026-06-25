@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {
@@ -50,6 +53,7 @@ const initialValues: Partial<FormSchema> = {
 
 const MiscellaneousComponentsForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     handleSubmit,
@@ -57,7 +61,8 @@ const MiscellaneousComponentsForm = () => {
     getValues,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
 
@@ -76,6 +81,19 @@ const MiscellaneousComponentsForm = () => {
     <FormContainer title="Miscellaneous Components">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={12}>
             <FieldVariantInfo title="CK5 Rich Text Editor" />
             <RHFRichTextEditor

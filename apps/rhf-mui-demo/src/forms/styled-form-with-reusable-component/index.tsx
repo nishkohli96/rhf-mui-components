@@ -1,8 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
@@ -52,6 +54,7 @@ const colorOptions = Object.values(Colors).map(color => ({
 
 export default function StyledReusableComponentForm() {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     reset,
@@ -59,6 +62,7 @@ export default function StyledReusableComponentForm() {
     handleSubmit
   } = useForm<FormSchema>({
     defaultValues: initialValues,
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
   const airportList = useMemo(() => generateAirportNames(100), []);
@@ -80,6 +84,19 @@ export default function StyledReusableComponentForm() {
       >
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
+            <Grid size={12}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={disableAllFields}
+                    onChange={event => {
+                      setDisableAllFields(event.target.checked);
+                    }}
+                  />
+                )}
+                label="Disable all fields"
+              />
+            </Grid>
             <Grid size={12}>
               <FieldVariantInfo title='Custom FormLabel for both text inputs; custom helperText for "firstName" field'/>
             </Grid>
