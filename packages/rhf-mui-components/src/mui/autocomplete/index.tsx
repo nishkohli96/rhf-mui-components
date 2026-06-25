@@ -18,7 +18,7 @@ import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
-  AutocompleteValue
+  type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -266,25 +266,23 @@ const RHFAutocomplete = <
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-        let selectedOptions: AutocompleteFieldValue<
-          Option,
-          Multiple,
-          DisableClearable
-        >;
-        if (multiple) {
-          selectedOptions = (rhfValue ?? []).flatMap(val => {
+        const selectedValue = multiple
+          ? (rhfValue ?? []).flatMap(val => {
             const option = optionsMap
               ? optionsMap.get(val)
               : options.find(opn => opn === val);
             return option ? [option] : [];
-          });
-        } else {
-          selectedOptions = rhfValue === null || rhfValue === undefined
+          })
+          : rhfValue === null || rhfValue === undefined
             ? null
             : optionsMap
               ? optionsMap.get(rhfValue) ?? null
               : options.find(opn => opn === rhfValue) ?? null;
-        }
+        const selectedOptions = selectedValue as AutocompleteFieldValue<
+          Option,
+          Multiple,
+          DisableClearable
+        >;
 
         return (
           <FormControl error={isError} disabled={isDisabled}>
