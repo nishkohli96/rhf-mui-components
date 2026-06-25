@@ -14,7 +14,10 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, { type AutocompleteProps } from '@mui/material/Autocomplete';
+import Autocomplete, {
+  type AutocompleteProps,
+  type AutocompleteValue
+} from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -47,8 +50,11 @@ import {
   keepLabelAboveFormField
 } from '@/utils';
 
-type MultiAutoCompleteProps<Option> = Omit<
-  AutocompleteProps<Option, true, false, false>,
+type MultiAutoCompleteProps<
+  Option,
+  DisableClearable extends boolean = false,
+> = Omit<
+  AutocompleteProps<Option, true, DisableClearable, false>,
   | 'freeSolo'
   | 'fullWidth'
   | 'renderInput'
@@ -62,15 +68,22 @@ type MultiAutoCompleteProps<Option> = Omit<
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
   | 'autoHighlight'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
 >;
+
+type AutocompleteFieldValue<
+  Option,
+  DisableClearable extends boolean,
+> = AutocompleteValue<Option, true, DisableClearable, false>;
 
 export type RHFMultiAutocompleteObjectProps<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  DisableClearable extends boolean = false,
 > = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -104,6 +117,11 @@ export type RHFMultiAutocompleteObjectProps<
    * When true, hides the select-all option.
    */
   hideSelectAllOption?: boolean;
+  /**
+   * When true, the selected values cannot be cleared from the input clear button.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * Callback fired after the selected option objects are stored in the field.
    * @param fieldValue - Updated array of selected option objects.
@@ -160,13 +178,14 @@ export type RHFMultiAutocompleteObjectProps<
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
-} & MultiAutoCompleteProps<Option>;
+} & MultiAutoCompleteProps<Option, DisableClearable>;
 
 const RHFMultiAutocompleteObject = <
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  DisableClearable extends boolean = false,
 >({
   fieldName,
   control,
@@ -176,6 +195,7 @@ const RHFMultiAutocompleteObject = <
   valueKey,
   selectAllText = 'Select All',
   hideSelectAllOption,
+  disableClearable,
   onValueChange,
   disabled: muiDisabled,
   label,
@@ -194,7 +214,13 @@ const RHFMultiAutocompleteObject = <
   onBlur,
   loading,
   ...otherAutoCompleteProps
-}: RHFMultiAutocompleteObjectProps<T, Option, LabelKey, ValueKey>) => {
+}: RHFMultiAutocompleteObjectProps<
+  T,
+  Option,
+  LabelKey,
+  ValueKey,
+  DisableClearable
+>) => {
   validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
 
   const {
@@ -285,7 +311,9 @@ const RHFMultiAutocompleteObject = <
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
         const selectedValues: Option[] = rhfValue ?? [];
-        const selectedOptions = selectedValues.filter(option => !isSelectAllOption(option));
+        const selectedOptions = selectedValues.filter(
+          option => !isSelectAllOption(option)
+        ) as AutocompleteFieldValue<Option, DisableClearable>;
 
         const areAllSelected
           = options.length > 0
@@ -314,6 +342,7 @@ const RHFMultiAutocompleteObject = <
               loading={loading}
               fullWidth
               multiple
+              disableClearable={disableClearable}
               autoHighlight
               disableCloseOnSelect
               disabled={isDisabled}

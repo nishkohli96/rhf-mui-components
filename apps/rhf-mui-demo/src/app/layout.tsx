@@ -11,7 +11,6 @@ import {
 } from '@/constants';
 import {
   AppBar,
-  ConfigProviderWrapper,
   Drawer,
   FirebaseAnalytics,
   Footer

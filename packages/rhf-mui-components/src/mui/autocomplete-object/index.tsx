@@ -16,7 +16,8 @@ import {
 import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
-  type AutocompleteChangeReason
+  type AutocompleteChangeReason,
+  type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -33,7 +34,6 @@ import type {
   FormLabelProps,
   FormHelperTextProps,
   KeyValueOption,
-  TrueOrFalse,
   AutoCompleteTextFieldProps,
   MuiChipProps
 } from '@/types';
@@ -45,9 +45,14 @@ import {
   keepLabelAboveFormField
 } from '@/utils';
 
-type OmittedAutocompleteProps<Option> = Omit<
-  AutocompleteProps<Option, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
+type OmittedAutocompleteProps<
+  Option,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
+> = Omit<
+  AutocompleteProps<Option, Multiple, DisableClearable, false>,
   | 'freeSolo'
+  | 'multiple'
   | 'fullWidth'
   | 'renderInput'
   | 'options'
@@ -59,15 +64,24 @@ type OmittedAutocompleteProps<Option> = Omit<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'blurOnSelect'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
 >;
+
+type AutocompleteFieldValue<
+  Option,
+  Multiple extends boolean,
+  DisableClearable extends boolean,
+> = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
 export type RHFAutocompleteObjectProps<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
 > = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -93,6 +107,15 @@ export type RHFAutocompleteObjectProps<
    * Object key used to derive the stored field value when options are an array of objects.
    */
   valueKey: ValueKey;
+  /**
+   * When true, allows selecting multiple option objects.
+   */
+  multiple?: Multiple;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * Callback fired after the selected option object value is stored in the field.
    * @param fieldValue - Selected option object, selected option objects, or `null` when cleared.
@@ -148,19 +171,22 @@ export type RHFAutocompleteObjectProps<
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
-} & OmittedAutocompleteProps<Option>;
+} & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 
 const RHFAutocompleteObject = <
   T extends FieldValues,
   Option extends KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
 >({
   fieldName,
   control,
   registerOptions,
   options,
   multiple,
+  disableClearable,
   labelKey,
   valueKey,
   onValueChange,
@@ -179,7 +205,14 @@ const RHFAutocompleteObject = <
   onBlur,
   loading,
   ...otherAutoCompleteProps
-}: RHFAutocompleteObjectProps<T, Option, LabelKey, ValueKey>) => {
+}: RHFAutocompleteObjectProps<
+  T,
+  Option,
+  LabelKey,
+  ValueKey,
+  Multiple,
+  DisableClearable
+>) => {
   validateArray('RHFAutocompleteObject', options, labelKey, valueKey);
 
   const {
@@ -221,6 +254,11 @@ const RHFAutocompleteObject = <
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+        const selectedOptions = rhfValue as AutocompleteFieldValue<
+          Option,
+          Multiple,
+          DisableClearable
+        >;
 
         return (
           <FormControl error={isError} disabled={isDisabled}>
@@ -241,7 +279,8 @@ const RHFAutocompleteObject = <
               id={fieldId}
               options={options}
               multiple={multiple}
-              value={rhfValue}
+              disableClearable={disableClearable}
+              value={selectedOptions}
               loading={loading}
               autoHighlight
               blurOnSelect={!multiple}
@@ -280,7 +319,7 @@ const RHFAutocompleteObject = <
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}
-              getOptionLabel={option => renderOptionLabel(option as Option)}
+              getOptionLabel={option => renderOptionLabel(option)}
               isOptionEqualToValue={(option, value) => {
                 return (
                   option[valueKey] === value[valueKey]

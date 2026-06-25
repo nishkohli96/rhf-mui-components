@@ -17,7 +17,8 @@ import Box from '@mui/material/Box';
 import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
-  type AutocompleteChangeReason
+  type AutocompleteChangeReason,
+  type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -30,7 +31,6 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type {
-  TrueOrFalse,
   CountryDetails,
   CountryISO,
   FormLabelProps,
@@ -47,9 +47,13 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
 
-type AutoCompleteProps = Omit<
-  AutocompleteProps<CountryDetails, TrueOrFalse, TrueOrFalse, false>,
+type AutoCompleteProps<
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
+> = Omit<
+  AutocompleteProps<CountryDetails, Multiple, DisableClearable, false>,
   | 'freeSolo'
+  | 'multiple'
   | 'fullWidth'
   | 'renderInput'
   | 'renderOption'
@@ -63,12 +67,22 @@ type AutoCompleteProps = Omit<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'blurOnSelect'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'loading'
 >;
 
-export type RHFCountrySelectProps<T extends FieldValues> = {
+type AutocompleteFieldValue<
+  Multiple extends boolean,
+  DisableClearable extends boolean,
+> = AutocompleteValue<CountryDetails, Multiple, DisableClearable, false>;
+
+export type RHFCountrySelectProps<
+  T extends FieldValues,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
+> = {
   /**
    * Name/path of the React Hook Form field this component controls.
    */
@@ -102,6 +116,15 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
    * @default `iso`.
    */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
+  /**
+   * When true, allows selecting multiple countries.
+   */
+  multiple?: Multiple;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * Callback fired after the selected country value is stored in the field.
    * @param newValue - Selected country object, selected country objects, or `null` when cleared.
@@ -161,9 +184,13 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
-} & AutoCompleteProps;
+} & AutoCompleteProps<Multiple, DisableClearable>;
 
-const RHFCountrySelect = <T extends FieldValues>({
+const RHFCountrySelect = <
+  T extends FieldValues,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
+>({
   fieldName,
   control,
   registerOptions,
@@ -181,13 +208,14 @@ const RHFCountrySelect = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   multiple,
+  disableClearable,
   textFieldProps,
   displayFlagOnSelect,
   slotProps,
   ChipProps,
   onBlur,
   ...otherAutoCompleteProps
-}: RHFCountrySelectProps<T>) => {
+}: RHFCountrySelectProps<T, Multiple, DisableClearable>) => {
   const {
     fieldId,
     labelId,
@@ -257,6 +285,10 @@ const RHFCountrySelect = <T extends FieldValues>({
             .map(val => countryMap.get(val))
             .filter((country): country is CountryDetails => !!country)
           : (countryMap.get(rhfValue) ?? null);
+        const selectedValue = selectedCountries as AutocompleteFieldValue<
+          Multiple,
+          DisableClearable
+        >;
 
         return (
           <FormControl error={isError} disabled={isDisabled}>
@@ -277,13 +309,19 @@ const RHFCountrySelect = <T extends FieldValues>({
               id={fieldId}
               options={countrySelectOptions}
               multiple={multiple}
-              value={selectedCountries}
+              disableClearable={disableClearable}
+              value={selectedValue}
               onChange={(event, newValue, reason, details) => {
                 const newValueKey = Array.isArray(newValue)
-                  ? (newValue ?? []).map(item => item[valueKey])
-                  : (newValue)?.[valueKey] ?? null;
+                  ? newValue.map(item => item[valueKey])
+                  : (newValue as CountryDetails)?.[valueKey] ?? null;
                 rhfOnChange(newValueKey);
-                onValueChange?.(newValue, event, reason, details);
+                onValueChange?.(
+                  newValue as CountryDetails | CountryDetails[] | null,
+                  event,
+                  reason,
+                  details
+                );
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();

@@ -345,6 +345,7 @@ const AutocompleteForm = () => {
               getLimitTagsText={more => `+${more} Color(s)`}
               helperText="Choose at least 2 colors"
               formControlLabelProps={{ sx: { color: 'royalblue' } }}
+              disableClearable
               errorMessage={errors?.colors?.message}
             />
           </Grid>
