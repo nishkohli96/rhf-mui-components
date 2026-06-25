@@ -33,7 +33,11 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
-  /** Callback fired with the checked state after the RHF value is updated. */
+  /**
+   * Callback fired after the checkbox checked state is stored in the field.
+   * @param isChecked - Updated checked state.
+   * @param event - Checkbox change event.
+   */
   onValueChange?: (
     isChecked: boolean,
     event: ChangeEvent<HTMLInputElement>

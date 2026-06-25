@@ -33,7 +33,11 @@ export type RHFTextFieldProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
-  /** Callback fired with the text value after the RHF value is updated. */
+  /**
+   * Callback fired after the text value is stored in the field.
+   * @param value - Updated text value.
+   * @param event - Text input change event.
+   */
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -102,7 +102,12 @@ export type RHFSelectProps<
    * @default `Select ${fieldLabel}`
    */
   defaultOptionText?: string;
-  /** Callback fired with the normalized select value after the RHF value is updated. */
+  /**
+   * Callback fired after the selected value is normalized and stored in the field.
+   * @param newValue - Normalized selected value, or an array of values when `multiple` is true.
+   * @param event - MUI select change event.
+   * @param child - Selected child node passed by MUI Select.
+   */
   onValueChange?: (
     newValue: SelectValue<Value, Multiple>,
     event: SelectChangeEvent<SelectValue<Value, Multiple>>,

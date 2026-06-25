@@ -63,7 +63,10 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
-  /** Callback fired with the updated tags array after the RHF value is updated. */
+  /**
+   * Callback fired after the tags array is stored in the field.
+   * @param tags - Updated list of tags.
+   */
   onValueChange?: (tags: string[]) => void;
   /**
    * When true, renders the field label above the form field instead of inside or beside it.

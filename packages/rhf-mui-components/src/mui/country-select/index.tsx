@@ -102,7 +102,13 @@ export type RHFCountrySelectProps<T extends FieldValues> = {
    * @default `iso`.
    */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
-  /** Callback fired with the selected country object(s) after the RHF value is updated. */
+  /**
+   * Callback fired after the selected country value is stored in the field.
+   * @param newValue - Selected country object, selected country objects, or `null` when cleared.
+   * @param event - MUI autocomplete change event.
+   * @param reason - Reason reported by MUI for the value change.
+   * @param details - Optional MUI details for the changed country.
+   */
   onValueChange?: (
     newValue: CountryDetails | CountryDetails[] | null,
     event: SyntheticEvent,

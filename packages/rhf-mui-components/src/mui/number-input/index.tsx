@@ -38,7 +38,11 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
-  /** Callback fired with the numeric value after the RHF value is updated. */
+  /**
+   * Callback fired after the numeric value is stored in the field.
+   * @param value - Updated numeric value, or `null` when the input is empty or invalid.
+   * @param event - Number input change event.
+   */
   onValueChange?: (
     value: number | null,
     event: ChangeEvent<HTMLInputElement>

@@ -39,7 +39,11 @@ export type RHFRatingProps<T extends FieldValues> = {
    * When true, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
-  /** Callback fired with the selected rating value and change event. */
+  /**
+   * Callback fired after the rating value is stored in the field.
+   * @param newValue - Updated rating value, or `null` when cleared.
+   * @param event - Rating change event.
+   */
   onValueChange?: (
     newValue: number | null,
     event: SyntheticEvent<Element, Event>

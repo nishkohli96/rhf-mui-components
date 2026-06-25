@@ -65,13 +65,17 @@ export type RHFNativeSelectProps<
    * Object key used to derive the stored field value when options are an array of objects.
    */
   valueKey?: ValueKey;
-  /** Callback fired with the normalized native select value after the RHF value is updated. */
+  /**
+   * Callback fired after the selected native value is normalized and stored in the field.
+   * @param value - Normalized selected value from the native select.
+   * @param event - Native select change event.
+   */
   onValueChange?: (
     value: StringOrNumber | StringOrNumber[],
     event: ChangeEvent<HTMLSelectElement>
   ) => void;
   /**
-   * Custom text displayed for the default option when
+   * Custom text displayed for the empty value option when
    * `showDefaultOption` is enabled.
    *
    * @default `Select ${fieldLabel}`

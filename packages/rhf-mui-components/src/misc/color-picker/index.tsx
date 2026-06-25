@@ -74,8 +74,10 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * those inputs.
    */
   hideInput?: (keyof IColor)[] | boolean;
+
   /**
-   * Fired after the picker value changes and the formatted value is stored in the field.
+   * Callback fired after the picker changes and the formatted color is stored in the field.
+   * @param color - Full color object from `react-color-palette`.
    */
   onValueChange?: (color: IColor) => void;
   /**

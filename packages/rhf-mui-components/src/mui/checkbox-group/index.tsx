@@ -66,7 +66,14 @@ export type RHFCheckboxGroupProps<
    * Object key used to derive the stored field value when options are an array of objects.
    */
   valueKey?: ValueKey;
-  /** Callback fired with the toggled option value and the updated selected values. */
+  /**
+   * Callback fired after an option is checked or unchecked and the selected values
+   * are stored in the field.
+   *
+   * @param selectedItemValue - Option value that was toggled.
+   * @param newValue - Updated array of selected option values.
+   * @param event - Checkbox change event.
+   */
   onValueChange?: (
     selectedItemValue: OptionValue<Option, ValueKey>,
     newValue: OptionValue<Option, ValueKey>[],

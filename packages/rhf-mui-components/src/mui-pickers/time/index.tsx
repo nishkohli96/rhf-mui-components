@@ -50,7 +50,11 @@ export type RHFTimePickerProps<T extends FieldValues> = {
    * When true, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
-  /** Callback fired with the accepted time value and MUI picker validation context. */
+  /**
+   * Callback fired after a time is accepted or cleared and stored in the field.
+   * @param newValue - Accepted time value, or `null` when the picker is cleared.
+   * @param context - MUI picker validation context for the change.
+   */
   onValueChange?: (
     newValue: PickerValidDate,
     context: PickerChangeHandlerContext<TimeValidationError>

@@ -52,7 +52,11 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
-  /** Callback fired with the password value after the RHF value is updated. */
+  /**
+   * Callback fired after the password value is stored in the field.
+   * @param value - Updated password value.
+   * @param event - Password input change event.
+   */
   onValueChange?: (
     value: string,
     event: ChangeEvent<HTMLInputElement>

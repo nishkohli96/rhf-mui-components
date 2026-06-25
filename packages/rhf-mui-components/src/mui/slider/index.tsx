@@ -37,7 +37,12 @@ export type RHFSliderProps<T extends FieldValues> = {
    * When true, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
-  /** Callback fired with the slider value, active thumb index, and change event. */
+  /**
+   * Callback fired after the slider value is stored in the field.
+   * @param value - Updated slider value, or value range when using a range slider.
+   * @param activeThumb - Index of the thumb that triggered the change.
+   * @param event - Slider change event.
+   */
   onValueChange?: (
     value: number | number[],
     activeThumb: number,

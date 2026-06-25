@@ -97,7 +97,11 @@ export type RHFAutocompleteProps<
    */
   valueKey?: ValueKey;
   /**
-   * Callback fired after the field value changes with the normalized value payload.
+   * Callback fired after the autocomplete value is normalized and stored in the field.
+   * @param fieldValue - Normalized selected value, selected values, or `null` when cleared.
+   * @param event - MUI autocomplete change event.
+   * @param reason - Reason reported by MUI for the value change.
+   * @param details - Optional MUI details for the changed option.
    */
   onValueChange?: (
     fieldValue: string | string[] | null,

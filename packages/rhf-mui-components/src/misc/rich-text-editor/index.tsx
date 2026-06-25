@@ -73,6 +73,9 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   /**
    * Callback fired after editor content changes and the new HTML string is stored in the field.
+   * @param newValue - Updated HTML content from the editor.
+   * @param event - CKEditor change event.
+   * @param editor - Active CKEditor instance.
    */
   onValueChange?: (newValue: string, event: EventInfo, editor: ClassicEditor) => void;
   /**

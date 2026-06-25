@@ -65,7 +65,11 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    * Custom renderer for each selected file item.
    */
   renderFileItem?: (file: File, index: number) => ReactNode;
-  /** Callback fired with accepted file(s) after the RHF value is updated. */
+  /**
+   * Callback fired after accepted file input value is stored in the field.
+   * @param acceptedFiles - Accepted file, accepted files, or `null` when no file is selected.
+   * @param event - File input change event.
+   */
   onValueChange?: (
     acceptedFiles: File | File[] | null,
     event: ChangeEvent<HTMLInputElement>

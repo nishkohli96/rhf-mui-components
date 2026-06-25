@@ -106,8 +106,9 @@ export type RHFMultiAutocompleteProps<
    */
   hideSelectAllOption?: boolean;
   /**
-   * Callback fired with the selected string values and the option that triggered
-   * the change.
+   * Callback fired after the selected string values are stored in the field.
+   * @param fieldValue - Updated array of selected values.
+   * @param targetValue - Value for the option that triggered the change, or the Select All value.
    */
   onValueChange?: (
     fieldValue: string[],

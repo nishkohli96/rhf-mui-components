@@ -68,7 +68,11 @@ export type RHFRadioGroupProps<
    * Object key used to derive the stored field value when options are an array of objects.
    */
   valueKey?: ValueKey;
-  /** Callback fired with the selected radio value and change event. */
+  /**
+   * Callback fired after a radio option is selected and stored in the field.
+   * @param selectedValue - Normalized selected option value.
+   * @param event - Radio change event.
+   */
   onValueChange?: (
     selectedValue: string,
     event: ChangeEvent<HTMLInputElement>

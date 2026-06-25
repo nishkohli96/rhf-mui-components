@@ -87,7 +87,9 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   value?: string;
   /**
-   * Callback fired with phone input metadata after the phone value changes.
+   * Callback fired after the phone input changes.
+   * @param phoneData - Phone metadata from `react-international-phone`, including
+   * the formatted phone value, input value, and selected country.
    */
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
   /**
