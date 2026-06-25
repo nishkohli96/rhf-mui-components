@@ -17,7 +17,8 @@ import {
 import Autocomplete, {
   type AutocompleteProps,
   type AutocompleteChangeDetails,
-  type AutocompleteChangeReason
+  type AutocompleteChangeReason,
+  AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -34,7 +35,6 @@ import type {
   FormLabelProps,
   FormHelperTextProps,
   KeyValueOption,
-  TrueOrFalse,
   StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
@@ -48,9 +48,14 @@ import {
   keepLabelAboveFormField
 } from '@/utils';
 
-type OmittedAutocompleteProps<Option> = Omit<
-  AutocompleteProps<Option, TrueOrFalse, TrueOrFalse, TrueOrFalse>,
+type OmittedAutocompleteProps<
+  Option extends StrObjOption = StrObjOption,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
+> = Omit<
+  AutocompleteProps<Option, Multiple, DisableClearable, false>,
   | 'freeSolo'
+  | 'multiple'
   | 'fullWidth'
   | 'renderInput'
   | 'options'
@@ -62,15 +67,24 @@ type OmittedAutocompleteProps<Option> = Omit<
   | 'isOptionEqualToValue'
   | 'autoHighlight'
   | 'blurOnSelect'
+  | 'disableClearable'
   | 'disableCloseOnSelect'
   | 'ChipProps'
 >;
+
+type AutocompleteFieldValue<
+  Option,
+  Multiple extends boolean,
+  DisableClearable extends boolean,
+> = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
 export type RHFAutocompleteProps<
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
 > = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -96,6 +110,15 @@ export type RHFAutocompleteProps<
    * Object key used to derive the stored field value when options are an array of objects.
    */
   valueKey?: ValueKey;
+  /**
+   * When true, allows selecting multiple values.
+   */
+  multiple?: Multiple;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * Callback fired after the autocomplete value is normalized and stored in the field.
    * @param fieldValue - Normalized selected value, selected values, or `null` when cleared.
@@ -151,19 +174,22 @@ export type RHFAutocompleteProps<
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
-} & OmittedAutocompleteProps<Option>;
+} & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 
 const RHFAutocomplete = <
   T extends FieldValues,
   Option extends StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
 >({
   fieldName,
   control,
   registerOptions,
   options,
   multiple,
+  disableClearable,
   labelKey,
   valueKey,
   onValueChange,
@@ -182,7 +208,7 @@ const RHFAutocomplete = <
   onBlur,
   loading,
   ...otherAutoCompleteProps
-}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+}: RHFAutocompleteProps<T, Option, LabelKey, ValueKey, Multiple, DisableClearable>) => {
   validateArray('RHFAutocomplete', options, labelKey, valueKey);
 
   const {
@@ -240,7 +266,11 @@ const RHFAutocomplete = <
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-        let selectedOptions;
+        let selectedOptions: AutocompleteFieldValue<
+          Option,
+          Multiple,
+          DisableClearable
+        >;
         if (multiple) {
           selectedOptions = (rhfValue ?? []).flatMap(val => {
             const option = optionsMap
@@ -275,6 +305,7 @@ const RHFAutocomplete = <
               id={fieldId}
               options={options}
               multiple={multiple}
+              disableClearable={disableClearable}
               value={selectedOptions}
               loading={loading}
               autoHighlight
