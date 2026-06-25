@@ -24,7 +24,7 @@
 
 ## Version Support
 
-Version 3 is now in maintenance mode and will only receive bug fixes. No new features will be added to `v3`.
+**Version 3 is now in maintenance mode and will only receive bug fixes. No new features will be added to `v3`.**
 
 Version 4 is the active release line and includes the latest customization features, component upgrades, and MUI integration improvements.
 

@@ -255,7 +255,7 @@ const RHFCountrySelect = <T extends FieldValues>({
         const selectedCountries = multiple
           ? (rhfValue ?? [])
             .map(val => countryMap.get(val))
-            .filter(country => !!country)
+            .filter((country): country is CountryDetails => !!country)
           : (countryMap.get(rhfValue) ?? null);
 
         return (
