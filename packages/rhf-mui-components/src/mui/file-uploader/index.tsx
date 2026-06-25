@@ -184,8 +184,6 @@ const RHFFileUploader = <T extends FieldValues>({
 
         const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
           const fileList = event.target.files;
-          /* Reset so same file can be selected again */
-          event.target.value = '';
           if (!fileList || fileList.length === 0) {
             rhfOnChange(null);
             onValueChange?.(null, event);
@@ -215,6 +213,8 @@ const RHFFileUploader = <T extends FieldValues>({
             : (acceptedFiles[0] ?? null);
           rhfOnChange(selectedFiles);
           onValueChange?.(selectedFiles, event);
+          /* Reset so same file can be selected again */
+          event.target.value = '';
         };
 
         const removeFile = (index: number) => {
