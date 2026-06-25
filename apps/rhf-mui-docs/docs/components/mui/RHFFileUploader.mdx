@@ -98,10 +98,24 @@ For more advanced scenarios, `RHFFileUploader` can be configured to:
       </IconButton>
     </div>
   )}
-  renderFileItem={(file, index) => (
-    <Typography variant="body2">
-      {index + 1}. {file.name}
-      {getFileSize(file.size, { precision: 2 })}
+  renderFileItem={(file, index, removeFile) => (
+    <Typography
+      variant="body2"
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <span>
+        {index + 1}. {file.name}
+        {getFileSize(file.size, { precision: 2 })}
+      </span>
+      <IconButton
+        size="small"
+        onClick={removeFile}
+        aria-label={`Remove file ${file.name}`}
+      >
+        <DeleteIcon fontSize="small" />
+      </IconButton>
     </Typography>
   )}
   onUploadError={(errors, rejectedFiles) => {
@@ -114,7 +128,8 @@ The `renderUploadButton` prop allows you to render a **custom upload button**,
 with the `fileInput` (the hidden file input) provided as its child.
 
 Similarly, the `renderFileItem` prop lets you customize how each uploaded
-file is displayed in the file list.
+file is displayed in the file list. It receives the current `file`, its `index`,
+and a `removeFile` callback that removes that file from the field value.
 
 :::note
 Make sure to add the `component="label"` prop to your custom

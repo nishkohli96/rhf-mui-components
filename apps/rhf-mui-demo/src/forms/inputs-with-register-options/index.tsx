@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -274,15 +275,29 @@ const InputsWithRegisterForm = () => {
               multiple
               showFileSize
               fullWidth
-              renderFileItem={(file, index) => (
-                <Typography variant="body2">
-                  {index + 1}
-                  .
-                  {file.name}
-                  {' '}
-                  -
-                  {' '}
-                  {getFileSize(file.size, { precision: 2 })}
+              renderFileItem={(file, index, removeFile) => (
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <span>
+                    {index + 1}
+                    .
+                    {file.name}
+                    {' '}
+                    -
+                    {' '}
+                    {getFileSize(file.size, { precision: 2 })}
+                  </span>
+                  <IconButton
+                    size="small"
+                    onClick={removeFile}
+                    aria-label={`Remove file ${file.name}`}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {

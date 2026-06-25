@@ -63,8 +63,15 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   renderUploadButton?: (fileInput: ReactNode) => ReactNode;
   /**
    * Custom renderer for each selected file item.
+   * @param file - File represented by the current row.
+   * @param index - Index of the file in the selected file list.
+   * @param removeFile - Removes the current file from the field value.
    */
-  renderFileItem?: (file: File, index: number) => ReactNode;
+  renderFileItem?: (
+    file: File,
+    index: number,
+    removeFile: () => void
+  ) => ReactNode;
   /**
    * Callback fired after accepted file input value is stored in the field.
    * @param acceptedFiles - Accepted file, accepted files, or `null` when no file is selected.
@@ -292,7 +299,11 @@ const RHFFileUploader = <T extends FieldValues>({
                       <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
                         {renderFileItem
                           ? (
-                            renderFileItem(file, index)
+                            renderFileItem(
+                              file,
+                              index,
+                              () => removeFile(index)
+                            )
                           )
                           : (
                             <FileItem
