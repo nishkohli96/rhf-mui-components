@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import RHFCountrySelect, { countryList, type CountryISO } from '@nish1896/rhf-mui-components/mui/country-select';
@@ -43,6 +45,7 @@ type FormSchema = {
 const LIMIT = 50;
 
 const AutocompleteForm = () => {
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -66,7 +69,8 @@ const AutocompleteForm = () => {
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
@@ -96,6 +100,19 @@ const AutocompleteForm = () => {
     <FormContainer title="Autocomplete variations with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Autocomplete with custom renderOption" />
             <RHFAutocomplete

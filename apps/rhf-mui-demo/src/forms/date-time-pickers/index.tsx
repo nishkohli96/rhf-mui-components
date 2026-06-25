@@ -1,8 +1,11 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
@@ -23,6 +26,7 @@ import { dateTimeSchema, type DateTimeFormData } from './schema';
 
 const DateTimePickersForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     handleSubmit,
@@ -31,6 +35,7 @@ const DateTimePickersForm = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
+    disabled: disableAllFields
   });
 
   async function onFormSubmit(formValues: DateTimeFormData) {
@@ -43,6 +48,19 @@ const DateTimePickersForm = () => {
       <ConfigProvider dateAdapter={AdapterDayjs}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
+            <Grid size={12}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={disableAllFields}
+                    onChange={event => {
+                      setDisableAllFields(event.target.checked);
+                    }}
+                  />
+                )}
+                label="Disable all fields"
+              />
+            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="DatePicker with disabled future" />
               <RHFDatePicker

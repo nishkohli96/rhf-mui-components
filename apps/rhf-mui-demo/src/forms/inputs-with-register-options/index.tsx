@@ -1,7 +1,10 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -58,6 +61,7 @@ const initialValues: FormSchema = {
 
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     watch,
@@ -65,7 +69,8 @@ const InputsWithRegisterForm = () => {
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -78,6 +83,19 @@ const InputsWithRegisterForm = () => {
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation" />
             <RHFTextField

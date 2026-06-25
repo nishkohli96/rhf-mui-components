@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
 import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
@@ -42,6 +45,7 @@ const initialValues = {
 
 const CheckboxRadioZodForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     handleSubmit,
@@ -50,7 +54,8 @@ const CheckboxRadioZodForm = () => {
     formState: { errors }
   } = useForm<PersonInfo>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
 
   async function onFormSubmit(formValues: PersonInfo) {
@@ -62,6 +67,19 @@ const CheckboxRadioZodForm = () => {
     <FormContainer title="Checkbox & Radio Group">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Radio Group with onValueChange function" />
             <RHFRadioGroup

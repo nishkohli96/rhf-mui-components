@@ -1,7 +1,10 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import { defaultCountries, parseCountry, type CountryIso2 } from 'react-international-phone';
@@ -36,6 +39,7 @@ const initialValues = {
 
 const MiscellaneousComponentsForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     handleSubmit,
@@ -44,7 +48,8 @@ const MiscellaneousComponentsForm = () => {
     getValues,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
 
   const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'cn', 'gb', 'vn'];
@@ -62,6 +67,19 @@ const MiscellaneousComponentsForm = () => {
     <FormContainer title="Miscellaneous Components">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={12}>
             <FieldVariantInfo title="CK5 Rich Text Editor" />
             <RHFRichTextEditor

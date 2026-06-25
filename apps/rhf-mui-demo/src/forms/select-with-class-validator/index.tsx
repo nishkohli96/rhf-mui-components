@@ -1,9 +1,11 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
@@ -36,6 +38,7 @@ const initialValues = { favouriteColor: Colors.Orange };
 
 const SelectFormWithClassValidator = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const languagesList = useMemo(() => getLanguagesList(10), []);
 
   const {
@@ -58,13 +61,25 @@ const SelectFormWithClassValidator = () => {
     <FormContainer title="Select Component with Class-Validator">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select field with helpertext" />
             <RHFSelect
               fieldName="favouriteColor"
               control={control}
               options={Object.values(Colors)}
-              errorMessage={errors?.favouriteColor?.message}
               {...(watch('favouriteColor') && {
                 helperText: (
                   <Typography color={watch('favouriteColor')}>
@@ -72,6 +87,8 @@ const SelectFormWithClassValidator = () => {
                   </Typography>
                 )
               })}
+              errorMessage={errors?.favouriteColor?.message}
+              disabled={disableAllFields}
               required
             />
           </Grid>
@@ -83,6 +100,7 @@ const SelectFormWithClassValidator = () => {
               options={languagesList}
               errorMessage={errors?.languages?.message}
               multiple
+              disabled={disableAllFields}
               required
             />
           </Grid>
@@ -105,6 +123,7 @@ const SelectFormWithClassValidator = () => {
               }
               required
               multiple
+              disabled={disableAllFields}
               errorMessage={errors?.iplTeams?.message}
               helperText="Select one or more teams"
             />
@@ -116,6 +135,7 @@ const SelectFormWithClassValidator = () => {
               control={control}
               options={randomNumbers}
               showLabelAboveFormField
+              disabled={disableAllFields}
               errorMessage={errors?.randomNum?.message}
               required
             />
@@ -130,6 +150,7 @@ const SelectFormWithClassValidator = () => {
               valueKey="code"
               label="Choose a currency"
               required
+              disabled={disableAllFields}
               errorMessage={errors?.currency?.message}
             />
           </Grid>
@@ -142,6 +163,7 @@ const SelectFormWithClassValidator = () => {
               label="Choose an age group"
               placeholder="Select age group"
               required
+              disabled={disableAllFields}
               errorMessage={errors?.ageGroup?.message}
             />
           </Grid>

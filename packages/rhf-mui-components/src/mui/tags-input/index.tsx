@@ -61,8 +61,22 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   hideErrorMessage?: boolean;
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   ChipProps?: MuiChipProps;
+  /**
+   * Maximum number of tags shown when the input is not focused.
+   *
+   * Set to `-1` to always show all tags.
+   *
+   * @default 2
+   */
   limitTags?: number;
-  getLimitTagsText?: (hiddenTags: number) => ReactNode;
+  /**
+   * Custom label rendered for the hidden tags counter.
+   *
+   * Receives the number of hidden tags.
+   *
+   * @default moreTags => `+${moreTags} more`
+   */
+  getLimitTagsText?: (moreTags: number) => ReactNode;
 } & TextFieldInputProps;
 
 const RHFTagsInput = <T extends FieldValues>({
@@ -207,6 +221,7 @@ const RHFTagsInput = <T extends FieldValues>({
         const visibleTags = showAllTags
           ? rhfValue
           : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
+        const moreTags = rhfValue.length - limitTags;
 
         const triggerChangeEvents = (fieldValue: string[]) => {
           rhfOnChange(fieldValue);
@@ -244,8 +259,8 @@ const RHFTagsInput = <T extends FieldValues>({
               <Chip
                 role="listitem"
                 label={
-                  getLimitTagsText?.(rhfValue.length - limitTags)
-                  ?? `+${rhfValue.length - limitTags} more`
+                  getLimitTagsText?.(moreTags)
+                  ?? `+${moreTags} more`
                 }
                 disabled={isDisabled}
               />
