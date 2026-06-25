@@ -57,9 +57,21 @@ type RHFRichTextEditorCustomOnChangeProps
   };
 
 export type RHFRichTextEditorProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
    * HTML id applied to the CKEditor instance.
@@ -74,15 +86,15 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   editorConfig?: EditorConfig;
   /**
-   * Fired when the CKEditor instance is ready.
+   * Callback fired when the CKEditor instance is ready.
    */
   onReady?: (editor: ClassicEditor) => void;
   /**
-   * Fired when the CKEditor instance receives focus.
+   * Callback fired when the CKEditor instance receives focus.
    */
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   /**
-   * Fired when the CKEditor instance loses focus.
+   * Callback fired when the CKEditor instance loses focus.
    *
    * The wrapper also marks the React Hook Form field as touched.
    */
@@ -107,7 +119,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
     editor
   }: RHFRichTextEditorCustomOnChangeProps) => void;
   /**
-   * Fired after editor content changes and the new HTML string is stored in the field.
+   * Callback fired after editor content changes and the new HTML string is stored in the field.
    *
    * Not invoked when `customOnChange` is set.
    */
@@ -116,14 +128,32 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
     event,
     editor
   }: RHFRichTextEditorOnValueChangeProps) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
-   * Fired when CKEditor reports an initialization or runtime error.
+   * Callback fired when CKEditor reports an initialization or runtime error.
    */
   onError?: (error: Error, details: ErrorDetails) => void;
   /**
@@ -132,8 +162,17 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 };
 

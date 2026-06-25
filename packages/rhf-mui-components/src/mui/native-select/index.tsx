@@ -70,8 +70,17 @@ export type RHFNativeSelectProps<
   >,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * List of options to display in the dropdown.
@@ -81,7 +90,13 @@ export type RHFNativeSelectProps<
    *   recommended for improved searchability, keyboard navigation, and performance.
    */
   options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey?: ValueKey;
   /**
    * Custom renderer for dropdown options.
@@ -123,6 +138,9 @@ export type RHFNativeSelectProps<
     OnValueChangeProps<Option, ValueKey>,
     OptionValue<Option, ValueKey>
   >) => void;
+  /**
+   * Called after the field value changes with the normalized value payload.
+   */
   onValueChange?: ({
     newValue,
     event
@@ -134,10 +152,25 @@ export type RHFNativeSelectProps<
    * @default `Select ${fieldLabel}`
    */
   defaultOptionText?: string;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -145,8 +178,17 @@ export type RHFNativeSelectProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & InputNativeSelectProps;
 

@@ -43,8 +43,17 @@ type RHFColorPickerCustomOnChangeProps = {
 };
 
 export type RHFColorPickerProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * Color format stored in the React Hook Form field.
@@ -60,17 +69,20 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   defaultColor?: string;
   /**
-   * Excludes the alpha channel when storing non-hex color formats.
+   * When true, omits alpha from emitted color values.
    */
   excludeAlpha?: boolean;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
-   * Height, in pixels, of the color picker saturation area.
+   * Height, in pixels, of the color picker control.
    * @default 200
    */
   height?: number;
   /**
-   * Hides the alpha input/control rendered by `react-color-palette`.
+   * When true, hides alpha controls in the color picker.
    */
   hideAlpha?: boolean;
   /**
@@ -80,10 +92,6 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * those inputs.
    */
   hideInput?: (keyof IColor)[] | boolean;
-  /**
-   * Fired after the picker value changes and the formatted value is stored in the field.
-   */
-  onValueChange?: (color: IColor) => void;
   /**
    * Override the default `onChange` behavior of the color picker.
    * You must pass the updated `color` to the **setColor** function to update the field value.
@@ -97,11 +105,33 @@ export type RHFColorPickerProps<T extends FieldValues> = {
     color,
     setColor
   }: RHFColorPickerCustomOnChangeProps) => void;
+  /**
+   * Fired after the picker value changes and the formatted value is stored in the field.
+   */
+  onValueChange?: (color: IColor) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -109,8 +139,17 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 };
 
@@ -123,8 +162,8 @@ const RHFColorPicker = <T extends FieldValues>({
   excludeAlpha,
   required,
   hideInput,
-  onValueChange,
   customOnChange,
+  onValueChange,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,

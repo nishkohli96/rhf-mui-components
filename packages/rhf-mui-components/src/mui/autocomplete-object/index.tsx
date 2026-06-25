@@ -91,19 +91,50 @@ export type RHFAutocompleteObjectProps<
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Options rendered by the field.
+   */
   options: Option[];
+  /**
+   * When true, allows selecting or uploading multiple values.
+   */
   multiple?: Multiple;
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey: ValueKey;
-  onValueChange?: ({
-    newValue,
-    event,
-    reason,
-    details
-  }: OnValueChangeProps<Option, Multiple, DisableClearable>) => void;
+  /**
+   * Custom change handler that overrides the default value update behavior.
+   *
+   * Use this when you need full control over how the selected value is processed
+   * before updating React Hook Form state.
+   *
+   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
+   * `onValueChange` is not invoked when using `customOnChange`.
+   *
+   * @param rhfOnChange - React Hook Form's internal change handler
+   * @param newValue - Selected value(s) stored in the form: `object[]` when `multiple` is true, otherwise `object`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param selectedOption - The selected object option from MUI
+   * @param event - The event that triggered the change
+   * @param reason - The reason for the change
+   * @param details - The details of the change
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -115,15 +146,42 @@ export type RHFAutocompleteObjectProps<
     AutocompleteValue<Option, Multiple, DisableClearable, false>
   >) => void;
   /**
-   * If true, the input can't be cleared.
+   * Callback fired after the field value changes with the normalized value payload.
+   */
+  onValueChange?: ({
+    newValue,
+    event,
+    reason,
+    details
+  }: OnValueChangeProps<Option, Multiple, DisableClearable>) => void;
+  /**
+   * When true, the selected value cannot be cleared from the input.
    * @default false
    */
   disableClearable?: DisableClearable;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -131,10 +189,25 @@ export type RHFAutocompleteObjectProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Props forwarded to the internal MUI `TextField` used to render the input.
+   */
   textFieldProps?: AutoCompleteTextFieldProps;
+  /**
+   * Props forwarded to chips rendered for selected values.
+   */
   ChipProps?: MuiChipProps;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 

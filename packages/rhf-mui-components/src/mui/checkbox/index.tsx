@@ -35,8 +35,17 @@ type OnValueChangeProps = {
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * Custom change handler that overrides the default checked state update.
@@ -56,10 +65,25 @@ export type RHFCheckboxProps<T extends FieldValues> = {
     newValue,
     event
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
+  /**
+   * Called after the field value changes with the normalized value payload.
+   */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * Props forwarded to the checkbox `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -67,8 +91,17 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & CheckboxProps;
 

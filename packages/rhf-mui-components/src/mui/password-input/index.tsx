@@ -65,8 +65,17 @@ type InputPasswordProps = Omit<
 };
 
 export type RHFPasswordInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * Custom change handler that overrides the default string value update.
@@ -86,9 +95,21 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
     newValue,
     event
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
+  /**
+   * Called after the field value changes with the normalized value payload.
+   */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
   /**
    * Custom icon displayed when the password is currently hidden.
@@ -109,12 +130,20 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   /**
    * @deprecated
    * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the
-   * next major version.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & InputPasswordProps;
 

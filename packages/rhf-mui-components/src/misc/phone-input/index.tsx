@@ -165,8 +165,17 @@ function getPhoneValue(value: unknown): string | undefined {
 }
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * Override the default phone value update.
@@ -190,21 +199,36 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     phoneData
   }: RHFPhoneInputOnValueChangeProps) => void;
   /**
-   * Props for the inline country search field rendered at the top of the country dropdown.
-   *
-   * The search matches country name, ISO2 code, and dial code. Use
-   * `allowCountrySearch: false` to hide the search field.
+   * Props forwarded to the country search input.
    */
   searchCountryProps?: SearchCountryProps;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, visually hides the field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
   phoneInputProps?: PhoneInputProps;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
