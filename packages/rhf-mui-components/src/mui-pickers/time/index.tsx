@@ -121,6 +121,9 @@ const RHFTimePicker = <T extends FieldValues>({
     textField: textFieldSlotProps,
     ...otherSlotProps
   } = muiSlotProps ?? {};
+  const appliedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
+    ? undefined
+    : textFieldSlotProps;
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -189,10 +192,12 @@ const RHFTimePicker = <T extends FieldValues>({
                 slotProps={{
                   ...otherSlotProps,
                   textField: {
+                    ...appliedTextFieldSlotProps,
                     id: fieldId,
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
+                      ...appliedTextFieldSlotProps?.inputProps,
                       'aria-labelledby': isLabelAboveFormField
                         ? labelId
                         : undefined,
@@ -201,8 +206,9 @@ const RHFTimePicker = <T extends FieldValues>({
                           ? errorId
                           : helperTextId
                         : undefined,
+                      'aria-invalid': isError || undefined,
+                      'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps,
                   }
                 }}
               />

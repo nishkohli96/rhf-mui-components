@@ -204,6 +204,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
                     : helperTextId
                   : undefined
               }
+              aria-required={required}
               onFocus={onFocus}
               onError={onError}
               disabled={isDisabled}
