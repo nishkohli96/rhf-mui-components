@@ -100,18 +100,18 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   /**
-   * Override the default `onChange` behavior of the rich text editor.
-   * Call **rhfOnChange** with the value that should be stored in the form (omit it to keep the
-   * previous value). After your handler runs, the editor document is synced to that committed
-   * value so the visible content matches form state (e.g. max-length without extra typed chars).
+   * Overrides the default rich text editor change handling.
+   * Receives the next editor HTML string, CKEditor event info, and editor instance.
+   * Call `rhfOnChange` with the HTML string that should be stored; otherwise the previous form value is kept.
+   * After the handler runs, the editor content is synced back to the committed form value.
    *
-   * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
+   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
    *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - Current editor value
-   * @param event - Change event from the underlying editor
-   * @param editor - ClassicEditor instance
-  */
+   * @param rhfOnChange - React Hook Form field change handler for the editor HTML string.
+   * @param newValue - Current editor HTML string.
+   * @param event - CKEditor change event info.
+   * @param editor - CKEditor instance that emitted the change.
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -119,9 +119,11 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
     editor
   }: RHFRichTextEditorCustomOnChangeProps) => void;
   /**
-   * Callback fired after editor content changes and the new HTML string is stored in the field.
+   * Called after the default rich text editor handler stores the current HTML string in React Hook Form.
    *
-   * Not invoked when `customOnChange` is set.
+   * @param newValue - Current editor HTML string.
+   * @param event - CKEditor change event info.
+   * @param editor - CKEditor instance that emitted the change.
    */
   onValueChange?: ({
     newValue,
@@ -145,7 +147,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

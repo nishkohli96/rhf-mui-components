@@ -141,9 +141,14 @@ export type RHFAutocompleteProps<
    */
   valueKey?: ValueKey;
   /**
-   * When true, allows selecting or uploading multiple values.
+   * When true, allows selecting multiple values.
    */
   multiple?: Multiple;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * When true, the user may type any value not present in `options`.
    *
@@ -153,20 +158,19 @@ export type RHFAutocompleteProps<
    */
   freeSolo?: FreeSolo;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default autocomplete change handling.
+   * Receives the normalized RHF value plus the raw MUI selected option/value for the change.
+   * Call `rhfOnChange` with the string, string array, or `null` value that should be stored; else the form value will not be updated.
    *
-   * Use this when you need full control over how the selected value is processed
-   * before updating React Hook Form state.
+   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
    *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Selected value(s) stored in the form: `string[]` when `multiple` is true, otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
-   * @param selectedOption - The selected object or string option from MUI
-   * @param event - The event that triggered the change
-   * @param reason - The reason for the change
-   * @param details - The details of the change
+   * @param rhfOnChange - React Hook Form field change handler for the stored autocomplete value.
+   * @param newValue - Selected value(s) stored in the form: `string[]` when `multiple` is true,
+   * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param selectedOption - Raw MUI selected option/value, including free-solo strings when enabled.
+   * @param event - Original MUI Autocomplete change event.
+   * @param reason - MUI Autocomplete reason for the change.
+   * @param details - Additional MUI Autocomplete change details, when available.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -180,7 +184,14 @@ export type RHFAutocompleteProps<
     AutocompleteNewValue<Multiple, DisableClearable>
   >) => void;
   /**
-   * Callback fired after the field value changes with the normalized value payload.
+   * Called after the default autocomplete handler stores the normalized value in React Hook Form.
+   *
+   * @param newValue - Selected value(s) stored in the form: `string[]` when `multiple` is true,
+   * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param selectedOption - Raw MUI selected option/value, including free-solo strings when enabled.
+   * @param event - Original MUI Autocomplete change event.
+   * @param reason - MUI Autocomplete reason for the change.
+   * @param details - Additional MUI Autocomplete change details, when available.
    */
   onValueChange?: ({
     newValue,
@@ -189,11 +200,6 @@ export type RHFAutocompleteProps<
     reason,
     details
   }: OnValueChangeProps<Option, Multiple, DisableClearable, FreeSolo>) => void;
-  /**
-   * When true, the selected value cannot be cleared from the input.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -207,7 +213,7 @@ export type RHFAutocompleteProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -233,7 +239,7 @@ export type RHFAutocompleteProps<
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Props forwarded to the internal MUI `TextField` used to render the input.
+   * Props forwarded to the internal MUI `TextField`.
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**
@@ -269,9 +275,9 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     labelKey,
     valueKey,
     multiple,
+    disableClearable,
     freeSolo,
     autoHighlight = true,
-    disableClearable,
     onValueChange,
     customOnChange,
     disabled: muiDisabled,

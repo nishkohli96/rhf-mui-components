@@ -93,20 +93,23 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   hideInput?: (keyof IColor)[] | boolean;
   /**
-   * Override the default `onChange` behavior of the color picker.
-   * You must pass the updated `color` to the **setColor** function to update the field value.
+   * Overrides the default color picker change handling.
+   * Receives the raw `IColor` from react-color-palette and a `setColor` helper that commits the formatted value to React Hook Form.
+   * Call `setColor` with the color that should be stored; else the form value will not be updated.
    *
-   * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
+   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
    *
-   * @param color - Newly selected color value
-   * @param setColor - react-color-palette `setColor` function
+   * @param color - New `IColor` emitted by react-color-palette.
+   * @param setColor - Commit helper that updates local picker state and the RHF field value.
    */
   customOnChange?: ({
     color,
     setColor
   }: RHFColorPickerCustomOnChangeProps) => void;
   /**
-   * Fired after the picker value changes and the formatted value is stored in the field.
+   * Called after the default color picker handler stores the formatted color value in React Hook Form.
+   *
+   * @param color - New `IColor` emitted by react-color-palette.
    */
   onValueChange?: (color: IColor) => void;
   /**
@@ -126,7 +129,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

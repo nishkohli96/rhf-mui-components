@@ -78,17 +78,14 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Custom change handler that overrides the default string value update.
+   * Overrides the default password input change handling.
+   * Receives the next password string and the original input change event.
+   * Call `rhfOnChange` with the string that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use when you need to intercept or transform the password field value before
-   * updating React Hook Form state.
-   *
-   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when this callback is provided.
-   *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - Updated input string value
-   * @param event - Change event from the underlying `<input>`
+   * @param rhfOnChange - React Hook Form field change handler for the password string.
+   * @param newValue - Next password string.
+   * @param event - Original input change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -96,7 +93,10 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
     event
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default password input handler stores the next string in React Hook Form.
+   *
+   * @param newValue - Next password string.
+   * @param event - Original input change event.
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
@@ -108,7 +108,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

@@ -47,17 +47,14 @@ export type RHFSwitchProps<T extends FieldValues> = {
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Custom change handler that overrides the default checked state update.
+   * Overrides the default switch change handling.
+   * Receives the next checked state and the original switch change event.
+   * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use this when you need custom logic before updating the switch value
-   * in React Hook Form.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param checked - The new checked state of the switch
-   * @param event - The change event triggered by the switch
+   * @param rhfOnChange - React Hook Form field change handler for the checked value.
+   * @param newValue - Next checked state.
+   * @param event - Original switch change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -65,7 +62,10 @@ export type RHFSwitchProps<T extends FieldValues> = {
     event
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default switch handler stores the next checked state in React Hook Form.
+   *
+   * @param newValue - Next checked state.
+   * @param event - Original switch change event.
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
@@ -77,7 +77,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
    */
   formControlLabelProps?: FormControlLabelProps;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

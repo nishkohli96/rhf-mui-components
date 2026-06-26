@@ -63,17 +63,14 @@ export type RHFRatingProps<T extends FieldValues> = {
    */
   required?: boolean;
   /**
-   * Custom change handler that overrides the default rating value update.
+   * Overrides the default rating change handling.
+   * Receives the next rating value and the original rating change event.
+   * Call `rhfOnChange` with the number or `null` value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use when you need to intercept or transform the selected rating before
-   * updating React Hook Form state.
-   *
-   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when this callback is provided.
-   *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - New rating value, or `null` when cleared
-   * @param event - Synthetic event from the rating control
+   * @param rhfOnChange - React Hook Form field change handler for the rating value.
+   * @param newValue - Next rating value, or `null` when cleared.
+   * @param event - Original rating change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -81,7 +78,10 @@ export type RHFRatingProps<T extends FieldValues> = {
     event
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default rating handler stores the next rating value in React Hook Form.
+   *
+   * @param newValue - Next rating value, or `null` when cleared.
+   * @param event - Original rating change event.
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
@@ -97,7 +97,7 @@ export type RHFRatingProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

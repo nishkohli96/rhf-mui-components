@@ -70,11 +70,15 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
    */
   required?: boolean;
   /**
-   * Override the default picker value update. Call **rhfOnChange** with the value to store in
-   * the form (including `null` when cleared). Use **context.validationError** if you need the
-   * same “only update when valid” rule as **onValueChange**.
+   * Overrides the default date picker change handling.
+   * Receives every picker change, including date values that currently have validation errors.
+   * Call `rhfOnChange` with the picker value that should be stored; else the form value will not be updated.
+   * The default handler stores the value only when `context.validationError` is `null`.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
+   * @param rhfOnChange - React Hook Form field change handler for the selected date value.
+   * @param newValue - New date value emitted by MUI X.
+   * @param context - MUI X picker change context, including validation status.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -82,8 +86,10 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
     context
   }: PickerCustomOnChangeProps<DateValidationError>) => void;
   /**
-   * Fired when the picker value changes and **context.validationError** is `null`.
-   * Not invoked when **customOnChange** is set.
+   * Called after the default date picker handler stores a valid date value in React Hook Form.
+   *
+   * @param newValue - New date value emitted by MUI X.
+   * @param context - MUI X picker change context, including validation status.
    */
   onValueChange?: ({
     newValue,
@@ -102,7 +108,7 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -171,6 +177,9 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : fieldNameToLabel(fieldName);
 
   return (
     <LocalizationProvider dateAdapter={dateAdapter}>
@@ -218,11 +227,7 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
                 aria-labelledby={
                   !hideLabel && isLabelAboveFormField ? labelId : undefined
                 }
-                aria-label={
-                  hideLabel && typeof fieldLabel === 'string'
-                    ? fieldLabel
-                    : undefined
-                }
+                aria-label={hideLabel ? accessibleFieldLabel : undefined}
                 aria-describedby={
                   showHelperTextElement
                     ? isError

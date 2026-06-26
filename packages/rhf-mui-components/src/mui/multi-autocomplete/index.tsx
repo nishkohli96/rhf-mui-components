@@ -134,7 +134,14 @@ export type RHFMultiAutocompleteProps<
    */
   freeSolo?: FreeSolo;
   /**
-   * Override the default change handling while still receiving the RHF `onChange` callback.
+   * Overrides the default multi-autocomplete change handling.
+   * Receives the next string array and the option value that triggered the change.
+   * Call `rhfOnChange` with the string array that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
+   *
+   * @param rhfOnChange - React Hook Form field change handler for the selected value array.
+   * @param newValue - Next selected string value array.
+   * @param selectedOption - Option value that triggered the change, or the select-all sentinel.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -142,7 +149,10 @@ export type RHFMultiAutocompleteProps<
     selectedOption,
   }: CustomOnChangeProps<OnValueChangeProps, string[]>) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default multi-autocomplete handler stores the next string array in React Hook Form.
+   *
+   * @param newValue - Next selected string value array.
+   * @param selectedOption - Option value that triggered the change, or the select-all sentinel.
    */
   onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps) => void;
   /**
@@ -178,7 +188,7 @@ export type RHFMultiAutocompleteProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -212,7 +222,7 @@ export type RHFMultiAutocompleteProps<
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Props forwarded to the internal MUI `TextField` used to render the input.
+   * Props forwarded to the internal MUI `TextField`.
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**

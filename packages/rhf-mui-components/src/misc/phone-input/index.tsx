@@ -120,7 +120,7 @@ type SearchCountryProps = {
    */
   allowCountrySearch?: boolean;
   /**
-   * Props applied to the textfield component to search country.
+   * Props forwarded to the internal MUI `TextField`.
    */
   textFieldProps?: Omit<TextFieldProps, 'value' | 'label'>;
   /**
@@ -178,10 +178,15 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Override the default phone value update.
+   * Overrides the default phone input change handling.
+   * Receives the normalized phone object and the raw react-international-phone change payload.
+   * Call `rhfOnChange` with the `RHFPhoneInputValue` that should be stored; else the form value will not be updated.
    *
-   * Call `rhfOnChange(newValue)` with the structured value you want stored in
-   * React Hook Form. `onValueChange` is not invoked when this callback is set.
+   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
+   *
+   * @param rhfOnChange - React Hook Form field change handler for the structured phone value.
+   * @param newValue - Normalized phone value containing `phone`, `country`, `dialCode`, and `phoneNo`.
+   * @param phoneData - Raw change payload returned by react-international-phone.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -189,17 +194,17 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     phoneData
   }: RHFPhoneInputCustomOnChangeProps) => void;
   /**
-   * Fired after the phone value changes and the structured value is stored in
-   * the field.
+   * Called after the default phone input handler stores the normalized phone value in React Hook Form.
    *
-   * Not invoked when `customOnChange` is set.
+   * @param newValue - Normalized phone value containing `phone`, `country`, `dialCode`, and `phoneNo`.
+   * @param phoneData - Raw change payload returned by react-international-phone.
    */
   onValueChange?: ({
     newValue,
     phoneData
   }: RHFPhoneInputOnValueChangeProps) => void;
   /**
-   * Props forwarded to the country search input.
+   * Options for the inline country search field in the country dropdown.
    */
   searchCountryProps?: SearchCountryProps;
   /**
@@ -211,7 +216,7 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

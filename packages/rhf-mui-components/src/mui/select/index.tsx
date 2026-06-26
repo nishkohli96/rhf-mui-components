@@ -126,12 +126,7 @@ export type RHFSelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * When `true`, allows multiple options to be selected.
-   *
-   * The field value is returned as an array of selected values instead of
-   * a single value.
-   *
-   * @default false
+   * When true, allows selecting multiple values.
    */
   multiple?: Multiple;
   /**
@@ -152,18 +147,15 @@ export type RHFSelectProps<
    */
   defaultOptionText?: string;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default MUI Select change handling.
+   * Receives the normalized selected value, original select event, and selected child element.
+   * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use this when you need full control over how the selected value is processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Normalized selected value (single or multiple based on `multiple`)
-   * @param event - Original MUI Select change event
-   * @param child - The selected option element
+   * @param rhfOnChange - React Hook Form field change handler for the selected value.
+   * @param newValue - Normalized selected value, using `valueKey` for object options and arrays for multiple selection.
+   * @param event - Original MUI Select change event.
+   * @param child - Selected option element provided by MUI Select.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -175,7 +167,11 @@ export type RHFSelectProps<
     SelectValue<OptionValue<Option, ValueKey>, Multiple>
   >) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default MUI Select handler stores the normalized selected value in React Hook Form.
+   *
+   * @param newValue - Normalized selected value, using `valueKey` for object options and arrays for multiple selection.
+   * @param event - Original MUI Select change event.
+   * @param child - Selected option element provided by MUI Select.
    */
   onValueChange?: ({
     newValue,
@@ -191,7 +187,7 @@ export type RHFSelectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

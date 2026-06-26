@@ -132,9 +132,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   accept?: string;
   /**
-   * Allows selecting multiple files.
-   *
-   * @default false
+   * When true, allows selecting multiple files.
    */
   multiple?: boolean;
   /**
@@ -223,13 +221,14 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     removeFile
   }: RenderFileItemProps) => ReactNode;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default file uploader change handling.
+   * Receives the accepted file value and the input/drop event that produced it.
+   * Call `rhfOnChange` with the `File`, `File[]`, or `null` value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use this when you need full control over how selected files are processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
+   * @param rhfOnChange - React Hook Form field change handler for the uploaded file value.
+   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param event - Input or drop event that changed the file value.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -240,7 +239,10 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     File | File[] | null
   >) => void;
   /**
-   * Fired when the field value changes because files were uploaded, removed, or cleared.
+   * Called after the default file uploader handler stores the accepted file value in React Hook Form.
+   *
+   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param event - Input or drop event that changed the file value.
    */
   onValueChange?: ({
     newValue,
@@ -263,7 +265,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

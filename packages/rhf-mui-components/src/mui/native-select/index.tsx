@@ -118,17 +118,14 @@ export type RHFNativeSelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * Custom change handler that overrides the default native select update.
+   * Overrides the default native select change handling.
+   * Receives the normalized selected value and the original native select change event.
+   * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use when you need to intercept or transform the selected value before
-   * updating React Hook Form state.
-   *
-   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when this callback is provided.
-   *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - option value from the selection
-   * @param event - Change event from the `<select>` element
+   * @param rhfOnChange - React Hook Form field change handler for the selected value.
+   * @param newValue - Normalized selected value, using `valueKey` for object options when provided.
+   * @param event - Original native select change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -139,7 +136,10 @@ export type RHFNativeSelectProps<
     OptionValue<Option, ValueKey>
   >) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default native select handler stores the normalized selected value in React Hook Form.
+   *
+   * @param newValue - Normalized selected value, using `valueKey` for object options when provided.
+   * @param event - Original native select change event.
    */
   onValueChange?: ({
     newValue,
@@ -165,7 +165,7 @@ export type RHFNativeSelectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

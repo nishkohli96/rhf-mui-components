@@ -114,19 +114,16 @@ export type RHFCheckboxGroupProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * Custom change handler for checkbox group selection.
+   * Overrides the default checkbox group toggle handling.
+   * Receives the current array value, the toggled option value, and the next checked state for that option.
+   * Build the next array and call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Allows full control over how selected values are added or removed
-   * from the current array before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param event - The change event triggered by the checkbox
-   * @param currentValue - Current array of selected values
-   * @param toggledValue - The value of the option being toggled
-   * @param checked - Whether the option has been checked or unchecked
+   * @param rhfOnChange - React Hook Form field change handler for the checkbox group array.
+   * @param event - Original checkbox change event.
+   * @param currentValue - Current checkbox group value before the toggle is applied.
+   * @param toggledValue - Option value for the checkbox that was toggled.
+   * @param checked - Checked state after the toggle.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -139,7 +136,12 @@ export type RHFCheckboxGroupProps<
     OptionValue<Option, ValueKey>[]
   >) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default checkbox group handler stores the next array value in React Hook Form.
+   *
+   * @param event - Original checkbox change event.
+   * @param newValue - Next checkbox group array value.
+   * @param toggledValue - Option value for the checkbox that was toggled.
+   * @param checked - Checked state after the toggle.
    */
   onValueChange?: ({
     event,
@@ -164,7 +166,7 @@ export type RHFCheckboxGroupProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

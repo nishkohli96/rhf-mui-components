@@ -169,7 +169,9 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    */
   maxTags?: number;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default tags input handler stores the next tag array in React Hook Form.
+   *
+   * @param newValue - Next tag string array.
    */
   onValueChange?: ({ newValue }: OnValueChangeProps) => void;
   /**
@@ -181,7 +183,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**

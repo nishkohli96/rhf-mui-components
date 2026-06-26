@@ -132,7 +132,14 @@ export type RHFMultiAutocompleteObjectProps<
    */
   hideSelectAllOption?: boolean;
   /**
-   * Override the default change handling while still receiving the RHF `onChange` callback.
+   * Overrides the default object multi-autocomplete change handling.
+   * Receives the next selected object array and the option that triggered the change.
+   * Call `rhfOnChange` with the object array that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
+   *
+   * @param rhfOnChange - React Hook Form field change handler for the selected object array.
+   * @param newValue - Next selected option object array.
+   * @param selectedOption - Option object that triggered the change, or the select-all sentinel.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -140,7 +147,10 @@ export type RHFMultiAutocompleteObjectProps<
     selectedOption
   }: CustomOnChangeProps<OnValueChangeProps<Option>, Option[]>) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default object multi-autocomplete handler stores the next selected object array in React Hook Form.
+   *
+   * @param newValue - Next selected option object array.
+   * @param selectedOption - Option object that triggered the change, or the select-all sentinel.
    */
   onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps<Option>) => void;
   /**
@@ -161,7 +171,7 @@ export type RHFMultiAutocompleteObjectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -202,7 +212,7 @@ export type RHFMultiAutocompleteObjectProps<
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Props forwarded to the internal MUI `TextField` used to render the input.
+   * Props forwarded to the internal MUI `TextField`.
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**

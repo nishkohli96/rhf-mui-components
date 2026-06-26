@@ -129,7 +129,7 @@ export type RHFCountrySelectProps<
    */
   countries?: CountryDetails[];
   /**
-   * If `true`, allow selection of more than one countries.
+   * When true, allows selecting multiple countries.
    */
   multiple?: Multiple;
   /**
@@ -150,19 +150,16 @@ export type RHFCountrySelectProps<
    */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default country select change handling.
+   * Receives the normalized country value plus the raw MUI Autocomplete change metadata.
+   * Call `rhfOnChange` with the country value that should be stored; else the form value will not be updated.
+   * `onValueChange` will not be called when `customOnChange` is used.
    *
-   * Use this when you need full control over how the selected value is processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Value(s) written to the form: full country object(s) when `valueKey` is omitted, primitives from `valueKey` when it is provided, or `null` when clearable and cleared.
-   * @param event - The event that triggered the change
-   * @param reason - The reason for the change
-   * @param details - The details of the change
+   * @param rhfOnChange - React Hook Form field change handler for the stored country value.
+   * @param newValue - Normalized country value, or country value array when `multiple` is true.
+   * @param event - Original MUI Autocomplete change event.
+   * @param reason - MUI Autocomplete reason for the change.
+   * @param details - Additional MUI Autocomplete change details, when available.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -175,7 +172,12 @@ export type RHFCountrySelectProps<
     CountrySelectStoredValue<Multiple, DisableClearable>
   >) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default country select handler stores the normalized country value in React Hook Form.
+   *
+   * @param newValue - Normalized country value, or country value array when `multiple` is true.
+   * @param event - Original MUI Autocomplete change event.
+   * @param reason - MUI Autocomplete reason for the change.
+   * @param details - Additional MUI Autocomplete change details, when available.
    */
   onValueChange?: ({
     newValue,
@@ -201,7 +203,7 @@ export type RHFCountrySelectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -231,7 +233,7 @@ export type RHFCountrySelectProps<
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Props forwarded to the internal MUI `TextField` used to render the input.
+   * Props forwarded to the internal MUI `TextField`.
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**

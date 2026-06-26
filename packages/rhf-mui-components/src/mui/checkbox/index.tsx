@@ -48,17 +48,15 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Custom change handler that overrides the default checked state update.
+   * Overrides the default checkbox change handling.
+   * Receives the next checked state and the original checkbox change event.
+   * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
    *
-   * Useful when you need to intercept or transform the checkbox value
-   * before updating React Hook Form state.
+   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
    *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - The new checked state of the checkbox
-   * @param event - The change event triggered by the checkbox
+   * @param rhfOnChange - React Hook Form field change handler for the checked value.
+   * @param newValue - Next checked state.
+   * @param event - Original checkbox change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -66,7 +64,10 @@ export type RHFCheckboxProps<T extends FieldValues> = {
     event
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
   /**
-   * Called after the field value changes with the normalized value payload.
+   * Called after the default checkbox handler stores the next checked state in React Hook Form.
+   *
+   * @param newValue - Next checked state.
+   * @param event - Original checkbox change event.
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
@@ -78,7 +79,7 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    */
   formControlLabelProps?: FormControlLabelProps;
   /**
-   * When true, visually hides the field label while preserving accessible labeling where possible.
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
