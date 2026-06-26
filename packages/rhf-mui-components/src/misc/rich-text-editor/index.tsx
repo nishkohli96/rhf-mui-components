@@ -105,8 +105,6 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    * Call `rhfOnChange` with the HTML string that should be stored; otherwise the previous form value is kept.
    * After the handler runs, the editor content is synced back to the committed form value.
    *
-   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
-   *
    * @param rhfOnChange - React Hook Form field change handler for the editor HTML string.
    * @param newValue - Current editor HTML string.
    * @param event - CKEditor change event info.
@@ -120,6 +118,9 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   }: RHFRichTextEditorCustomOnChangeProps) => void;
   /**
    * Called after the default rich text editor handler stores the current HTML string in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Current editor HTML string.
    * @param event - CKEditor change event info.

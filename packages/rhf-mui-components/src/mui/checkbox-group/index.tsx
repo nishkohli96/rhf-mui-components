@@ -117,7 +117,6 @@ export type RHFCheckboxGroupProps<
    * Overrides the default checkbox group toggle handling.
    * Receives the current array value, the toggled option value, and the next checked state for that option.
    * Build the next array and call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the checkbox group array.
    * @param event - Original checkbox change event.
@@ -137,6 +136,9 @@ export type RHFCheckboxGroupProps<
   >) => void;
   /**
    * Called after the default checkbox group handler stores the next array value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param event - Original checkbox change event.
    * @param newValue - Next checkbox group array value.

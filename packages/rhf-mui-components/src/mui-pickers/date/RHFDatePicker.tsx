@@ -77,7 +77,6 @@ export type RHFDatePickerProps<T extends FieldValues> = {
    * Receives every picker change, including date values that currently have validation errors.
    * Call `rhfOnChange` with the picker value that should be stored; else the form value will not be updated.
    * The default handler stores the value only when `context.validationError` is `null`.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the selected date value.
    * @param newValue - New date value emitted by MUI X.
@@ -90,6 +89,9 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   }: PickerCustomOnChangeProps<DateValidationError>) => void;
   /**
    * Called after the default date picker handler stores a valid date value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - New date value emitted by MUI X.
    * @param context - MUI X picker change context, including validation status.

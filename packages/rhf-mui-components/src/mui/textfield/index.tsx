@@ -60,7 +60,6 @@ export type RHFTextFieldProps<T extends FieldValues> = {
    * Overrides the default text field change handling.
    * Receives the next input string and the original input change event.
    * Call `rhfOnChange` with the string that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the input string.
    * @param newValue - Next input string.
@@ -73,6 +72,9 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   /**
    * Called after the default text field handler stores the next string in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next input string.
    * @param event - Original input change event.

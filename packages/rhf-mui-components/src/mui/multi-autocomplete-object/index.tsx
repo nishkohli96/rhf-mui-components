@@ -135,7 +135,6 @@ export type RHFMultiAutocompleteObjectProps<
    * Overrides the default object multi-autocomplete change handling.
    * Receives the next selected object array and the option that triggered the change.
    * Call `rhfOnChange` with the object array that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the selected object array.
    * @param newValue - Next selected option object array.
@@ -148,6 +147,9 @@ export type RHFMultiAutocompleteObjectProps<
   }: CustomOnChangeProps<OnValueChangeProps<Option>, Option[]>) => void;
   /**
    * Called after the default object multi-autocomplete handler stores the next selected object array in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next selected option object array.
    * @param selectedOption - Option object that triggered the change, or the select-all sentinel.

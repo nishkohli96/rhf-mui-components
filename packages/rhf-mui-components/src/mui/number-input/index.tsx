@@ -138,7 +138,6 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    * Overrides the default number input change handling.
    * Receives the parsed numeric value and the original input change event.
    * Call `rhfOnChange` with the number or `null` value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the numeric value.
    * @param newValue - Parsed number value, or `null` when the input is empty.
@@ -151,6 +150,9 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
   /**
    * Called after the default number input handler stores the parsed numeric value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Parsed number value, or `null` when the input is empty.
    * @param event - Original input change event.

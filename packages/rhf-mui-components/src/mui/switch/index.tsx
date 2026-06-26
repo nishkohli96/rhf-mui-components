@@ -50,7 +50,6 @@ export type RHFSwitchProps<T extends FieldValues> = {
    * Overrides the default switch change handling.
    * Receives the next checked state and the original switch change event.
    * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the checked value.
    * @param newValue - Next checked state.
@@ -63,6 +62,9 @@ export type RHFSwitchProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
   /**
    * Called after the default switch handler stores the next checked state in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next checked state.
    * @param event - Original switch change event.

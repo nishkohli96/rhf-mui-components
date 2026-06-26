@@ -97,8 +97,6 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * Receives the raw `IColor` from react-color-palette and a `setColor` helper that commits the formatted value to React Hook Form.
    * Call `setColor` with the color that should be stored; else the form value will not be updated.
    *
-   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
-   *
    * @param color - New `IColor` emitted by react-color-palette.
    * @param setColor - Commit helper that updates local picker state and the RHF field value.
    */
@@ -108,6 +106,9 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   }: RHFColorPickerCustomOnChangeProps) => void;
   /**
    * Called after the default color picker handler stores the formatted color value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param color - New `IColor` emitted by react-color-palette.
    */

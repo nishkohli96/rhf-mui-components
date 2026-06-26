@@ -162,8 +162,6 @@ export type RHFAutocompleteProps<
    * Receives the normalized RHF value plus the raw MUI selected option/value for the change.
    * Call `rhfOnChange` with the string, string array, or `null` value that should be stored; else the form value will not be updated.
    *
-   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
-   *
    * @param rhfOnChange - React Hook Form field change handler for the stored autocomplete value.
    * @param newValue - Selected value(s) stored in the form: `string[]` when `multiple` is true,
    * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
@@ -185,6 +183,9 @@ export type RHFAutocompleteProps<
   >) => void;
   /**
    * Called after the default autocomplete handler stores the normalized value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Selected value(s) stored in the form: `string[]` when `multiple` is true,
    * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).

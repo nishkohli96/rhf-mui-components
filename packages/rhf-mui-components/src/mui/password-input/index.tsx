@@ -81,7 +81,6 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    * Overrides the default password input change handling.
    * Receives the next password string and the original input change event.
    * Call `rhfOnChange` with the string that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the password string.
    * @param newValue - Next password string.
@@ -94,6 +93,9 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
   /**
    * Called after the default password input handler stores the next string in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next password string.
    * @param event - Original input change event.

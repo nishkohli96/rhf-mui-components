@@ -73,7 +73,6 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
    * Receives every picker change, including time values that currently have validation errors.
    * Call `rhfOnChange` with the picker value that should be stored; else the form value will not be updated.
    * The default handler stores the value only when `context.validationError` is `null`.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the selected time value.
    * @param newValue - New time value emitted by MUI X.
@@ -86,6 +85,9 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
   }: PickerCustomOnChangeProps<TimeValidationError>) => void;
   /**
    * Called after the default time picker handler stores a valid time value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - New time value emitted by MUI X.
    * @param context - MUI X picker change context, including validation status.

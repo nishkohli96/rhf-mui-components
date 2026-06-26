@@ -182,8 +182,6 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    * Receives the normalized phone object and the raw react-international-phone change payload.
    * Call `rhfOnChange` with the `RHFPhoneInputValue` that should be stored; else the form value will not be updated.
    *
-   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
-   *
    * @param rhfOnChange - React Hook Form field change handler for the structured phone value.
    * @param newValue - Normalized phone value containing `phone`, `country`, `dialCode`, and `phoneNo`.
    * @param phoneData - Raw change payload returned by react-international-phone.
@@ -195,6 +193,9 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   }: RHFPhoneInputCustomOnChangeProps) => void;
   /**
    * Called after the default phone input handler stores the normalized phone value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Normalized phone value containing `phone`, `country`, `dialCode`, and `phoneNo`.
    * @param phoneData - Raw change payload returned by react-international-phone.

@@ -224,7 +224,6 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    * Overrides the default file uploader change handling.
    * Receives the accepted file value and the input/drop event that produced it.
    * Call `rhfOnChange` with the `File`, `File[]`, or `null` value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the uploaded file value.
    * @param newValue - Accepted file, accepted file array, or `null` when cleared.
@@ -240,6 +239,9 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   >) => void;
   /**
    * Called after the default file uploader handler stores the accepted file value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Accepted file, accepted file array, or `null` when cleared.
    * @param event - Input or drop event that changed the file value.

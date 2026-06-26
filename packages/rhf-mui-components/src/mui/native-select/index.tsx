@@ -121,7 +121,6 @@ export type RHFNativeSelectProps<
    * Overrides the default native select change handling.
    * Receives the normalized selected value and the original native select change event.
    * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the selected value.
    * @param newValue - Normalized selected value, using `valueKey` for object options when provided.
@@ -137,6 +136,9 @@ export type RHFNativeSelectProps<
   >) => void;
   /**
    * Called after the default native select handler stores the normalized selected value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Normalized selected value, using `valueKey` for object options when provided.
    * @param event - Original native select change event.

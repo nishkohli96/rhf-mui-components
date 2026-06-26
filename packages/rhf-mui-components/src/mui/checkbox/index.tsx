@@ -52,8 +52,6 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    * Receives the next checked state and the original checkbox change event.
    * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
    *
-   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
-   *
    * @param rhfOnChange - React Hook Form field change handler for the checked value.
    * @param newValue - Next checked state.
    * @param event - Original checkbox change event.
@@ -65,6 +63,9 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
   /**
    * Called after the default checkbox handler stores the next checked state in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next checked state.
    * @param event - Original checkbox change event.

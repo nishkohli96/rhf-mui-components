@@ -153,7 +153,6 @@ export type RHFCountrySelectProps<
    * Overrides the default country select change handling.
    * Receives the normalized country value plus the raw MUI Autocomplete change metadata.
    * Call `rhfOnChange` with the country value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the stored country value.
    * @param newValue - Normalized country value, or country value array when `multiple` is true.
@@ -173,6 +172,9 @@ export type RHFCountrySelectProps<
   >) => void;
   /**
    * Called after the default country select handler stores the normalized country value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Normalized country value, or country value array when `multiple` is true.
    * @param event - Original MUI Autocomplete change event.

@@ -103,7 +103,6 @@ export type RHFRadioGroupProps<
    * Overrides the default radio group change handling.
    * Receives the normalized selected option value and the original radio change event.
    * Call `rhfOnChange` with the selected value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the selected radio value.
    * @param newValue - Normalized selected option value, using `valueKey` for object options when provided.
@@ -119,6 +118,9 @@ export type RHFRadioGroupProps<
   >) => void;
   /**
    * Called after the default radio group handler stores the normalized selected value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Normalized selected option value, using `valueKey` for object options when provided.
    * @param event - Original radio change event.

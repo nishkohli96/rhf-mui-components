@@ -66,7 +66,6 @@ export type RHFRatingProps<T extends FieldValues> = {
    * Overrides the default rating change handling.
    * Receives the next rating value and the original rating change event.
    * Call `rhfOnChange` with the number or `null` value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the rating value.
    * @param newValue - Next rating value, or `null` when cleared.
@@ -79,6 +78,9 @@ export type RHFRatingProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
   /**
    * Called after the default rating handler stores the next rating value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next rating value, or `null` when cleared.
    * @param event - Original rating change event.

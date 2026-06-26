@@ -150,7 +150,6 @@ export type RHFSelectProps<
    * Overrides the default MUI Select change handling.
    * Receives the normalized selected value, original select event, and selected child element.
    * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the selected value.
    * @param newValue - Normalized selected value, using `valueKey` for object options and arrays for multiple selection.
@@ -168,6 +167,9 @@ export type RHFSelectProps<
   >) => void;
   /**
    * Called after the default MUI Select handler stores the normalized selected value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Normalized selected value, using `valueKey` for object options and arrays for multiple selection.
    * @param event - Original MUI Select change event.

@@ -65,7 +65,6 @@ export type RHFSliderProps<T extends FieldValues> = {
    * Overrides the default slider change handling.
    * Receives the next slider value, active thumb index, and original slider change event.
    * Call `rhfOnChange` with the number or number array that should be stored; else the form value will not be updated.
-   * `onValueChange` will not be called when `customOnChange` is used.
    *
    * @param rhfOnChange - React Hook Form field change handler for the slider value.
    * @param newValue - Next slider value, or value array for range sliders.
@@ -80,6 +79,9 @@ export type RHFSliderProps<T extends FieldValues> = {
   }: CustomOnChangeProps<OnValueChangeProps, number | number[]>) => void;
   /**
    * Called after the default slider handler stores the next slider value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Next slider value, or value array for range sliders.
    * @param activeThumb - Index of the thumb that changed for range sliders.

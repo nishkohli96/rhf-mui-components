@@ -124,8 +124,6 @@ export type RHFAutocompleteObjectProps<
    * Receives the selected object value from MUI without reducing it to `valueKey`.
    * Call `rhfOnChange` with the object, object array, or `null` value that should be stored; else the form value will not be updated.
    *
-   * ⚠️ Important: `onValueChange` will not be called when `customOnChange` is used.
-   *
    * @param rhfOnChange - React Hook Form field change handler for the selected object value.
    * @param newValue - Selected value(s) stored in the form: `object[]` when `multiple` is true, otherwise `object`.
    * Includes `null` only when clearing is allowed (`disableClearable` is false).
@@ -145,6 +143,9 @@ export type RHFAutocompleteObjectProps<
   >) => void;
   /**
    * Called after the default object autocomplete handler stores the selected object value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
    *
    * @param newValue - Selected value(s) stored in the form: `object[]` when `multiple` is true, otherwise `object`.
    * Includes `null` only when clearing is allowed (`disableClearable` is false).
