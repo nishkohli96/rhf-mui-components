@@ -193,7 +193,6 @@ const RHFNativeSelect = <
               name={rhfFieldName}
               autoComplete={autoComplete}
               aria-required={required}
-              aria-invalid={isError}
               aria-describedby={
                 showHelperTextElement
                   ? (isError ? errorId : helperTextId)

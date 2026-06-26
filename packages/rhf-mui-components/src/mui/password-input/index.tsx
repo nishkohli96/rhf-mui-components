@@ -219,15 +219,16 @@ const RHFPasswordInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
+              inputProps={{
+                ...otherPasswordInputProps.inputProps,
+                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                'aria-describedby': showHelperTextElement
                   ? isError
                     ? errorId
                     : helperTextId
-                  : undefined
-              }
-              aria-required={required}
+                  : undefined,
+                'aria-required': required
+              }}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {

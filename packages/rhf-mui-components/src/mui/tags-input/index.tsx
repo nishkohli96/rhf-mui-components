@@ -351,15 +351,16 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
               disabled={isDisabled}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
+              inputProps={{
+                ...otherTagsInputProps.inputProps,
+                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                'aria-describedby': showHelperTextElement
                   ? isError
                     ? errorId
                     : helperTextId
-                  : undefined
-              }
-              aria-required={required}
+                  : undefined,
+                'aria-required': required
+              }}
               sx={{
                 ...muiTextFieldSx,
                 '& .MuiInputBase-root': {

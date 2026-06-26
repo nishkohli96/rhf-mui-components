@@ -210,7 +210,6 @@ const RHFDatePicker = <T extends FieldValues>({
                           ? errorId
                           : helperTextId
                         : undefined,
-                      'aria-invalid': isError || undefined,
                       'aria-required': required || undefined
                     },
                   },

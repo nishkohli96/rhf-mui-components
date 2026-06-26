@@ -339,7 +339,6 @@ const RHFAutocompleteObject = <
                 const textFieldInputProps = {
                   ...inputProps,
                   'aria-required': required,
-                  'aria-invalid': isError,
                   'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
                   'aria-describedby': showHelperTextElement
                     ? (isError ? errorId : helperTextId)

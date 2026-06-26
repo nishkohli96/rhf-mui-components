@@ -255,7 +255,6 @@ const RHFSelect = <
                 autoComplete={autoComplete}
                 labelId={selectLabelId}
                 aria-required={required}
-                aria-invalid={isError}
                 aria-describedby={
                   showHelperTextElement
                     ? (isError ? errorId : helperTextId)

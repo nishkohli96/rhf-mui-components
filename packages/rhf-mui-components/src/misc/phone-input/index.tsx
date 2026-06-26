@@ -346,15 +346,16 @@ const RHFPhoneInput = <T extends FieldValues>({
                   )
                   : undefined
               }
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
+              inputProps={{
+                ...otherTextFieldProps.inputProps,
+                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                'aria-describedby': showHelperTextElement
                   ? isError
                     ? errorId
                     : helperTextId
-                  : undefined
-              }
-              aria-required={required}
+                  : undefined,
+                'aria-required': required
+              }}
               error={isError}
               disabled={isDisabled}
               {...(isAboveMuiV5
