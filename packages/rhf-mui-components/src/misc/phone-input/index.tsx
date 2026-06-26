@@ -219,6 +219,20 @@ const RHFPhoneInput = <T extends FieldValues>({
         const isError = !!errorMessage;
         const showHelperTextElement
           = !!helperText || (isError && !hideErrorMessage);
+        const {
+          inputProps,
+          ...appliedTextFieldProps
+        } = otherTextFieldProps;
+        const htmlInputProps = {
+          ...inputProps,
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
 
         const startAdornment = (
           <InputAdornment
@@ -321,7 +335,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...otherTextFieldProps}
+              {...appliedTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={ref => {
@@ -346,16 +360,6 @@ const RHFPhoneInput = <T extends FieldValues>({
                   )
                   : undefined
               }
-              inputProps={{
-                ...otherTextFieldProps.inputProps,
-                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
-                'aria-describedby': showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined,
-                'aria-required': required
-              }}
               error={isError}
               disabled={isDisabled}
               {...(isAboveMuiV5
@@ -365,10 +369,15 @@ const RHFPhoneInput = <T extends FieldValues>({
                     input: {
                       ...slotProps?.input,
                       startAdornment
+                    },
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
                     }
                   }
                 }
                 : {
+                  inputProps: htmlInputProps,
                   InputProps: {
                     ...InputProps,
                     startAdornment

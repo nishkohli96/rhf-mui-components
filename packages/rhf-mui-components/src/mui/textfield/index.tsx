@@ -18,7 +18,12 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
+import {
+  fieldNameToLabel,
+  isAboveMuiV5,
+  keepLabelAboveFormField,
+  useFieldIds
+} from '@/utils';
 
 export type RHFTextFieldProps<T extends FieldValues> = {
   /**
@@ -115,6 +120,21 @@ const RHFTextField = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+        const {
+          inputProps,
+          slotProps,
+          ...appliedTextFieldProps
+        } = otherTextFieldProps;
+        const htmlInputProps = {
+          ...inputProps,
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
 
         return (
           <FormControl error={isError} disabled={isDisabled}>
@@ -131,7 +151,7 @@ const RHFTextField = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...otherTextFieldProps}
+              {...appliedTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={rhfRef}
@@ -155,16 +175,19 @@ const RHFTextField = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              inputProps={{
-                ...otherTextFieldProps.inputProps,
-                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
-                'aria-describedby': showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined,
-                'aria-required': required
-              }}
+              {...(isAboveMuiV5
+                ? {
+                  slotProps: {
+                    ...slotProps,
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
+                    }
+                  }
+                }
+                : {
+                  inputProps: htmlInputProps
+                })}
             />
             <FormHelperText
               error={isError}

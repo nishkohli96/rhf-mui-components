@@ -252,6 +252,20 @@ const RHFTagsInput = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+        const {
+          inputProps,
+          ...appliedTagsInputProps
+        } = otherTagsInputProps;
+        const htmlInputProps = {
+          ...inputProps,
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
 
         const hideInput = isDisabled && rhfValue.length > 0;
         const visibleTags = showAllTags
@@ -319,7 +333,7 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...otherTagsInputProps}
+              {...appliedTagsInputProps}
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
@@ -351,16 +365,6 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
               disabled={isDisabled}
               error={isError}
-              inputProps={{
-                ...otherTagsInputProps.inputProps,
-                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
-                'aria-describedby': showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined,
-                'aria-required': required
-              }}
               sx={{
                 ...muiTextFieldSx,
                 '& .MuiInputBase-root': {
@@ -380,10 +384,15 @@ const RHFTagsInput = <T extends FieldValues>({
                     input: {
                       ...slotProps?.input,
                       startAdornment
+                    },
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
                     }
                   },
                 }
                 : {
+                  inputProps: htmlInputProps,
                   InputProps: {
                     ...InputProps,
                     startAdornment

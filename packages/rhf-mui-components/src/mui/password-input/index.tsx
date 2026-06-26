@@ -163,6 +163,20 @@ const RHFPasswordInput = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+        const {
+          inputProps,
+          ...appliedPasswordInputProps
+        } = otherPasswordInputProps;
+        const htmlInputProps = {
+          ...inputProps,
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
 
         const endAdornment = (
           <InputAdornment position="end">
@@ -194,7 +208,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               }}
             />
             <TextField
-              {...otherPasswordInputProps}
+              {...appliedPasswordInputProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={rhfRef}
@@ -219,16 +233,6 @@ const RHFPasswordInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              inputProps={{
-                ...otherPasswordInputProps.inputProps,
-                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
-                'aria-describedby': showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined,
-                'aria-required': required
-              }}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
@@ -236,10 +240,15 @@ const RHFPasswordInput = <T extends FieldValues>({
                     input: {
                       ...slotProps?.input,
                       endAdornment
+                    },
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
                     }
                   }
                 }
                 : {
+                  inputProps: htmlInputProps,
                   InputProps: {
                     ...InputProps,
                     endAdornment

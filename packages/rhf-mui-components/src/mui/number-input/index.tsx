@@ -18,7 +18,12 @@ import {
   defaultAutocompleteValue
 } from '@/common';
 import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
+import {
+  fieldNameToLabel,
+  isAboveMuiV5,
+  keepLabelAboveFormField,
+  useFieldIds
+} from '@/utils';
 
 type TextFieldInputProps = Omit<
   TextFieldProps,
@@ -126,6 +131,21 @@ const RHFNumberInput = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+        const {
+          inputProps,
+          slotProps,
+          ...appliedNumberInputProps
+        } = otherNumberInputProps;
+        const htmlInputProps = {
+          ...inputProps,
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
 
         return (
           <FormControl error={isError} disabled={isDisabled}>
@@ -142,7 +162,7 @@ const RHFNumberInput = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...otherNumberInputProps}
+              {...appliedNumberInputProps}
               id={fieldId}
               name={rhfFieldName}
               type="number"
@@ -178,16 +198,19 @@ const RHFNumberInput = <T extends FieldValues>({
                 onBlur?.(blurEvent);
               }}
               error={isError}
-              inputProps={{
-                ...otherNumberInputProps.inputProps,
-                'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
-                'aria-describedby': showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined,
-                'aria-required': required
-              }}
+              {...(isAboveMuiV5
+                ? {
+                  slotProps: {
+                    ...slotProps,
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
+                    }
+                  }
+                }
+                : {
+                  inputProps: htmlInputProps
+                })}
               sx={{
                 ...(!showMarkers && {
                   '& input[type=number]': {
