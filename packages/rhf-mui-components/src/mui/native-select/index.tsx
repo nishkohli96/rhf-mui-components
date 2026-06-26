@@ -245,7 +245,13 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     fieldName,
     customIds
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
+
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -307,6 +313,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               aria-labelledby={
                 !hideLabel && !isLabelAboveControl ? labelId : undefined
               }
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -364,7 +371,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
                     key={`${opnValue}-${index}`}
                     value={opnValue}
                     disabled={isOptionDisabled}
-                    aria-disabled={isOptionDisabled}
                   >
                     {renderOptionLabel?.(option) ?? opnLabel}
                   </option>

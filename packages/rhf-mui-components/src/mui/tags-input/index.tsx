@@ -289,7 +289,12 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the
@@ -641,6 +646,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                   ...muiSlotProps?.htmlInput,
                   'aria-labelledby':
                     !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId

@@ -324,7 +324,11 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const optionsMap = useMemo(() => {
     if (!valueKey) {
@@ -541,6 +545,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                   'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId

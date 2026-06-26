@@ -283,7 +283,11 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const renderOptionLabel = useCallback(
     (option: Option): string => String(option[labelKey]),
@@ -395,6 +399,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                   'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId

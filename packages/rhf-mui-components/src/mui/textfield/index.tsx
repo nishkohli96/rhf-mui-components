@@ -146,7 +146,12 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   return (
     <Controller
@@ -224,6 +229,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
                   ...muiSlotProps?.htmlInput,
                   'aria-labelledby':
                     !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId

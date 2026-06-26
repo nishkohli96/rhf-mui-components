@@ -160,7 +160,12 @@ ref: Ref<HTMLSpanElement>) {
     helperTextId,
     errorId
   } = useFieldIds(fieldName, customIds);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -233,7 +238,7 @@ ref: Ref<HTMLSpanElement>) {
               aria-labelledby={
                 !hideLabel && isLabelAboveControl ? labelId : undefined
               }
-              aria-label={hideLabel ? String(fieldLabel) : undefined}
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-valuetext={
                 Array.isArray(rhfValue)
                   ? rhfValue.join(' to ')

@@ -131,7 +131,11 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName, customIds);
 
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -191,13 +195,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
                     rhfOnBlur();
                     muiOnBlur?.(blurEvent);
                   }}
-                  aria-label={
-                    hideLabel
-                      ? typeof fieldLabel === 'string'
-                        ? fieldLabel
-                        : undefined
-                      : undefined
-                  }
+                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
                   aria-describedby={
                     showHelperTextElement
                       ? isError

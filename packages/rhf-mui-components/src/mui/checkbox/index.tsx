@@ -132,7 +132,11 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
   const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -188,13 +192,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                     rhfOnBlur();
                     onBlur?.(blurEvent);
                   }}
-                  aria-label={
-                    hideLabel
-                      ? typeof fieldLabel === 'string'
-                        ? fieldLabel
-                        : undefined
-                      : undefined
-                  }
+                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
                   aria-describedby={
                     showHelperTextElement
                       ? isError

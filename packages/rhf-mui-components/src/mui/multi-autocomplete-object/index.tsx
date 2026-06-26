@@ -293,7 +293,11 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const shouldHideSelectAllOptions
     = hideSelectAllOption || options.length === 0 || options.length === 1;
@@ -532,6 +536,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                   'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId
@@ -672,8 +677,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                 ...slotProps,
                 chip: ChipProps,
                 listbox: {
-                  ...slotProps?.listbox,
-                  'aria-multiselectable': true
+                  ...slotProps?.listbox
                 }
               }}
             />

@@ -334,8 +334,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     customIds
   );
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const formattedFieldName = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? formattedFieldName;
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -552,7 +555,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             onChange={handleFileChange}
             onBlur={rhfOnBlur}
             disabled={isDisabled}
-            aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+            aria-labelledby={!hideLabel && isLabelAboveFormField ? labelId : undefined}
+            aria-label={hideLabel ? accessibleFieldLabel : undefined}
             aria-describedby={
               showHelperTextElement
                 ? isError
@@ -574,7 +578,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               label={
                 typeof fieldLabel === 'string'
                   ? fieldLabel
-                  : `Upload ${formattedFieldName}`
+                  : `Upload ${defaultFieldLabel}`
               }
               fieldName={fieldName}
               disabled={isDisabled}

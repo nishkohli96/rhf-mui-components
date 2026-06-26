@@ -258,7 +258,11 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const decimalPattern = useMemo(
     () => buildNumberInputDecimalPattern(nonNegative, onlyIntegers, maxDecimalPlaces),
@@ -503,6 +507,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   ...muiSlotProps?.htmlInput,
                   'aria-labelledby':
                     !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId

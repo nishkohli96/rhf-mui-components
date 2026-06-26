@@ -275,7 +275,12 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
+
   const watchedValue = useWatch({ control, name: fieldName });
   const currentPhoneValue = getPhoneValue(watchedValue);
   const [countrySearch, setCountrySearch] = useState('');
@@ -600,6 +605,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               aria-labelledby={
                 !hideLabel && isLabelAboveFormField ? labelId : undefined
               }
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

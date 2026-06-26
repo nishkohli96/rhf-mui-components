@@ -287,8 +287,12 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
   const fieldLabelText = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
@@ -378,11 +382,11 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                     : helperTextId
                   : undefined
               }
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               label={selectLabelValue}
               value={rhfValue ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}
-              aria-multiselectable={multiple || undefined}
               displayEmpty={isValueEmpty}
               disabled={isDisabled}
               onChange={(event, child) => {

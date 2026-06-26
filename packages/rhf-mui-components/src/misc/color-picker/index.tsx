@@ -191,7 +191,12 @@ const RHFColorPicker = <T extends FieldValues>({
   const watchedValue = useWatch({ control, name: fieldName });
   const [color, setColor] = useColor(watchedValue ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -229,7 +234,24 @@ const RHFColorPicker = <T extends FieldValues>({
         };
 
         return (
-          <FormControl error={isError} disabled={isDisabled}>
+          <FormControl
+            component="fieldset"
+            error={isError}
+            disabled={isDisabled}
+            aria-labelledby={!hideLabel && isLabelAboveControl ? labelId : undefined}
+            aria-label={
+              hideLabel || !isLabelAboveControl
+                ? accessibleFieldLabel
+                : undefined
+            }
+            aria-describedby={
+              showHelperTextElement
+                ? isError
+                  ? errorId
+                  : helperTextId
+                : undefined
+            }
+          >
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
@@ -239,7 +261,8 @@ const RHFColorPicker = <T extends FieldValues>({
                 disabled={isDisabled}
                 formLabelProps={{
                   ...formLabelProps,
-                  id: labelId
+                  id: labelId,
+                  component: 'legend'
                 }}
               />
             )}
