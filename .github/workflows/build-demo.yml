@@ -13,6 +13,6 @@ jobs:
           node-version: 24
           cache: yarn
       - name: Setup App
-        run: sh setup.sh
+        run: sh scripts/setup.sh
       - name: Build Next App
         run: yarn demo:build
