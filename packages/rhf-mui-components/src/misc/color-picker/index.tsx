@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, type ReactNode } from 'react';
+import { useContext, Fragment, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -16,8 +16,14 @@ import {
   type IColor
 } from 'react-color-palette';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, colorToString, useFieldIds } from '@/utils';
+import {
+  fieldNameToLabel,
+  colorToString,
+  useFieldIds,
+  resolveLabelAboveControl
+} from '@/utils';
 import 'react-color-palette/css';
 
 type ColorFormat = keyof IColor;
@@ -138,6 +144,12 @@ const RHFColorPicker = <T extends FieldValues>({
   height = 200,
   ...otherColorPickerProps
 }: RHFColorPickerProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+
   const {
     labelId,
     helperTextId,
@@ -171,7 +183,7 @@ const RHFColorPicker = <T extends FieldValues>({
           <FormControl error={isError} disabled={isDisabled}>
             <FormLabel
               label={fieldLabel}
-              isVisible={showLabelAboveFormField ?? true}
+              isVisible={isLabelAboveControl}
               required={required}
               error={isError}
               disabled={isDisabled}

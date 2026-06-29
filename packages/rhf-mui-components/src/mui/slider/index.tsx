@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, type ReactNode } from 'react';
+import { Fragment, useContext, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -10,8 +10,9 @@ import {
 } from 'react-hook-form';
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
 import { FormLabel, FormHelperText } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
 
 type SliderInputProps = Omit<
   SliderProps,
@@ -104,7 +105,11 @@ const RHFSlider = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   return (
     <Controller
       name={fieldName}
@@ -127,7 +132,7 @@ const RHFSlider = <T extends FieldValues>({
           <Fragment>
             <FormLabel
               label={fieldLabel}
-              isVisible={isFormLabelVisible}
+              isVisible={isLabelAboveControl}
               required={required}
               error={isError}
               disabled={isDisabled}
@@ -150,7 +155,7 @@ const RHFSlider = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

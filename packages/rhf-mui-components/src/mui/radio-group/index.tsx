@@ -27,7 +27,8 @@ import {
   isKeyValueOption,
   normalizeSelectValue,
   getOptionValue,
-  useFieldIds
+  useFieldIds,
+  resolveLabelAboveControl
 } from '@/utils';
 
 type RadioGroupInputProps = Omit<
@@ -163,7 +164,14 @@ const RHFRadioGroup = <
   } = useFieldIds(fieldName);
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const {
+    defaultFormControlLabelSx,
+    allLabelsAboveFields
+  } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
@@ -191,7 +199,7 @@ const RHFRadioGroup = <
           <FormControl component="fieldset" error={isError} disabled={isDisabled}>
             <FormLabel
               label={fieldLabel}
-              isVisible={showLabelAboveFormField ?? true}
+              isVisible={isLabelAboveControl}
               required={required}
               error={isError}
               disabled={isDisabled}
@@ -223,7 +231,7 @@ const RHFRadioGroup = <
                 onBlur?.(blurEvent);
               }}
               aria-required={required || undefined}
-              aria-labelledby={labelId}
+              aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

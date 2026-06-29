@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useContext, type ReactNode } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -13,8 +13,9 @@ import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
 
@@ -139,6 +140,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
 }: RHFRichTextEditorProps<T>) => {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const {
     fieldId,
     labelId,
@@ -146,7 +148,10 @@ const RHFRichTextEditor = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   return (
     <Controller
@@ -170,7 +175,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
           <FormControl error={isError} disabled={isDisabled}>
             <FormLabel
               label={fieldLabel}
-              isVisible={isFormLabelVisible}
+              isVisible={isLabelAboveControl}
               required={required}
               error={isError}
               disabled={isDisabled}
@@ -196,7 +201,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(event, editor);
               }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

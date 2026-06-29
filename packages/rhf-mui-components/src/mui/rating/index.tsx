@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode, SyntheticEvent } from 'react';
+import { useContext, type ReactNode, type SyntheticEvent } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -10,8 +10,9 @@ import {
 } from 'react-hook-form';
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
 
 type InputRatingProps = Omit<
   RatingProps,
@@ -104,7 +105,11 @@ const RHFRating = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   return (
     <Controller
       name={fieldName}
@@ -131,7 +136,7 @@ const RHFRating = <T extends FieldValues>({
           >
             <FormLabel
               label={fieldLabel}
-              isVisible={isFormLabelVisible}
+              isVisible={isLabelAboveControl}
               required={required}
               error={isError}
               disabled={isDisabled}
@@ -155,7 +160,7 @@ const RHFRating = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError

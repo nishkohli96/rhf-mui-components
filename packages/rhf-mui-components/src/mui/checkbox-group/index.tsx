@@ -32,7 +32,8 @@ import {
   isKeyValueOption,
   coerceValue,
   getOptionValue,
-  useFieldIds
+  useFieldIds,
+  resolveLabelAboveControl
 } from '@/utils';
 
 export type RHFCheckboxGroupProps<
@@ -167,7 +168,14 @@ const RHFCheckboxGroup = <
     errorId
   } = useFieldIds(fieldName);
 
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const {
+    defaultFormControlLabelSx,
+    allLabelsAboveFields
+  } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
@@ -234,7 +242,7 @@ const RHFCheckboxGroup = <
             <Fragment>
               <FormLabel
                 label={fieldLabel}
-                isVisible={showLabelAboveFormField ?? true}
+                isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
                 disabled={isDisabled}

@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, type ChangeEvent } from 'react';
+import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -11,6 +11,7 @@ import {
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
 import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type {
   FormHelperTextProps,
   FormLabelProps,
@@ -23,7 +24,8 @@ import {
   isKeyValueOption,
   normalizeSelectValue,
   validateArray,
-  useFieldIds
+  useFieldIds,
+  resolveLabelAboveControl
 } from '@/utils';
 
 type InputNativeSelectProps = Omit<
@@ -153,6 +155,11 @@ const RHFNativeSelect = <
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const blankOptionText = defaultOptionText ?? placeholder ?? '';
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   return (
     <Controller
@@ -177,7 +184,7 @@ const RHFNativeSelect = <
           <FormControl fullWidth error={isError} disabled={isDisabled}>
             <FormLabel
               label={fieldLabel}
-              isVisible={showLabelAboveFormField ?? true}
+              isVisible={isLabelAboveControl}
               required={required}
               error={isError}
               disabled={isDisabled}
