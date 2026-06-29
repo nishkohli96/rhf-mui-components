@@ -201,9 +201,6 @@ ref: Ref<HTMLInputElement>) {
             helperText
             || (isError && !hideErrorMessage)
           );
-          const resolvedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
-            ? undefined
-            : textFieldSlotProps;
           return (
             <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
@@ -251,26 +248,33 @@ ref: Ref<HTMLInputElement>) {
                 }
                 slotProps={{
                   ...otherSlotProps,
-                  textField: {
-                    ...resolvedTextFieldSlotProps,
-                    id: fieldId,
-                    error: isError,
-                    onBlur: rhfOnBlur,
-                    inputProps: {
-                      ...resolvedTextFieldSlotProps?.inputProps,
-                      'aria-labelledby': !hideLabel && isLabelAboveFormField
-                        ? labelId
-                        : undefined,
-                      'aria-label': hideLabel ? accessibleFieldLabel : undefined,
-                      'aria-describedby': showHelperTextElement
-                        ? isError
-                          ? errorId
-                          : helperTextId
-                        : undefined,
-                      'aria-invalid': isError || undefined,
-                      'aria-required': required || undefined,
-                    },
-                  },
+                  textField: ownerState => {
+                    const resolvedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
+                      ? textFieldSlotProps(ownerState)
+                      : textFieldSlotProps;
+                    return {
+                      ...resolvedTextFieldSlotProps,
+                      id: fieldId,
+                      error: isError,
+                      onBlur: rhfOnBlur,
+                      inputProps: {
+                        ...resolvedTextFieldSlotProps?.inputProps,
+                        'aria-labelledby': !hideLabel && isLabelAboveFormField
+                          ? labelId
+                          : undefined,
+                        'aria-label': hideLabel
+                          ? accessibleFieldLabel
+                          : undefined,
+                        'aria-describedby': showHelperTextElement
+                          ? isError
+                            ? errorId
+                            : helperTextId
+                          : undefined,
+                        'aria-invalid': isError || undefined,
+                        'aria-required': required || undefined,
+                      }
+                    };
+                  }
                 }}
               />
               <FormHelperText
