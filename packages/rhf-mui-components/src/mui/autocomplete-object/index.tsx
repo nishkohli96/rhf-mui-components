@@ -39,7 +39,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isAboveMuiV5,
   useFieldIds,
   keepLabelAboveFormField
@@ -213,8 +212,6 @@ const RHFAutocompleteObject = <
   Multiple,
   DisableClearable
 >) => {
-  validateArray('RHFAutocompleteObject', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,

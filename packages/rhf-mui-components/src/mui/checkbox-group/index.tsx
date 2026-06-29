@@ -28,7 +28,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   coerceValue,
   getOptionValue,
@@ -159,8 +158,6 @@ const RHFCheckboxGroup = <
   formHelperTextProps,
   onBlur
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFCheckboxGroup', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,

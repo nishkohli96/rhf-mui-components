@@ -28,7 +28,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   keepLabelAboveFormField,
   getOptionValue,
@@ -180,8 +179,6 @@ const RHFSelect = <
   placeholder,
   ...otherSelectProps
 }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
-  validateArray('RHFSelect', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,

@@ -43,7 +43,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   isAboveMuiV5,
   useFieldIds,
@@ -221,8 +220,6 @@ const RHFMultiAutocompleteObject = <
   ValueKey,
   DisableClearable
 >) => {
-  validateArray('RHFMultiAutocompleteObject', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,

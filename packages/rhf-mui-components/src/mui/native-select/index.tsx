@@ -23,7 +23,6 @@ import {
   getOptionValue,
   isKeyValueOption,
   normalizeSelectValue,
-  validateArray,
   useFieldIds,
   resolveLabelAboveControl
 } from '@/utils';
@@ -144,8 +143,6 @@ const RHFNativeSelect = <
   placeholder,
   ...otherNativeSelectProps
 }: RHFNativeSelectProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFNativeSelect', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,

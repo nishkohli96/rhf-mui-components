@@ -23,7 +23,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   normalizeSelectValue,
   getOptionValue,
@@ -154,8 +153,6 @@ const RHFRadioGroup = <
   onBlur,
   ...otherRadioGroupProps
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
-  validateArray('RHFRadioGroup', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,
