@@ -38,19 +38,21 @@ const FormLabel = ({
     ...sx
   };
 
+  if (!isVisible) {
+    return null;
+  }
+
   return (
     <Fragment>
-      {isVisible && (
-        <StyledFormLabel
-          {...otherLabelProps}
-          disabled={disabled}
-          required={required}
-          error={error}
-          sx={appliedLabelSx}
-        >
-          {label}
-        </StyledFormLabel>
-      )}
+      <StyledFormLabel
+        {...otherLabelProps}
+        disabled={disabled}
+        required={required}
+        error={error}
+        sx={appliedLabelSx}
+      >
+        {label}
+      </StyledFormLabel>
     </Fragment>
   );
 };
