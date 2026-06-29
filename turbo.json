@@ -1,15 +1,28 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
-    "lint": {
-      "dependsOn": []
-    },
-    "lib": {
-      "dependsOn": []
-    },
     "build": {
-      "dependsOn": ["lib"],
-      "outputs": ["build/**", "dist/**", ".next/**"]
+      "dependsOn": ["^build"],
+      "outputs": ["build/**", "dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "@nish1896/rhf-mui-demo#build": {
+      "dependsOn": ["@nish1896/rhf-mui-components#build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "@nish1896/rhf-mui-docs#build": {
+      "dependsOn": ["@nish1896/rhf-mui-components#build"],
+      "outputs": ["build/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
