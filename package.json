@@ -4,6 +4,10 @@
   "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
+  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
+  "repository": {
+    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
+  },
   "engines": {
     "node": ">=24"
   },
@@ -44,10 +48,6 @@
     "react form library",
     "rhf"
   ],
-  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
-  "repository": {
-    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
-  },
   "packageManager": "pnpm@11.8.0",
   "license": "MIT"
 }

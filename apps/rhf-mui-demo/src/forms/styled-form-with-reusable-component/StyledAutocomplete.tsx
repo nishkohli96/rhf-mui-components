@@ -3,7 +3,9 @@
  * component using RHFAutocomplete, which can be used throughout the application.
  *
  * A similar approach can be taken to create reusable styled components for:
+ * - RHFAutocompleteObject
  * - RHFMultiAutocomplete
+ * - RHFMultiAutocompleteObject
  */
 
 import { type FieldValues } from 'react-hook-form';
