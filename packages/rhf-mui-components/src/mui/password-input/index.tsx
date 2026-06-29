@@ -163,12 +163,8 @@ const RHFPasswordInput = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-        const {
-          inputProps,
-          ...appliedPasswordInputProps
-        } = otherPasswordInputProps;
+
         const htmlInputProps = {
-          ...inputProps,
           'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
           'aria-describedby': showHelperTextElement
             ? isError
@@ -208,7 +204,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               }}
             />
             <TextField
-              {...appliedPasswordInputProps}
+              {...otherPasswordInputProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={rhfRef}
@@ -248,7 +244,10 @@ const RHFPasswordInput = <T extends FieldValues>({
                   }
                 }
                 : {
-                  inputProps: htmlInputProps,
+                  inputProps: {
+                    ...otherPasswordInputProps?.inputProps,
+                    ...htmlInputProps,
+                  },
                   InputProps: {
                     ...InputProps,
                     endAdornment

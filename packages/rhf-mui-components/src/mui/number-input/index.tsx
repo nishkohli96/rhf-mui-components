@@ -98,6 +98,7 @@ const RHFNumberInput = <T extends FieldValues>({
   sx,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  slotProps: numberInputSlotProps,
   ...otherNumberInputProps
 }: RHFNumberInputProps<T>) => {
   const {
@@ -131,13 +132,8 @@ const RHFNumberInput = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-        const {
-          inputProps,
-          slotProps,
-          ...appliedNumberInputProps
-        } = otherNumberInputProps;
+
         const htmlInputProps = {
-          ...inputProps,
           'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
           'aria-describedby': showHelperTextElement
             ? isError
@@ -162,7 +158,7 @@ const RHFNumberInput = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...appliedNumberInputProps}
+              {...otherNumberInputProps}
               id={fieldId}
               name={rhfFieldName}
               type="number"
@@ -201,15 +197,18 @@ const RHFNumberInput = <T extends FieldValues>({
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
-                    ...slotProps,
+                    ...numberInputSlotProps,
                     htmlInput: {
-                      ...slotProps?.htmlInput,
+                      ...numberInputSlotProps?.htmlInput,
                       ...htmlInputProps
                     }
                   }
                 }
                 : {
-                  inputProps: htmlInputProps
+                  inputProps: {
+                    ...otherNumberInputProps?.inputProps,
+                    ...htmlInputProps,
+                  }
                 })}
               sx={{
                 ...(!showMarkers && {

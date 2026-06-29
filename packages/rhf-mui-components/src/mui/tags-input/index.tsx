@@ -252,12 +252,8 @@ const RHFTagsInput = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-        const {
-          inputProps,
-          ...appliedTagsInputProps
-        } = otherTagsInputProps;
+
         const htmlInputProps = {
-          ...inputProps,
           'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
           'aria-describedby': showHelperTextElement
             ? isError
@@ -333,7 +329,7 @@ const RHFTagsInput = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...appliedTagsInputProps}
+              {...otherTagsInputProps}
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
@@ -392,7 +388,10 @@ const RHFTagsInput = <T extends FieldValues>({
                   },
                 }
                 : {
-                  inputProps: htmlInputProps,
+                  inputProps: {
+                    ...otherTagsInputProps?.inputProps,
+                    ...htmlInputProps,
+                  },
                   InputProps: {
                     ...InputProps,
                     startAdornment

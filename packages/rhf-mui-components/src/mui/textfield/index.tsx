@@ -87,6 +87,7 @@ const RHFTextField = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   autoComplete = defaultAutocompleteValue,
+  slotProps: textFieldSlotProps,
   ...otherTextFieldProps
 }: RHFTextFieldProps<T>) => {
   const {
@@ -120,13 +121,8 @@ const RHFTextField = <T extends FieldValues>({
         const isDisabled = muiDisabled || rhfDisabled;
         const isError = !!errorMessage;
         const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-        const {
-          inputProps,
-          slotProps,
-          ...appliedTextFieldProps
-        } = otherTextFieldProps;
+
         const htmlInputProps = {
-          ...inputProps,
           'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
           'aria-describedby': showHelperTextElement
             ? isError
@@ -151,7 +147,7 @@ const RHFTextField = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...appliedTextFieldProps}
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={rhfRef}
@@ -178,15 +174,18 @@ const RHFTextField = <T extends FieldValues>({
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
-                    ...slotProps,
+                    ...textFieldSlotProps,
                     htmlInput: {
-                      ...slotProps?.htmlInput,
+                      ...textFieldSlotProps?.htmlInput,
                       ...htmlInputProps
                     }
                   }
                 }
                 : {
-                  inputProps: htmlInputProps
+                  inputProps: {
+                    ...otherTextFieldProps?.inputProps,
+                    ...htmlInputProps
+                  }
                 })}
             />
             <FormHelperText

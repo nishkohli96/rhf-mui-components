@@ -219,12 +219,8 @@ const RHFPhoneInput = <T extends FieldValues>({
         const isError = !!errorMessage;
         const showHelperTextElement
           = !!helperText || (isError && !hideErrorMessage);
-        const {
-          inputProps,
-          ...appliedTextFieldProps
-        } = otherTextFieldProps;
+
         const htmlInputProps = {
-          ...inputProps,
           'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
           'aria-describedby': showHelperTextElement
             ? isError
@@ -335,7 +331,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }}
             />
             <MuiTextField
-              {...appliedTextFieldProps}
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={ref => {
@@ -377,7 +373,10 @@ const RHFPhoneInput = <T extends FieldValues>({
                   }
                 }
                 : {
-                  inputProps: htmlInputProps,
+                  inputProps: {
+                    ...otherTextFieldProps?.inputProps,
+                    ...htmlInputProps
+                  },
                   InputProps: {
                     ...InputProps,
                     startAdornment
