@@ -51,18 +51,68 @@ type TextFieldInputProps = Omit<
 >;
 
 export type RHFTagsInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Callback fired after the tags array is stored in the field.
+   * @param tags - Updated list of tags.
+   */
   onValueChange?: (tags: string[]) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Props applied to the Chip component used to render each tag.
+   *
+   * Useful for customizing the appearance and behavior of tags,
+   * such as color, size, variant, icon, or delete functionality.
+   */
   ChipProps?: MuiChipProps;
+  /**
+   * Maximum number of tags shown when the input is not focused.
+   *
+   * Set to `-1` to always show all tags.
+   *
+   * @default 2
+   */
   limitTags?: number;
-  getLimitTagsText?: (hiddenTags: number) => ReactNode;
+  /**
+   * Custom label rendered for the hidden tags counter.
+   *
+   * Receives the number of hidden tags.
+   *
+   * @default moreTags => `+${moreTags} more`
+   */
+  getLimitTagsText?: (moreTags: number) => ReactNode;
 } & TextFieldInputProps;
 
 const RHFTagsInput = <T extends FieldValues>({
@@ -88,7 +138,7 @@ const RHFTagsInput = <T extends FieldValues>({
   onBlur,
   autoComplete = defaultAutocompleteValue,
   InputProps,
-  ...rest
+  ...otherTagsInputProps
 }: RHFTagsInputProps<T>) => {
   const muiTheme = useTheme();
   const [inputValue, setInputValue] = useState('');
@@ -107,8 +157,6 @@ const RHFTagsInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the
@@ -187,83 +235,101 @@ const RHFTagsInput = <T extends FieldValues>({
   };
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue = [],
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef
-          }
-        }) => {
-          const hideInput = muiDisabled && rhfValue.length > 0;
-          const visibleTags = showAllTags
-            ? rhfValue
-            : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue = [],
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-          const triggerChangeEvents = (fieldValue: string[]) => {
-            rhfOnChange(fieldValue);
-            onValueChange?.(fieldValue);
-          };
+        const htmlInputProps = {
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
 
-          const startAdornment = (
-            <Box
-              role="list"
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 1,
-                mb: rhfValue.length > 0 && !hideInput ? 1 : 0,
-                width: '100%'
+        const hideInput = isDisabled && rhfValue.length > 0;
+        const visibleTags = showAllTags
+          ? rhfValue
+          : isFocused || !limitTags ? rhfValue : rhfValue.slice(0, limitTags);
+        const moreTags = rhfValue.length - limitTags;
+
+        const triggerChangeEvents = (fieldValue: string[]) => {
+          rhfOnChange(fieldValue);
+          onValueChange?.(fieldValue);
+        };
+
+        const startAdornment = (
+          <Box
+            role="list"
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 1,
+              mb: rhfValue.length > 0 && !hideInput ? 1 : 0,
+              width: '100%'
+            }}
+          >
+            {visibleTags.map((tag, index) => (
+              <Chip
+                key={`${fieldNameToId(tag)}-${index}`}
+                id={`${fieldNameToId(tag)}-${index}`}
+                role="listitem"
+                label={tag}
+                disabled={isDisabled}
+                onDelete={() => {
+                  const newValues = rhfValue.filter(
+                    item => item !== tag
+                  );
+                  triggerChangeEvents(newValues);
+                }}
+                {...ChipProps}
+              />
+            ))}
+            {!showAllTags && !isFocused && rhfValue.length > limitTags && (
+              <Chip
+                role="listitem"
+                label={
+                  getLimitTagsText?.(moreTags)
+                  ?? `+${moreTags} more`
+                }
+                disabled={isDisabled}
+              />
+            )}
+          </Box>
+        );
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
               }}
-            >
-              {visibleTags.map((tag, index) => (
-                <Chip
-                  key={`${fieldNameToId(tag)}-${index}`}
-                  id={`${fieldNameToId(tag)}-${index}`}
-                  role="listitem"
-                  label={tag}
-                  disabled={muiDisabled}
-                  onDelete={() => {
-                    const newValues = rhfValue.filter(
-                      item => item !== tag
-                    );
-                    triggerChangeEvents(newValues);
-                  }}
-                  {...ChipProps}
-                />
-              ))}
-              {!showAllTags && !isFocused && rhfValue.length > limitTags && (
-                <Chip
-                  role="listitem"
-                  label={
-                    getLimitTagsText?.(rhfValue.length - limitTags)
-                    ?? `+${rhfValue.length - limitTags} more`
-                  }
-                  disabled={muiDisabled}
-                />
-              )}
-            </Box>
-          );
-
-          return (
+            />
             <MuiTextField
+              {...otherTagsInputProps}
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
@@ -293,17 +359,8 @@ const RHFTagsInput = <T extends FieldValues>({
               onPaste={event => {
                 triggerChangeEvents(handlePaste(event, rhfValue));
               }}
-              disabled={muiDisabled}
+              disabled={isDisabled}
               error={isError}
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
               sx={{
                 ...muiTextFieldSx,
                 '& .MuiInputBase-root': {
@@ -323,33 +380,40 @@ const RHFTagsInput = <T extends FieldValues>({
                     input: {
                       ...slotProps?.input,
                       startAdornment
+                    },
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
                     }
                   },
                 }
                 : {
+                  inputProps: {
+                    ...otherTagsInputProps?.inputProps,
+                    ...htmlInputProps,
+                  },
                   InputProps: {
                     ...InputProps,
                     startAdornment
                   }
                 }
               )}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

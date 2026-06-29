@@ -12,7 +12,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0c4fc578-ed19-4a5a-a3cd-e59fedcdb689/deploy-status)](https://app.netlify.com/sites/rhf-mui-components/deploys)
 ![CI](https://github.com/nishkohli96/rhf-mui-components/actions/workflows/publish.yml/badge.svg)
 
-**A suite of 20+ reusable mui components for react-hook-form to minimize your time and effort in creating forms**
+**A suite of 20+ reusable Material UI components for react-hook-form to minimize your time and effort in creating forms.**
 
 ## Features ✨
 
@@ -44,7 +44,7 @@ Clone this repo to explore real-world usage of the package with [Next.js](https:
 Run the setup script.
 
 ```bash
-sh setup.sh
+sh scripts/setup.sh
 ```
 
 This will perform the following tasks:

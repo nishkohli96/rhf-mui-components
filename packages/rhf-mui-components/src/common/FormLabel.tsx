@@ -6,9 +6,10 @@ import type { FormLabelProps } from '@/types';
 
 type Props = {
   label: ReactNode;
-  isVisible?: boolean;
   required?: boolean;
   error: boolean;
+  isVisible?: boolean;
+  disabled?: boolean;
   formLabelProps?: FormLabelProps;
 };
 
@@ -24,8 +25,9 @@ const StyledFormLabel = styled(MuiFormLabel)(() => ({
 
 const FormLabel = ({
   label,
-  isVisible,
   required,
+  isVisible,
+  disabled,
   error,
   formLabelProps
 }: Props) => {
@@ -36,18 +38,21 @@ const FormLabel = ({
     ...sx
   };
 
+  if (!isVisible) {
+    return null;
+  }
+
   return (
     <Fragment>
-      {isVisible && (
-        <StyledFormLabel
-          {...otherLabelProps}
-          required={required}
-          error={error}
-          sx={appliedLabelSx}
-        >
-          {label}
-        </StyledFormLabel>
-      )}
+      <StyledFormLabel
+        {...otherLabelProps}
+        required={required}
+        error={error}
+        disabled={disabled}
+        sx={appliedLabelSx}
+      >
+        {label}
+      </StyledFormLabel>
     </Fragment>
   );
 };

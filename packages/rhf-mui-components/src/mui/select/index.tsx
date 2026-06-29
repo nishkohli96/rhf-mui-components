@@ -28,7 +28,6 @@ import type {
 } from '@/types';
 import {
   fieldNameToLabel,
-  validateArray,
   isKeyValueOption,
   keepLabelAboveFormField,
   getOptionValue,
@@ -48,26 +47,103 @@ export type RHFSelectProps<
   Multiple extends boolean = false,
   Value = OptionValue<Option, ValueKey>
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of options to display in the dropdown.
+   * Note:
+   * - Works best for small to moderate datasets.
+   * - If options exceed ~20 items, `RHFAutocomplete` or `RHFMultiAutocomplete` is
+   *   recommended for improved searchability, keyboard navigation, and performance.
+   */
   options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey?: ValueKey;
+  /**
+   * When `true`, allows multiple options to be selected.
+   *
+   * The field value is returned as an array of selected values instead of
+   * a single value.
+   *
+   * @default false
+   */
   multiple?: Multiple;
+  /**
+   * When `true`, displays a default placeholder option at the top of the
+   * dropdown menu.
+   *
+   * The option uses an empty string (`''`) as its value and is automatically
+   * disabled when the field is marked as required.
+   *
+   * @default false
+   */
   showDefaultOption?: boolean;
+  /**
+   * Custom text displayed for the default option when
+   * `showDefaultOption` is enabled.
+   *
+   * @default `Select ${fieldLabel}`
+   */
   defaultOptionText?: string;
+  /**
+   * Callback fired after the selected value is normalized and stored in the field.
+   * @param newValue - Normalized selected value, or an array of values when `multiple` is true.
+   * @param event - MUI select change event.
+   * @param child - Selected child node passed by MUI Select.
+   */
   onValueChange?: (
     newValue: SelectValue<Value, Multiple>,
     event: SelectChangeEvent<SelectValue<Value, Multiple>>,
     child: ReactNode
   ) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Placeholder text displayed when no option is selected.
+   *
+   * Unlike the default option, the placeholder is displayed in the select
+   * input itself and is not rendered as a selectable menu item.
+   */
   placeholder?: string;
 } & SelectProps;
 
@@ -103,8 +179,6 @@ const RHFSelect = <
   placeholder,
   ...otherSelectProps
 }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
-  validateArray('RHFSelect', options, labelKey, valueKey);
-
   const {
     fieldId,
     labelId,
@@ -119,49 +193,52 @@ const RHFSelect = <
   );
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
   );
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef
-          }
-        }) => {
-          const isValueEmpty
-            = !rhfValue
-              || rhfValue === ''
-              || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
-          const showPlaceholder = isValueEmpty && !!placeholder;
-          const selectLabelProp
-            = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
-          const selectLabelId = isLabelAboveFormField ? undefined : labelId;
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
 
-          return (
+        const isValueEmpty
+          = !rhfValue
+            || rhfValue === ''
+            || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
+        const showPlaceholder = isValueEmpty && !!placeholder;
+        const selectLabelProp
+          = isLabelAboveFormField || isValueEmpty ? undefined : SelectFormLabel;
+        const selectLabelId = isLabelAboveFormField ? undefined : labelId;
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
                 <InputLabel id={labelId} shrink={!isValueEmpty}>
@@ -169,12 +246,12 @@ const RHFSelect = <
                 </InputLabel>
               )}
               <MuiSelect
+                {...otherSelectProps}
                 id={fieldId}
                 name={rhfFieldName}
                 autoComplete={autoComplete}
                 labelId={selectLabelId}
                 aria-required={required}
-                aria-invalid={isError}
                 aria-describedby={
                   showHelperTextElement
                     ? (isError ? errorId : helperTextId)
@@ -186,7 +263,7 @@ const RHFSelect = <
                 multiple={multiple}
                 displayEmpty={isValueEmpty}
                 inputRef={rhfRef}
-                disabled={muiDisabled}
+                disabled={isDisabled}
                 onChange={(event, child) => {
                   const selectedValue = event.target.value;
                   const normalizedValue = normalizeSelectValue(
@@ -204,7 +281,6 @@ const RHFSelect = <
                     child
                   );
                 }}
-                {...otherSelectProps}
                 onBlur={blurEvent => {
                   rhfOnBlur();
                   onBlur?.(blurEvent);
@@ -269,21 +345,21 @@ const RHFSelect = <
                 })}
               </MuiSelect>
             </Fragment>
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

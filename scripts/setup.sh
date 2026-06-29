@@ -10,7 +10,7 @@ else
 fi
 
 echo "Installing Dependencies & Building Package 🛠️"
-yarn
+yarn install --frozen-lockfile
 yarn lib
 
 # Globally install rimraf

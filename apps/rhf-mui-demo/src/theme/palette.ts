@@ -38,3 +38,10 @@ export const DarkThemePalette = {
     secondary: '#f6e4df'
   }
 };
+
+export const CommonColorPalette = {
+  common: {
+    black: '#000',
+    white: '#fff'
+  }
+};

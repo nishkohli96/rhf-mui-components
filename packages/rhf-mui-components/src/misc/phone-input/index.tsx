@@ -70,16 +70,53 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
 };
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Initial phone number value passed to `react-international-phone`.
+   */
   value?: string;
+  /**
+   * Callback fired after the phone input changes.
+   * @param phoneData - Phone metadata from `react-international-phone`, including
+   * the formatted phone value, input value, and selected country.
+   */
   onValueChange?: (phoneData: PhoneInputChangeReturnValue) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
+   */
   phoneInputProps?: PhoneInputProps;
 } & InputTextFieldProps;
 
@@ -103,7 +140,7 @@ const RHFPhoneInput = <T extends FieldValues>({
   onBlur,
   autoComplete = defaultAutocompleteValue,
   InputProps,
-  ...rest
+  ...otherTextFieldProps
 }: RHFPhoneInputProps<T>) => {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
@@ -112,9 +149,6 @@ const RHFPhoneInput = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const isError = !!errorMessage;
-  const showHelperTextElement = !!helperText || (isError && !hideErrorMessage);
-
   const {
     countries,
     hideDropdown,
@@ -167,119 +201,137 @@ const RHFPhoneInput = <T extends FieldValues>({
     });
 
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        defaultValue={inputValue as PathValue<T, Path<T>>}
-        render={({
-          field: {
-            name: rhfFieldName,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur,
-            ref: rhfRef
-          }
-        }) => {
-          const startAdornment = (
-            <InputAdornment
-              position="start"
-              style={{ marginRight: '2px', marginLeft: '-8px' }}
-            >
-              <Select
-                MenuProps={{
-                  style: {
-                    height: '300px',
-                    width: '360px',
-                    top: '10px',
-                    left: '-34px'
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'left'
-                  }
-                }}
-                sx={{
-                  width: 'max-content',
-                  fieldset: {
-                    display: 'none'
-                  },
-                  '&.Mui-focused:has(div[aria-expanded="false"])': {
-                    fieldset: {
-                      display: 'block'
-                    }
-                  },
-                  '.MuiSelect-select': {
-                    padding: '8px',
-                    paddingRight: '24px !important'
-                  },
-                  svg: {
-                    right: 0
-                  }
-                }}
-                value={country.iso2}
-                disabled={muiDisabled || hideDropdown}
-                onChange={e => {
-                  setCountry(e.target.value as CountryIso2);
-                }}
-                renderValue={value => (
-                  <FlagImage iso2={value} style={{ display: 'flex' }} />
-                )}
-              >
-                {countriesToListAtTop.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-                {countriesToListAtTop.length > 0 && <Divider />}
-                {countriesToList.map(c => {
-                  const countryInfo = parseCountry(c);
-                  return (
-                    <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                      <FlagImage
-                        iso2={countryInfo.iso2}
-                        style={{ marginRight: '8px' }}
-                      />
-                      <Typography marginRight="8px">
-                        {countryInfo.name}
-                      </Typography>
-                      <Typography color="gray">
-                        +
-                        {countryInfo.dialCode}
-                      </Typography>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </InputAdornment>
-          );
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      defaultValue={inputValue as PathValue<T, Path<T>>}
+      render={({
+        field: {
+          name: rhfFieldName,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement
+          = !!helperText || (isError && !hideErrorMessage);
 
-          return (
+        const htmlInputProps = {
+          'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+          'aria-describedby': showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined,
+          'aria-required': required
+        };
+
+        const startAdornment = (
+          <InputAdornment
+            position="start"
+            style={{ marginRight: '2px', marginLeft: '-8px' }}
+          >
+            <Select
+              MenuProps={{
+                style: {
+                  height: '300px',
+                  width: '360px',
+                  top: '10px',
+                  left: '-34px'
+                },
+                transformOrigin: {
+                  vertical: 'top',
+                  horizontal: 'left'
+                }
+              }}
+              sx={{
+                width: 'max-content',
+                fieldset: {
+                  display: 'none'
+                },
+                '&.Mui-focused:has(div[aria-expanded="false"])': {
+                  fieldset: {
+                    display: 'block'
+                  }
+                },
+                '.MuiSelect-select': {
+                  padding: '8px',
+                  paddingRight: '24px !important'
+                },
+                svg: {
+                  right: 0
+                }
+              }}
+              value={country.iso2}
+              disabled={isDisabled || hideDropdown}
+              onChange={e => {
+                setCountry(e.target.value as CountryIso2);
+              }}
+              renderValue={value => (
+                <FlagImage iso2={value} style={{ display: 'flex' }} />
+              )}
+            >
+              {countriesToListAtTop.map(c => {
+                const countryInfo = parseCountry(c);
+                return (
+                  <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                    <FlagImage
+                      iso2={countryInfo.iso2}
+                      style={{ marginRight: '8px' }}
+                    />
+                    <Typography marginRight="8px">
+                      {countryInfo.name}
+                    </Typography>
+                    <Typography color="gray">
+                      +
+                      {countryInfo.dialCode}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
+              {countriesToListAtTop.length > 0 && <Divider />}
+              {countriesToList.map(c => {
+                const countryInfo = parseCountry(c);
+                return (
+                  <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+                    <FlagImage
+                      iso2={countryInfo.iso2}
+                      style={{ marginRight: '8px' }}
+                    />
+                    <Typography marginRight="8px">
+                      {countryInfo.name}
+                    </Typography>
+                    <Typography color="gray">
+                      +
+                      {countryInfo.dialCode}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </InputAdornment>
+        );
+
+        return (
+          <FormControl error={isError} disabled={isDisabled}>
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveFormField}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                htmlFor: fieldId
+              }}
+            />
             <MuiTextField
+              {...otherTextFieldProps}
               id={fieldId}
               name={rhfFieldName}
               inputRef={ref => {
@@ -304,17 +356,8 @@ const RHFPhoneInput = <T extends FieldValues>({
                   )
                   : undefined
               }
-              aria-labelledby={isLabelAboveFormField ? labelId : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
               error={isError}
-              disabled={muiDisabled}
+              disabled={isDisabled}
               {...(isAboveMuiV5
                 ? {
                   slotProps: {
@@ -322,32 +365,39 @@ const RHFPhoneInput = <T extends FieldValues>({
                     input: {
                       ...slotProps?.input,
                       startAdornment
+                    },
+                    htmlInput: {
+                      ...slotProps?.htmlInput,
+                      ...htmlInputProps
                     }
                   }
                 }
                 : {
+                  inputProps: {
+                    ...otherTextFieldProps?.inputProps,
+                    ...htmlInputProps
+                  },
                   InputProps: {
                     ...InputProps,
                     startAdornment
                   }
                 })}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 

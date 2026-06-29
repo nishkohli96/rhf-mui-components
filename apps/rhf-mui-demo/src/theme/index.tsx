@@ -1,11 +1,11 @@
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { type PaletteMode } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { createContext, useContext } from 'react';
+import { ThemeProvider, useColorScheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { getTheme } from './theme';
+import { type PaletteMode } from '@mui/material';
+import { theme } from './theme';
+import { modeStorageKey, defaultTheme } from './constants';
 
 interface ThemeContextProps {
   currentTheme: PaletteMode;
@@ -13,43 +13,42 @@ interface ThemeContextProps {
 }
 
 const ThemeContext = createContext<ThemeContextProps>({
-  currentTheme: 'dark',
+  currentTheme: defaultTheme,
   toggleTheme: () => { /* no-op */ },
 });
 
 export const useThemeContext = () => useContext(ThemeContext);
 
-export const AppThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const [currentTheme, setCurrentTheme] = useState<PaletteMode>('dark');
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setCurrentTheme(savedTheme as PaletteMode);
-    } else {
-      setCurrentTheme(prefersDarkMode ? 'dark' : 'light');
-    }
-  }, [prefersDarkMode]);
+/**
+ * Must be nested inside ThemeProvider to call useColorScheme
+ */
+const ThemeContextBridge = ({ children }: { children: React.ReactNode }) => {
+  const { mode, systemMode, setMode } = useColorScheme();
+  const currentTheme = mode === 'system'
+    ? systemMode ?? defaultTheme
+    : mode ?? defaultTheme;
 
   const toggleTheme = () => {
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setCurrentTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
+    setMode(currentTheme === 'light' ? 'dark' : 'light');
   };
-
-  const theme = useMemo(
-    () =>
-      createTheme(getTheme(currentTheme)),
-    [currentTheme]
-  );
 
   return (
     <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      {children}
     </ThemeContext.Provider>
   );
 };
+
+export const AppThemeProvider = ({ children }: { children: React.ReactNode }) => (
+  <ThemeProvider
+    theme={theme}
+    defaultMode="system"
+    modeStorageKey={modeStorageKey}
+    disableTransitionOnChange
+  >
+    <CssBaseline enableColorScheme />
+    <ThemeContextBridge>
+      {children}
+    </ThemeContextBridge>
+  </ThemeProvider>
+);

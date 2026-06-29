@@ -1,4 +1,7 @@
-## Eg: sh bump-version.sh 3.0.2
+# Update version of package.json for all workspace apps
+# in a single go!
+#
+# Eg: sh bump-version.sh 3.0.2
 
 #!/usr/bin/env bash
 set -euo pipefail

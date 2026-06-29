@@ -10,7 +10,7 @@ We welcome improvements, bug fixes, documentation updates, and new feature propo
 1. **Fork and clone** the repository.
 2. Install dependencies and bootstrap the workspace:
   ```bash
-  sh setup.sh
+  sh scripts/setup.sh
   ```
 3. Create a new branch from main using the following format - `v_a.b.c`, for example, `v_3.2.2`
 

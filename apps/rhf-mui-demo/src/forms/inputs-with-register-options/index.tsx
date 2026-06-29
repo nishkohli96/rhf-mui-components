@@ -1,12 +1,16 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -58,6 +62,7 @@ const initialValues: FormSchema = {
 
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     watch,
@@ -65,7 +70,8 @@ const InputsWithRegisterForm = () => {
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -78,6 +84,19 @@ const InputsWithRegisterForm = () => {
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation" />
             <RHFTextField
@@ -256,15 +275,29 @@ const InputsWithRegisterForm = () => {
               multiple
               showFileSize
               fullWidth
-              renderFileItem={(file, index) => (
-                <Typography variant="body2">
-                  {index + 1}
-                  .
-                  {file.name}
-                  {' '}
-                  -
-                  {' '}
-                  {getFileSize(file.size, { precision: 2 })}
+              renderFileItem={(file, index, removeFile) => (
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <span>
+                    {index + 1}
+                    .
+                    {file.name}
+                    {' '}
+                    -
+                    {' '}
+                    {getFileSize(file.size, { precision: 2 })}
+                  </span>
+                  <IconButton
+                    size="small"
+                    onClick={removeFile}
+                    aria-label={`Remove file ${file.name}`}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
                 </Typography>
               )}
               onUploadError={(errors, rejectedFiles) => {

@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
@@ -22,7 +22,7 @@
     "docs:prod": "yarn workspace @nish1896/rhf-mui-docs prod"
   },
   "devDependencies": {
-    "turbo": "^2.5.2"
+    "turbo": "2.10.0"
   },
   "keywords": [
     "react-hook-form",

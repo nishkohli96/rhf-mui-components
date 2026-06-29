@@ -21,19 +21,53 @@ import type { FormControlLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Callback fired after the switch checked state is stored in the field.
+   * @param isChecked - Updated checked state.
+   * @param event - Switch change event.
+   */
   onValueChange?: (
     isChecked: boolean,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * Props forwarded to the switch `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & Omit<SwitchProps, 'name'>;
 
 const RHFSwitch = <T extends FieldValues>({
@@ -50,7 +84,7 @@ const RHFSwitch = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   slotProps: muiSlotProps,
-  ...rest
+  ...otherSwitchProps
 }: RHFSwitchProps<T>) => {
   const {
     fieldId,
@@ -66,9 +100,6 @@ const RHFSwitch = <T extends FieldValues>({
     ...sx,
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
     <Controller
       name={fieldName}
@@ -80,18 +111,24 @@ const RHFSwitch = <T extends FieldValues>({
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef
+          ref: rhfRef,
+          disabled: rhfDisabled
         }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
         return (
           <Fragment>
             <FormControlLabel
               control={
                 <Switch
+                  {...otherSwitchProps}
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled}
+                  disabled={isDisabled}
                   onChange={(event, isChecked) => {
                     rhfOnChange(isChecked);
                     onValueChange?.(isChecked, event);
@@ -115,10 +152,10 @@ const RHFSwitch = <T extends FieldValues>({
                       ref: rhfRef
                     }
                   }}
-                  {...rest}
                 />
               }
               label={fieldLabel}
+              disabled={isDisabled}
               sx={appliedFormControlLabelSx}
               {...otherFormControlLabelProps}
             />
@@ -129,8 +166,8 @@ const RHFSwitch = <T extends FieldValues>({
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

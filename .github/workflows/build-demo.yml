@@ -5,7 +5,7 @@ jobs:
     name: Build Examples v3
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
@@ -13,6 +13,6 @@ jobs:
           node-version: 24
           cache: yarn
       - name: Setup App
-        run: sh setup.sh
+        run: sh scripts/setup.sh
       - name: Build Next App
         run: yarn demo:build

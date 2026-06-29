@@ -34,20 +34,57 @@ type DatePickerInputProps = Omit<
 >;
 
 export type RHFDatePickerProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Callback fired after a date is accepted or cleared and stored in the field.
+   * @param newValue - Accepted date value, or `null` when the picker is cleared.
+   * @param context - MUI picker validation context for the change.
+   */
   onValueChange?: (
     newValue: PickerValidDate,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & DatePickerInputProps;
 
 const RHFDatePicker = <T extends FieldValues>({
@@ -67,7 +104,7 @@ const RHFDatePicker = <T extends FieldValues>({
   slotProps: muiSlotProps,
   onChange: muiOnChange,
   onAccept: muiOnAccept,
-  ...rest
+  ...otherDatePickerProps
 }: RHFDatePickerProps<T>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   if(!dateAdapter) {
@@ -83,48 +120,55 @@ const RHFDatePicker = <T extends FieldValues>({
     textField: textFieldSlotProps,
     ...otherSlotProps
   } = muiSlotProps ?? {};
+  const appliedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
+    ? undefined
+    : textFieldSlotProps;
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
   return (
-    <FormControl error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isLabelAboveFormField}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          htmlFor: fieldId,
-          ...formLabelProps
-        }}
-      />
-      <LocalizationProvider dateAdapter={dateAdapter}>
-        <Controller
-          name={fieldName}
-          control={control}
-          rules={registerOptions}
-          render={({
-            field: {
-              name: rhfFieldName,
-              value: rhfValue,
-              onChange: rhfOnChange,
-              onBlur: rhfOnBlur,
-              ref: rhfRef
-            }
-          }) => {
-            return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          ref: rhfRef,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <LocalizationProvider dateAdapter={dateAdapter}>
+            <FormControl error={isError} disabled={isDisabled}>
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                disabled={isDisabled}
+                formLabelProps={{
+                  ...formLabelProps,
+                  id: labelId,
+                  htmlFor: fieldId
+                }}
+              />
               <MuiDatePicker
+                {...otherDatePickerProps}
                 name={rhfFieldName}
                 inputRef={rhfRef}
                 value={rhfValue || null}
-                disabled={muiDisabled}
+                disabled={isDisabled}
                 onChange={(newValue, context) => {
                   /**
                    * Forward the MUI onChange event and synchronize RHF
@@ -152,10 +196,12 @@ const RHFDatePicker = <T extends FieldValues>({
                 slotProps={{
                   ...otherSlotProps,
                   textField: {
+                    ...appliedTextFieldSlotProps,
                     id: fieldId,
                     error: isError,
                     onBlur: rhfOnBlur,
                     inputProps: {
+                      ...appliedTextFieldSlotProps?.inputProps,
                       'aria-labelledby': isLabelAboveFormField
                         ? labelId
                         : undefined,
@@ -164,28 +210,27 @@ const RHFDatePicker = <T extends FieldValues>({
                           ? errorId
                           : helperTextId
                         : undefined,
+                      'aria-required': required || undefined
                     },
-                    ...textFieldSlotProps,
                   },
                 }}
-                {...rest}
               />
-            );
-          }}
-        />
-      </LocalizationProvider>
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+              <FormHelperText
+                error={isError}
+                errorMessage={errorMessage}
+                hideErrorMessage={hideErrorMessage}
+                helperText={helperText}
+                showHelperTextElement={showHelperTextElement}
+                formHelperTextProps={{
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
+                }}
+              />
+            </FormControl>
+          </LocalizationProvider>
+        );
+      }}
+    />
   );
 };
 

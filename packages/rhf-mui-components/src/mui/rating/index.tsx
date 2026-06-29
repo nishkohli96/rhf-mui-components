@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode, SyntheticEvent } from 'react';
+import { useContext, type ReactNode, type SyntheticEvent } from 'react';
 import {
   Controller,
   type FieldValues,
@@ -10,8 +10,9 @@ import {
 } from 'react-hook-form';
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
 import { FormControl, FormLabel, FormHelperText } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FormLabelProps, FormHelperTextProps } from '@/types';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
 
 type InputRatingProps = Omit<
   RatingProps,
@@ -23,21 +24,61 @@ type InputRatingProps = Omit<
 >;
 
 export type RHFRatingProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Callback fired after the rating value is stored in the field.
+   * @param newValue - Updated rating value, or `null` when cleared.
+   * @param event - Rating change event.
+   */
   onValueChange?: (
     newValue: number | null,
     event: SyntheticEvent<Element, Event>
   ) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * Validation error message displayed in the `FormHelperText` component.
+   * When provided, it takes precedence over `helperText` unless
+   * `hideErrorMessage` is set to `true`.
+   */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & InputRatingProps;
 
 const RHFRating = <T extends FieldValues>({
@@ -55,7 +96,7 @@ const RHFRating = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   onBlur,
-  ...rest
+  ...otherRatingProps
 }: RHFRatingProps<T>) => {
   const {
     fieldId,
@@ -64,41 +105,53 @@ const RHFRating = <T extends FieldValues>({
     errorId
   } = useFieldIds(fieldName);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const isFormLabelVisible = showLabelAboveFormField ?? true;
-  const isError = !!errorMessage;
-  const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
-
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
   return (
-    <FormControl component="fieldset" error={isError}>
-      <FormLabel
-        label={fieldLabel}
-        isVisible={isFormLabelVisible}
-        required={required}
-        error={isError}
-        formLabelProps={{
-          id: labelId,
-          component: 'legend',
-          ...formLabelProps
-        }}
-      />
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={registerOptions}
-        render={({
-          field: {
-            name: rhfFieldName,
-            value: rhfValue,
-            onChange: rhfOnChange,
-            onBlur: rhfOnBlur
-          }
-        }) => {
-          return (
+    <Controller
+      name={fieldName}
+      control={control}
+      rules={registerOptions}
+      render={({
+        field: {
+          name: rhfFieldName,
+          value: rhfValue,
+          onChange: rhfOnChange,
+          onBlur: rhfOnBlur,
+          disabled: rhfDisabled
+        }
+      }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const isError = !!errorMessage;
+        const showHelperTextElement = (!!helperText) || (isError && !hideErrorMessage);
+
+        return (
+          <FormControl
+            component="fieldset"
+            error={isError}
+            disabled={isDisabled}
+          >
+            <FormLabel
+              label={fieldLabel}
+              isVisible={isLabelAboveControl}
+              required={required}
+              error={isError}
+              disabled={isDisabled}
+              formLabelProps={{
+                ...formLabelProps,
+                id: labelId,
+                component: 'legend'
+              }}
+            />
             <MuiRating
+              {...otherRatingProps}
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? null}
-              disabled={muiDisabled}
+              disabled={isDisabled}
               onChange={(event, newValue) => {
                 rhfOnChange(newValue);
                 onValueChange?.(newValue, event);
@@ -107,7 +160,7 @@ const RHFRating = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-labelledby={isFormLabelVisible ? labelId : undefined}
+              aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -116,25 +169,23 @@ const RHFRating = <T extends FieldValues>({
                   : undefined
               }
               aria-invalid={isError || undefined}
-              {...rest}
             />
-          );
-        }}
-      />
-      <FormHelperText
-        error={isError}
-        errorMessage={errorMessage}
-        hideErrorMessage={hideErrorMessage}
-        helperText={helperText}
-        showHelperTextElement={showHelperTextElement}
-        formHelperTextProps={{
-          id: isError ? errorId : helperTextId,
-          ...formHelperTextProps
-        }}
-      />
-    </FormControl>
+            <FormHelperText
+              error={isError}
+              errorMessage={errorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
+        );
+      }}
+    />
   );
 };
 
 export default RHFRating;
-

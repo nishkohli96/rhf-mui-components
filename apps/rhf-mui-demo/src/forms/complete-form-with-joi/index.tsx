@@ -247,6 +247,7 @@ const CompleteFormWithJoi = () => {
                 fieldName="groceryList"
                 control={control}
                 options={GroceryList}
+                disabled={areAllFieldsDisabled}
                 required
                 errorMessage={errors?.groceryList?.message}
               />

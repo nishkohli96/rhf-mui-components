@@ -12,28 +12,24 @@ import RHFAutocomplete, {
 } from '@nish1896/rhf-mui-components/mui/autocomplete';
 import type { StrObjOption } from '@nish1896/rhf-mui-components/types';
 
-type StyledAutocompleteProps<
-	T extends FieldValues,
-	Option extends StrObjOption = StrObjOption,
-	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey>, 'multiple'>;
-
 const StyledAutocomplete = <
 	T extends FieldValues,
 	Option extends StrObjOption = StrObjOption,
 	LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
 	ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false,
 >({
-    ...rest
-  }: StyledAutocompleteProps<T, Option, LabelKey, ValueKey>) => {
+    multiple,
+    ...otherAutocompleteProps
+  }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey, Multiple, DisableClearable>) => {
   return (
     <RHFAutocomplete
+      {...otherAutocompleteProps}
       formHelperTextProps={{
         sx: { fontColor: theme => theme.palette.info.main }
       }}
-      multiple
-      {...rest}
+      multiple={multiple}
     />
   );
 };

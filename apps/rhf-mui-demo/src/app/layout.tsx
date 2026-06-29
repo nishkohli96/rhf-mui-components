@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Grid from '@mui/material/Grid2';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -8,8 +9,17 @@ import {
   defaultPageDescription,
   defaultPageKeywords
 } from '@/constants';
-import { AppBar, Drawer, FirebaseAnalytics, Footer } from '@/components';
+import {
+  AppBar,
+  Drawer,
+  FirebaseAnalytics,
+  Footer
+} from '@/components';
 import { AppThemeProvider } from '@/theme';
+import {
+  colorSchemeAttribute,
+  modeStorageKey
+} from '@/theme/constants';
 import './globals.css';
 
 type RootLayoutProps = {
@@ -31,6 +41,17 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/*
+          Runs as a blocking script BEFORE React hydrates.
+          Reads localStorage → applies data-color-scheme on <html>.
+          Falls back to system preference if no stored value.
+          Must come before the <main> element
+        */}
+        <InitColorSchemeScript
+          attribute={colorSchemeAttribute}
+          defaultMode="system"
+          modeStorageKey={modeStorageKey}
+        />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
             <AppBar />

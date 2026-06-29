@@ -394,8 +394,8 @@ const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   },
   renderFileItem: {
     name: 'renderFileItem',
-    description: 'Custom render function to replace the default file item in the file uploader component. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
-    type: '(file: File, index: number) => ReactNode'
+    description: 'Custom render function to replace the default file item in the file uploader component. Receives the current file, its index, and a removeFile callback for removing that file from the field value. Refer to the [example](/components/mui/RHFFileUploader#advanced-usage) for more details.',
+    type: '(file: File, index: number, removeFile: () => void) => ReactNode'
   },
   onUploadError: {
     name: 'onUploadError',
