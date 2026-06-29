@@ -10,9 +10,14 @@ We welcome improvements, bug fixes, documentation updates, and new feature propo
 1. **Fork and clone** the repository.
 2. Install dependencies and bootstrap the workspace:
   ```bash
-  sh setup.sh
+  sh scripts/setup.sh
   ```
-3. Create a new branch from main using the following format - `v_a.b.c`, for example, `v_3.2.2`
+3. Create a new branch from main using the following format - `v_a.b.c`, for example, `v_3.2.2`.
+4. Update the version of all packages to match your release version by running:
+  ```bash
+  sh scripts/bump-version.sh a.b.c
+  ```
+Replace `a.b.c` with the version corresponding to your release branch, for example, `4.1.1`.
 
 ## 🚀 Development Guidelines
 

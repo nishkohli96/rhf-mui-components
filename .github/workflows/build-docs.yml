@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 24.14.0
           cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup App
+        run: sh scripts/setup.sh
       - name: Build Docs
         run: pnpm docs:build
