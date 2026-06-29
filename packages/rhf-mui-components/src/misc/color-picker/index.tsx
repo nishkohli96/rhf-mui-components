@@ -210,7 +210,12 @@ const RHFColorPicker = <T extends FieldValues>({
                     <Hue
                       color={color}
                       disabled={isDisabled}
-                      onChange={setColor}
+                      onChange={color => {
+                        setColor(color);
+                        const appliedColor = getFormattedColor(color);
+                        rhfOnChange(appliedColor);
+                        onValueChange?.(color);
+                      }}
                     />
                   </Fragment>
                 )
