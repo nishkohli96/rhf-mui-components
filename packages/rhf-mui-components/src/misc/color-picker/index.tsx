@@ -233,6 +233,20 @@ const RHFColorPicker = <T extends FieldValues>({
           rhfOnChange(getFormattedColor(newColor));
         };
 
+        const handleColorChange = (newColor: IColor) => {
+          if(customOnChange) {
+            customOnChange({
+              color: newColor,
+              setColor: wrappedSetColor
+            });
+            return;
+          }
+          setColor(newColor);
+          const appliedColor = getFormattedColor(newColor);
+          rhfOnChange(appliedColor);
+          onValueChange?.(newColor);
+        };
+
         return (
           <FormControl
             component="fieldset"
@@ -273,26 +287,12 @@ const RHFColorPicker = <T extends FieldValues>({
                     height={height}
                     color={color}
                     disabled={isDisabled}
-                    onChange={color => {
-                      if(customOnChange) {
-                        customOnChange({ color, setColor: wrappedSetColor });
-                        return;
-                      }
-                      setColor(color);
-                      const appliedColor = getFormattedColor(color);
-                      rhfOnChange(appliedColor);
-                      onValueChange?.(color);
-                    }}
+                    onChange={handleColorChange}
                   />
                   <Hue
                     color={color}
                     disabled={isDisabled}
-                    onChange={color => {
-                      setColor(color);
-                      const appliedColor = getFormattedColor(color);
-                      rhfOnChange(appliedColor);
-                      onValueChange?.(color);
-                    }}
+                    onChange={handleColorChange}
                   />
                 </Fragment>
               )
@@ -300,16 +300,7 @@ const RHFColorPicker = <T extends FieldValues>({
                 <ReactColorPicker
                   color={color}
                   disabled={isDisabled}
-                  onChange={color => {
-                    if(customOnChange) {
-                      customOnChange({ color, setColor: wrappedSetColor });
-                      return;
-                    }
-                    setColor(color);
-                    const appliedColor = getFormattedColor(color);
-                    rhfOnChange(appliedColor);
-                    onValueChange?.(color);
-                  }}
+                  onChange={handleColorChange}
                   height={height}
                   hideInput={isDisabled ? true : hideInput}
                   hideAlpha={hideAlpha}
