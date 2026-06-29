@@ -57,15 +57,30 @@ export type RHFRadioGroupProps<
   >,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * List of options to render as radio buttons. Best suited for smaller datasets, with
    * upto 10 options. For larger datasets, consider using `RHFAutocomplete`.
    */
   options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey?: ValueKey;
   /**
    * Function to customize the label for each radio button.
@@ -85,17 +100,13 @@ export type RHFRadioGroupProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * Custom change handler for radio group selection.
+   * Overrides the default radio group change handling.
+   * Receives the normalized selected option value and the original radio change event.
+   * Call `rhfOnChange` with the selected value that should be stored; else the form value will not be updated.
    *
-   * Use this to intercept or transform the selected value
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - The newly selected value
-   * @param event - The change event triggered by the radio input
+   * @param rhfOnChange - React Hook Form field change handler for the selected radio value.
+   * @param newValue - Normalized selected option value, using `valueKey` for object options when provided.
+   * @param event - Original radio change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -105,22 +116,55 @@ export type RHFRadioGroupProps<
     OnValueChangeProps<Option, ValueKey>,
     OptionValue<Option, ValueKey>
   >) => void;
+  /**
+   * Called after the default radio group handler stores the normalized selected value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Normalized selected option value, using `valueKey` for object options when provided.
+   * @param event - Original radio change event.
+   */
   onValueChange?: ({
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
   /**
    * Props to pass down to each Radio component. Can be used to set
    * a custom color, size, etc. for all radios in the group.
    */
   radioProps?: RadioProps;
+  /**
+   * Props forwarded to each internal MUI `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
    * @deprecated
@@ -128,8 +172,17 @@ export type RHFRadioGroupProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & RadioGroupInputProps;
 
@@ -178,7 +231,11 @@ const RHFRadioGroup = <
     customIds
   );
 
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -204,6 +261,7 @@ const RHFRadioGroup = <
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -212,17 +270,22 @@ const RHFRadioGroup = <
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl component="fieldset" error={isError}>
+          <FormControl
+            component="fieldset"
+            error={isError}
+            disabled={isDisabled}
+          >
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  component: 'legend',
-                  ...formLabelProps
+                  component: 'legend'
                 }}
               />
             )}
@@ -255,7 +318,7 @@ const RHFRadioGroup = <
               }}
               aria-required={required || undefined}
               aria-labelledby={!hideLabel ? labelId : undefined}
-              aria-label={hideLabel ? String(fieldLabel) : undefined}
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -263,7 +326,6 @@ const RHFRadioGroup = <
                     : helperTextId
                   : undefined
               }
-              aria-disabled={muiDisabled || rhfDisabled}
             >
               {options.map(option => {
                 const isObject = isKeyValueOption(option, labelKey, valueKey);
@@ -275,7 +337,7 @@ const RHFRadioGroup = <
                   ? String(option[labelKey!])
                   : String(option);
                 const isOptionDisabled
-                  = getOptionDisabled?.(option) || muiDisabled || rhfDisabled || false;
+                  = getOptionDisabled?.(option) || isDisabled || false;
                 return (
                   <FormControlLabel
                     {...otherFormControlLabelProps}
@@ -302,8 +364,8 @@ const RHFRadioGroup = <
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

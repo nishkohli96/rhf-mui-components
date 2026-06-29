@@ -71,15 +71,30 @@ export type RHFCheckboxGroupProps<
   >,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * List of options to render as checkboxes. Best suited for smaller datasets, with
    * upto 10 options. For larger datasets, consider using `RHFMultiAutocomplete`.
    */
   options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey?: ValueKey;
   /**
    * Function to customize the label for each checkbox.
@@ -99,19 +114,15 @@ export type RHFCheckboxGroupProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * Custom change handler for checkbox group selection.
+   * Overrides the default checkbox group toggle handling.
+   * Receives the current array value, the toggled option value, and the next checked state for that option.
+   * Build the next array and call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
    *
-   * Allows full control over how selected values are added or removed
-   * from the current array before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param event - The change event triggered by the checkbox
-   * @param currentValue - Current array of selected values
-   * @param toggledValue - The value of the option being toggled
-   * @param checked - Whether the option has been checked or unchecked
+   * @param rhfOnChange - React Hook Form field change handler for the checkbox group array.
+   * @param event - Original checkbox change event.
+   * @param currentValue - Current checkbox group value before the toggle is applied.
+   * @param toggledValue - Option value for the checkbox that was toggled.
+   * @param checked - Checked state after the toggle.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -123,24 +134,59 @@ export type RHFCheckboxGroupProps<
     CheckboxGroupCustomOnChangeProps<Option, ValueKey>,
     OptionValue<Option, ValueKey>[]
   >) => void;
+  /**
+   * Called after the default checkbox group handler stores the next array value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param event - Original checkbox change event.
+   * @param newValue - Next checkbox group array value.
+   * @param toggledValue - Option value for the checkbox that was toggled.
+   * @param checked - Checked state after the toggle.
+   */
   onValueChange?: ({
     event,
     newValue,
     toggledValue,
     checked
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
   /**
    * Props to pass down to each Checkbox component. Can be used to set
    * a custom color, size, etc. for all checkboxes in the group.
    */
   checkboxProps?: CheckboxProps;
+  /**
+   * Props forwarded to each internal MUI `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -148,9 +194,21 @@ export type RHFCheckboxGroupProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Callback fired when focus leaves the checkbox group.
+   */
   onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 };
 
@@ -198,7 +256,11 @@ const RHFCheckboxGroup = <
     customIds
   );
 
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -231,6 +293,7 @@ const RHFCheckboxGroup = <
           disabled: boolean;
         };
         const rhfValue = value ?? [];
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -273,8 +336,9 @@ const RHFCheckboxGroup = <
           <FormControl
             component="fieldset"
             aria-labelledby={!hideLabel ? labelId : undefined}
-            aria-label={hideLabel ? String(fieldLabel) : undefined}
+            aria-label={hideLabel ? accessibleFieldLabel : undefined}
             error={isError}
+            disabled={isDisabled}
             /**
              * Trigger blur event only if focus is moving OUTSIDE
              * the checkbox group, instead of calling onBlur for
@@ -295,10 +359,11 @@ const RHFCheckboxGroup = <
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  component: 'legend',
-                  ...formLabelProps
+                  component: 'legend'
                 }}
               />
             )}
@@ -313,11 +378,11 @@ const RHFCheckboxGroup = <
                 : String(option);
               const checked = rhfValue.includes(opnValue);
               const isOptionDisabled
-                = muiDisabled || rhfDisabled || getOptionDisabled?.(option) || false;
+                = isDisabled || getOptionDisabled?.(option) || false;
               return (
                 <FormControlLabel
-                  key={`${opnValue}-${idx}`}
                   {...otherFormControlLabelProps}
+                  key={`${opnValue}-${idx}`}
                   control={
                     <Checkbox
                       {...checkboxProps}
@@ -343,8 +408,8 @@ const RHFCheckboxGroup = <
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

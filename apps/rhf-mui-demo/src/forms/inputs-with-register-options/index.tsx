@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -66,13 +69,15 @@ const balanceStepAmount = 0.5;
 
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     reset,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
 
@@ -85,6 +90,19 @@ const InputsWithRegisterForm = () => {
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation and customOnChange" />
             <RHFTextField
@@ -257,7 +275,6 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('tags')
                 }
               }}
-              limitTags={0}
               onTagAdd={({ newTag }) => {
                 if (newTag.length < 3) {
                   return false;
@@ -277,9 +294,9 @@ const InputsWithRegisterForm = () => {
                 );
                 return filteredTags;
               }}
-              getLimitTagsText={hiddenTags => (
+              getLimitTagsText={moreTags => (
                 <Typography color="green">
-                  {`& ${hiddenTags} More`}
+                  {`& ${moreTags} More`}
                 </Typography>
               )}
               required

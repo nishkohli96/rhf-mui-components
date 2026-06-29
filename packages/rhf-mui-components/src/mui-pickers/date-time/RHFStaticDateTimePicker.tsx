@@ -53,16 +53,31 @@ type PickerCustomOnChangeProps<ValidationError>
   };
 
 export type RHFStaticDateTimePickerProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
-   * Override the default picker value update. Call **rhfOnChange** with the value to store in
-   * the form (including `null` when cleared). Use **context.validationError** if you need the
-   * same “only update when valid” rule as **onValueChange**.
+   * Overrides the default date-time picker change handling.
+   * Receives every picker change, including date-time values that currently have validation errors.
+   * Call `rhfOnChange` with the picker value that should be stored; else the form value will not be updated.
+   * The default handler stores the value only when `context.validationError` is `null`.
    *
-   * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
+   * @param rhfOnChange - React Hook Form field change handler for the selected date-time value.
+   * @param newValue - New date-time value emitted by MUI X.
+   * @param context - MUI X picker change context, including validation status.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -70,17 +85,37 @@ export type RHFStaticDateTimePickerProps<T extends FieldValues> = {
     context
   }: PickerCustomOnChangeProps<DateTimeValidationError>) => void;
   /**
-   * Fired when the picker value changes and **context.validationError** is `null`.
-   * Not invoked when **customOnChange** is set.
+   * Called after the default date-time picker handler stores a valid date-time value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - New date-time value emitted by MUI X.
+   * @param context - MUI X picker change context, including validation status.
    */
   onValueChange?: ({
     newValue,
     context
   }: PickerOnValueChangeProps<DateTimeValidationError>) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -88,8 +123,17 @@ export type RHFStaticDateTimePickerProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & StaticDateTimePickerInputProps;
 
@@ -135,6 +179,9 @@ const RHFStaticDateTimePickerInner = forwardRef(
       allLabelsAboveFields
     );
     const fieldLabel = label ?? fieldNameToLabel(fieldName);
+    const accessibleFieldLabel = typeof fieldLabel === 'string'
+      ? fieldLabel
+      : fieldNameToLabel(fieldName);
 
     return (
       <LocalizationProvider dateAdapter={dateAdapter}>
@@ -152,6 +199,7 @@ const RHFStaticDateTimePickerInner = forwardRef(
             },
             fieldState: { error: fieldStateError }
           }) => {
+            const isDisabled = muiDisabled || rhfDisabled;
             const fieldErrorMessage
               = fieldStateError?.message?.toString() ?? errorMessage;
             const isError = !!fieldErrorMessage;
@@ -160,17 +208,18 @@ const RHFStaticDateTimePickerInner = forwardRef(
               || (isError && !hideErrorMessage)
             );
             return (
-              <FormControl error={isError}>
+              <FormControl error={isError} disabled={isDisabled}>
                 {!hideLabel && (
                   <FormLabel
                     label={fieldLabel}
                     isVisible={isLabelAboveFormField}
                     required={required}
                     error={isError}
+                    disabled={isDisabled}
                     formLabelProps={{
+                      ...formLabelProps,
                       id: labelId,
-                      htmlFor: fieldId,
-                      ...formLabelProps
+                      htmlFor: fieldId
                     }}
                   />
                 )}
@@ -180,11 +229,7 @@ const RHFStaticDateTimePickerInner = forwardRef(
                   aria-labelledby={
                     !hideLabel && isLabelAboveFormField ? labelId : undefined
                   }
-                  aria-label={
-                    hideLabel && typeof fieldLabel === 'string'
-                      ? fieldLabel
-                      : undefined
-                  }
+                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
                   aria-describedby={
                     showHelperTextElement
                       ? isError
@@ -197,7 +242,7 @@ const RHFStaticDateTimePickerInner = forwardRef(
                     {...otherStaticDateTimePickerProps}
                     ref={mergeRefs(rhfRef, ref)}
                     value={rhfValue ?? null}
-                    disabled={muiDisabled || rhfDisabled}
+                    disabled={isDisabled}
                     onChange={(newValue, context) => {
                       muiOnChange?.(newValue, context);
                       if (customOnChange) {
@@ -224,8 +269,8 @@ const RHFStaticDateTimePickerInner = forwardRef(
                   helperText={helperText}
                   showHelperTextElement={showHelperTextElement}
                   formHelperTextProps={{
-                    id: isError ? errorId : helperTextId,
-                    ...formHelperTextProps
+                    ...formHelperTextProps,
+                    id: isError ? errorId : helperTextId
                   }}
                 />
               </FormControl>

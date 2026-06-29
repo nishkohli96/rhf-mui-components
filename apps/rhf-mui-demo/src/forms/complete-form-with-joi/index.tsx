@@ -231,6 +231,7 @@ const CompleteFormWithJoi = () => {
                 control={control}
                 options={GroceryList}
                 required
+                disabled={areAllFieldsDisabled}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

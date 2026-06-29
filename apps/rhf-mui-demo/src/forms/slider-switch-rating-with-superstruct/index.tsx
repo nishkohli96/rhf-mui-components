@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { toast } from 'react-toastify';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import { orange } from '@mui/material/colors';
 import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
@@ -41,6 +44,7 @@ const initialValues = {
 
 const SliderSwitchRatingFormWithSuperstruct = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     handleSubmit,
@@ -48,7 +52,8 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
-    resolver: superstructResolver(formSchema)
+    resolver: superstructResolver(formSchema),
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
 
@@ -61,6 +66,19 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
     <FormContainer title="Switch, Slider & Rating with Superstruct validation">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Slider with label, custom range and marks" />
             <RHFSlider

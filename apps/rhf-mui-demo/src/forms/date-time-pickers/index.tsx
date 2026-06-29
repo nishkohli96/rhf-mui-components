@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
@@ -26,6 +29,7 @@ import { dateTimeSchema, type DateTimeFormData } from './schema';
 
 const DateTimePickersForm = () => {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
     handleSubmit,
@@ -33,6 +37,7 @@ const DateTimePickersForm = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(dateTimeSchema),
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
 
@@ -46,14 +51,38 @@ const DateTimePickersForm = () => {
       <ConfigProvider dateAdapter={AdapterDayjs}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
+            <Grid size={12}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={disableAllFields}
+                    onChange={event => {
+                      setDisableAllFields(event.target.checked);
+                    }}
+                  />
+                )}
+                label="Disable all fields"
+              />
+            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="DatePicker with disabled future" />
+              <FieldVariantInfo title="DatePicker with disabled future and textField slotProps" />
               <RHFDatePicker
                 fieldName="dob"
                 control={control}
                 disableFuture
                 label="Date of Birth"
                 showLabelAboveFormField
+                slotProps={{
+                  textField: {
+                    variant: 'filled',
+                    sx: {
+                      '& .MuiInputBase-input, & .MuiPickersInputBase-sectionContent': {
+                        color: '#2e7d32',
+                        fontWeight: 700
+                      }
+                    }
+                  }
+                }}
                 required
               />
             </Grid>

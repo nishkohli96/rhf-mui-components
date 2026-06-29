@@ -3,7 +3,9 @@
  * component using RHFAutocomplete, which can be used throughout the application.
  *
  * A similar approach can be taken to create reusable styled components for:
+ * - RHFAutocompleteObject
  * - RHFMultiAutocomplete
+ * - RHFMultiAutocompleteObject
  */
 
 import { type FieldValues } from 'react-hook-form';
@@ -17,18 +19,20 @@ type StyledAutocompleteProps<
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  DisableClearable extends boolean = false
-> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey, true, DisableClearable>, 'multiple'>;
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
+> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey, true, DisableClearable, FreeSolo>, 'multiple'>;
 
 const StyledAutocomplete = <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
 >({
   ...rest
-}: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable>) => {
+}: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable, FreeSolo>) => {
   return (
     <RHFAutocomplete
       formHelperTextProps={{

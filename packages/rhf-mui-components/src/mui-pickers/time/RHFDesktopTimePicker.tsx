@@ -52,16 +52,31 @@ type PickerCustomOnChangeProps<ValidationError>
   };
 
 export type RHFDesktopTimePickerProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
-   * Override the default picker value update. Call **rhfOnChange** with the value to store in
-   * the form (including `null` when cleared). Use **context.validationError** if you need the
-   * same “only update when valid” rule as **onValueChange**.
+   * Overrides the default time picker change handling.
+   * Receives every picker change, including time values that currently have validation errors.
+   * Call `rhfOnChange` with the picker value that should be stored; else the form value will not be updated.
+   * The default handler stores the value only when `context.validationError` is `null`.
    *
-   * ⚠️ Important: `onValueChange` is not invoked when this callback is provided.
+   * @param rhfOnChange - React Hook Form field change handler for the selected time value.
+   * @param newValue - New time value emitted by MUI X.
+   * @param context - MUI X picker change context, including validation status.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -69,16 +84,33 @@ export type RHFDesktopTimePickerProps<T extends FieldValues> = {
     context
   }: PickerCustomOnChangeProps<TimeValidationError>) => void;
   /**
-   * Fired when the picker value changes and **context.validationError** is `null`.
-   * Not invoked when **customOnChange** is set.
+   * Called after the default time picker handler stores a valid time value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - New time value emitted by MUI X.
+   * @param context - MUI X picker change context, including validation status.
    */
   onValueChange?: ({
     newValue,
     context
   }: PickerOnValueChangeProps<TimeValidationError>) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -86,8 +118,17 @@ export type RHFDesktopTimePickerProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & DesktopTimePickerInputProps;
 
@@ -135,6 +176,9 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : fieldNameToLabel(fieldName);
 
   return (
     <LocalizationProvider dateAdapter={dateAdapter}>
@@ -153,6 +197,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
           },
           fieldState: { error: fieldStateError }
         }) => {
+          const isDisabled = muiDisabled || rhfDisabled;
           const fieldErrorMessage
             = fieldStateError?.message?.toString() ?? errorMessage;
           const isError = !!fieldErrorMessage;
@@ -161,17 +206,18 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
             || (isError && !hideErrorMessage)
           );
           return (
-            <FormControl error={isError}>
+            <FormControl error={isError} disabled={isDisabled}>
               {!hideLabel && (
                 <FormLabel
                   label={fieldLabel}
                   isVisible={isLabelAboveFormField}
                   required={required}
                   error={isError}
+                  disabled={isDisabled}
                   formLabelProps={{
+                    ...formLabelProps,
                     id: labelId,
-                    htmlFor: fieldId,
-                    ...formLabelProps
+                    htmlFor: fieldId
                   }}
                 />
               )}
@@ -180,7 +226,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                 name={rhfFieldName}
                 inputRef={mergeRefs(rhfRef, ref)}
                 value={rhfValue ?? null}
-                disabled={muiDisabled || rhfDisabled}
+                disabled={isDisabled}
                 onChange={(newValue, context) => {
                   muiOnChange?.(newValue, context);
                   if (customOnChange) {
@@ -207,29 +253,33 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                 }
                 slotProps={{
                   ...otherSlotProps,
-                  textField: {
-                    id: fieldId,
-                    error: isError,
-                    onBlur: rhfOnBlur,
-                    inputProps: {
-                      'aria-labelledby':
-                        !hideLabel && isLabelAboveFormField
-                          ? labelId
+                  textField: ownerState => {
+                    const resolvedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
+                      ? textFieldSlotProps(ownerState)
+                      : textFieldSlotProps;
+                    return {
+                      ...resolvedTextFieldSlotProps,
+                      id: fieldId,
+                      error: isError,
+                      onBlur: rhfOnBlur,
+                      inputProps: {
+                        ...resolvedTextFieldSlotProps?.inputProps,
+                        'aria-labelledby':
+                          !hideLabel && isLabelAboveFormField
+                            ? labelId
+                            : undefined,
+                        'aria-label': hideLabel
+                          ? accessibleFieldLabel
                           : undefined,
-                      'aria-label': hideLabel
-                        ? typeof fieldLabel === 'string'
-                          ? fieldLabel
-                          : undefined
-                        : undefined,
-                      'aria-describedby': showHelperTextElement
-                        ? isError
-                          ? errorId
-                          : helperTextId
-                        : undefined,
-                      'aria-invalid': isError || undefined,
-                      'aria-required': required || undefined
-                    },
-                    ...textFieldSlotProps
+                        'aria-describedby': showHelperTextElement
+                          ? isError
+                            ? errorId
+                            : helperTextId
+                          : undefined,
+                        'aria-invalid': isError || undefined,
+                        'aria-required': required || undefined
+                      }
+                    };
                   }
                 }}
               />
@@ -240,8 +290,8 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                 helperText={helperText}
                 showHelperTextElement={showHelperTextElement}
                 formHelperTextProps={{
-                  id: isError ? errorId : helperTextId,
-                  ...formHelperTextProps
+                  ...formHelperTextProps,
+                  id: isError ? errorId : helperTextId
                 }}
               />
             </FormControl>

@@ -110,12 +110,26 @@ export type RHFCountrySelectProps<
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * List of countries to display in the country selector.
+   *
+   * Defaults to all countries from `countryList`.
+   */
   countries?: CountryDetails[];
   /**
-   * If `true`, allow selection of more than one countries.
+   * When true, allows selecting multiple countries.
    */
   multiple?: Multiple;
   /**
@@ -136,19 +150,15 @@ export type RHFCountrySelectProps<
    */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default country select change handling.
+   * Receives the normalized country value plus the raw MUI Autocomplete change metadata.
+   * Call `rhfOnChange` with the country value that should be stored; else the form value will not be updated.
    *
-   * Use this when you need full control over how the selected value is processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Value(s) written to the form: full country object(s) when `valueKey` is omitted, primitives from `valueKey` when it is provided, or `null` when clearable and cleared.
-   * @param event - The event that triggered the change
-   * @param reason - The reason for the change
-   * @param details - The details of the change
+   * @param rhfOnChange - React Hook Form field change handler for the stored country value.
+   * @param newValue - Normalized country value, or country value array when `multiple` is true.
+   * @param event - Original MUI Autocomplete change event.
+   * @param reason - MUI Autocomplete reason for the change.
+   * @param details - Additional MUI Autocomplete change details, when available.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -160,19 +170,55 @@ export type RHFCountrySelectProps<
     OnValueChangeProps<Multiple, DisableClearable>,
     CountrySelectStoredValue<Multiple, DisableClearable>
   >) => void;
+  /**
+   * Called after the default country select handler stores the normalized country value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Normalized country value, or country value array when `multiple` is true.
+   * @param event - Original MUI Autocomplete change event.
+   * @param reason - MUI Autocomplete reason for the change.
+   * @param details - Additional MUI Autocomplete change details, when available.
+   */
   onValueChange?: ({
     newValue,
     event,
     reason,
     details
   }: OnValueChangeProps<Multiple, DisableClearable>) => void;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
   disableClearable?: DisableClearable;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Customize how each country option is displayed in the dropdown menu.
+   */
   renderOptionLabel?: (option: CountryDetails) => ReactNode;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -180,10 +226,25 @@ export type RHFCountrySelectProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Props forwarded to the internal MUI `TextField`.
+   */
   textFieldProps?: AutoCompleteTextFieldProps;
+  /**
+   * Props forwarded to chips rendered for selected values.
+   */
   ChipProps?: MuiChipProps;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & AutoCompleteProps<Multiple, DisableClearable>;
 
@@ -237,7 +298,12 @@ ref: Ref<HTMLInputElement>) {
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const countryOptions = countries ?? countryList;
   const countrySelectOptions = useMemo(() => {
@@ -289,6 +355,7 @@ ref: Ref<HTMLInputElement>) {
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -314,17 +381,18 @@ ref: Ref<HTMLInputElement>) {
             : fieldValue ?? null;
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -340,7 +408,7 @@ ref: Ref<HTMLInputElement>) {
                   DisableClearable
                 >
               }
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, newValue, reason, details) => {
                 const storedValue = (
                   multiple
@@ -410,6 +478,7 @@ ref: Ref<HTMLInputElement>) {
                   'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId
@@ -467,8 +536,8 @@ ref: Ref<HTMLInputElement>) {
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

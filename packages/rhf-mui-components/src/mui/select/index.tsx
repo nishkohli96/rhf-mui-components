@@ -78,8 +78,17 @@ export type RHFSelectProps<
   >,
   Multiple extends boolean = false,
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
    * List of options to display in the dropdown.
@@ -89,7 +98,13 @@ export type RHFSelectProps<
    *   recommended for improved searchability, keyboard navigation, and performance.
    */
   options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey?: ValueKey;
   /**
    * Custom renderer for dropdown options.
@@ -111,12 +126,7 @@ export type RHFSelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * When `true`, allows multiple options to be selected.
-   *
-   * The field value is returned as an array of selected values instead of
-   * a single value.
-   *
-   * @default false
+   * When true, allows selecting multiple values.
    */
   multiple?: Multiple;
   /**
@@ -137,18 +147,14 @@ export type RHFSelectProps<
    */
   defaultOptionText?: string;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default MUI Select change handling.
+   * Receives the normalized selected value, original select event, and selected child element.
+   * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
    *
-   * Use this when you need full control over how the selected value is processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - Normalized selected value (single or multiple based on `multiple`)
-   * @param event - Original MUI Select change event
-   * @param child - The selected option element
+   * @param rhfOnChange - React Hook Form field change handler for the selected value.
+   * @param newValue - Normalized selected value, using `valueKey` for object options and arrays for multiple selection.
+   * @param event - Original MUI Select change event.
+   * @param child - Selected option element provided by MUI Select.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -159,14 +165,36 @@ export type RHFSelectProps<
     OnValueChangeProps<Option, ValueKey, Multiple>,
     SelectValue<OptionValue<Option, ValueKey>, Multiple>
   >) => void;
+  /**
+   * Called after the default MUI Select handler stores the normalized selected value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Normalized selected value, using `valueKey` for object options and arrays for multiple selection.
+   * @param event - Original MUI Select change event.
+   * @param child - Selected option element provided by MUI Select.
+   */
   onValueChange?: ({
     newValue,
     event,
     child
   }: OnValueChangeProps<Option, ValueKey, Multiple>) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -174,8 +202,14 @@ export type RHFSelectProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
    * Placeholder text displayed when no option is selected.
    *
@@ -183,6 +217,9 @@ export type RHFSelectProps<
    * input itself and is not rendered as a selectable menu item.
    */
   placeholder?: string;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & SelectProps;
 
@@ -250,8 +287,12 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
   const fieldLabelText = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
@@ -280,13 +321,14 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
         const showPlaceholder = isValueEmpty && !!placeholder;
         const selectLabelValue
-          = hideLabel || isLabelAboveFormField || showPlaceholder
+          = hideLabel || isLabelAboveFormField || showPlaceholder || isValueEmpty
             ? undefined
             : SelectFormLabel;
         const selectLabelId = isLabelAboveFormField || hideLabel
           ? undefined
           : labelId;
 
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -296,17 +338,18 @@ const RHFSelectInner = forwardRef(function RHFSelect<
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -315,6 +358,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                 id={labelId}
                 htmlFor={fieldId}
                 shrink={!isValueEmpty}
+                disabled={isDisabled}
               >
                 {SelectFormLabel}
               </InputLabel>
@@ -338,13 +382,13 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                     : helperTextId
                   : undefined
               }
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               label={selectLabelValue}
               value={rhfValue ?? (multiple ? [] : '')}
               error={isError}
               multiple={multiple}
-              aria-multiselectable={multiple || undefined}
               displayEmpty={isValueEmpty}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, child) => {
                 const selectEvent = event as SelectChangeEvent<
                   SelectValue<OptionValue<Option, ValueKey>, Multiple>
@@ -454,8 +498,8 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

@@ -45,3 +45,5 @@ fs.writeFileSync(
   'dist/package.json',
   `${JSON.stringify(publishPackageJson, null, 2)}\n`
 );
+
+console.log('---- ✅ package.json created for build ----');

@@ -120,7 +120,7 @@ type SearchCountryProps = {
    */
   allowCountrySearch?: boolean;
   /**
-   * Props applied to the textfield component to search country.
+   * Props forwarded to the internal MUI `TextField`.
    */
   textFieldProps?: Omit<TextFieldProps, 'value' | 'label'>;
   /**
@@ -165,14 +165,26 @@ function getPhoneValue(value: unknown): string | undefined {
 }
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Override the default phone value update.
+   * Overrides the default phone input change handling.
+   * Receives the normalized phone object and the raw react-international-phone change payload.
+   * Call `rhfOnChange` with the `RHFPhoneInputValue` that should be stored; else the form value will not be updated.
    *
-   * Call `rhfOnChange(newValue)` with the structured value you want stored in
-   * React Hook Form. `onValueChange` is not invoked when this callback is set.
+   * @param rhfOnChange - React Hook Form field change handler for the structured phone value.
+   * @param newValue - Normalized phone value containing `phone`, `country`, `dialCode`, and `phoneNo`.
+   * @param phoneData - Raw change payload returned by react-international-phone.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -180,31 +192,49 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     phoneData
   }: RHFPhoneInputCustomOnChangeProps) => void;
   /**
-   * Fired after the phone value changes and the structured value is stored in
-   * the field.
+   * Called after the default phone input handler stores the normalized phone value in React Hook Form.
    *
-   * Not invoked when `customOnChange` is set.
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Normalized phone value containing `phone`, `country`, `dialCode`, and `phoneNo`.
+   * @param phoneData - Raw change payload returned by react-international-phone.
    */
   onValueChange?: ({
     newValue,
     phoneData
   }: RHFPhoneInputOnValueChangeProps) => void;
   /**
-   * Props for the inline country search field rendered at the top of the country dropdown.
-   *
-   * The search matches country name, ISO2 code, and dial code. Use
-   * `allowCountrySearch: false` to hide the search field.
+   * Options for the inline country search field in the country dropdown.
    */
   searchCountryProps?: SearchCountryProps;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
   phoneInputProps?: PhoneInputProps;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
@@ -245,7 +275,12 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
+
   const watchedValue = useWatch({ control, name: fieldName });
   const currentPhoneValue = getPhoneValue(watchedValue);
   const [countrySearch, setCountrySearch] = useState('');
@@ -385,6 +420,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString();
         const isError = !!fieldErrorMessage;
@@ -452,7 +488,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
                 }
               }}
               value={country.iso2}
-              disabled={muiDisabled || rhfDisabled || forceDialCode}
+              disabled={isDisabled || forceDialCode}
               onOpen={updateCountryMenuLeft}
               onClose={() => {
                 setCountrySearch('');
@@ -528,17 +564,18 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -568,6 +605,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               aria-labelledby={
                 !hideLabel && isLabelAboveFormField ? labelId : undefined
               }
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -577,7 +615,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               }
               aria-required={required}
               error={isError}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               slotProps={{
                 ...slotProps,
                 input: {
@@ -593,8 +631,8 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

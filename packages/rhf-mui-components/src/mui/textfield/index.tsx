@@ -44,40 +44,71 @@ type OnValueChangeProps = {
 };
 
 export type RHFTextFieldProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Custom change handler that overrides the default text value update.
+   * Overrides the default text field change handling.
+   * Receives the next input string and the original input change event.
+   * Call `rhfOnChange` with the string that should be stored; else the form value will not be updated.
    *
-   * Use when you need to intercept or transform the field value before
-   * updating React Hook Form state (e.g. masking, normalization).
-   *
-   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when this callback is provided.
-   *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - Updated input string value
-   * @param event - Change event from the underlying input
+   * @param rhfOnChange - React Hook Form field change handler for the input string.
+   * @param newValue - Next input string.
+   * @param event - Original input change event.
    */
   customOnChange?: ({
     rhfOnChange,
     newValue,
     event
   }: CustomOnChangeProps<OnValueChangeProps, string>) => void;
+  /**
+   * Called after the default text field handler stores the next string in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Next input string.
+   * @param event - Original input change event.
+   */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
   /**
    * @deprecated
    * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in
-   * the next major version.
+   * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & TextFieldProps;
 
@@ -115,7 +146,12 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   return (
     <Controller
@@ -133,6 +169,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -142,17 +179,18 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -170,7 +208,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
                   : undefined
               }
               value={rhfValue ?? ''}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={event => {
                 const newValue = event.target.value;
                 if (customOnChange) {
@@ -191,6 +229,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
                   ...muiSlotProps?.htmlInput,
                   'aria-labelledby':
                     !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId
@@ -207,8 +246,8 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm, useWatch } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
@@ -45,9 +47,11 @@ const LIMIT = 50;
 
 const AutocompleteForm = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [disableAllFields, setDisableAllFields] = useState(false);
+  const pokemonOffsetRef = useRef(0);
+  const hasMorePokemonsRef = useRef(true);
+  const isPokemonFetchInFlightRef = useRef(false);
 
   const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
@@ -64,29 +68,39 @@ const AutocompleteForm = () => {
     reset,
     formState: { errors }
   } = useForm<FormSchema>({
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    disabled: disableAllFields
   });
   const formValues = useWatch({ control });
 
   const filteredCountries = countryList.filter(country => country.name.length > 5);
 
   const loadPokemons = useCallback(async () => {
-    if (!hasMore) {
+    if (isPokemonFetchInFlightRef.current || !hasMorePokemonsRef.current) {
       return;
     }
+
+    isPokemonFetchInFlightRef.current = true;
     setLoading(true);
-    const data = await fetchPokemons(LIMIT, offset);
-    setPokemonList(prev => {
-      const existingIds = new Set(prev.map(pokemon => pokemon.id));
-      const uniqueResults = data.results.filter(
-        pokemon => !existingIds.has(pokemon.id)
-      );
-      return uniqueResults.length ? [...prev, ...uniqueResults] : prev;
-    });
-    setHasMore(!!data.next);
-    setOffset(prev => prev + LIMIT);
-    setLoading(false);
-  }, [offset, hasMore]);
+
+    try {
+      const data = await fetchPokemons(LIMIT, pokemonOffsetRef.current);
+      setPokemonList(prev => {
+        const existingIds = new Set(prev.map(pokemon => pokemon.id));
+        const uniqueResults = data.results.filter(
+          pokemon => !existingIds.has(pokemon.id)
+        );
+        return uniqueResults.length ? [...prev, ...uniqueResults] : prev;
+      });
+      hasMorePokemonsRef.current = !!data.next;
+      pokemonOffsetRef.current += LIMIT;
+    } catch (error) {
+      console.error('Failed to fetch Pokemon options:', error);
+    } finally {
+      isPokemonFetchInFlightRef.current = false;
+      setLoading(false);
+    }
+  }, []);
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -98,21 +112,29 @@ const AutocompleteForm = () => {
      * Load the first page once on mount; pagination is handled from the
      * listbox scroll event.
      *
-     * "loadPokemons" is purposely NOT added to the effect dependency array,
-     * as `offset` and `hasMore` change after each call which recreates
-     * loadPokemons that runs until `hasMore` becomes false.
+     * Pagination state is kept in refs so the loader can be called safely
+     * from mount and listbox scrolling without re-running this effect.
      */
-    const loadInitialPokemons = async () => {
-      await loadPokemons();
-    };
-    loadInitialPokemons();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    loadPokemons();
+  }, [loadPokemons]);
 
   return (
     <FormContainer title="Autocomplete variations with Register Options">
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Autocomplete with freeSolo, custom renderOption and renderValue" />
             <RHFAutocomplete

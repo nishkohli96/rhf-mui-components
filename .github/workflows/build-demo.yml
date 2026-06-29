@@ -17,6 +17,6 @@ jobs:
           node-version: 24.14.0
           cache: pnpm
       - name: Setup App
-        run: sh setup.sh
+        run: sh scripts/setup.sh
       - name: Build Next App
         run: pnpm demo:build

@@ -44,7 +44,7 @@ const miscComponents = [
 ];
 
 /** Components added in v2 and before v3.3 */
-export const newlyAddedComponents = [
+export const newlyAddedComponents_v2 = [
   MuiComponents.Autocomplete,
   MuiComponents.MultiAutocomplete,
   MuiComponents.CountrySelect,
@@ -54,7 +54,7 @@ export const newlyAddedComponents = [
   MuiComponents.FileUploader
 ];
 
-export const newlyAddedV3_3Components = [
+export const newlyAddedComponents_v3_3 = [
   MuiComponents.AutocompleteObject,
   MuiComponents.MultiAutocompleteObject
 ];

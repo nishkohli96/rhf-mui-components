@@ -57,9 +57,21 @@ type RHFRichTextEditorCustomOnChangeProps
   };
 
 export type RHFRichTextEditorProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
    * HTML id applied to the CKEditor instance.
@@ -74,32 +86,30 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   editorConfig?: EditorConfig;
   /**
-   * Fired when the CKEditor instance is ready.
+   * Callback fired when the CKEditor instance is ready.
    */
   onReady?: (editor: ClassicEditor) => void;
   /**
-   * Fired when the CKEditor instance receives focus.
+   * Callback fired when the CKEditor instance receives focus.
    */
   onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   /**
-   * Fired when the CKEditor instance loses focus.
+   * Callback fired when the CKEditor instance loses focus.
    *
    * The wrapper also marks the React Hook Form field as touched.
    */
   onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   /**
-   * Override the default `onChange` behavior of the rich text editor.
-   * Call **rhfOnChange** with the value that should be stored in the form (omit it to keep the
-   * previous value). After your handler runs, the editor document is synced to that committed
-   * value so the visible content matches form state (e.g. max-length without extra typed chars).
+   * Overrides the default rich text editor change handling.
+   * Receives the next editor HTML string, CKEditor event info, and editor instance.
+   * Call `rhfOnChange` with the HTML string that should be stored; otherwise the previous form value is kept.
+   * After the handler runs, the editor content is synced back to the committed form value.
    *
-   * ⚠️ Important: `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - Current editor value
-   * @param event - Change event from the underlying editor
-   * @param editor - ClassicEditor instance
-  */
+   * @param rhfOnChange - React Hook Form field change handler for the editor HTML string.
+   * @param newValue - Current editor HTML string.
+   * @param event - CKEditor change event info.
+   * @param editor - CKEditor instance that emitted the change.
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
@@ -107,23 +117,46 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
     editor
   }: RHFRichTextEditorCustomOnChangeProps) => void;
   /**
-   * Fired after editor content changes and the new HTML string is stored in the field.
+   * Called after the default rich text editor handler stores the current HTML string in React Hook Form.
    *
-   * Not invoked when `customOnChange` is set.
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Current editor HTML string.
+   * @param event - CKEditor change event info.
+   * @param editor - CKEditor instance that emitted the change.
    */
   onValueChange?: ({
     newValue,
     event,
     editor
   }: RHFRichTextEditorOnValueChangeProps) => void;
+  /**
+   * When true, disables the field and associated controls.
+   */
   disabled?: boolean;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
-   * Fired when CKEditor reports an initialization or runtime error.
+   * Callback fired when CKEditor reports an initialization or runtime error.
    */
   onError?: (error: Error, details: ErrorDetails) => void;
   /**
@@ -132,8 +165,17 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 };
 
@@ -172,7 +214,12 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     fieldName,
     customIds
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -193,6 +240,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -202,17 +250,18 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         );
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -270,6 +319,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
               aria-labelledby={
                 !hideLabel && isLabelAboveControl ? labelId : undefined
               }
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-describedby={
                 showHelperTextElement
                   ? isError
@@ -280,7 +330,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
               aria-required={required}
               onFocus={onFocus}
               onError={onError}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
             />
             <FormHelperText
               error={isError}
@@ -289,8 +339,8 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

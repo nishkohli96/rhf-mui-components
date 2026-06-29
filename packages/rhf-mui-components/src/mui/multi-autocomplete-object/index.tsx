@@ -99,36 +99,105 @@ export type RHFMultiAutocompleteObjectProps<
   >,
   DisableClearable extends boolean = false
 > = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * Options rendered by the field.
+   */
   options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
   labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
   valueKey?: ValueKey;
+  /**
+   * Text to display for the "Select All" option.
+   */
   selectAllText?: string;
+  /**
+   * When true, hides the select-all option.
+   */
   hideSelectAllOption?: boolean;
+  /**
+   * Overrides the default object multi-autocomplete change handling.
+   * Receives the next selected object array and the option that triggered the change.
+   * Call `rhfOnChange` with the object array that should be stored; else the form value will not be updated.
+   *
+   * @param rhfOnChange - React Hook Form field change handler for the selected object array.
+   * @param newValue - Next selected option object array.
+   * @param selectedOption - Option object that triggered the change, or the select-all sentinel.
+   */
   customOnChange?: ({
     rhfOnChange,
     newValue,
     selectedOption
   }: CustomOnChangeProps<OnValueChangeProps<Option>, Option[]>) => void;
+  /**
+   * Called after the default object multi-autocomplete handler stores the next selected object array in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Next selected option object array.
+   * @param selectedOption - Option object that triggered the change, or the select-all sentinel.
+   */
   onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps<Option>) => void;
   /**
-   * If true, the input can't be cleared.
+   * When true, the selected value cannot be cleared from the input.
    * @default false
    */
   disableClearable?: DisableClearable;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Props forwarded to each internal MUI `Checkbox`.
+   */
   checkboxProps?: CheckboxProps;
+  /**
+   * Custom renderer for an option label.
+   */
   renderOptionLabel?: (
     option: Option,
     state: AutocompleteRenderOptionState
   ) => ReactNode;
+  /**
+   * Props forwarded to each internal MUI `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -136,10 +205,25 @@ export type RHFMultiAutocompleteObjectProps<
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Props forwarded to the internal MUI `TextField`.
+   */
   textFieldProps?: AutoCompleteTextFieldProps;
+  /**
+   * Props forwarded to chips rendered for selected values.
+   */
   ChipProps?: MuiChipProps;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & MultiAutoCompleteProps<Option, DisableClearable>;
 
@@ -209,7 +293,11 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const shouldHideSelectAllOptions
     = hideSelectAllOption || options.length === 0 || options.length === 1;
@@ -285,6 +373,14 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString() ?? errorMessage;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
         const selectedOptions: Option[] = rhfValue ?? [];
 
         const selectionContainsOption = (selected: Option[], opt: Option) =>
@@ -298,13 +394,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         const isIndeterminate
           = selectedOptions.length > 0 && !areAllSelected;
 
-        const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
 
         const changeFieldState = (
           newValues: Option[],
@@ -335,17 +424,18 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         };
 
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -355,7 +445,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               options={autoCompleteOptions as Option[]}
               value={selectedOptions}
               loading={loading}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(_, newSelectedOptions, reason, details) => {
                 if (reason === 'clear') {
                   if (customOnChange) {
@@ -446,6 +536,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                   'aria-labelledby': !hideLabel && isLabelAboveFormField
                     ? labelId
                     : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId
@@ -492,11 +583,11 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               }}
               renderOption={({ key, ...optionProps }, option, state) => {
                 const optionLabel = displayOptionLabel(option);
-                const isDisabled = muiDisabled || rhfDisabled;
                 if (isSelectAllOption(option)) {
                   return (
                     <Box component="li" key={key} {...optionProps}>
                       <FormControlLabel
+                        {...otherFormControlLabelProps}
                         label={optionLabel}
                         disabled={isDisabled}
                         control={(
@@ -507,6 +598,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                             value={selectAllOptionValue}
                             checked={areAllSelected}
                             indeterminate={isIndeterminate}
+                            disabled={isDisabled}
                           />
                         )}
                         sx={{ ...appliedFormControlLabelSx, width: '100%' }}
@@ -521,7 +613,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                             selectAllOptionValue
                           );
                         }}
-                        {...otherFormControlLabelProps}
                       />
                     </Box>
                   );
@@ -532,6 +623,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                 return (
                   <Box component="li" key={key} {...optionProps}>
                     <FormControlLabel
+                      {...otherFormControlLabelProps}
                       label={
                         renderOptionLabel?.(option, state)
                         ?? optionLabel
@@ -552,6 +644,9 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                       sx={{ ...appliedFormControlLabelSx, width: '100%' }}
                       onClick={e => {
                         e.preventDefault();
+                        if (isOptionDisabled) {
+                          return;
+                        }
                         const checked = !selectionContainsOption(
                           selectedOptions,
                           option
@@ -565,7 +660,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                           option
                         );
                       }}
-                      {...otherFormControlLabelProps}
                     />
                   </Box>
                 );
@@ -583,8 +677,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                 ...slotProps,
                 chip: ChipProps,
                 listbox: {
-                  ...slotProps?.listbox,
-                  'aria-multiselectable': true
+                  ...slotProps?.listbox
                 }
               }}
             />
@@ -595,8 +688,8 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

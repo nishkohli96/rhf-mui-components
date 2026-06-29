@@ -35,31 +35,57 @@ type OnValueChangeProps = {
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Custom change handler that overrides the default checked state update.
+   * Overrides the default checkbox change handling.
+   * Receives the next checked state and the original checkbox change event.
+   * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
    *
-   * Useful when you need to intercept or transform the checkbox value
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param newValue - The new checked state of the checkbox
-   * @param event - The change event triggered by the checkbox
+   * @param rhfOnChange - React Hook Form field change handler for the checked value.
+   * @param newValue - Next checked state.
+   * @param event - Original checkbox change event.
    */
   customOnChange?: ({
     rhfOnChange,
     newValue,
     event
   }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
+  /**
+   * Called after the default checkbox handler stores the next checked state in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Next checked state.
+   * @param event - Original checkbox change event.
+   */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * Props forwarded to the checkbox `FormControlLabel`.
+   */
   formControlLabelProps?: FormControlLabelProps;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -67,8 +93,17 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & CheckboxProps;
 
@@ -97,7 +132,11 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
   const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -122,6 +161,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -132,13 +172,14 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
         return (
           <Fragment>
             <FormControlLabel
+              {...otherFormControlLabelProps}
               control={
                 <MuiCheckbox
                   {...otherCheckboxProps}
                   id={fieldId}
                   name={rhfFieldName}
                   checked={Boolean(rhfValue)}
-                  disabled={muiDisabled || rhfDisabled}
+                  disabled={isDisabled}
                   onChange={(event, checked) => {
                     if (customOnChange) {
                       customOnChange({ rhfOnChange, newValue: checked, event });
@@ -151,13 +192,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                     rhfOnBlur();
                     onBlur?.(blurEvent);
                   }}
-                  aria-label={
-                    hideLabel
-                      ? typeof fieldLabel === 'string'
-                        ? fieldLabel
-                        : undefined
-                      : undefined
-                  }
+                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
                   aria-describedby={
                     showHelperTextElement
                       ? isError
@@ -177,7 +212,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
               }
               label={hideLabel ? undefined : fieldLabel}
               sx={appliedFormControlLabelSx}
-              {...otherFormControlLabelProps}
+              disabled={isDisabled}
             />
             <FormHelperText
               error={isError}
@@ -186,8 +221,8 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

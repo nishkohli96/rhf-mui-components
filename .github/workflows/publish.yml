@@ -25,10 +25,8 @@ jobs:
         with:
           node-version: 24.14.0
           cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Build package
-        run: pnpm lib
+      - name: Setup App and Build Package
+        run: sh scripts/setup.sh
       - name: Publish package on npm
         run: npm publish --tag latest
         working-directory: packages/rhf-mui-components/dist

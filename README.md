@@ -43,7 +43,7 @@ Clone this repo to explore real-world usage of the package with [Next.js](https:
 Run the setup script.
 
 ```bash
-sh setup.sh
+sh scripts/setup.sh
 ```
 
 This will perform the following tasks:

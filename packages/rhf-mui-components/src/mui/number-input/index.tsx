@@ -122,30 +122,53 @@ function buildNumberInputDecimalPattern(
 }
 
 export type RHFNumberInputProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Custom change handler that overrides the default numeric value update.
+   * Overrides the default number input change handling.
+   * Receives the parsed numeric value and the original input change event.
+   * Call `rhfOnChange` with the number or `null` value that should be stored; else the form value will not be updated.
    *
-   * Use when you need to intercept or transform the parsed number (or `null`
-   * when empty) before updating React Hook Form state.
-   *
-   * ⚠️ Important: Call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when this callback is provided.
-   *
-   * @param rhfOnChange - React Hook Form field change handler
-   * @param newValue - Parsed `number` or `null` when the input is empty / invalid
-   * @param event - Change event from the underlying `<input>`
+   * @param rhfOnChange - React Hook Form field change handler for the numeric value.
+   * @param newValue - Parsed number value, or `null` when the input is empty.
+   * @param event - Original input change event.
    */
   customOnChange?: ({
     rhfOnChange,
     newValue,
     event
   }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
+  /**
+   * Called after the default number input handler stores the parsed numeric value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Parsed number value, or `null` when the input is empty.
+   * @param event - Original input change event.
+   */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
   /**
    * When `true`, only integer values are allowed. Decimal input is blocked.
@@ -178,8 +201,17 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
@@ -226,7 +258,11 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const decimalPattern = useMemo(
     () => buildNumberInputDecimalPattern(nonNegative, onlyIntegers, maxDecimalPlaces),
@@ -371,6 +407,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -379,17 +416,18 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
           || (isError && !hideErrorMessage)
         );
         return (
-          <FormControl error={isError}>
+          <FormControl error={isError} disabled={isDisabled}>
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -412,7 +450,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   ? ''
                   : rhfValue
               }
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={event => {
                 const changeEvent = event as ChangeEvent<HTMLInputElement>;
                 const { value: inputValue, validity } = changeEvent.target;
@@ -469,6 +507,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                   ...muiSlotProps?.htmlInput,
                   'aria-labelledby':
                     !hideLabel && isLabelAboveFormField ? labelId : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
                   'aria-describedby': showHelperTextElement
                     ? isError
                       ? errorId
@@ -481,6 +520,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               }}
               error={isError}
               sx={{
+                ...muiSx,
                 ...(!showMarkers && {
                   '& input[type=number]': {
                     MozAppearance: 'textfield',
@@ -488,7 +528,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
                     '&::-webkit-inner-spin-button': { display: 'none' },
                   },
                 }),
-                ...muiSx,
               }}
               multiline={false}
             />
@@ -499,8 +538,8 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </FormControl>

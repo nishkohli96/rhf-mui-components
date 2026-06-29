@@ -45,23 +45,31 @@ type OnValueChangeProps = {
 };
 
 export type RHFSliderProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
-   * Custom change handler for slider value updates.
+   * Overrides the default slider change handling.
+   * Receives the next slider value, active thumb index, and original slider change event.
+   * Call `rhfOnChange` with the number or number array that should be stored; else the form value will not be updated.
    *
-   * Allows you to control how the slider value is processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
-   *
-   * @param rhfOnChange - React Hook Form's internal change handler
-   * @param value - The new slider value (number or range)
-   * @param activeThumb - Index of the currently active thumb (for range sliders)
-   * @param event - The change event triggered by the slider
+   * @param rhfOnChange - React Hook Form field change handler for the slider value.
+   * @param newValue - Next slider value, or value array for range sliders.
+   * @param activeThumb - Index of the thumb that changed for range sliders.
+   * @param event - Original slider change event.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -69,15 +77,40 @@ export type RHFSliderProps<T extends FieldValues> = {
     activeThumb,
     event
   }: CustomOnChangeProps<OnValueChangeProps, number | number[]>) => void;
+  /**
+   * Called after the default slider handler stores the next slider value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Next slider value, or value array for range sliders.
+   * @param activeThumb - Index of the thumb that changed for range sliders.
+   * @param event - Original slider change event.
+   */
   onValueChange?: ({
     newValue,
     activeThumb,
     event
   }: OnValueChangeProps) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
   /**
    * @deprecated
@@ -85,8 +118,17 @@ export type RHFSliderProps<T extends FieldValues> = {
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
@@ -118,7 +160,12 @@ ref: Ref<HTMLSpanElement>) {
     helperTextId,
     errorId
   } = useFieldIds(fieldName, customIds);
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -140,6 +187,7 @@ ref: Ref<HTMLSpanElement>) {
         },
         fieldState: { error: fieldStateError }
       }) => {
+        const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
           = fieldStateError?.message?.toString() ?? errorMessage;
         const isError = !!fieldErrorMessage;
@@ -155,9 +203,10 @@ ref: Ref<HTMLSpanElement>) {
                 isVisible={isLabelAboveControl}
                 required={required}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
-                  id: labelId,
-                  ...formLabelProps
+                  ...formLabelProps,
+                  id: labelId
                 }}
               />
             )}
@@ -167,7 +216,7 @@ ref: Ref<HTMLSpanElement>) {
               id={fieldId}
               name={rhfFieldName}
               value={rhfValue ?? 0}
-              disabled={muiDisabled || rhfDisabled}
+              disabled={isDisabled}
               onChange={(event, value, activeThumb) => {
                 if (customOnChange) {
                   customOnChange({
@@ -189,7 +238,7 @@ ref: Ref<HTMLSpanElement>) {
               aria-labelledby={
                 !hideLabel && isLabelAboveControl ? labelId : undefined
               }
-              aria-label={hideLabel ? String(fieldLabel) : undefined}
+              aria-label={hideLabel ? accessibleFieldLabel : undefined}
               aria-valuetext={
                 Array.isArray(rhfValue)
                   ? rhfValue.join(' to ')
@@ -211,8 +260,8 @@ ref: Ref<HTMLSpanElement>) {
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
           </Fragment>

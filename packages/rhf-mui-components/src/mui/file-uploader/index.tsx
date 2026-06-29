@@ -106,9 +106,21 @@ type RenderFileItemProps = {
 };
 
 export type RHFFileUploaderProps<T extends FieldValues> = {
+  /**
+   * Name/path of the React Hook Form field this component controls.
+   */
   fieldName: Path<T>;
+  /**
+   * React Hook Form control object returned by `useForm`.
+   */
   control: Control<T>;
+  /**
+   * Validation rules passed to React Hook Form for this field.
+   */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * When true, marks the field as required in the UI and accessibility attributes.
+   */
   required?: boolean;
   /**
    * Comma-separated list of accepted file types.
@@ -120,9 +132,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   accept?: string;
   /**
-   * Allows selecting multiple files.
-   *
-   * @default false
+   * When true, allows selecting multiple files.
    */
   multiple?: boolean;
   /**
@@ -211,13 +221,13 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     removeFile
   }: RenderFileItemProps) => ReactNode;
   /**
-   * Custom change handler that overrides the default value update behavior.
+   * Overrides the default file uploader change handling.
+   * Receives the accepted file value and the input/drop event that produced it.
+   * Call `rhfOnChange` with the `File`, `File[]`, or `null` value that should be stored; else the form value will not be updated.
    *
-   * Use this when you need full control over how selected files are processed
-   * before updating React Hook Form state.
-   *
-   * ⚠️ Important: You must call `rhfOnChange` manually to update the form state.
-   * `onValueChange` is not invoked when using `customOnChange`.
+   * @param rhfOnChange - React Hook Form field change handler for the uploaded file value.
+   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param event - Input or drop event that changed the file value.
    */
   customOnChange?: ({
     rhfOnChange,
@@ -228,24 +238,57 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     File | File[] | null
   >) => void;
   /**
-   * Fired when the field value changes because files were uploaded, removed, or cleared.
+   * Called after the default file uploader handler stores the accepted file value in React Hook Form.
+   *
+   * ⚠️ Important:
+   * This callback is not called when `customOnChange` is used.
+   *
+   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param event - Input or drop event that changed the file value.
    */
   onValueChange?: ({
     newValue,
     event
   }: RHFFileUploaderOnValueChangeProps) => void;
   /**
-   * Fired when uploaded files fail type, size, or count validation.
+   * Callback fired when uploaded files fail type, size, or count validation.
    */
   onUploadError?: (errors: FileUploadErrorDetails[]) => void;
+  /**
+   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   */
   label?: ReactNode;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
   showLabelAboveFormField?: boolean;
-  formLabelProps?: FormLabelProps;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
   hideLabel?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
   helperText?: ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
   hideErrorMessage?: boolean;
-  formHelperTextProps?: FormHelperTextProps;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * When true, the component expands to fill its container width.
+   */
   fullWidth?: boolean;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
   customIds?: CustomComponentIds;
 };
 
@@ -291,8 +334,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     customIds
   );
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const formattedFieldName = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? formattedFieldName;
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -360,13 +406,14 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const fieldErrorMessage = fieldStateError?.message?.toString();
+        const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage
+          = fieldStateError?.message?.toString();
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText
           || (isError && !hideErrorMessage)
         );
-        const isDisabled = muiDisabled || rhfDisabled;
 
         const updateFieldValue = (
           newValue: File | File[] | null,
@@ -508,7 +555,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             onChange={handleFileChange}
             onBlur={rhfOnBlur}
             disabled={isDisabled}
-            aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+            aria-labelledby={!hideLabel && isLabelAboveFormField ? labelId : undefined}
+            aria-label={hideLabel ? accessibleFieldLabel : undefined}
             aria-describedby={
               showHelperTextElement
                 ? isError
@@ -530,7 +578,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               label={
                 typeof fieldLabel === 'string'
                   ? fieldLabel
-                  : `Upload ${formattedFieldName}`
+                  : `Upload ${defaultFieldLabel}`
               }
               fieldName={fieldName}
               disabled={isDisabled}
@@ -601,17 +649,22 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
           );
 
         return (
-          <FormControl fullWidth={fullWidth} error={isError}>
+          <FormControl
+            fullWidth={fullWidth}
+            error={isError}
+            disabled={isDisabled}
+          >
             {!hideLabel && (
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
                 required={isFieldRequired}
                 error={isError}
+                disabled={isDisabled}
                 formLabelProps={{
+                  ...formLabelProps,
                   id: labelId,
-                  htmlFor: fieldId,
-                  ...formLabelProps
+                  htmlFor: fieldId
                 }}
               />
             )}
@@ -623,8 +676,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               helperText={helperText}
               showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                id: isError ? errorId : helperTextId,
-                ...formHelperTextProps
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
               }}
             />
             {/* Pre-existing server files rendered above new uploads */}
