@@ -16,9 +16,9 @@ jobs:
           run_install: false
       - uses: actions/setup-node@v6
         with:
-          node-version: 24.14.0
+          node-version-file: .nvmrc
           cache: pnpm
-      - name: Setup App
-        run: sh scripts/setup.sh
-      - name: Build Docs
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Docs Website
         run: pnpm docs:build

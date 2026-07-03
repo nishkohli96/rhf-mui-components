@@ -23,10 +23,12 @@ jobs:
       - name: Setup Node env
         uses: actions/setup-node@v6
         with:
-          node-version: 24.14.0
+          node-version-file: .nvmrc
           cache: pnpm
-      - name: Setup App and Build Package
-        run: sh scripts/setup.sh
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Components Package
+        run: pnpm -F @nish1896/rhf-mui-components run lib:build
       - name: Publish package on npm
         run: npm publish --tag latest
         working-directory: packages/rhf-mui-components/dist
