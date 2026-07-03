@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -121,7 +122,7 @@ const InputsWithRegisterForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Input with min & max length validation" />
+            <FieldVariantInfo title="Input with min & max length validation and renderError" />
             <RHFTextField
               fieldName="lastName"
               control={control}
@@ -136,6 +137,14 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               helperText="Enter min 4 and max 10 characters"
+              renderError={error => (
+                <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
+                  <ErrorOutlineIcon color="error" fontSize="small" />
+                  <Typography component="span" variant="body2">
+                    {error.message}
+                  </Typography>
+                </Box>
+              )}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

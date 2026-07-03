@@ -22,7 +22,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 
 type StyledRHFTextFieldProps<T extends FieldValues> = Omit<
   RHFTextFieldProps<T>,
-  'variant' | 'showLabelAboveFormField'
+  'renderError' | 'showLabelAboveFormField' | 'variant'
 >;
 
 type StyledErrorMsgProps = {
@@ -33,8 +33,15 @@ const StyledErrorMsg = ({ errorMessage }: StyledErrorMsgProps) => {
   return (
     <Fragment>
       {Boolean(errorMessage) && (
-        <Typography variant="body2">
-          <PriorityHighIcon color="error" />
+        <Typography
+          variant="body2"
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            gap: 0.5
+          }}
+        >
+          <PriorityHighIcon color="error" fontSize="small" />
           {errorMessage}
         </Typography>
       )}
@@ -45,15 +52,26 @@ const StyledErrorMsg = ({ errorMessage }: StyledErrorMsgProps) => {
 const StyledRHFTextField = <T extends FieldValues>(
   props: StyledRHFTextFieldProps<T>
 ) => {
-  const { errorMessage, ...rest } = props;
+  const { formHelperTextProps, ...rest } = props;
+  const {
+    sx: helperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
   return (
     <RHFTextField
-      errorMessage={
-        errorMessage ? <StyledErrorMsg errorMessage={errorMessage} /> : undefined
-      }
+      {...rest}
       variant="standard"
       showLabelAboveFormField
-      {...rest}
+      formHelperTextProps={{
+        ...otherFormHelperTextProps,
+        sx: {
+          ...helperTextSx,
+          ml: 0
+        }
+      }}
+      renderError={error => (
+        <StyledErrorMsg errorMessage={error?.message} />
+      )}
     />
   );
 };

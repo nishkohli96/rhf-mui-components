@@ -40,7 +40,10 @@ const RHFTextFieldPropsTable = ({
       muiVersion
     }),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderError
+      ]
       : [
         getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })
       ]),

@@ -155,6 +155,11 @@ const PropsDescription: Record<
       'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
     type: 'boolean'
   },
+  renderError: {
+    name: 'renderError',
+    description: 'Custom renderer for the React Hook Form field error. Receives the current field error and should return renderable content, such as `error.message` or a custom element. Available from `v4.1.0`.',
+    type: '(error: FieldError) => ReactNode'
+  },
   formHelperTextProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formHelperTextProps',
     description: `[FormHelperTextProps](${ExternalLinks.muiComponentApi.formHelperText(muiVersion)}) to customise FormHelperText component for a field. Multiple fields can be configured using the [ConfigProvider](${!docsVersion ? '/customization' : `/v${docsVersion}/customization`}) component.`,
