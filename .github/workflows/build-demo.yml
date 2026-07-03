@@ -5,14 +5,17 @@ jobs:
     name: Build Examples
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout Repository
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # let pnpm version be determined from pkg.json
-      - uses: pnpm/action-setup@v6
+      - name: Configure pnpm
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
-      - uses: actions/setup-node@v6
+      - name: Configure Node.js
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
