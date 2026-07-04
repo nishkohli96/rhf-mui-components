@@ -59,14 +59,18 @@ const RHFNativeSelectPropsTable = ({
         }),
         ...(v4AndAbove
           ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-          : []),
-        getPropDetailsByVersion(PropsDescription.helperText, { muiVersion })
+          : [])
       ]
       : [LegacyPropsDescription.label_v1]),
-    ...(!v4AndAbove
-      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
-      : []),
+    ...(v4AndAbove
+      ? [PropsDescription.renderError]
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
+    ...(!v1
+      ? [getPropDetailsByVersion(PropsDescription.helperText, { muiVersion })
+      ]
+      : []),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion

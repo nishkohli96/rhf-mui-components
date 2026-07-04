@@ -15,6 +15,7 @@ import {
 } from 'react';
 import {
   Controller,
+  type FieldError,
   type FieldValues,
   type Path,
   type Control,
@@ -193,6 +194,13 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   /**
+   * Custom renderer for the React Hook Form field error.
+   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   *
+   * @param error - React Hook Form field error for this field.
+   */
+  renderError?: (error: FieldError) => ReactNode;
+  /**
    * If true, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
@@ -256,9 +264,10 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     formLabelProps,
     hideLabel,
     required,
-    helperText,
     errorMessage,
+    renderError,
     hideErrorMessage,
+    helperText,
     formHelperTextProps,
     ChipProps,
     sx: muiTextFieldSx,
@@ -515,7 +524,9 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
+          = fieldStateError
+            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+            : errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText

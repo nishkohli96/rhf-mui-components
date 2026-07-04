@@ -47,6 +47,7 @@ const IntroductionPageTable = ({
       : [
         getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })
       ]),
+    ...(v4AndAbove ? [PropsDescription.renderError] : []),
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,

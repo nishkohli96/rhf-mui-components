@@ -11,6 +11,7 @@ import {
 } from 'react';
 import {
   Controller,
+  type FieldError,
   type FieldValues,
   type Path,
   type Control,
@@ -185,15 +186,22 @@ export type RHFAutocompleteObjectProps<
    */
   required?: boolean;
   /**
-   * Helper text shown below the field when there is no visible validation error.
-   */
-  helperText?: ReactNode;
-  /**
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
    */
   errorMessage?: ReactNode;
+  /**
+   * Custom renderer for the React Hook Form field error.
+   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   *
+   * @param error - React Hook Form field error for this field.
+   */
+  renderError?: (error: FieldError) => ReactNode;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
+  helperText?: ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -248,9 +256,10 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
     formLabelProps,
     hideLabel,
     required,
-    helperText,
     errorMessage,
+    renderError,
     hideErrorMessage,
+    helperText,
     formHelperTextProps,
     textFieldProps,
     slotProps,
@@ -312,7 +321,9 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
+          = fieldStateError
+            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+            : errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText

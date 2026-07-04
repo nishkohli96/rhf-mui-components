@@ -42,15 +42,14 @@ const RHFDateTimePickerPropsTable = ({
       muiVersion
     }),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-      : []
-    ),
-    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    ...(v4AndAbove
-      ? []
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderError
+      ]
       : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
     ),
     PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion

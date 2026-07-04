@@ -48,6 +48,7 @@ const RHFTextFieldPropsTable = ({
         getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })
       ]),
     PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion
