@@ -37,12 +37,15 @@ const RHFAutocompleteObjectPropsTable = ({
       muiVersion
     }),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderError
+      ]
       : [
         getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })
       ]),
-    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion

@@ -111,7 +111,14 @@ export default function StyledReusableComponentForm() {
                   },
                 }}
                 helperText={
-                  <Typography variant="body2">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      gap: 0.5
+                    }}
+                  >
                     <InfoIcon color="info" />
                     The name that matches on your passport
                   </Typography>

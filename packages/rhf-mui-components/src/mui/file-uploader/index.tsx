@@ -14,6 +14,7 @@ import {
 } from 'react';
 import {
   Controller,
+  type FieldError,
   type FieldValues,
   type Path,
   type Control,
@@ -271,13 +272,20 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * Helper text shown below the field when there is no visible validation error.
+   * Custom renderer for the React Hook Form field error.
+   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   *
+   * @param error - React Hook Form field error for this field.
    */
-  helperText?: ReactNode;
+  renderError?: (error: FieldError) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
+  /**
+   * Helper text shown below the field when there is no visible validation error.
+   */
+  helperText?: ReactNode;
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
@@ -318,8 +326,9 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     formLabelProps,
     hideLabel,
     required,
-    helperText,
+    renderError,
     hideErrorMessage,
+    helperText,
     formHelperTextProps,
     fullWidth = false,
     disableDragAndDrop = false,
@@ -408,7 +417,9 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
-          = fieldStateError?.message?.toString();
+          = fieldStateError
+            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+            : undefined;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText

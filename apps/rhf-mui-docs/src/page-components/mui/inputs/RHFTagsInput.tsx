@@ -43,10 +43,12 @@ const RHFTagsInputPropsTable = ({
     getPropDetailsByVersion(PropsDescription.ChipProps_TagsInput, { muiVersion }),
     PropsDescription.limitTags,
     PropsDescription.getLimitTagsText,
-    ...(!v4AndAbove
-      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
-      : []),
+    ...(v4AndAbove
+      ? [PropsDescription.renderError]
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {
       docsVersion,
       muiVersion

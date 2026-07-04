@@ -19,6 +19,7 @@ import {
 import {
   Controller,
   useWatch,
+  type FieldError,
   type FieldValues,
   type Path,
   type Control,
@@ -221,6 +222,13 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
+   * Custom renderer for the React Hook Form field error.
+   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   *
+   * @param error - React Hook Form field error for this field.
+   */
+  renderError?: (error: FieldError) => ReactNode;
+  /**
    * If true, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
@@ -252,8 +260,9 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     formLabelProps,
     hideLabel,
     required,
-    helperText,
+    renderError,
     hideErrorMessage,
+    helperText,
     formHelperTextProps,
     disabled: muiDisabled,
     phoneInputProps,
@@ -422,7 +431,9 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
-          = fieldStateError?.message?.toString();
+          = fieldStateError
+            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+            : undefined;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText

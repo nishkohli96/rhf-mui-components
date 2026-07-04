@@ -3,8 +3,8 @@
  * component using RHFTextField, which can be used throughout the application.
  *
  * In this example, the component accepts all the props of RHFTextField except
- * 'variant' and 'showLabelAboveFormField', which are set to specific values
- * to maintain consistent styling across the application.
+ * 'renderError', 'variant' and 'showLabelAboveFormField', which have already
+ * been configured to maintain consistent styling across the application.
  * Additionally, it includes a custom error message component that displays an
  * error icon alongside the error message when there is an error.
  *
@@ -22,7 +22,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 
 type StyledRHFTextFieldProps<T extends FieldValues> = Omit<
   RHFTextFieldProps<T>,
-  'variant' | 'showLabelAboveFormField'
+  'renderError' | 'showLabelAboveFormField' | 'variant'
 >;
 
 type StyledErrorMsgProps = {
@@ -33,8 +33,15 @@ const StyledErrorMsg = ({ errorMessage }: StyledErrorMsgProps) => {
   return (
     <Fragment>
       {Boolean(errorMessage) && (
-        <Typography variant="body2">
-          <PriorityHighIcon color="error" />
+        <Typography
+          variant="body2"
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            gap: 0.5
+          }}
+        >
+          <PriorityHighIcon color="error" fontSize="small" />
           {errorMessage}
         </Typography>
       )}
@@ -45,15 +52,34 @@ const StyledErrorMsg = ({ errorMessage }: StyledErrorMsgProps) => {
 const StyledRHFTextField = <T extends FieldValues>(
   props: StyledRHFTextFieldProps<T>
 ) => {
-  const { errorMessage, ...rest } = props;
+  const { formHelperTextProps, ...rest } = props;
+  const {
+    sx: helperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
+  const helperTextSxList = Array.isArray(helperTextSx)
+    ? helperTextSx
+    : [];
+
+  if (helperTextSx && !Array.isArray(helperTextSx)) {
+    helperTextSxList.push(helperTextSx);
+  }
+
   return (
     <RHFTextField
-      errorMessage={
-        errorMessage ? <StyledErrorMsg errorMessage={errorMessage} /> : undefined
-      }
+      {...rest}
       variant="standard"
       showLabelAboveFormField
-      {...rest}
+      formHelperTextProps={{
+        ...otherFormHelperTextProps,
+        sx: [
+          ...helperTextSxList,
+          { ml: 0 }
+        ]
+      }}
+      renderError={error => (
+        <StyledErrorMsg errorMessage={error?.message} />
+      )}
     />
   );
 };

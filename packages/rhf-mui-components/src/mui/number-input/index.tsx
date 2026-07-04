@@ -16,6 +16,7 @@ import {
 } from 'react';
 import {
   Controller,
+  type FieldError,
   type FieldValues,
   type Path,
   type Control,
@@ -202,6 +203,13 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    */
   errorMessage?: ReactNode;
   /**
+   * Custom renderer for the React Hook Form field error.
+   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   *
+   * @param error - React Hook Form field error for this field.
+   */
+  renderError?: (error: FieldError) => ReactNode;
+  /**
    * If true, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
@@ -232,9 +240,10 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   maxDecimalPlaces,
   stepAmount = 1,
   required,
-  helperText,
   errorMessage,
+  renderError,
   hideErrorMessage,
+  helperText,
   formHelperTextProps,
   sx: muiSx,
   onBlur: muiOnBlur,
@@ -409,7 +418,9 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
         const fieldErrorMessage
-          = fieldStateError?.message?.toString() ?? errorMessage;
+          = fieldStateError
+            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+            : errorMessage;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText

@@ -118,7 +118,7 @@ const PropsDescription: Record<
   placeholder_Select: {
     name: 'placeholder',
     description:
-      'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
+      'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1** and above.',
     type: 'string'
   },
   formLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
@@ -154,6 +154,11 @@ const PropsDescription: Record<
     description:
       'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
     type: 'boolean'
+  },
+  renderError: {
+    name: 'renderError',
+    description: 'Custom renderer for the React Hook Form field error. Receives the current field error and returns the content to display, such as `error.message` or a custom React element in the `HelperText` component. Available from `v4.1.0`.',
+    type: '(error: FieldError) => ReactNode'
   },
   formHelperTextProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'formHelperTextProps',

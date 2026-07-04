@@ -42,6 +42,7 @@ const RHFFileUploaderPropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+    PropsDescription.renderError,
     PropsDescription.hideErrorMessage,
     getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.formHelperTextProps, {

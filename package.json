@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
@@ -46,7 +46,8 @@
     "react ui",
     "mui components",
     "react form library",
-    "rhf"
+    "rhf",
+    "react hook form material ui"
   ],
   "packageManager": "pnpm@11.8.0",
   "license": "MIT"

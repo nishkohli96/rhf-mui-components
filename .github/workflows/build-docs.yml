@@ -7,18 +7,21 @@ jobs:
     env:
       GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout Repository
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # let pnpm version be determined from pkg.json
-      - uses: pnpm/action-setup@v6
+      - name: Configure pnpm
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
-      - uses: actions/setup-node@v6
+      - name: Configure Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: 24.14.0
+          node-version-file: .nvmrc
           cache: pnpm
-      - name: Setup App
-        run: sh scripts/setup.sh
-      - name: Build Docs
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Docs Website
         run: pnpm docs:build

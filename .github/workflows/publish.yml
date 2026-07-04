@@ -14,19 +14,23 @@ jobs:
     name: Publish package on npm
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout Repository
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v6
+      - name: Configure pnpm
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
-      - name: Setup Node env
+      - name: Configure Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 24.14.0
+          node-version-file: .nvmrc
           cache: pnpm
-      - name: Setup App and Build Package
-        run: sh scripts/setup.sh
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Components Package
+        run: pnpm -F @nish1896/rhf-mui-components run lib:build
       - name: Publish package on npm
         run: npm publish --tag latest
         working-directory: packages/rhf-mui-components/dist

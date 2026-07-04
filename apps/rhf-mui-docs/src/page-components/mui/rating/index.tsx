@@ -37,13 +37,14 @@ const RHFRatingPropsTable = ({
   const commonRows = [
     getPropDetailsByVersion(PropsDescription.formLabelProps, versionContext),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
-      : []),
-    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
-    ...(!v4AndAbove
-      ? [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
-      : []),
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.renderError
+      ]
+      : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
+    ),
     PropsDescription.hideErrorMessage,
+    getPropDetailsByVersion(PropsDescription.helperText, { muiVersion }),
     getPropDetailsByVersion(
       PropsDescription.formHelperTextProps,
       versionContext
