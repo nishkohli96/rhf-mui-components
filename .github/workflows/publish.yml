@@ -26,5 +26,5 @@ jobs:
       #
       # npm install @nish1896/rhf-mui-components@v3
       - name: Publish package on npm
-        run: npm publish --tag version-3
+        run: npm publish --tag latest-v3
         working-directory: packages/rhf-mui-components/dist
