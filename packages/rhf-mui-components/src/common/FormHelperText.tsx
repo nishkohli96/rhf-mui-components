@@ -27,6 +27,7 @@ const FormHelperText = ({
     ...defaultFormHelperTextSx,
     ...sx,
   };
+  const showErrorMessage = error && !hideErrorMessage;
 
   return (
     <Fragment>
@@ -35,9 +36,9 @@ const FormHelperText = ({
           {...otherHelperTextProps}
           component="div"
           sx={appliedHelperTextSx}
-          error={error}
+          error={showErrorMessage}
         >
-          {error && !hideErrorMessage ? errorMessage : helperText}
+          {showErrorMessage ? errorMessage : helperText}
         </MuiFormHelperText>
       )}
     </Fragment>

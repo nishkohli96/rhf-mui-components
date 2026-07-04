@@ -127,6 +127,7 @@ const InputsWithRegisterForm = () => {
                   message: maxCharMsg(10)
                 }
               }}
+              helperText="Enter min 4 and max 10 characters"
               errorMessage={errors?.lastName?.message}
             />
           </Grid>
