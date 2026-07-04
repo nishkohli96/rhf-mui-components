@@ -7,7 +7,7 @@ const RHFSelectPropsTable = ({
   docsVersion,
   muiVersion,
   v1,
-  v3_1AndAbove,
+  v3AndAbove,
   v4AndAbove
 }: VersionProps) => {
   const binding = !v1
@@ -55,7 +55,7 @@ const RHFSelectPropsTable = ({
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
       : []),
-    ...(v3_1AndAbove ? [PropsDescription.placeholder_Select] : []),
+    ...(v3AndAbove ? [PropsDescription.placeholder_Select] : []),
     ...(v4AndAbove
       ? [PropsDescription.renderError]
       : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]

@@ -6,7 +6,7 @@ import { getPropDetailsByVersion } from '@site/src/utils';
 const RHFMultiAutocompletePropsTable = ({
   docsVersion,
   muiVersion,
-  v3_2AndAbove,
+  v3AndAbove,
   v4AndAbove
 }: VersionProps) => {
   const onValueChangeProp = v4AndAbove
@@ -26,7 +26,7 @@ const RHFMultiAutocompletePropsTable = ({
     PropsDescription.freeSolo,
     ...onValueChangeProp,
     PropsDescription.selectAllText,
-    ...(v3_2AndAbove ? [PropsDescription.hideSelectAllOption_MultiAutocomplete] : []),
+    ...(v3AndAbove ? [PropsDescription.hideSelectAllOption_MultiAutocomplete] : []),
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion

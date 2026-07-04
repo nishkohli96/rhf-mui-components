@@ -12,7 +12,7 @@ import {
   newlyAddedComponents_v3_3,
 } from './routesList';
 
-const FolderStructure = ({ v1, v3_3AndAbove, docsVersion }: VersionProps) => {
+const FolderStructure = ({ v1, v3AndAbove, docsVersion }: VersionProps) => {
   const muiFolders = getMuiFoldersList(docsVersion);
   let muiList;
   if (v1) {
@@ -20,7 +20,7 @@ const FolderStructure = ({ v1, v3_3AndAbove, docsVersion }: VersionProps) => {
       ![...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].includes(
         folder.name
       ));
-  } else if (v3_3AndAbove) {
+  } else if (v3AndAbove) {
     muiList = muiFolders;
   } else {
     muiList = muiFolders.filter(

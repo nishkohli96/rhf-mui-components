@@ -118,7 +118,7 @@ const PropsDescription: Record<
   placeholder_Select: {
     name: 'placeholder',
     description:
-      'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1.0** and above.',
+      'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1** and above.',
     type: 'string'
   },
   formLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
