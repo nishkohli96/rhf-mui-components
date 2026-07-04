@@ -25,10 +25,9 @@
     "noEmit": false,
     "incremental": false,
     "jsx": "react-jsx",
-    "baseUrl": "./",
-    "rootDir": "src",
+    "rootDir": "./src",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],
