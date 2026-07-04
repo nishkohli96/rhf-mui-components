@@ -13,14 +13,19 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout Repository
+        uses: actions/checkout@v7
       - name: Setup Node env
         uses: actions/setup-node@v6
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
-      - name: Setup App and Build Package
-        run: sh scripts/setup.sh
+      - name: Install Yarn
+        run: npm install -g yarn@1.22.22
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build package
+        run: yarn lib
       # Running the below command would ensure that latest
       # "v3.x" of this package would only be installed
       #
