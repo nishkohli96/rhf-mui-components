@@ -3,8 +3,8 @@
  * component using RHFTextField, which can be used throughout the application.
  *
  * In this example, the component accepts all the props of RHFTextField except
- * 'variant' and 'showLabelAboveFormField', which are set to specific values
- * to maintain consistent styling across the application.
+ * 'renderError', 'variant' and 'showLabelAboveFormField', which have already
+ * been configured to maintain consistent styling across the application.
  * Additionally, it includes a custom error message component that displays an
  * error icon alongside the error message when there is an error.
  *
@@ -57,6 +57,14 @@ const StyledRHFTextField = <T extends FieldValues>(
     sx: helperTextSx,
     ...otherFormHelperTextProps
   } = formHelperTextProps ?? {};
+  const helperTextSxList = Array.isArray(helperTextSx)
+    ? helperTextSx
+    : [];
+
+  if (helperTextSx && !Array.isArray(helperTextSx)) {
+    helperTextSxList.push(helperTextSx);
+  }
+
   return (
     <RHFTextField
       {...rest}
@@ -64,10 +72,10 @@ const StyledRHFTextField = <T extends FieldValues>(
       showLabelAboveFormField
       formHelperTextProps={{
         ...otherFormHelperTextProps,
-        sx: {
-          ...helperTextSx,
-          ml: 0
-        }
+        sx: [
+          ...helperTextSxList,
+          { ml: 0 }
+        ]
       }}
       renderError={error => (
         <StyledErrorMsg errorMessage={error?.message} />
