@@ -36,8 +36,9 @@ const HomePage = () => {
           To view the documentation of this package, please visit
           {' '}
           <Link href={docsLink} target="_blank">
-            {' rhf-mui-components.vercel.app.'}
+            {' rhf-mui-components.vercel.app'}
           </Link>
+          <span>.</span>
         </Typography>
       </ContentContainer>
     </main>
