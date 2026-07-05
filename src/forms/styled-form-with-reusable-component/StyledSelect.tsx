@@ -16,7 +16,7 @@ import { Poppins } from 'next/font/google';
 import RHFSelect, {
   type RHFSelectProps
 } from '@nish1896/rhf-mui-components/mui/select';
-import type { StrNumObjOption } from '@nish1896/rhf-mui-components/types';
+import type { StrNumObjOption } from '@nish1896/rhf-mui-components';
 
 const poppins = Poppins({
   subsets: ['latin'],

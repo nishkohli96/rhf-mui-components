@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Checkbox from '@mui/material/Checkbox';
@@ -28,13 +27,11 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
 import {
   reqdMsg,
   minCharMsg,
   maxCharMsg,
-  showToastMessage,
-  logFirebaseEvent
+  showToastMessage
 } from '@/utils';
 
 type FormSchema = {
@@ -61,7 +58,6 @@ const initialValues: FormSchema = {
 };
 
 const InputsWithRegisterForm = () => {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -74,8 +70,7 @@ const InputsWithRegisterForm = () => {
     disabled: disableAllFields
   });
 
-  async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
+  function onFormSubmit(formValues: FormSchema) {
     showToastMessage(formValues);
   }
 

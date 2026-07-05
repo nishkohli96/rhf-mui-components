@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
   pageMetadata,
-  DocsLinks,
   SourceCodeLinks,
   CodeSandboxLinks,
   ValidationLibLinks
@@ -14,8 +13,6 @@ export const metadata = pageMetadata.select;
 
 const SelectWithClassValidatorPage = () => {
   const links = [
-    DocsLinks.rhfSelect,
-    DocsLinks.rhfNativeSelect,
     ValidationLibLinks.classValidator
   ];
   const codeLinks = [

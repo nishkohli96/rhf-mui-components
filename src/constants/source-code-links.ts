@@ -1,8 +1,6 @@
-import { ENV_VARS } from './environment';
 import { type Page } from '@/types';
 
-const sandboxPath = ENV_VARS.SANDBOX_URL;
-const sandboxRoute = `${sandboxPath}?file=/src/forms`;
+const sandboxRoute = 'https://codesandbox.io/p/github/nishkohli96/rhf-mui-components/codesandbox-v3?file=/src/forms';
 const sandboxPrefix = 'CodeSandbox - ';
 const commonRoute = 'https://github.com/nishkohli96/rhf-mui-components/tree/main/apps/rhf-mui-demo/src/forms';
 
