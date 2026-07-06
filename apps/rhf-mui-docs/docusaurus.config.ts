@@ -5,6 +5,8 @@ import type { ThemeConfig } from '@docusaurus/preset-classic';
 
 const examplesUrl = process.env.EXAMPLES_URL
   ?? 'https://rhf-mui-components-examples.vercel.app';
+const playgroundUrl = process.env.PLAYGROUND_URL
+  ?? 'https://stackblitz.com/github/nishkohli96/rhf-mui-components/tree/v4-examples';
 
 const config: Config = {
   title: '@nish1896/rhf-mui-components',
@@ -76,12 +78,12 @@ const config: Config = {
       items: [
         {
           href: examplesUrl,
-          label: 'Playground',
+          label: 'Code Examples',
           position: 'right'
         },
         {
-          href: 'https://github.com/nishkohli96/rhf-mui-examples',
-          label: 'Code Examples',
+          href: playgroundUrl,
+          label: 'Playground',
           position: 'right'
         },
         {
