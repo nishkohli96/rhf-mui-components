@@ -1,5 +1,5 @@
 import { type Page } from '@/types';
-;
+
 const commonRoute = 'https://github.com/nishkohli96/rhf-mui-components/tree/main/apps/rhf-mui-demo/src/forms';
 
 export const SourceCodeLinks: Record<string, Page> = {
