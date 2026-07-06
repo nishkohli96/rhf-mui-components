@@ -1,54 +1,59 @@
 {
-  "name": "@nish1896/rhf-mui-components-root",
+  "name": "@nish1896/rhf-mui-demo",
   "version": "4.1.0",
-  "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
-  "author": "Nishant Kohli",
   "private": true,
-  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
-  "repository": {
-    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
-  },
-  "engines": {
-    "node": ">=24"
-  },
-  "workspaces": [
-    "./apps/*",
-    "./packages/*"
-  ],
+  "author": "Nishant Kohli",
   "scripts": {
-    "lib": "pnpm -F @nish1896/rhf-mui-components run lib:build",
-    "lib:lint": "pnpm -F @nish1896/rhf-mui-components run lint",
-    "lib:pack": "sh pack-pkg.sh",
-    "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
-    "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
-    "demo:build": "pnpm lib && pnpm -F @nish1896/rhf-mui-demo run build",
-    "demo:start": "pnpm -F @nish1896/rhf-mui-demo run start",
-    "doc": "pnpm -F @nish1896/rhf-mui-docs run start",
-    "docs:lint": "pnpm -F @nish1896/rhf-mui-docs run lint",
-    "docs:build": "pnpm -F @nish1896/rhf-mui-docs run build",
-    "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint --fix ."
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-react": "^9.0.0",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@faker-js/faker": "^10.5.0",
+    "@hookform/resolvers": "^5.4.0",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.9",
+    "@mui/material-nextjs": "^7.3.9",
+    "@mui/x-date-pickers": "^8.27.2",
+    "@nish1896/rhf-mui-components": "workspace:*",
+    "axios": "^1.18.1",
+    "ckeditor5": "^43.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "date-fns": "^4.4.0",
+    "dayjs": "^1.11.21",
+    "firebase": "^12.15.0",
+    "joi": "^18.2.3",
+    "luxon": "^3.7.2",
+    "moment": "^2.30.1",
+    "next": "16.2.9",
+    "react": "^19.2.7",
+    "react-color-palette": "7.3.1",
+    "react-dom": "^19.2.7",
+    "react-hook-form": "^7.80.0",
+    "react-international-phone": "^4.8.0",
+    "react-json-view": "^1.21.3",
+    "react-toastify": "^11.1.0",
+    "sharp": "^0.35.1",
+    "superstruct": "^2.0.2",
+    "yup": "^1.7.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "turbo": "2.10.0"
-  },
-  "keywords": [
-    "react-hook-form",
-    "mui",
-    "material-ui",
-    "mui-v7",
-    "mui-v6",
-    "mui-v5",
-    "react forms",
-    "form validation",
-    "form components",
-    "typescript",
-    "component library",
-    "react ui",
-    "mui components",
-    "react form library",
-    "rhf",
-    "react hook form material ui"
-  ],
-  "packageManager": "pnpm@11.8.0",
-  "license": "MIT"
+    "@nish1896/eslint-flat-config": "^3.1.5",
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/luxon": "^3.7.2",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.0",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^5.9.3"
+  }
 }
