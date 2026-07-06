@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -31,13 +30,11 @@ import {
   UploadedFile,
   UploadedImage
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
 import {
   reqdMsg,
   minCharMsg,
   maxCharMsg,
-  showToastMessage,
-  logFirebaseEvent
+  showToastMessage
 } from '@/utils';
 
 type FormSchema = {
@@ -69,7 +66,6 @@ const weightStepAmount = 2;
 const balanceStepAmount = 0.5;
 
 const InputsWithRegisterForm = () => {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -83,7 +79,6 @@ const InputsWithRegisterForm = () => {
   const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

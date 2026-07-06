@@ -1,4 +1,3 @@
-export * from './firebase';
 export * from './form';
 export * from './messages';
 export * from './options';

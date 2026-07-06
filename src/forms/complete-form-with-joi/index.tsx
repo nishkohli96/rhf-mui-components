@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Grid from '@mui/material/Grid';
@@ -43,18 +42,16 @@ import {
   IPLTeams,
   GroceryList,
   HobbiesList,
-  formSubmitEventName,
 } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { showToastMessage } from '@/utils';
 import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
 const CompleteFormWithJoi = () => {
-  const pathName = usePathname();
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
 
@@ -84,7 +81,6 @@ const CompleteFormWithJoi = () => {
   const areAllFieldsDisabled = Boolean(getValues('disableAllFields'));
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

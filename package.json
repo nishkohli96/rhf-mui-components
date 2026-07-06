@@ -1,5 +1,5 @@
 {
-  "name": "@nish1896/rhf-mui-demo",
+  "name": "@nish1896/rhf-mui-v4-examples",
   "version": "4.1.0",
   "private": true,
   "author": "Nishant Kohli",
@@ -20,14 +20,13 @@
     "@mui/material": "^7.3.9",
     "@mui/material-nextjs": "^7.3.9",
     "@mui/x-date-pickers": "^8.27.2",
-    "@nish1896/rhf-mui-components": "workspace:*",
+    "@nish1896/rhf-mui-components": "latest",
     "axios": "^1.18.1",
     "ckeditor5": "^43.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.21",
-    "firebase": "^12.15.0",
     "joi": "^18.2.3",
     "luxon": "^3.7.2",
     "moment": "^2.30.1",
@@ -55,5 +54,6 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4.3.1",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "pnpm@11.9.0"
 }

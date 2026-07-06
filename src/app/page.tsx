@@ -1,6 +1,6 @@
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { ENV_VARS, pageMetadata } from '@/constants';
+import { pageMetadata, docsLink } from '@/constants';
 import { ContentContainer, PageHeading } from '@/components';
 
 export const metadata = pageMetadata.home;
@@ -9,9 +9,9 @@ const HomePage = () => {
   return (
     <main>
       <ContentContainer>
-        <PageHeading title="@nish1896/rhf-mui-components" />
+        <PageHeading title="RHF MUI v4 Examples" />
         <Typography variant="h6" color="#D2AF26">
-          &quot;A suite of 20+ Material-UI based form components to create and
+          &quot;A suite of 25+ Material-UI based form components to create and
           style forms effortlessly within minutes!&quot;
         </Typography>
 
@@ -36,8 +36,8 @@ const HomePage = () => {
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit
           {' '}
-          <Link href={ENV_VARS.DOCS_URL} target="_blank">
-            {` ${ENV_VARS.DOCS_URL}.`}
+          <Link href={docsLink} target="_blank">
+            {` rhf-mui-components.vercel.app.`}
           </Link>
         </Typography>
       </ContentContainer>

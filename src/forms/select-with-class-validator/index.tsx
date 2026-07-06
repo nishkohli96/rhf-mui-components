@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import Checkbox from '@mui/material/Checkbox';
@@ -20,9 +19,9 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
+import { IPLTeams, Currencies } from '@/constants';
 import { Colors } from '@/types';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { showToastMessage } from '@/utils';
 import { FormSchema } from './validation';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
@@ -38,7 +37,6 @@ const getLanguagesList = (count: number) => {
 const initialValues = { favouriteColor: Colors.Orange };
 
 const SelectFormWithClassValidator = () => {
-  const pathName = usePathname();
   const languagesList = useMemo(() => getLanguagesList(10), []);
   const [disableAllFields, setDisableAllFields] = useState(false);
 
@@ -59,7 +57,6 @@ const SelectFormWithClassValidator = () => {
   });
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

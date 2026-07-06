@@ -1,13 +1,10 @@
-# @nish1896/rhf-mui-demo
+# RHF MUI v4 Examples
 
-**A playground repository to explore and experiment with the form components in this package during development. 🛠️**
+Example forms for `@nish1896/rhf-mui-components` v4.
 
-### Live Examples
-Explore live examples for all the components included in the package:
+## Usage
 
-👉 [Examples Demo](https://rhf-mui-components-examples.vercel.app/)
-
-### Documentation
-Browse comprehensive documentation, setup guides, and API references for @nish1896/rhf-mui-components:
-
-👉 [Documentation Site](https://rhf-mui-components.vercel.app)
+```sh
+pnpm install
+pnpm dev
+```

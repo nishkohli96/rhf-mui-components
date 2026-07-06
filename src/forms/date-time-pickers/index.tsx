@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Checkbox from '@mui/material/Checkbox';
@@ -23,12 +22,10 @@ import {
   SubmitButton,
   ResetButton,
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { showToastMessage } from '@/utils';
 import { dateTimeSchema, type DateTimeFormData } from './schema';
 
 const DateTimePickersForm = () => {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -42,7 +39,6 @@ const DateTimePickersForm = () => {
   const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: DateTimeFormData) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

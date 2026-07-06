@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { type Path, useForm, useWatch } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
@@ -46,16 +45,14 @@ import {
   IPLTeams,
   GroceryList,
   HobbiesList,
-  formSubmitEventName,
 } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
+import { showToastMessage, getPhoneNoValue } from '@/utils';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
 const CompleteForm = () => {
-  const pathName = usePathname();
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
   const [disableAllFields, setDisableAllFields] = useState(false);
@@ -87,7 +84,6 @@ const CompleteForm = () => {
   }
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

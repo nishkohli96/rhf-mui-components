@@ -1,5 +1,7 @@
 import { type PageInfo } from '@/types';
 
+export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
+
 export const ValidationLibLinks: Record<string, PageInfo> = {
   classValidator: {
     title: 'Class Validator',

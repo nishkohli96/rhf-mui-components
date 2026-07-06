@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-export const defaultPageTitle = 'RHF-Mui Components';
-export const defaultPageDescription = 'Examples for RHF-Mui Components';
+export const defaultPageTitle = 'RHF MUI v4 Examples';
+export const defaultPageDescription = 'Examples for RHF MUI v4 Components';
 export const defaultPageKeywords = [
   'react-hook-form',
   'material-ui',
@@ -19,7 +19,7 @@ export const defaultPageKeywords = [
 export const pageMetadata: Record<string, Metadata> = {
   home: {
     title: 'Introduction',
-    description: 'Overview of the Examples Website for RHF-MUI Components'
+    description: 'Overview of the RHF MUI v4 examples app'
   },
   autocomplete: {
     title: 'Autocomplete',
@@ -73,4 +73,4 @@ export const pageMetadata: Record<string, Metadata> = {
   }
 };
 
-export const formSubmitEventName = 'form_submit';
+export const docsLink = "https://rhf-mui-components.vercel.app/";

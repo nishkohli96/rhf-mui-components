@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -19,14 +18,12 @@ import {
   SubmitButton,
   ResetButton,
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import {
   reqdMsg,
   minCharMsg,
   maxCharMsg,
   showToastMessage,
-  logFirebaseEvent,
   generateAirportNames,
 } from '@/utils';
 import StyledRHFTextField from './StyledTextField';
@@ -53,7 +50,6 @@ const colorOptions = Object.values(Colors).map(color => ({
 }));
 
 export default function StyledReusableComponentForm() {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -68,7 +64,6 @@ export default function StyledReusableComponentForm() {
   const airportList = useMemo(() => generateAirportNames(100), []);
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
   return (

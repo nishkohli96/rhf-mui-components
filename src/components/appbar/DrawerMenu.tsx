@@ -19,9 +19,6 @@ const DrawerMenu = () => {
     setDrawerOpen(newOpen);
   };
 
-  /**
-   * Add icons for github repo and docs link
-   */
   return (
     <Fragment>
       {isPhone && (

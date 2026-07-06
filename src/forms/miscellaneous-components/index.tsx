@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -25,8 +24,7 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
-import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
+import { showToastMessage, getPhoneNoValue } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 
 type FormSchema = {
@@ -52,7 +50,6 @@ const initialValues: Partial<FormSchema> = {
 };
 
 const MiscellaneousComponentsForm = () => {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -73,7 +70,6 @@ const MiscellaneousComponentsForm = () => {
   });
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

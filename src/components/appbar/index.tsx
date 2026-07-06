@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import RHFMuiLogo from '../../../public/rhf-mui.png';
 import DrawerMenu from './DrawerMenu';
 import {
-  DocsButton,
   GithubButton,
   ThemeChangeButton
 } from '../buttons';
@@ -36,9 +35,8 @@ const AppBar = () => {
               textAlign: 'center'
             }}
           >
-            <Typography variant="h6">RHF-Mui Components</Typography>
+            <Typography variant="h6">RHF MUI v4 Examples</Typography>
           </Box>
-          <DocsButton />
           <GithubButton />
           <ThemeChangeButton />
         </Toolbar>

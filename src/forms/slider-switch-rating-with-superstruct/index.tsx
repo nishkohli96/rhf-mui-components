@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { superstructResolver } from '@hookform/resolvers/superstruct';
 import { toast } from 'react-toastify';
@@ -22,8 +21,7 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage } from '@/utils';
 
 const orangeTheme = createTheme({
   palette: {
@@ -43,7 +41,6 @@ const initialValues = {
 };
 
 const SliderSwitchRatingFormWithSuperstruct = () => {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -58,7 +55,6 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
   const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

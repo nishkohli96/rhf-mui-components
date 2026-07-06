@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { usePathname } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -22,9 +21,9 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { CountriesList, formSubmitEventName } from '@/constants';
+import { CountriesList } from '@/constants';
 import { Colors, Gender } from '@/types';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage } from '@/utils';
 import { formSchema, type PersonInfo } from './validation';
 
 const ageGroupOptions = [
@@ -47,7 +46,6 @@ const initialValues = {
 };
 
 const CheckboxRadioZodForm = () => {
-  const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
@@ -62,7 +60,6 @@ const CheckboxRadioZodForm = () => {
   const formValues = useWatch({ control });
 
   async function onFormSubmit(formValues: PersonInfo) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

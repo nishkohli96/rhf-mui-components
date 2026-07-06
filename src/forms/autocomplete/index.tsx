@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm, useWatch } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
@@ -25,8 +24,8 @@ import {
   ResetButton
 } from '@/components';
 import { Colors } from '@/types';
-import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
-import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
+import { IPLTeams, employeeList } from '@/constants';
+import { showToastMessage, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
 type FormSchema = {
@@ -54,7 +53,6 @@ const AutocompleteForm = () => {
   const isPokemonFetchInFlightRef = useRef(false);
 
   const airportList = useMemo(() => generateAirportNames(100), []);
-  const pathName = usePathname();
 
   const initialValues: Partial<FormSchema> = {
     sourceAirport: airportList[2].iataCode,
@@ -103,7 +101,6 @@ const AutocompleteForm = () => {
   }, []);
 
   async function onFormSubmit(formValues: FormSchema) {
-    await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 

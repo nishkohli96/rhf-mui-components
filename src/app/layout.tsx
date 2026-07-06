@@ -13,7 +13,6 @@ import {
   AppBar,
   ConfigProviderWrapper,
   Drawer,
-  FirebaseAnalytics,
   Footer
 } from '@/components';
 import { AppThemeProvider } from '@/theme';
@@ -70,7 +69,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               </Grid>
             </Grid>
             <Footer />
-            <FirebaseAnalytics />
             <ToastContainer
               autoClose={3000}
               limit={3}
