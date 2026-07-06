@@ -7,8 +7,6 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  SourceCodeLinks,
-  CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
 import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component/Client';
@@ -16,23 +14,18 @@ import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-compo
 export const metadata = pageMetadata.customization;
 
 const CustomizationPage = () => {
-  const links = [
+  const docsLinks = [
     componentsDocsLink.rhfTextField,
     componentsDocsLink.rhfDatePicker,
     ValidationLibLinks.luxon
   ];
-  const codeLinks = [
-    SourceCodeLinks.customization,
-    SourceCodeLinks.styledTextField,
-    CodeSandboxLinks.customization
-  ];
+
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
       <StyledReusableComponentForm />
-      <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
+      <LinksList links={docsLinks} />
     </ContentContainer>
   );
 };
