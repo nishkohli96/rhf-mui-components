@@ -1,6 +1,10 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import {
+  useContext,
+  type ReactNode,
+  type ChangeEvent
+} from 'react';
 import {
   Controller,
   type FieldError,
@@ -20,14 +24,11 @@ import {
   type FormLabelProps,
   type FormControlLabelProps,
   type FormHelperTextProps,
-  type RadioProps
+  type RadioProps,
+  type CustomOnChangeProps,
+  type OptionValue
 } from '@/common';
-import type {
-  StrNumObjOption,
-  OptionValue,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { StrNumObjOption, CustomComponentIds } from '@/types';
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,

@@ -57,7 +57,12 @@
     "./mui-pickers": "./dist/mui-pickers/index.js",
     "./mui-pickers/*": "./dist/mui-pickers/*/index.js",
     "./misc": "./dist/misc/index.js",
-    "./misc/*": "./dist/misc/*/index.js"
+    "./misc/*": "./dist/misc/*/index.js",
+    "./types": "./dist/types/index.js",
+    "./types/*": {
+      "types": "./dist/types/*.d.ts",
+      "default": "./dist/types/index.js"
+    }
   },
   "types": "./index.d.ts",
   "keywords": [

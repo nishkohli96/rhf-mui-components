@@ -22,9 +22,10 @@ import {
   FormLabel,
   FormHelperText,
   type FormLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   mergeRefs,

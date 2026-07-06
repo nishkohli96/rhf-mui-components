@@ -27,12 +27,10 @@ import {
   FormLabel,
   FormHelperText,
   type FormLabelProps,
-  type FormHelperTextProps
-} from '@/common';
-import {
-  type CustomComponentIds,
+  type FormHelperTextProps,
   type CustomOnChangeProps
-} from '@/types';
+} from '@/common';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

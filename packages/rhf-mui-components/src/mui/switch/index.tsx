@@ -22,10 +22,11 @@ import Switch, { type SwitchProps } from '@mui/material/Switch';
 import {
   FormHelperText,
   type FormControlLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
+import type { CustomComponentIds } from '@/types';
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {

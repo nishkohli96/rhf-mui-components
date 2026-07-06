@@ -26,14 +26,11 @@ import {
   defaultAutocompleteValue,
   MUISELECT_OPTIONS_THRESHOLD,
   type FormHelperTextProps,
-  type FormLabelProps
+  type FormLabelProps,
+  type CustomOnChangeProps,
+  type OptionValue
 } from '@/common';
-import type {
-  CustomComponentIds,
-  OptionValue,
-  StrNumObjOption,
-  CustomOnChangeProps
-} from '@/types';
+import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   getOptionValue,

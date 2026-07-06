@@ -29,14 +29,11 @@ import {
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
-  type SelectProps
+  type SelectProps,
+  type CustomOnChangeProps,
+  type OptionValue
 } from '@/common';
-import type {
-  StrNumObjOption,
-  OptionValue,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

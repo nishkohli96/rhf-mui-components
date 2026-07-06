@@ -26,9 +26,10 @@ import {
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
-  type TextFieldProps
+  type TextFieldProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

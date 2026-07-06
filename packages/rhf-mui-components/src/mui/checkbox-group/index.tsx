@@ -24,14 +24,11 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type FormControlLabelProps,
-  type CheckboxProps
+  type CheckboxProps,
+  type CustomOnChangeProps,
+  type OptionValue
 } from '@/common';
-import type {
-  OptionValue,
-  StrNumObjOption,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { StrNumObjOption, CustomComponentIds } from '@/types';
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,

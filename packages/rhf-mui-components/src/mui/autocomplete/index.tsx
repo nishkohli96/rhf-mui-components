@@ -18,7 +18,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import Autocomplete, {
+import Autocomplete,
+{
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
@@ -36,14 +37,11 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type AutocompleteNewValue,
+  type CustomOnChangeProps
 } from '@/common';
-import type {
-  StrObjOption,
-  AutocompleteNewValue,
-  CustomOnChangeProps,
-  CustomComponentIds
-} from '@/types';
+import type { StrObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

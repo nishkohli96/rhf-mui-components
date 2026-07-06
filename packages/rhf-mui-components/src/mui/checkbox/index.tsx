@@ -24,9 +24,10 @@ import {
   FormHelperText,
   type FormControlLabelProps,
   type FormHelperTextProps,
-  type CheckboxProps
+  type CheckboxProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
+import type { CustomComponentIds } from '@/types';
 
 type OnValueChangeProps = {
   newValue: boolean;

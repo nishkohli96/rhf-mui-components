@@ -22,10 +22,11 @@ import {
   FormLabel,
   FormHelperText,
   type FormLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
+import type { CustomComponentIds } from '@/types';
 
 type OnValueChangeProps = {
   newValue: number | null;

@@ -18,7 +18,8 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, {
+import Autocomplete,
+{
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
@@ -35,14 +36,10 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type {
-  CountryDetails,
-  CountryISO,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { CountryDetails, CountryISO, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
