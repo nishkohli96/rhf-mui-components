@@ -20,14 +20,13 @@ import {
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormHelperText } from '@/common';
-import type {
-  FormControlLabelProps,
-  FormHelperTextProps,
-  CheckboxProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import {
+  FormHelperText,
+  type FormControlLabelProps,
+  type FormHelperTextProps,
+  type CheckboxProps
+} from '@/common';
+import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
 
 type OnValueChangeProps = {
   newValue: boolean;

@@ -32,15 +32,15 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps
 } from '@/common';
 import type {
-  FormLabelProps,
-  FormHelperTextProps,
   StrObjOption,
   AutocompleteNewValue,
-  AutoCompleteTextFieldProps,
-  MuiChipProps,
   CustomOnChangeProps,
   CustomComponentIds
 } from '@/types';

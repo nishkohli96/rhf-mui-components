@@ -19,14 +19,13 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { type SwitchProps } from '@mui/material/Switch';
-import { FormHelperText } from '@/common';
+import {
+  FormHelperText,
+  type FormControlLabelProps,
+  type FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type {
-  CustomComponentIds,
-  CustomOnChangeProps,
-  FormControlLabelProps,
-  FormHelperTextProps
-} from '@/types';
+import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {

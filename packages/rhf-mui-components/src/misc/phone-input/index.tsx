@@ -47,13 +47,11 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

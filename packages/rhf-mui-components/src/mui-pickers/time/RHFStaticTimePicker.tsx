@@ -5,7 +5,6 @@ import {
   forwardRef,
   type Ref,
   type ReactNode,
-  type ComponentProps,
   type JSX
 } from 'react';
 import {
@@ -19,17 +18,20 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   StaticTimePicker as MuiStaticTimePicker,
+  type StaticTimePickerProps,
   type PickerValidDate,
   type TimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
+} from '@/common';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
@@ -39,7 +41,7 @@ import {
 } from '@/utils';
 
 type StaticTimePickerInputProps = Omit<
-  ComponentProps<typeof MuiStaticTimePicker>,
+  StaticTimePickerProps,
   'value' | 'ref'
 >;
 

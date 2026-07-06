@@ -24,12 +24,12 @@ import {
   FormLabel,
   FormHelperText,
   defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD
+  MUISELECT_OPTIONS_THRESHOLD,
+  type FormHelperTextProps,
+  type FormLabelProps
 } from '@/common';
 import type {
   CustomComponentIds,
-  FormHelperTextProps,
-  FormLabelProps,
   OptionValue,
   StrNumObjOption,
   CustomOnChangeProps

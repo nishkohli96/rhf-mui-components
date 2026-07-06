@@ -1,6 +1,12 @@
 'use client';
 
-import { useContext, forwardRef, type Ref, type ReactNode, type JSX } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type Ref,
+  type ReactNode,
+  type JSX
+} from 'react';
 import {
   Controller,
   type FieldError,
@@ -22,13 +28,11 @@ import {
   FormControl,
   FormLabel,
   FormLabelText,
-  FormHelperText
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,

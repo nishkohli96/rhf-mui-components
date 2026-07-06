@@ -17,14 +17,15 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { CustomComponentIds, CustomOnChangeProps } from '@/types';
 
 type OnValueChangeProps = {
   newValue: number | null;

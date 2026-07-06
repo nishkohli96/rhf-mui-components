@@ -6,7 +6,6 @@ import {
   type Ref,
   type ReactNode,
   type JSX,
-  type ComponentProps,
 } from 'react';
 import {
   Controller,
@@ -19,17 +18,20 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   StaticDatePicker as MuiStaticDatePicker,
+  type StaticDatePickerProps,
   type PickerValidDate,
   type DateValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
+} from '@/common';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
@@ -39,7 +41,7 @@ import {
 } from '@/utils';
 
 type StaticDatePickerInputProps = Omit<
-  ComponentProps<typeof MuiStaticDatePicker>,
+  StaticDatePickerProps,
   'value' | 'ref'
 >;
 

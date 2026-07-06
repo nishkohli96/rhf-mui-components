@@ -35,16 +35,16 @@ import {
   FormHelperText,
   defaultAutocompleteValue,
   defaultSelectAllOptionLabel,
-  selectAllOptionValue
+  selectAllOptionValue,
+  type FormLabelProps,
+  type FormControlLabelProps,
+  type CheckboxProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps
 } from '@/common';
 import type {
-  FormLabelProps,
-  FormControlLabelProps,
-  CheckboxProps,
-  FormHelperTextProps,
   StrObjOption,
-  AutoCompleteTextFieldProps,
-  MuiChipProps,
   CustomOnChangeProps,
   CustomComponentIds
 } from '@/types';

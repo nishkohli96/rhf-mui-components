@@ -17,12 +17,16 @@ import {
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type FormControlLabelProps,
+  type CheckboxProps
+} from '@/common';
 import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  FormControlLabelProps,
-  CheckboxProps,
   OptionValue,
   StrNumObjOption,
   CustomComponentIds,

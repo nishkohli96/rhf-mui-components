@@ -3,108 +3,107 @@ import type { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/mat
 import type { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
 import type { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 import type { RadioProps as MuiRadioProps } from '@mui/material/Radio';
-import type{ SelectProps as MuiSelectProps } from '@mui/material/Select';
+import type { SelectProps as MuiSelectProps } from '@mui/material/Select';
 import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
 import type { ChipProps } from '@mui/material/Chip';
 
 export type FormLabelProps = Omit<
-	MuiFormLabelProps,
-	| 'children'
-	| 'required'
-	| 'error'
+  MuiFormLabelProps,
+  | 'children'
+  | 'required'
+  | 'error'
 >;
 
 export type FormControlLabelProps = Omit<
-	MuiFormControlLabelProps,
-	| 'control'
-	| 'label'
-	| 'value'
-	| 'defaultValue'
-	| 'defaultChecked'
-	| 'disabled'
-	| 'key'
+  MuiFormControlLabelProps,
+  | 'control'
+  | 'label'
+  | 'value'
+  | 'defaultValue'
+  | 'defaultChecked'
+  | 'disabled'
+  | 'key'
 >;
 
 export type FormHelperTextProps = Omit<
-	MuiFormHelperTextProps,
-	| 'children'
-	| 'component'
-	| 'error'
+  MuiFormHelperTextProps,
+  | 'children'
+  | 'component'
+  | 'error'
 >;
 
 export type TextFieldProps = Omit<
-	MuiTextFieldProps,
-	| 'id'
-	| 'name'
-	| 'value'
-	| 'defaultValue'
-	| 'onChange'
-	| 'error'
-	| 'FormHelperTextProps'
-	| 'ref'
+  MuiTextFieldProps,
+  | 'id'
+  | 'name'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'error'
+  | 'FormHelperTextProps'
+  | 'ref'
 >;
 
 export type CheckboxProps = Omit<
-	MuiCheckboxProps,
-	| 'name'
-	| 'value'
-	| 'checked'
-	| 'defaultChecked'
-	| 'onChange'
+  MuiCheckboxProps,
+  | 'name'
+  | 'value'
+  | 'checked'
+  | 'defaultChecked'
+  | 'onChange'
 >;
 
 export type RadioProps = Omit<
-	MuiRadioProps,
-	| 'checked'
+  MuiRadioProps,
+  | 'checked'
 >;
 
 export type SelectProps = Omit<
-	MuiSelectProps,
-	| 'name'
-	| 'id'
-	| 'labelId'
-	| 'error'
-	| 'onChange'
-	| 'value'
-	| 'defaultValue'
-	| 'ref'
-	| 'displayEmpty'
-	| 'multiple'
+  MuiSelectProps,
+  | 'name'
+  | 'id'
+  | 'labelId'
+  | 'error'
+  | 'onChange'
+  | 'value'
+  | 'defaultValue'
+  | 'ref'
+  | 'displayEmpty'
+  | 'multiple'
 >;
 
 export type AutoCompleteTextFieldProps = Omit<
-	MuiTextFieldProps,
-	| 'value'
-	| 'onChange'
-	| 'disabled'
-	| 'label'
-	| 'required'
-	| 'error'
-	| 'ref'
-	| 'inputRef'
+  MuiTextFieldProps,
+  | 'value'
+  | 'onChange'
+  | 'disabled'
+  | 'label'
+  | 'required'
+  | 'error'
+  | 'ref'
+  | 'inputRef'
 >;
 
 export type OmittedAutocompleteProps
-	= | 'freeSolo'
-		| 'fullWidth'
-		| 'renderInput'
-		| 'renderOption'
-		| 'options'
-		| 'value'
-		| 'defaultValue'
-		| 'multiple'
-		| 'onChange'
-		| 'getOptionKey'
-		| 'getOptionLabel'
-		| 'isOptionEqualToValue'
-		| 'autoHighlight'
-		| 'disableCloseOnSelect';
+  = | 'freeSolo'
+    | 'fullWidth'
+    | 'renderInput'
+    | 'renderOption'
+    | 'options'
+    | 'value'
+    | 'defaultValue'
+    | 'multiple'
+    | 'onChange'
+    | 'getOptionKey'
+    | 'getOptionLabel'
+    | 'isOptionEqualToValue'
+    | 'autoHighlight'
+    | 'disableCloseOnSelect';
 
 export type MuiChipProps = Omit<
-	ChipProps,
-	| 'key'
-	| 'label'
-	| 'onDelete'
-	| 'disabled'
+  ChipProps,
+  | 'key'
+  | 'label'
+  | 'onDelete'
+  | 'disabled'
 >;
-

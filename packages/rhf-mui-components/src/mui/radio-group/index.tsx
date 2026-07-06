@@ -13,13 +13,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import MuiRadioGroup, { type RadioGroupProps } from '@mui/material/RadioGroup';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormControlLabelProps,
+  type FormHelperTextProps,
+  type RadioProps
+} from '@/common';
 import type {
-  FormLabelProps,
-  FormControlLabelProps,
-  FormHelperTextProps,
   StrNumObjOption,
-  RadioProps,
   OptionValue,
   CustomComponentIds,
   CustomOnChangeProps

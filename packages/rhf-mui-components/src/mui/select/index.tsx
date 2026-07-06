@@ -26,12 +26,12 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type SelectProps
 } from '@/common';
 import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  SelectProps,
   StrNumObjOption,
   OptionValue,
   CustomComponentIds,

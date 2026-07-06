@@ -31,14 +31,12 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type MuiChipProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  MuiChipProps,
-  CustomComponentIds
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
