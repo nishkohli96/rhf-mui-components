@@ -10,6 +10,7 @@
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components)
 ![TypeScript Strict](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)
 ![CI](https://github.com/nishkohli96/rhf-mui-components/actions/workflows/publish.yml/badge.svg)
+![[Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/rhf-mui-components/tree/v4-examples)
 
 **A suite of 25+ reusable Material UI and other third-party components for [react-hook-form](https://react-hook-form.com/) to minimize your time and effort in creating beautiful forms.**
 
