@@ -1,4 +1,4 @@
-import type { OptionPrimitive } from '@/types';
+import type { OptionPrimitive } from '@/common';
 import { generateLabelValueErrMsg } from '@/utils';
 
 function isPrimitiveArray(
