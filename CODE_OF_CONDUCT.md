@@ -6,8 +6,6 @@ We as members, contributors, and maintainers of **@nish1896/rhf-mui-components**
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
----
-
 ## Our Standards
 
 Examples of behavior that contributes to a positive environment include:
@@ -26,16 +24,12 @@ Examples of unacceptable behavior include:
 - Publishing others' private information without permission
 - Any conduct that could reasonably be considered inappropriate in a professional setting
 
----
-
 ## Enforcement Responsibilities
 
 Project maintainers are responsible for clarifying and enforcing our standards of acceptable behavior.  
 They may take appropriate and fair corrective action in response to behavior deemed inappropriate, threatening, offensive, or harmful.
 
 Maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, issues, and other contributions that are not aligned with this Code of Conduct.
-
----
 
 ## Scope
 
@@ -49,16 +43,12 @@ This Code of Conduct applies within all project spaces, including:
 
 It also applies when an individual is officially representing the project in public spaces.
 
----
-
 ## Reporting
 
 If you experience or witness unacceptable behavior, please report it by opening a private issue or contacting the maintainers directly.
 
 All reports will be reviewed and investigated promptly and fairly.  
 Maintainers are obligated to respect the privacy and security of the reporter.
-
----
 
 ## Enforcement Guidelines
 
@@ -69,8 +59,6 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may result i
 - Permanent removal from the project community
 
 The severity of enforcement will depend on the circumstances of the violation.
-
----
 
 ## Attribution
 
