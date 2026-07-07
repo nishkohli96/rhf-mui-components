@@ -383,10 +383,9 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage
-          = fieldStateError
-            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
-            : errorMessage;
+        const fieldErrorMessage = fieldStateError
+          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
+          : undefined;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText
