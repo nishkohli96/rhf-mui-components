@@ -1,10 +1,9 @@
 import { type ReactNode } from 'react';
 import type {
-  StringOrNumber,
   OptionPrimitive,
-  OptionValue,
-  StrNumObjOption,
-} from '@/types';
+  OptionValue
+} from '@/common/types';
+import { type StringOrNumber, type StrNumObjOption } from '@/types';
 
 export function isKeyValueOption<LK extends string, VK extends string>(
   option: unknown,

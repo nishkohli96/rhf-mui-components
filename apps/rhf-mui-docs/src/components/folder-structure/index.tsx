@@ -17,7 +17,7 @@ const FolderStructure = ({ v1, v3_3AndAbove }: VersionProps) => {
   const getMuiList = () => {
     if (v1) {
       return muiFoldersList.filter(
-        (folder) =>
+        folder =>
           ![...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].includes(
             folder.name
           )

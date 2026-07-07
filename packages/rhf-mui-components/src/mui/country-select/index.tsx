@@ -22,21 +22,21 @@ import Autocomplete, {
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type {
   CountryDetails,
-  CountryISO,
-  FormLabelProps,
-  FormHelperTextProps,
-  AutoCompleteTextFieldProps,
-  MuiChipProps
+  CountryISO
 } from '@/types';
 import {
   fieldNameToLabel,

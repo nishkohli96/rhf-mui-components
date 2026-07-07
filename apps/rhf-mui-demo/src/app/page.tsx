@@ -1,6 +1,6 @@
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { ENV_VARS, pageMetadata } from '@/constants';
+import { docsLink, pageMetadata } from '@/constants';
 import { ContentContainer, PageHeading } from '@/components';
 
 export const metadata = pageMetadata.home;
@@ -30,14 +30,13 @@ const HomePage = () => {
           {' '}
           <b>formState component</b>
           . Each page also
-          provides links to the relevant documentation and the source code for
-          the components used.
+          provides links to the relevant documentation for the components used.
         </Typography>
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit
           {' '}
-          <Link href={ENV_VARS.DOCS_URL} target="_blank">
-            {` ${ENV_VARS.DOCS_URL}.`}
+          <Link href={docsLink} target="_blank">
+            {` ${docsLink}.`}
           </Link>
         </Typography>
       </ContentContainer>

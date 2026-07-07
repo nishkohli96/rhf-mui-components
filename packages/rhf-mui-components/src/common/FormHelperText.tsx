@@ -1,7 +1,7 @@
 import { useContext, Fragment, type ReactNode } from 'react';
 import MuiFormHelperText from '@mui/material/FormHelperText';
+import type { FormHelperTextProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { FormHelperTextProps } from '@/types';
 
 type CommonHelperTextProps = {
   error: boolean;

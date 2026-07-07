@@ -1,4 +1,4 @@
-import { FileUploadError } from '@/types';
+import { FileUploadError } from '@/mui/file-uploader';
 
 type FileSizeOptions = {
   valueAsNumber?: boolean;
@@ -117,4 +117,3 @@ export function validateFileList(
     errors: Array.from(errorsSet),
   };
 }
-

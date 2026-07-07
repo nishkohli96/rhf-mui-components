@@ -5,15 +5,13 @@ import { type PageInfo } from '@/types';
 
 type LinksListProps = {
   links: PageInfo[];
-  areCodeLinks?: boolean;
 };
 
-const LinksList = ({ links, areCodeLinks }: LinksListProps) => {
-  const title = areCodeLinks ? 'Source Code </>' : 'Documentation 📖';
+const LinksList = ({ links }: LinksListProps) => {
   return (
-    <Box sx={{ mt: '20px', ...(areCodeLinks && { mb: '20px' }) }}>
+    <Box sx={{ mt: '20px' }}>
       <Typography color="secondary" variant="h6" sx={{ mb: '10px' }}>
-        {title.toUpperCase()}
+        DOCUMENTATION 📖
       </Typography>
       <Box
         sx={{

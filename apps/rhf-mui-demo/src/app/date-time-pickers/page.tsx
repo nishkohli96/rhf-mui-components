@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { DocsLinks, pageMetadata } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/date-time-pickers'), { ssr: false });
 
@@ -12,10 +12,6 @@ const DateTimePickerFormPage = () => {
     DocsLinks.rhfTimePicker,
     DocsLinks.rhfDateTimePicker
   ];
-  const codeLinks = [
-    SourceCodeLinks.dateTimePickers,
-    CodeSandboxLinks.dateTimePickers
-  ];
 
   return (
     <ContentContainer>
@@ -23,10 +19,8 @@ const DateTimePickerFormPage = () => {
       <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
 };
 
 export default DateTimePickerFormPage;
-

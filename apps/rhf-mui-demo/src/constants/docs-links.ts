@@ -1,96 +1,93 @@
 import { type PageInfo } from '@/types';
-import { ENV_VARS } from './environment';
+import { docsLink } from './external-links';
 
 export const DocsLinks: Record<string, PageInfo> = {
   rhfTextField: {
     title: 'RHFTextField',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFTextField`
+    href: `${docsLink}components/mui/RHFTextField`
   },
   rhfNumberInput: {
     title: 'RHFNumberInput',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFNumberInput`
+    href: `${docsLink}components/mui/RHFNumberInput`
   },
   rhfPasswordInput: {
     title: 'RHFPasswordInput',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFPasswordInput`
+    href: `${docsLink}components/mui/RHFPasswordInput`
   },
   rhfTagsInput: {
     title: 'RHFTagsInput',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFTagsInput`
+    href: `${docsLink}components/mui/RHFTagsInput`
   },
   rhfFileUploader: {
     title: 'RHFFileUploader',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFFileUploader`
+    href: `${docsLink}components/mui/RHFFileUploader`
   },
   rhfSelect: {
     title: 'RHFSelect',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFSelect`
+    href: `${docsLink}components/mui/RHFSelect`
   },
   rhfNativeSelect: {
     title: 'RHFNativeSelect',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFNativeSelect`
+    href: `${docsLink}components/mui/RHFNativeSelect`
   },
   rhfAutocomplete: {
     title: 'RHFAutocomplete',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFAutocomplete`
+    href: `${docsLink}components/mui/RHFAutocomplete`
   },
   rhfMultiAutocomplete: {
     title: 'RHFMultiAutocomplete',
-    href: `${ENV_VARS.DOCS_URL}components/mui/rhfMultiAutocomplete`
+    href: `${docsLink}components/mui/RHFMultiAutocomplete`
   },
   rhfCountrySelect: {
     title: 'RHFCountrySelect',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCountrySelect`
+    href: `${docsLink}components/mui/RHFCountrySelect`
   },
   rhfCheckbox: {
     title: 'RHFCheckbox',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCheckbox`
+    href: `${docsLink}components/mui/RHFCheckbox`
   },
   rhfCheckboxGroup: {
     title: 'RHFCheckboxGroup',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFCheckboxGroup`
+    href: `${docsLink}components/mui/RHFCheckboxGroup`
   },
   rhfSlider: {
     title: 'RHFSlider',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFSlider`
+    href: `${docsLink}components/mui/RHFSlider`
   },
   rhfSwitch: {
     title: 'RHFSwitch',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFSwitch`
+    href: `${docsLink}components/mui/RHFSwitch`
   },
   rhfRating: {
     title: 'RHFRating',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFRating`
+    href: `${docsLink}components/mui/RHFRating`
   },
   rhfRadioGroup: {
     title: 'RHFRadioGroup',
-    href: `${ENV_VARS.DOCS_URL}components/mui/RHFRadioGroup`
+    href: `${docsLink}components/mui/RHFRadioGroup`
   },
   rhfDatePicker: {
     title: 'RHFDatePicker',
-    href: `${ENV_VARS.DOCS_URL}components/mui-pickers/RHFDatePicker`
+    href: `${docsLink}components/mui-pickers/RHFDatePicker`
   },
   rhfTimePicker: {
     title: 'RHFTimePicker',
-    href: `${ENV_VARS.DOCS_URL}components/mui-pickers/RHFTimePicker`
+    href: `${docsLink}components/mui-pickers/RHFTimePicker`
   },
   rhfDateTimePicker: {
     title: 'RHFDateTimePicker',
-    href: `${ENV_VARS.DOCS_URL}components/mui-pickers/RHFDateTimePicker`
+    href: `${docsLink}components/mui-pickers/RHFDateTimePicker`
   },
   rhfColorPicker: {
     title: 'RHFColorPicker',
-    href: `${ENV_VARS.DOCS_URL}components/misc/RHFColorPicker`
+    href: `${docsLink}components/misc/RHFColorPicker`
   },
   rhfRichTextEditor: {
     title: 'RHFRichTextEditor',
-    href: `${ENV_VARS.DOCS_URL}components/misc/RHFRichTextEditor`
+    href: `${docsLink}components/misc/RHFRichTextEditor`
   },
   rhfPhoneInput: {
     title: 'RHFPhoneInput',
-    href: `${ENV_VARS.DOCS_URL}components/misc/RHFPhoneInput`
+    href: `${docsLink}components/misc/RHFPhoneInput`
   }
 };
-
-export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
-export const docsLink = 'https://rhf-mui-components.netlify.app/';

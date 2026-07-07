@@ -1,10 +1,8 @@
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
 import {
-  pageMetadata,
   DocsLinks,
-  SourceCodeLinks,
-  CodeSandboxLinks,
+  pageMetadata,
   ValidationLibLinks
 } from '@/constants';
 
@@ -20,17 +18,13 @@ const SwitchSliderRatingFormPage = () => {
     DocsLinks.rhfRating,
     ValidationLibLinks.superstruct
   ];
-  const codeLinks = [
-    SourceCodeLinks.switchSliderRating,
-    CodeSandboxLinks.switchSliderRating
-  ];
+
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
 };

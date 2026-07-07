@@ -19,15 +19,17 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type MuiChipProps
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, MuiChipProps } from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

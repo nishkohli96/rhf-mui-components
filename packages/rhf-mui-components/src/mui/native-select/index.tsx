@@ -10,14 +10,15 @@ import {
 } from 'react-hook-form';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect, { type NativeSelectProps } from '@mui/material/NativeSelect';
-import { FormLabel, FormHelperText, defaultAutocompleteValue } from '@/common';
+import {
+  FormLabel,
+  FormHelperText,
+  defaultAutocompleteValue,
+  type FormHelperTextProps,
+  type FormLabelProps,
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type {
-  FormHelperTextProps,
-  FormLabelProps,
-  StringOrNumber,
-  StrNumObjOption,
-} from '@/types';
+import type { StringOrNumber, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   getOptionValue,

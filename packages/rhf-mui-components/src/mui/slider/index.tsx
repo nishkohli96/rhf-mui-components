@@ -9,9 +9,13 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
-import { FormLabel, FormHelperText } from '@/common';
+import {
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
 
 type SliderInputProps = Omit<

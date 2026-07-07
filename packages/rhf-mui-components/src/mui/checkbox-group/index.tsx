@@ -16,16 +16,18 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type FormControlLabelProps,
+  type CheckboxProps,
+  type OptionValue,
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  FormControlLabelProps,
-  CheckboxProps,
-  OptionValue,
-  StrNumObjOption
-} from '@/types';
+import type { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
