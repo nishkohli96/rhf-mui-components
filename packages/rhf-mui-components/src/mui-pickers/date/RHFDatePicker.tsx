@@ -206,10 +206,9 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-          const fieldErrorMessage
-            = fieldStateError
-              ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
-              : undefined;
+          const fieldErrorMessage = fieldStateError
+            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+            : undefined;
           const isError = !!fieldErrorMessage;
           const showHelperTextElement = !!(
             helperText

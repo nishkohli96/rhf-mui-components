@@ -408,10 +408,9 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage
-          = fieldStateError
-            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
-            : undefined;
+        const fieldErrorMessage = fieldStateError
+          ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
+          : undefined;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText
