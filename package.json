@@ -49,6 +49,6 @@
     "rhf",
     "react hook form material ui"
   ],
-  "packageManager": "pnpm@11.8.0",
+  "packageManager": "pnpm@11.10.0",
   "license": "MIT"
 }

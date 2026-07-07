@@ -21,6 +21,7 @@
     "@mui/material-nextjs": "^7.3.9",
     "@mui/x-date-pickers": "^8.27.2",
     "@nish1896/rhf-mui-components": "workspace:*",
+    "@vercel/analytics": "^2.0.1",
     "axios": "^1.18.1",
     "ckeditor5": "^43.0.0",
     "class-transformer": "^0.5.1",

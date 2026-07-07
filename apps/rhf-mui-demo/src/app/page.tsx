@@ -30,14 +30,13 @@ const HomePage = () => {
           {' '}
           <b>formState component</b>
           . Each page also
-          provides links to the relevant documentation and the source code for
-          the components used.
+          provides links to the relevant documentation for the components used.
         </Typography>
         <Typography variant="body1" sx={{ mt: '20px' }}>
           To view the documentation of this package, please visit
           {' '}
-          <Link href={ENV_VARS.DOCS_URL} target="_blank">
-            {` ${ENV_VARS.DOCS_URL}.`}
+          <Link href={ENV_VARS.docsURL} target="_blank">
+            {` ${ENV_VARS.docsURL}.`}
           </Link>
         </Typography>
       </ContentContainer>

@@ -63,7 +63,7 @@ Try out the form components live, no install required:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.vercel.app/)
 
-### 🧪 Playgrounds
+### 🧪 Playground
 
 Spin up an editable sandbox in your browser — fork it and experiment freely:
 
