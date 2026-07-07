@@ -16,10 +16,10 @@
     "@emotion/styled": "^11.14.1",
     "@faker-js/faker": "^10.5.0",
     "@hookform/resolvers": "^5.4.0",
-    "@mui/icons-material": "^7.3.9",
-    "@mui/material": "^7.3.9",
-    "@mui/material-nextjs": "^7.3.9",
-    "@mui/x-date-pickers": "^8.27.2",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
+    "@mui/material-nextjs": "^9.1.1",
+    "@mui/x-date-pickers": "^9.8.0",
     "@nish1896/rhf-mui-components": "workspace:*",
     "@vercel/analytics": "^2.0.1",
     "axios": "^1.18.1",
@@ -49,12 +49,12 @@
     "@nish1896/eslint-flat-config": "^3.1.5",
     "@tailwindcss/postcss": "^4.3.1",
     "@types/luxon": "^3.7.2",
-    "@types/node": "^25.9.3",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.0",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4.3.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
