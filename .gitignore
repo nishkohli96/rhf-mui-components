@@ -51,3 +51,6 @@ yarn-debug.log*
 yarn-error.log*
 
 publish-pkg.sh
+
+# AI Agents
+.claude
