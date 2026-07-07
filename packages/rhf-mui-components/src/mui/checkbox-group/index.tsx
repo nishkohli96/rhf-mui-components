@@ -16,7 +16,6 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -27,6 +26,7 @@ import {
   type CheckboxProps,
   type OptionValue,
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,

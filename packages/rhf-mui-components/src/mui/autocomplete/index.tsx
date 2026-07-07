@@ -23,7 +23,6 @@ import Autocomplete, {
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -35,6 +34,7 @@ import {
   type AutoCompleteTextFieldProps,
   type MuiChipProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type {
   KeyValueOption,
   StrObjOption,

@@ -30,7 +30,6 @@ import {
   type ParsedCountry,
   type UsePhoneInputConfig
 } from 'react-international-phone';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -40,6 +39,7 @@ import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

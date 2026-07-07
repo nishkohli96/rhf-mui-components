@@ -19,7 +19,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -30,7 +29,13 @@ import {
   type FormHelperTextProps,
   type TextFieldProps
 } from '@/common';
-import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, useFieldIds } from '@/utils';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  isAboveMuiV5,
+  useFieldIds
+} from '@/utils';
 
 type InputPasswordProps = Omit<
   TextFieldProps,
