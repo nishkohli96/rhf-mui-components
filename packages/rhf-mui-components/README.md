@@ -2,13 +2,13 @@
   <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/main/apps/rhf-mui-demo/public/logo.svg" width="200" />
 </p>
 
-<h1 align="center">@nish1896/rhf-mui-components</h1>
+<h1>@nish1896/rhf-mui-components</h1>
 
-<p align="center">
+<p>
   <b>A suite of 20+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
 </p>
 
-<p align="center">
+<p>
   <img alt="NPM Version" src="https://img.shields.io/npm/v/%40nish1896%2Frhf-mui-components" />
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components" />
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063" />
