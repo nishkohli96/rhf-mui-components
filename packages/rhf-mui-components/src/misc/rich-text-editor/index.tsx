@@ -12,9 +12,14 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  FormLabelProps,
+  FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';

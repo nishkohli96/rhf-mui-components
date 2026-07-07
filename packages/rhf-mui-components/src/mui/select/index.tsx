@@ -11,21 +11,19 @@ import {
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import MuiSelect, { type SelectChangeEvent } from '@mui/material/Select';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
-} from '@/common';
-import type {
+  defaultAutocompleteValue,
   FormLabelProps,
   FormHelperTextProps,
-  StrNumObjOption,
   SelectProps,
   OptionValue
-} from '@/types';
+} from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

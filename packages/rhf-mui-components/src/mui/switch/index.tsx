@@ -15,9 +15,12 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { type SwitchProps } from '@mui/material/Switch';
+import {
+  FormHelperText,
+  FormControlLabelProps,
+  FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormHelperText } from '@/common';
-import type { FormControlLabelProps, FormHelperTextProps } from '@/types';
 import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {

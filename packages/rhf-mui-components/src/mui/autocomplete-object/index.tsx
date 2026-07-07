@@ -28,15 +28,13 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
-} from '@/common';
-import type {
+  defaultAutocompleteValue,
   FormLabelProps,
   FormHelperTextProps,
-  KeyValueOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
-} from '@/types';
+} from '@/common';
+import type { KeyValueOption } from '@/types';
 import {
   fieldNameToLabel,
   isAboveMuiV5,

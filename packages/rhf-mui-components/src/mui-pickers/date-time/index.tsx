@@ -16,9 +16,15 @@ import {
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  FormLabelProps,
+  FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormLabelText, FormHelperText } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,

@@ -30,18 +30,15 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
-  selectAllOptionValue
-} from '@/common';
-import type {
+  selectAllOptionValue,
   FormLabelProps,
   FormControlLabelProps,
   CheckboxProps,
   FormHelperTextProps,
-  KeyValueOption,
-  StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
-} from '@/types';
+} from '@/common';
+import type { KeyValueOption, StrObjOption, } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,

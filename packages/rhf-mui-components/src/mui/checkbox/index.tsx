@@ -15,9 +15,13 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox from '@mui/material/Checkbox';
+import {
+  FormHelperText,
+  FormControlLabelProps,
+  FormHelperTextProps,
+  CheckboxProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormHelperText } from '@/common';
-import type { FormControlLabelProps, FormHelperTextProps, CheckboxProps } from '@/types';
 import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {

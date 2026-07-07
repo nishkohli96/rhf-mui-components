@@ -36,9 +36,10 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  FormLabelProps,
+  FormHelperTextProps
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

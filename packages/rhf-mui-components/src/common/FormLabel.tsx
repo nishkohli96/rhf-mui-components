@@ -1,8 +1,8 @@
 import { Fragment, useContext, type ReactNode } from 'react';
 import MuiFormLabel from '@mui/material/FormLabel';
 import { styled } from '@mui/material/styles';
+import type { FormLabelProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { FormLabelProps } from '@/types';
 
 type Props = {
   label: ReactNode;

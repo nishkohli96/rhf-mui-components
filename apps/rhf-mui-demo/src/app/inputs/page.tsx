@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { DocsLinks, pageMetadata } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/inputs-with-register-options'), { ssr: false });
 
@@ -14,10 +14,6 @@ const TextFieldPage = () => {
     DocsLinks.rhfTagsInput,
     DocsLinks.rhfFileUploader
   ];
-  const codeLinks = [
-    SourceCodeLinks.inputs,
-    CodeSandboxLinks.inputs
-  ];
 
   return (
     <ContentContainer>
@@ -25,7 +21,6 @@ const TextFieldPage = () => {
       <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
 };

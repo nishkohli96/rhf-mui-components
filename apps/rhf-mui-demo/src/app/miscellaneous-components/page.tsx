@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/components';
-import { pageMetadata, DocsLinks, SourceCodeLinks, CodeSandboxLinks } from '@/constants';
+import { DocsLinks, pageMetadata } from '@/constants';
 
 const ClientForm = dynamic(() => import('@/forms/miscellaneous-components'), { ssr: false });
 
@@ -12,10 +12,6 @@ const MiscellaneousComponentsFormPage = () => {
     DocsLinks.rhfRichTextEditor,
     DocsLinks.rhfPhoneInput
   ];
-  const codeLinks = [
-    SourceCodeLinks.miscellaneous,
-    CodeSandboxLinks.miscellaneous
-  ];
 
   return (
     <ContentContainer>
@@ -23,7 +19,6 @@ const MiscellaneousComponentsFormPage = () => {
       <SubHeading title={metadata.description as string}/>
       <ClientForm />
       <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
     </ContentContainer>
   );
 };

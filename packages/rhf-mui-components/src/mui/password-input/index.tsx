@@ -25,9 +25,11 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  FormLabelProps,
+  FormHelperTextProps,
+  TextFieldProps
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, useFieldIds } from '@/utils';
 
 type InputPasswordProps = Omit<

@@ -15,9 +15,14 @@ import {
   useColor,
   type IColor
 } from 'react-color-palette';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  FormLabelProps,
+  FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { FormLabelProps, FormHelperTextProps } from '@/types';
 import {
   fieldNameToLabel,
   colorToString,

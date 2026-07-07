@@ -14,14 +14,15 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
   FormLabelProps,
-  FormHelperTextProps,
-  FileInputProps,
-  FileUploadError
-} from '@/types';
+  FormHelperTextProps
+} from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { FileInputProps, FileUploadError } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

@@ -29,15 +29,15 @@ import {
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
-} from '@/common';
-import type {
+  defaultAutocompleteValue,
   FormLabelProps,
   FormHelperTextProps,
-  KeyValueOption,
-  StrObjOption,
   AutoCompleteTextFieldProps,
   MuiChipProps
+} from '@/common';
+import type {
+  KeyValueOption,
+  StrObjOption,
 } from '@/types';
 import {
   fieldNameToLabel,

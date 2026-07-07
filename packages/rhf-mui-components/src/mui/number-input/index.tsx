@@ -9,15 +9,17 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  FormLabelProps,
+  FormHelperTextProps,
+  TextFieldProps
 } from '@/common';
-import type { FormLabelProps, FormHelperTextProps, TextFieldProps } from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   fieldNameToLabel,
   isAboveMuiV5,
