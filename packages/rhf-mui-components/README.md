@@ -14,7 +14,6 @@
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063" />
   <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components" />
   <img alt="TypeScript Strict" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" />
-  <img alt="CI" src="https://github.com/nishkohli96/rhf-mui-components/actions/workflows/publish.yml/badge.svg" />
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
