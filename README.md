@@ -14,7 +14,6 @@
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063" />
   <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/nishkohli96/rhf-mui-components" />
   <img alt="TypeScript Strict" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" />
-  <img alt="CI" src="https://github.com/nishkohli96/rhf-mui-components/actions/workflows/publish.yml/badge.svg" />
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
@@ -56,20 +55,6 @@ function ProfileForm() {
 ```
 
 Full setup and API reference: 👉 [Documentation Site](https://rhf-mui-components.vercel.app/)
-
-## 🚀 What's New in v4
-
-`v4` ships deeper MUI integration, more consistent callback APIs, stronger accessibility defaults, and new customization options across the component set.
-
-- Added `customOnChange` across all components to intercept, validate, or transform values before they hit form state.
-- Added external `ref` forwarding support across supported components.
-- Added `customIds` and improved element-level ARIA attributes for accessibility.
-- Added `freeSolo` support in `RHFAutocomplete` and `RHFMultiAutocomplete`.
-- Added Desktop, Mobile, and Static Date/Time picker variants.
-- `RHFFileUploader` now supports drag-and-drop, `existingFiles`, `dropZoneProps`, and file-specific upload errors.
-- `RHFPhoneInput` now stores a structured `{ phone, country, dialCode, phoneNo }` value with searchable country selection.
-
-Upgrading from `v3`? Read the [v4 migration guide](https://rhf-mui-components.vercel.app/migration/v4) first. Full history in [changelog/](./changelog).
 
 ## Explore and Get Started
 
