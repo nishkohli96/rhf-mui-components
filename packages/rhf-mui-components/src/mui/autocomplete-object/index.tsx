@@ -26,7 +26,6 @@ import Autocomplete,
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -39,6 +38,7 @@ import {
   type MuiChipProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,

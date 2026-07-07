@@ -30,6 +30,7 @@ import {
   type CustomOnChangeProps,
   type OptionValue
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
@@ -41,7 +42,6 @@ import {
   mergeRefs,
   resolveLabelAboveControl
 } from '@/utils';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 
 type InputNativeSelectProps = Omit<
   NativeSelectProps,

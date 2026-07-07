@@ -21,7 +21,6 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box, { type BoxProps } from '@mui/material/Box';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -30,6 +29,7 @@ import {
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,

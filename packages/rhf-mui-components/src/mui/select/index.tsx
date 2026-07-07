@@ -19,20 +19,20 @@ import {
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import MuiSelect, { type SelectChangeEvent } from '@mui/material/Select';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { MUISELECT_OPTIONS_THRESHOLD } from '@/common/constants';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
+  MUISELECT_OPTIONS_THRESHOLD,
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
   type CustomOnChangeProps,
   type OptionValue
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,

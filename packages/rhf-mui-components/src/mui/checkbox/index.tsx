@@ -19,7 +19,6 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox from '@mui/material/Checkbox';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormHelperText,
   type FormControlLabelProps,
@@ -27,6 +26,7 @@ import {
   type CheckboxProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 
 type OnValueChangeProps = {

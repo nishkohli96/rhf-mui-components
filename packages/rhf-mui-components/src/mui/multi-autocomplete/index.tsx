@@ -28,7 +28,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -45,6 +44,7 @@ import {
   type MuiChipProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,

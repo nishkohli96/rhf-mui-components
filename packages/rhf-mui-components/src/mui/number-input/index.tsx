@@ -23,7 +23,6 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -35,6 +34,7 @@ import {
   type TextFieldProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,

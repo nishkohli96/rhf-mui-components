@@ -17,7 +17,6 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormLabel,
   FormHelperText,
@@ -25,6 +24,7 @@ import {
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,

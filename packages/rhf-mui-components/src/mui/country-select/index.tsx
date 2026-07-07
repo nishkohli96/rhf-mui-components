@@ -26,7 +26,6 @@ import Autocomplete,
   type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -39,6 +38,7 @@ import {
   type MuiChipProps,
   type CustomOnChangeProps
 } from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CountryDetails, CountryISO, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
