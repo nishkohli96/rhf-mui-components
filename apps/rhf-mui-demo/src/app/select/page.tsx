@@ -7,8 +7,6 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  SourceCodeLinks,
-  CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
 import SelectFormWithClassValidator from '@/forms/select-with-class-validator/Client';
@@ -16,20 +14,18 @@ import SelectFormWithClassValidator from '@/forms/select-with-class-validator/Cl
 export const metadata = pageMetadata.select;
 
 const SelectWithClassValidatorPage = () => {
-  const links = [
+  const docsLinks = [
     componentsDocsLink.rhfSelect,
     componentsDocsLink.rhfNativeSelect,
     ValidationLibLinks.classValidator
   ];
-  const codeLinks = [SourceCodeLinks.select, CodeSandboxLinks.select];
 
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
       <SelectFormWithClassValidator />
-      <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
+      <LinksList links={docsLinks} />
     </ContentContainer>
   );
 };

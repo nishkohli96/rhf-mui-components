@@ -16,14 +16,14 @@ const AppBar = () => {
   return (
     <Box>
       <MuiAppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ px: { xs: 1, sm: 2 } }}>
           <DrawerMenu />
-          <Link href="/">
+          <Link href="/" style={{ display: 'flex' }}>
             <Image
               src={RHFMuiLogo}
               alt="Logo"
-              width={50}
-              height={50}
+              width={45}
+              height={45}
               style={{
                 borderRadius: '50%',
                 objectFit: 'cover'
@@ -36,7 +36,12 @@ const AppBar = () => {
               textAlign: 'center'
             }}
           >
-            <Typography variant="h6">RHF-Mui Components</Typography>
+            <Typography
+              variant="h6"
+              sx={{ lineHeight: { xs: 1, md: 1.6 } }}
+            >
+              RHF-Mui Components
+            </Typography>
           </Box>
           <DocsButton />
           <GithubButton />

@@ -21,14 +21,16 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box, { type BoxProps } from '@mui/material/Box';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
 import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
   type FormLabelProps,
   type FormHelperTextProps,
-  type CustomComponentIds,
   type CustomOnChangeProps
-} from '@/types';
+} from '@/common';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

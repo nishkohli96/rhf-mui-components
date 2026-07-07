@@ -18,7 +18,8 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, {
+import Autocomplete,
+{
   type AutocompleteRenderOptionState,
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
@@ -26,7 +27,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
@@ -34,19 +34,17 @@ import {
   FormHelperText,
   defaultAutocompleteValue,
   defaultSelectAllOptionLabel,
-  selectAllOptionValue
+  selectAllOptionValue,
+  type FormLabelProps,
+  type FormControlLabelProps,
+  type CheckboxProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormControlLabelProps,
-  CheckboxProps,
-  FormHelperTextProps,
-  KeyValueOption,
-  AutoCompleteTextFieldProps,
-  MuiChipProps,
-  CustomOnChangeProps,
-  CustomComponentIds
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { KeyValueOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
@@ -200,6 +198,8 @@ export type RHFMultiAutocompleteObjectProps<
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

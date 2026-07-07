@@ -20,13 +20,15 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { ClassicEditor } from 'ckeditor5';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   mergeRefs,
@@ -160,6 +162,8 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

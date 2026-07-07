@@ -25,20 +25,18 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type MuiChipProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  MuiChipProps,
-  CustomComponentIds
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
@@ -191,6 +189,8 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

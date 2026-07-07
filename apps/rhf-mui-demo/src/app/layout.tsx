@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Grid from '@mui/material/Grid';
 import { ToastContainer } from 'react-toastify';
+import { Analytics } from '@vercel/analytics/next';
 import {
   defaultPageTitle,
   defaultPageDescription,
@@ -71,6 +72,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             </Grid>
             <Footer />
             <FirebaseAnalytics />
+            <Analytics />
             <ToastContainer
               autoClose={3000}
               limit={3}

@@ -7,8 +7,6 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  SourceCodeLinks,
-  CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
 import SliderSwitchRatingFormWithSuperstruct from '@/forms/slider-switch-rating-with-superstruct/Client';
@@ -16,23 +14,19 @@ import SliderSwitchRatingFormWithSuperstruct from '@/forms/slider-switch-rating-
 export const metadata = pageMetadata.switchSliderRating;
 
 const SwitchSliderRatingFormPage = () => {
-  const links = [
+  const docsLinks = [
     componentsDocsLink.rhfSwitch,
     componentsDocsLink.rhfSlider,
     componentsDocsLink.rhfRating,
     ValidationLibLinks.superstruct
   ];
-  const codeLinks = [
-    SourceCodeLinks.switchSliderRating,
-    CodeSandboxLinks.switchSliderRating
-  ];
+
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
       <SliderSwitchRatingFormWithSuperstruct />
-      <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
+      <LinksList links={docsLinks} />
     </ContentContainer>
   );
 };

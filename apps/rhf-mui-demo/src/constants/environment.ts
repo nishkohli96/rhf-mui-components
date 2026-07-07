@@ -1,6 +1,5 @@
 export const ENV_VARS = {
-  DOCS_URL: process.env.DOCS_URL as string,
-  SANDBOX_URL: process.env.SANDBOX_URL as string,
+  docsURL: process.env.DOCS_URL as string,
   firebaseConfig: {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY as string,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN as string,

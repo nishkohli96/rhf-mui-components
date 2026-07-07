@@ -24,16 +24,14 @@ import {
   FormLabel,
   FormHelperText,
   defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD
+  MUISELECT_OPTIONS_THRESHOLD,
+  type FormHelperTextProps,
+  type FormLabelProps,
+  type CustomOnChangeProps,
+  type OptionValue
 } from '@/common';
-import type {
-  CustomComponentIds,
-  FormHelperTextProps,
-  FormLabelProps,
-  OptionValue,
-  StrNumObjOption,
-  CustomOnChangeProps
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
   getOptionValue,
@@ -44,7 +42,6 @@ import {
   mergeRefs,
   resolveLabelAboveControl
 } from '@/utils';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 
 type InputNativeSelectProps = Omit<
   NativeSelectProps,
@@ -175,6 +172,8 @@ export type RHFNativeSelectProps<
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

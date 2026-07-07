@@ -1,6 +1,10 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import {
+  useContext,
+  type ReactNode,
+  type ChangeEvent
+} from 'react';
 import {
   Controller,
   type FieldError,
@@ -12,18 +16,19 @@ import {
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import MuiRadioGroup, { type RadioGroupProps } from '@mui/material/RadioGroup';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormControlLabelProps,
+  type FormHelperTextProps,
+  type RadioProps,
+  type CustomOnChangeProps,
+  type OptionValue
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormControlLabelProps,
-  FormHelperTextProps,
-  StrNumObjOption,
-  RadioProps,
-  OptionValue,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { StrNumObjOption, CustomComponentIds } from '@/types';
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,
@@ -167,6 +172,8 @@ export type RHFRadioGroupProps<
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

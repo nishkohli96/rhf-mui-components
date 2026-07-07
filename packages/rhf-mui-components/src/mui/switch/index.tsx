@@ -19,14 +19,14 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { type SwitchProps } from '@mui/material/Switch';
-import { FormHelperText } from '@/common';
+import {
+  FormHelperText,
+  type FormControlLabelProps,
+  type FormHelperTextProps,
+  type CustomOnChangeProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type {
-  CustomComponentIds,
-  CustomOnChangeProps,
-  FormControlLabelProps,
-  FormHelperTextProps
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
@@ -87,6 +87,8 @@ export type RHFSwitchProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

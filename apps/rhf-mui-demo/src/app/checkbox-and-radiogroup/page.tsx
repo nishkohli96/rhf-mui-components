@@ -2,8 +2,6 @@ import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/componen
 import {
   pageMetadata,
   componentsDocsLink,
-  SourceCodeLinks,
-  CodeSandboxLinks,
   ValidationLibLinks
 } from '@/constants';
 import CheckboxRadioClient from '@/forms/checkbox-and-radiogroup-with-zod/Client';
@@ -11,15 +9,11 @@ import CheckboxRadioClient from '@/forms/checkbox-and-radiogroup-with-zod/Client
 export const metadata = pageMetadata.checkboxAndRadio;
 
 const CheckboxRadioZodFormPage = () => {
-  const links = [
+  const docsLinks = [
     componentsDocsLink.rhfCheckbox,
     componentsDocsLink.rhfCheckboxGroup,
     componentsDocsLink.rhfRadioGroup,
     ValidationLibLinks.zod
-  ];
-  const codeLinks = [
-    SourceCodeLinks.checkboxRadio,
-    CodeSandboxLinks.checkboxRadio
   ];
 
   return (
@@ -27,8 +21,7 @@ const CheckboxRadioZodFormPage = () => {
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string}/>
       <CheckboxRadioClient />
-      <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
+      <LinksList links={docsLinks} />
     </ContentContainer>
   );
 };

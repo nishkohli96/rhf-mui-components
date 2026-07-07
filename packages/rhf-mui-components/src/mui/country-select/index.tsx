@@ -18,31 +18,28 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import Box from '@mui/material/Box';
-import Autocomplete, {
+import Autocomplete,
+{
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
   type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type {
-  CountryDetails,
-  CountryISO,
-  FormLabelProps,
-  FormHelperTextProps,
-  AutoCompleteTextFieldProps,
-  MuiChipProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CountryDetails, CountryISO, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
@@ -221,6 +218,8 @@ export type RHFCountrySelectProps<
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

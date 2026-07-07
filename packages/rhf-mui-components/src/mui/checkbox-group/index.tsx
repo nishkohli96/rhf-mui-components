@@ -16,18 +16,19 @@ import {
 } from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type FormControlLabelProps,
+  type CheckboxProps,
+  type CustomOnChangeProps,
+  type OptionValue
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  FormControlLabelProps,
-  CheckboxProps,
-  OptionValue,
-  StrNumObjOption,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { StrNumObjOption, CustomComponentIds } from '@/types';
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,
@@ -189,6 +190,8 @@ export type RHFCheckboxGroupProps<
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

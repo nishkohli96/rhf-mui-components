@@ -17,14 +17,15 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiSlider, { type SliderProps } from '@mui/material/Slider';
+import {
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type CustomOnChangeProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { FormLabel, FormHelperText } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   mergeRefs,
@@ -113,6 +114,8 @@ export type RHFSliderProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

@@ -6,23 +6,17 @@ import {
 } from '@/components';
 import {
   pageMetadata,
-  componentsDocsLink,
-  SourceCodeLinks,
-  CodeSandboxLinks
+  componentsDocsLink
 } from '@/constants';
 import DateTimePickersForm from '@/forms/date-time-pickers/Client';
 
 export const metadata = pageMetadata.dateTimePickers;
 
 const DateTimePickerFormPage = () => {
-  const links = [
+  const docsLinks = [
     componentsDocsLink.rhfDatePicker,
     componentsDocsLink.rhfTimePicker,
     componentsDocsLink.rhfDateTimePicker
-  ];
-  const codeLinks = [
-    SourceCodeLinks.dateTimePickers,
-    CodeSandboxLinks.dateTimePickers
   ];
 
   return (
@@ -30,8 +24,7 @@ const DateTimePickerFormPage = () => {
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
       <DateTimePickersForm />
-      <LinksList links={links} />
-      <LinksList links={codeLinks} areCodeLinks />
+      <LinksList links={docsLinks} />
     </ContentContainer>
   );
 };

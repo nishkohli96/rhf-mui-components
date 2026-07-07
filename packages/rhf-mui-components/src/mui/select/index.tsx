@@ -19,24 +19,21 @@ import {
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import MuiSelect, { type SelectChangeEvent } from '@mui/material/Select';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { MUISELECT_OPTIONS_THRESHOLD } from '@/common/constants';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  MUISELECT_OPTIONS_THRESHOLD,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type SelectProps,
+  type CustomOnChangeProps,
+  type OptionValue
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  SelectProps,
-  StrNumObjOption,
-  OptionValue,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   isKeyValueOption,
@@ -197,6 +194,8 @@ export type RHFSelectProps<
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

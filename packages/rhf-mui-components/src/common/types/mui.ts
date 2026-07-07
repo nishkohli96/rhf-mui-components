@@ -1,10 +1,9 @@
-import type { SxProps } from '@mui/system';
 import type { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
 import type { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
 import type { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
 import type { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 import type { RadioProps as MuiRadioProps } from '@mui/material/Radio';
-import type{ SelectProps as MuiSelectProps } from '@mui/material/Select';
+import type { SelectProps as MuiSelectProps } from '@mui/material/Select';
 import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
 import type { ChipProps } from '@mui/material/Chip';
 
@@ -108,15 +107,3 @@ export type MuiChipProps = Omit<
   | 'onDelete'
   | 'disabled'
 >;
-
-export type MuiPickersAdapter = new (...args: any) => any;
-
-export type RHFMuiConfig = {
-  defaultFormLabelSx: SxProps;
-  defaultFormControlLabelSx: SxProps;
-  defaultFormHelperTextSx: SxProps;
-  dateAdapter?: MuiPickersAdapter;
-  allLabelsAboveFields?: boolean;
-};
-
-export type RHFMuiConfigInput = Partial<RHFMuiConfig>;

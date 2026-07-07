@@ -1,6 +1,12 @@
 'use client';
 
-import { useContext, forwardRef, type Ref, type ReactNode, type JSX } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type Ref,
+  type ReactNode,
+  type JSX
+} from 'react';
 import {
   Controller,
   type FieldError,
@@ -17,18 +23,16 @@ import {
   type DateValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
-  FormHelperText
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
@@ -117,6 +121,8 @@ export type RHFDatePickerProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

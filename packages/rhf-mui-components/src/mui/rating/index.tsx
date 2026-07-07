@@ -17,14 +17,16 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiRating, { type RatingProps } from '@mui/material/Rating';
-import { FormControl, FormLabel, FormHelperText } from '@/common';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type CustomOnChangeProps
+} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import type { CustomComponentIds } from '@/types';
 
 type OnValueChangeProps = {
   newValue: number | null;
@@ -107,6 +109,8 @@ export type RHFRatingProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

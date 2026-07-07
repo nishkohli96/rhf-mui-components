@@ -67,6 +67,12 @@ html[data-theme='dark'] .navbar [class*='toggleButton']:hover {
   width: auto !important;
 }
 
+@media (max-width: 996px) {
+  .navbar__logo {
+    height: 45px;
+  }
+}
+
 .homepage-logo {
   width: 200px;
   height: auto;

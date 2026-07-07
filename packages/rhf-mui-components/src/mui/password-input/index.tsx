@@ -24,21 +24,19 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type TextFieldProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  TextFieldProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
 
 type OnValueChangeProps = {
   newValue: string;
@@ -134,6 +132,8 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**

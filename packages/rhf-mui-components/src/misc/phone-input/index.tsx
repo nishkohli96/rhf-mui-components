@@ -41,19 +41,17 @@ import {
   type ParsedCountry,
   type UsePhoneInputConfig
 } from 'react-international-phone';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  CustomComponentIds
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,

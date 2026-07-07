@@ -3,7 +3,7 @@
 # Exit immediately if any command fails (i.e., returns a non-zero exit code).
 set -euo pipefail
 
-REQUIRED_PNPM_VERSION="11.8.0"
+REQUIRED_PNPM_VERSION="11.10.0"
 REQUIRED_TURBO_VERSION="2.10.0"
 PKG_NAME="@nish1896/rhf-mui-components"
 

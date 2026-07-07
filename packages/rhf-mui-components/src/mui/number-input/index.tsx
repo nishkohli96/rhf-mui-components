@@ -23,21 +23,19 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   FormControl,
   FormLabel,
   FormLabelText,
   FormHelperText,
-  defaultAutocompleteValue
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type TextFieldProps,
+  type CustomOnChangeProps
 } from '@/common';
-import type {
-  FormLabelProps,
-  FormHelperTextProps,
-  TextFieldProps,
-  CustomComponentIds,
-  CustomOnChangeProps
-} from '@/types';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
@@ -200,6 +198,8 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
+   *
+   * Use `renderError` to customize how the field error is rendered.
    */
   errorMessage?: ReactNode;
   /**
