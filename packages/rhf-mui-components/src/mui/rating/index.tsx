@@ -13,8 +13,8 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  FormLabelProps,
-  FormHelperTextProps
+  type FormLabelProps,
+  type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';

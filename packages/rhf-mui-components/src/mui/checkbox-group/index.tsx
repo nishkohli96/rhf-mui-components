@@ -21,11 +21,11 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  FormLabelProps,
-  FormHelperTextProps,
-  FormControlLabelProps,
-  CheckboxProps,
-  OptionValue,
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type FormControlLabelProps,
+  type CheckboxProps,
+  type OptionValue,
 } from '@/common';
 import type { StrNumObjOption } from '@/types';
 import {

@@ -17,9 +17,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox from '@mui/material/Checkbox';
 import {
   FormHelperText,
-  FormControlLabelProps,
-  FormHelperTextProps,
-  CheckboxProps
+  type FormControlLabelProps,
+  type FormHelperTextProps,
+  type CheckboxProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel, useFieldIds } from '@/utils';

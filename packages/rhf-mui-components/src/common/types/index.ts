@@ -1,2 +1,2 @@
-export * from './components';
-export * from './mui';
+export type * from './components';
+export type * from './mui';

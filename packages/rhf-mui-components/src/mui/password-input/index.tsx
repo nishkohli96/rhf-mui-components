@@ -26,9 +26,9 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
-  FormLabelProps,
-  FormHelperTextProps,
-  TextFieldProps
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type TextFieldProps
 } from '@/common';
 import { fieldNameToLabel, keepLabelAboveFormField, isAboveMuiV5, useFieldIds } from '@/utils';
 

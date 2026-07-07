@@ -28,10 +28,10 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
-  FormLabelProps,
-  FormHelperTextProps,
-  AutoCompleteTextFieldProps,
-  MuiChipProps
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type {

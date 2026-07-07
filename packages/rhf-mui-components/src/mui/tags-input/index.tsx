@@ -25,9 +25,9 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
-  FormLabelProps,
-  FormHelperTextProps,
-  MuiChipProps
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type MuiChipProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {

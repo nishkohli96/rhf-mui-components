@@ -17,10 +17,10 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
-  FormLabelProps,
-  FormHelperTextProps,
-  SelectProps,
-  OptionValue
+  type FormLabelProps,
+  type FormHelperTextProps,
+  type SelectProps,
+  type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption } from '@/types';

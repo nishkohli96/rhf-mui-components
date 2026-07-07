@@ -31,12 +31,12 @@ import {
   FormHelperText,
   defaultAutocompleteValue,
   selectAllOptionValue,
-  FormLabelProps,
-  FormControlLabelProps,
-  CheckboxProps,
-  FormHelperTextProps,
-  AutoCompleteTextFieldProps,
-  MuiChipProps
+  type FormLabelProps,
+  type FormControlLabelProps,
+  type CheckboxProps,
+  type FormHelperTextProps,
+  type AutoCompleteTextFieldProps,
+  type MuiChipProps
 } from '@/common';
 import type { KeyValueOption, StrObjOption, } from '@/types';
 import {

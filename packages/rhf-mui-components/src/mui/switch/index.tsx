@@ -17,8 +17,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { type SwitchProps } from '@mui/material/Switch';
 import {
   FormHelperText,
-  FormControlLabelProps,
-  FormHelperTextProps
+  type FormControlLabelProps,
+  type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import { fieldNameToLabel, useFieldIds } from '@/utils';

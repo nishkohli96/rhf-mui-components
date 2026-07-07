@@ -15,11 +15,11 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  FormLabelProps,
-  FormControlLabelProps,
-  FormHelperTextProps,
-  RadioProps,
-  OptionValue
+  type FormLabelProps,
+  type FormControlLabelProps,
+  type FormHelperTextProps,
+  type RadioProps,
+  type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption } from '@/types';

@@ -18,8 +18,8 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  FormLabelProps,
-  FormHelperTextProps
+  type FormLabelProps,
+  type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { FileInputProps, FileUploadError } from '@/types';

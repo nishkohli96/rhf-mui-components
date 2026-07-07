@@ -5,13 +5,13 @@ export type OptionPrimitive = string | number;
  * used in form components like select, radio group, checkbox group, etc.
  */
 export type OptionValue<
-	Option,
-	ValueKey extends string | undefined
+  Option,
+  ValueKey extends string | undefined
 >
-	= Option extends OptionPrimitive
-		? Option
-		: ValueKey extends keyof Option
-			? Option[ValueKey] extends OptionPrimitive
-				? Option[ValueKey]
-				: never
-			: never;
+  = Option extends OptionPrimitive
+    ? Option
+    : ValueKey extends keyof Option
+      ? Option[ValueKey] extends OptionPrimitive
+        ? Option[ValueKey]
+        : never
+      : never;
