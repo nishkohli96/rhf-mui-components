@@ -195,14 +195,6 @@ export type RHFMultiAutocompleteObjectProps<
    */
   required?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -270,7 +262,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
     renderOptionLabel,
     formControlLabelProps,
     required,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -386,7 +377,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
         const fieldErrorMessage
           = fieldStateError
             ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
-            : errorMessage;
+            : undefined;
         const isError = !!fieldErrorMessage;
         const showHelperTextElement = !!(
           helperText
