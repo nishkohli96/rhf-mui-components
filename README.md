@@ -54,8 +54,6 @@ function ProfileForm() {
 }
 ```
 
-Full setup and API reference: 👉 [Documentation Site](https://rhf-mui-components.vercel.app/)
-
 ## Explore and Get Started
 
 ### 📖 Documentation

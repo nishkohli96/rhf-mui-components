@@ -1,4 +1,4 @@
-<p>
+<p align="center">
   <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/main/apps/rhf-mui-demo/public/logo.svg" width="200" />
 </p>
 
