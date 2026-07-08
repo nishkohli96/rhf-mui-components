@@ -37,17 +37,17 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-
-type OnValueChangeProps = {
-  newValue: string;
-  event: ChangeEvent<HTMLInputElement>;
-};
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   mergeRefs,
   useFieldIds
 } from '@/utils';
+
+type OnValueChangeProps = {
+  newValue: string;
+  event: ChangeEvent<HTMLInputElement>;
+};
 
 type InputPasswordProps = Omit<
   TextFieldProps,
