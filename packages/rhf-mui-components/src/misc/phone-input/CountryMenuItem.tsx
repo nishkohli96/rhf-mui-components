@@ -12,7 +12,7 @@ const CountryMenuItem = ({ country }: CountryMenuItemProps) => {
         iso2={country.iso2}
         style={{ marginRight: '8px' }}
       />
-      <Typography marginRight="8px">
+      <Typography sx={{ marginRight: '8px' }}>
         {country.name}
       </Typography>
       <Typography color="gray">

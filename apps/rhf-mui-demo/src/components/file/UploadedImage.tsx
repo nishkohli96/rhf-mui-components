@@ -36,7 +36,7 @@ export default function UploadedImage({
   );
 
   return (
-    <Stack alignItems="center">
+    <Stack sx={{ alignItems: 'center' }}>
       <Box
         sx={{
           position: 'relative',
@@ -79,12 +79,15 @@ export default function UploadedImage({
       </Box>
       <Typography
         variant="caption"
-        textAlign="center"
-        sx={{ wordBreak: 'break-word', fontWeight: 600 }}
+        sx={{ textAlign: 'center', wordBreak: 'break-word', fontWeight: 600 }}
       >
         {file.name}
       </Typography>
-      <Typography variant="caption" color="text.secondary" textAlign="center">
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ textAlign: 'center' }}
+      >
         {getFileSize(file.size, { precision: 2 })}
       </Typography>
     </Stack>

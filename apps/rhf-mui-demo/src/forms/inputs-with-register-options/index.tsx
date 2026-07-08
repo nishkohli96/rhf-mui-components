@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
@@ -139,7 +139,7 @@ const InputsWithRegisterForm = () => {
               helperText="Enter min 4 and max 10 characters"
               renderError={error => (
                 <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
-                  <ErrorOutlineIcon color="error" fontSize="small" />
+                  <ErrorOutlinedIcon color="error" fontSize="small" />
                   <Typography component="span" variant="body2">
                     {error.message}
                   </Typography>

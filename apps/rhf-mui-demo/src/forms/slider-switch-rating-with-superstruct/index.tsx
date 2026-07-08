@@ -126,7 +126,6 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
               label={`How much would you rate us out of ${maxRating} stars?`}
               max={maxRating}
               showLabelAboveFormField
-              errorMessage={errors?.rating?.message}
               required
               helperText={`Please select atleast ${minRating}`}
               customOnChange={({ rhfOnChange, newValue }) => {

@@ -111,7 +111,6 @@ const MiscellaneousComponentsForm = () => {
                 </Typography>
               )}
               required
-              errorMessage={errors?.bio?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
