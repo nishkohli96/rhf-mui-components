@@ -125,7 +125,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component.
    */
   showLabelAboveFormField?: boolean;
   /**
