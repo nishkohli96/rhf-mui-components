@@ -141,9 +141,9 @@ export type RHFCountrySelectProps<
    */
   preferredCountries?: CountryISO[];
   /**
-   * - When `valueKey` is provided, selected value(s) are stored using the
+   * - When `valueKey` is provided, selected value(s) are exposed using the
    *   specified country property.
-   * - When `valueKey` is omitted, selected value(s) are stored as complete
+   * - When `valueKey` is omitted, selected value(s) are exposed as complete
    *   country objects.
    */
   valueKey?: keyof Omit<CountryDetails, 'emoji'>;
@@ -195,7 +195,7 @@ export type RHFCountrySelectProps<
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -503,7 +503,7 @@ ref: Ref<HTMLInputElement>) {
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={
-                      !isLabelAboveFormField
+                      !hideLabel && !isLabelAboveFormField
                         ? (
                           <FormLabelText label={fieldLabel} required={required} />
                         )
