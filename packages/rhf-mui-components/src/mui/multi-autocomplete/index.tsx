@@ -95,7 +95,7 @@ export type RHFMultiAutocompleteProps<
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * Options rendered by the field.
+   * An array of options displayed in the autocomplete dropdown for multiple selection.
    */
   options: Option[];
   /**
@@ -133,7 +133,7 @@ export type RHFMultiAutocompleteProps<
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**

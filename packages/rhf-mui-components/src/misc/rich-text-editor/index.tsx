@@ -52,12 +52,6 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   required?: boolean;
   /**
-   * HTML id applied to the CKEditor instance.
-   *
-   * Defaults to the generated field id.
-   */
-  id?: string;
-  /**
    * CKEditor configuration passed to `ClassicEditor`.
    *
    * Defaults to this package's `DefaultEditorConfig`.
@@ -93,7 +87,7 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -129,7 +123,6 @@ const RHFRichTextEditor = <T extends FieldValues>({
   control,
   registerOptions,
   required,
-  id,
   editorConfig,
   onReady,
   onFocus,
@@ -191,7 +184,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
               }}
             />
             <CKEditor
-              id={id ?? fieldId}
+              id={fieldId}
               editor={ClassicEditor}
               config={editorConfig ?? DefaultEditorConfig}
               data={rhfValue}
