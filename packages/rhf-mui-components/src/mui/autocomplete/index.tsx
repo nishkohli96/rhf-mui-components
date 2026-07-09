@@ -571,7 +571,7 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={
-                      !isLabelAboveFormField
+                      !hideLabel && !isLabelAboveFormField
                         ? (
                           <FormLabelText
                             label={fieldLabel}

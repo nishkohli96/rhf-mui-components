@@ -565,7 +565,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
                     }
                     {...otherInputParams}
                     label={
-                      !isLabelAboveFormField
+                      !hideLabel && !isLabelAboveFormField
                         ? (
                           <FormLabelText label={fieldLabel} required={required} />
                         )

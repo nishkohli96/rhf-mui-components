@@ -157,7 +157,8 @@ export type RHFNativeSelectProps<
    */
   label?: ReactNode;
   /**
-   * When `true`, renders the label above the component.
+   * Renders the label above the component.
+   * @default true
    */
   showLabelAboveFormField?: boolean;
   /**

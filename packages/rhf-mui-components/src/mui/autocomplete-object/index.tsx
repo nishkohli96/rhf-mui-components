@@ -425,7 +425,7 @@ const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
                     {...otherTextFieldProps}
                     {...otherInputParams}
                     label={
-                      !isLabelAboveFormField
+                      !hideLabel && !isLabelAboveFormField
                         ? (
                           <FormLabelText label={fieldLabel} required={required} />
                         )
