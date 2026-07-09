@@ -606,7 +606,7 @@ const PropsDescription: Record<
   id_Rte: {
     name: 'id',
     description:
-      'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration.',
+      'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration. Removed in `v4.1.3` as the internally generated field id was already being assigned to the `CKEditor` instance.',
     type: 'string'
   },
   onReady_Rte: {
