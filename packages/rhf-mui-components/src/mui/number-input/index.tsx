@@ -101,6 +101,7 @@ function isNativeNumberMarkerClick(
  * `nonNegative` is false; digits; optional decimal with length limit.
  * @param nonNegative - When `true`, only non-negative values (including 0) match
  *   while typing. When `false` or omitted, `-` and negative numbers are allowed.
+ * @param onlyIntegers - When `true`, decimal values are blocked.
  * @param maxDecimalPlaces - The maximum number of decimal places allowed.
  * @returns A RegExp pattern for in-progress typing.
  */
@@ -158,7 +159,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -177,7 +178,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   /**
    * When `true`, negative and exponential values are not allowed
    * while typing or pasting.
-  */
+   */
   nonNegative?: boolean;
   /**
    * Maximum number of decimal places allowed. When set, the user cannot type

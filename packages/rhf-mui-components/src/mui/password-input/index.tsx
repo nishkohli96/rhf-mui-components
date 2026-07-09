@@ -37,17 +37,17 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-
-type OnValueChangeProps = {
-  newValue: string;
-  event: ChangeEvent<HTMLInputElement>;
-};
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   mergeRefs,
   useFieldIds
 } from '@/utils';
+
+type OnValueChangeProps = {
+  newValue: string;
+  event: ChangeEvent<HTMLInputElement>;
+};
 
 type InputPasswordProps = Omit<
   TextFieldProps,
@@ -101,7 +101,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**

@@ -174,7 +174,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    */
   onValueChange?: ({ newValue }: OnValueChangeProps) => void;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -243,7 +243,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
-type RhfOnChange = (value: string[]) => void;
+type RHFOnChange = (value: string[]) => void;
 
 const RHFTagsInputInner = forwardRef(function RHFTagsInput<
   T extends FieldValues
@@ -360,7 +360,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
 
   /** Helper for triggering both RHF + external change events */
   const triggerChangeEvents = useCallback(
-    (newValue: string[], onChange: RhfOnChange) => {
+    (newValue: string[], onChange: RHFOnChange) => {
       onChange(newValue);
       onValueChange?.({ newValue });
     },
@@ -371,7 +371,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     (
       event: KeyboardEvent<HTMLDivElement>,
       value: string[],
-      onChange: RhfOnChange
+      onChange: RHFOnChange
     ) => {
       const trimmed = inputValue.trim();
 
@@ -449,7 +449,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     (
       event: ClipboardEvent<HTMLDivElement>,
       value: string[],
-      onChange: RhfOnChange
+      onChange: RHFOnChange
     ) => {
       event.preventDefault();
       const pasteData = event.clipboardData.getData('text');
@@ -568,7 +568,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
                   }
                   triggerChangeEvents(
                     rhfValue.filter(t => t !== tag),
-                    rhfOnChange as RhfOnChange
+                    rhfOnChange as RHFOnChange
                   );
                 }}
               />
@@ -608,6 +608,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               {...otherTagsInputProps}
               id={fieldId}
               name={rhfFieldName}
+              type="text"
               autoComplete={autoComplete}
               inputRef={mergeRefs(rhfRef, ref)}
               variant={variant}
@@ -621,9 +622,9 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               value={inputValue}
               onChange={handleInputChange}
               onKeyDown={event =>
-                handleKeyDown(event, rhfValue, rhfOnChange as RhfOnChange)}
+                handleKeyDown(event, rhfValue, rhfOnChange as RHFOnChange)}
               onPaste={event =>
-                handlePaste(event, rhfValue, rhfOnChange as RhfOnChange)}
+                handlePaste(event, rhfValue, rhfOnChange as RHFOnChange)}
               onFocus={handleFocus}
               onBlur={e => {
                 setIsFocused(false);

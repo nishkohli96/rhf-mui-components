@@ -159,6 +159,7 @@ const InputsWithRegisterForm = () => {
                   message: 'Enter a valid email address'
                 }
               }}
+              type="email"
               customIds={{
                 field: 'userEmail',
                 label: 'userEmail-label',
