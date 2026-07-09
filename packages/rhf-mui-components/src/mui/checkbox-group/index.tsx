@@ -161,8 +161,12 @@ export type RHFCheckboxGroupProps<
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
   label?: ReactNode;
-  /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+  /*
+   * Whether the field label renders above the checkbox group. The group has no
+   * built-in inline label, so this defaults to `true`; pass `false` to hide the
+   * visible label (the accessible name is still applied).
+   *
+   * @default true
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -246,7 +250,7 @@ const RHFCheckboxGroup = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur: muiOnBlur,
+  onBlur,
   customIds
 }: RHFCheckboxGroupProps<T, Option, LabelKey, ValueKey>) => {
   const {
@@ -353,7 +357,7 @@ const RHFCheckboxGroup = <
               const relatedTarget = e.relatedTarget as Node | null;
               if (!currentTarget.contains(relatedTarget)) {
                 rhfOnBlur();
-                muiOnBlur?.(e);
+                onBlur?.(e);
               }
             }}
           >
