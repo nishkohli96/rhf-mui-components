@@ -17,6 +17,9 @@ import RHFFileUploader, {
 import RHFMultiAutocomplete, {
   type RHFMultiAutocompleteProps,
 } from './multi-autocomplete';
+import RHFMultiAutocompleteObject, {
+  type RHFMultiAutocompleteObjectProps,
+} from './multi-autocomplete-object';
 import RHFNativeSelect, { type RHFNativeSelectProps } from './native-select';
 import RHFNumberInput, { type RHFNumberInputProps } from './number-input';
 import RHFPasswordInput, { type RHFPasswordInputProps } from './password-input';
@@ -37,6 +40,7 @@ export {
   RHFCountrySelect,
   RHFFileUploader,
   RHFMultiAutocomplete,
+  RHFMultiAutocompleteObject,
   RHFNativeSelect,
   RHFNumberInput,
   RHFPasswordInput,
@@ -62,6 +66,7 @@ export type {
   ExistingUploadedFile,
   FileUploadErrorDetails,
   RHFMultiAutocompleteProps,
+  RHFMultiAutocompleteObjectProps,
   RHFNativeSelectProps,
   RHFNumberInputProps,
   RHFPasswordInputProps,
