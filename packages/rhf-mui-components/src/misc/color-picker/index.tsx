@@ -46,7 +46,9 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
-  /** Initial color value used by the color picker. */
+  /**
+   * Initial color value used by the color picker.
+   */
   value?: string;
   /**
    * Color format stored in the React Hook Form field.
@@ -85,7 +87,6 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * those inputs.
    */
   hideInput?: (keyof IColor)[] | boolean;
-
   /**
    * Callback fired after the picker changes and the formatted color is stored in the field.
    * @param color - Full color object from `react-color-palette`.
@@ -100,7 +101,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**

@@ -136,7 +136,6 @@ const InputsWithRegisterForm = () => {
             <RHFTextField
               fieldName="email"
               control={control}
-              errorMessage={errors?.email?.message}
               registerOptions={{
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -144,7 +143,9 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               variant="standard"
+              type="email"
               showLabelAboveFormField
+              errorMessage={errors?.email?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

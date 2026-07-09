@@ -66,7 +66,7 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
     context: PickerChangeHandlerContext<DateTimeValidationError>
   ) => void;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
   /**
