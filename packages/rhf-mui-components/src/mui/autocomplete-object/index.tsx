@@ -72,6 +72,9 @@ type AutocompleteFieldValue<
   DisableClearable extends boolean,
 > = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
+type AutocompleteObjectFieldChangeValue<Option, Multiple extends boolean>
+  = Multiple extends true ? Option[] : (Option | null);
+
 export type RHFAutocompleteObjectProps<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
@@ -115,13 +118,14 @@ export type RHFAutocompleteObjectProps<
   disableClearable?: DisableClearable;
   /**
    * Callback fired after the selected option object value is stored in the field.
-   * @param fieldValue - Selected option object, selected option objects, or `null` when cleared.
+   * @param fieldValue - Selected option object(s), typed as `Option[]` when
+   * `multiple` is `true` and `Option | null` otherwise.
    * @param event - MUI autocomplete change event.
    * @param reason - Reason reported by MUI for the value change.
    * @param details - Optional MUI details for the changed option.
    */
   onValueChange?: (
-    fieldValue: Option | Option[] | null,
+    fieldValue: AutocompleteObjectFieldChangeValue<Option, Multiple>,
     event: SyntheticEvent<Element, Event>,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<Option>
@@ -300,11 +304,13 @@ const RHFAutocompleteObject = <
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<Option>
               ) => {
-                const fieldValue = newValue === null
-                  ? null
-                  : Array.isArray(newValue)
-                    ? newValue as Option[]
-                    : newValue as Option;
+                const fieldValue = (
+                  newValue === null
+                    ? null
+                    : Array.isArray(newValue)
+                      ? newValue as Option[]
+                      : newValue as Option
+                ) as AutocompleteObjectFieldChangeValue<Option, Multiple>;
                 rhfOnChange(newValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
