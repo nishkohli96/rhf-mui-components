@@ -533,6 +533,15 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
         const startAdornment = (
           <Box
             role="list"
+            /**
+             * Without this, a chip click first fires `mousedown` on the input,
+             * blurring it and flipping `isFocused` to false — which recomputes
+             * `visibleTags` down to `limitTags` before the chip's `onDelete`
+             * click handler runs, so the clicked chip shifts or unmounts and
+             * never gets deleted. Suppressing the default mousedown behavior
+             * keeps the input focused; `onDelete` still fires on click.
+             */
+            onMouseDown={event => event.preventDefault()}
             sx={{
               display: 'flex',
               flexWrap: 'wrap',
