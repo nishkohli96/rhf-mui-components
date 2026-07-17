@@ -279,6 +279,7 @@ const RHFTagsInput = <T extends FieldValues>({
         const startAdornment = (
           <Box
             role="list"
+            onMouseDown={event => event.preventDefault()}
             sx={{
               display: 'flex',
               flexWrap: 'wrap',

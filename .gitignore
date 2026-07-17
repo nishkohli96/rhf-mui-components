@@ -16,6 +16,9 @@ build
 dist
 *.tsbuildinfo
 
+# AI Agents
+.claude
+
 # testing
 coverage
 .nyc_output

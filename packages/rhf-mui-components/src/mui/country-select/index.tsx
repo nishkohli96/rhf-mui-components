@@ -78,6 +78,9 @@ type AutocompleteFieldValue<
   DisableClearable extends boolean,
 > = AutocompleteValue<CountryDetails, Multiple, DisableClearable, false>;
 
+type CountrySelectFieldChangeValue<Multiple extends boolean>
+  = Multiple extends true ? CountryDetails[] : (CountryDetails | null);
+
 export type RHFCountrySelectProps<
   T extends FieldValues,
   Multiple extends boolean = false,
@@ -127,13 +130,14 @@ export type RHFCountrySelectProps<
   disableClearable?: DisableClearable;
   /**
    * Callback fired after the selected country value is stored in the field.
-   * @param newValue - Selected country object, selected country objects, or `null` when cleared.
+   * @param newValue - Selected country object(s), typed as `CountryDetails[]`
+   * when `multiple` is `true` and `CountryDetails | null` otherwise.
    * @param event - MUI autocomplete change event.
    * @param reason - Reason reported by MUI for the value change.
    * @param details - Optional MUI details for the changed country.
    */
   onValueChange?: (
-    newValue: CountryDetails | CountryDetails[] | null,
+    newValue: CountrySelectFieldChangeValue<Multiple>,
     event: SyntheticEvent,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryDetails>
@@ -317,7 +321,7 @@ const RHFCountrySelect = <
                   : (newValue as CountryDetails)?.[valueKey] ?? null;
                 rhfOnChange(newValueKey);
                 onValueChange?.(
-                  newValue as CountryDetails | CountryDetails[] | null,
+                  newValue as CountrySelectFieldChangeValue<Multiple>,
                   event,
                   reason,
                   details

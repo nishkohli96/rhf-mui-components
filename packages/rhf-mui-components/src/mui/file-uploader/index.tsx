@@ -36,7 +36,13 @@ export enum FileUploadError {
   limitExceeded = 'FILE_LIMIT_EXCEEDED',
 }
 
-export type RHFFileUploaderProps<T extends FieldValues> = {
+type FileUploadValue<Multiple extends boolean>
+  = Multiple extends true ? File[] : File;
+
+export type RHFFileUploaderProps<
+  T extends FieldValues,
+  Multiple extends boolean = false,
+> = {
   /**
    * Name/path of the React Hook Form field this component controls.
    */
@@ -65,7 +71,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   /**
    * When true, allows selecting multiple files.
    */
-  multiple?: boolean;
+  multiple?: Multiple;
   /**
    * Maximum file size (in bytes) eligible for upload.
    * Files exceeding this size will be rejected and trigger an error callback.
@@ -112,11 +118,12 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   ) => ReactNode;
   /**
    * Callback fired after accepted file input value is stored in the field.
-   * @param acceptedFiles - Accepted file, accepted files, or `null` when no file is selected.
+   * @param acceptedFiles - Accepted file(s), typed as `File[]` when `multiple`
+   * is `true` and `File` otherwise, or `null` when no file is selected.
    * @param event - File input change event.
    */
   onValueChange?: (
-    acceptedFiles: File | File[] | null,
+    acceptedFiles: FileUploadValue<Multiple> | null,
     event: ChangeEvent<HTMLInputElement>
   ) => void;
   /**
@@ -162,7 +169,10 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   fullWidth?: boolean;
 };
 
-const RHFFileUploader = <T extends FieldValues>({
+const RHFFileUploader = <
+  T extends FieldValues,
+  Multiple extends boolean = false,
+>({
   fieldName,
   control,
   registerOptions,
@@ -186,7 +196,7 @@ const RHFFileUploader = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   fullWidth = false
-}: RHFFileUploaderProps<T>) => {
+}: RHFFileUploaderProps<T, Multiple>) => {
   const {
     fieldId,
     labelId,
@@ -244,11 +254,13 @@ const RHFFileUploader = <T extends FieldValues>({
             onUploadError?.(errors, rejectedFiles);
           }
 
-          const selectedFiles = multiple
-            ? acceptedFiles.length > 0
-              ? acceptedFiles
-              : null
-            : (acceptedFiles[0] ?? null);
+          const selectedFiles = (
+            multiple
+              ? acceptedFiles.length > 0
+                ? acceptedFiles
+                : null
+              : (acceptedFiles[0] ?? null)
+          ) as FileUploadValue<Multiple> | null;
           rhfOnChange(selectedFiles);
           onValueChange?.(selectedFiles, event);
           /* Reset so same file can be selected again */

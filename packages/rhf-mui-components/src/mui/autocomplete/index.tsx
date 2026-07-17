@@ -77,6 +77,9 @@ type AutocompleteFieldValue<
   DisableClearable extends boolean,
 > = AutocompleteValue<Option, Multiple, DisableClearable, false>;
 
+type AutocompleteFieldChangeValue<Multiple extends boolean>
+  = Multiple extends true ? string[] : (string | null);
+
 export type RHFAutocompleteProps<
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
@@ -120,13 +123,14 @@ export type RHFAutocompleteProps<
   disableClearable?: DisableClearable;
   /**
    * Callback fired after the autocomplete value is normalized and stored in the field.
-   * @param fieldValue - Normalized selected value, selected values, or `null` when cleared.
+   * @param fieldValue - Normalized selected value, typed as `string[]` when
+   * `multiple` is `true` and `string | null` otherwise.
    * @param event - MUI autocomplete change event.
    * @param reason - Reason reported by MUI for the value change.
    * @param details - Optional MUI details for the changed option.
    */
   onValueChange?: (
-    fieldValue: string | string[] | null,
+    fieldValue: AutocompleteFieldChangeValue<Multiple>,
     event: SyntheticEvent<Element, Event>,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<Option>
@@ -326,8 +330,8 @@ const RHFAutocomplete = <
                 reason: AutocompleteChangeReason,
                 details?: AutocompleteChangeDetails<Option>
               ) => {
-                const fieldValue
-                  = newValue === null
+                const fieldValue = (
+                  newValue === null
                     ? null
                     : Array.isArray(newValue)
                       ? (newValue ?? []).map(item =>
@@ -337,7 +341,8 @@ const RHFAutocomplete = <
                       : valueKey
                         && isKeyValueOption(newValue, labelKey, valueKey)
                         ? newValue[valueKey]
-                        : (newValue as string);
+                        : (newValue as string)
+                ) as AutocompleteFieldChangeValue<Multiple>;
                 rhfOnChange(fieldValue);
                 onValueChange?.(fieldValue, event, reason, details);
               }}
