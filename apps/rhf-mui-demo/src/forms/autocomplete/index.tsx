@@ -249,7 +249,7 @@ const AutocompleteForm = () => {
               }}
               options={pokemonList}
               labelKey="name"
-              valueKey="id"
+              valueKey="name"
               multiple
               showLabelAboveFormField
               loading={loading}

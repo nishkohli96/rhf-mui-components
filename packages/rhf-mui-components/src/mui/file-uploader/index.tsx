@@ -66,9 +66,19 @@ export type ExistingUploadedFile = {
   size?: number;
 };
 
-type RHFFileUploaderOnValueChangeProps = {
+/**
+ * RHF field value for the file uploader: `File[] | null` when `multiple`
+ * is `true`, else `File | null`. Tuple check avoids distributive
+ * `boolean` breaking the conditional.
+ */
+export type FileUploaderValue<Multiple extends boolean>
+  = [Multiple] extends [true]
+    ? File[] | null
+    : File | null;
+
+type RHFFileUploaderOnValueChangeProps<Multiple extends boolean = false> = {
   /** New form value after a successful upload, removal, or clear action. */
-  newValue: File | File[] | null;
+  newValue: FileUploaderValue<Multiple>;
   /** Event that triggered the value change. */
   event:
     | ChangeEvent<HTMLInputElement>
@@ -108,7 +118,10 @@ type RenderFileItemProps = {
   removeFile: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export type RHFFileUploaderProps<T extends FieldValues> = {
+export type RHFFileUploaderProps<
+  T extends FieldValues,
+  Multiple extends boolean = false
+> = {
   /**
    * Name/path of the React Hook Form field this component controls.
    */
@@ -137,7 +150,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   /**
    * When true, allows selecting multiple files.
    */
-  multiple?: boolean;
+  multiple?: Multiple;
   /**
    * Maximum file size (in bytes) eligible for upload.
    * Files exceeding this size will be rejected and trigger an error callback.
@@ -226,10 +239,11 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   /**
    * Overrides the default file uploader change handling.
    * Receives the accepted file value and the input/drop event that produced it.
-   * Call `rhfOnChange` with the `File`, `File[]`, or `null` value that should be stored; else the form value will not be updated.
+   * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
    *
    * @param rhfOnChange - React Hook Form field change handler for the uploaded file value.
-   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param newValue - Accepted file(s) or `null` when cleared: `File[] | null` when `multiple`
+   * is true, else `File | null`.
    * @param event - Input or drop event that changed the file value.
    */
   customOnChange?: ({
@@ -237,8 +251,8 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     newValue,
     event
   }: CustomOnChangeProps<
-    RHFFileUploaderOnValueChangeProps,
-    File | File[] | null
+    RHFFileUploaderOnValueChangeProps<Multiple>,
+    FileUploaderValue<Multiple>
   >) => void;
   /**
    * Called after the default file uploader handler stores the accepted file value in React Hook Form.
@@ -246,13 +260,14 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    * ⚠️ Important:
    * This callback is not called when `customOnChange` is used.
    *
-   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param newValue - Accepted file(s) or `null` when cleared: `File[] | null` when `multiple`
+   * is true, else `File | null`.
    * @param event - Input or drop event that changed the file value.
    */
   onValueChange?: ({
     newValue,
     event
-  }: RHFFileUploaderOnValueChangeProps) => void;
+  }: RHFFileUploaderOnValueChangeProps<Multiple>) => void;
   /**
    * Callback fired when uploaded files fail type, size, or count validation.
    */
@@ -304,7 +319,8 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
 };
 
 const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
-  T extends FieldValues
+  T extends FieldValues,
+  Multiple extends boolean = false
 >(
   {
     fieldName,
@@ -337,7 +353,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     disableDragAndDrop = false,
     dropZoneProps,
     customIds
-  }: RHFFileUploaderProps<T>,
+  }: RHFFileUploaderProps<T, Multiple>,
   ref: Ref<HTMLInputElement>
 ) {
   const [isDragging, setIsDragging] = useState(false);
@@ -436,16 +452,17 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             | DragEvent<HTMLDivElement>
             | MouseEvent<HTMLButtonElement>
         ) => {
+          const typedNewValue = newValue as FileUploaderValue<Multiple>;
           if (customOnChange) {
             customOnChange({
               rhfOnChange,
-              newValue,
+              newValue: typedNewValue,
               event
             });
             return;
           }
           rhfOnChange(newValue);
-          onValueChange?.({ newValue, event });
+          onValueChange?.({ newValue: typedNewValue, event });
         };
 
         const processFiles = (
@@ -727,8 +744,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   );
 });
 
-const RHFFileUploader = RHFFileUploaderInner as <T extends FieldValues>(
-  props: RHFFileUploaderProps<T> & { ref?: Ref<HTMLInputElement> }
+const RHFFileUploader = RHFFileUploaderInner as <
+  T extends FieldValues,
+  Multiple extends boolean = false
+>(
+  props: RHFFileUploaderProps<T, Multiple> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
 
 export default RHFFileUploader;
