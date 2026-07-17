@@ -12,6 +12,11 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # setup-node writes an .npmrc containing ${NODE_AUTH_TOKEN}; yarn 1.x errors
+    # on the unset placeholder for every yarn invocation, so define it for the
+    # whole job (publishing itself uses OIDC, so no real token is needed here).
+    env:
+      NODE_AUTH_TOKEN: ''
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -24,11 +29,6 @@ jobs:
         run: npm install -g yarn@1.22.22
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        # setup-node writes an .npmrc containing ${NODE_AUTH_TOKEN};
-        # yarn 1.x errors on the unset placeholder, so define it (publishing
-        # itself uses OIDC, so no real token is needed here).
-        env:
-          NODE_AUTH_TOKEN: ''
       - name: Build package
         run: yarn lib
       # Running the below command would ensure that latest
