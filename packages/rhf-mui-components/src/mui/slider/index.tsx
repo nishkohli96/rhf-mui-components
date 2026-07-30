@@ -5,6 +5,7 @@ import {
   Controller,
   type FieldValues,
   type Path,
+  type PathValue,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
@@ -25,11 +26,18 @@ type SliderInputProps = Omit<
   | 'onChange'
 >;
 
-export type RHFSliderProps<T extends FieldValues> = {
+export type RHFSliderProps<
+  T extends FieldValues,
+  TName extends Path<T> = Path<T>
+> = {
   /**
    * Name/path of the React Hook Form field this component controls.
+   *
+   * The field's declared type in `T` (`number` for a single-thumb slider,
+   * `number[]` for a range slider) drives the type of `onValueChange`'s
+   * `value` argument — no separate type argument needed.
    */
-  fieldName: Path<T>;
+  fieldName: TName;
   /**
    * React Hook Form control object returned by `useForm`.
    */
@@ -37,19 +45,23 @@ export type RHFSliderProps<T extends FieldValues> = {
   /**
    * Validation rules passed to React Hook Form for this field.
    */
-  registerOptions?: RegisterOptions<T, Path<T>>;
+  registerOptions?: RegisterOptions<T, TName>;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
    * Callback fired after the slider value is stored in the field.
+   *
+   * `value` mirrors the type of the `fieldName` field in your form schema: a
+   * `number` for a single-thumb slider, or `number[]` for a range slider.
+   *
    * @param value - Updated slider value, or value range when using a range slider.
    * @param activeThumb - Index of the thumb that triggered the change.
    * @param event - Slider change event.
    */
   onValueChange?: (
-    value: number | number[],
+    value: PathValue<T, TName>,
     activeThumb: number,
     event: Event,
   ) => void;
@@ -85,7 +97,10 @@ export type RHFSliderProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & SliderInputProps;
 
-const RHFSlider = <T extends FieldValues>({
+const RHFSlider = <
+  T extends FieldValues,
+  TName extends Path<T> = Path<T>
+>({
   fieldName,
   control,
   registerOptions,
@@ -101,7 +116,7 @@ const RHFSlider = <T extends FieldValues>({
   formHelperTextProps,
   onBlur,
   ...otherSliderProps
-}: RHFSliderProps<T>) => {
+}: RHFSliderProps<T, TName>) => {
   const {
     fieldId,
     labelId,
@@ -153,7 +168,7 @@ const RHFSlider = <T extends FieldValues>({
               disabled={isDisabled}
               onChange={(event, value, activeThumb) => {
                 rhfOnChange(value);
-                onValueChange?.(value, activeThumb, event);
+                onValueChange?.(value as PathValue<T, TName>, activeThumb, event);
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
