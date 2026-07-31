@@ -2,6 +2,7 @@ import type { FormHelperTextProps } from '@/common';
 import { useContext, Fragment, type ReactNode } from 'react';
 import MuiFormHelperText from '@mui/material/FormHelperText';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { mergeSx } from '@/utils';
 
 type CommonHelperTextProps = {
   error: boolean;
@@ -23,10 +24,7 @@ const FormHelperText = ({
 
   const { defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherHelperTextProps } = formHelperTextProps ?? {};
-  const appliedHelperTextSx = {
-    ...defaultFormHelperTextSx,
-    ...sx,
-  };
+  const appliedHelperTextSx = mergeSx(defaultFormHelperTextSx, sx);
   const showErrorMessage = error && !hideErrorMessage;
 
   return (

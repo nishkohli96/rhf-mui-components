@@ -7,10 +7,6 @@
 
 import {
   useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
   forwardRef,
   type JSX,
   type ReactNode,
@@ -18,58 +14,37 @@ import {
 } from 'react';
 import {
   Controller,
-  useWatch,
   type FieldError,
   type FieldValues,
   type Path,
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import Divider from '@mui/material/Divider';
-import Select from '@mui/material/Select';
-import ListSubheader from '@mui/material/ListSubheader';
-import MenuItem from '@mui/material/MenuItem';
+import { type TextFieldProps } from '@mui/material/TextField';
 import {
-  defaultCountries,
-  FlagImage,
-  parseCountry,
-  usePhoneInput,
-  type CountryData,
   type CountryIso2,
   type ParsedCountry,
   type UsePhoneInputConfig
 } from 'react-international-phone';
+import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
-  defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   keepLabelAboveFormField,
   mergeRefs,
+  mergeSx,
   useFieldIds
 } from '@/utils';
-import CountryMenuItem from './CountryMenuItem';
-import 'react-international-phone/style.css';
 
 type PhoneInputChangeReturnValue = {
   phone: string;
   inputValue: string;
   country: ParsedCountry;
 };
-
-const countryMenuWidth = 350;
-const countryMenuLeftOffset = -34;
-const countryMenuViewportGutter = 32;
 
 /**
  * Structured phone value stored in RHF state.
@@ -134,34 +109,6 @@ type SearchCountryProps = {
 };
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
-
-function toStructuredValue(
-  phoneData: PhoneInputChangeReturnValue
-): RHFPhoneInputValue {
-  const { phone, country } = phoneData;
-  const phoneNo = phone.startsWith(`+${country.dialCode}`)
-    ? phone.slice(country.dialCode.length + 1)
-    : phone;
-
-  return {
-    phone,
-    country: country.iso2,
-    dialCode: country.dialCode,
-    phoneNo
-  };
-}
-
-function getPhoneValue(value: unknown): string | undefined {
-  if (typeof value === 'string') {
-    return value;
-  }
-
-  if (value && typeof value === 'object' && 'phone' in value) {
-    return String(value.phone ?? '');
-  }
-
-  return undefined;
-}
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
   /**
@@ -265,152 +212,35 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     disabled: muiDisabled,
     phoneInputProps,
     slotProps,
-    onBlur,
-    autoComplete = defaultAutocompleteValue,
+    onBlur: muiOnBlur,
+    autoComplete,
     customIds,
     searchCountryProps,
     ...otherRHFPhoneInputProps
   }: RHFPhoneInputProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
   );
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
-
-  const watchedValue = useWatch({ control, name: fieldName });
-  const currentPhoneValue = getPhoneValue(watchedValue);
-  const [countrySearch, setCountrySearch] = useState('');
-  const [countryMenuLeft, setCountryMenuLeft] = useState(0);
-  const phoneInputRootRef = useRef<HTMLDivElement | null>(null);
-  const phoneChangeHandlerRef = useRef<
-    ((phoneData: PhoneInputChangeReturnValue) => void) | null
-  >(null);
-
   const {
-    countries,
-    preferredCountries,
-    forceDialCode,
-    ...otherPhoneInputProps
-  } = phoneInputProps ?? {};
-  const countryOptions = countries ?? defaultCountries;
-
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
   const {
-    textFieldProps: searchCountryTextFieldProps,
-    allowCountrySearch = true,
-    renderCountryMenuItem,
-    noCountryFoundText = 'No countries found'
-  } = searchCountryProps ?? {};
-
-  const {
-    id: searchCountryTextFieldId = `${fieldName}_search-country`,
-    fullWidth: searchCountryFullWidth = true,
-    size: searchCountrySize = 'small',
-    placeholder: searchCountryPlaceholder = 'Search by country or dial code',
-    onChange: searchCountryOnChange,
-    onClick: searchCountryOnClick,
-    onKeyDown: searchCountryOnKeyDown,
-    ...otherSearchCountryTextFieldProps
-  } = searchCountryTextFieldProps ?? {};
-
-  /*
-   * Keep the country menu tucked under the flag selector on wide inputs, but
-   * avoid that left shift when the viewport is too narrow to contain it.
-   */
-  const updateCountryMenuLeft = () => {
-    const inputWidth = phoneInputRootRef.current?.offsetWidth ?? 0;
-    const hasViewportRoom
-      = window.innerWidth
-        > countryMenuWidth
-        + Math.abs(countryMenuLeftOffset)
-        + countryMenuViewportGutter;
-
-    setCountryMenuLeft(
-      inputWidth > countryMenuWidth && hasViewportRoom
-        ? countryMenuLeftOffset
-        : 0
-    );
-  };
-
-  useEffect(() => {
-    updateCountryMenuLeft();
-    window.addEventListener('resize', updateCountryMenuLeft);
-    return () => {
-      window.removeEventListener('resize', updateCountryMenuLeft);
-    };
-  }, []);
-
-  /**
-   * Render preferred countries at the top of the list.
-   * Preferred countries will maintain the order in which they were
-   * specified in the props, while other countries will be sorted
-   * alphabetically.
-   */
-  const { countriesToList, countriesToListAtTop } = useMemo(() => {
-    if (!preferredCountries?.length) {
-      return {
-        countriesToList: countryOptions,
-        countriesToListAtTop: [] as CountryData[]
-      };
-    }
-
-    const countriesToListAtTop = countryOptions
-      .filter(country =>
-        preferredCountries.includes(parseCountry(country).iso2))
-      .sort(
-        (a, b) =>
-          preferredCountries.indexOf(parseCountry(a).iso2)
-          - preferredCountries.indexOf(parseCountry(b).iso2)
-      );
-
-    const countriesToList = countryOptions.filter(
-      country => !preferredCountries.includes(parseCountry(country).iso2)
-    );
-
-    return { countriesToList, countriesToListAtTop };
-  }, [countryOptions, preferredCountries]);
-
-  const filterCountry = (countryData: CountryData) => {
-    const search = countrySearch.trim().toLowerCase();
-    if (!search) {
-      return true;
-    }
-
-    const countryInfo = parseCountry(countryData);
-    const dialCodeSearch = search.replace('+', '');
-
-    return (
-      countryInfo.name.toLowerCase().includes(search)
-      || countryInfo.iso2.toLowerCase().includes(search)
-      || countryInfo.dialCode.includes(dialCodeSearch)
-    );
-  };
-
-  const filteredCountriesToListAtTop
-    = countriesToListAtTop.filter(filterCountry);
-  const filteredCountriesToList = countriesToList.filter(filterCountry);
-
-  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
-    = usePhoneInput({
-      ...otherPhoneInputProps,
-      value: currentPhoneValue,
-      onChange: (phoneData: PhoneInputChangeReturnValue) => {
-        phoneChangeHandlerRef.current?.(phoneData);
-      },
-      countries: countryOptions,
-      preferredCountries,
-      forceDialCode
-    });
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -420,6 +250,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
       render={({
         field: {
           name: rhfFieldName,
+          value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
           ref: rhfRef,
@@ -428,223 +259,55 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage
-          = fieldStateError
-            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
-            : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
-
-        const handleChange = (phoneData: PhoneInputChangeReturnValue) => {
-          const newValue = toStructuredValue(phoneData);
-          if (customOnChange) {
-            customOnChange({ rhfOnChange, newValue, phoneData });
-            return;
-          }
-          rhfOnChange(newValue);
-          onValueChange?.({ newValue, phoneData });
-        };
-        phoneChangeHandlerRef.current = handleChange;
-
-        const startAdornment = (
-          <InputAdornment
-            position="start"
-            style={{ marginRight: '2px', marginLeft: '-8px' }}
-          >
-            <Select
-              MenuProps={{
-                autoFocus: false,
-                PaperProps: {
-                  sx: {
-                    width: `min(${countryMenuWidth}px, calc(100vw - 32px))`,
-                    maxWidth: 'calc(100vw - 32px)',
-                    maxHeight: 300
-                  }
-                },
-                MenuListProps: {
-                  sx: {
-                    pt: allowCountrySearch ? 0 : '8px'
-                  }
-                },
-                style: {
-                  top: '10px',
-                  left: countryMenuLeft
-                },
-                transformOrigin: {
-                  vertical: 'top',
-                  horizontal: 'left'
-                }
-              }}
-              sx={{
-                width: 'max-content',
-                fieldset: {
-                  display: 'none'
-                },
-                '&.Mui-focused:has(div[aria-expanded="false"])': {
-                  fieldset: {
-                    display: 'block'
-                  }
-                },
-                '.MuiSelect-select': {
-                  padding: '8px',
-                  paddingRight: '24px !important'
-                },
-                svg: {
-                  right: 0
-                }
-              }}
-              value={country.iso2}
-              disabled={isDisabled || forceDialCode}
-              onOpen={updateCountryMenuLeft}
-              onClose={() => {
-                setCountrySearch('');
-              }}
-              onChange={e => {
-                setCountry(e.target.value, { focusOnInput: true });
-              }}
-              renderValue={value => (
-                <FlagImage iso2={value} style={{ display: 'flex' }} />
-              )}
-            >
-              {allowCountrySearch && (
-                <ListSubheader
-                  sx={{
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 1,
-                    bgcolor: 'background.paper',
-                    lineHeight: 'normal',
-                    padding: '8px',
-                  }}
-                >
-                  <MuiTextField
-                    {...otherSearchCountryTextFieldProps}
-                    label={null}
-                    id={searchCountryTextFieldId}
-                    fullWidth={searchCountryFullWidth}
-                    placeholder={searchCountryPlaceholder}
-                    size={searchCountrySize}
-                    value={countrySearch}
-                    onChange={event => {
-                      setCountrySearch(event.target.value);
-                      searchCountryOnChange?.(event);
-                    }}
-                    onClick={event => {
-                      event.stopPropagation();
-                      searchCountryOnClick?.(event);
-                    }}
-                    onKeyDown={event => {
-                      event.stopPropagation();
-                      searchCountryOnKeyDown?.(event);
-                    }}
-                  />
-                </ListSubheader>
-              )}
-              {filteredCountriesToListAtTop.map(c => {
-                const countryInfo = parseCountry(c);
-                return (
-                  <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                    {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
-                  </MenuItem>
-                );
-              })}
-              {filteredCountriesToListAtTop.length > 0
-                && filteredCountriesToList.length > 0
-                && <Divider />}
-              {filteredCountriesToList.map(c => {
-                const countryInfo = parseCountry(c);
-                return (
-                  <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
-                    {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
-                  </MenuItem>
-                );
-              })}
-              {filteredCountriesToListAtTop.length === 0
-                && filteredCountriesToList.length === 0 && (
-                <MenuItem disabled>
-                  {noCountryFoundText}
-                </MenuItem>
-              )}
-            </Select>
-          </InputAdornment>
-        );
 
         return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            <MuiTextField
-              {...otherRHFPhoneInputProps}
-              ref={phoneInputRootRef}
-              id={fieldId}
-              name={rhfFieldName}
-              inputRef={mergeRefs(rhfRef, inputRef, ref)}
-              value={inputValue}
-              autoComplete={autoComplete}
-              type="tel"
-              onChange={e => {
-                handlePhoneValueChange(e);
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-              label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+          <MUIPhoneInput
+            {...otherRHFPhoneInputProps}
+            ref={mergeRefs(rhfRef, ref)}
+            fieldName={rhfFieldName}
+            value={rhfValue}
+            onValueChange={({ newValue, phoneData }) => {
+              if (customOnChange) {
+                customOnChange({ rhfOnChange, newValue, phoneData });
+                return;
               }
-              aria-labelledby={
-                !hideLabel && isLabelAboveFormField ? labelId : undefined
-              }
-              aria-label={hideLabel ? accessibleFieldLabel : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-required={required}
-              error={isError}
-              disabled={isDisabled}
-              slotProps={{
-                ...slotProps,
-                input: {
-                  ...slotProps?.input,
-                  startAdornment
-                }
-              }}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, phoneData });
+            }}
+            searchCountryProps={searchCountryProps}
+            disabled={isDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveFormField}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            required={required}
+            errorMessage={fieldStateError?.message?.toString()}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            phoneInputProps={phoneInputProps}
+            slotProps={slotProps}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            autoComplete={autoComplete}
+            customIds={{
+              field: fieldId,
+              label: labelId,
+              helperText: helperTextId,
+              error: errorId
+            }}
+          />
         );
       }}
     />

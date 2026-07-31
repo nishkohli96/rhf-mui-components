@@ -28,6 +28,7 @@ import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
+  mergeSx,
   useFieldIds
 } from '@/utils';
 
@@ -144,11 +145,23 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     fieldName,
     customIds
   );
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -167,6 +180,9 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
           <MUITextField
@@ -185,16 +201,22 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
             disabled={isDisabled}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
-            formLabelProps={formLabelProps}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
             hideLabel={hideLabel}
             required={required}
-            errorMessage={fieldStateError?.message?.toString()}
+            errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
             hideErrorMessage={hideErrorMessage}
             helperText={helperText}
-            formHelperTextProps={formHelperTextProps}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
             onBlur={blurEvent => {
               rhfOnBlur();
               muiOnBlur?.(blurEvent);

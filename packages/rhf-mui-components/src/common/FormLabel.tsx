@@ -3,6 +3,7 @@ import { Fragment, useContext, type ReactNode } from 'react';
 import MuiFormLabel from '@mui/material/FormLabel';
 import { styled } from '@mui/material/styles';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { mergeSx } from '@/utils';
 
 type Props = {
   label: ReactNode;
@@ -33,10 +34,7 @@ const FormLabel = ({
 }: Props) => {
   const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
   const { sx, ...otherLabelProps } = formLabelProps ?? {};
-  const appliedLabelSx = {
-    ...defaultFormLabelSx,
-    ...sx
-  };
+  const appliedLabelSx = mergeSx(defaultFormLabelSx, sx);
 
   if (!isVisible) {
     return null;
