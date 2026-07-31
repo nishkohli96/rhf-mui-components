@@ -141,15 +141,16 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
   }: RHFTextFieldProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const {
     allLabelsAboveFields,
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields

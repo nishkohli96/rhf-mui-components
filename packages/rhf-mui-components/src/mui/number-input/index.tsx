@@ -6,10 +6,7 @@ import {
   type ReactNode,
   type JSX,
   type ChangeEvent,
-  type ClipboardEvent,
   type FocusEvent,
-  type KeyboardEvent,
-  type MouseEvent,
   type Ref
 } from 'react';
 import {
@@ -199,13 +196,19 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     fieldName,
     customIds
   );
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const { sx: formLabelSx, ...otherFormLabelProps } = formLabelProps ?? {};
-  const { sx: formHelperTextSx, ...otherFormHelperTextProps }
-    = formHelperTextProps ?? {};
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -224,13 +227,16 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
           <MUINumberInput
             {...otherNumberInputProps}
             fieldName={rhfFieldName}
             inputRef={mergeRefs(rhfRef, ref)}
-            value={rhfValue ?? null}
+            value={rhfValue}
             onValueChange={({ newValue, event }) => {
               if (customOnChange) {
                 customOnChange({ rhfOnChange, newValue, event });
@@ -253,10 +259,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
             maxDecimalPlaces={maxDecimalPlaces}
             stepAmount={stepAmount}
             required={required}
-            errorMessage={
-              fieldStateError?.message?.toString()
-              ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-            }
+            errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -269,13 +272,13 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
             sx={muiSx}
             onBlur={blurEvent => {
               rhfOnBlur();
-              muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
+              muiOnBlur?.(blurEvent);
             }}
             autoComplete={autoComplete}
             slotProps={muiSlotProps}
-            onKeyDown={onKeyDown as (e: KeyboardEvent<HTMLDivElement>) => void}
-            onMouseDown={onMouseDown as (e: MouseEvent<HTMLDivElement>) => void}
-            onPaste={onPaste as (e: ClipboardEvent<HTMLInputElement>) => void}
+            onKeyDown={onKeyDown}
+            onMouseDown={onMouseDown}
+            onPaste={onPaste}
             customIds={{
               field: fieldId,
               label: labelId,

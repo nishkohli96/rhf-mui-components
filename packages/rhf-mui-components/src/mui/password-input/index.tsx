@@ -1,14 +1,12 @@
 'use client';
 
 import {
-  useState,
   useContext,
   forwardRef,
   type ReactNode,
   type JSX,
   type ChangeEvent,
   type FocusEvent,
-  type MouseEvent,
   type Ref
 } from 'react';
 import {
@@ -19,16 +17,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
@@ -38,9 +28,9 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   keepLabelAboveFormField,
   mergeRefs,
+  mergeSx,
   useFieldIds
 } from '@/utils';
 
@@ -129,6 +119,15 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   hidePasswordIcon?: ReactNode;
   /**
+   * When true, the value is displayed but cannot be edited.
+   *
+   * Unlike `disabled`, the field stays focusable, is still submitted with the
+   * form, and the show/hide toggle remains usable — a read-only value is
+   * meaningful, so the user can still reveal it to verify it. `disabled`
+   * instead makes the whole field inert, including the toggle.
+   */
+  readOnly?: boolean;
+  /**
    * @deprecated
    * Field error message is now automatically derived from form state.
    * Passing this prop is no longer necessary and it will be removed in the next major version.
@@ -172,6 +171,7 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   hideLabel,
   showPasswordIcon,
   hidePasswordIcon,
+  readOnly,
   required,
   errorMessage,
   renderError,
@@ -185,44 +185,28 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   ...otherPasswordInputProps
 }: RHFPasswordInputProps<T>,
 ref: Ref<HTMLInputElement>) {
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
   );
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
-
-  const [showPassword, setShowPassword] = useState(false);
-  const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;
-  const HidePasswordIcon = hidePasswordIcon ?? <VisibilityIcon />;
-
-  const handleClickShowPassword = () => setShowPassword(show => !show);
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const endAdornment = (
-    <InputAdornment position="end">
-      <IconButton
-        type="button"
-        aria-label={showPassword ? 'Hide password' : 'Show password'}
-        onClick={handleClickShowPassword}
-        onMouseDown={handleMouseDownPassword}
-        edge="end"
-      >
-        {showPassword ? HidePasswordIcon : ShowPasswordIcon}
-      </IconButton>
-    </InputAdornment>
-  );
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -241,103 +225,63 @@ ref: Ref<HTMLInputElement>) {
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
+
         return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            <TextField
-              {...otherPasswordInputProps}
-              id={fieldId}
-              name={rhfFieldName}
-              inputRef={mergeRefs(rhfRef, ref)}
-              autoComplete={autoComplete}
-              type={showPassword ? 'text' : 'password'}
-              label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+          <MUIPasswordInput
+            {...otherPasswordInputProps}
+            fieldName={rhfFieldName}
+            inputRef={mergeRefs(rhfRef, ref)}
+            value={rhfValue}
+            onValueChange={({ newValue, event }) => {
+              if (customOnChange) {
+                customOnChange({
+                  rhfOnChange,
+                  newValue,
+                  event
+                });
+                return;
               }
-              value={rhfValue ?? ''}
-              disabled={isDisabled}
-              onChange={event => {
-                const changeEvent = event as ChangeEvent<HTMLInputElement>;
-                const newValue = changeEvent.target.value;
-                if (customOnChange) {
-                  customOnChange({
-                    rhfOnChange,
-                    newValue,
-                    event: changeEvent
-                  });
-                  return;
-                }
-                rhfOnChange(newValue);
-                onValueChange?.({ newValue, event: changeEvent });
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
-              }}
-              error={isError}
-              slotProps={{
-                ...muiSlotProps,
-                htmlInput: {
-                  ...muiSlotProps?.htmlInput,
-                  'aria-labelledby':
-                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
-                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
-                  'aria-describedby': showHelperTextElement
-                    ? isError
-                      ? errorId
-                      : helperTextId
-                    : undefined,
-                  'aria-required': required
-                },
-                input: {
-                  ...muiSlotProps?.input,
-                  endAdornment: (
-                    <>
-                      {(muiSlotProps?.input as { endAdornment?: ReactNode })?.endAdornment}
-                      {endAdornment}
-                    </>
-                  )
-                }
-              }}
-              multiline={false}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, event });
+            }}
+            disabled={isDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveFormField}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            showPasswordIcon={showPasswordIcon}
+            hidePasswordIcon={hidePasswordIcon}
+            readOnly={readOnly}
+            required={required}
+            errorMessage={fieldErrorMessage}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            slotProps={muiSlotProps}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            autoComplete={autoComplete}
+            customIds={{
+              field: fieldId,
+              label: labelId,
+              helperText: helperTextId,
+              error: errorId
+            }}
+          />
         );
       }}
     />
