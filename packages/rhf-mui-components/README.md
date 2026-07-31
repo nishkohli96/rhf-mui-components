@@ -17,6 +17,10 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
+>Looking for the same components without react-hook-form?
+>
+>Check out [@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components) — a standalone collection of fully controlled Material UI components with a familiar API and comprehensive documentation.
+
 ## Features ✨
 
 - Each component is fully functional with just 3-4 props — core logic handled internally.

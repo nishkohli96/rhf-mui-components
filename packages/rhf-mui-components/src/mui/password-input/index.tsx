@@ -93,6 +93,15 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   hidePasswordIcon?: ReactNode;
   /**
+   * When true, the value is displayed but cannot be edited.
+   *
+   * Unlike `disabled`, the field stays focusable, is still submitted with the
+   * form, and the show/hide toggle remains usable — a read-only value is
+   * meaningful, so the user can still reveal it to verify it. `disabled`
+   * instead makes the whole field inert, including the toggle.
+   */
+  readOnly?: boolean;
+  /**
    * Validation error message displayed in the `FormHelperText` component.
    * When provided, it takes precedence over `helperText` unless
    * `hideErrorMessage` is set to `true`.
@@ -119,6 +128,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   formLabelProps,
   showPasswordIcon,
   hidePasswordIcon,
+  readOnly,
   required,
   helperText,
   errorMessage,
@@ -178,7 +188,8 @@ const RHFPasswordInput = <T extends FieldValues>({
               ? errorId
               : helperTextId
             : undefined,
-          'aria-required': required
+          'aria-required': required,
+          'aria-readonly': readOnly || undefined
         };
 
         const endAdornment = (
@@ -242,6 +253,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                     ...slotProps,
                     input: {
                       ...slotProps?.input,
+                      readOnly,
                       endAdornment
                     },
                     htmlInput: {
@@ -257,6 +269,7 @@ const RHFPasswordInput = <T extends FieldValues>({
                   },
                   InputProps: {
                     ...InputProps,
+                    readOnly,
                     endAdornment
                   }
                 })}
