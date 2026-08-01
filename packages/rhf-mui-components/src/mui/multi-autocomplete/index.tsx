@@ -97,6 +97,11 @@ export type RHFMultiAutocompleteProps<
    */
   valueKey?: ValueKey;
   /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
+  /**
    * When true, the user may type any value not present in `options`.
    *
    * The typed string is stored in RHF state as-is. `selectedOption` in
@@ -130,11 +135,6 @@ export type RHFMultiAutocompleteProps<
    * @param selectedOption - Option value that triggered the change, or the select-all sentinel.
    */
   onValueChange?: ({ newValue, selectedOption }: OnValueChangeProps) => void;
-  /**
-   * When true, the selected value cannot be cleared from the input.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * Text to display for the "Select All" option.
    */
@@ -239,13 +239,14 @@ function RHFMultiAutocomplete<
   options,
   labelKey,
   valueKey,
-  freeSolo,
   disableClearable,
+  freeSolo,
   autoHighlight,
   selectAllText = defaultSelectAllOptionLabel,
   hideSelectAllOption,
   customOnChange,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
@@ -263,7 +264,6 @@ function RHFMultiAutocomplete<
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur: muiOnBlur,
   loading,
   customIds,
   getOptionDisabled,

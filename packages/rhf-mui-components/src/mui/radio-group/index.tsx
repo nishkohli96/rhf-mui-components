@@ -21,7 +21,8 @@ import {
   type FormHelperTextProps,
   type RadioProps,
   type CustomOnChangeProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
@@ -82,23 +83,6 @@ export type RHFRadioGroupProps<
    */
   valueKey?: ValueKey;
   /**
-   * Function to customize the label for each radio button.
-   * When not provided, the option label derived from `labelKey` (or the
-   * option value itself for primitive options) is rendered.
-   *
-   * @param option - The option being rendered.
-   * @returns Custom React content to display for the option.
-   */
-  renderOptionLabel?: (option: Option) => ReactNode;
-  /**
-   * Function to dynamically disable specific option(s).
-   *
-   * Return `true` to disable the option and prevent it from being checked.
-   *
-   * @param option - The option being evaluated.
-   */
-  getOptionDisabled?: (option: Option) => boolean;
-  /**
    * Overrides the default radio group change handling.
    * Receives the normalized selected option value and the original radio change event.
    * Call `rhfOnChange` with the selected value that should be stored; else the form value will not be updated.
@@ -128,6 +112,23 @@ export type RHFRadioGroupProps<
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * Function to customize the label for each radio button.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being checked.
+   *
+   * @param option - The option being evaluated.
+   */
+  getOptionDisabled?: (option: Option) => boolean;
   /**
    * When true, disables the field and associated controls.
    */
@@ -208,13 +209,14 @@ const RHFRadioGroup = <
   control,
   registerOptions,
   options,
-  renderOptionLabel,
-  getOptionDisabled,
   labelKey,
   valueKey,
   customOnChange,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
+  renderOptionLabel,
+  getOptionDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -227,7 +229,6 @@ const RHFRadioGroup = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur: muiOnBlur,
   customIds,
   ...otherRadioGroupProps
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
@@ -268,11 +269,17 @@ const RHFRadioGroup = <
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
           <MUIRadioGroup
             {...otherRadioGroupProps}
             fieldName={rhfFieldName}
+            options={options}
+            labelKey={labelKey}
+            valueKey={valueKey}
             value={rhfValue}
             onValueChange={({ newValue, event }) => {
               if (customOnChange) {
@@ -282,12 +289,13 @@ const RHFRadioGroup = <
               rhfOnChange(newValue);
               onValueChange?.({ newValue, event });
             }}
-            options={options}
-            labelKey={labelKey}
-            valueKey={valueKey}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            disabled={isDisabled}
             renderOptionLabel={renderOptionLabel}
             getOptionDisabled={getOptionDisabled}
-            disabled={isDisabled}
             label={label}
             showLabelAboveFormField={isLabelAboveControl}
             formLabelProps={{
@@ -301,10 +309,7 @@ const RHFRadioGroup = <
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
             required={required}
-            errorMessage={
-              fieldStateError?.message?.toString()
-              ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-            }
+            errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -313,10 +318,6 @@ const RHFRadioGroup = <
             formHelperTextProps={{
               ...otherFormHelperTextProps,
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
-            }}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
             }}
             customIds={{
               field: fieldId,

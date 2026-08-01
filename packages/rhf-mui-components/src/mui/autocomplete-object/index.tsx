@@ -296,7 +296,7 @@ function RHFAutocompleteObject<
           : fieldStateError?.message?.toString();
 
         return (
-          <MUIAutocompleteObject<Option, LabelKey, ValueKey, Multiple, DisableClearable>
+          <MUIAutocompleteObject
             {...otherAutocompleteObjectProps}
             fieldName={rhfFieldName}
             options={options}

@@ -21,7 +21,8 @@ import {
   type FormControlLabelProps,
   type CheckboxProps,
   type CustomOnChangeProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
@@ -92,23 +93,6 @@ export type RHFCheckboxGroupProps<
    */
   valueKey?: ValueKey;
   /**
-   * Function to customize the label for each checkbox.
-   * When not provided, the option label derived from `labelKey` (or the
-   * option value itself for primitive options) is rendered.
-   *
-   * @param option - The option being rendered.
-   * @returns Custom React content to display for the option.
-   */
-  renderOptionLabel?: (option: Option) => ReactNode;
-  /**
-   * Function to dynamically disable specific option(s).
-   *
-   * Return `true` to disable the option and prevent it from being checked.
-   *
-   * @param option - The option being evaluated.
-   */
-  getOptionDisabled?: (option: Option) => boolean;
-  /**
    * Overrides the default checkbox group toggle handling.
    * Receives the current array value, the toggled option value, and the next checked state for that option.
    * Build the next array and call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
@@ -146,6 +130,23 @@ export type RHFCheckboxGroupProps<
     toggledValue,
     checked
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * Function to customize the label for each checkbox.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being checked.
+   *
+   * @param option - The option being evaluated.
+   */
+  getOptionDisabled?: (option: Option) => boolean;
   /**
    * When true, disables the field and associated controls.
    */
@@ -305,10 +306,16 @@ const RHFCheckboxGroup = <
         };
         const rhfValue = value ?? [];
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
           <MUICheckboxGroup
             fieldName={fieldName}
+            options={options}
+            labelKey={labelKey}
+            valueKey={valueKey}
             value={rhfValue}
             onValueChange={({ event, newValue, toggledValue, checked }) => {
               if (customOnChange) {
@@ -324,9 +331,10 @@ const RHFCheckboxGroup = <
               rhfOnChange(newValue);
               onValueChange?.({ toggledValue, newValue, event, checked });
             }}
-            options={options}
-            labelKey={labelKey}
-            valueKey={valueKey}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             renderOptionLabel={renderOptionLabel}
             getOptionDisabled={getOptionDisabled}
             disabled={isDisabled}
@@ -343,10 +351,7 @@ const RHFCheckboxGroup = <
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
             required={required}
-            errorMessage={
-              fieldStateError?.message?.toString()
-              ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-            }
+            errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -355,10 +360,6 @@ const RHFCheckboxGroup = <
             formHelperTextProps={{
               ...otherFormHelperTextProps,
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
-            }}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
             }}
             customIds={{
               field: fieldId,
