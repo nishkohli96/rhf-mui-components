@@ -278,8 +278,8 @@ function RHFAutocomplete<
   textFieldProps,
   slotProps,
   ChipProps,
+  onFocus: muiOnFocus,
   onBlur: muiOnBlur,
-  onFocus,
   loading,
   limitTags,
   customIds,
@@ -333,9 +333,12 @@ function RHFAutocomplete<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
-          <MUIAutocomplete
+          <MUIAutocomplete<Option, LabelKey, ValueKey, Multiple, DisableClearable, FreeSolo>
             {...otherAutoCompleteProps}
             fieldName={rhfFieldName}
             options={options}
@@ -361,6 +364,11 @@ function RHFAutocomplete<
               rhfOnChange(newValue);
               onValueChange?.({ newValue, selectedOption, event, reason, details });
             }}
+            onFocus={muiOnFocus}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             disabled={isDisabled}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
@@ -370,10 +378,7 @@ function RHFAutocomplete<
             }}
             hideLabel={hideLabel}
             required={required}
-            errorMessage={
-              fieldStateError?.message?.toString()
-              ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-            }
+            errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -386,11 +391,6 @@ function RHFAutocomplete<
             textFieldProps={textFieldProps}
             slotProps={slotProps}
             ChipProps={ChipProps}
-            onFocus={onFocus}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
-            }}
             loading={loading}
             limitTags={limitTags}
             autoSelect={autoSelect}

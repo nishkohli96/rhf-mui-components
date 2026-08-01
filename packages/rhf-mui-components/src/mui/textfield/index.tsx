@@ -122,6 +122,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     registerOptions,
     customOnChange,
     onValueChange,
+    onBlur: muiOnBlur,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -133,7 +134,6 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    onBlur: muiOnBlur,
     autoComplete,
     slotProps: muiSlotProps,
     customIds,
@@ -199,6 +199,10 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
               rhfOnChange(newValue);
               onValueChange?.({ newValue, event });
             }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             disabled={isDisabled}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
@@ -217,10 +221,6 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
             formHelperTextProps={{
               ...otherFormHelperTextProps,
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
-            }}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
             }}
             autoComplete={autoComplete}
             slotProps={muiSlotProps}

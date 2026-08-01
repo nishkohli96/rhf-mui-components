@@ -164,6 +164,7 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   registerOptions,
   customOnChange,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
@@ -179,7 +180,6 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   helperText,
   formHelperTextProps,
   slotProps: muiSlotProps,
-  onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   customIds,
   ...otherPasswordInputProps
@@ -247,6 +247,10 @@ ref: Ref<HTMLInputElement>) {
               rhfOnChange(newValue);
               onValueChange?.({ newValue, event });
             }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             disabled={isDisabled}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
@@ -270,10 +274,6 @@ ref: Ref<HTMLInputElement>) {
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
             }}
             slotProps={muiSlotProps}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
-            }}
             autoComplete={autoComplete}
             customIds={{
               field: fieldId,

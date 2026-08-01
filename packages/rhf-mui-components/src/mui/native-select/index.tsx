@@ -212,6 +212,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     valueKey,
     customOnChange,
     onValueChange,
+    onBlur: muiOnBlur,
     disabled: muiDisabled,
     defaultOptionText,
     label,
@@ -225,7 +226,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     helperText,
     formHelperTextProps,
     sx: muiSx,
-    onBlur: muiOnBlur,
     autoComplete,
     placeholder,
     customIds,
@@ -294,6 +294,10 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               rhfOnChange(newValue);
               onValueChange?.({ newValue, event });
             }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             renderOptionLabel={renderOptionLabel}
             getOptionDisabled={getOptionDisabled}
             disabled={isDisabled}
@@ -317,10 +321,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
             }}
             sx={muiSx}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
-            }}
             autoComplete={autoComplete}
             placeholder={placeholder}
             customIds={{

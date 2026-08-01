@@ -323,8 +323,8 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     renderFileItem,
     customOnChange,
     onValueChange,
-    onUploadError,
     onBlur,
+    onUploadError,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -400,6 +400,10 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               rhfOnChange(newValue);
               onValueChange?.({ newValue, event });
             }}
+            onBlur={event => {
+              rhfOnBlur();
+              onBlur?.(event);
+            }}
             accept={accept}
             multiple={multiple}
             maxFiles={maxFiles}
@@ -412,10 +416,6 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             renderFileItem={renderFileItem}
             disabled={isDisabled}
             onUploadError={onUploadError}
-            onBlur={event => {
-              rhfOnBlur();
-              onBlur?.(event);
-            }}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
             formLabelProps={{

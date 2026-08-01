@@ -161,6 +161,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   registerOptions,
   customOnChange,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
@@ -178,7 +179,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   helperText,
   formHelperTextProps,
   sx: muiSx,
-  onBlur: muiOnBlur,
   autoComplete,
   slotProps: muiSlotProps,
   customIds,
@@ -245,6 +245,10 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               rhfOnChange(newValue);
               onValueChange?.({ newValue, event });
             }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             disabled={isDisabled}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
@@ -270,10 +274,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
             }}
             sx={muiSx}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
-            }}
             autoComplete={autoComplete}
             slotProps={muiSlotProps}
             onKeyDown={onKeyDown}

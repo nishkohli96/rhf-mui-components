@@ -252,6 +252,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     defaultOptionText,
     customOnChange,
     onValueChange,
+    onBlur: muiOnBlur,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -263,7 +264,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    onBlur,
     autoComplete = defaultAutocompleteValue,
     renderValue,
     placeholder,
@@ -349,6 +349,10 @@ const RHFSelectInner = forwardRef(function RHFSelect<
                 child
               });
             }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             renderOptionLabel={renderOptionLabel}
             getOptionDisabled={getOptionDisabled}
             multiple={multiple}
@@ -372,10 +376,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             formHelperTextProps={{
               ...otherFormHelperTextProps,
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
-            }}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              onBlur?.(blurEvent);
             }}
             autoComplete={autoComplete}
             renderValue={renderValue}
