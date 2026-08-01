@@ -8,7 +8,8 @@ import {
   type JSX,
   type ChangeEvent,
   type DragEvent,
-  type MouseEvent
+  type MouseEvent,
+  type FocusEvent
 } from 'react';
 import {
   Controller,
@@ -19,7 +20,11 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type BoxProps } from '@mui/material/Box';
-import MUIFileUploader from '@nish1896/mui-components/mui/file-uploader';
+import MUIFileUploader, {
+  FileUploadError,
+  type FileUploadErrorDetails,
+  type ExistingUploadedFile,
+} from '@nish1896/mui-components/mui/file-uploader';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -34,40 +39,20 @@ import {
   useFieldIds
 } from '@/utils';
 
-export enum FileUploadError {
-  sizeExceeded = 'FILE_SIZE_EXCEEDED',
-  invalidExtension = 'FILE_TYPE_NOT_ALLOWED',
-  limitExceeded = 'FILE_LIMIT_EXCEEDED',
-}
-
-export type FileUploadErrorDetails = {
-  /** File that failed upload validation. */
-  file: File;
-  /** Validation errors reported for the file. */
-  errors: FileUploadError[];
+export {
+  FileUploadError,
+  type FileUploadErrorDetails,
+  type ExistingUploadedFile
 };
 
 /**
- * Metadata for a file that has already been uploaded and is being
- * passed as initial value for the field in the file uploader component.
- */
-export type ExistingUploadedFile = {
-  /** Displayed file name. */
-  name: string;
-  /** URL used as the href on the file name link. */
-  url: string;
-  /** Optional file size in bytes. */
-  size?: number;
-};
-
-/**
- * RHF field value for the file uploader: `File[] | null` when `multiple`
+ * RHF field value for the file uploader: `File[]` when `multiple`
  * is `true`, else `File | null`. Tuple check avoids distributive
  * `boolean` breaking the conditional.
  */
-export type FileUploaderValue<Multiple extends boolean>
+type FileUploaderValue<Multiple extends boolean>
   = [Multiple] extends [true]
-    ? File[] | null
+    ? File[]
     : File | null;
 
 type RHFFileUploaderOnValueChangeProps<Multiple extends boolean = false> = {
@@ -267,6 +252,12 @@ export type RHFFileUploaderProps<
    */
   onUploadError?: (errors: FileUploadErrorDetails[]) => void;
   /**
+   * Called after the field's internal blur handling, which marks the field as touched.
+   *
+   * @param event - Original blur event from the file input.
+   */
+  onBlur?: (event: FocusEvent<HTMLInputElement, Element>) => void;
+  /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
   label?: ReactNode;
@@ -332,8 +323,9 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     renderFileItem,
     customOnChange,
     onValueChange,
-    disabled: muiDisabled,
     onUploadError,
+    onBlur,
+    disabled: muiDisabled,
     label,
     showLabelAboveFormField,
     formLabelProps,
@@ -359,6 +351,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     fieldName,
     customIds
   );
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -372,57 +365,11 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     ...otherFormHelperTextProps
   } = formHelperTextProps ?? {};
 
-  const serverFileCount = existingFiles?.length ?? 0;
-  const {
-    required: registerRequired,
-    validate: registerValidate,
-    ...controllerRulesBase
-  } = registerOptions ?? {};
-  const isRegisterRequired = typeof registerRequired === 'object'
-    ? registerRequired.value
-    : !!registerRequired;
-  const isFieldRequired = required || isRegisterRequired;
-  const requiredMessage
-    = typeof registerRequired === 'string'
-      ? registerRequired
-      : typeof registerRequired === 'object'
-        ? registerRequired.message
-        : 'This field is required';
-
-  const validateRequiredFiles = (value: File | File[] | null) => {
-    if (!isFieldRequired || serverFileCount > 0) {
-      return true;
-    }
-    if (Array.isArray(value)) {
-      return value.length > 0 || requiredMessage;
-    }
-    return value instanceof File || requiredMessage;
-  };
-
-  const controllerRules: RegisterOptions<T, Path<T>> = {
-    ...controllerRulesBase,
-    validate:
-      typeof registerValidate === 'function'
-        ? async (value, formValues) => {
-          const requiredValidation = validateRequiredFiles(
-            value
-          );
-          if (requiredValidation !== true) {
-            return requiredValidation;
-          }
-          return registerValidate(value, formValues);
-        }
-        : {
-          ...registerValidate,
-          requiredFiles: value => validateRequiredFiles(value)
-        }
-  };
-
   return (
     <Controller
       name={fieldName}
       control={control}
-      rules={controllerRules}
+      rules={registerOptions}
       render={({
         field: {
           name: rhfFieldName,
@@ -437,31 +384,21 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
         const isDisabled = muiDisabled || rhfDisabled;
 
         return (
-          <MUIFileUploader
+          <MUIFileUploader<Multiple>
             fieldName={rhfFieldName}
             inputRef={mergeRefs(rhfRef, ref)}
             value={rhfValue}
             onValueChange={({ newValue, event }) => {
-              /**
-               * MUIFileUploader clears a multi-file field to `[]`; RHF state
-               * here has always cleared to `null` for both single and multi.
-               * Normalize back at this boundary to keep that contract stable.
-               */
-              const normalizedValue = (
-                multiple && Array.isArray(newValue) && newValue.length === 0
-                  ? null
-                  : newValue
-              ) as FileUploaderValue<Multiple>;
               if (customOnChange) {
                 customOnChange({
                   rhfOnChange,
-                  newValue: normalizedValue,
+                  newValue,
                   event
                 });
                 return;
               }
-              rhfOnChange(normalizedValue);
-              onValueChange?.({ newValue: normalizedValue, event });
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, event });
             }}
             accept={accept}
             multiple={multiple}
@@ -475,7 +412,10 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
             renderFileItem={renderFileItem}
             disabled={isDisabled}
             onUploadError={onUploadError}
-            onBlur={rhfOnBlur}
+            onBlur={event => {
+              rhfOnBlur();
+              onBlur?.(event);
+            }}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
             formLabelProps={{
@@ -483,7 +423,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={isFieldRequired}
+            required={required}
             errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
