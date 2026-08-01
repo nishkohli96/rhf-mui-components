@@ -151,6 +151,10 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
     phoneData
   }: RHFPhoneInputOnValueChangeProps) => void;
   /**
+   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
+   */
+  phoneInputProps?: PhoneInputProps;
+  /**
    * Options for the inline country search field in the country dropdown.
    */
   searchCountryProps?: SearchCountryProps;
@@ -182,10 +186,6 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
-   */
-  phoneInputProps?: PhoneInputProps;
-  /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
@@ -198,24 +198,24 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     fieldName,
     control,
     registerOptions,
+    required,
     customOnChange,
     onValueChange,
+    disabled: muiDisabled,
+    onBlur: muiOnBlur,
+    phoneInputProps,
+    searchCountryProps,
     label,
     showLabelAboveFormField,
     formLabelProps,
     hideLabel,
-    required,
     renderError,
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    disabled: muiDisabled,
-    phoneInputProps,
     slotProps,
-    onBlur: muiOnBlur,
     autoComplete,
     customIds,
-    searchCountryProps,
     ...otherRHFPhoneInputProps
   }: RHFPhoneInputProps<T>,
   ref: Ref<HTMLInputElement>
@@ -263,8 +263,10 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
         return (
           <MUIPhoneInput
             {...otherRHFPhoneInputProps}
-            ref={mergeRefs(rhfRef, ref)}
             fieldName={rhfFieldName}
+            autoComplete={autoComplete}
+            required={required}
+            ref={mergeRefs(rhfRef, ref)}
             value={rhfValue}
             onValueChange={({ newValue, phoneData }) => {
               if (customOnChange) {
@@ -274,8 +276,13 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               rhfOnChange(newValue);
               onValueChange?.({ newValue, phoneData });
             }}
-            searchCountryProps={searchCountryProps}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
             disabled={isDisabled}
+            phoneInputProps={phoneInputProps}
+            searchCountryProps={searchCountryProps}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
             formLabelProps={{
@@ -283,7 +290,6 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={required}
             errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
@@ -294,13 +300,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               ...otherFormHelperTextProps,
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
             }}
-            phoneInputProps={phoneInputProps}
             slotProps={slotProps}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
-            }}
-            autoComplete={autoComplete}
             customIds={{
               field: fieldId,
               label: labelId,

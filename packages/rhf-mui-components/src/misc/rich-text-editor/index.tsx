@@ -16,27 +16,24 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { type CKEditor } from '@ckeditor/ckeditor5-react';
 import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
-import { ClassicEditor } from 'ckeditor5';
+import { type ClassicEditor } from 'ckeditor5';
+import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   mergeRefs,
+  mergeSx,
   resolveLabelAboveControl,
   useFieldIds
 } from '@/utils';
 import { DefaultEditorConfig } from './config';
-import 'ckeditor5/ckeditor5.css';
 
 /**
  * CK Editor Props ref -
@@ -87,16 +84,6 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   onReady?: (editor: ClassicEditor) => void;
   /**
-   * Callback fired when the CKEditor instance receives focus.
-   */
-  onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  /**
-   * Callback fired when the CKEditor instance loses focus.
-   *
-   * The wrapper also marks the React Hook Form field as touched.
-   */
-  onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
-  /**
    * Overrides the default rich text editor change handling.
    * Receives the next editor HTML string, CKEditor event info, and editor instance.
    * Call `rhfOnChange` with the HTML string that should be stored; otherwise the previous form value is kept.
@@ -128,6 +115,16 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
     event,
     editor
   }: RHFRichTextEditorOnValueChangeProps) => void;
+  /**
+   * Callback fired when the CKEditor instance receives focus.
+   */
+  onFocus?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
+  /**
+   * Callback fired when the CKEditor instance loses focus.
+   *
+   * The wrapper also marks the React Hook Form field as touched.
+   */
+  onBlur?: (event: EventInfo<string, unknown>, editor: ClassicEditor) => void;
   /**
    * When true, disables the field and associated controls.
    */
@@ -196,10 +193,10 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     required,
     editorConfig,
     onReady,
-    onFocus,
-    onBlur,
     onValueChange,
     customOnChange,
+    onFocus,
+    onBlur,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -216,21 +213,27 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
   ref: Ref<CKEditor<ClassicEditor>>
 ) {
   const skipNextEditorChangeRef = useRef(false);
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
   );
-
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -248,110 +251,89 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveControl}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            <CKEditor
-              id={fieldId}
-              editor={ClassicEditor}
-              config={editorConfig ?? DefaultEditorConfig}
-              data={rhfValue ?? ''}
-              onChange={(event, editor) => {
-                if (skipNextEditorChangeRef.current) {
-                  skipNextEditorChangeRef.current = false;
-                  return;
-                }
-                const content = editor.getData();
-                /**
-                 * Directly calling the early return in customChange won't work in
-                 * this scenario because the editor is not yet updated with the new value.
-                 * So we need to wrap the rhfOnChange function and call it after the customOnChange
-                 * function is called.
-                 *
-                 * This is a workaround to ensure that the editor is updated with the new value.
-                 */
-                if (customOnChange) {
-                  let rhfChangeCalled = false;
-                  let committedValue = '';
-                  const wrappedRhfOnChange = (newValue: string) => {
-                    rhfChangeCalled = true;
-                    committedValue = newValue;
-                    rhfOnChange(newValue);
-                  };
-                  customOnChange({
-                    rhfOnChange: wrappedRhfOnChange,
-                    newValue: content,
-                    event,
-                    editor
-                  });
-                  const target = rhfChangeCalled
-                    ? committedValue
-                    : String(rhfValue ?? '');
-                  if (editor.getData() !== target) {
-                    skipNextEditorChangeRef.current = true;
-                    editor.setData(target);
-                  }
-                  return;
-                }
-                rhfOnChange(content);
-                onValueChange?.({ newValue: content, event, editor });
-              }}
-              ref={mergeRefs(rhfRef, ref)}
-              onReady={onReady}
-              onBlur={(event, editor) => {
-                rhfOnBlur();
-                onBlur?.(event, editor);
-              }}
-              aria-labelledby={
-                !hideLabel && isLabelAboveControl ? labelId : undefined
+          <MUIRichTextEditor
+            fieldName={fieldName}
+            id={fieldId}
+            required={required}
+            ref={mergeRefs(rhfRef, ref)}
+            editorConfig={editorConfig ?? DefaultEditorConfig}
+            onReady={onReady}
+            value={rhfValue}
+            onValueChange={({ newValue, event, editor }) => {
+              if (skipNextEditorChangeRef.current) {
+                skipNextEditorChangeRef.current = false;
+                return;
               }
-              aria-label={hideLabel ? accessibleFieldLabel : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
+              /**
+               * Directly calling the early return in customChange won't work in
+               * this scenario because the editor is not yet updated with the new value.
+               * So we need to wrap the rhfOnChange function and call it after the customOnChange
+               * function is called.
+               *
+               * This is a workaround to ensure that the editor is updated with the new value.
+               */
+              if (customOnChange) {
+                let rhfChangeCalled = false;
+                let committedValue = '';
+                const wrappedRhfOnChange = (nextValue: string) => {
+                  rhfChangeCalled = true;
+                  committedValue = nextValue;
+                  rhfOnChange(nextValue);
+                };
+                customOnChange({
+                  rhfOnChange: wrappedRhfOnChange,
+                  newValue,
+                  event,
+                  editor
+                });
+                const target = rhfChangeCalled
+                  ? committedValue
+                  : String(rhfValue ?? '');
+                if (editor.getData() !== target) {
+                  skipNextEditorChangeRef.current = true;
+                  editor.setData(target);
+                }
+                return;
               }
-              aria-required={required}
-              onFocus={onFocus}
-              onError={onError}
-              disabled={isDisabled}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, event, editor });
+            }}
+            onFocus={onFocus}
+            onBlur={(event, editor) => {
+              rhfOnBlur();
+              onBlur?.(event, editor);
+            }}
+            disabled={isDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveControl}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            onError={onError}
+            errorMessage={fieldErrorMessage}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            customIds={{
+              field: fieldId,
+              label: labelId,
+              helperText: helperTextId,
+              error: errorId
+            }}
+          />
         );
       }}
     />
