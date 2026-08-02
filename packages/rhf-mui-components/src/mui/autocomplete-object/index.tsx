@@ -1,6 +1,14 @@
 'use client';
 
-import { useContext, type JSX, type ReactNode, type SyntheticEvent } from 'react';
+import {
+  useCallback,
+  useContext,
+  forwardRef,
+  type JSX,
+  type ReactNode,
+  type Ref,
+  type SyntheticEvent
+} from 'react';
 import {
   Controller,
   type FieldError,
@@ -9,14 +17,21 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import {
+import Autocomplete,
+{
   type AutocompleteProps,
   type AutocompleteChangeDetails,
   type AutocompleteChangeReason,
   type AutocompleteValue
 } from '@mui/material/Autocomplete';
-import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
+import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
@@ -25,7 +40,12 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
-import { keepLabelAboveFormField, mergeSx, useFieldIds } from '@/utils';
+import {
+  fieldNameToLabel,
+  useFieldIds,
+  keepLabelAboveFormField,
+  mergeRefs
+} from '@/utils';
 
 type OmittedAutocompleteProps<
   Option extends KeyValueOption = KeyValueOption,
@@ -204,7 +224,7 @@ export type RHFAutocompleteObjectProps<
   customIds?: CustomComponentIds;
 } & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 
-function RHFAutocompleteObject<
+const RHFAutocompleteObjectInner = forwardRef(function RHFAutocompleteObject<
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -217,63 +237,71 @@ function RHFAutocompleteObject<
   >,
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
->({
-  fieldName,
-  control,
-  registerOptions,
-  options,
-  multiple,
-  labelKey,
-  valueKey,
-  disableClearable,
-  autoHighlight,
-  customOnChange,
-  onValueChange,
-  onFocus: muiOnFocus,
-  onBlur: muiOnBlur,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  required,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  loading,
-  limitTags,
-  getLimitTagsText,
-  customIds,
-  ...otherAutocompleteObjectProps
-}: RHFAutocompleteObjectProps<
-  T,
-  Option,
-  LabelKey,
-  ValueKey,
-  Multiple,
-  DisableClearable
->): JSX.Element {
-  const {
-    allLabelsAboveFields,
-    defaultFormLabelSx,
-    defaultFormHelperTextSx
-  } = useContext(RHFMuiConfigContext);
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    options,
+    multiple,
+    labelKey,
+    valueKey,
+    disableClearable,
+    autoHighlight = true,
+    customOnChange,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    required,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    onBlur: muiOnBlur,
+    onFocus,
+    loading,
+    limitTags = 2,
+    getLimitTagsText,
+    customIds,
+    ...otherAutocompleteObjectProps
+  }: RHFAutocompleteObjectProps<
+    T,
+    Option,
+    LabelKey,
+    ValueKey,
+    Multiple,
+    DisableClearable
+  >,
+  ref: Ref<HTMLInputElement>
+) {
+  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
   );
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const { sx: formLabelSx, ...otherFormLabelProps } = formLabelProps ?? {};
-  const { sx: formHelperTextSx, ...otherFormHelperTextProps }
-    = formHelperTextProps ?? {};
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
+
+  const renderOptionLabel = useCallback(
+    (option: Option): string => String(option[labelKey]),
+    [labelKey]
+  );
 
   return (
     <Controller
@@ -286,76 +314,174 @@ function RHFAutocompleteObject<
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
+          ref: rhfRef,
           disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
-
+        const fieldErrorMessage = fieldStateError
+          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
+          : undefined;
+        const isError = !!fieldErrorMessage;
+        const showHelperTextElement = !!(
+          helperText
+          || (isError && !hideErrorMessage)
+        );
         return (
-          <MUIAutocompleteObject
-            {...otherAutocompleteObjectProps}
-            fieldName={rhfFieldName}
-            options={options}
-            labelKey={labelKey}
-            valueKey={valueKey}
-            multiple={multiple}
-            disableClearable={disableClearable}
-            autoHighlight={autoHighlight}
-            value={rhfValue}
-            onValueChange={({ newValue, event, reason, details }) => {
-              if (customOnChange) {
-                customOnChange({ rhfOnChange, newValue, event, reason, details });
-                return;
+          <FormControl error={isError} disabled={isDisabled}>
+            {!hideLabel && (
+              <FormLabel
+                label={fieldLabel}
+                isVisible={isLabelAboveFormField}
+                required={required}
+                error={isError}
+                disabled={isDisabled}
+                formLabelProps={{
+                  ...formLabelProps,
+                  id: labelId,
+                  htmlFor: fieldId
+                }}
+              />
+            )}
+            <Autocomplete
+              {...otherAutocompleteObjectProps}
+              id={fieldId}
+              options={options}
+              multiple={multiple}
+              value={
+                (rhfValue ?? (multiple ? [] : null)) as AutocompleteValue<
+                  Option,
+                  Multiple,
+                  DisableClearable,
+                  false
+                >
               }
-              rhfOnChange(newValue);
-              onValueChange?.({ newValue, event, reason, details });
-            }}
-            onFocus={muiOnFocus}
-            onBlur={blurEvent => {
-              rhfOnBlur();
-              muiOnBlur?.(blurEvent);
-            }}
-            disabled={isDisabled}
-            label={label}
-            showLabelAboveFormField={isLabelAboveFormField}
-            formLabelProps={{
-              ...otherFormLabelProps,
-              sx: mergeSx(defaultFormLabelSx, formLabelSx)
-            }}
-            hideLabel={hideLabel}
-            required={required}
-            errorMessage={fieldErrorMessage}
-            renderError={() => fieldStateError
-              ? renderError?.(fieldStateError)
-              : undefined}
-            hideErrorMessage={hideErrorMessage}
-            helperText={helperText}
-            formHelperTextProps={{
-              ...otherFormHelperTextProps,
-              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
-            }}
-            textFieldProps={textFieldProps}
-            slotProps={slotProps}
-            ChipProps={ChipProps}
-            loading={loading}
-            limitTags={limitTags}
-            getLimitTagsText={getLimitTagsText}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
-          />
+              disabled={isDisabled}
+              onChange={(
+                event,
+                newValue,
+                reason: AutocompleteChangeReason,
+                details?: AutocompleteChangeDetails<Option>
+              ) => {
+                const fieldValue = newValue;
+                if (customOnChange) {
+                  customOnChange({
+                    rhfOnChange,
+                    newValue: fieldValue,
+                    event,
+                    reason,
+                    details
+                  });
+                  return;
+                }
+                rhfOnChange(newValue);
+                onValueChange?.({
+                  newValue: fieldValue,
+                  event,
+                  reason,
+                  details
+                });
+              }}
+              onFocus={onFocus}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                muiOnBlur?.(blurEvent);
+              }}
+              getOptionLabel={option => renderOptionLabel(option)}
+              isOptionEqualToValue={(option, value) =>
+                option[valueKey] === value?.[valueKey]}
+              renderInput={params => {
+                const {
+                  InputProps,
+                  inputProps,
+                  disabled: paramsDisabled,
+                  ...otherInputParams
+                } = params ?? {};
+                const {
+                  autoComplete = defaultAutocompleteValue,
+                  ...otherTextFieldProps
+                } = textFieldProps ?? {};
+                const textFieldInputProps = {
+                  ...inputProps,
+                  'aria-required': required,
+                  'aria-invalid': isError,
+                  'aria-labelledby': !hideLabel && isLabelAboveFormField
+                    ? labelId
+                    : undefined,
+                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
+                  'aria-describedby': showHelperTextElement
+                    ? isError
+                      ? errorId
+                      : helperTextId
+                    : undefined,
+                  autoComplete
+                };
+                return (
+                  <TextField
+                    name={rhfFieldName}
+                    inputRef={mergeRefs(rhfRef, ref)}
+                    disabled={paramsDisabled}
+                    {...otherTextFieldProps}
+                    {...otherInputParams}
+                    label={
+                      !hideLabel && !isLabelAboveFormField
+                        ? (
+                          <FormLabelText label={fieldLabel} required={required} />
+                        )
+                        : undefined
+                    }
+                    error={isError}
+                    slotProps={{
+                      ...textFieldProps?.slotProps,
+                      input: {
+                        ...InputProps,
+                        ...textFieldProps?.slotProps?.input,
+                        endAdornment: (
+                          <>
+                            {loading && (
+                              <CircularProgress color="inherit" size={20} />
+                            )}
+                            {InputProps?.endAdornment}
+                          </>
+                        )
+                      },
+                      htmlInput: textFieldInputProps
+                    }}
+                  />
+                );
+              }}
+              autoHighlight={autoHighlight}
+              blurOnSelect={!multiple}
+              disableCloseOnSelect={multiple}
+              disableClearable={disableClearable}
+              fullWidth
+              loading={loading}
+              limitTags={limitTags}
+              freeSolo={false}
+              getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
+              slotProps={{
+                ...slotProps,
+                chip: ChipProps
+              }}
+            />
+            <FormHelperText
+              error={isError}
+              errorMessage={fieldErrorMessage}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              showHelperTextElement={showHelperTextElement}
+              formHelperTextProps={{
+                ...formHelperTextProps,
+                id: isError ? errorId : helperTextId
+              }}
+            />
+          </FormControl>
         );
       }}
     />
   );
-}
+});
 
 /**
  * The component is designed to store complete option object(s) in form state.
@@ -366,4 +492,30 @@ function RHFAutocompleteObject<
  *
  * Use `RHFAutocomplete` instead when `freeSolo` behavior is required.
  */
+const RHFAutocompleteObject = RHFAutocompleteObjectInner as <
+  T extends FieldValues,
+  Option extends KeyValueOption = KeyValueOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+>(
+  props: RHFAutocompleteObjectProps<
+    T,
+    Option,
+    LabelKey,
+    ValueKey,
+    Multiple,
+    DisableClearable
+  > & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
+
 export default RHFAutocompleteObject;
