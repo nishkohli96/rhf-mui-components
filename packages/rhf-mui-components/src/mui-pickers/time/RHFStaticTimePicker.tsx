@@ -217,7 +217,7 @@ const RHFStaticTimePicker = <T extends FieldValues>({
             <MUIStaticTimePicker
               {...otherStaticTimePickerProps}
               fieldName={fieldName}
-                            required={required}
+              required={required}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);

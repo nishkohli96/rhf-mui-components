@@ -29,6 +29,7 @@ import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -243,6 +244,7 @@ const RHFRadioGroup = <
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -308,7 +310,7 @@ const RHFRadioGroup = <
               ...otherFormControlLabelProps,
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

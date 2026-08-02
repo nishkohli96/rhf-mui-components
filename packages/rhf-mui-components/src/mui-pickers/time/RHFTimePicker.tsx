@@ -221,7 +221,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
             <MUITimePicker
               {...otherTimePickerProps}
               fieldName={rhfFieldName}
-                            required={required}
+              required={required}
               inputRef={mergeRefs(rhfRef, ref)}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
@@ -236,7 +236,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
                 rhfOnChange(newValue);
                 onValueChange?.({ newValue, context });
               }}
-                            onAccept={(newValue, context) => {
+              onAccept={(newValue, context) => {
                 muiOnAccept?.(newValue, context);
                 rhfOnBlur();
               }}

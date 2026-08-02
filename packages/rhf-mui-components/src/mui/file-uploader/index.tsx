@@ -36,6 +36,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -351,6 +352,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -423,7 +425,7 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

@@ -224,7 +224,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
               {...otherMobileTimePickerProps}
               fieldName={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}
-                            required={required}
+              required={required}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);
@@ -238,7 +238,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                 rhfOnChange(newValue);
                 onValueChange?.({ newValue, context });
               }}
-                            onAccept={(newValue, context) => {
+              onAccept={(newValue, context) => {
                 muiOnAccept?.(newValue, context);
                 rhfOnBlur();
               }}

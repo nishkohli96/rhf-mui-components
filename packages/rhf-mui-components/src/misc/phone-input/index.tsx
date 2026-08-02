@@ -37,6 +37,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -229,6 +230,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -265,7 +267,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
             {...otherRHFPhoneInputProps}
             fieldName={rhfFieldName}
             autoComplete={autoComplete}
-            required={required}
+            required={isFieldRequired}
             ref={mergeRefs(rhfRef, ref)}
             value={rhfValue}
             onValueChange={({ newValue, phoneData }) => {

@@ -30,6 +30,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -196,6 +197,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -262,7 +264,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
             nonNegative={nonNegative}
             maxDecimalPlaces={maxDecimalPlaces}
             stepAmount={stepAmount}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

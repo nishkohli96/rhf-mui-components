@@ -34,6 +34,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -181,6 +182,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -221,7 +223,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
             <MUIDatePicker
               {...otherDatePickerProps}
               fieldName={rhfFieldName}
-              required={required}
+              required={isFieldRequired}
               inputRef={mergeRefs(rhfRef, ref)}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {

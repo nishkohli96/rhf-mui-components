@@ -31,7 +31,12 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
-import { keepLabelAboveFormField, mergeSx, useFieldIds } from '@/utils';
+import {
+  keepLabelAboveFormField,
+  mergeSx,
+  resolveRequired,
+  useFieldIds
+} from '@/utils';
 
 type OmittedAutocompleteProps<
   Option extends StrObjOption = StrObjOption,
@@ -304,6 +309,7 @@ function RHFAutocomplete<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -377,7 +383,7 @@ function RHFAutocomplete<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

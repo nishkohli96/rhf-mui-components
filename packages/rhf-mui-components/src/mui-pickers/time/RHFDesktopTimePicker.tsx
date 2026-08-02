@@ -235,10 +235,10 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
                 if (context.validationError !== null) {
                   return;
                 }
-                rhfOnChange(newValue);  
+                rhfOnChange(newValue);
                 onValueChange?.({ newValue, context });
               }}
-                            onAccept={(newValue, context) => {
+              onAccept={(newValue, context) => {
                 muiOnAccept?.(newValue, context);
                 rhfOnBlur();
               }}

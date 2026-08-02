@@ -26,7 +26,12 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
-import { keepLabelAboveFormField, mergeSx, useFieldIds } from '@/utils';
+import {
+  keepLabelAboveFormField,
+  mergeSx,
+  resolveRequired,
+  useFieldIds
+} from '@/utils';
 
 type MultiAutoCompleteProps<
   Option extends StrObjOption = StrObjOption,
@@ -282,6 +287,7 @@ function RHFMultiAutocomplete<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -351,7 +357,7 @@ function RHFMultiAutocomplete<
               ...otherFormControlLabelProps,
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
-            required={required}
+            required={isFieldRequired}
             errorMessage={
               fieldStateError?.message?.toString()
               ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
