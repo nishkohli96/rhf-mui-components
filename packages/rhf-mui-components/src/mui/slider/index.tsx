@@ -9,6 +9,7 @@ import {
 import {
   Controller,
   type FieldError,
+  type FieldPathValue,
   type FieldValues,
   type Path,
   type Control,
@@ -36,17 +37,25 @@ type SliderInputProps = Omit<
   | 'onChange'
 >;
 
-type OnValueChangeProps = {
-  newValue: number | number[];
+type SliderValue = number | number[];
+
+type OnValueChangeProps<Value extends SliderValue> = {
+  newValue: Value;
   activeThumb: number;
   event: Event;
 };
 
-export type RHFSliderProps<T extends FieldValues> = {
+export type RHFSliderProps<
+  T extends FieldValues,
+  TName extends Path<T> = Path<T>,
+  Value extends SliderValue = FieldPathValue<T, TName> extends SliderValue
+    ? FieldPathValue<T, TName>
+    : SliderValue
+> = {
   /**
    * Name/path of the React Hook Form field this component controls.
    */
-  fieldName: Path<T>;
+  fieldName: TName;
   /**
    * React Hook Form control object returned by `useForm`.
    */
@@ -54,7 +63,7 @@ export type RHFSliderProps<T extends FieldValues> = {
   /**
    * Validation rules passed to React Hook Form for this field.
    */
-  registerOptions?: RegisterOptions<T, Path<T>>;
+  registerOptions?: RegisterOptions<T, TName>;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -74,7 +83,7 @@ export type RHFSliderProps<T extends FieldValues> = {
     newValue,
     activeThumb,
     event
-  }: CustomOnChangeProps<OnValueChangeProps, number | number[]>) => void;
+  }: CustomOnChangeProps<OnValueChangeProps<Value>, Value>) => void;
   /**
    * Called after the default slider handler stores the next slider value in React Hook Form.
    *
@@ -89,7 +98,7 @@ export type RHFSliderProps<T extends FieldValues> = {
     newValue,
     activeThumb,
     event
-  }: OnValueChangeProps) => void;
+  }: OnValueChangeProps<Value>) => void;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -140,7 +149,13 @@ export type RHFSliderProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
-const RHFSlider = <T extends FieldValues>({
+const RHFSlider = <
+  T extends FieldValues,
+  TName extends Path<T> = Path<T>,
+  Value extends SliderValue = FieldPathValue<T, TName> extends SliderValue
+    ? FieldPathValue<T, TName>
+    : SliderValue
+>({
   fieldName,
   control,
   registerOptions,
@@ -160,7 +175,7 @@ const RHFSlider = <T extends FieldValues>({
   onBlur: muiOnBlur,
   customIds,
   ...otherSliderProps
-}: RHFSliderProps<T>): JSX.Element => {
+}: RHFSliderProps<T, TName, Value>): JSX.Element => {
   const {
     allLabelsAboveFields,
     defaultFormLabelSx,
@@ -208,7 +223,7 @@ const RHFSlider = <T extends FieldValues>({
 
         return (
           <Fragment>
-            <MUISlider
+            <MUISlider<Value>
               {...otherSliderProps}
               fieldName={rhfFieldName}
               value={rhfValue}

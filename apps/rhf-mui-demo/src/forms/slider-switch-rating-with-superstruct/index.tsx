@@ -92,7 +92,7 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
               ]}
               step={5}
               customOnChange={({ rhfOnChange, newValue }) => {
-                if ((newValue as number) < sliderMinimumValue) {
+                if (newValue < sliderMinimumValue) {
                   return;
                 }
                 rhfOnChange(newValue);
