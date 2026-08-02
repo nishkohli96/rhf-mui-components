@@ -215,9 +215,9 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
+          const fieldErrorMessage = typeof errorMessage === 'string'
+            ? errorMessage
+            : fieldStateError?.message?.toString();
 
           return (
             <MUIDesktopDatePicker

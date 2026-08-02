@@ -52,10 +52,6 @@ type PickerCustomOnChangeProps<ValidationError>
     rhfOnChange: (value: PickerValidDate) => void;
   };
 
-/**
- * Without `customOnChange`, valid picker changes update the form value in **onChange**.
- * **onAccept** forwards the MUI accept event and marks the field as touched.
- */
 export type RHFDatePickerProps<T extends FieldValues> = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -217,9 +213,9 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
+          const fieldErrorMessage = typeof errorMessage === 'string'
+            ? errorMessage
+            : fieldStateError?.message?.toString();
 
           return (
             <MUIDatePicker
