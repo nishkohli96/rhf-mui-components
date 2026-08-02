@@ -15,29 +15,25 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  MobileDatePicker as MuiMobileDatePicker,
   type MobileDatePickerProps,
   type PickerValidDate,
   type DateValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
+import { MUIMobileDatePicker } from '@nish1896/mui-components/mui-pickers/date';
+import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   mergeRefs,
+  mergeSx,
   useFieldIds
 } from '@/utils';
 
@@ -56,6 +52,10 @@ type PickerCustomOnChangeProps<ValidationError>
     rhfOnChange: (value: PickerValidDate) => void;
   };
 
+/**
+ * Without `customOnChange`, valid picker changes update the form value in **onChange**.
+ * **onAccept** forwards the MUI accept event and marks the field as touched.
+ */
 export type RHFMobileDatePickerProps<T extends FieldValues> = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -154,9 +154,9 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
     control,
     registerOptions,
     required,
+    customOnChange,
     onChange: muiOnChange,
     onAccept: muiOnAccept,
-    customOnChange,
     onValueChange,
     disabled: muiDisabled,
     label,
@@ -174,7 +174,12 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
   }: RHFMobileDatePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    dateAdapter,
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFMobileDatePicker'));
   }
@@ -183,20 +188,22 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
     fieldName,
     customIds
   );
-  const { textField: textFieldSlotProps, ...otherSlotProps }
-    = muiSlotProps ?? {};
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : fieldNameToLabel(fieldName);
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
-    <LocalizationProvider dateAdapter={dateAdapter}>
+    <MUIComponentsConfigProvider dateAdapter={dateAdapter}>
       <Controller
         name={fieldName}
         control={control}
@@ -213,108 +220,63 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-          const fieldErrorMessage = fieldStateError
-            ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-            : undefined;
-          const isError = !!fieldErrorMessage;
-          const showHelperTextElement = !!(
-            helperText
-            || (isError && !hideErrorMessage)
-          );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
+
           return (
-            <FormControl error={isError} disabled={isDisabled}>
-              {!hideLabel && (
-                <FormLabel
-                  label={fieldLabel}
-                  isVisible={isLabelAboveFormField}
-                  required={required}
-                  error={isError}
-                  disabled={isDisabled}
-                  formLabelProps={{
-                    ...formLabelProps,
-                    id: labelId,
-                    htmlFor: fieldId
-                  }}
-                />
-              )}
-              <MuiMobileDatePicker
-                {...otherMobileDatePickerProps}
-                name={rhfFieldName}
-                inputRef={mergeRefs(rhfRef, ref)}
-                value={rhfValue ?? null}
-                disabled={isDisabled}
-                onChange={(newValue, context) => {
-                  muiOnChange?.(newValue, context);
-                  if (customOnChange) {
-                    customOnChange({ rhfOnChange, newValue, context });
-                    return;
-                  }
-                  if (context.validationError !== null) {
-                    return;
-                  }
-                  rhfOnChange(newValue);
-                  onValueChange?.({ newValue, context });
-                }}
-                onAccept={(newValue, context) => {
-                  muiOnAccept?.(newValue, context);
-                  rhfOnBlur();
-                }}
-                closeOnSelect
-                label={
-                  !hideLabel && !isLabelAboveFormField
-                    ? (
-                      <FormLabelText label={fieldLabel} required={required} />
-                    )
-                    : undefined
+            <MUIMobileDatePicker
+              {...otherMobileDatePickerProps}
+              fieldName={rhfFieldName}
+              required={required}
+              inputRef={mergeRefs(rhfRef, ref)}
+              value={rhfValue}
+              onValueChange={({ newValue, context }) => {
+                muiOnChange?.(newValue, context);
+                if (customOnChange) {
+                  customOnChange({ rhfOnChange, newValue, context });
+                  return;
                 }
-                slotProps={{
-                  ...otherSlotProps,
-                  textField: ownerState => {
-                    const resolvedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
-                      ? textFieldSlotProps(ownerState)
-                      : textFieldSlotProps;
-                    return {
-                      ...resolvedTextFieldSlotProps,
-                      id: fieldId,
-                      error: isError,
-                      onBlur: rhfOnBlur,
-                      inputProps: {
-                        ...resolvedTextFieldSlotProps?.inputProps,
-                        'aria-labelledby':
-                          !hideLabel && isLabelAboveFormField
-                            ? labelId
-                            : undefined,
-                        'aria-label': hideLabel
-                          ? accessibleFieldLabel
-                          : undefined,
-                        'aria-describedby': showHelperTextElement
-                          ? isError
-                            ? errorId
-                            : helperTextId
-                          : undefined,
-                        'aria-invalid': isError || undefined,
-                        'aria-required': required || undefined
-                      }
-                    };
-                  }
-                }}
-              />
-              <FormHelperText
-                error={isError}
-                errorMessage={fieldErrorMessage}
-                hideErrorMessage={hideErrorMessage}
-                helperText={helperText}
-                showHelperTextElement={showHelperTextElement}
-                formHelperTextProps={{
-                  ...formHelperTextProps,
-                  id: isError ? errorId : helperTextId
-                }}
-              />
-            </FormControl>
+                if (context.validationError !== null) {
+                  return;
+                }
+                rhfOnChange(newValue);
+                onValueChange?.({ newValue, context });
+              }}
+              onAccept={(newValue, context) => {
+                muiOnAccept?.(newValue, context);
+                rhfOnBlur();
+              }}
+              disabled={isDisabled}
+              label={label}
+              showLabelAboveFormField={isLabelAboveFormField}
+              formLabelProps={{
+                ...otherFormLabelProps,
+                sx: mergeSx(defaultFormLabelSx, formLabelSx)
+              }}
+              hideLabel={hideLabel}
+              errorMessage={fieldErrorMessage}
+              renderError={() => fieldStateError
+                ? renderError?.(fieldStateError)
+                : undefined}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              formHelperTextProps={{
+                ...otherFormHelperTextProps,
+                sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+              }}
+              slotProps={muiSlotProps}
+              customIds={{
+                field: fieldId,
+                label: labelId,
+                helperText: helperTextId,
+                error: errorId
+              }}
+            />
           );
         }}
       />
-    </LocalizationProvider>
+    </MUIComponentsConfigProvider>
   );
 });
 

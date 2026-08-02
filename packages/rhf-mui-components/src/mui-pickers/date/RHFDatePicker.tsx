@@ -31,6 +31,7 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
+  keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
   useFieldIds
@@ -180,10 +181,14 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFDatePicker'));
   }
-
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
+  );
+
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
   );
   const {
     sx: formLabelSx,
@@ -195,10 +200,7 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
   } = formHelperTextProps ?? {};
 
   return (
-    <MUIComponentsConfigProvider
-      dateAdapter={dateAdapter}
-      allLabelsAboveFields={allLabelsAboveFields}
-    >
+    <MUIComponentsConfigProvider dateAdapter={dateAdapter}>
       <Controller
         name={fieldName}
         control={control}
@@ -215,13 +217,17 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
           return (
             <MUIDatePicker
               {...otherDatePickerProps}
               fieldName={rhfFieldName}
+              required={required}
               inputRef={mergeRefs(rhfRef, ref)}
-              value={rhfValue ?? null}
+              value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);
                 if (customOnChange) {
@@ -234,19 +240,19 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
                 rhfOnChange(newValue);
                 onValueChange?.({ newValue, context });
               }}
+              onAccept={(newValue, context) => {
+                muiOnAccept?.(newValue, context);
+                rhfOnBlur();
+              }}
               disabled={isDisabled}
               label={label}
-              showLabelAboveFormField={showLabelAboveFormField}
+              showLabelAboveFormField={isLabelAboveFormField}
               formLabelProps={{
                 ...otherFormLabelProps,
                 sx: mergeSx(defaultFormLabelSx, formLabelSx)
               }}
               hideLabel={hideLabel}
-              required={required}
-              errorMessage={
-                fieldStateError?.message?.toString()
-                ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-              }
+              errorMessage={fieldErrorMessage}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}
@@ -255,10 +261,6 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
               formHelperTextProps={{
                 ...otherFormHelperTextProps,
                 sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
-              }}
-              onAccept={(newValue, context) => {
-                muiOnAccept?.(newValue, context);
-                rhfOnBlur();
               }}
               slotProps={muiSlotProps}
               customIds={{

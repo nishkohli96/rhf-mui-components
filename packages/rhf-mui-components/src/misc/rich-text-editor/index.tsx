@@ -20,7 +20,7 @@ import { type CKEditor } from '@ckeditor/ckeditor5-react';
 import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { type ClassicEditor } from 'ckeditor5';
-import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
+import MUIRichTextEditor, { DefaultEditorConfig } from '@nish1896/mui-components/misc/rich-text-editor';
 import {
   type FormLabelProps,
   type FormHelperTextProps
@@ -33,7 +33,6 @@ import {
   resolveLabelAboveControl,
   useFieldIds
 } from '@/utils';
-import { DefaultEditorConfig } from './config';
 
 /**
  * CK Editor Props ref -
