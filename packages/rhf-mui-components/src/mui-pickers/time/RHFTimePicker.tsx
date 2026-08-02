@@ -248,10 +248,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
                 sx: mergeSx(defaultFormLabelSx, formLabelSx)
               }}
               hideLabel={hideLabel}
-              errorMessage={
-                fieldStateError?.message?.toString()
-                ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-              }
+              errorMessage={fieldErrorMessage}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}

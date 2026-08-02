@@ -36,7 +36,10 @@ const RHFPasswordInputPropsTable = ({
       muiVersion
     }),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.readOnly_PasswordInput,
+      ]
       : []),
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,

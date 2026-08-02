@@ -47,7 +47,7 @@ import {
 } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { logFirebaseEvent, showToastMessage, withFileNames } from '@/utils';
 import { JoiFormSchema } from './validation';
 import styles from './styles.module.css';
 
@@ -413,7 +413,7 @@ const CompleteFormWithJoi = () => {
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={formValues} errors={errors} />
+              <FormState formValues={withFileNames(formValues)} errors={errors} />
             </Grid>
           </GridContainer>
         </form>

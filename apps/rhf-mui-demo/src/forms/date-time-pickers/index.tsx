@@ -47,7 +47,7 @@ const DateTimePickersForm = () => {
   }
 
   return (
-    <FormContainer title="Radio & Checkbox Group">
+    <FormContainer title="Date & Time Pickers">
       <ConfigProvider dateAdapter={AdapterDayjs}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>

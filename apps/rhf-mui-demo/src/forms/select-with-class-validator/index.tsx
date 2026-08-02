@@ -155,7 +155,7 @@ const SelectFormWithClassValidator = () => {
               control={control}
               options={randomNumbers}
               onValueChange={({ newValue }) => {
-                toast.info(JSON.stringify(newValue, null, 2));
+                toast.info(`You Selected: ${newValue}`);
               }}
               showDefaultOption
               showLabelAboveFormField

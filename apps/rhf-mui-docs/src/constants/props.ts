@@ -112,8 +112,8 @@ const PropsDescription: Record<
   },
   renderOptionLabel_CountrySelect: {
     name: 'renderOptionLabel',
-    description: 'Custom renderer for each country option in the dropdown. Receives the country object and should return the label/content to render.',
-    type: '(option: CountryDetails) => ReactNode'
+    description: 'Custom renderer for each country option in the dropdown. Receives the country object and should return the label/content to render. Option state param added in `v4.2.0`.',
+    type: '(option: CountryDetails, state) => ReactNode'
   },
   placeholder_Select: {
     name: 'placeholder',
@@ -168,7 +168,7 @@ const PropsDescription: Record<
   }),
   renderOptionLabel: {
     name: 'renderOptionLabel',
-    description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`.',
+    description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`. Option state param added in `v4.2.0`',
     type: '(option) => ReactNode'
   },
   getOptionDisabled: {
@@ -486,6 +486,12 @@ const PropsDescription: Record<
     description:
       'Custom icon displayed when the password value is visible, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode'
+  },
+  readOnly_PasswordInput: {
+    name: 'readOnly',
+    description:
+      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it. Added in `v4.2.0`.',
+    type: 'boolean'
   },
   accept: {
     name: 'accept',
