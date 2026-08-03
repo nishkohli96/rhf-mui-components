@@ -4,7 +4,8 @@ import {
   useContext,
   Fragment,
   type ReactNode,
-  type ChangeEvent
+  type ChangeEvent,
+  type FocusEvent
 } from 'react';
 import {
   Controller,
@@ -25,6 +26,7 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
+  resolveRequired,
   useFieldIds,
   validateFileList
 } from '@/utils';
@@ -134,6 +136,10 @@ export type RHFFileUploaderProps<
     rejectedFiles: File[],
   ) => void;
   /**
+   * Called when the hidden file input loses focus.
+   */
+  onBlur?: (event: FocusEvent<HTMLInputElement, Element>) => void;
+  /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
   label?: ReactNode;
@@ -185,6 +191,7 @@ const RHFFileUploader = <
   renderUploadButton,
   renderFileItem,
   onValueChange,
+  onBlur,
   disabled: muiDisabled,
   onUploadError,
   label,
@@ -210,6 +217,7 @@ const RHFFileUploader = <
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   return (
     <Controller
@@ -287,7 +295,10 @@ const RHFFileUploader = <
             accept={accept}
             multiple={multiple}
             onChange={handleFileChange}
-            onBlur={rhfOnBlur}
+            onBlur={event => {
+              rhfOnBlur();
+              onBlur?.(event);
+            }}
             disabled={isDisabled}
             aria-labelledby={isLabelAboveFormField ? labelId : undefined}
             aria-describedby={
@@ -295,6 +306,7 @@ const RHFFileUploader = <
                 ? (isError ? errorId : helperTextId)
                 : undefined
             }
+            aria-required={isFieldRequired}
             aria-invalid={isError}
           />
         );
@@ -308,7 +320,7 @@ const RHFFileUploader = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{

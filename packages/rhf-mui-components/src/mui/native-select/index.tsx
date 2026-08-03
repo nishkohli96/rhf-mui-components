@@ -25,7 +25,8 @@ import {
   isKeyValueOption,
   normalizeSelectValue,
   useFieldIds,
-  resolveLabelAboveControl
+  resolveLabelAboveControl,
+  resolveRequired
 } from '@/utils';
 
 type InputNativeSelectProps = Omit<
@@ -158,6 +159,7 @@ const RHFNativeSelect = <
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   return (
     <Controller
@@ -183,7 +185,7 @@ const RHFNativeSelect = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveControl}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -197,7 +199,7 @@ const RHFNativeSelect = <
               id={fieldId}
               name={rhfFieldName}
               autoComplete={autoComplete}
-              aria-required={required}
+              aria-required={isFieldRequired}
               aria-describedby={
                 showHelperTextElement
                   ? (isError ? errorId : helperTextId)
@@ -228,7 +230,7 @@ const RHFNativeSelect = <
                 }
               }}
             >
-              <option value="" disabled={required}>
+              <option value="" disabled={isFieldRequired}>
                 {blankOptionText}
               </option>
               {options.map(option => {

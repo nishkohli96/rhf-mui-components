@@ -39,7 +39,8 @@ import {
   fieldNameToLabel,
   isAboveMuiV5,
   useFieldIds,
-  keepLabelAboveFormField
+  keepLabelAboveFormField,
+  resolveRequired
 } from '@/utils';
 
 type OmittedAutocompleteProps<
@@ -227,6 +228,7 @@ const RHFAutocompleteObject = <
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const renderOptionLabel = useCallback(
     (option: Option): string => {
@@ -264,7 +266,7 @@ const RHFAutocompleteObject = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -339,7 +341,7 @@ const RHFAutocompleteObject = <
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...inputProps,
-                  'aria-required': required,
+                  'aria-required': isFieldRequired,
                   'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
                   'aria-describedby': showHelperTextElement
                     ? (isError ? errorId : helperTextId)
@@ -356,7 +358,7 @@ const RHFAutocompleteObject = <
                     label={
                       !isLabelAboveFormField
                         ? (
-                          <FormLabelText label={fieldLabel} required={required} />
+                          <FormLabelText label={fieldLabel} required={isFieldRequired} />
                         )
                         : undefined
                     }

@@ -32,6 +32,7 @@ import {
   normalizeSelectValue,
   useFieldIds,
   getDisplayLabelForSelectValue,
+  resolveRequired,
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean>
@@ -189,10 +190,12 @@ const RHFSelect = <
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? fieldLabelText;
   const SelectFormLabel = (
-    <FormLabelText label={fieldLabel} required={required} />
+    <FormLabelText label={fieldLabel} required={isFieldRequired} />
   );
 
   return (
@@ -228,7 +231,7 @@ const RHFSelect = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -249,7 +252,7 @@ const RHFSelect = <
                 name={rhfFieldName}
                 autoComplete={autoComplete}
                 labelId={selectLabelId}
-                aria-required={required}
+                aria-required={isFieldRequired}
                 aria-describedby={
                   showHelperTextElement
                     ? (isError ? errorId : helperTextId)
@@ -322,7 +325,7 @@ const RHFSelect = <
                 }}
               >
                 {showDefaultOption && (
-                  <MenuItem value="" disabled={required}>
+                  <MenuItem value="" disabled={isFieldRequired}>
                     {defaultOptionText ?? `Select ${fieldLabelText}`}
                   </MenuItem>
                 )}

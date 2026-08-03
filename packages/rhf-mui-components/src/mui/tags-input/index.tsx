@@ -35,7 +35,8 @@ import {
   keepLabelAboveFormField,
   isAboveMuiV5,
   fieldNameToId,
-  useFieldIds
+  useFieldIds,
+  resolveRequired
 } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -159,6 +160,7 @@ const RHFTagsInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the
@@ -262,7 +264,7 @@ const RHFTagsInput = <T extends FieldValues>({
               ? errorId
               : helperTextId
             : undefined,
-          'aria-required': required
+          'aria-required': isFieldRequired
         };
 
         const hideInput = isDisabled && rhfValue.length > 0;
@@ -322,7 +324,7 @@ const RHFTagsInput = <T extends FieldValues>({
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -340,7 +342,7 @@ const RHFTagsInput = <T extends FieldValues>({
               label={
                 !isLabelAboveFormField
                   ? (
-                    <FormLabelText label={fieldLabel} required={required} />
+                    <FormLabelText label={fieldLabel} required={isFieldRequired} />
                   )
                   : undefined
               }

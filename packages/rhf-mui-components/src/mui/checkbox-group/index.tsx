@@ -34,7 +34,8 @@ import {
   coerceValue,
   getOptionValue,
   useFieldIds,
-  resolveLabelAboveControl
+  resolveLabelAboveControl,
+  resolveRequired
 } from '@/utils';
 
 export type RHFCheckboxGroupProps<
@@ -180,6 +181,7 @@ const RHFCheckboxGroup = <
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -246,7 +248,7 @@ const RHFCheckboxGroup = <
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveControl}
-                required={required}
+                required={isFieldRequired}
                 error={isError}
                 disabled={isDisabled}
                 formLabelProps={{

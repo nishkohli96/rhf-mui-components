@@ -20,7 +20,7 @@ import {
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
+import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl, resolveRequired } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
 
@@ -150,6 +150,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   return (
     <Controller
@@ -174,7 +175,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveControl}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -207,7 +208,7 @@ const RHFRichTextEditor = <T extends FieldValues>({
                     : helperTextId
                   : undefined
               }
-              aria-required={required}
+              aria-required={isFieldRequired}
               onFocus={onFocus}
               onError={onError}
               disabled={isDisabled}
