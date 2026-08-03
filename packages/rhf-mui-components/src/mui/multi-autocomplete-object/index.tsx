@@ -20,9 +20,8 @@ import {
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
 import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
+import { type selectAllOptionValue } from '@nish1896/mui-components/mui';
 import {
-  defaultSelectAllOptionLabel,
-  type selectAllOptionValue,
   type FormLabelProps,
   type FormControlLabelProps,
   type CheckboxProps,
@@ -235,7 +234,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
   valueKey,
   disableClearable,
   autoHighlight,
-  selectAllText = defaultSelectAllOptionLabel,
+  selectAllText,
   hideSelectAllOption,
   customOnChange,
   onValueChange,

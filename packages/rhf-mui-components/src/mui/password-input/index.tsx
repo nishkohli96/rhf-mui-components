@@ -19,7 +19,6 @@ import {
 } from 'react-hook-form';
 import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
 import {
-  defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
   type TextFieldProps,
@@ -180,7 +179,7 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   helperText,
   formHelperTextProps,
   slotProps: muiSlotProps,
-  autoComplete = defaultAutocompleteValue,
+  autoComplete,
   customIds,
   ...otherPasswordInputProps
 }: RHFPasswordInputProps<T>,

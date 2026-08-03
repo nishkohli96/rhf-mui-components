@@ -18,8 +18,6 @@ import {
 import { type SelectChangeEvent } from '@mui/material/Select';
 import MUISelect from '@nish1896/mui-components/mui/select';
 import {
-  defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD,
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
@@ -33,7 +31,6 @@ import {
   keepLabelAboveFormField,
   useFieldIds,
   mergeRefs,
-  generateLargeOptionsErrMsg,
   mergeSx
 } from '@/utils';
 
@@ -264,7 +261,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    autoComplete = defaultAutocompleteValue,
+    autoComplete,
     renderValue,
     placeholder,
     customIds,
@@ -278,10 +275,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-
-  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
-    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
-  }
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
