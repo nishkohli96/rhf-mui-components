@@ -23,6 +23,10 @@ const RHFFileUploaderLegacyPropsTable = ({
     LegacyPropsDescription.hideFileList,
     LegacyPropsDescription.onValueChange_FileUploader_v2_v3,
     LegacyPropsDescription.onUploadError_v2_v3,
+    ...(!v2
+      ? [LegacyPropsDescription.onBlur_FileUploader_v3]
+      : []
+    ),
     getPropDetailsByVersion(LegacyPropsDescription.renderUploadButton_v2_v3, {
       docsVersion
     }),

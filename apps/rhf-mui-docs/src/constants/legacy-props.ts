@@ -306,6 +306,17 @@ const LegacyPropsDescription: Record<
     type: '[UsePhoneInputConfig](https://react-international-phone.vercel.app/docs/Usage/PhoneInput) & { hideDropdown?: boolean }',
     hasLinkInType: true
   },
+  readOnly_PasswordInput_v3: {
+    name: 'readOnly',
+    description:
+      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it. Added in `v3.5.0`.',
+    type: 'boolean'
+  },
+  onBlur_FileUploader_v3: {
+    name: 'onBlur',
+    description: 'Callback function that returns the blur event when the file uploader component loses focus. Added in `v3.6.0`.',
+    type: '(event: FocusEvent) => void'
+  }
 });
 
 export default LegacyPropsDescription;

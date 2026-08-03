@@ -5,10 +5,6 @@
 <h1>@nish1896/rhf-mui-components</h1>
 
 <p>
-  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
-</p>
-
-<p>
   <img alt="NPM Version" src="https://img.shields.io/npm/v/%40nish1896%2Frhf-mui-components" />
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components" />
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063" />
@@ -17,7 +13,11 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
-## Features ✨
+<p>
+  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
+</p>
+
+## ✨ Features
 
 - Each component is fully functional with just 2-3 props — core logic handled internally.
 - Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.vercel.app/customization#configprovider).
