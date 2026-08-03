@@ -29,6 +29,7 @@ import {
   fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -136,6 +137,8 @@ const RHFTimePicker = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   return (
     <Controller
       name={fieldName}
@@ -161,7 +164,7 @@ const RHFTimePicker = <T extends FieldValues>({
               <FormLabel
                 label={fieldLabel}
                 isVisible={isLabelAboveFormField}
-                required={required}
+                required={isFieldRequired}
                 error={isError}
                 disabled={isDisabled}
                 formLabelProps={{
@@ -191,7 +194,7 @@ const RHFTimePicker = <T extends FieldValues>({
                 label={
                   !isLabelAboveFormField
                     ? (
-                      <FormLabelText label={fieldLabel} required={required} />
+                      <FormLabelText label={fieldLabel} required={isFieldRequired} />
                     )
                     : undefined
                 }
@@ -212,7 +215,7 @@ const RHFTimePicker = <T extends FieldValues>({
                           ? errorId
                           : helperTextId
                         : undefined,
-                      'aria-required': required || undefined
+                      'aria-required': isFieldRequired
                     },
                   }
                 }}

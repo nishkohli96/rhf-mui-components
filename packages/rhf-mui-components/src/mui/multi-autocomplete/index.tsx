@@ -44,7 +44,8 @@ import {
   isKeyValueOption,
   isAboveMuiV5,
   useFieldIds,
-  keepLabelAboveFormField
+  keepLabelAboveFormField,
+  resolveRequired
 } from '@/utils';
 
 type MultiAutoCompleteProps<
@@ -237,6 +238,7 @@ const RHFMultiAutocomplete = <
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -335,7 +337,7 @@ const RHFMultiAutocomplete = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -420,7 +422,7 @@ const RHFMultiAutocomplete = <
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...inputProps,
-                  'aria-required': required,
+                  'aria-required': isFieldRequired,
                   'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
                   'aria-describedby': showHelperTextElement
                     ? (isError ? errorId : helperTextId)
@@ -442,7 +444,7 @@ const RHFMultiAutocomplete = <
                     label={
                       !isLabelAboveFormField
                         ? (
-                          <FormLabelText label={fieldLabel} required={required} />
+                          <FormLabelText label={fieldLabel} required={isFieldRequired} />
                         )
                         : undefined
                     }

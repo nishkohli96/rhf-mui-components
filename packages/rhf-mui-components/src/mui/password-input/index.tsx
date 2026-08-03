@@ -34,7 +34,8 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   isAboveMuiV5,
-  useFieldIds
+  useFieldIds,
+  resolveRequired
 } from '@/utils';
 
 type InputPasswordProps = Omit<
@@ -157,6 +158,8 @@ const RHFPasswordInput = <T extends FieldValues>({
   const ShowPasswordIcon = showPasswordIcon ?? <VisibilityOffIcon />;
   const HidePasswordIcon = hidePasswordIcon ?? <VisibilityIcon />;
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -188,7 +191,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               ? errorId
               : helperTextId
             : undefined,
-          'aria-required': required,
+          'aria-required': isFieldRequired,
           'aria-readonly': readOnly || undefined
         };
 
@@ -212,7 +215,7 @@ const RHFPasswordInput = <T extends FieldValues>({
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -231,7 +234,7 @@ const RHFPasswordInput = <T extends FieldValues>({
               label={
                 !isLabelAboveFormField
                   ? (
-                    <FormLabelText label={fieldLabel} required={required} />
+                    <FormLabelText label={fieldLabel} required={isFieldRequired} />
                   )
                   : undefined
               }

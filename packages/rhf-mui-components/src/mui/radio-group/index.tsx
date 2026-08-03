@@ -29,7 +29,8 @@ import {
   normalizeSelectValue,
   getOptionValue,
   useFieldIds,
-  resolveLabelAboveControl
+  resolveLabelAboveControl,
+  resolveRequired
 } from '@/utils';
 
 type RadioGroupInputProps = Omit<
@@ -171,6 +172,8 @@ const RHFRadioGroup = <
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
@@ -199,7 +202,7 @@ const RHFRadioGroup = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveControl}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -229,7 +232,7 @@ const RHFRadioGroup = <
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
-              aria-required={required || undefined}
+              aria-required={isFieldRequired}
               aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement

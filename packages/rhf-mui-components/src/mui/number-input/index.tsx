@@ -24,6 +24,7 @@ import {
   fieldNameToLabel,
   isAboveMuiV5,
   keepLabelAboveFormField,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -116,6 +117,8 @@ const RHFNumberInput = <T extends FieldValues>({
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   return (
     <Controller
       name={fieldName}
@@ -142,7 +145,7 @@ const RHFNumberInput = <T extends FieldValues>({
               ? errorId
               : helperTextId
             : undefined,
-          'aria-required': required
+          'aria-required': isFieldRequired
         };
 
         return (
@@ -150,7 +153,7 @@ const RHFNumberInput = <T extends FieldValues>({
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -169,7 +172,7 @@ const RHFNumberInput = <T extends FieldValues>({
               label={
                 !isLabelAboveFormField
                   ? (
-                    <FormLabelText label={fieldLabel} required={required} />
+                    <FormLabelText label={fieldLabel} required={isFieldRequired} />
                   )
                   : undefined
               }

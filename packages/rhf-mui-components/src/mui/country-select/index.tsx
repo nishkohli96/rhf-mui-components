@@ -42,6 +42,7 @@ import {
   fieldNameToLabel,
   isAboveMuiV5,
   keepLabelAboveFormField,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
@@ -233,6 +234,7 @@ const RHFCountrySelect = <
     allLabelsAboveFields
   );
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const countryOptions = countries ?? countryList;
   const countrySelectOptions = useMemo(() => {
@@ -299,7 +301,7 @@ const RHFCountrySelect = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -356,7 +358,7 @@ const RHFCountrySelect = <
                 } = textFieldProps ?? {};
                 const textFieldInputProps = {
                   ...inputProps,
-                  'aria-required': required,
+                  'aria-required': isFieldRequired,
                   'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
                   'aria-describedby': showHelperTextElement
                     ? (isError ? errorId : helperTextId)
@@ -373,7 +375,7 @@ const RHFCountrySelect = <
                     label={
                       !isLabelAboveFormField
                         ? (
-                          <FormLabelText label={fieldLabel} required={required} />
+                          <FormLabelText label={fieldLabel} required={isFieldRequired} />
                         )
                         : undefined
                     }

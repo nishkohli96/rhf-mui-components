@@ -5,7 +5,14 @@
 
 'use client';
 
-import { useContext, useMemo, type ReactNode } from 'react';
+import {
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactNode
+} from 'react';
 import {
   Controller,
   type FieldValues,
@@ -44,9 +51,14 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   isAboveMuiV5,
-  useFieldIds
+  useFieldIds,
+  resolveRequired
 } from '@/utils';
 import 'react-international-phone/style.css';
+
+const countryMenuWidth = 350;
+const countryMenuLeftOffset = -34;
+const countryMenuViewportGutter = 32;
 
 type PhoneInputChangeReturnValue = {
   phone: string;
@@ -150,6 +162,12 @@ const RHFPhoneInput = <T extends FieldValues>({
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
+  const [countryMenuLeft, setCountryMenuLeft] = useState(0);
+  const [countryMenuWidthPx, setCountryMenuWidthPx] = useState(countryMenuWidth);
+  const phoneInputRootRef = useRef<HTMLDivElement | null>(null);
+
   const {
     countries,
     hideDropdown,
@@ -158,6 +176,43 @@ const RHFPhoneInput = <T extends FieldValues>({
     ...otherPhoneInputProps
   } = phoneInputProps ?? {};
   const countryOptions = countries ?? defaultCountries;
+
+  const updateCountryMenuLayout = () => {
+    const inputWidth = phoneInputRootRef.current?.offsetWidth ?? 0;
+    const hasViewportRoom
+      = window.innerWidth
+        > countryMenuWidth
+        + Math.abs(countryMenuLeftOffset)
+        + countryMenuViewportGutter;
+
+    /*
+     * The country `Select` sits inside the start adornment, so the menu's
+     * anchor is inset ~|countryMenuLeftOffset|px from the field's left edge.
+     * Shift the menu back by that offset so its left edge aligns with the
+     * field (and, once width is capped below, its right edge too). Applied
+     * whenever the viewport has room — independent of field width, so a narrow
+     * `md={6}` field aligns just like a full-width one. On very small viewports
+     * the shift is skipped to avoid pushing the menu off the left edge.
+     */
+    setCountryMenuLeft(hasViewportRoom ? countryMenuLeftOffset : 0);
+
+    /*
+     * Cap the menu at the field width so a narrow field (e.g. `md={6}`) doesn't
+     * let the fixed 350px menu spill into the adjacent grid column. When the
+     * field is wider than the menu, keep the full `countryMenuWidth`.
+     */
+    setCountryMenuWidthPx(
+      inputWidth > 0 ? Math.min(countryMenuWidth, inputWidth) : countryMenuWidth
+    );
+  };
+
+  useEffect(() => {
+    updateCountryMenuLayout();
+    window.addEventListener('resize', updateCountryMenuLayout);
+    return () => {
+      window.removeEventListener('resize', updateCountryMenuLayout);
+    };
+  }, []);
 
   /**
    * Render preferred countries at the top of the list.
@@ -228,7 +283,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               ? errorId
               : helperTextId
             : undefined,
-          'aria-required': required
+          'aria-required': isFieldRequired
         };
 
         const startAdornment = (
@@ -238,11 +293,17 @@ const RHFPhoneInput = <T extends FieldValues>({
           >
             <Select
               MenuProps={{
+                autoFocus: false,
+                PaperProps: {
+                  sx: {
+                    width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
+                    maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
+                    maxHeight: 300
+                  }
+                },
                 style: {
-                  height: '300px',
-                  width: '360px',
                   top: '10px',
-                  left: '-34px'
+                  left: countryMenuLeft
                 },
                 transformOrigin: {
                   vertical: 'top',
@@ -269,6 +330,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }}
               value={country.iso2}
               disabled={isDisabled || hideDropdown}
+              onOpen={updateCountryMenuLayout}
               onChange={e => {
                 setCountry(e.target.value as CountryIso2);
               }}
@@ -322,7 +384,7 @@ const RHFPhoneInput = <T extends FieldValues>({
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
@@ -333,6 +395,7 @@ const RHFPhoneInput = <T extends FieldValues>({
             />
             <MuiTextField
               {...otherTextFieldProps}
+              ref={phoneInputRootRef}
               id={fieldId}
               name={rhfFieldName}
               inputRef={ref => {
@@ -353,7 +416,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               label={
                 !isLabelAboveFormField
                   ? (
-                    <FormLabelText label={fieldLabel} required={required} />
+                    <FormLabelText label={fieldLabel} required={isFieldRequired} />
                   )
                   : undefined
               }

@@ -27,7 +27,8 @@ import {
   fieldNameToLabel,
   colorToString,
   useFieldIds,
-  resolveLabelAboveControl
+  resolveLabelAboveControl,
+  resolveRequired
 } from '@/utils';
 import 'react-color-palette/css';
 
@@ -151,19 +152,21 @@ const RHFColorPicker = <T extends FieldValues>({
   ...otherColorPickerProps
 }: RHFColorPickerProps<T>) => {
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-  const isLabelAboveControl = resolveLabelAboveControl(
-    showLabelAboveFormField,
-    allLabelsAboveFields
-  );
-
   const {
     labelId,
     helperTextId,
     errorId
   } = useFieldIds(fieldName);
+
+  const isLabelAboveControl = resolveLabelAboveControl(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const [color, setColor] = useColor(value ?? defaultColor);
   const renderHSLView = valueKey === 'hsv';
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
 
   const getFormattedColor = (color: IColor) =>
     valueKey === 'hex'
@@ -190,7 +193,7 @@ const RHFColorPicker = <T extends FieldValues>({
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveControl}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{

@@ -17,7 +17,7 @@ import {
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl } from '@/utils';
+import { fieldNameToLabel, useFieldIds, resolveLabelAboveControl, resolveRequired } from '@/utils';
 
 type SliderInputProps = Omit<
   SliderProps,
@@ -129,6 +129,8 @@ const RHFSlider = <
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   return (
     <Controller
       name={fieldName}
@@ -152,7 +154,7 @@ const RHFSlider = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveControl}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{

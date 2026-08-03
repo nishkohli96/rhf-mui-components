@@ -25,6 +25,7 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
+  resolveRequired,
   useFieldIds,
   validateFileList
 } from '@/utils';
@@ -210,6 +211,7 @@ const RHFFileUploader = <
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   return (
     <Controller
@@ -308,7 +310,7 @@ const RHFFileUploader = <
             <FormLabel
               label={fieldLabel}
               isVisible={isLabelAboveFormField}
-              required={required}
+              required={isFieldRequired}
               error={isError}
               disabled={isDisabled}
               formLabelProps={{
