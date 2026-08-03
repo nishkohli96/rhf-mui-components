@@ -3,8 +3,10 @@
 import {
   Fragment,
   useContext,
+  forwardRef,
   type ReactNode,
-  type JSX
+  type JSX,
+  type Ref
 } from 'react';
 import {
   Controller,
@@ -25,6 +27,7 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
+  mergeRefs,
   mergeSx,
   resolveLabelAboveControl,
   useFieldIds
@@ -149,7 +152,7 @@ export type RHFSliderProps<
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
-const RHFSlider = <
+const RHFSliderInner = forwardRef(function RHFSlider<
   T extends FieldValues,
   TName extends Path<T> = Path<T>,
   Value extends SliderValue = FieldPathValue<T, TName> extends SliderValue
@@ -175,7 +178,8 @@ const RHFSlider = <
   onBlur: muiOnBlur,
   customIds,
   ...otherSliderProps
-}: RHFSliderProps<T, TName, Value>): JSX.Element => {
+}: RHFSliderProps<T, TName, Value>,
+ref: Ref<HTMLSpanElement>) {
   const {
     allLabelsAboveFields,
     defaultFormLabelSx,
@@ -209,6 +213,7 @@ const RHFSlider = <
       render={({
         field: {
           name: rhfFieldName,
+          ref: rhfRef,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
@@ -226,6 +231,7 @@ const RHFSlider = <
             <MUISlider<Value>
               {...otherSliderProps}
               fieldName={rhfFieldName}
+              ref={mergeRefs(rhfRef, ref)}
               value={rhfValue}
               onValueChange={({ newValue, activeThumb, event }) => {
                 if (customOnChange) {
@@ -275,6 +281,10 @@ const RHFSlider = <
       }}
     />
   );
-};
+});
+
+const RHFSlider = RHFSliderInner as <T extends FieldValues>(
+  props: RHFSliderProps<T> & { ref?: Ref<HTMLSpanElement> }
+) => JSX.Element;
 
 export default RHFSlider;

@@ -2,8 +2,10 @@
 
 import {
   useContext,
+  forwardRef,
   type ReactNode,
   type JSX,
+  type Ref,
   type SyntheticEvent
 } from 'react';
 import {
@@ -23,7 +25,7 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { mergeSx, resolveLabelAboveControl, useFieldIds } from '@/utils';
+import { mergeRefs, mergeSx, resolveLabelAboveControl, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: number | null;
@@ -130,7 +132,7 @@ export type RHFRatingProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & InputRatingProps;
 
-const RHFRating = <T extends FieldValues>({
+const RHFRatingInner = forwardRef(function RHFRating<T extends FieldValues>({
   fieldName,
   control,
   registerOptions,
@@ -150,7 +152,8 @@ const RHFRating = <T extends FieldValues>({
   formHelperTextProps,
   customIds,
   ...otherRatingProps
-}: RHFRatingProps<T>): JSX.Element => {
+}: RHFRatingProps<T>,
+ref: Ref<HTMLSpanElement>) {
   const {
     allLabelsAboveFields,
     defaultFormLabelSx,
@@ -184,6 +187,7 @@ const RHFRating = <T extends FieldValues>({
       render={({
         field: {
           name: rhfFieldName,
+          ref: rhfRef,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
@@ -200,8 +204,9 @@ const RHFRating = <T extends FieldValues>({
           <MUIRating
             {...otherRatingProps}
             fieldName={rhfFieldName}
+            ref={mergeRefs(rhfRef, ref)}
             required={required}
-            value={rhfValue ?? null}
+            value={rhfValue}
             onValueChange={({ newValue, event }) => {
               if (customOnChange) {
                 customOnChange({ rhfOnChange, newValue, event });
@@ -243,6 +248,10 @@ const RHFRating = <T extends FieldValues>({
       }}
     />
   );
-};
+});
+
+const RHFRating = RHFRatingInner as <T extends FieldValues>(
+  props: RHFRatingProps<T> & { ref?: Ref<HTMLSpanElement> }
+) => JSX.Element;
 
 export default RHFRating;
