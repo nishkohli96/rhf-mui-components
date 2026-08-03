@@ -306,6 +306,7 @@ const RHFFileUploader = <
                 ? (isError ? errorId : helperTextId)
                 : undefined
             }
+            aria-required={isFieldRequired}
             aria-invalid={isError}
           />
         );
