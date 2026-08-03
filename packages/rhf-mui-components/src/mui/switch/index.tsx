@@ -21,7 +21,7 @@ import {
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { fieldNameToLabel, resolveRequired, useFieldIds } from '@/utils';
 
 export type RHFSwitchProps<T extends FieldValues> = {
   /**
@@ -78,6 +78,7 @@ const RHFSwitch = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  required,
   disabled: muiDisabled,
   label,
   formControlLabelProps,
@@ -97,6 +98,8 @@ const RHFSwitch = <T extends FieldValues>({
 
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,
@@ -140,6 +143,8 @@ const RHFSwitch = <T extends FieldValues>({
                     rhfOnBlur();
                     onBlur?.(blurEvent);
                   }}
+                  required={required}
+                  aria-required={isFieldRequired}
                   aria-describedby={
                     showHelperTextElement
                       ? isError

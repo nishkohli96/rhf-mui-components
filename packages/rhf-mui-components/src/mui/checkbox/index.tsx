@@ -22,7 +22,7 @@ import {
   type CheckboxProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import { fieldNameToLabel, useFieldIds } from '@/utils';
+import { fieldNameToLabel, resolveRequired, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   /**
@@ -79,6 +79,7 @@ const RHFCheckbox = <T extends FieldValues>({
   control,
   registerOptions,
   onValueChange,
+  required,
   disabled: muiDisabled,
   label,
   formControlLabelProps,
@@ -98,6 +99,7 @@ const RHFCheckbox = <T extends FieldValues>({
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
   const fieldLabel = label ?? fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -105,6 +107,7 @@ const RHFCheckbox = <T extends FieldValues>({
     ...sx,
   };
   const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+
   return (
     <Fragment>
       <Controller
@@ -135,15 +138,6 @@ const RHFCheckbox = <T extends FieldValues>({
                     id={fieldId}
                     name={rhfFieldName}
                     checked={Boolean(rhfValue)}
-                    disabled={isDisabled}
-                    aria-describedby={
-                      showHelperTextElement
-                        ? isError
-                          ? errorId
-                          : helperTextId
-                        : undefined
-                    }
-                    aria-invalid={isError || undefined}
                     onChange={(event, checked) => {
                       rhfOnChange(checked);
                       onValueChange?.(checked, event);
@@ -152,6 +146,17 @@ const RHFCheckbox = <T extends FieldValues>({
                       rhfOnBlur();
                       onBlur?.(blurEvent);
                     }}
+                    required={required}
+                    disabled={isDisabled}
+                    aria-describedby={
+                      showHelperTextElement
+                        ? isError
+                          ? errorId
+                          : helperTextId
+                        : undefined
+                    }
+                    aria-required={isFieldRequired}
+                    aria-invalid={isError || undefined}
                     slotProps={{
                       ...otherSlotProps,
                       input: {
