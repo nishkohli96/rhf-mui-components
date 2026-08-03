@@ -335,9 +335,9 @@ ref: Ref<HTMLInputElement>) {
       render={({
         field: {
           name: rhfFieldName,
+          ref: rhfRef,
           value: rhfValue,
           onChange: rhfOnChange,
-          ref: rhfRef,
           onBlur: rhfOnBlur,
           disabled: rhfDisabled
         },
