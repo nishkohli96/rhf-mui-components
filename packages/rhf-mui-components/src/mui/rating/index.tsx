@@ -167,6 +167,7 @@ const RHFRating = <T extends FieldValues>({
                 rhfOnBlur();
                 onBlur?.(blurEvent);
               }}
+              aria-required={isFieldRequired}
               aria-labelledby={isLabelAboveControl ? labelId : undefined}
               aria-describedby={
                 showHelperTextElement

@@ -23,8 +23,9 @@
     "tsdown": "^0.21.4"
   },
   "peerDependencies": {
-    "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
+    "@mui/system": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
+    "@mui/icons-material": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
   },

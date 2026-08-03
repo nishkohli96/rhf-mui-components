@@ -21,7 +21,7 @@
 >
 >Check out [@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components) — a standalone collection of fully controlled Material UI components with a familiar API and comprehensive documentation.
 
-## Features ✨
+## ✨ Features
 
 - Each component is fully functional with just 3-4 props — core logic handled internally.
 - Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.netlify.app/customization#configprovider).
@@ -29,9 +29,9 @@
 - Comprehensive docs showcasing multiple variations for each component.
 
 
-## Explore and Get Started 🚀
+## 🚀 Explore and Get Started
 
-### Documentation 📖
+### 📖 Documentation
 Access the full documentation for rhf-mui-components, including setup instructions, API references, and examples:
 
 👉 [Documentation Site](https://rhf-mui-components.vercel.app/)
