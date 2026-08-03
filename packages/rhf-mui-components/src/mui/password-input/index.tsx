@@ -30,6 +30,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -194,6 +195,7 @@ ref: Ref<HTMLInputElement>) {
     customIds
   );
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -261,7 +263,7 @@ ref: Ref<HTMLInputElement>) {
             showPasswordIcon={showPasswordIcon}
             hidePasswordIcon={hidePasswordIcon}
             readOnly={readOnly}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

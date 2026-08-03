@@ -28,6 +28,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -276,6 +277,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -328,7 +330,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

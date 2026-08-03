@@ -30,6 +30,7 @@ import {
   mergeRefs,
   mergeSx,
   resolveLabelAboveControl,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -192,6 +193,7 @@ ref: Ref<HTMLSpanElement>) {
     errorId
   } = useFieldIds(fieldName, customIds);
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -251,7 +253,7 @@ ref: Ref<HTMLSpanElement>) {
                 muiOnBlur?.(blurEvent);
               }}
               disabled={isDisabled}
-              required={required}
+              required={isFieldRequired}
               label={label}
               showLabelAboveFormField={isLabelAboveControl}
               formLabelProps={{
@@ -283,8 +285,14 @@ ref: Ref<HTMLSpanElement>) {
   );
 });
 
-const RHFSlider = RHFSliderInner as <T extends FieldValues>(
-  props: RHFSliderProps<T> & { ref?: Ref<HTMLSpanElement> }
+const RHFSlider = RHFSliderInner as <
+  T extends FieldValues,
+  TName extends Path<T> = Path<T>,
+  Value extends SliderValue = FieldPathValue<T, TName> extends SliderValue
+    ? FieldPathValue<T, TName>
+    : SliderValue
+>(
+  props: RHFSliderProps<T, TName, Value> & { ref?: Ref<HTMLSpanElement> }
 ) => JSX.Element;
 
 export default RHFSlider;

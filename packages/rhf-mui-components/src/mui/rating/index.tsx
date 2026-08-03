@@ -25,7 +25,13 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { mergeRefs, mergeSx, resolveLabelAboveControl, useFieldIds } from '@/utils';
+import {
+  mergeRefs,
+  mergeSx,
+  resolveLabelAboveControl,
+  resolveRequired,
+  useFieldIds
+} from '@/utils';
 
 type OnValueChangeProps = {
   newValue: number | null;
@@ -166,6 +172,7 @@ ref: Ref<HTMLSpanElement>) {
     errorId
   } = useFieldIds(fieldName, customIds);
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -205,7 +212,7 @@ ref: Ref<HTMLSpanElement>) {
             {...otherRatingProps}
             fieldName={rhfFieldName}
             ref={mergeRefs(rhfRef, ref)}
-            required={required}
+            required={isFieldRequired}
             value={rhfValue}
             onValueChange={({ newValue, event }) => {
               if (customOnChange) {

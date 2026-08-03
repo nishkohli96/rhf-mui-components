@@ -22,6 +22,7 @@ import type { CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -195,6 +196,7 @@ const RHFColorPicker = <T extends FieldValues>({
   } = useFieldIds(fieldName, customIds);
 
   const watchedValue = useWatch({ control, name: fieldName });
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -233,7 +235,7 @@ const RHFColorPicker = <T extends FieldValues>({
         return (
           <MUIColorPicker
             fieldName={fieldName}
-            required={required}
+            required={isFieldRequired}
             valueKey={valueKey}
             value={watchedValue}
             onValueChange={({ color, setColor }) => {

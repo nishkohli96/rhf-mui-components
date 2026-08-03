@@ -31,6 +31,7 @@ import {
   mergeRefs,
   mergeSx,
   resolveLabelAboveControl,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -221,6 +222,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -258,7 +260,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
           <MUIRichTextEditor
             fieldName={fieldName}
             id={fieldId}
-            required={required}
+            required={isFieldRequired}
             ref={mergeRefs(rhfRef, ref)}
             editorConfig={editorConfig ?? DefaultEditorConfig}
             onReady={onReady}

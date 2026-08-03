@@ -34,6 +34,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -184,6 +185,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -224,7 +226,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
               {...otherMobileTimePickerProps}
               fieldName={rhfFieldName}
               inputRef={mergeRefs(rhfRef, ref)}
-              required={required}
+              required={isFieldRequired}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);

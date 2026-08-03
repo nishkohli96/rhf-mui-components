@@ -30,6 +30,7 @@ import {
   mergeRefs,
   mergeSx,
   resolveLabelAboveControl,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -242,6 +243,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -309,7 +311,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

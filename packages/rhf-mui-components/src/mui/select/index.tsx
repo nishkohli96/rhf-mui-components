@@ -31,7 +31,8 @@ import {
   keepLabelAboveFormField,
   useFieldIds,
   mergeRefs,
-  mergeSx
+  mergeSx,
+  resolveRequired
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean> = Multiple extends true
@@ -220,8 +221,6 @@ export type RHFSelectProps<
   customIds?: CustomComponentIds;
 } & SelectProps;
 
-const componentName = 'RHFSelect';
-
 const RHFSelectInner = forwardRef(function RHFSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
@@ -281,6 +280,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     customIds
   );
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -359,7 +359,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)

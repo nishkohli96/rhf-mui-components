@@ -31,6 +31,7 @@ import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -180,6 +181,7 @@ const RHFStaticDatePicker = <T extends FieldValues>({
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -217,7 +219,7 @@ const RHFStaticDatePicker = <T extends FieldValues>({
             <MUIStaticDatePicker
               {...otherStaticDatePickerProps}
               fieldName={fieldName}
-              required={required}
+              required={isFieldRequired}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);

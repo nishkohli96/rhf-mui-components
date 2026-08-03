@@ -34,6 +34,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
+  resolveRequired,
   useFieldIds
 } from '@/utils';
 
@@ -184,6 +185,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -249,7 +251,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
                 sx: mergeSx(defaultFormLabelSx, formLabelSx)
               }}
               hideLabel={hideLabel}
-              required={required}
+              required={isFieldRequired}
               errorMessage={fieldErrorMessage}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)

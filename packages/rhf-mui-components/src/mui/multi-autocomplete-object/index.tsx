@@ -32,7 +32,13 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
-import { keepLabelAboveFormField, mergeSx, mergeRefs, useFieldIds } from '@/utils';
+import {
+  keepLabelAboveFormField,
+  mergeSx,
+  mergeRefs,
+  resolveRequired,
+  useFieldIds
+} from '@/utils';
 
 type MultiAutoCompleteProps<
   Option extends KeyValueOption = KeyValueOption,
@@ -274,6 +280,7 @@ ref: Ref<HTMLInputElement>): JSX.Element {
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -337,7 +344,7 @@ ref: Ref<HTMLInputElement>): JSX.Element {
               ...otherFormControlLabelProps,
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
-            required={required}
+            required={isFieldRequired}
             errorMessage={
               fieldStateError?.message?.toString()
               ?? (typeof errorMessage === 'string' ? errorMessage : undefined)

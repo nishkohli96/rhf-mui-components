@@ -36,7 +36,13 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { keepLabelAboveFormField, mergeRefs, mergeSx, useFieldIds } from '@/utils';
+import {
+  keepLabelAboveFormField,
+  mergeRefs,
+  mergeSx,
+  resolveRequired,
+  useFieldIds
+} from '@/utils';
 
 type CountrySelectStoredPrimitive = CountryDetails[
   keyof Omit<CountryDetails, 'emoji'>
@@ -292,6 +298,7 @@ ref: Ref<HTMLInputElement>) {
     fieldName,
     customIds
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -354,7 +361,7 @@ ref: Ref<HTMLInputElement>) {
             }}
             hideLabel={hideLabel}
             renderOptionLabel={renderOptionLabel}
-            required={required}
+            required={isFieldRequired}
             errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
