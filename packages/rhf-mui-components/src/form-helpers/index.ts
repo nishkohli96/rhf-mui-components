@@ -4,14 +4,16 @@
  */
 import {
   fieldNameToLabel,
-  colorToString,
   getFileSize,
-  validateFileList
+  validateFileList,
+  colorToString
 } from '@nish1896/mui-components/form-helpers';
+import { fieldNameToId } from '@/utils';
 
 export {
   fieldNameToLabel,
-  colorToString,
+  fieldNameToId,
   getFileSize,
-  validateFileList
+  validateFileList,
+  colorToString
 };
