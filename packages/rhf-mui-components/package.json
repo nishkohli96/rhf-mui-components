@@ -45,9 +45,9 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@mui/system": "^6.0.0 || ^7.0.0",
-    "@mui/material": "^6.0.0 || ^7.0.0",
     "@mui/icons-material": "^6.0.0 || ^7.0.0",
+    "@mui/material": "^6.0.0 || ^7.0.0",
+    "@mui/system": "^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
   },
