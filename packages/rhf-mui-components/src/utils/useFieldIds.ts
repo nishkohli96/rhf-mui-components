@@ -1,5 +1,5 @@
+import { fieldNameToId } from '@nish1896/mui-components/form-helpers';
 import { type CustomComponentIds } from '@/types';
-import { fieldNameToId } from '@/utils';
 
 export function useFieldIds(
   fieldName: string,

@@ -3,16 +3,16 @@
  * which can also be used by the end user.
  */
 import {
+  fieldNameToId,
   fieldNameToLabel,
   getFileSize,
   validateFileList,
   colorToString
 } from '@nish1896/mui-components/form-helpers';
-import { fieldNameToId } from '@/utils';
 
 export {
-  fieldNameToLabel,
   fieldNameToId,
+  fieldNameToLabel,
   getFileSize,
   validateFileList,
   colorToString

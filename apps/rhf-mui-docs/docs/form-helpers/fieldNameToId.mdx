@@ -2,7 +2,7 @@
 sidebar_position: 1
 sidebar_label: fieldNameToId
 title: fieldNameToId
-description: Definition and usage of a function to generate valid HTML IDs from nested form field names.
+description: Converts a nested or array-indexed form field name (e.g. `phones[0].number`) into a sanitized, stable HTML id — safe for pairing form controls with `<label htmlFor>`.
 ---
 
 import { AvailabilityBanner } from '@site/src/components';
@@ -16,6 +16,13 @@ This function converts a form field name into a valid, HTML-friendly `id` attrib
 ```ts
 function fieldNameToId(fieldName: string): string;
 ```
+
+:::warning
+This is a sanitizer, not a uniqueness guarantee — field names that differ only
+by separator style (e.g. `a.b` and `a-b`) can produce the same ID, and a name
+made entirely of invalid characters falls back to `'field'`. Keep field names
+distinguishable by more than punctuation alone.
+:::
 
 ## Usage
 

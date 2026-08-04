@@ -233,8 +233,8 @@ importers:
   packages/rhf-mui-components:
     dependencies:
       '@nish1896/mui-components':
-        specifier: ^1.0.2
-        version: 1.0.2(a1487771171755b52932e414560b061e)
+        specifier: ^1.0.3
+        version: 1.0.3(30e90968bbe39f096c7737a24290ad44)
     devDependencies:
       '@ckeditor/ckeditor5-core':
         specifier: 43.3.0
@@ -2828,14 +2828,13 @@ packages:
       '@eslint/js': '>=9'
       eslint: '>=9'
 
-  '@nish1896/mui-components@1.0.2':
-    resolution: {integrity: sha512-UzW6IMmuvCTagi8Piwcf8ZIbWsICjtqWIWOePvLjMGywhZ2sFBXMTuPZfyo2S+QyNY5X4dUyciLKWmZMDNI/FA==}
+  '@nish1896/mui-components@1.0.3':
+    resolution: {integrity: sha512-Ny70mmaJjd43rVRd45GR7hOjhwB7sx3AlNzg8hJ7cbU4Qg0IbPFDuPR3BXgEGRE3oQDFCpLCwb2BiIVFvavotg==}
     peerDependencies:
       '@mui/icons-material': ^6.0.0 || ^7.0.0
       '@mui/material': ^6.0.0 || ^7.0.0
       '@mui/system': ^6.0.0 || ^7.0.0
       '@mui/x-date-pickers': ^7.0.0 || ^8.0.0
-      react-hook-form: ^7.0.0
 
   '@noble/hashes@1.4.0':
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
@@ -12351,13 +12350,12 @@ snapshots:
       - supports-color
       - typescript
 
-  '@nish1896/mui-components@1.0.2(a1487771171755b52932e414560b061e)':
+  '@nish1896/mui-components@1.0.3(30e90968bbe39f096c7737a24290ad44)':
     dependencies:
       '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@mui/system': 7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@mui/x-date-pickers': 8.29.0(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(date-fns@4.4.0)(dayjs@1.11.21)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react-hook-form: 7.80.0(react@19.2.7)
 
   '@noble/hashes@1.4.0': {}
 
