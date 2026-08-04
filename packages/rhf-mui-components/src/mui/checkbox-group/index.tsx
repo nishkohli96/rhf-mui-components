@@ -263,11 +263,12 @@ const RHFCheckboxGroup = <
     defaultFormControlLabelSx
   } = useContext(RHFMuiConfigContext);
 
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formLabelSx,
     ...otherFormLabelProps

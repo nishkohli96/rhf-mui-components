@@ -272,14 +272,20 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
 
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const { sx: formLabelSx, ...otherFormLabelProps } = formLabelProps ?? {};
-  const { sx: formHelperTextSx, ...otherFormHelperTextProps }
-    = formHelperTextProps ?? {};
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller

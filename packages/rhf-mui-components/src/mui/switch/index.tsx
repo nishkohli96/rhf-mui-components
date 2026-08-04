@@ -144,6 +144,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formControlLabelSx,
     ...otherFormControlLabelProps

@@ -144,6 +144,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formControlLabelSx,
     ...otherFormControlLabelProps
@@ -152,7 +153,10 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     sx: formHelperTextSx,
     ...otherFormHelperTextProps
   } = formHelperTextProps ?? {};
-  const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+  const {
+    input: slotPropsInput,
+    ...otherSlotProps
+  } = muiSlotProps ?? {};
 
   return (
     <Controller

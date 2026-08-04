@@ -178,11 +178,12 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
     throw new Error(generateDateAdapterErrMsg('RHFTimePicker'));
   }
 
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formLabelSx,
     ...otherFormLabelProps

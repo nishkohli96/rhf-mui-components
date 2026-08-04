@@ -180,11 +180,12 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
     throw new Error(generateDateAdapterErrMsg('RHFMobileTimePicker'));
   }
 
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formLabelSx,
     ...otherFormLabelProps

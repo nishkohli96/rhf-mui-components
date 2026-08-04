@@ -177,12 +177,13 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFDatePicker'));
   }
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formLabelSx,
     ...otherFormLabelProps

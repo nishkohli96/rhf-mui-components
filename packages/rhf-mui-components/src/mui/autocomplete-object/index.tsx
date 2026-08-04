@@ -276,11 +276,13 @@ ref: Ref<HTMLInputElement>) {
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const { sx: formLabelSx, ...otherFormLabelProps } = formLabelProps ?? {};
   const { sx: formHelperTextSx, ...otherFormHelperTextProps }
     = formHelperTextProps ?? {};

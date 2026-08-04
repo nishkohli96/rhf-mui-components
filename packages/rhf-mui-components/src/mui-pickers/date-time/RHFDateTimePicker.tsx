@@ -180,11 +180,12 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     throw new Error(generateDateAdapterErrMsg('RHFDateTimePicker'));
   }
 
-  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
   const {
     sx: formLabelSx,
     ...otherFormLabelProps
