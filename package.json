@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "4.1.4",
+  "version": "4.2.0",
   "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
@@ -18,7 +18,7 @@
   "scripts": {
     "lib": "pnpm -F @nish1896/rhf-mui-components run lib:build",
     "lib:lint": "pnpm -F @nish1896/rhf-mui-components run lint",
-    "lib:pack": "sh pack-pkg.sh",
+    "lib:pack": "sh scripts/pack-pkg.sh",
     "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
     "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
     "demo:build": "pnpm lib && pnpm -F @nish1896/rhf-mui-demo run build",

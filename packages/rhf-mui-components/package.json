@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "4.1.4",
+  "version": "4.2.0",
   "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.vercel.app/",
@@ -15,6 +15,9 @@
   },
   "type": "module",
   "sideEffects": false,
+  "dependencies": {
+    "@nish1896/mui-components": "^1.0.4"
+  },
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "43.3.0",
     "@ckeditor/ckeditor5-react": "9.0.0",
@@ -25,7 +28,7 @@
     "@mui/material": "^7.3.9",
     "@mui/system": "^7.3.9",
     "@mui/x-date-pickers": "^8.27.2",
-    "@nish1896/eslint-flat-config": "^3.1.5",
+    "@nish1896/eslint-flat-config": "^3.1.6",
     "@types/lodash": "^4.17.24",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -42,8 +45,9 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@mui/icons-material": "^6.0.0 || ^7.0.0",
+    "@mui/system": "^6.0.0 || ^7.0.0",
     "@mui/material": "^6.0.0 || ^7.0.0",
+    "@mui/icons-material": "^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
   },

@@ -3,7 +3,6 @@
 import {
   useContext,
   forwardRef,
-  Fragment,
   type JSX,
   type ReactNode,
   type Ref
@@ -16,34 +15,23 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import MuiSelect, { type SelectChangeEvent } from '@mui/material/Select';
+import { type SelectChangeEvent } from '@mui/material/Select';
+import MUISelect from '@nish1896/mui-components/mui/select';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
-  defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD,
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
   type CustomOnChangeProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
-  isKeyValueOption,
   keepLabelAboveFormField,
-  getOptionValue,
-  normalizeSelectValue,
-  useFieldIds,
-  getDisplayLabelForSelectValue,
   mergeRefs,
-  generateLargeOptionsErrMsg
+  mergeSx,
+  resolveRequired
 } from '@/utils';
 
 type SelectValue<Value, Multiple extends boolean> = Multiple extends true
@@ -112,9 +100,11 @@ export type RHFSelectProps<
    * option value itself for primitive options) is rendered.
    *
    * @param option - The option being rendered.
+   * @param state - Current status of the option (`disabled`, `selected`), so the
+   *   label can react to it — e.g. dim a disabled option.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -230,8 +220,6 @@ export type RHFSelectProps<
   customIds?: CustomComponentIds;
 } & SelectProps;
 
-const componentName = 'RHFSelect';
-
 const RHFSelectInner = forwardRef(function RHFSelect<
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
@@ -259,6 +247,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     defaultOptionText,
     customOnChange,
     onValueChange,
+    onBlur: muiOnBlur,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -270,8 +259,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    onBlur,
-    autoComplete = defaultAutocompleteValue,
+    autoComplete,
     renderValue,
     placeholder,
     customIds,
@@ -280,31 +268,26 @@ const RHFSelectInner = forwardRef(function RHFSelect<
   }: RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-
-  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
-    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
-  }
-
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabelText = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
-  const SelectFormLabel = (
-    <FormLabelText label={fieldLabel} required={required} />
-  );
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -322,196 +305,71 @@ const RHFSelectInner = forwardRef(function RHFSelect<
         },
         fieldState: { error: fieldStateError }
       }) => {
-        const isValueEmpty
-          = rhfValue === undefined
-            || rhfValue === null
-            || rhfValue === ''
-            || (multiple && Array.isArray(rhfValue) && !rhfValue.length);
-        const showPlaceholder = isValueEmpty && !!placeholder;
-        const selectLabelValue
-          = hideLabel || isLabelAboveFormField || showPlaceholder || isValueEmpty
-            ? undefined
-            : SelectFormLabel;
-        const selectLabelId = isLabelAboveFormField || hideLabel
-          ? undefined
-          : labelId;
-
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            {!hideLabel && !isLabelAboveFormField && !showPlaceholder && (
-              <InputLabel
-                id={labelId}
-                htmlFor={fieldId}
-                shrink={!isValueEmpty}
-                disabled={isDisabled}
-              >
-                {SelectFormLabel}
-              </InputLabel>
-            )}
-            <MuiSelect
-              {...otherSelectProps}
-              inputProps={{
-                ...muiSelectInputProps,
-                id: fieldId
-              }}
-              name={rhfFieldName}
-              autoComplete={autoComplete}
-              inputRef={mergeRefs(rhfRef, ref)}
-              labelId={selectLabelId}
-              aria-required={required}
-              aria-invalid={isError}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
-              }
-              aria-label={hideLabel ? accessibleFieldLabel : undefined}
-              label={selectLabelValue}
-              value={rhfValue ?? (multiple ? [] : '')}
-              error={isError}
-              multiple={multiple}
-              displayEmpty={isValueEmpty}
-              disabled={isDisabled}
-              onChange={(event, child) => {
-                const selectEvent = event as SelectChangeEvent<
-                  SelectValue<OptionValue<Option, ValueKey>, Multiple>
-                >;
-                const selectedValue = selectEvent.target.value;
-                const normalizedValue = normalizeSelectValue(
-                  selectedValue,
-                  options,
-                  labelKey,
-                  valueKey
-                ) as SelectValue<OptionValue<Option, ValueKey>, Multiple>;
-                if (customOnChange) {
-                  customOnChange({
-                    rhfOnChange,
-                    newValue: normalizedValue,
-                    event: selectEvent,
-                    child
-                  });
-                  return;
-                }
-                rhfOnChange(normalizedValue);
-                onValueChange?.({
-                  newValue: normalizedValue,
-                  event: selectEvent,
+          <MUISelect<Option, LabelKey, ValueKey, Multiple>
+            {...otherSelectProps}
+            fieldName={rhfFieldName}
+            inputRef={mergeRefs(rhfRef, ref)}
+            options={options}
+            labelKey={labelKey}
+            valueKey={valueKey}
+            value={rhfValue}
+            onValueChange={({ newValue, event, child }) => {
+              if (customOnChange) {
+                customOnChange({
+                  rhfOnChange,
+                  newValue,
+                  event,
                   child
                 });
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-              renderValue={value => {
-                if (showPlaceholder) {
-                  return (
-                    <span
-                      aria-hidden="true"
-                      style={{ opacity: 0.6, color: 'inherit' }}
-                    >
-                      {placeholder}
-                    </span>
-                  );
-                }
-                /* For multiple options */
-                if (Array.isArray(value)) {
-                  const labels = value
-                    .map(val =>
-                      getDisplayLabelForSelectValue(
-                        val,
-                        options,
-                        labelKey,
-                        valueKey
-                      ))
-                    .filter(
-                      (node): node is Exclude<typeof node, ''> =>
-                        node !== '' && node !== null && node !== undefined
-                    );
-                  return (
-                    <Fragment>
-                      {renderValue?.(value) ?? labels.join(', ')}
-                    </Fragment>
-                  );
-                }
-                /* For single option */
-                const optionLabel = getDisplayLabelForSelectValue(
-                  value,
-                  options,
-                  labelKey,
-                  valueKey
-                );
-                return (
-                  <Fragment>
-                    {renderValue?.(value) ?? optionLabel}
-                  </Fragment>
-                );
-              }}
-            >
-              {showDefaultOption && (
-                <MenuItem value="" disabled={required}>
-                  {defaultOptionText ?? `Select ${fieldLabelText}`}
-                </MenuItem>
-              )}
-              {options.map((option, index) => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = getOptionValue<Option, ValueKey>(
-                  option,
-                  valueKey
-                );
-                const opnLabel = isObject
-                  ? String(option[labelKey!])
-                  : String(option);
-                const isOptionDisabled = getOptionDisabled?.(option) ?? false;
-                return (
-                  <MenuItem
-                    key={`${opnValue}-${index}`}
-                    value={opnValue}
-                    disabled={isOptionDisabled}
-                  >
-                    {renderOptionLabel?.(option) ?? opnLabel}
-                  </MenuItem>
-                );
-              })}
-            </MuiSelect>
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+                return;
+              }
+              rhfOnChange(newValue);
+              onValueChange?.({
+                newValue,
+                event,
+                child
+              });
+            }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            renderOptionLabel={renderOptionLabel}
+            getOptionDisabled={getOptionDisabled}
+            multiple={multiple}
+            showDefaultOption={showDefaultOption}
+            defaultOptionText={defaultOptionText}
+            disabled={isDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveFormField}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            required={isFieldRequired}
+            errorMessage={fieldErrorMessage}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            autoComplete={autoComplete}
+            renderValue={renderValue}
+            placeholder={placeholder}
+            inputProps={muiSelectInputProps}
+            customIds={customIds}
+          />
         );
       }}
     />

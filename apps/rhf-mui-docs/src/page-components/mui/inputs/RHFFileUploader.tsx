@@ -12,6 +12,10 @@ const RHFFileUploaderPropsTable = ({
     PropsDescription.control,
     PropsDescription.registerOptions,
     PropsDescription.required,
+    PropsDescription.customOnChange_FileUploader,
+    PropsDescription.onValueChange_FileUploader,
+    PropsDescription.onUploadError,
+    PropsDescription.onBlur_FileUploader,
     PropsDescription.accept,
     PropsDescription.multiple_FileUploader,
     PropsDescription.maxSize,
@@ -27,9 +31,6 @@ const RHFFileUploaderPropsTable = ({
     getPropDetailsByVersion(PropsDescription.existingFileListProps, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.uploadedFileListProps, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.renderFileItem, { docsVersion }),
-    PropsDescription.customOnChange_FileUploader,
-    PropsDescription.onValueChange_FileUploader,
-    PropsDescription.onUploadError,
     getPropDetailsByVersion(PropsDescription.label, {
       docsVersion,
       muiVersion

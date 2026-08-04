@@ -15,30 +15,26 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  DateTimePicker as MuiDateTimePicker,
   type DateTimePickerProps,
   type PickerValidDate,
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
+import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
+import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   mergeRefs,
-  useFieldIds
+  mergeSx,
+  resolveRequired
 } from '@/utils';
 
 type DateTimePickerInputProps = Omit<
@@ -154,9 +150,9 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     control,
     registerOptions,
     required,
+    customOnChange,
     onChange: muiOnChange,
     onAccept: muiOnAccept,
-    customOnChange,
     onValueChange,
     disabled: muiDisabled,
     label,
@@ -174,29 +170,33 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
   }: RHFDateTimePickerProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    dateAdapter,
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFDateTimePicker'));
   }
-
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
-  const { textField: textFieldSlotProps, ...otherSlotProps }
-    = muiSlotProps ?? {};
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
-    <LocalizationProvider dateAdapter={dateAdapter}>
+    <MUIComponentsConfigProvider dateAdapter={dateAdapter}>
       <Controller
         name={fieldName}
         control={control}
@@ -213,108 +213,58 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-          const fieldErrorMessage = fieldStateError
-            ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-            : undefined;
-          const isError = !!fieldErrorMessage;
-          const showHelperTextElement = !!(
-            helperText
-            || (isError && !hideErrorMessage)
-          );
+          const fieldErrorMessage = typeof errorMessage === 'string'
+            ? errorMessage
+            : fieldStateError?.message?.toString();
+
           return (
-            <FormControl error={isError} disabled={isDisabled}>
-              {!hideLabel && (
-                <FormLabel
-                  label={fieldLabel}
-                  isVisible={isLabelAboveFormField}
-                  required={required}
-                  error={isError}
-                  disabled={isDisabled}
-                  formLabelProps={{
-                    ...formLabelProps,
-                    id: labelId,
-                    htmlFor: fieldId
-                  }}
-                />
-              )}
-              <MuiDateTimePicker
-                name={rhfFieldName}
-                inputRef={mergeRefs(rhfRef, ref)}
-                value={rhfValue ?? null}
-                disabled={isDisabled}
-                onChange={(newValue, context) => {
-                  muiOnChange?.(newValue, context);
-                  if (customOnChange) {
-                    customOnChange({ rhfOnChange, newValue, context });
-                    return;
-                  }
-                  if (context.validationError !== null) {
-                    return;
-                  }
-                  rhfOnChange(newValue);
-                  onValueChange?.({ newValue, context });
-                }}
-                onAccept={(newValue, context) => {
-                  muiOnAccept?.(newValue, context);
-                  rhfOnBlur();
-                }}
-                closeOnSelect={false}
-                label={
-                  !hideLabel && !isLabelAboveFormField
-                    ? (
-                      <FormLabelText label={fieldLabel} required={required} />
-                    )
-                    : undefined
+            <MUIDateTimePicker
+              {...otherDateTimePickerProps}
+              fieldName={rhfFieldName}
+              required={isFieldRequired}
+              inputRef={mergeRefs(rhfRef, ref)}
+              value={rhfValue}
+              onValueChange={({ newValue, context }) => {
+                muiOnChange?.(newValue, context);
+                if (customOnChange) {
+                  customOnChange({ rhfOnChange, newValue, context });
+                  return;
                 }
-                slotProps={{
-                  ...otherSlotProps,
-                  textField: ownerState => {
-                    const resolvedTextFieldSlotProps = typeof textFieldSlotProps === 'function'
-                      ? textFieldSlotProps(ownerState)
-                      : textFieldSlotProps;
-                    return {
-                      ...resolvedTextFieldSlotProps,
-                      id: fieldId,
-                      error: isError,
-                      onBlur: rhfOnBlur,
-                      inputProps: {
-                        ...resolvedTextFieldSlotProps?.inputProps,
-                        'aria-labelledby':
-                          !hideLabel && isLabelAboveFormField
-                            ? labelId
-                            : undefined,
-                        'aria-label': hideLabel
-                          ? accessibleFieldLabel
-                          : undefined,
-                        'aria-describedby': showHelperTextElement
-                          ? isError
-                            ? errorId
-                            : helperTextId
-                          : undefined,
-                        'aria-invalid': isError || undefined,
-                        'aria-required': required || undefined
-                      }
-                    };
-                  }
-                }}
-                {...otherDateTimePickerProps}
-              />
-              <FormHelperText
-                error={isError}
-                errorMessage={fieldErrorMessage}
-                hideErrorMessage={hideErrorMessage}
-                helperText={helperText}
-                showHelperTextElement={showHelperTextElement}
-                formHelperTextProps={{
-                  ...formHelperTextProps,
-                  id: isError ? errorId : helperTextId
-                }}
-              />
-            </FormControl>
+                if (context.validationError !== null) {
+                  return;
+                }
+                rhfOnChange(newValue);
+                onValueChange?.({ newValue, context });
+              }}
+              onAccept={(newValue, context) => {
+                muiOnAccept?.(newValue, context);
+                rhfOnBlur();
+              }}
+              disabled={isDisabled}
+              label={label}
+              showLabelAboveFormField={isLabelAboveFormField}
+              formLabelProps={{
+                ...otherFormLabelProps,
+                sx: mergeSx(defaultFormLabelSx, formLabelSx)
+              }}
+              hideLabel={hideLabel}
+              errorMessage={fieldErrorMessage}
+              renderError={() => fieldStateError
+                ? renderError?.(fieldStateError)
+                : undefined}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              formHelperTextProps={{
+                ...otherFormHelperTextProps,
+                sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+              }}
+              slotProps={muiSlotProps}
+              customIds={customIds}
+            />
           );
         }}
       />
-    </LocalizationProvider>
+    </MUIComponentsConfigProvider>
   );
 });
 

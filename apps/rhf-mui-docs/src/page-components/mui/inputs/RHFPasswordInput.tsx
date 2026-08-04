@@ -7,6 +7,7 @@ const RHFPasswordInputPropsTable = ({
   docsVersion,
   muiVersion,
   v1,
+  v3AndAbove,
   v4AndAbove
 }: VersionProps) => {
   const binding = !v1
@@ -36,8 +37,12 @@ const RHFPasswordInputPropsTable = ({
       muiVersion
     }),
     ...(v4AndAbove
-      ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
+      ? [
+        getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion }),
+        PropsDescription.readOnly_PasswordInput,
+      ]
       : []),
+    ...(v3AndAbove ? [LegacyPropsDescription.readOnly_PasswordInput_v3] : []),
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,
     ...(v4AndAbove

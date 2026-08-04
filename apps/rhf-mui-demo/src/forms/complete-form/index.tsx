@@ -50,7 +50,12 @@ import {
 } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { Colors, Gender, Sports, type Person } from '@/types';
-import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
+import {
+  logFirebaseEvent,
+  showToastMessage,
+  getPhoneNoValue,
+  withFileNames
+} from '@/utils';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
@@ -614,7 +619,7 @@ const CompleteForm = () => {
               <SubmitButton disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={formValues} errors={errors} />
+              <FormState formValues={withFileNames(formValues)} errors={errors} />
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
           </GridContainer>

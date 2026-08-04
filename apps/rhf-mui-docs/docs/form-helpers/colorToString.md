@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 sidebar_label: colorToString
 title: colorToString
 description: Function to convert a color object in RGB or HSV format into a valid CSS color string.

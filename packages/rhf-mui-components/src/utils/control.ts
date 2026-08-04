@@ -1,4 +1,5 @@
 import { type Ref } from 'react';
+import type { Message, ValidationRule } from 'react-hook-form';
 
 export function keepLabelAboveFormField(
   showLabelAboveFormField?: boolean,
@@ -22,6 +23,21 @@ export function resolveLabelAboveControl(
   allLabelsAboveFields?: boolean
 ): boolean {
   return allLabelsAboveFields ?? showLabelAboveFormField ?? true;
+}
+
+/**
+ * Whether a field is required, combining the explicit `required` prop with
+ * RHF's `registerOptions.required` validation rule — a boolean, a message
+ * string (truthy), or a `{ value, message }` object.
+ */
+export function resolveRequired(
+  required: boolean | undefined,
+  registerRequired: Message | ValidationRule<boolean> | undefined
+): boolean {
+  const isRegisterRequired = typeof registerRequired === 'object'
+    ? registerRequired.value
+    : !!registerRequired;
+  return !!required || isRegisterRequired;
 }
 
 export function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {

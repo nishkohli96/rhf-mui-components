@@ -37,7 +37,8 @@ import {
   minCharMsg,
   maxCharMsg,
   showToastMessage,
-  logFirebaseEvent
+  logFirebaseEvent,
+  withFileNames
 } from '@/utils';
 
 type FormSchema = {
@@ -285,6 +286,7 @@ const InputsWithRegisterForm = () => {
                   message: reqdMsg('tags')
                 }
               }}
+              limitTags={4}
               onTagAdd={({ newTag }) => {
                 if (newTag.length < 3) {
                   return false;
@@ -493,7 +495,7 @@ const InputsWithRegisterForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={errors} />
+            <FormState formValues={withFileNames(formValues)} errors={errors} />
           </Grid>
         </GridContainer>
       </form>

@@ -2,8 +2,6 @@
 
 import {
   useContext,
-  forwardRef,
-  type Ref,
   type ReactNode,
   type JSX
 } from 'react';
@@ -15,34 +13,30 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  StaticTimePicker as MuiStaticTimePicker,
   type StaticTimePickerProps,
   type PickerValidDate,
   type TimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
+import { MUIStaticTimePicker } from '@nish1896/mui-components/mui-pickers/time';
+import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
 import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
-  mergeRefs,
-  useFieldIds
+  mergeSx,
+  resolveRequired
 } from '@/utils';
 
 type StaticTimePickerInputProps = Omit<
   StaticTimePickerProps,
-  'value' | 'ref'
+  'value' | 'defaultValue' | 'ref'
 >;
 
 type PickerOnValueChangeProps<ValidationError> = {
@@ -149,55 +143,56 @@ export type RHFStaticTimePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & StaticTimePickerInputProps;
 
-const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
-  T extends FieldValues
->(
-  {
-    fieldName,
-    control,
-    registerOptions,
-    required,
-    onChange: muiOnChange,
-    onAccept: muiOnAccept,
-    customOnChange,
-    onValueChange,
-    disabled: muiDisabled,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    hideLabel,
-    errorMessage,
-    renderError,
-    hideErrorMessage,
-    helperText,
-    formHelperTextProps,
-    slotProps: muiSlotProps,
-    customIds,
-    ...otherStaticTimePickerProps
-  }: RHFStaticTimePickerProps<T>,
-  ref: Ref<HTMLDivElement>
-) {
-  const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+const RHFStaticTimePicker = <T extends FieldValues>({
+  fieldName,
+  control,
+  registerOptions,
+  required,
+  customOnChange,
+  onChange: muiOnChange,
+  onAccept: muiOnAccept,
+  onValueChange,
+  disabled: muiDisabled,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  slotProps: muiSlotProps,
+  customIds,
+  ...otherStaticTimePickerProps
+}: RHFStaticTimePickerProps<T>): JSX.Element => {
+  const {
+    dateAdapter,
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('RHFStaticTimePicker'));
   }
-
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const fieldLabel = label ?? fieldNameToLabel(fieldName);
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : fieldNameToLabel(fieldName);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
-    <LocalizationProvider dateAdapter={dateAdapter}>
+    <MUIComponentsConfigProvider dateAdapter={dateAdapter}>
       <Controller
         name={fieldName}
         control={control}
@@ -207,96 +202,63 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
             value: rhfValue,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
-            ref: rhfRef,
             disabled: rhfDisabled
           },
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-          const fieldErrorMessage = fieldStateError
-            ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-            : undefined;
-          const isError = !!fieldErrorMessage;
-          const showHelperTextElement = !!(
-            helperText
-            || (isError && !hideErrorMessage)
-          );
+          const fieldErrorMessage = typeof errorMessage === 'string'
+            ? errorMessage
+            : fieldStateError?.message?.toString();
+
           return (
-            <FormControl error={isError} disabled={isDisabled}>
-              {!hideLabel && (
-                <FormLabel
-                  label={fieldLabel}
-                  isVisible={isLabelAboveFormField}
-                  required={required}
-                  error={isError}
-                  disabled={isDisabled}
-                  formLabelProps={{
-                    ...formLabelProps,
-                    id: labelId,
-                    htmlFor: fieldId
-                  }}
-                />
-              )}
-              <div
-                id={fieldId}
-                role="group"
-                aria-labelledby={
-                  !hideLabel && isLabelAboveFormField ? labelId : undefined
+            <MUIStaticTimePicker
+              {...otherStaticTimePickerProps}
+              fieldName={fieldName}
+              required={isFieldRequired}
+              value={rhfValue}
+              onValueChange={({ newValue, context }) => {
+                muiOnChange?.(newValue, context);
+                if (customOnChange) {
+                  customOnChange({ rhfOnChange, newValue, context });
+                  return;
                 }
-                aria-label={hideLabel ? accessibleFieldLabel : undefined}
-                aria-describedby={
-                  showHelperTextElement
-                    ? isError
-                      ? errorId
-                      : helperTextId
-                    : undefined
+                if (context.validationError !== null) {
+                  return;
                 }
-              >
-                <MuiStaticTimePicker
-                  {...otherStaticTimePickerProps}
-                  ref={mergeRefs(rhfRef, ref)}
-                  value={rhfValue ?? null}
-                  disabled={isDisabled}
-                  onChange={(newValue, context) => {
-                    muiOnChange?.(newValue, context);
-                    if (customOnChange) {
-                      customOnChange({ rhfOnChange, newValue, context });
-                      return;
-                    }
-                    if (context.validationError !== null) {
-                      return;
-                    }
-                    rhfOnChange(newValue);
-                    onValueChange?.({ newValue, context });
-                  }}
-                  onAccept={(newValue, context) => {
-                    muiOnAccept?.(newValue, context);
-                    rhfOnBlur();
-                  }}
-                  slotProps={muiSlotProps}
-                />
-              </div>
-              <FormHelperText
-                error={isError}
-                errorMessage={fieldErrorMessage}
-                hideErrorMessage={hideErrorMessage}
-                helperText={helperText}
-                showHelperTextElement={showHelperTextElement}
-                formHelperTextProps={{
-                  ...formHelperTextProps,
-                  id: isError ? errorId : helperTextId
-                }}
-              />
-            </FormControl>
+                rhfOnChange(newValue);
+                onValueChange?.({ newValue, context });
+              }}
+              disabled={isDisabled}
+              label={label}
+              showLabelAboveFormField={isLabelAboveFormField}
+              formLabelProps={{
+                ...otherFormLabelProps,
+                sx: mergeSx(defaultFormLabelSx, formLabelSx)
+              }}
+              hideLabel={hideLabel}
+              errorMessage={fieldErrorMessage}
+              renderError={() => fieldStateError
+                ? renderError?.(fieldStateError)
+                : undefined}
+              hideErrorMessage={hideErrorMessage}
+              helperText={helperText}
+              formHelperTextProps={{
+                ...otherFormHelperTextProps,
+                sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+              }}
+              onAccept={(newValue, context) => {
+                muiOnAccept?.(newValue, context);
+                rhfOnBlur();
+              }}
+              slotProps={muiSlotProps}
+              customIds={customIds}
+            />
           );
         }}
       />
-    </LocalizationProvider>
+    </MUIComponentsConfigProvider>
   );
-});
-
-const RHFStaticTimePicker = RHFStaticTimePickerInner as <T extends FieldValues>(
-  props: RHFStaticTimePickerProps<T> & { ref?: Ref<HTMLDivElement> }
-) => JSX.Element;
+};
 
 export default RHFStaticTimePicker;
