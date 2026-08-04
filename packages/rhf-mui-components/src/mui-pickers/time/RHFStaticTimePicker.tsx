@@ -2,8 +2,10 @@
 
 import {
   useContext,
+  forwardRef,
   type ReactNode,
-  type JSX
+  type JSX,
+  type Ref
 } from 'react';
 import {
   Controller,
@@ -30,6 +32,7 @@ import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
+  mergeRefs,
   mergeSx,
   resolveRequired
 } from '@/utils';
@@ -143,29 +146,34 @@ export type RHFStaticTimePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & StaticTimePickerInputProps;
 
-const RHFStaticTimePicker = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  required,
-  customOnChange,
-  onChange: muiOnChange,
-  onAccept: muiOnAccept,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  slotProps: muiSlotProps,
-  customIds,
-  ...otherStaticTimePickerProps
-}: RHFStaticTimePickerProps<T>): JSX.Element => {
+const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    required,
+    customOnChange,
+    onChange: muiOnChange,
+    onAccept: muiOnAccept,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    slotProps: muiSlotProps,
+    customIds,
+    ...otherStaticTimePickerProps
+  }: RHFStaticTimePickerProps<T>,
+  ref: Ref<HTMLDivElement>
+) {
   const {
     dateAdapter,
     allLabelsAboveFields,
@@ -200,6 +208,7 @@ const RHFStaticTimePicker = <T extends FieldValues>({
         render={({
           field: {
             value: rhfValue,
+            ref: rhfRef,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             disabled: rhfDisabled
@@ -216,6 +225,7 @@ const RHFStaticTimePicker = <T extends FieldValues>({
               {...otherStaticTimePickerProps}
               fieldName={fieldName}
               required={isFieldRequired}
+              ref={mergeRefs(rhfRef, ref)}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);
@@ -259,6 +269,12 @@ const RHFStaticTimePicker = <T extends FieldValues>({
       />
     </MUIComponentsConfigProvider>
   );
-};
+});
+
+const RHFStaticTimePicker = RHFStaticTimePickerInner as <
+  T extends FieldValues
+>(
+  props: RHFStaticTimePickerProps<T> & { ref?: Ref<HTMLDivElement> }
+) => JSX.Element;
 
 export default RHFStaticTimePicker;
