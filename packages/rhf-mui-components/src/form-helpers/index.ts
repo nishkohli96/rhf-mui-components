@@ -4,6 +4,7 @@
  */
 
 export {
+  fieldNameToId,
   fieldNameToLabel,
   colorToString,
   getFileSize,
