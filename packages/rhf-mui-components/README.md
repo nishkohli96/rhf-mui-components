@@ -21,7 +21,7 @@
 >
 > From **v4.2.0** onwards, every component delegates its rendering and core logic to the form-library-agnostic **[@nish1896/mui-components](https://mui-components-docs.vercel.app/)** — the same Material UI components, driven by a plain `value` / `onValueChange` pair instead of RHF bindings.
 >
-> Worth checking out if you ever need these components outside React Hook Form (TanStack Form, Formik or plain React state).
+> Worth checking out if you're building forms with plain React state or any other form library, or need Material UI components without wiring custom UI logic for commonly used components.
 
 ## ✨ Features
 
