@@ -2,8 +2,10 @@
 
 import {
   useContext,
+  forwardRef,
   type ReactNode,
-  type JSX
+  type JSX,
+  type Ref
 } from 'react';
 import {
   Controller,
@@ -30,6 +32,7 @@ import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
+  mergeRefs,
   mergeSx,
   resolveRequired
 } from '@/utils';
@@ -143,29 +146,34 @@ export type RHFStaticDatePickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & StaticDatePickerInputProps;
 
-const RHFStaticDatePicker = <T extends FieldValues>({
-  fieldName,
-  control,
-  registerOptions,
-  required,
-  customOnChange,
-  onChange: muiOnChange,
-  onAccept: muiOnAccept,
-  onValueChange,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  slotProps: muiSlotProps,
-  customIds,
-  ...otherStaticDatePickerProps
-}: RHFStaticDatePickerProps<T>): JSX.Element => {
+const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
+  T extends FieldValues
+>(
+  {
+    fieldName,
+    control,
+    registerOptions,
+    required,
+    customOnChange,
+    onChange: muiOnChange,
+    onAccept: muiOnAccept,
+    onValueChange,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    slotProps: muiSlotProps,
+    customIds,
+    ...otherStaticDatePickerProps
+  }: RHFStaticDatePickerProps<T>,
+  ref: Ref<HTMLDivElement>
+) {
   const {
     dateAdapter,
     allLabelsAboveFields,
@@ -200,6 +208,7 @@ const RHFStaticDatePicker = <T extends FieldValues>({
         render={({
           field: {
             value: rhfValue,
+            ref: rhfRef,
             onChange: rhfOnChange,
             onBlur: rhfOnBlur,
             disabled: rhfDisabled
@@ -216,6 +225,7 @@ const RHFStaticDatePicker = <T extends FieldValues>({
               {...otherStaticDatePickerProps}
               fieldName={fieldName}
               required={isFieldRequired}
+              ref={mergeRefs(rhfRef, ref)}
               value={rhfValue}
               onValueChange={({ newValue, context }) => {
                 muiOnChange?.(newValue, context);
@@ -259,6 +269,12 @@ const RHFStaticDatePicker = <T extends FieldValues>({
       />
     </MUIComponentsConfigProvider>
   );
-};
+});
+
+const RHFStaticDatePicker = RHFStaticDatePickerInner as <
+  T extends FieldValues
+>(
+  props: RHFStaticDatePickerProps<T> & { ref?: Ref<HTMLDivElement> }
+) => JSX.Element;
 
 export default RHFStaticDatePicker;
