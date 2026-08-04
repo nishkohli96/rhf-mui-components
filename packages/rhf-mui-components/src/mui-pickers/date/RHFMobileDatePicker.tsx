@@ -34,8 +34,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type MobileDatePickerInputProps = Omit<
@@ -181,11 +180,6 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
     throw new Error(generateDateAdapterErrMsg('RHFMobileDatePicker'));
   }
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
-
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -264,12 +258,7 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
                 sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
               }}
               slotProps={muiSlotProps}
-              customIds={{
-                field: fieldId,
-                label: labelId,
-                helperText: helperTextId,
-                error: errorId
-              }}
+              customIds={customIds}
             />
           );
         }}

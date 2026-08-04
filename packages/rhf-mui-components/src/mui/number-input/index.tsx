@@ -30,8 +30,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -193,10 +192,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -281,12 +276,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
             onKeyDown={onKeyDown}
             onMouseDown={onMouseDown}
             onPaste={onPaste}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

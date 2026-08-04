@@ -34,8 +34,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type TimePickerInputProps = Omit<
@@ -179,10 +178,6 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
     throw new Error(generateDateAdapterErrMsg('RHFTimePicker'));
   }
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -261,12 +256,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
                 sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
               }}
               slotProps={muiSlotProps}
-              customIds={{
-                field: fieldId,
-                label: labelId,
-                helperText: helperTextId,
-                error: errorId
-              }}
+              customIds={customIds}
             />
           );
         }}

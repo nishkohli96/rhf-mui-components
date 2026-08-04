@@ -26,7 +26,7 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { mergeRefs, mergeSx, resolveRequired, useFieldIds } from '@/utils';
+import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
@@ -143,8 +143,6 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
     defaultFormControlLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
-
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const {
     sx: formControlLabelSx,
@@ -224,11 +222,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
                   ref: mergeRefs(rhfRef, ref)
                 }
               }}
-              customIds={{
-                field: fieldId,
-                helperText: helperTextId,
-                error: errorId
-              }}
+              customIds={customIds}
             />
           </Fragment>
         );

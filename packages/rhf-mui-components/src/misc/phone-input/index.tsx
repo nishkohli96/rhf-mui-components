@@ -37,8 +37,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type PhoneInputChangeReturnValue = {
@@ -226,10 +225,6 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -303,12 +298,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
             }}
             slotProps={slotProps}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

@@ -28,8 +28,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -273,10 +272,6 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -353,12 +348,7 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
             }}
             autoComplete={autoComplete}
             renderTagLabel={renderTagLabel}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

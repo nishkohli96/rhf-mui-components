@@ -30,8 +30,7 @@ import {
   mergeRefs,
   mergeSx,
   resolveLabelAboveControl,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type InputNativeSelectProps = Omit<
@@ -239,10 +238,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
@@ -325,12 +320,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
             sx={muiSx}
             autoComplete={autoComplete}
             placeholder={placeholder}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

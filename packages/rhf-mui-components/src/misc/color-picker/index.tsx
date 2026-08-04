@@ -22,8 +22,7 @@ import type { CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type ColorFormat = keyof IColor;
@@ -188,13 +187,6 @@ const RHFColorPicker = <T extends FieldValues>({
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName, customIds);
-
   const watchedValue = useWatch({ control, name: fieldName });
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
@@ -274,12 +266,7 @@ const RHFColorPicker = <T extends FieldValues>({
             }}
             height={height}
             hideAlpha={hideAlpha}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

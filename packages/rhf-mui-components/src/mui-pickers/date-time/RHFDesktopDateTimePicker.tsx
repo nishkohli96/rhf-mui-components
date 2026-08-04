@@ -34,8 +34,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type DesktopDateTimePickerInputProps = Omit<
@@ -181,10 +180,6 @@ const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePick
     throw new Error(generateDateAdapterErrMsg('RHFDesktopDateTimePicker'));
   }
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -263,12 +258,7 @@ const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePick
                 sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
               }}
               slotProps={muiSlotProps}
-              customIds={{
-                field: fieldId,
-                label: labelId,
-                helperText: helperTextId,
-                error: errorId
-              }}
+              customIds={customIds}
             />
           );
         }}

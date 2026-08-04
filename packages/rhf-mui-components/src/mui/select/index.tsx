@@ -29,7 +29,6 @@ import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
-  useFieldIds,
   mergeRefs,
   mergeSx,
   resolveRequired
@@ -275,11 +274,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
-
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -374,12 +368,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             renderValue={renderValue}
             placeholder={placeholder}
             inputProps={muiSelectInputProps}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

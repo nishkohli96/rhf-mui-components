@@ -29,8 +29,7 @@ import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -240,10 +239,6 @@ const RHFRadioGroup = <
     defaultFormControlLabelSx
   } = useContext(RHFMuiConfigContext);
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
@@ -321,12 +316,7 @@ const RHFRadioGroup = <
               ...otherFormHelperTextProps,
               sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
             }}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}

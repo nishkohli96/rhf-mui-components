@@ -35,8 +35,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type MultiAutoCompleteProps<
@@ -290,10 +289,6 @@ ref: Ref<HTMLInputElement>) {
     defaultFormHelperTextSx,
     defaultFormControlLabelSx
   } = useContext(RHFMuiConfigContext);
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -388,12 +383,7 @@ ref: Ref<HTMLInputElement>) {
             selectAllText={selectAllText}
             hideSelectAllOption={hideSelectAllOption}
             loading={loading}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
             getOptionDisabled={getOptionDisabled}
             limitTags={limitTags}
             getLimitTagsText={getLimitTagsText}

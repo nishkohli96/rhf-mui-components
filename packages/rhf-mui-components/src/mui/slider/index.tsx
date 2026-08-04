@@ -30,8 +30,7 @@ import {
   mergeRefs,
   mergeSx,
   resolveLabelAboveControl,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type SliderInputProps = Omit<
@@ -186,13 +185,6 @@ ref: Ref<HTMLSpanElement>) {
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const {
-    fieldId,
-    labelId,
-    helperTextId,
-    errorId
-  } = useFieldIds(fieldName, customIds);
-
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
@@ -271,12 +263,7 @@ ref: Ref<HTMLSpanElement>) {
                 ...otherFormHelperTextProps,
                 sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
               }}
-              customIds={{
-                field: fieldId,
-                label: labelId,
-                helperText: helperTextId,
-                error: errorId
-              }}
+              customIds={customIds}
             />
           </Fragment>
         );

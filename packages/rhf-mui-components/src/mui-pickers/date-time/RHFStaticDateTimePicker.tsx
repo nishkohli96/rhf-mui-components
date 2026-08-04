@@ -31,8 +31,7 @@ import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type StaticDateTimePickerInputProps = Omit<
@@ -177,10 +176,6 @@ const RHFStaticDateTimePicker = <T extends FieldValues>({
     throw new Error(generateDateAdapterErrMsg('RHFStaticDateTimePicker'));
   }
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -256,12 +251,7 @@ const RHFStaticDateTimePicker = <T extends FieldValues>({
                 sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
               }}
               slotProps={muiSlotProps}
-              customIds={{
-                field: fieldId,
-                label: labelId,
-                helperText: helperTextId,
-                error: errorId
-              }}
+              customIds={customIds}
             />
           );
         }}

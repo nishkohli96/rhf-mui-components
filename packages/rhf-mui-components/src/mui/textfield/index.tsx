@@ -29,8 +29,7 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   mergeSx,
-  resolveRequired,
-  useFieldIds
+  resolveRequired
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -147,11 +146,6 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     defaultFormLabelSx,
     defaultFormHelperTextSx
   } = useContext(RHFMuiConfigContext);
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
-
   const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
@@ -226,12 +220,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
             }}
             autoComplete={autoComplete}
             slotProps={muiSlotProps}
-            customIds={{
-              field: fieldId,
-              label: labelId,
-              helperText: helperTextId,
-              error: errorId
-            }}
+            customIds={customIds}
           />
         );
       }}
