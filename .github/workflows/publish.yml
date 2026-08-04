@@ -31,6 +31,6 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build Components Package
         run: pnpm -F @nish1896/rhf-mui-components run lib:build
-      # - name: Publish package on npm
-      #   run: npm publish --tag latest-v4
-      #   working-directory: packages/rhf-mui-components/dist
+      - name: Publish package on npm
+        run: npm publish --tag latest-v4
+        working-directory: packages/rhf-mui-components/dist
