@@ -26,7 +26,7 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { mergeRefs, mergeSx, useFieldIds } from '@/utils';
+import { mergeRefs, mergeSx, resolveRequired, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
@@ -120,6 +120,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
     fieldName,
     control,
     registerOptions,
+    required,
     customOnChange,
     onValueChange,
     disabled: muiDisabled,
@@ -144,6 +145,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
   } = useContext(RHFMuiConfigContext);
   const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const {
     sx: formControlLabelSx,
     ...otherFormControlLabelProps
@@ -184,6 +186,8 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
               {...otherSwitchProps}
               fieldName={rhfFieldName}
               value={Boolean(rhfValue)}
+              required={required}
+              aria-required={isFieldRequired}
               onValueChange={({ newValue, event }) => {
                 if (customOnChange) {
                   customOnChange({ rhfOnChange, newValue, event });

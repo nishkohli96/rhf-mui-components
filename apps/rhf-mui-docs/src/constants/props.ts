@@ -533,6 +533,11 @@ const PropsDescription: Record<
       'Callback function that returns validation errors grouped by rejected file.',
     type: 'Array<{ file, errors }> => void'
   },
+  onBlur_FileUploader: {
+    name: 'onBlur',
+    description: 'Callback function that returns the blur event when the file uploader component loses focus. Added in `v4.2.0`.',
+    type: '(event: FocusEvent) => void'
+  },
   fullWidth_FileUploader: {
     name: 'fullWidth',
     description: 'Set the width of the file uploader component to 100%.',

@@ -26,7 +26,7 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { mergeRefs, mergeSx, useFieldIds } from '@/utils';
+import { mergeRefs, mergeSx, resolveRequired, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
@@ -120,6 +120,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     fieldName,
     control,
     registerOptions,
+    required,
     customOnChange,
     onValueChange,
     disabled: muiDisabled,
@@ -144,6 +145,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
   } = useContext(RHFMuiConfigContext);
   const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
 
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
   const {
     sx: formControlLabelSx,
     ...otherFormControlLabelProps
@@ -180,6 +182,8 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
             <MUICheckbox
               {...otherCheckboxProps}
               fieldName={rhfFieldName}
+              required={required}
+              aria-required={isFieldRequired}
               value={rhfValue}
               onValueChange={({ newValue, event }) => {
                 if (customOnChange) {
