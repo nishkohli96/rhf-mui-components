@@ -13,22 +13,24 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import MuiRadioGroup, { type RadioGroupProps } from '@mui/material/RadioGroup';
+import { type RadioGroupProps } from '@mui/material/RadioGroup';
+import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
 import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
   type FormLabelProps,
   type FormControlLabelProps,
   type FormHelperTextProps,
   type RadioProps,
   type CustomOnChangeProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
+import {
+  mergeSx,
+  resolveLabelAboveControl,
+  resolveRequired
+} from '@/utils';
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,
@@ -40,14 +42,6 @@ type OnValueChangeProps<
   newValue: OptionValue<Option, ValueKey>;
   event: ChangeEvent<HTMLInputElement>;
 };
-import {
-  fieldNameToLabel,
-  isKeyValueOption,
-  normalizeSelectValue,
-  getOptionValue,
-  useFieldIds,
-  resolveLabelAboveControl
-} from '@/utils';
 
 type RadioGroupInputProps = Omit<
   RadioGroupProps,
@@ -89,23 +83,6 @@ export type RHFRadioGroupProps<
    */
   valueKey?: ValueKey;
   /**
-   * Function to customize the label for each radio button.
-   * When not provided, the option label derived from `labelKey` (or the
-   * option value itself for primitive options) is rendered.
-   *
-   * @param option - The option being rendered.
-   * @returns Custom React content to display for the option.
-   */
-  renderOptionLabel?: (option: Option) => ReactNode;
-  /**
-   * Function to dynamically disable specific option(s).
-   *
-   * Return `true` to disable the option and prevent it from being checked.
-   *
-   * @param option - The option being evaluated.
-   */
-  getOptionDisabled?: (option: Option) => boolean;
-  /**
    * Overrides the default radio group change handling.
    * Receives the normalized selected option value and the original radio change event.
    * Call `rhfOnChange` with the selected value that should be stored; else the form value will not be updated.
@@ -135,6 +112,23 @@ export type RHFRadioGroupProps<
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * Function to customize the label for each radio button.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being checked.
+   *
+   * @param option - The option being evaluated.
+   */
+  getOptionDisabled?: (option: Option) => boolean;
   /**
    * When true, disables the field and associated controls.
    */
@@ -215,13 +209,14 @@ const RHFRadioGroup = <
   control,
   registerOptions,
   options,
-  renderOptionLabel,
-  getOptionDisabled,
   labelKey,
   valueKey,
   customOnChange,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
+  renderOptionLabel,
+  getOptionDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -234,34 +229,27 @@ const RHFRadioGroup = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   customIds,
   ...otherRadioGroupProps
 }: RHFRadioGroupProps<T, Option, LabelKey, ValueKey>) => {
   const {
-    defaultFormControlLabelSx,
-    allLabelsAboveFields
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx,
+    defaultFormControlLabelSx
   } = useContext(RHFMuiConfigContext);
 
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
-
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
+
+  const { sx: formLabelSx, ...otherFormLabelProps } = formLabelProps ?? {};
+  const { sx: formHelperTextSx, ...otherFormHelperTextProps }
+    = formHelperTextProps ?? {};
+  const { sx: formControlLabelSx, ...otherFormControlLabelProps }
+    = formControlLabelProps ?? {};
 
   return (
     <Controller
@@ -279,114 +267,58 @@ const RHFRadioGroup = <
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
+
         return (
-          <FormControl
-            component="fieldset"
-            error={isError}
-            disabled={isDisabled}
-          >
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveControl}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  component: 'legend'
-                }}
-              />
-            )}
-            <MuiRadioGroup
-              {...otherRadioGroupProps}
-              id={fieldId}
-              name={rhfFieldName}
-              value={rhfValue ?? ''}
-              onChange={(event, selectedValue) => {
-                const normalizedValue = normalizeSelectValue(
-                  selectedValue,
-                  options,
-                  labelKey,
-                  valueKey
-                ) as OptionValue<Option, ValueKey>;
-                if (customOnChange) {
-                  customOnChange({
-                    rhfOnChange,
-                    newValue: normalizedValue,
-                    event
-                  });
-                  return;
-                }
-                rhfOnChange(normalizedValue);
-                onValueChange?.({ newValue: normalizedValue, event });
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-              aria-required={required || undefined}
-              aria-labelledby={!hideLabel ? labelId : undefined}
-              aria-label={hideLabel ? accessibleFieldLabel : undefined}
-              aria-describedby={
-                showHelperTextElement
-                  ? isError
-                    ? errorId
-                    : helperTextId
-                  : undefined
+          <MUIRadioGroup
+            {...otherRadioGroupProps}
+            fieldName={rhfFieldName}
+            options={options}
+            labelKey={labelKey}
+            valueKey={valueKey}
+            value={rhfValue}
+            onValueChange={({ newValue, event }) => {
+              if (customOnChange) {
+                customOnChange({ rhfOnChange, newValue, event });
+                return;
               }
-            >
-              {options.map(option => {
-                const isObject = isKeyValueOption(option, labelKey, valueKey);
-                const opnValue = getOptionValue<Option, ValueKey>(
-                  option,
-                  valueKey
-                );
-                const opnLabel = isObject
-                  ? String(option[labelKey!])
-                  : String(option);
-                const isOptionDisabled
-                  = getOptionDisabled?.(option) || isDisabled || false;
-                return (
-                  <FormControlLabel
-                    {...otherFormControlLabelProps}
-                    key={opnValue}
-                    control={
-                      <Radio
-                        {...radioProps}
-                        id={`${fieldId}-${opnValue}`}
-                        disabled={isOptionDisabled}
-                      />
-                    }
-                    value={opnValue}
-                    label={renderOptionLabel?.(option) ?? opnLabel}
-                    disabled={isOptionDisabled}
-                    sx={appliedFormControlLabelSx}
-                  />
-                );
-              })}
-            </MuiRadioGroup>
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, event });
+            }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            disabled={isDisabled}
+            renderOptionLabel={renderOptionLabel}
+            getOptionDisabled={getOptionDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveControl}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            radioProps={radioProps}
+            formControlLabelProps={{
+              ...otherFormControlLabelProps,
+              sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
+            }}
+            required={isFieldRequired}
+            errorMessage={fieldErrorMessage}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            customIds={customIds}
+          />
         );
       }}
     />

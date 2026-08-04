@@ -49,7 +49,7 @@ export const pageMetadata: Record<string, Metadata> = {
   dateTimePickers: {
     title: 'Date & Time Pickers',
     description:
-      'A form using RHFDatePicker, RHFTimePicker & RHFDateTimePicker components.'
+      'A form using RHFDatePicker, RHFTimePicker & RHFDateTimePicker components with DayJS Adapter.'
   },
   inputs: {
     title: 'Inputs',

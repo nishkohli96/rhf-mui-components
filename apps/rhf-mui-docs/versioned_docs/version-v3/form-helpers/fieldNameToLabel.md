@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 sidebar_label: fieldNameToLabel
 title: fieldNameToLabel
 description: Definition and usage of a function to generate user-friendly label from a string in camelCase or snake_case.

@@ -5,10 +5,6 @@
 <h1>@nish1896/rhf-mui-components</h1>
 
 <p>
-  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
-</p>
-
-<p>
   <img alt="NPM Version" src="https://img.shields.io/npm/v/%40nish1896%2Frhf-mui-components" />
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/%40nish1896%2Frhf-mui-components" />
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Frhf-mui-components?color=%23e0e063" />
@@ -17,11 +13,21 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
-## Features ✨
+<p>
+  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
+</p>
+
+> ⚡ **Powered by [@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components)**
+>
+> From **v4.2.0** onwards, every component delegates its rendering and core logic to the form-library-agnostic **[@nish1896/mui-components](https://mui-components-docs.vercel.app/)** — the same Material UI components, driven by a plain `value` / `onValueChange` pair instead of RHF bindings.
+>
+> Worth checking out if you ever need these components outside React Hook Form (TanStack Form, Formik or plain React state).
+
+## ✨ Features
 
 - Each component is fully functional with just 2-3 props — core logic handled internally.
 - Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [RichTextEditor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor), [Country Select](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect), [File Uploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader) and [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput), saving development time.
+- Includes well-configured unique components like [Phone Input](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput), [Country Select](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect), [File Uploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader) and [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput), saving development time for specific use cases.
 - Provides full control over value validation and transformation before updates are committed to form state.
 - Comprehensive docs showcasing multiple variations for each component.
 

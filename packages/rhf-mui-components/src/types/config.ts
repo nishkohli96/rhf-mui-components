@@ -1,11 +1,11 @@
-import type { SxProps } from '@mui/system';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 export type MuiPickersAdapter = new (...args: any) => any;
 
 export type RHFMuiConfig = {
-  defaultFormLabelSx: SxProps;
-  defaultFormControlLabelSx: SxProps;
-  defaultFormHelperTextSx: SxProps;
+  defaultFormLabelSx: SxProps<Theme>;
+  defaultFormControlLabelSx: SxProps<Theme>;
+  defaultFormHelperTextSx: SxProps<Theme>;
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
 };

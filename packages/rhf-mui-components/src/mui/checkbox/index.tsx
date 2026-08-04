@@ -17,10 +17,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import MuiCheckbox from '@mui/material/Checkbox';
+import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
 import {
-  FormHelperText,
   type FormControlLabelProps,
   type FormHelperTextProps,
   type CheckboxProps,
@@ -28,12 +26,12 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
+import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
   event: ChangeEvent<HTMLInputElement>;
 };
-import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
 export type RHFCheckboxProps<T extends FieldValues> = {
   /**
@@ -122,6 +120,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     fieldName,
     control,
     registerOptions,
+    required,
     customOnChange,
     onValueChange,
     disabled: muiDisabled,
@@ -133,28 +132,31 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    onBlur,
+    onBlur: muiOnBlur,
     slotProps: muiSlotProps,
     customIds,
     ...otherCheckboxProps
   }: RHFCheckboxProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
+  const {
+    defaultFormControlLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
-
-  const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
-  const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+  const {
+    sx: formControlLabelSx,
+    ...otherFormControlLabelProps
+  } = formControlLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
+  const {
+    input: slotPropsInput,
+    ...otherSlotProps
+  } = muiSlotProps ?? {};
 
   return (
     <Controller
@@ -173,69 +175,55 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
+
         return (
           <Fragment>
-            <FormControlLabel
-              {...otherFormControlLabelProps}
-              control={
-                <MuiCheckbox
-                  {...otherCheckboxProps}
-                  id={fieldId}
-                  name={rhfFieldName}
-                  checked={Boolean(rhfValue)}
-                  disabled={isDisabled}
-                  onChange={(event, checked) => {
-                    if (customOnChange) {
-                      customOnChange({ rhfOnChange, newValue: checked, event });
-                      return;
-                    }
-                    rhfOnChange(checked);
-                    onValueChange?.({ newValue: checked, event });
-                  }}
-                  onBlur={blurEvent => {
-                    rhfOnBlur();
-                    onBlur?.(blurEvent);
-                  }}
-                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
-                  aria-describedby={
-                    showHelperTextElement
-                      ? isError
-                        ? errorId
-                        : helperTextId
-                      : undefined
-                  }
-                  aria-invalid={isError || undefined}
-                  slotProps={{
-                    ...otherSlotProps,
-                    input: {
-                      ...slotPropsInput,
-                      ref: mergeRefs(rhfRef, ref)
-                    }
-                  }}
-                />
-              }
-              label={hideLabel ? undefined : fieldLabel}
-              sx={appliedFormControlLabelSx}
+            <MUICheckbox
+              {...otherCheckboxProps}
+              fieldName={rhfFieldName}
+              required={required}
+              aria-required={isFieldRequired}
+              value={rhfValue}
+              onValueChange={({ newValue, event }) => {
+                if (customOnChange) {
+                  customOnChange({ rhfOnChange, newValue, event });
+                  return;
+                }
+                rhfOnChange(newValue);
+                onValueChange?.({ newValue, event });
+              }}
               disabled={isDisabled}
-            />
-            <FormHelperText
-              error={isError}
+              label={label}
+              formControlLabelProps={{
+                ...otherFormControlLabelProps,
+                sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
+              }}
+              hideLabel={hideLabel}
               errorMessage={fieldErrorMessage}
+              renderError={() => fieldStateError
+                ? renderError?.(fieldStateError)
+                : undefined}
               hideErrorMessage={hideErrorMessage}
               helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
               formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
+                ...otherFormHelperTextProps,
+                sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
               }}
+              onBlur={blurEvent => {
+                rhfOnBlur();
+                muiOnBlur?.(blurEvent);
+              }}
+              slotProps={{
+                ...otherSlotProps,
+                input: {
+                  ...slotPropsInput,
+                  ref: mergeRefs(rhfRef, ref)
+                }
+              }}
+              customIds={customIds}
             />
           </Fragment>
         );

@@ -1,13 +1,11 @@
 'use client';
 
 import {
-  useCallback,
-  useContext,
-  useMemo,
   forwardRef,
+  useContext,
   type JSX,
-  type Ref,
   type ReactNode,
+  type Ref,
   type SyntheticEvent
 } from 'react';
 import {
@@ -18,21 +16,14 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import Autocomplete,
-{
-  type AutocompleteProps,
-  type AutocompleteChangeDetails,
-  type AutocompleteChangeReason,
-  type AutocompleteValue
+import type {
+  AutocompleteProps,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
+  AutocompleteValue
 } from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
+import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
-  defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
@@ -43,11 +34,10 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
-  isKeyValueOption,
-  useFieldIds,
   keepLabelAboveFormField,
-  mergeRefs
+  mergeRefs,
+  mergeSx,
+  resolveRequired
 } from '@/utils';
 
 type OmittedAutocompleteProps<
@@ -74,13 +64,6 @@ type OmittedAutocompleteProps<
   | 'ChipProps'
   | 'ref'
 >;
-
-type AutocompleteFieldValue<
-  Option,
-  Multiple extends boolean,
-  DisableClearable extends boolean,
-  FreeSolo extends boolean
-> = AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>;
 
 type OnValueChangeProps<
   Option,
@@ -275,96 +258,71 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
   Multiple extends boolean = false,
   DisableClearable extends boolean = false,
   FreeSolo extends boolean = false
->(
-  {
-    fieldName,
-    control,
-    registerOptions,
-    options,
-    labelKey,
-    valueKey,
-    multiple,
-    disableClearable,
-    freeSolo,
-    autoHighlight = true,
-    onValueChange,
-    customOnChange,
-    disabled: muiDisabled,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    hideLabel,
-    required,
-    errorMessage,
-    renderError,
-    hideErrorMessage,
-    helperText,
-    formHelperTextProps,
-    textFieldProps,
-    slotProps,
-    ChipProps,
-    onBlur,
-    onFocus,
-    loading,
-    limitTags = 2,
-    customIds,
-    autoSelect,
-    getLimitTagsText,
-    ...otherAutoCompleteProps
-  }: RHFAutocompleteProps<
-    T,
-    Option,
-    LabelKey,
-    ValueKey,
-    Multiple,
-    DisableClearable,
-    FreeSolo
-  >,
-  ref: Ref<HTMLInputElement>
-) {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
-
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
+>({
+  fieldName,
+  control,
+  registerOptions,
+  options,
+  labelKey,
+  valueKey,
+  multiple,
+  disableClearable,
+  freeSolo,
+  autoHighlight,
+  onValueChange,
+  customOnChange,
+  disabled: muiDisabled,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  required,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  textFieldProps,
+  slotProps,
+  ChipProps,
+  onFocus: muiOnFocus,
+  onBlur: muiOnBlur,
+  loading,
+  limitTags,
+  customIds,
+  autoSelect,
+  getLimitTagsText,
+  ...otherAutoCompleteProps
+}: RHFAutocompleteProps<
+  T,
+  Option,
+  LabelKey,
+  ValueKey,
+  Multiple,
+  DisableClearable,
+  FreeSolo
+>,
+ref: Ref<HTMLInputElement>) {
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
 
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
-  const optionsMap = useMemo(() => {
-    if (!valueKey) {
-      return null;
-    }
-
-    const map = new Map<Option[ValueKey], Option>();
-    for (const option of options) {
-      if (isKeyValueOption(option, labelKey, valueKey)) {
-        map.set(option[valueKey], option);
-      }
-    }
-    return map;
-  }, [options, valueKey, labelKey]);
-
-  const renderOptionLabel = useCallback(
-    (option: Option | string): string => {
-      if (typeof option === 'string') {
-        return option;
-      }
-      if (labelKey && isKeyValueOption(option, labelKey, valueKey)) {
-        return String(option[labelKey]);
-      }
-      return String(option);
-    },
-    [labelKey, valueKey]
-  );
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -374,257 +332,80 @@ const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<
       render={({
         field: {
           name: rhfFieldName,
+          ref: rhfRef,
           value: rhfValue,
           onChange: rhfOnChange,
           onBlur: rhfOnBlur,
-          ref: rhfRef,
           disabled: rhfDisabled
         },
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
-
-        let selectedOptions: AutocompleteFieldValue<
-          Option,
-          Multiple,
-          DisableClearable,
-          FreeSolo
-        >;
-        if (multiple) {
-          const multiValue: (Option | string)[] = [];
-
-          for (const val of Array.isArray(rhfValue) ? rhfValue : []) {
-            const option = optionsMap
-              ? optionsMap.get(val)
-              : options.find(opn => opn === val);
-            if (option) {
-              multiValue.push(option);
-            } else if (freeSolo) {
-              multiValue.push(String(val));
-            }
-          }
-
-          selectedOptions = multiValue as AutocompleteFieldValue<
-            Option,
-            Multiple,
-            DisableClearable,
-            FreeSolo
-          >;
-        } else {
-          const singleOption
-            = rhfValue === null || rhfValue === undefined
-              ? null
-              : optionsMap
-                ? optionsMap.get(rhfValue)
-                ?? (freeSolo ? (rhfValue) : null)
-                : options.find(opn => opn === rhfValue)
-                  ?? (freeSolo ? (rhfValue) : null);
-
-          selectedOptions = singleOption as AutocompleteFieldValue<
-            Option,
-            Multiple,
-            DisableClearable,
-            FreeSolo
-          >;
-        }
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            {/*
-             * MUI v7: use `renderValue` so single- and multi-select selections render as chips.
-             * MUI v6: use `renderTags` for multi-select chips only, as `renderValue` is not available.
-             * MUI v7 deprecates `renderTags` in favor of `renderValue`.
-             */}
-            <Autocomplete
-              {...otherAutoCompleteProps}
-              id={fieldId}
-              options={options}
-              multiple={multiple}
-              freeSolo={freeSolo}
-              autoSelect={freeSolo ? autoSelect ?? true : autoSelect}
-              value={selectedOptions}
-              disabled={isDisabled}
-              onChange={(
-                event,
-                newValue,
-                reason: AutocompleteChangeReason,
-                details?: AutocompleteChangeDetails<Option>
-              ) => {
-                const fieldValue
-                  = newValue === null
-                    ? null
-                    : Array.isArray(newValue)
-                      ? newValue.map(item =>
-                        typeof item !== 'string'
-                        && valueKey
-                        && isKeyValueOption(item, labelKey, valueKey)
-                          ? item[valueKey]
-                          : (item as string))
-                      : typeof newValue !== 'string'
-                        && valueKey
-                        && isKeyValueOption(newValue, labelKey, valueKey)
-                        ? newValue[valueKey]
-                        : (newValue as string);
-
-                const storedValue = fieldValue as AutocompleteNewValue<
-                  Multiple,
-                  DisableClearable
-                >;
-
-                if (customOnChange) {
-                  customOnChange({
-                    rhfOnChange,
-                    newValue: storedValue,
-                    selectedOption: newValue,
-                    event,
-                    reason,
-                    details
-                  });
-                  return;
-                }
-                rhfOnChange(storedValue);
-                onValueChange?.({
-                  newValue: storedValue,
-                  selectedOption: newValue,
+          <MUIAutocomplete
+            {...otherAutoCompleteProps}
+            fieldName={rhfFieldName}
+            ref={mergeRefs(rhfRef, ref)}
+            options={options}
+            labelKey={labelKey}
+            valueKey={valueKey}
+            multiple={multiple}
+            disableClearable={disableClearable}
+            freeSolo={freeSolo}
+            autoHighlight={autoHighlight}
+            value={rhfValue}
+            onValueChange={({ newValue, selectedOption, event, reason, details }) => {
+              if (customOnChange) {
+                customOnChange({
+                  rhfOnChange,
+                  newValue,
+                  selectedOption,
                   event,
                   reason,
                   details
                 });
-              }}
-              onFocus={onFocus}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                onBlur?.(blurEvent);
-              }}
-              getOptionLabel={renderOptionLabel}
-              isOptionEqualToValue={(option, value) => {
-                if (!value) {
-                  return false;
-                }
-                if (typeof option === 'string') {
-                  return option === (
-                    typeof value === 'string' ? value : String(value)
-                  );
-                }
-                if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
-                  return (
-                    option[valueKey] === (typeof value === 'object' && value !== null
-                      ? value[valueKey]
-                      : value)
-                  );
-                }
-                return option === value;
-              }}
-              renderInput={params => {
-                const {
-                  InputProps,
-                  inputProps,
-                  disabled: paramsDisabled,
-                  ...otherInputParams
-                } = params ?? {};
-                const {
-                  autoComplete = defaultAutocompleteValue,
-                  ...otherTextFieldProps
-                } = textFieldProps ?? {};
-                const textFieldInputProps = {
-                  ...inputProps,
-                  'aria-required': required,
-                  'aria-invalid': isError,
-                  'aria-labelledby': !hideLabel && isLabelAboveFormField
-                    ? labelId
-                    : undefined,
-                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
-                  'aria-describedby': showHelperTextElement
-                    ? isError
-                      ? errorId
-                      : helperTextId
-                    : undefined,
-                  autoComplete
-                };
-                return (
-                  <TextField
-                    name={rhfFieldName}
-                    inputRef={mergeRefs(rhfRef, ref)}
-                    disabled={paramsDisabled}
-                    {...otherTextFieldProps}
-                    {...otherInputParams}
-                    label={
-                      !hideLabel && !isLabelAboveFormField
-                        ? (
-                          <FormLabelText
-                            label={fieldLabel}
-                            required={required}
-                          />
-                        )
-                        : undefined
-                    }
-                    error={isError}
-                    slotProps={{
-                      ...textFieldProps?.slotProps,
-                      input: {
-                        ...InputProps,
-                        ...textFieldProps?.slotProps?.input,
-                        endAdornment: (
-                          <>
-                            {loading && (
-                              <CircularProgress color="inherit" size={20} />
-                            )}
-                            {InputProps?.endAdornment}
-                          </>
-                        )
-                      },
-                      htmlInput: textFieldInputProps
-                    }}
-                  />
-                );
-              }}
-              autoHighlight={autoHighlight}
-              blurOnSelect={!multiple}
-              disableCloseOnSelect={multiple}
-              disableClearable={disableClearable}
-              fullWidth
-              loading={loading}
-              limitTags={limitTags}
-              getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
-              slotProps={{
-                ...slotProps,
-                chip: ChipProps
-              }}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+                return;
+              }
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, selectedOption, event, reason, details });
+            }}
+            onFocus={muiOnFocus}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            disabled={isDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveFormField}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            required={isFieldRequired}
+            errorMessage={fieldErrorMessage}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            textFieldProps={textFieldProps}
+            slotProps={slotProps}
+            ChipProps={ChipProps}
+            loading={loading}
+            limitTags={limitTags}
+            autoSelect={autoSelect}
+            getLimitTagsText={getLimitTagsText}
+            customIds={customIds}
+          />
         );
       }}
     />

@@ -19,6 +19,7 @@ ignoredBuiltDependencies:
 # regardless of age restrictions.
 minimumReleaseAgeExclude:
   - axios
+  - '@nish1896/mui-components'
 # Only these packages are allowed to execute install/build scripts.
 onlyBuiltDependencies:
   - '@firebase/util'

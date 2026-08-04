@@ -16,13 +16,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MuiTextField from '@mui/material/TextField';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
 import {
-  FormControl,
-  FormLabel,
-  FormLabelText,
-  FormHelperText,
-  defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
   type TextFieldProps,
@@ -31,10 +26,10 @@ import {
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
-  fieldNameToLabel,
   keepLabelAboveFormField,
   mergeRefs,
-  useFieldIds
+  mergeSx,
+  resolveRequired
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -127,6 +122,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     registerOptions,
     customOnChange,
     onValueChange,
+    onBlur: muiOnBlur,
     disabled: muiDisabled,
     label,
     showLabelAboveFormField,
@@ -138,29 +134,33 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     hideErrorMessage,
     helperText,
     formHelperTextProps,
-    onBlur: muiOnBlur,
-    autoComplete = defaultAutocompleteValue,
+    autoComplete,
     slotProps: muiSlotProps,
     customIds,
     ...otherTextFieldProps
   }: RHFTextFieldProps<T>,
   ref: Ref<HTMLInputElement>
 ) {
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
-    fieldName,
-    customIds
-  );
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const {
+    allLabelsAboveFields,
+    defaultFormLabelSx,
+    defaultFormHelperTextSx
+  } = useContext(RHFMuiConfigContext);
+
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
+  const isFieldRequired = resolveRequired(required, registerOptions?.required);
 
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
+  const {
+    sx: formLabelSx,
+    ...otherFormLabelProps
+  } = formLabelProps ?? {};
+  const {
+    sx: formHelperTextSx,
+    ...otherFormHelperTextProps
+  } = formHelperTextProps ?? {};
 
   return (
     <Controller
@@ -179,88 +179,51 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            <MuiTextField
-              {...otherTextFieldProps}
-              id={fieldId}
-              name={rhfFieldName}
-              inputRef={mergeRefs(rhfRef, ref)}
-              autoComplete={autoComplete}
-              label={
-                !hideLabel && !isLabelAboveFormField
-                  ? (
-                    <FormLabelText label={fieldLabel} required={required} />
-                  )
-                  : undefined
+          <MUITextField
+            {...otherTextFieldProps}
+            fieldName={rhfFieldName}
+            inputRef={mergeRefs(rhfRef, ref)}
+            value={rhfValue}
+            onValueChange={({ newValue, event }) => {
+              if (customOnChange) {
+                customOnChange({ rhfOnChange, newValue, event });
+                return;
               }
-              value={rhfValue ?? ''}
-              disabled={isDisabled}
-              onChange={event => {
-                const newValue = event.target.value;
-                if (customOnChange) {
-                  customOnChange({ rhfOnChange, newValue, event });
-                  return;
-                }
-                rhfOnChange(newValue);
-                onValueChange?.({ newValue, event });
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                muiOnBlur?.(blurEvent);
-              }}
-              error={isError}
-              slotProps={{
-                ...muiSlotProps,
-                htmlInput: {
-                  ...muiSlotProps?.htmlInput,
-                  'aria-labelledby':
-                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
-                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
-                  'aria-describedby': showHelperTextElement
-                    ? isError
-                      ? errorId
-                      : helperTextId
-                    : undefined,
-                  'aria-required': required
-                }
-              }}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
+              rhfOnChange(newValue);
+              onValueChange?.({ newValue, event });
+            }}
+            onBlur={blurEvent => {
+              rhfOnBlur();
+              muiOnBlur?.(blurEvent);
+            }}
+            disabled={isDisabled}
+            label={label}
+            showLabelAboveFormField={isLabelAboveFormField}
+            formLabelProps={{
+              ...otherFormLabelProps,
+              sx: mergeSx(defaultFormLabelSx, formLabelSx)
+            }}
+            hideLabel={hideLabel}
+            required={isFieldRequired}
+            errorMessage={fieldErrorMessage}
+            renderError={() => fieldStateError
+              ? renderError?.(fieldStateError)
+              : undefined}
+            hideErrorMessage={hideErrorMessage}
+            helperText={helperText}
+            formHelperTextProps={{
+              ...otherFormHelperTextProps,
+              sx: mergeSx(defaultFormHelperTextSx, formHelperTextSx)
+            }}
+            autoComplete={autoComplete}
+            slotProps={muiSlotProps}
+            customIds={customIds}
+          />
         );
       }}
     />
