@@ -305,6 +305,9 @@ ref: Ref<HTMLInputElement>): JSX.Element {
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
+        const fieldErrorMessage = typeof errorMessage === 'string'
+          ? errorMessage
+          : fieldStateError?.message?.toString();
 
         return (
           <MUIMultiAutocompleteObject
@@ -342,10 +345,7 @@ ref: Ref<HTMLInputElement>): JSX.Element {
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
             required={isFieldRequired}
-            errorMessage={
-              fieldStateError?.message?.toString()
-              ?? (typeof errorMessage === 'string' ? errorMessage : undefined)
-            }
+            errorMessage={fieldErrorMessage}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
