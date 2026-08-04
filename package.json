@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components-root",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "description": "A suite of 20+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
@@ -11,7 +11,7 @@
   "scripts": {
     "lib": "yarn workspace @nish1896/rhf-mui-components build",
     "lib:lint": "yarn workspace @nish1896/rhf-mui-components lint",
-    "lib:pack": "sh pack-pkg.sh",
+    "lib:pack": "sh scripts/pack-pkg.sh",
     "demo": "yarn workspace @nish1896/rhf-mui-demo dev",
     "demo:lint": "yarn workspace @nish1896/rhf-mui-demo lint",
     "demo:build": "yarn lib && yarn workspace @nish1896/rhf-mui-demo build",
@@ -47,6 +47,5 @@
     "url": "git+https://github.com/nishkohli96/eslint-config.git"
   },
   "packageManager": "yarn@1.22.22",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }
