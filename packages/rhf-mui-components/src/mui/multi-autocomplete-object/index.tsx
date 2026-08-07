@@ -35,7 +35,8 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type CircularProgressProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption } from '@/types';
@@ -176,6 +177,11 @@ export type RHFMultiAutocompleteObjectProps<
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
+  /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
 } & MultiAutoCompleteProps<Option, DisableClearable>;
 
 const RHFMultiAutocompleteObject = <
@@ -209,7 +215,8 @@ const RHFMultiAutocompleteObject = <
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
+  circularProgressProps,
+  onBlur: muiOnBlur,
   loading,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteObjectProps<
@@ -368,7 +375,7 @@ const RHFMultiAutocompleteObject = <
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}
@@ -439,8 +446,10 @@ const RHFMultiAutocompleteObject = <
                             endAdornment: (
                               <>
                                 {loading && (
-                                  <CircularProgress color="inherit"
+                                  <CircularProgress
+                                    color="inherit"
                                     size={20}
+                                    {...circularProgressProps}
                                   />
                                 )}
                                 {InputProps.endAdornment}
