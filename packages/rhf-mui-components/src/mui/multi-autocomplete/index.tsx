@@ -27,6 +27,7 @@ import {
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
   type MuiChipProps,
+  type CircularProgressProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -220,6 +221,11 @@ export type RHFMultiAutocompleteProps<
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
+  /**
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
@@ -275,6 +281,7 @@ const RHFMultiAutocompleteInner = forwardRef(function RHFMultiAutocomplete<
   slotProps,
   ChipProps,
   loading,
+  circularProgressProps,
   customIds,
   getOptionDisabled,
   limitTags,
@@ -385,6 +392,7 @@ ref: Ref<HTMLInputElement>) {
             selectAllText={selectAllText}
             hideSelectAllOption={hideSelectAllOption}
             loading={loading}
+            circularProgressProps={circularProgressProps}
             customIds={customIds}
             getOptionDisabled={getOptionDisabled}
             limitTags={limitTags}

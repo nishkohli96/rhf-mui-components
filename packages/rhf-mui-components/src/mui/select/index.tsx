@@ -21,6 +21,8 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
+  type MenuItemProps,
+  type InputLabelProps,
   type CustomOnChangeProps,
   type OptionValue,
   type OptionRenderState
@@ -93,48 +95,6 @@ export type RHFSelectProps<
    */
   valueKey?: ValueKey;
   /**
-   * Custom renderer for dropdown options.
-   *
-   * Use this prop to customize the label for each option in the `MenuItem` component.
-   * When not provided, the option label derived from `labelKey` (or the
-   * option value itself for primitive options) is rendered.
-   *
-   * @param option - The option being rendered.
-   * @param state - Current status of the option (`disabled`, `selected`), so the
-   *   label can react to it — e.g. dim a disabled option.
-   * @returns Custom React content to display for the option.
-   */
-  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
-  /**
-   * Function to dynamically disable specific option(s).
-   *
-   * Return `true` to disable the option and prevent it from being selected.
-   *
-   * @param option - The option being evaluated.
-   */
-  getOptionDisabled?: (option: Option) => boolean;
-  /**
-   * When true, allows selecting multiple values.
-   */
-  multiple?: Multiple;
-  /**
-   * When `true`, displays a default placeholder option at the top of the
-   * dropdown menu.
-   *
-   * The option uses an empty string (`''`) as its value and is automatically
-   * disabled when the field is marked as required.
-   *
-   * @default false
-   */
-  showDefaultOption?: boolean;
-  /**
-   * Custom text displayed for the default option when
-   * `showDefaultOption` is enabled.
-   *
-   * @default `Select ${fieldLabel}`
-   */
-  defaultOptionText?: string;
-  /**
    * Overrides the default MUI Select change handling.
    * Receives the normalized selected value, original select event, and selected child element.
    * Call `rhfOnChange` with the value that should be stored; else the form value will not be updated.
@@ -168,6 +128,61 @@ export type RHFSelectProps<
     event,
     child
   }: OnValueChangeProps<Option, ValueKey, Multiple>) => void;
+  /**
+   * When true, allows selecting multiple values.
+   */
+  multiple?: Multiple;
+  /**
+   * Props forwarded to each internal MUI `MenuItem`, applied to every rendered
+   * option — including the default placeholder option when `showDefaultOption`
+   * is enabled. Useful for a custom `dense`, `divider` or `sx` across all options.
+   */
+  menuItemProps?: MenuItemProps;
+  /**
+   * Custom renderer for dropdown options.
+   *
+   * Use this prop to customize the label for each option in the `MenuItem` component.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @param state - Current status of the option (`disabled`, `selected`), so the
+   *   label can react to it — e.g. dim a disabled option.
+   * @returns Custom React content to display for the option.
+   */
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  /**
+   * Function to dynamically disable specific option(s).
+   *
+   * Return `true` to disable the option and prevent it from being selected.
+   *
+   * @param option - The option being evaluated.
+   */
+  getOptionDisabled?: (option: Option) => boolean;
+  /**
+   * When `true`, displays a default placeholder option at the top of the
+   * dropdown menu.
+   *
+   * The option uses an empty string (`''`) as its value and is automatically
+   * disabled when the field is marked as required.
+   *
+   * @default false
+   */
+  showDefaultOption?: boolean;
+  /**
+   * Custom text displayed for the default option when
+   * `showDefaultOption` is enabled.
+   *
+   * @default `Select ${fieldLabel}`
+   */
+  defaultOptionText?: string;
+  /**
+   * Props forwarded to the `InputLabel` — the inline label shown inside
+   * the field's outline when `showLabelAboveFormField` is off. Has no
+   * effect when that label isn't rendered (`hideLabel`, `showLabelAboveFormField`,
+   * or a `placeholder` with no value selected).
+   */
+  inputLabelProps?: InputLabelProps;
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
@@ -240,16 +255,18 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     options,
     labelKey,
     valueKey,
-    renderOptionLabel,
-    getOptionDisabled,
-    multiple,
-    showDefaultOption,
-    defaultOptionText,
     customOnChange,
     onValueChange,
     onBlur: muiOnBlur,
+    multiple,
     disabled: muiDisabled,
+    menuItemProps,
+    renderOptionLabel,
+    getOptionDisabled,
+    showDefaultOption,
+    defaultOptionText,
     label,
+    inputLabelProps,
     showLabelAboveFormField,
     formLabelProps,
     hideLabel,
@@ -340,6 +357,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
               rhfOnBlur();
               muiOnBlur?.(blurEvent);
             }}
+            menuItemProps={menuItemProps}
             renderOptionLabel={renderOptionLabel}
             getOptionDisabled={getOptionDisabled}
             multiple={multiple}
@@ -347,6 +365,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             defaultOptionText={defaultOptionText}
             disabled={isDisabled}
             label={label}
+            inputLabelProps={inputLabelProps}
             showLabelAboveFormField={isLabelAboveFormField}
             formLabelProps={{
               ...otherFormLabelProps,
