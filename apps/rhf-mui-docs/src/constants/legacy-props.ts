@@ -325,7 +325,7 @@ const LegacyPropsDescription: Record<
   }),
   inputLabelProps_Select_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'inputLabelProps',
-    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline. Added in `v4.3`.',
+    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline. Added in `v3.7`.',
     type: `[InputLabelProps](${ExternalLinks.muiComponentApi.inputLabel(muiVersion)})`,
     hasLinkInType: true
   }),
