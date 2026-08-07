@@ -210,8 +210,8 @@ export type RHFMultiAutocompleteObjectProps<
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**
-   * Props forwarded to the internal MUI `CircularProgress` shown in the input
-   * while `loading` is true.
+   * Props forwarded to the `CircularProgress` shown in the input
+   * while `loading` is `true`.
    */
   circularProgressProps?: CircularProgressProps;
   /**

@@ -316,7 +316,37 @@ const LegacyPropsDescription: Record<
     name: 'onBlur',
     description: 'Callback function that returns the blur event when the file uploader component loses focus. Added in `v3.6.0`.',
     type: '(event: FocusEvent) => void'
-  }
+  },
+  menuItemProps_Select_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'menuItemProps',
+    description: 'Props forwarded to each internal MUI `MenuItem`, applied to every rendered option. Added in `v3.7`.',
+    type: `[MenuItemProps](${ExternalLinks.muiComponentApi.menuItem(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  inputLabelProps_Select_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'inputLabelProps',
+    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline. Added in `v4.3`.',
+    type: `[InputLabelProps](${ExternalLinks.muiComponentApi.inputLabel(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  iconButtonProps_PasswordInput_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'iconButtonProps',
+    description: `Props forwarded to the [IconButton](${ExternalLinks.muiComponents.iconButton(muiVersion)}) component that toggles password visibility. Added in \`v3.7.0\`.`,
+    type: `[IconButtonProps](${ExternalLinks.muiComponentApi.iconButton(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  circularProgressProps_Autocompletes_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'circularProgressProps',
+    description: `Props forwarded to the [CircularProgress](${ExternalLinks.muiComponents.circularProgress(muiVersion)}) displayed in the autocomplete input when it is \`loading\`. Added in \`v3.7\`.`,
+    type: `[CircularProgressProps](${ExternalLinks.muiComponentApi.circularProgress(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  countrySelectProps_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'countrySelectProps',
+    description: `Props forwarded to the internal [Select](${ExternalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown. Added in \`v3.7\`.`,
+    type: `[SelectProps](${ExternalLinks.muiComponentApi.select(muiVersion)})`,
+    hasLinkInType: true
+  }),
 });
 
 export default LegacyPropsDescription;

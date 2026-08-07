@@ -6,6 +6,7 @@ import { getPropDetailsByVersion } from '@site/src/utils';
 const RHFAutocompletePropsTable = ({
   docsVersion,
   muiVersion,
+  v3AndAbove,
   v4AndAbove
 }: VersionProps) => {
   const onValueChange = v4AndAbove
@@ -55,9 +56,15 @@ const RHFAutocompletePropsTable = ({
       muiVersion
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
+    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.circularProgressProps_Autocompletes, { muiVersion })]
+      : v3AndAbove
+        ? [getPropDetailsByVersion(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, { muiVersion })]
+        : []
+    ),
     ...(v4AndAbove
       ? [
-        getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
         PropsDescription.customIds
       ]
       : []

@@ -46,6 +46,12 @@ const RHFPasswordInputPropsTable = ({
     PropsDescription.showPasswordIcon,
     PropsDescription.hidePasswordIcon,
     ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.iconButtonProps_PasswordInput, { muiVersion })]
+      : v3AndAbove
+        ? [getPropDetailsByVersion(LegacyPropsDescription.iconButtonProps_PasswordInput_v3, { muiVersion })]
+        : []
+    ),
+    ...(v4AndAbove
       ? [PropsDescription.renderError]
       : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
     ),

@@ -487,6 +487,12 @@ const PropsDescription: Record<
       'Custom icon displayed when the password value is visible, such as `VisibilityOffIcon` from `@mui/icons-material/VisibilityOff`.',
     type: 'ReactNode'
   },
+  iconButtonProps_PasswordInput: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'iconButtonProps',
+    description: `Props forwarded to the [IconButton](${ExternalLinks.muiComponents.iconButton(muiVersion)}) component that toggles password visibility. Added in \`v4.3.0\`.`,
+    type: `[IconButtonProps](${ExternalLinks.muiComponentApi.iconButton(muiVersion)})`,
+    hasLinkInType: true
+  }),
   readOnly_PasswordInput: {
     name: 'readOnly',
     description:
@@ -584,6 +590,18 @@ const PropsDescription: Record<
       'Custom text to replace the default text when `showDefaultOption` is `true` for `RHFSelect` or `RHFNativeSelect`.',
     type: 'string'
   },
+  menuItemProps_Select: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'menuItemProps',
+    description: 'Props forwarded to each internal MUI `MenuItem`, applied to every rendered option. Added in `v4.3`.',
+    type: `[MenuItemProps](${ExternalLinks.muiComponentApi.menuItem(muiVersion)})`,
+    hasLinkInType: true
+  }),
+  inputLabelProps_Select: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'inputLabelProps',
+    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline. Added in `v4.3`.',
+    type: `[InputLabelProps](${ExternalLinks.muiComponentApi.inputLabel(muiVersion)})`,
+    hasLinkInType: true
+  }),
   checkboxProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'checkboxProps',
     description: `[Checkbox Props](${ExternalLinks.muiComponentApi.checkbox(muiVersion)}) to customise each checkbox in checkbox group.`,
@@ -688,6 +706,12 @@ const PropsDescription: Record<
       'Custom text to render in place of the "**Select All**" option that enables user to select all available options in the Autocomplete.',
     type: 'string'
   },
+  circularProgressProps_Autocompletes: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'circularProgressProps',
+    description: `Props forwarded to the [CircularProgress](${ExternalLinks.muiComponents.circularProgress(muiVersion)}) displayed in the autocomplete input when it is \`loading\`. Added in \`v4.3\`.`,
+    type: `[CircularProgressProps](${ExternalLinks.muiComponentApi.circularProgress(muiVersion)})`,
+    hasLinkInType: true
+  }),
   hideSelectAllOption_MultiAutocomplete: {
     name: 'hideSelectAllOption',
     description:
@@ -773,10 +797,16 @@ const PropsDescription: Record<
     description: 'Allows users to enter values that are not present in the autocomplete options. Supported from v4 onwards.',
     type: 'boolean'
   },
+  countrySelectProps: ({ muiVersion }: PropsDescriptionArgs) => ({
+    name: 'countrySelectProps',
+    description: `Props forwarded to the internal [Select](${ExternalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown. Added in \`v4.3\`.`,
+    type: `[SelectProps](${ExternalLinks.muiComponentApi.select(muiVersion)})`,
+    hasLinkInType: true
+  }),
   searchCountryProps: {
     name: 'searchCountryProps',
-    description: 'Props to customize the country search field and country menu item rendering',
-    type: '{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText }',
+    description: 'Props to customize the country search field and country menu item rendering. `menuItemProps` added in `v4.3`.',
+    type: '{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText, menuItemProps }',
   },
 });
 

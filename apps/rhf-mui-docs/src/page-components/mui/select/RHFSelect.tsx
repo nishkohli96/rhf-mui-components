@@ -45,6 +45,12 @@ const RHFSelectPropsTable = ({
       docsVersion,
       muiVersion
     }),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.inputLabelProps_Select, { muiVersion })]
+      : v3AndAbove
+        ? [getPropDetailsByVersion(LegacyPropsDescription.inputLabelProps_Select_v3, { muiVersion })]
+        : []
+    ),
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),
@@ -56,6 +62,12 @@ const RHFSelectPropsTable = ({
       ? [getPropDetailsByVersion(PropsDescription.hideLabel, { muiVersion })]
       : []),
     ...(v3AndAbove ? [PropsDescription.placeholder_Select] : []),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.menuItemProps_Select, { muiVersion })]
+      : v3AndAbove
+        ? [getPropDetailsByVersion(LegacyPropsDescription.menuItemProps_Select_v3, { muiVersion })]
+        : []
+    ),
     ...(v4AndAbove
       ? [PropsDescription.renderError]
       : [getPropDetailsByVersion(LegacyPropsDescription.errorMessage, { muiVersion })]
