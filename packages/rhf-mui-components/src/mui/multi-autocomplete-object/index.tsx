@@ -466,7 +466,11 @@ const RHFMultiAutocompleteObject = <
                           endAdornment: (
                             <>
                               {loading && (
-                                <CircularProgress color="inherit" size={20} />
+                                <CircularProgress
+                                  color="inherit"
+                                  size={20}
+                                  {...circularProgressProps}
+                                />
                               )}
                               {InputProps.endAdornment}
                             </>

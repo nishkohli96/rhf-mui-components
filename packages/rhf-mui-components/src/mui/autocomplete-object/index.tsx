@@ -383,6 +383,7 @@ const RHFAutocompleteObject = <
                                   <CircularProgress
                                     color="inherit"
                                     size={20}
+                                    {...circularProgressProps}
                                   />
                                 )}
                                 {InputProps?.endAdornment}
