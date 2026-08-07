@@ -27,7 +27,8 @@ import {
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
-  type TextFieldProps
+  type TextFieldProps,
+  type IconButtonProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -94,6 +95,12 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   hidePasswordIcon?: ReactNode;
   /**
+   * Props forwarded to the internal MUI `IconButton` that toggles password
+   * visibility. Use `showPasswordIcon`/`hidePasswordIcon` to swap the icon
+   * itself; this is for the button around it — e.g. a custom `size` or `sx`.
+   */
+  iconButtonProps?: IconButtonProps;
+  /**
    * When true, the value is displayed but cannot be edited.
    *
    * Unlike `disabled`, the field stays focusable, is still submitted with the
@@ -129,6 +136,7 @@ const RHFPasswordInput = <T extends FieldValues>({
   formLabelProps,
   showPasswordIcon,
   hidePasswordIcon,
+  iconButtonProps,
   readOnly,
   required,
   helperText,
@@ -198,6 +206,7 @@ const RHFPasswordInput = <T extends FieldValues>({
         const endAdornment = (
           <InputAdornment position="end">
             <IconButton
+              {...iconButtonProps}
               type="button"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               onClick={handleClickShowPassword}

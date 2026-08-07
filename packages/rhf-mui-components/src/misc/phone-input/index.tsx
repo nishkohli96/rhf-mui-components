@@ -24,7 +24,7 @@ import {
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
-import Select from '@mui/material/Select';
+import Select, { type SelectProps as MuiSelectProps } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import {
@@ -52,7 +52,8 @@ import {
   keepLabelAboveFormField,
   isAboveMuiV5,
   useFieldIds,
-  resolveRequired
+  resolveRequired,
+  mergeSx
 } from '@/utils';
 import 'react-international-phone/style.css';
 
@@ -81,6 +82,26 @@ type InputTextFieldProps = Omit<
   | 'inputRef'
   | 'type'
   | 'FormHelperTextProps'
+>;
+
+/**
+ * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
+ * trigger and country dropdown.
+ */
+type CountrySelectProps = Omit<
+  MuiSelectProps,
+  | 'value'
+  | 'defaultValue'
+  | 'multiple'
+  | 'onChange'
+  | 'onOpen'
+  | 'onClose'
+  | 'multiline'
+  | 'renderValue'
+  | 'MenuProps'
+  | 'disabled'
+  | 'children'
+  | 'ref'
 >;
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'> & {
@@ -133,6 +154,12 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
+   * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
+   * trigger and country dropdown — e.g. a custom `size` or `sx` (merged with
+   * the component's own). See `CountrySelectProps` for what's excluded and why.
+   */
+  countrySelectProps?: CountrySelectProps;
+  /**
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
   phoneInputProps?: PhoneInputProps;
@@ -153,9 +180,10 @@ const RHFPhoneInput = <T extends FieldValues>({
   hideErrorMessage,
   formHelperTextProps,
   disabled: muiDisabled,
+  countrySelectProps,
   phoneInputProps,
   slotProps,
-  onBlur,
+  onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   InputProps,
   ...otherTextFieldProps
@@ -284,6 +312,7 @@ const RHFPhoneInput = <T extends FieldValues>({
             style={{ marginRight: '2px', marginLeft: '-8px' }}
           >
             <Select
+              {...countrySelectProps}
               MenuProps={{
                 autoFocus: false,
                 ...(countryMenuAnchorEl ? { anchorEl: countryMenuAnchorEl } : {}),
@@ -304,24 +333,27 @@ const RHFPhoneInput = <T extends FieldValues>({
                   }
                 }
               }}
-              sx={{
-                width: 'max-content',
-                fieldset: {
-                  display: 'none'
-                },
-                '&.Mui-focused:has(div[aria-expanded="false"])': {
+              sx={mergeSx(
+                {
+                  width: 'max-content',
                   fieldset: {
-                    display: 'block'
+                    display: 'none'
+                  },
+                  '&.Mui-focused:has(div[aria-expanded="false"])': {
+                    fieldset: {
+                      display: 'block'
+                    }
+                  },
+                  '.MuiSelect-select': {
+                    padding: '8px',
+                    paddingRight: '24px !important'
+                  },
+                  svg: {
+                    right: 0
                   }
                 },
-                '.MuiSelect-select': {
-                  padding: '8px',
-                  paddingRight: '24px !important'
-                },
-                svg: {
-                  right: 0
-                }
-              }}
+                countrySelectProps?.sx
+              )}
               value={country.iso2}
               disabled={isDisabled || hideDropdown}
               onOpen={updateCountryMenuLayout}
@@ -405,7 +437,7 @@ const RHFPhoneInput = <T extends FieldValues>({
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               label={
                 !isLabelAboveFormField

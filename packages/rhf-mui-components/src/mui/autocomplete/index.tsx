@@ -32,7 +32,8 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type CircularProgressProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type {
@@ -178,6 +179,11 @@ export type RHFAutocompleteProps<
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
+  /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
 } & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 
 const RHFAutocomplete = <
@@ -209,7 +215,8 @@ const RHFAutocomplete = <
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
+  circularProgressProps,
+  onBlur: muiOnBlur,
   loading,
   ...otherAutoCompleteProps
 }: RHFAutocompleteProps<T, Option, LabelKey, ValueKey, Multiple, DisableClearable>) => {
@@ -350,7 +357,7 @@ const RHFAutocomplete = <
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}
@@ -411,6 +418,7 @@ const RHFAutocomplete = <
                                   <CircularProgress
                                     color="inherit"
                                     size={20}
+                                    {...circularProgressProps}
                                   />
                                 )}
                                 {InputProps?.endAdornment}
@@ -427,7 +435,11 @@ const RHFAutocomplete = <
                           endAdornment: (
                             <>
                               {loading && (
-                                <CircularProgress color="inherit" size={20} />
+                                <CircularProgress
+                                  color="inherit"
+                                  size={20}
+                                  {...circularProgressProps}
+                                />
                               )}
                               {InputProps?.endAdornment}
                             </>

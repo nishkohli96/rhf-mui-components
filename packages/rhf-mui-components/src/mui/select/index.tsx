@@ -20,6 +20,8 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
+  type InputLabelProps,
+  type MenuItemProps,
   type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -84,6 +86,12 @@ export type RHFSelectProps<
    */
   multiple?: Multiple;
   /**
+   * Props forwarded to each internal MUI `MenuItem`, applied to every rendered
+   * option — including the default placeholder option when `showDefaultOption`
+   * is enabled. Useful for a custom `dense`, `divider` or `sx` across all options.
+   */
+  menuItemProps?: MenuItemProps;
+  /**
    * When `true`, displays a default placeholder option at the top of the
    * dropdown menu.
    *
@@ -119,6 +127,13 @@ export type RHFSelectProps<
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Props forwarded to the internal MUI `InputLabel` — the inline label shown
+   * inside the field's outline when `showLabelAboveFormField` is off. Has no
+   * effect when that label isn't rendered (`showLabelAboveFormField`,
+   * or a `placeholder` with no value selected).
+   */
+  inputLabelProps?: InputLabelProps;
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
@@ -160,6 +175,7 @@ const RHFSelect = <
   labelKey,
   valueKey,
   multiple,
+  menuItemProps,
   showDefaultOption,
   defaultOptionText,
   onValueChange,
@@ -167,6 +183,7 @@ const RHFSelect = <
   label,
   showLabelAboveFormField,
   formLabelProps,
+  inputLabelProps,
   required,
   helperText,
   errorMessage,
@@ -242,7 +259,12 @@ const RHFSelect = <
             />
             <Fragment>
               {!isLabelAboveFormField && !showPlaceholder && (
-                <InputLabel id={labelId} shrink={!isValueEmpty}>
+                <InputLabel
+                  {...inputLabelProps}
+                  id={labelId}
+                  shrink={!isValueEmpty}
+                  disabled={isDisabled}
+                >
                   {SelectFormLabel}
                 </InputLabel>
               )}
@@ -325,7 +347,11 @@ const RHFSelect = <
                 }}
               >
                 {showDefaultOption && (
-                  <MenuItem value="" disabled={isFieldRequired}>
+                  <MenuItem
+                    {...menuItemProps}
+                    value=""
+                    disabled={isFieldRequired}
+                  >
                     {defaultOptionText ?? `Select ${fieldLabelText}`}
                   </MenuItem>
                 )}
@@ -339,7 +365,11 @@ const RHFSelect = <
                     ? String(option[labelKey!])
                     : String(option);
                   return (
-                    <MenuItem key={opnValue} value={opnValue}>
+                    <MenuItem
+                      {...menuItemProps}
+                      key={opnValue}
+                      value={opnValue}
+                    >
                       {opnLabel}
                     </MenuItem>
                   );

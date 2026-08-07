@@ -35,7 +35,8 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type CircularProgressProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, StrObjOption, } from '@/types';
@@ -179,6 +180,11 @@ export type RHFMultiAutocompleteProps<
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
+  /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
 } & MultiAutoCompleteProps<Option, DisableClearable>;
 
 const RHFMultiAutocomplete = <
@@ -212,7 +218,8 @@ const RHFMultiAutocomplete = <
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
+  circularProgressProps,
+  onBlur: muiOnBlur,
   loading,
   ...otherAutoCompleteProps
 }: RHFMultiAutocompleteProps<
@@ -388,7 +395,7 @@ const RHFMultiAutocomplete = <
               }}
               onBlur={blurEvent => {
                 rhfOnBlur();
-                onBlur?.(blurEvent);
+                muiOnBlur?.(blurEvent);
               }}
               limitTags={2}
               getLimitTagsText={value => `+${value} More`}
@@ -459,8 +466,10 @@ const RHFMultiAutocomplete = <
                             endAdornment: (
                               <>
                                 {loading && (
-                                  <CircularProgress color="inherit"
+                                  <CircularProgress
+                                    color="inherit"
                                     size={20}
+                                    {...circularProgressProps}
                                   />
                                 )}
                                 {InputProps.endAdornment}
@@ -477,7 +486,11 @@ const RHFMultiAutocomplete = <
                           endAdornment: (
                             <>
                               {loading && (
-                                <CircularProgress color="inherit" size={20} />
+                                <CircularProgress
+                                  color="inherit"
+                                  size={20}
+                                  {...circularProgressProps}
+                                />
                               )}
                               {InputProps.endAdornment}
                             </>
