@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-components",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://rhf-mui-components.vercel.app/",
@@ -16,7 +16,7 @@
   "type": "module",
   "sideEffects": false,
   "dependencies": {
-    "@nish1896/mui-components": "^1.0.5"
+    "@nish1896/mui-components": "^1.1.1"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "43.3.0",
