@@ -28,6 +28,7 @@ import {
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
   type MuiChipProps,
+  type CircularProgressProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -209,6 +210,11 @@ export type RHFMultiAutocompleteObjectProps<
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**
+   * Props forwarded to the `CircularProgress` shown in the input
+   * while `loading` is `true`.
+   */
+  circularProgressProps?: CircularProgressProps;
+  /**
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
@@ -243,6 +249,7 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
   hideSelectAllOption,
   customOnChange,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
@@ -260,8 +267,8 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur: muiOnBlur,
   loading,
+  circularProgressProps,
   customIds,
   getOptionDisabled,
   limitTags,
@@ -363,6 +370,7 @@ ref: Ref<HTMLInputElement>): JSX.Element {
               muiOnBlur?.(blurEvent);
             }}
             loading={loading}
+            circularProgressProps={circularProgressProps}
             customIds={customIds}
             getOptionDisabled={getOptionDisabled}
             limitTags={limitTags}

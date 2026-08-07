@@ -25,6 +25,10 @@ const ExternalLinks = Object.freeze({
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-switch/`,
     chip: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-chip/`,
+    iconButton: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-button/#icon-button`,
+    circularProgress: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-progress/#circular`
   },
   muiComponentApi: {
     textField: (muiVersion?: MuiVersion) =>
@@ -50,6 +54,14 @@ const ExternalLinks = Object.freeze({
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/chip/`,
     box: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/box/`,
+    menuItem: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/menu-item/`,
+    inputLabel: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/input-label/`,
+    iconButton: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/icon-button/`,
+    circularProgress: (muiVersion?: MuiVersion) =>
+      `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/api/circular-progress/`,
   },
   rhfApi: {
     control: 'https://react-hook-form.com/docs/useform/control',

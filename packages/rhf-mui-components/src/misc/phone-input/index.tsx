@@ -21,15 +21,17 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type TextFieldProps } from '@mui/material/TextField';
+import { type SelectProps as MuiSelectProps } from '@mui/material/Select';
+import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
 import {
   type CountryIso2,
   type ParsedCountry,
   type UsePhoneInputConfig
 } from 'react-international-phone';
-import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
 import {
   type FormLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type MenuItemProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -106,9 +108,30 @@ type SearchCountryProps = {
    * @default 'No countries found'
    */
   noCountryFoundText?: string;
+  /**
+   * Props forwarded to every rendered country `MenuItem` — including the
+   * disabled "no results" item shown when `noCountryFoundText` applies.
+   *
+   * Added in `v4.3`.
+   */
+  menuItemProps?: MenuItemProps;
 };
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
+
+type CountrySelectProps = Omit<
+  MuiSelectProps,
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'onOpen'
+  | 'onClose'
+  | 'renderValue'
+  | 'MenuProps'
+  | 'disabled'
+  | 'children'
+  | 'ref'
+>;
 
 export type RHFPhoneInputProps<T extends FieldValues> = {
   /**
@@ -159,6 +182,12 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
    */
   searchCountryProps?: SearchCountryProps;
   /**
+   * Props forwarded to the internal `Select` that renders the flag/dial-code
+   * trigger and country dropdown — e.g. a custom `size` or `sx` (merged with
+   * the component's own).
+   */
+  countrySelectProps?: CountrySelectProps;
+  /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
   showLabelAboveFormField?: boolean;
@@ -205,6 +234,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
     onBlur: muiOnBlur,
     phoneInputProps,
     searchCountryProps,
+    countrySelectProps,
     label,
     showLabelAboveFormField,
     formLabelProps,
@@ -282,6 +312,7 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
             disabled={isDisabled}
             phoneInputProps={phoneInputProps}
             searchCountryProps={searchCountryProps}
+            countrySelectProps={countrySelectProps}
             label={label}
             showLabelAboveFormField={isLabelAboveFormField}
             formLabelProps={{
