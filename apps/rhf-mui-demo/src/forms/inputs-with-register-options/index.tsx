@@ -187,6 +187,9 @@ const InputsWithRegisterForm = () => {
                 }
               }}
               placeholder="Enter a secure password"
+              iconButtonProps={{
+                color: 'success'
+              }}
               hideLabel
               required
             />
