@@ -9,39 +9,52 @@ export default function Layout({ children }) {
 
 # Introduction
 
-"**MUI Components is a one-stop solution for reusable form components — use them
-with react state, or as a wrapper around the form library of your choice.**"
+Easily design forms in minutes using the popular [react-hook-form](https://react-hook-form.com/)
+library alongside [Material-UI](https://v6.mui.com/material-ui/getting-started/).
+This package provides a suite of **20+ reusable and customizable components**, specifically
+designed to simplify form creation. Each component handles internal form logic and UI
+rendering seamlessly, minimizing code duplication and empowering developers to style form
+fields in alignment with their website's design guidelines.
 
-Every component is a plain controlled component under the hood: pass a `value`, receive
-changes through `onValueChange`, and keep validation wherever you like — `useState`,
-[React Hook Form](https://react-hook-form.com/),
-[TanStack Form](https://tanstack.com/form/latest),
-[Formik](https://formik.org/), or anything else that can hold state.
+You can also find some additional components in this package like **color-picker** and
+**rich text editor** that are not currently a part of Material-UI, but will come in
+handy when you need them. More components will be added in the future based on the
+feedback from the community. You are most welcome to raise a feature request or
+suggest bug fix by contacting the author of this package.
 
-Head over to the [Installation](/installation) page to add this package to your
-application, understand the package structure and get started.
+## Installation
 
-<Callout type="info">
-  For building forms with **React Hook Form**, we recommend using
-  [@nish1896/rhf-mui-components](https://rhf-mui-components.vercel.app/). It
-  offers a similar API to this package but is designed specifically for
-  React Hook Form.
+<Callout type="warning" title="Deprecation of Version 2">
+  It is highly recommended to upgrade to the latest version of both
+  [Material UI](https://mui.com/material-ui/) and this package to access the newest
+  features. If your project is currently using **MUI v5**, please upgrade this package
+  to **version 3** by referring to the [v3 migration guide](/migration-guide).
 </Callout>
 
-## What you get on every field
+To get started, install [react-hook-form](https://www.npmjs.com/package/react-hook-form) and
+[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components/v/2.1.4).
 
-- **Accessibility built in** — generated ids for field, label and helpertext plus
-  `aria-label`, `aria-labelledby`, `aria-describedby`, `aria-invalid` and `aria-required`
-  wired on every field.
-- **Thin on top of MUI** — nearly all underlying Material UI props pass straight through
-  (`variant`, `slotProps`, `sx`, etc.), so nothing about MUI is hidden from you.
-- **Live demo + full props reference** — every component page pairs a working example
-  with a complete props table, so you can see the shape before wiring it into your form.
+```
+npm i react-hook-form @nish1896/rhf-mui-components@2.1.4
+```
+```
+yarn add react-hook-form @nish1896/rhf-mui-components@2.1.4
+```
 
-## Package Versions
+Ensure that you also have installed [Material UI](https://www.npmjs.com/package/@mui/material).
+If not, refer to the [installation guide](https://v6.mui.com/material-ui/getting-started/installation/).
+For datepickers, follow the [installation guide](https://v7.mui.com/x/react-date-pickers/getting-started/)
+to install [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
+The form components are compatible with [v5](https://v5.mui.com/material-ui/),
+[v6](https://v6.mui.com/material-ui/) and [v7](https://v7.mui.com/material-ui/) of material-ui.
 
-This library is a port of `@nish1896/rhf-mui-components` **v4** and supports
-MUI `v6` and `v7`.
+**Optional**: If you are using a third party library for form validation, say
+[joi](https://www.npmjs.com/package/joi), make sure to install its npm package along
+with the [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package.
 
-To use this package with MUI `v9`, upgrade to `v2` of this package.
-
+```
+npm i @hookform/resolvers joi
+```
+```
+yarn add @hookform/resolvers joi
+```
