@@ -125,14 +125,6 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -173,7 +165,6 @@ const RHFColorPicker = <T extends FieldValues>({
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -222,9 +213,6 @@ const RHFColorPicker = <T extends FieldValues>({
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUIColorPicker
@@ -256,7 +244,7 @@ const RHFColorPicker = <T extends FieldValues>({
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}

@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
 
-const installCommand = 'npm install @nish1896/mui-components';
+const installCommand = 'npm install @nish1896/rhf-mui-components';
 
 const features = [
   {
