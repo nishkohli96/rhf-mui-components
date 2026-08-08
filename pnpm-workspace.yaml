@@ -20,6 +20,9 @@ ignoredBuiltDependencies:
 minimumReleaseAgeExclude:
   - axios
   - '@nish1896/mui-components'
+  - '@types/luxon@3.7.4'
+  - '@types/node@26.2.0'
+  - react-hook-form@7.85.0
 # Only these packages are allowed to execute install/build scripts.
 onlyBuiltDependencies:
   - '@firebase/util'
