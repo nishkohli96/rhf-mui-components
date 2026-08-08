@@ -9,18 +9,18 @@ export default function Layout({ children }) {
 
 # Introduction
 
-Easily design forms in minutes using the popular [react-hook-form](https://react-hook-form.com/)
+Easily design forms in minutes using the popular [React Hook Form](https://react-hook-form.com/)
 library alongside [Material-UI](https://v6.mui.com/material-ui/getting-started/).
-This package provides a suite of **20+ reusable and customizable components**, specifically
-designed to simplify form creation. Each component handles internal form logic and UI
-rendering seamlessly, minimizing code duplication and empowering developers to style form
-fields in alignment with their website's design guidelines.
 
-You can also find some additional components in this package like **color-picker** and
-**rich text editor** that are not currently a part of Material-UI, but will come in
-handy when you need them. More components will be added in the future based on the
-feedback from the community. You are most welcome to raise a feature request or
-suggest bug fix by contacting the author of this package.
+This package provides a suite of **20+ reusable and customizable components** specifically
+designed to simplify form creation. Each component handles form binding and UI rendering
+logic internally, minimizing code duplication and giving developers the flexibility to style form
+form fields to match their website's design guidelines.
+
+You can also find additional components in this package, such as **color picker** and **phone input**,
+that are not currently part of Material UI but can be useful when you need them. More components will be
+added based on community feedback. Feel free to raise a feature request or report a bug by contacting
+the author of this package.
 
 ## Installation
 
@@ -31,30 +31,28 @@ suggest bug fix by contacting the author of this package.
   to **version 3** by referring to the [v3 migration guide](/migration-guide).
 </Callout>
 
-To get started, install [react-hook-form](https://www.npmjs.com/package/react-hook-form) and
-[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components/v/2.1.4).
+To get started, install the following packages:
+- [react-hook-form](https://www.npmjs.com/package/react-hook-form) `v7`
+- [@mui/material](https://www.npmjs.com/package/@mui/material) `v6`
+- [@mui/icons-material](https://www.npmjs.com/package/@mui/icons-material) `v6`
+- [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components) `v2.1.4`
 
-```
-npm i react-hook-form @nish1896/rhf-mui-components@2.1.4
-```
-```
-yarn add react-hook-form @nish1896/rhf-mui-components@2.1.4
-```
+<PackageManagerTabs
+  id="install-dependencies"
+  command="react-hook-form@^7 @mui/material@^6 @mui/icons-material@^6 @nish1896/rhf-mui-components@2.1.4"
+/>
 
-Ensure that you also have installed [Material UI](https://www.npmjs.com/package/@mui/material).
-If not, refer to the [installation guide](https://v6.mui.com/material-ui/getting-started/installation/).
-For datepickers, follow the [installation guide](https://v7.mui.com/x/react-date-pickers/getting-started/)
+You can refer to the [Material UI installation guide](https://v6.mui.com/material-ui/getting-started/installation/)
+for installation instructions.
+
+For date pickers, follow the [installation guide](https://v7.mui.com/x/react-date-pickers/getting-started/)
 to install [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
-The form components are compatible with [v5](https://v5.mui.com/material-ui/),
-[v6](https://v6.mui.com/material-ui/) and [v7](https://v7.mui.com/material-ui/) of material-ui.
 
 **Optional**: If you are using a third party library for form validation, say
 [joi](https://www.npmjs.com/package/joi), make sure to install its npm package along
 with the [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package.
 
-```
-npm i @hookform/resolvers joi
-```
-```
-yarn add @hookform/resolvers joi
-```
+<PackageManagerTabs
+  id="install-joi"
+  command="@hookform/resolvers@^5 joi@^18"
+/>

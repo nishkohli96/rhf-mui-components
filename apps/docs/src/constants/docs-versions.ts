@@ -9,14 +9,33 @@ import { type DocsVersionInfo } from '@/types';
  * prev/next nav and the switcher all operate on the *canonical* (unprefixed)
  * path and re-apply `basePath` for the active version, so a single
  * `sidebarLinks` tree drives every version.
+ *
+ * Latest version is served from the root, so it carries no prefix.
  */
 export const docsVersions: DocsVersionInfo[] = [
   {
     slug: 'current',
-    label: 'v2',
-    /* Latest version is served from the root, so it carries no prefix. */
+    label: 'v5',
     basePath: '',
     fallbackPath: '/introduction'
+  },
+  {
+    slug: 'v4',
+    label: 'v4',
+    basePath: '/v4',
+    fallbackPath: '/v4/introduction'
+  },
+  {
+    slug: 'v3',
+    label: 'v3',
+    basePath: '/v3',
+    fallbackPath: '/v3/introduction'
+  },
+  {
+    slug: 'v2',
+    label: 'v2',
+    basePath: '/v2',
+    fallbackPath: '/v2/introduction'
   },
   {
     slug: 'v1',
