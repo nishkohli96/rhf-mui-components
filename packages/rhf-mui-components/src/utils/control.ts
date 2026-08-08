@@ -37,7 +37,7 @@ export function resolveRequired(
   const isRegisterRequired = typeof registerRequired === 'object'
     ? registerRequired.value
     : !!registerRequired;
-  return !!required || isRegisterRequired;
+  return !!required || !!isRegisterRequired;
 }
 
 export function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {

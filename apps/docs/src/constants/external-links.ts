@@ -4,7 +4,7 @@ const githubProfile = 'https://github.com/nishkohli96/';
 const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
 const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
-const externalLinks = Object.freeze({
+export const externalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
   examplesRepo: `${githubProfile}rhf-mui-examples`,
@@ -91,4 +91,9 @@ const externalLinks = Object.freeze({
   }
 });
 
-export default externalLinks;
+export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
+export const docsLink = 'https://rhf-mui-components.vercel.app/';
+export const npmLink = 'https://www.npmjs.com/package/@nish1896/rhf-mui-components';
+
+export const stackblitzFileLink = (file: string) =>
+  `https://stackblitz.com/github/nishkohli96/rhf-mui-components/tree/v4-examples?file=${file}`;

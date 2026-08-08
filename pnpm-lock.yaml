@@ -56,6 +56,9 @@ importers:
       '@next/mdx':
         specifier: ^16.3.0
         version: 16.3.0(@mdx-js/loader@3.1.1(webpack@5.109.2))(@mdx-js/react@3.1.1(@types/react@19.2.18)(react@19.2.8))
+      '@nish1896/mui-components':
+        specifier: ^2.0.1
+        version: 2.0.1(e6cb68e4091993e94bc030d7aa9f7185)
       '@nish1896/rhf-mui-components':
         specifier: workspace:*
         version: link:../../packages/rhf-mui-components

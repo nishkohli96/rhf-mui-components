@@ -1,5 +1,5 @@
 /**
- * https://v7.mui.com/material-ui/customization/css-theme-variables/configuration/
+ * https://mui.com/material-ui/customization/css-theme-variables/configuration/
  */
 
 'use client';

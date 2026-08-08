@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import TerminalIcon from '@mui/icons-material/Terminal';
-import { githubRepoLink, npmLink, stackblitzLink } from '@/constants';
+import { githubRepoLink, npmLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 
 export const SubmitButton = ({ disabled, ...otherBtnProps }: ButtonProps) => {
@@ -137,7 +137,7 @@ export const PlaygroundButton = () => {
     <Tooltip title={playgroundTooltip}>
       <IconButton
         component={Link}
-        href={stackblitzLink}
+        href={'/'}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={playgroundTooltip}
