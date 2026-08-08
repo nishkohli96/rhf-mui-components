@@ -2,7 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import CheckboxForm from '@/forms/mui/checkbox/Client';
 
-export const metadata = componentMetadata.MUICheckbox;
+export const metadata = componentMetadata.RHFCheckbox;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -35,7 +35,7 @@ const [accepted, setAccepted] = useState(false);
 `MUICheckboxProps` also accepts most [CheckboxProps](https://mui.com/material-ui/api/checkbox/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUICheckbox} />
+<PropsTable rows={componentProps.RHFCheckbox} />
 
 ## Playground
 

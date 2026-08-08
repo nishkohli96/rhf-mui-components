@@ -62,33 +62,33 @@ const buildComponentProps = (
   docsVersion?: DocsVersion
 ): Record<string, PropsInfo[]> =>
   Object.freeze({
-    MUITextField: textFieldRows(args),
-    MUIPasswordInput: passwordInputRows(args, docsVersion),
-    MUINumberInput: numberInputRows(args),
-    MUITagsInput: tagsInputRows(args),
-    MUIFileUploader: fileUploaderRows(args),
-    MUISelect: selectRows(args, docsVersion),
-    MUINativeSelect: nativeSelectRows(args),
-    MUIAutocomplete: autocompleteRows(args, docsVersion),
-    MUIAutocompleteObject: autocompleteObjectRows(args, docsVersion),
-    MUICountrySelect: countrySelectRows(args),
-    MUIMultiAutocomplete: multiAutocompleteRows(args, docsVersion),
-    MUIMultiAutocompleteObject: multiAutocompleteObjectRows(args, docsVersion),
-    MUICheckbox: checkboxRows(args),
-    MUICheckboxGroup: checkboxGroupRows(args),
-    MUIRadioGroup: radioGroupRows(args),
-    MUISwitch: switchRows(args),
-    MUISlider: sliderRows(args),
-    MUIRating: ratingRows(args),
+    RHFTextField: textFieldRows(args),
+    RHFPasswordInput: passwordInputRows(args, docsVersion),
+    RHFNumberInput: numberInputRows(args),
+    RHFTagsInput: tagsInputRows(args),
+    RHFFileUploader: fileUploaderRows(args),
+    RHFSelect: selectRows(args, docsVersion),
+    RHFNativeSelect: nativeSelectRows(args),
+    RHFAutocomplete: autocompleteRows(args, docsVersion),
+    RHFAutocompleteObject: autocompleteObjectRows(args, docsVersion),
+    RHFCountrySelect: countrySelectRows(args),
+    RHFMultiAutocomplete: multiAutocompleteRows(args, docsVersion),
+    RHFMultiAutocompleteObject: multiAutocompleteObjectRows(args, docsVersion),
+    RHFCheckbox: checkboxRows(args),
+    RHFCheckboxGroup: checkboxGroupRows(args),
+    RHFRadioGroup: radioGroupRows(args),
+    RHFSwitch: switchRows(args),
+    RHFSlider: sliderRows(args),
+    RHFRating: ratingRows(args),
 
     /* All four variants per family (responsive/desktop/mobile/static) share one row set. */
-    MUIDatePicker: datePickerRows(args),
-    MUITimePicker: timePickerRows(args),
-    MUIDateTimePicker: dateTimePickerRows(args),
+    RHFDatePicker: datePickerRows(args),
+    RHFTimePicker: timePickerRows(args),
+    RHFDateTimePicker: dateTimePickerRows(args),
 
-    MUIColorPicker: colorPickerRows(args),
-    MUIRichTextEditor: richTextEditorRows(args),
-    MUIPhoneInput: phoneInputRows(args, docsVersion)
+    RHFColorPicker: colorPickerRows(args),
+    RHFRichTextEditor: richTextEditorRows(args),
+    RHFPhoneInput: phoneInputRows(args, docsVersion)
   });
 
 /** Props rows for the current docs — consumed by `app/**` pages. */

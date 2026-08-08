@@ -6,8 +6,8 @@ export const sidebarLinks: Page[] = [
     href: '/introduction'
   },
   {
-    title: 'Installation',
-    href: '/installation'
+    title: 'Getting Started',
+    href: '/getting-started'
   },
   {
     title: 'Components',
@@ -15,40 +15,40 @@ export const sidebarLinks: Page[] = [
       {
         title: 'MUI',
         pages: [
-          { title: 'Text Field', href: '/components/mui/textfield' },
-          { title: 'Password Input', href: '/components/mui/password-input' },
-          { title: 'Number Input', href: '/components/mui/number-input' },
-          { title: 'Tags Input', href: '/components/mui/tags-input' },
-          { title: 'File Uploader', href: '/components/mui/file-uploader' },
-          { title: 'Select', href: '/components/mui/select' },
-          { title: 'Native Select', href: '/components/mui/native-select' },
-          { title: 'Autocomplete', href: '/components/mui/autocomplete' },
-          { title: 'Autocomplete Object', href: '/components/mui/autocomplete-object' },
-          { title: 'Country Select', href: '/components/mui/country-select' },
-          { title: 'Multi Autocomplete', href: '/components/mui/multi-autocomplete' },
-          { title: 'Multi Autocomplete Object', href: '/components/mui/multi-autocomplete-object' },
-          { title: 'Checkbox', href: '/components/mui/checkbox' },
-          { title: 'Checkbox Group', href: '/components/mui/checkbox-group' },
-          { title: 'Radio Group', href: '/components/mui/radio-group' },
-          { title: 'Slider', href: '/components/mui/slider' },
-          { title: 'Switch', href: '/components/mui/switch' },
-          { title: 'Rating', href: '/components/mui/rating' }
+          { title: 'Text Field', href: '/components/mui/RHFTextfield' },
+          { title: 'Password Input', href: '/components/mui/RHFPasswordInput' },
+          { title: 'Number Input', href: '/components/mui/RHFNumberInput' },
+          { title: 'Tags Input', href: '/components/mui/RHFTagsInput' },
+          { title: 'File Uploader', href: '/components/mui/RHFFileUploader' },
+          { title: 'Select', href: '/components/mui/RHFSelect' },
+          { title: 'Native Select', href: '/components/mui/RHFNativeSelect' },
+          { title: 'Autocomplete', href: '/components/mui/RHFAutocomplete' },
+          { title: 'Autocomplete Object', href: '/components/mui/RHFAutocompleteObject' },
+          { title: 'Country Select', href: '/components/mui/RHFCountrySelect' },
+          { title: 'Multi Autocomplete', href: '/components/mui/RHFMultiAutocomplete' },
+          { title: 'Multi Autocomplete Object', href: '/components/mui/RHFMultiAutocompleteObject' },
+          { title: 'Checkbox', href: '/components/mui/RHFCheckbox' },
+          { title: 'Checkbox Group', href: '/components/mui/RHFCheckboxGroup' },
+          { title: 'Radio Group', href: '/components/mui/RHFRadioGroup' },
+          { title: 'Slider', href: '/components/mui/RHFSlider' },
+          { title: 'Switch', href: '/components/mui/RHFSwitch' },
+          { title: 'Rating', href: '/components/mui/RHFRating' }
         ]
       },
       {
         title: 'MUI Pickers',
         pages: [
-          { title: 'Date Picker', href: '/components/mui-pickers/date' },
-          { title: 'Time Picker', href: '/components/mui-pickers/time' },
-          { title: 'Date Time Picker', href: '/components/mui-pickers/date-time' }
+          { title: 'Date Picker', href: '/components/mui-pickers/RHFDatePicker' },
+          { title: 'Time Picker', href: '/components/mui-pickers/RHFTimePicker' },
+          { title: 'Date Time Picker', href: '/components/mui-pickers/RHFDate-TimePicker' }
         ]
       },
       {
         title: 'Misc',
         pages: [
-          { title: 'Color Picker', href: '/components/misc/color-picker' },
-          { title: 'Rich Text Editor', href: '/components/misc/rich-text-editor' },
-          { title: 'Phone Input', href: '/components/misc/phone-input' }
+          { title: 'Color Picker', href: '/components/misc/RHFColorPicker' },
+          { title: 'Rich Text Editor', href: '/components/misc/RHFRichTextEditor' },
+          { title: 'Phone Input', href: '/components/misc/RHFPhoneInput' }
         ]
       }
     ]

@@ -2,7 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import SelectForm from '@/forms/mui/select/Client';
 
-export const metadata = componentMetadata.MUISelect;
+export const metadata = componentMetadata.RHFSelect;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -61,7 +61,7 @@ For options as an array of objects:
 `MUISelectProps` also accepts the remaining [SelectProps](https://mui.com/material-ui/api/select/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUISelect} />
+<PropsTable rows={componentProps.RHFSelect} />
 
 ## Playground
 

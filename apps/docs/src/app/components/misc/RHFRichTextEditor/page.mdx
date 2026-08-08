@@ -3,7 +3,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentProps, componentMetadata, externalLinks } from '@/constants';
 import RichTextEditorForm from '@/forms/misc/rich-text-editor/Client';
 
-export const metadata = componentMetadata.MUIRichTextEditor;
+export const metadata = componentMetadata.RHFRichTextEditor;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -103,7 +103,7 @@ as follows:​
 
 Pass a custom `editorConfig` to control the CKEditor toolbar and plugins. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIRichTextEditor} />
+<PropsTable rows={componentProps.RHFRichTextEditor} />
 
 ## Playground
 

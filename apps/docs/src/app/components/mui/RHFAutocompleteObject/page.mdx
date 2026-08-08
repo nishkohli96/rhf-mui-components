@@ -2,7 +2,7 @@ import { DocsPage, Callout, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import AutocompleteObjectForm from '@/forms/mui/autocomplete-object/Client';
 
-export const metadata = componentMetadata.MUIAutocompleteObject;
+export const metadata = componentMetadata.RHFAutocompleteObject;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -43,7 +43,7 @@ const [user, setUser] = useState<User | null>(null);
 `MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIAutocompleteObject} />
+<PropsTable rows={componentProps.RHFAutocompleteObject} />
 
 ## Playground
 

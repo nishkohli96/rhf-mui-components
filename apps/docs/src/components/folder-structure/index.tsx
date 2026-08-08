@@ -8,13 +8,35 @@ import { FolderIcon, FileIcon } from './Icons';
 import {
   getMuiFoldersList,
   getMuiPickersFoldersList,
-  getMiscFoldersList
+  getMiscFoldersList,
+  newlyAddedComponents_v2,
+  newlyAddedComponents_v3_3
 } from './routesList';
 
 export default function FolderStructure({ docsVersion }: VersionProps) {
-  const muiList = getMuiFoldersList(docsVersion);
-  const muiPickersList = getMuiPickersFoldersList(docsVersion);
-  const miscList = getMiscFoldersList(docsVersion);
+  const v1 = docsVersion === 1;
+  const v3AndAbove = !docsVersion || docsVersion >= 3;
+
+  const muiFolders = getMuiFoldersList(docsVersion);
+  let muiList: { name: string; path: string }[];
+  if (v1) {
+    muiList = muiFolders.filter(folder =>
+      ![...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].includes(
+        folder.name
+      ));
+  } else if (v3AndAbove) {
+    muiList = muiFolders;
+  } else {
+    muiList = muiFolders.filter(
+      folder => !newlyAddedComponents_v3_3.includes(folder.name)
+    );
+  }
+
+  const miscList = v1
+    ? getMiscFoldersList(docsVersion).filter(
+      folder => !newlyAddedComponents_v2.includes(folder.name)
+    )
+    : getMiscFoldersList(docsVersion);
 
   return (
     <SimpleTreeView
@@ -23,7 +45,7 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
     >
       <TreeItem
         itemId="1"
-        label="@nish1896/mui-components"
+        label="@nish1896/rhf-mui-components"
         slots={{ icon: FolderIcon }}
       >
         <FileView
@@ -34,7 +56,7 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
         <FileView
           itemId="3"
           folderName="mui-pickers"
-          fileList={muiPickersList}
+          fileList={getMuiPickersFoldersList(docsVersion)}
         />
         <FileView
           itemId="4"
@@ -46,11 +68,13 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
           label="config"
           slots={{ icon: FileIcon }}
         />
-        <TreeItem
-          itemId="6"
-          label="form-helpers"
-          slots={{ icon: FileIcon }}
-        />
+        {!v1 && (
+          <TreeItem
+            itemId="6"
+            label="form-helpers"
+            slots={{ icon: FileIcon }}
+          />
+        )}
       </TreeItem>
     </SimpleTreeView>
   );

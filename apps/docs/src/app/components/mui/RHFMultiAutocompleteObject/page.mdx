@@ -2,7 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import MultiAutocompleteObjectForm from '@/forms/mui/multi-autocomplete-object/Client';
 
-export const metadata = componentMetadata.MUIMultiAutocompleteObject;
+export const metadata = componentMetadata.RHFMultiAutocompleteObject;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -38,7 +38,7 @@ const [members, setMembers] = useState<User[]>([]);
 
 `labelKey` and `valueKey` are required. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIMultiAutocompleteObject} />
+<PropsTable rows={componentProps.RHFMultiAutocompleteObject} />
 
 ## Playground
 

@@ -5,7 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = componentMetadata.MUINumberInput;
+export const metadata = componentMetadata.RHFNumberInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -39,5 +39,5 @@ const [age, setAge] = useState<number | null>(null);
 except `type`, `multiline` and `rows`. Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV1.MUINumberInput} />
+<PropsTable rows={componentPropsV1.RHFNumberInput} />
 

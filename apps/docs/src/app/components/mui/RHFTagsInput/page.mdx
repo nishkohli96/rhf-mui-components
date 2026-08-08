@@ -2,7 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import TagsInputForm from '@/forms/mui/tags-input/Client';
 
-export const metadata = componentMetadata.MUITagsInput;
+export const metadata = componentMetadata.RHFTagsInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -88,7 +88,7 @@ pasted tags, a `string[]` to replace them with a custom set, or `void` to add
 
 `MUITagsInputProps` also accepts the remaining [TextFieldProps](https://mui.com/material-ui/api/text-field/) except `value`, `defaultValue`, `multiline` and `rows`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUITagsInput} />
+<PropsTable rows={componentProps.RHFTagsInput} />
 
 ## Playground
 

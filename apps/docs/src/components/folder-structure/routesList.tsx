@@ -12,40 +12,54 @@ const miscPrefix = '/misc';
 
 /**
  * Doc-page route segment for each component — must match the app router
- * folders under `src/app/components`. Routes stay lowercase kebab-case
- * (readable, keyword-bearing, no case-sensitivity issues) while the tree
- * labels keep the component names.
+ * folder names under `src/app/components` exactly (each is `RHFXxx`,
+ * mirroring the actual exported component name).
  */
 const componentRoutes: Record<
   MuiComponents | MuiPickersComponents | MiscComponents,
   string
 > = {
-  [MuiComponents.TextField]: 'textfield',
-  [MuiComponents.PasswordInput]: 'password-input',
-  [MuiComponents.NumberInput]: 'number-input',
-  [MuiComponents.TagsInput]: 'tags-input',
-  [MuiComponents.FileUploader]: 'file-uploader',
-  [MuiComponents.Select]: 'select',
-  [MuiComponents.NativeSelect]: 'native-select',
-  [MuiComponents.Autocomplete]: 'autocomplete',
-  [MuiComponents.AutocompleteObject]: 'autocomplete-object',
-  [MuiComponents.MultiAutocomplete]: 'multi-autocomplete',
-  [MuiComponents.MultiAutocompleteObject]: 'multi-autocomplete-object',
-  [MuiComponents.CountrySelect]: 'country-select',
-  [MuiComponents.Checkbox]: 'checkbox',
-  [MuiComponents.CheckboxGroup]: 'checkbox-group',
-  [MuiComponents.RadioGroup]: 'radio-group',
-  [MuiComponents.Slider]: 'slider',
-  [MuiComponents.Switch]: 'switch',
-  [MuiComponents.Rating]: 'rating',
-  /* Picker variations share one page per family. */
-  [MuiPickersComponents.DatePicker]: 'date',
-  [MuiPickersComponents.TimePicker]: 'time',
-  [MuiPickersComponents.DateTimePicker]: 'date-time',
-  [MiscComponents.ColorPicker]: 'color-picker',
-  [MiscComponents.RichTextEditor]: 'rich-text-editor',
-  [MiscComponents.PhoneInput]: 'phone-input'
+  [MuiComponents.TextField]: 'RHFTextfield',
+  [MuiComponents.PasswordInput]: 'RHFPasswordInput',
+  [MuiComponents.NumberInput]: 'RHFNumberInput',
+  [MuiComponents.TagsInput]: 'RHFTagsInput',
+  [MuiComponents.FileUploader]: 'RHFFileUploader',
+  [MuiComponents.Select]: 'RHFSelect',
+  [MuiComponents.NativeSelect]: 'RHFNativeSelect',
+  [MuiComponents.Autocomplete]: 'RHFAutocomplete',
+  [MuiComponents.AutocompleteObject]: 'RHFAutocompleteObject',
+  [MuiComponents.MultiAutocomplete]: 'RHFMultiAutocomplete',
+  [MuiComponents.MultiAutocompleteObject]: 'RHFMultiAutocompleteObject',
+  [MuiComponents.CountrySelect]: 'RHFCountrySelect',
+  [MuiComponents.Checkbox]: 'RHFCheckbox',
+  [MuiComponents.CheckboxGroup]: 'RHFCheckboxGroup',
+  [MuiComponents.RadioGroup]: 'RHFRadioGroup',
+  [MuiComponents.Slider]: 'RHFSlider',
+  [MuiComponents.Switch]: 'RHFSwitch',
+  [MuiComponents.Rating]: 'RHFRating',
+  [MuiPickersComponents.DatePicker]: 'RHFDatePicker',
+  [MuiPickersComponents.TimePicker]: 'RHFTimePicker',
+  [MuiPickersComponents.DateTimePicker]: 'RHFDateTimePicker',
+  [MiscComponents.ColorPicker]: 'RHFColorPicker',
+  [MiscComponents.RichTextEditor]: 'RHFRichTextEditor',
+  [MiscComponents.PhoneInput]: 'RHFPhoneInput'
 };
+
+/** Components added in v2 and before v3.3 */
+export const newlyAddedComponents_v2 = [
+  MuiComponents.Autocomplete,
+  MuiComponents.MultiAutocomplete,
+  MuiComponents.CountrySelect,
+  MuiComponents.TagsInput,
+  MiscComponents.PhoneInput,
+  MuiComponents.NumberInput,
+  MuiComponents.FileUploader
+];
+
+export const newlyAddedComponents_v3_3 = [
+  MuiComponents.AutocompleteObject,
+  MuiComponents.MultiAutocompleteObject
+];
 
 const muiComponents = [
   MuiComponents.TextField,
