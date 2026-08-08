@@ -1,0 +1,25 @@
+import Typography from '@mui/material/Typography';
+import { FlagImage, type ParsedCountry } from 'react-international-phone';
+
+type CountryMenuItemProps = {
+  country: ParsedCountry;
+};
+
+const CountryMenuItem = ({ country }: CountryMenuItemProps) => {
+  return (
+    <>
+      <FlagImage
+        iso2={country.iso2}
+        style={{ marginRight: '8px' }}
+      />
+      <Typography sx={{ color: 'gray' }}>
+        {`+${country.dialCode}`}
+      </Typography>
+      <Typography sx={{ marginLeft: '8px' }}>
+        {country.iso2.toUpperCase()}
+      </Typography>
+    </>
+  );
+};
+
+export default CountryMenuItem;

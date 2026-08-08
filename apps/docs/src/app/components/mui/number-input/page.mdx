@@ -1,0 +1,47 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import NumberInputForm from '@/forms/mui/number-input/Client';
+
+export const metadata = componentMetadata.MUINumberInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUINumberInput
+
+`MUINumberInput` is a [TextField](https://mui.com/material-ui/react-text-field/)-based numeric input that enforces number-only entry with options for integers-only, non-negative values, a maximum number of decimal places, and keyboard step increments.
+
+## Usage
+
+```tsx
+import MUINumberInput, { MUINumberInputProps } from '@nish1896/mui-components/mui/number-input';
+```
+
+```tsx
+const [age, setAge] = useState<number | null>(null);
+
+<MUINumberInput
+  fieldName="age"
+  value={age}
+  onValueChange={({ newValue }) => setAge(newValue)}
+  onlyIntegers
+  nonNegative
+/>
+```
+
+## Props
+
+`MUINumberInputProps` also accepts the remaining [TextFieldProps](https://mui.com/material-ui/api/text-field/),
+except `type`, `multiline` and `rows`. Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUINumberInput} />
+
+## Playground
+
+Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
+`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `showMarkers`
+and `showLabelAboveFormField`, with validation surfaced through `errorMessage`.
+
+<NumberInputForm />

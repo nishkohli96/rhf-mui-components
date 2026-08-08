@@ -1,0 +1,72 @@
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import MultiAutocompleteForm from '@/forms/mui/multi-autocomplete/Client';
+
+export const metadata = componentMetadata.MUIMultiAutocomplete;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIMultiAutocomplete
+
+`MUIMultiAutocomplete` is a multi-select [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
+rendering each option with a checkbox and an optional "**Select All**" row.
+It stores an array of **string** values. 
+
+This feature is particularly useful for scenarios where users need to handle bulk selections,
+such as assigning multiple tags, selecting categories, or choosing items in batch operations.
+The implementation stays flexible while preserving the same validation, customization, and
+styling options as `MUIAutocomplete`.
+
+Use [MUIMultiAutocompleteObject](multi-autocomplete-object) when you need to store full option objects.
+
+<Callout type="note">
+  Even though `freeSolo` prop is supported, but is not compatible with `selectAllText`
+  and will hide the "**Select All**" option.
+
+  When using `freeSolo` with object-based options, custom renderers such as `renderValue`,
+  `renderTags`, or `renderOptionLabel` should handle both option objects and user-entered
+  string values. A common approach is:
+
+  ```ts
+  typeof value === 'string'
+  ```
+  to distinguish free-form input from predefined option objects.
+</Callout>
+
+## Usage
+
+```tsx
+import MUIMultiAutocomplete, {
+  MUIMultiAutocompleteProps
+} from '@nish1896/mui-components/mui/multi-autocomplete';
+```
+
+```tsx
+const [skills, setSkills] = useState<string[]>([]);
+
+<MUIMultiAutocomplete
+  fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+/>
+```
+
+## Props
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIMultiAutocomplete} />
+
+## Playground
+
+Integrated with [Formik](https://formik.org/) — a checkbox multi-select
+storing a `string[]` with `selectAllText`, `limitTags` and `checkboxProps`,
+plus object options with `getOptionDisabled`.
+
+<MultiAutocompleteForm />
+
+## Reference
+- [Autocomplete with Checkboxes](https://mui.com/material-ui/react-autocomplete/#selection-indicators)

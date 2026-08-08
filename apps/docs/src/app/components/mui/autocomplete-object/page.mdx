@@ -1,0 +1,56 @@
+import { DocsPage, Callout, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import AutocompleteObjectForm from '@/forms/mui/autocomplete-object/Client';
+
+export const metadata = componentMetadata.MUIAutocompleteObject;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIAutocompleteObject
+
+`MUIAutocompleteObject` is an [Autocomplete](https://mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive.
+
+<Callout type="note">
+  `freeSolo` is intentionally unsupported to keep the value type predictable — use [MUIAutocomplete](autocomplete)
+  or [MUIMultiAutocomplete](multi-autocomplete) instead.
+</Callout>
+
+## Usage
+
+```tsx
+import MUIAutocompleteObject, {
+  MUIAutocompleteObjectProps
+} from '@nish1896/mui-components/mui/autocomplete-object';
+```
+
+```tsx
+const [user, setUser] = useState<User | null>(null);
+
+<MUIAutocompleteObject
+  fieldName="user"
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
+/>
+```
+
+## Props
+
+`MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/).
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIAutocompleteObject} />
+
+## Playground
+
+Driven by plain React state — stores the whole selected object; a single
+select (`labelKey` / `valueKey`) and a multi-select with `limitTags` and `ChipProps`.
+
+<AutocompleteObjectForm />
+
+## Reference
+- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)

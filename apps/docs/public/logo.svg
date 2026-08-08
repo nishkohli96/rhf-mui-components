@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="256" height="256">
+  <defs>
+    <linearGradient id="favGrad2" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2196F3"></stop>
+      <stop offset="50%" stop-color="#1AACD8"></stop>
+      <stop offset="100%" stop-color="#0BD1A8"></stop>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="200" height="200" rx="44" fill="url(#favGrad2)"></rect>
+  <text x="100" y="128" font-family="Poppins, sans-serif" font-weight="900" font-size="92" letter-spacing="-2" fill="#ffffff" text-anchor="middle">Mui</text>
+</svg>

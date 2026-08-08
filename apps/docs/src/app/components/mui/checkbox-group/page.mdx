@@ -1,0 +1,50 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import CheckboxGroupForm from '@/forms/mui/checkbox-group/Client';
+
+export const metadata = componentMetadata.MUICheckboxGroup;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUICheckboxGroup
+
+`MUICheckboxGroup` renders a group of [checkboxes](https://mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
+
+## Usage
+
+```tsx
+import MUICheckboxGroup, {
+  MUICheckboxGroupProps
+} from '@nish1896/mui-components/mui/checkbox-group';
+```
+
+```tsx
+const [permissions, setPermissions] = useState<string[]>([]);
+
+<MUICheckboxGroup
+  fieldName="permissions"
+  options={['Read', 'Write', 'Delete']}
+  value={permissions}
+  onValueChange={({ newValue }) => setPermissions(newValue)}
+/>
+```
+
+## Props
+
+For object options, pass `labelKey` and `valueKey`.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUICheckboxGroup} />
+
+## Playground
+
+Integrated with [Formik](https://formik.org/) — string options with a
+minimum-selected rule, and object options (`labelKey` / `valueKey`) with
+`getOptionDisabled` and pass-through `checkboxProps`.
+
+<CheckboxGroupForm />
+
+## Reference
+- [Checkbox Group](https://mui.com/material-ui/react-checkbox/#formgroup)

@@ -1,0 +1,88 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import ColorPickerForm from '@/forms/misc/color-picker/Client';
+
+export const metadata = componentMetadata.MUIColorPicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIColorPicker
+
+`MUIColorPicker` wraps [react-color-palette](https://www.npmjs.com/package/react-color-palette) with the suite's
+label/error/helper-text handling. The emitted value format (`hex`, `rgb`, `hsv`) is chosen with `valueKey`.
+
+## Installation
+
+Make sure to install [react-color-palette](https://www.npmjs.com/package/react-color-palette) package
+before using this component.
+
+<PackageManagerTabs
+  id="install-react-color-palette"
+  command="react-color-palette"
+/>
+
+## Usage
+
+```tsx
+import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
+```
+
+The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format, such as:
+- `#00ffff`
+- `rgb(0 255 255)`
+- `hsl(180 100% 100% / 1)`
+- `cyan`
+
+If the field value is uninitialized, the default color **black** (`#000000`) is selected,
+which can be configured using the `defaultColor` prop. Refer to the
+[colorToString](../../../form-helpers/colorToString) function to convert
+an **RGB** or **HSV** color object into a string, which can be used to
+set the default color for the color picker.
+
+```tsx
+const [color, setColor] = useState('#1976d2');
+
+<MUIColorPicker
+  fieldName="brandColor"
+  value={color}
+  onValueChange={({ color, colorValue }) => setColor(colorValue)}
+/>
+```
+
+The color value returned from the `onValueChange` prop is an object containing the equivalent
+**hex**, **rgb**, and **hsv** values:
+
+```js
+{
+  hex: '#00ffff',
+  hsv: {
+    a: 1,
+    h: 180,
+    s: 100,
+    v: 100
+  },
+  rgb: {
+    a: 1,
+    b: 255,
+    g: 255,
+    r: 0
+  }
+}
+```
+ 
+`colorValue` will be string in `hex`, `rgb` or `hsl` format.
+
+## Props
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIColorPicker} />
+
+## Playground
+
+Driven by plain React state — `valueKey` (hex / rgb / hsv), `defaultColor`,
+`excludeAlpha`, a custom `height`, and using `setColor` to reject a value.
+
+<ColorPickerForm />

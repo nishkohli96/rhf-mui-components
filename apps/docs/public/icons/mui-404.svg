@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="640" height="400">
+  <defs>
+    <linearGradient id="oopsGrad" x1="0" y1="0" x2="320" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2196F3"></stop>
+      <stop offset="50%" stop-color="#1AACD8"></stop>
+      <stop offset="100%" stop-color="#0BD1A8"></stop>
+    </linearGradient>
+  </defs>
+  <text x="160" y="150" font-family="Poppins, sans-serif" font-weight="900" font-size="150" letter-spacing="-6" fill="url(#oopsGrad)" text-anchor="middle">404</text>
+</svg>

@@ -1,0 +1,77 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import AutocompleteExampleForm from '@/forms/mui/autocomplete/Client';
+
+export const metadata = componentMetadata.MUIAutocomplete;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIAutocomplete
+
+`MUIAutocomplete` wraps the Material UI [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
+and stores **primitive** values (the option string, or the `valueKey` property
+for object options). It supports single or multiple selection, `disableClearable`
+and `freeSolo`.
+
+Use [MUIAutocompleteObject](autocomplete-object) when you need to store the full option object.
+
+## Usage
+
+```tsx
+import MUIAutocomplete, {
+  MUIAutocompleteProps
+} from '@nish1896/mui-components/mui/autocomplete';
+```
+
+```tsx
+const [color, setColor] = useState<string | null>(null);
+
+<MUIAutocomplete
+  fieldName="color"
+  options={['Red', 'Green', 'Blue']}
+  value={color}
+  onValueChange={({ newValue }) => setColor(newValue)}
+/>
+```
+
+For options as an array of objects:
+
+```jsx
+<MUIAutocomplete
+  fieldName="countriesVisited"
+  options={countryList} // imported from MUICountrySelect
+  labelKey="name"
+  valueKey="iso3"
+/>
+```
+
+<Callout type="note">
+When using `freeSolo` with object-based options, custom renderers such as `renderValue`, `renderTags`,
+or `renderOptionLabel` should account for both option objects and user-entered string values. A common
+approach is:
+
+```ts
+typeof value === 'string'
+```
+to distinguish free-form input from predefined option objects.
+</Callout>
+
+## Props
+
+`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/).
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIAutocomplete} />
+
+## Playground
+
+Integrated with [TanStack Form](https://tanstack.com/form/latest) — a single
+free-solo select (`string`) and a multi-select (`string[]`) with `limitTags`,
+`getLimitTagsText` and `ChipProps`.
+
+<AutocompleteExampleForm />
+
+## Reference
+- [MUI Autocomplete](https://mui.com/material-ui/react-autocomplete/)

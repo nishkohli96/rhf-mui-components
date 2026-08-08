@@ -1,0 +1,56 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
+
+export const metadata = componentMetadata.MUIRadioGroup;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIRadioGroup
+
+`MUIRadioGroup` wraps the Material UI [RadioGroup](https://v7.mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
+
+## Usage
+
+```tsx
+import MUIRadioGroup, { MUIRadioGroupProps } from '@nish1896/mui-components/mui/radio-group';
+```
+
+```tsx
+const [plan, setPlan] = useState();
+
+<MUIRadioGroup
+  fieldName="plan"
+  options={['Free', 'Pro', 'Enterprise']}
+  value={plan}
+  onValueChange={({ newValue }) => setPlan(newValue)}
+/>
+```
+
+Example with an array of objects:
+
+```jsx
+<MUIRadioGroup
+  fieldName="nationality"
+  options={[
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'USA', country: 'United States of America' }
+    { code: 'UAE', country: 'United Arab Emirates' }
+  ]}
+  labelKey="country"
+  valueKey="code"
+  value={nationality}
+/>
+```
+
+## Props
+
+For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentPropsV1.MUIRadioGroup} />
+
+## Reference
+- [MUI Radio Group](https://v7.mui.com/material-ui/react-radio-button/)

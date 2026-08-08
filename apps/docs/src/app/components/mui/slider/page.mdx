@@ -1,0 +1,49 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import SliderForm from '@/forms/mui/slider/Client';
+
+export const metadata = componentMetadata.MUISlider;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUISlider
+
+`MUISlider` wraps the Material UI [Slider](https://mui.com/material-ui/react-slider/)
+for a single number or a range (number array), with label, error and helper-text handling.
+
+## Usage
+
+```tsx
+import MUISlider, { MUISliderProps } from '@nish1896/mui-components/mui/slider';
+```
+
+```tsx
+const [volume, setVolume] = useState(30);
+
+<MUISlider
+  fieldName="volume"
+  value={volume}
+  onValueChange={({ newValue }) => setVolume(newValue as number)}
+  min={0}
+  max={100}
+/>
+```
+
+## Props
+
+`MUISliderProps` also accepts most [SliderProps](https://mui.com/material-ui/api/slider/).
+Pass a number array as `value` for a range slider. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUISlider} />
+
+## Playground
+
+Driven by plain React state — a single-value slider, a range slider (number
+array), and `SliderProps` (`min`, `max`, `step`, `marks`, `valueLabelDisplay`).
+
+<SliderForm />
+
+## Reference
+- [MUI Slider](https://mui.com/material-ui/react-slider/)

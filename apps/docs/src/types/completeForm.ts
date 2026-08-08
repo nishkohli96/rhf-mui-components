@@ -1,0 +1,32 @@
+import { type Moment } from 'moment';
+import { type MUIPhoneInputValue } from '@nish1896/mui-components/misc/phone-input';
+import { type Colors, type Gender, type Sports } from './enums';
+
+export type Person = {
+  email: string;
+  password: string;
+  favouriteFoods: string[];
+  favouriteColor: Colors | '';
+  sports: string[];
+  iplTeams: string[];
+  favouriteSport: Sports | '';
+  agreeTnC: boolean;
+  colors: Colors[] | null;
+  countries: string[] | null;
+  hobby: string;
+  groceryList: string[];
+  gender: Gender | null;
+  country: string;
+  countryCode?: string;
+  phoneNumber?: MUIPhoneInputValue;
+  darkTheme: boolean;
+  age: number;
+  weight: number;
+  rating: number | null;
+  dob: Moment | null;
+  time: Moment | null;
+  dateTime: Moment | null;
+  bgColor: string;
+  feedback: string;
+  resume?: File;
+};

@@ -1,0 +1,97 @@
+import { DocsPage } from '@/components/docs';
+import { DefaultConfigTable } from '@/components';
+import { pageMetadata } from '@/constants';
+
+export const metadata = pageMetadata.customization;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# Customization
+
+By now, you should have a solid understanding of the customization options 
+available for all components. This section provides even more flexibility, 
+enabling you to style components globally, eliminating the need to 
+duplicate code across your application.
+
+All components share at least two common props: [FormLabel](https://v7.mui.com/material-ui/api/form-label/) 
+and [FormHelperText](https://v7.mui.com/material-ui/api/form-helper-text/).
+Components like checkbox or switch also include a [FormControlLabel](https://v7.mui.com/material-ui/api/form-control-label/). 
+All of these can be preconfigured to apply uniform styles across all components. 
+
+Additionally, there's an option to customize the default `dateAdapter` for 
+date and time pickers, with `AdapterDayjs` being [recommended by Material UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+
+There is also a boolean flag, `allLabelsAboveFields`, to simplify label placement
+across form components. When set to **true**, this flag ensures that labels are
+rendered above all form fields globally, eliminating the need to manually specify
+`showLabelAboveFormField` prop for each component. If `allLabelsAboveFields` is
+enabled globally, you can explicitly set `showLabelAboveFormField` to `false` for
+a specific component to override the default behavior.
+
+## ConfigProvider
+
+To streamline customization, the library provides a `ConfigProvider` component
+and the default values in `DefaultMUIComponentsConfig` object, allowing you to 
+override or extend the default values for components globally.
+
+You can either apply these customizations across all forms by initializing 
+`ConfigProvider` at the root level of your application or use it within a 
+specific form as a parent component.
+
+The type definition for `ConfigProvider` is listed below -
+
+```ts
+type MUIComponentsConfigInput = {
+  defaultFormLabelSx?: SxProps;
+  defaultFormControlLabelSx?: SxProps;
+  defaultFormHelperTextSx?: SxProps;
+  dateAdapter?: AdapterDayjs | AdapterDateFns | AdapterLuxon | AdapterMoment
+  allLabelsAboveFields?: boolean;
+}
+```
+
+The table below lists the default **sx** styles applied to the
+[FormLabel](https://v7.mui.com/material-ui/api/form-label/),
+[FormControlLabel](https://v7.mui.com/material-ui/api/form-control-label/),
+and [FormHelperText](https://v7.mui.com/material-ui/api/form-helper-text/) components.
+
+<DefaultConfigTable />
+
+## Usage
+
+```js
+import {
+  ConfigProvider,
+  DefaultMUIComponentsConfig
+} from '@nish1896/mui-components/config';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+```
+
+Override the default `FormLabel` and `FormHelperText` values by providing
+the desired values in `defaultFormLabelSx` and `defaultFormHelperTextSx` props
+which accepts all valid values in the [`sx` prop](https://v7.mui.com/material-ui/customization/how-to-customize/#the-sx-prop).
+
+Additionally you also need to specify a `dateAdapter` for date and time pickers using 
+`ConfigProvider` component. For a full list of available date adapters, see the 
+[MUI date library options](https://v8.mui.com/x/react-date-pickers/base-concepts/#date-library).
+Please do install the npm package of the corresponding date library.
+
+```jsx
+<ConfigProvider
+  defaultFormLabelSx={{ color: '#007bff' }}
+  defaultFormControlLabelSx={{ color: '#ea3677', mr: '1rem' }}
+  defaultFormHelperTextSx={{ mt: '0.75rem' }}
+  dateAdapter={AdapterDayjs}
+  allLabelsAboveFields
+>
+  <form>
+    {/* Form content */}
+  </form>
+</ConfigProvider>
+```
+
+`ConfigProvider` works the same way whether applied once at your app root
+or scoped to a single form, as shown above.
+

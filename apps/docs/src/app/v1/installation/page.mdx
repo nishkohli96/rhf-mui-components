@@ -1,0 +1,180 @@
+import MuiLink from '@mui/material/Link';
+import { DocsPage } from '@/components/docs';
+import { pageMetadata, stackblitzFileLink } from '@/constants';
+import FolderStructure from '@/components/folder-structure';
+
+export const metadata = pageMetadata.gettingStarted;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# Installation
+
+`@nish1896/mui-components` grew out of
+[`@nish1896/rhf-mui-components`](https://rhf-mui-components.vercel.app/). Its
+components proved useful enough that a standalone Material UI package — usable
+on its own or with any form library was the natural next step. It saves
+developers, junior and senior alike, significant time and effort in building
+consistent form UIs.
+
+## Setup
+
+Install the package:
+
+<PackageManagerTabs id="install-core" command="@nish1896/mui-components@latest-v1" />
+
+The package expects Material UI (`v6` or `v7`) and its peers in your app.
+Match your project's MUI version by installing with the `latest-v6` or
+`latest-v7` tag:
+
+<PackageManagerTabs
+  id="install-mui-peers"
+  command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled"
+/>
+
+Date & time pickers additionally use [MUI X](https://v8.mui.com/x/react-date-pickers/)
+(`v7` or `v8`) and a date adapter of your choice, with `AdapterDayjs` being
+[recommended by Material UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+
+<PackageManagerTabs
+  id="install-pickers"
+  command="@mui/x-date-pickers@latest-v8 dayjs"
+/>
+
+To minimize the bundle size during the build process, this package includes both
+named and default exports within each module. Similar to Material-UI, developers 
+are encouraged to use default import syntax to [reduce bundle size](https://v7.mui.com/material-ui/guides/minimizing-bundle-size/).
+
+The type for each component can also be imported to modify or customize an 
+existing component.
+
+## Package structure
+
+Components are available through focused subpath exports, so applications only
+import the modules they use.
+
+Click a folder to expand its contents and view the form components available for that module.
+
+<FolderStructure />
+
+- **mui** - Includes core Material-UI components such as TextField, 
+Select, and others.
+- **mui-pickers** - Contains Material-UI date and 
+time picker components, along with their variations - `Desktop`, `Mobile` and `Static`.
+- **misc** -  Features external form components, such as the rich text editor, that are not
+part of Material-UI.
+- **config** - Provides a Context Provider to set default styles 
+for all components and configure the `dateAdapter` for date and time pickers.
+- **form-helpers** - Utility functions used internally by the components,
+which can also be leveraged by developers for processing and validating form data.
+
+
+## Quick start
+
+Import components from their subpath and control them like any other input:
+
+```tsx
+import { useState } from 'react';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+
+export default function SignupName() {
+  const [firstName, setFirstName] = useState('');
+  const [error, setError] = useState<string>();
+
+  return (
+    <MUITextField
+      fieldName="firstName"
+      value={firstName}
+      onValueChange={({ newValue }) => setFirstName(newValue)}
+      onBlur={() => setError(firstName ? undefined : 'First name is required')}
+      required
+      errorMessage={error}
+    />
+  );
+}
+```
+
+There is no schema, resolver or registration step — derive `errorMessage` from
+your own validation (or your form library's) and the field renders in an error
+state.
+
+<Callout type="info" title="Using rhf-mui-components?">
+  Is this package similar to `@nish1896/rhf-mui-components`?
+  
+  Yes. The component API is largely the same. The main difference is that
+  `control` and `registerOptions` from **rhf-mui-components** have been replaced
+  with the controlled `value` / `onValueChange` / `errorMessage` props.
+
+  The developer has to provide `value` and manage the validation on his end,
+  rendering logic is managed within the component itself.
+
+  Starting with `v4.2.0`, `@nish1896/rhf-mui-components` now reuses the core
+  logic and default values from this package.
+</Callout>
+
+## Using Form Libraries
+
+Because the components are controlled, adapting them to a form library takes
+only a few lines. `errorMessage` accepts a single message `string`, or a
+`string[]` when a field can fail several rules at once — so each library only
+needs a small adapter to map its own error shape onto that.
+
+With [TanStack Form](https://tanstack.com/form/latest)'s `Field`, whose
+`meta.errors` is an array that may nest, a one-line helper flattens it to a
+`string[]`:
+
+```tsx
+import { useForm } from '@tanstack/react-form';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+
+/**
+ * Flatten one level so a field failing several rules — where `meta.errors`
+ * is `[[ruleA, ruleB]]` — surfaces every message.
+ */
+const tanstackErrors = (errors: unknown[]): string[] =>
+  errors.flat().filter((error): error is string => typeof error === 'string');
+
+const form = useForm({
+  defaultValues: { email: '' }
+});
+
+<form.Field
+  name="email"
+  validators={{
+    onChange: ({ value }) => (!value ? 'Email is required' : undefined)
+  }}
+>
+  {field => (
+    <MUITextField
+      fieldName="email"
+      value={field.state.value}
+      onValueChange={({ newValue }) => field.handleChange(newValue)}
+      onBlur={field.handleBlur}
+      errorMessage={tanstackErrors(field.state.meta.errors)}
+    />
+  )}
+</form.Field>
+```
+
+## Theming & defaults
+
+Wrap your app in the `ConfigProvider` to set package-wide defaults — label
+placement, default `sx` for labels and helper text, and the date adapter used
+by the pickers:
+
+```tsx
+import { ConfigProvider } from '@nish1896/mui-components/config';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+<ConfigProvider
+  allLabelsAboveFields
+  dateAdapter={AdapterDayjs}
+  defaultFormLabelSx={{ color: '#1976D2' }}
+>
+  <App />
+</ConfigProvider>
+```
+
+Explore the <MuiLink href={stackblitzFileLink('src/forms/styled-components/index.tsx')} target="_blank" rel="noopener noreferrer" underline="hover">Customization</MuiLink>
+example for a complete working implementation.

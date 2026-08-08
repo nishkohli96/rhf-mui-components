@@ -1,0 +1,48 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import SwitchForm from '@/forms/mui/switch/Client';
+
+export const metadata = componentMetadata.MUISwitch;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUISwitch
+
+`MUISwitch` is a single [Switch](https://mui.com/material-ui/react-switch/) with a boolean value, an inline label, and optional helper text or error state.
+
+## Usage
+
+```tsx
+import MUISwitch, { MUISwitchProps } from '@nish1896/mui-components/mui/switch';
+```
+
+```tsx
+const [enabled, setEnabled] = useState(false);
+
+<MUISwitch
+  fieldName="notifications"
+  value={enabled}
+  onValueChange={({ newValue }) => setEnabled(newValue)}
+  label="Email notifications"
+/>
+```
+
+## Props
+
+`MUISwitchProps` also accepts most [SwitchProps](https://mui.com/material-ui/api/switch/).
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUISwitch} />
+
+## Playground
+
+Driven by plain React state — exercises a custom `label`, `formControlLabelProps`
+(label placement), pass-through `SwitchProps` (`color` / `size`), `helperText`,
+and a required toggle with a custom `renderError` and `customIds`.
+
+<SwitchForm />
+
+## Reference
+- [MUI Switch](https://mui.com/material-ui/react-switch/)

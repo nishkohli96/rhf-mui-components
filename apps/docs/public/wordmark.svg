@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 100" width="1240" height="200">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2196F3"></stop>
+      <stop offset="50%" stop-color="#1AACD8"></stop>
+      <stop offset="100%" stop-color="#0BD1A8"></stop>
+    </linearGradient>
+  </defs>
+  <text x="0" y="72" font-family="Poppins, sans-serif" font-weight="800" font-size="64" letter-spacing="-1" fill="url(#wg)">MUI-Components</text>
+</svg>
