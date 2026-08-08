@@ -1,6 +1,5 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import NumberInputForm from '@/forms/mui/number-input/Client';
 
 export const metadata = componentMetadata.RHFNumberInput;
 
@@ -8,40 +7,39 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUINumberInput
+# RHFNumberInput
 
-`MUINumberInput` is a [TextField](https://mui.com/material-ui/react-text-field/)-based numeric input that enforces number-only entry with options for integers-only, non-negative values, a maximum number of decimal places, and keyboard step increments.
+<AvailabilityBanner componentName="RHFNumberInput" version="2.1" />
+
+**RHFNumberInput** is an enhanced version of the [TextField](https://mui.com/material-ui/react-text-field/)
+component that accepts only **integer** or **float** values. It retains
+the core functionality, styling options, and flexibility of the TextField,
+while seamlessly integrating with react-hook-form for number-specific input handling.
 
 ## Usage
 
 ```tsx
-import MUINumberInput, { MUINumberInputProps } from '@nish1896/mui-components/mui/number-input';
+import RHFNumberInput, { RHFNumberInputProps } from '@nish1896/rhf-mui-components/mui/number-input';
 ```
 
-```tsx
-const [age, setAge] = useState<number | null>(null);
+To render a fully functional `RHFNumberInput`, you only need two or three essential props.
 
-<MUINumberInput
+```tsx
+<RHFNumberInput
   fieldName="age"
-  value={age}
-  onValueChange={({ newValue }) => setAge(newValue)}
-  onlyIntegers
-  nonNegative
+  control={control}
 />
 ```
 
-## Props
+## Examples
+- [RHFNumberInput](https://rhf-mui-components-examples.vercel.app/inputs)
+- [TextField](https://mui.com/material-ui/react-text-field/)
+- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
-`MUINumberInputProps` also accepts the remaining [TextFieldProps](https://mui.com/material-ui/api/text-field/),
-except `type`, `multiline` and `rows`. Props marked with
-<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+## API
+
+The `RHFNumberInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+and includes the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.RHFNumberInput} />
-
-## Playground
-
-Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
-`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `showMarkers`
-and `showLabelAboveFormField`, with validation surfaced through `errorMessage`.
-
-<NumberInputForm />

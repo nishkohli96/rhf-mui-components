@@ -1,9 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { componentMetadata, componentPropsV1 } from '@/constants';
 
 export const metadata = componentMetadata.RHFPasswordInput;
 
@@ -11,36 +7,35 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUIPasswordInput
+# RHFPasswordInput
 
-`MUIPasswordInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based
-password field with a built-in show/hide visibility toggle. It handles the label,
-error state and helper text, and stays a plain controlled component.
+**RHFPasswordInput** is an enhanced version of the [TextField](https://v5.mui.com/material-ui/react-text-field/) component,
+designed specifically for password input on signup and login pages.
+This component allows users to toggle password visibility,
+offering a more user-friendly experience when entering credentials.
 
 ## Usage
 
 ```tsx
-import MUIPasswordInput, { MUIPasswordInputProps } from '@nish1896/mui-components/mui/password-input';
+import RHFPasswordInput, { RHFPasswordInputProps } from '@nish1896/rhf-mui-components/mui/password-input';
 ```
 
-```tsx
-const [password, setPassword] = useState();
+`RHFPasswordInput` also requires just 3-4 essential props to render a fully functional field.
 
-<MUIPasswordInput
+```tsx
+<RHFPasswordInput
   fieldName="password"
-  value={password}
-  onValueChange={({ newValue }) => setPassword(newValue)}
+  register={register}
+  errorMessage={errors?.password?.message}
 />
 ```
 
-## Props
+## API
 
-`MUIPasswordInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
-(`variant`, `placeholder`, `slotProps`, `sx`) except `type`, `multiline`
-and `rows`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong>
-are required.
+The `RHFPasswordInputProps` interface extends [TextFieldProps](https://v5.mui.com/material-ui/api/text-field/)
+and includes additional options for password handling and input customization.
 
 <PropsTable rows={componentPropsV1.RHFPasswordInput} />
 
 ## Reference
-- [TextField with Input Adornment](https://v7.mui.com/material-ui/react-text-field/#input-adornments)
+- [TextField with Input Adornment](https://v5.mui.com/material-ui/react-text-field/#input-adornments)

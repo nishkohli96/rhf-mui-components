@@ -45,14 +45,32 @@ export { PropsDescription } from './descriptions/latest';
 export { PropsDescription_v1 } from './descriptions/v1';
 
 /**
- * Current docs (v2, MUI v9). Deliberately empty: omitting the versions makes
+ * Current docs (v5, MUI v9). Deliberately empty: omitting the versions makes
  * every generated URL unprefixed (`https://mui.com/...`), which always points
  * at the latest MUI docs.
  */
 export const latestVersionArgs: PropsDescriptionArgs = {};
 
-/** v1 docs, which documented MUI v7 and MUI X Date Pickers v8. */
+/** v1 docs, which documented MUI v5 and MUI X Date Pickers v6. */
 export const v1VersionArgs: PropsDescriptionArgs = {
+  muiVersion: 5,
+  muiPickersVersion: 6
+};
+
+/** v2 docs, which documented MUI v6 and MUI X Date Pickers v7. */
+export const v2VersionArgs: PropsDescriptionArgs = {
+  muiVersion: 6,
+  muiPickersVersion: 7
+};
+
+/** v3 docs, which documented MUI v7 and MUI X Date Pickers v8. */
+export const v3VersionArgs: PropsDescriptionArgs = {
+  muiVersion: 7,
+  muiPickersVersion: 8
+};
+
+/** v4 docs, which documented MUI v7 and MUI X Date Pickers v8. */
+export const v4VersionArgs: PropsDescriptionArgs = {
   muiVersion: 7,
   muiPickersVersion: 8
 };
@@ -60,11 +78,15 @@ export const v1VersionArgs: PropsDescriptionArgs = {
 const buildComponentProps = (
   args: PropsDescriptionArgs,
   docsVersion?: DocsVersion
-): Record<string, PropsInfo[]> =>
-  Object.freeze({
-    RHFTextField: textFieldRows(args),
-    RHFPasswordInput: passwordInputRows(args, docsVersion),
-    RHFNumberInput: numberInputRows(args),
+): Record<string, PropsInfo[]> => {
+  const v1 = docsVersion === 1;
+  const v3AndAbove = !docsVersion || docsVersion >= 3;
+  const v4AndAbove = !docsVersion || docsVersion >= 4;
+
+  return Object.freeze({
+    RHFTextField: textFieldRows(args, { v1, v4AndAbove }),
+    RHFPasswordInput: passwordInputRows(args, { v1, v3AndAbove, v4AndAbove }),
+    RHFNumberInput: numberInputRows(args, { v4AndAbove }),
     RHFTagsInput: tagsInputRows(args),
     RHFFileUploader: fileUploaderRows(args),
     RHFSelect: selectRows(args, docsVersion),
@@ -90,9 +112,19 @@ const buildComponentProps = (
     RHFRichTextEditor: richTextEditorRows(args),
     RHFPhoneInput: phoneInputRows(args, docsVersion)
   });
+};
 
 /** Props rows for the current docs — consumed by `app/**` pages. */
 export const componentProps = buildComponentProps(latestVersionArgs);
 
 /** Props rows for the v1 docs — consumed by `app/v1/**` pages. */
 export const componentPropsV1 = buildComponentProps(v1VersionArgs, 1);
+
+/** Props rows for the v2 docs — consumed by `app/v2/**` pages. */
+export const componentPropsV2 = buildComponentProps(v2VersionArgs, 2);
+
+/** Props rows for the v3 docs — consumed by `app/v3/**` pages. */
+export const componentPropsV3 = buildComponentProps(v3VersionArgs, 3);
+
+/** Props rows for the v4 docs — consumed by `app/v4/**` pages. */
+export const componentPropsV4 = buildComponentProps(v4VersionArgs, 4);
