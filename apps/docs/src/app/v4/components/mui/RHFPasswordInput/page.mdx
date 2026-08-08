@@ -1,0 +1,46 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
+
+export const metadata = componentMetadata.MUIPasswordInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIPasswordInput
+
+`MUIPasswordInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based
+password field with a built-in show/hide visibility toggle. It handles the label,
+error state and helper text, and stays a plain controlled component.
+
+## Usage
+
+```tsx
+import MUIPasswordInput, { MUIPasswordInputProps } from '@nish1896/mui-components/mui/password-input';
+```
+
+```tsx
+const [password, setPassword] = useState();
+
+<MUIPasswordInput
+  fieldName="password"
+  value={password}
+  onValueChange={({ newValue }) => setPassword(newValue)}
+/>
+```
+
+## Props
+
+`MUIPasswordInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
+(`variant`, `placeholder`, `slotProps`, `sx`) except `type`, `multiline`
+and `rows`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong>
+are required.
+
+<PropsTable rows={componentPropsV1.MUIPasswordInput} />
+
+## Reference
+- [TextField with Input Adornment](https://v7.mui.com/material-ui/react-text-field/#input-adornments)

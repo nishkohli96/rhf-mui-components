@@ -1,0 +1,44 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
+
+export const metadata = componentMetadata.MUICheckbox;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUICheckbox
+
+`MUICheckbox` is a single [Checkbox](https://v7.mui.com/material-ui/react-checkbox/)
+with a boolean value, an inline label, and optional helper text or error state.
+
+## Usage
+
+```tsx
+import MUICheckbox, { MUICheckboxProps } from '@nish1896/mui-components/mui/checkbox';
+```
+
+```tsx
+const [accepted, setAccepted] = useState(false);
+
+<MUICheckbox
+  fieldName="terms"
+  value={accepted}
+  onValueChange={({ newValue }) => setAccepted(newValue)}
+  label="I accept the terms and conditions"
+/>
+```
+
+## Props
+
+`MUICheckboxProps` also accepts most [CheckboxProps](https://v7.mui.com/material-ui/api/checkbox/).
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentPropsV1.MUICheckbox} />
+
+## Reference
+- [MUI Checkbox](https://v7.mui.com/material-ui/react-checkbox/)

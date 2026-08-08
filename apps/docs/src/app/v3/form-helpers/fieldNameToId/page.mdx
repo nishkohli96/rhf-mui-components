@@ -1,0 +1,75 @@
+import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import { componentMetadata, componentPropsV1 } from '@/constants';
+
+export const metadata = componentMetadata.fieldNameToId;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# fieldNameToId
+
+<AvailabilityBanner componentName="fieldNameToId" version="1.0.3" />
+
+This function converts a form field name into a valid, HTML-friendly `id` attribute. It is especially useful for nested object paths and field arrays, producing predictable, HTML-safe IDs for form controls and labels.
+
+```ts
+function fieldNameToId(fieldName: string): string;
+```
+
+<Callout type="warning">
+  This is a sanitizer, not a uniqueness guarantee — field names that differ only
+  by separator style (e.g. `a.b` and `a-b`) can produce the same ID, and a name
+  made entirely of invalid characters falls back to `'field'`. Keep field names
+  distinguishable by more than punctuation alone.
+</Callout>
+
+## Usage
+
+```ts
+import { fieldNameToId } from '@nish1896/mui-components/form-helpers';
+```
+
+This function transforms field names by:
+
+1. Converting **array indices** (`phones[0]`) into dash-separated segments (`phones-0`).
+2. Replacing **dot notation** (`user.email`) with dashes.
+3. Removing characters that are invalid in HTML IDs.
+4. Collapsing consecutive dashes into a single dash.
+5. Trimming leading and trailing dashes.
+
+### Parameters
+
+1. `fieldName`: The form field name to convert into a valid HTML `id`.
+
+### Returns
+
+A sanitized string that can safely be used as an HTML `id` attribute.
+
+## Example
+
+```ts
+const id1 = fieldNameToId('firstName');
+// Output: 'firstName'
+
+const id2 = fieldNameToId('user.email');
+// Output: 'user-email'
+
+const id3 = fieldNameToId('phones[0].number');
+// Output: 'phones-0-number'
+
+const id4 = fieldNameToId('addresses[10].street_name');
+// Output: 'addresses-10-street-name'
+
+const id5 = fieldNameToId('user.profile@details');
+// Output: 'user-profile-details'
+```
+
+## Why use this?
+
+Using the same transformation for every field ensures that generated IDs are:
+
+- Valid HTML `id` attributes.
+- Stable and predictable across renders.
+- Compatible with `<label htmlFor="...">` for improved accessibility.
+- Safe for nested object fields and dynamic field arrays.

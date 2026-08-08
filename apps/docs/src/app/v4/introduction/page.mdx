@@ -1,0 +1,47 @@
+import { DocsPage } from '@/components/docs';
+import { pageMetadata } from '@/constants';
+
+export const metadata = pageMetadata.introduction;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# Introduction
+
+"**MUI Components is a one-stop solution for reusable form components — use them
+with react state, or as a wrapper around the form library of your choice.**"
+
+Every component is a plain controlled component under the hood: pass a `value`, receive
+changes through `onValueChange`, and keep validation wherever you like — `useState`,
+[React Hook Form](https://react-hook-form.com/),
+[TanStack Form](https://tanstack.com/form/latest),
+[Formik](https://formik.org/), or anything else that can hold state.
+
+Head over to the [Installation](/installation) page to add this package to your
+application, understand the package structure and get started.
+
+<Callout type="info">
+  For building forms with **React Hook Form**, we recommend using
+  [@nish1896/rhf-mui-components](https://rhf-mui-components.vercel.app/). It
+  offers a similar API to this package but is designed specifically for
+  React Hook Form.
+</Callout>
+
+## What you get on every field
+
+- **Accessibility built in** — generated ids for field, label and helpertext plus
+  `aria-label`, `aria-labelledby`, `aria-describedby`, `aria-invalid` and `aria-required`
+  wired on every field.
+- **Thin on top of MUI** — nearly all underlying Material UI props pass straight through
+  (`variant`, `slotProps`, `sx`, etc.), so nothing about MUI is hidden from you.
+- **Live demo + full props reference** — every component page pairs a working example
+  with a complete props table, so you can see the shape before wiring it into your form.
+
+## Package Versions
+
+This library is a port of `@nish1896/rhf-mui-components` **v4** and supports
+MUI `v6` and `v7`.
+
+To use this package with MUI `v9`, upgrade to `v2` of this package.
+

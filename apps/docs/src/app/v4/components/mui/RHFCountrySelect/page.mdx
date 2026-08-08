@@ -1,0 +1,120 @@
+import MuiLink from '@mui/material/Link';
+import { DocsPage, PropsTable } from '@/components/docs';
+import {
+  componentMetadata,
+  componentPropsV1,
+  externalLinks,
+  stackblitzFileLink
+} from '@/constants';
+
+export const metadata = componentMetadata.MUICountrySelect;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUICountrySelect
+
+`MUICountrySelect` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+pre-loaded with a list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 countries</MuiLink>
+(**flag**, **name**, **dial code**, **ISO**). Store the complete `CountryDetails` object,
+or a single property via `valueKey`. Pin common choices with `preferredCountries`.
+
+## Usage
+
+```tsx
+import MUICountrySelect, {
+  MUICountrySelectProps,
+  CountryISO,
+  CountryDetails,
+  countryList
+} from '@nish1896/mui-components/mui/country-select';
+```
+
+`MUICountrySelect` returns the country property specified by `valueKey`.
+If `valueKey` is omitted, the complete country object is returned instead.
+
+```tsx
+const [country, setCountry] = useState<CountryDetails | null>(null);
+
+/* Returns "IND" or "AUS" */
+<MUICountrySelect
+  fieldName="country"
+  valueKey="iso3"
+  preferredCountries={['US', 'GB', 'IN']}
+  value={country}
+  onValueChange={({ newValue }) => setCountry(newValue)}
+/>
+
+/**
+ * Returns
+ * {
+ *   name: 'India',
+ *   iso: 'IN',
+ *   iso3: 'IND',
+ *   emoji: '🇮🇳'
+ * }
+ */
+<MUICountrySelect
+  fieldName="nationality"
+  preferredCountries={['IN', 'US', 'AU']}
+  value={nationality}
+  onValueChange={({ newValue }) => setNationality(newValue)}
+/>
+```
+
+Each option in the list of 250 countries is represented as an object
+structured as follows:
+
+```js
+{
+  name: 'India',
+  iso: 'IN',
+  iso3: 'IND',
+  emoji: '🇮🇳'
+}
+```
+
+The `iso` key is the default identifier used for country option values,
+providing a compact and consistent way to store selections.
+The `iso` key is strongly typed as `CountryISO`, ensuring type safety
+and consistency during integration. You can also retrieve the ***name***
+or ***iso3*** value(s) by setting the desired key through the `valueKey` prop.
+
+For developers who need access to all available country data,
+the complete list of countries is provided via the `countryList` export
+from this module.
+
+The following code snippet demonstrates an advanced use case where users
+can select multiple countries by their names from a predefined list of
+country options. To improve usability, a set of preferred countries is
+prominently displayed at the top of the dropdown. This prioritization
+keeps frequently chosen options easily accessible and streamlines
+the selection process.
+
+```js
+/* Logic for filtering countries */
+const filteredCountries = countryList.filter(
+  country => ['IN', 'US', 'AU', 'FI', 'UA', 'CN', 'GB', 'JP', 'VN'].includes(country.iso)
+);
+```
+
+```jsx
+<MUICountrySelect
+  fieldName="dreamDestinations"
+  countries={filteredCountries}
+  preferredCountries={['IN', 'AU', 'JP']}
+  valueKey="name"
+  multiple
+/>
+```
+
+
+## Props
+
+Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instead of the full object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentPropsV1.MUICountrySelect} />
+
+## Reference
+- [Country select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)

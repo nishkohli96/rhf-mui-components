@@ -1,0 +1,47 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
+
+export const metadata = componentMetadata.MUINativeSelect;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUINativeSelect
+
+`MUINativeSelect` wraps the Material UI [Native Select](https://v7.mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of the suite.
+
+## Usage
+
+```tsx
+import MUINativeSelect, { MUINativeSelectProps } from '@nish1896/mui-components/mui/native-select';
+```
+
+```tsx
+const [country, setCountry] = useState();
+
+<MUINativeSelect
+  fieldName="country"
+  options={['India', 'United States', 'Germany']}
+  value={country}
+  onValueChange={({ newValue }) => setCountry(newValue)}
+/>
+```
+
+<Callout type="warning">
+  When using an array of objects for options, both `labelKey` and `valueKey` 
+  are required. If either is missing, an error will be thrown.
+</Callout>
+
+## Props
+
+For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentPropsV1.MUINativeSelect} />
+
+## Reference
+- [Native Select](https://v7.mui.com/material-ui/react-select/#native-select)
