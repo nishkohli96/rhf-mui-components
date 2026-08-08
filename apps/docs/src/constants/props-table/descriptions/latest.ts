@@ -809,7 +809,7 @@ export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   pickerSlotProps: (args: PropsDescriptionArgs) => ({
     name: 'slotProps',
-    description: `MUI X picker [slotProps](${getMuiPickersDocsUrl(args.muiPickersVersion)}/date-picker/). The \`textField\` slot is merged with the component's own id, error state, and aria attributes.`,
+    description: `MUI X picker [slotProps](${getMuiPickersDocsUrl(args.muiXVersion)}/date-picker/). The \`textField\` slot is merged with the component's own id, error state, and aria attributes.`,
     type: 'object'
   }),
 

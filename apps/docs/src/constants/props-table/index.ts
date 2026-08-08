@@ -5,7 +5,7 @@
  * is what doc pages feed into `PropsTable`.
  *
  * Each row-builder is a function of `PropsDescriptionArgs` — props that link
- * to MUI/MUI X docs resolve their URL from `muiVersion`/`muiPickersVersion`
+ * to MUI/MUI X docs resolve their URL from `muiVersion`/`muiXVersion`
  * (see `descriptions.ts`).
  *
  * One row set is built per docs version, since each documents a different MUI
@@ -15,7 +15,8 @@
  * MUI release.
  */
 
-import type { PropsInfo, PropsDescriptionArgs, DocsVersion } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
+import { default as introductionPageRows } from './introduction';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
@@ -49,53 +50,59 @@ export { PropsDescription_v1 } from './descriptions/v1';
  * every generated URL unprefixed (`https://mui.com/...`), which always points
  * at the latest MUI docs.
  */
-export const latestVersionArgs: PropsDescriptionArgs = {};
+export const latestVersionArgs: VersionProps = {
+  v4AndAbove: true
+};
 
 /** v1 docs, which documented MUI v5 and MUI X Date Pickers v6. */
-export const v1VersionArgs: PropsDescriptionArgs = {
+export const v1VersionArgs: VersionProps = {
+  docsVersion: 1,
   muiVersion: 5,
-  muiPickersVersion: 6
+  muiXVersion: 6,
+  v1: true
 };
 
 /** v2 docs, which documented MUI v6 and MUI X Date Pickers v7. */
-export const v2VersionArgs: PropsDescriptionArgs = {
+export const v2VersionArgs: VersionProps = {
+  docsVersion: 2,
   muiVersion: 6,
-  muiPickersVersion: 7
+  muiXVersion: 7,
+  v2: true
 };
 
 /** v3 docs, which documented MUI v7 and MUI X Date Pickers v8. */
-export const v3VersionArgs: PropsDescriptionArgs = {
+export const v3VersionArgs: VersionProps = {
+  docsVersion: 3,
   muiVersion: 7,
-  muiPickersVersion: 8
+  muiXVersion: 8,
+  v3AndAbove: true,
 };
 
 /** v4 docs, which documented MUI v7 and MUI X Date Pickers v8. */
-export const v4VersionArgs: PropsDescriptionArgs = {
+export const v4VersionArgs: VersionProps = {
+  docsVersion: 4,
   muiVersion: 7,
-  muiPickersVersion: 8
+  muiXVersion: 8,
+  v4AndAbove: true
 };
 
 const buildComponentProps = (
-  args: PropsDescriptionArgs,
-  docsVersion?: DocsVersion
+  args: VersionProps
 ): Record<string, PropsInfo[]> => {
-  const v1 = docsVersion === 1;
-  const v3AndAbove = !docsVersion || docsVersion >= 3;
-  const v4AndAbove = !docsVersion || docsVersion >= 4;
-
   return Object.freeze({
-    RHFTextField: textFieldRows(args, { v1, v4AndAbove }),
-    RHFPasswordInput: passwordInputRows(args, { v1, v3AndAbove, v4AndAbove }),
-    RHFNumberInput: numberInputRows(args, { v4AndAbove }),
+    Introduction: introductionPageRows(args),
+    RHFTextField: textFieldRows(args),
+    RHFPasswordInput: passwordInputRows(args),
+    RHFNumberInput: numberInputRows(args),
     RHFTagsInput: tagsInputRows(args),
     RHFFileUploader: fileUploaderRows(args),
-    RHFSelect: selectRows(args, docsVersion),
+    RHFSelect: selectRows(args),
     RHFNativeSelect: nativeSelectRows(args),
-    RHFAutocomplete: autocompleteRows(args, docsVersion),
-    RHFAutocompleteObject: autocompleteObjectRows(args, docsVersion),
+    RHFAutocomplete: autocompleteRows(args),
+    RHFAutocompleteObject: autocompleteObjectRows(args),
     RHFCountrySelect: countrySelectRows(args),
-    RHFMultiAutocomplete: multiAutocompleteRows(args, docsVersion),
-    RHFMultiAutocompleteObject: multiAutocompleteObjectRows(args, docsVersion),
+    RHFMultiAutocomplete: multiAutocompleteRows(args),
+    RHFMultiAutocompleteObject: multiAutocompleteObjectRows(args),
     RHFCheckbox: checkboxRows(args),
     RHFCheckboxGroup: checkboxGroupRows(args),
     RHFRadioGroup: radioGroupRows(args),
@@ -110,7 +117,7 @@ const buildComponentProps = (
 
     RHFColorPicker: colorPickerRows(args),
     RHFRichTextEditor: richTextEditorRows(args),
-    RHFPhoneInput: phoneInputRows(args, docsVersion)
+    RHFPhoneInput: phoneInputRows(args)
   });
 };
 
@@ -118,13 +125,13 @@ const buildComponentProps = (
 export const componentProps = buildComponentProps(latestVersionArgs);
 
 /** Props rows for the v1 docs — consumed by `app/v1/**` pages. */
-export const componentPropsV1 = buildComponentProps(v1VersionArgs, 1);
+export const componentPropsV1 = buildComponentProps(v1VersionArgs);
 
 /** Props rows for the v2 docs — consumed by `app/v2/**` pages. */
-export const componentPropsV2 = buildComponentProps(v2VersionArgs, 2);
+export const componentPropsV2 = buildComponentProps(v2VersionArgs);
 
 /** Props rows for the v3 docs — consumed by `app/v3/**` pages. */
-export const componentPropsV3 = buildComponentProps(v3VersionArgs, 3);
+export const componentPropsV3 = buildComponentProps(v3VersionArgs);
 
 /** Props rows for the v4 docs — consumed by `app/v4/**` pages. */
-export const componentPropsV4 = buildComponentProps(v4VersionArgs, 4);
+export const componentPropsV4 = buildComponentProps(v4VersionArgs);

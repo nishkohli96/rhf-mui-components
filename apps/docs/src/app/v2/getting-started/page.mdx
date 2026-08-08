@@ -1,5 +1,5 @@
-import { DocsPage } from '@/components/docs';
-import { pageMetadata } from '@/constants';
+import { DocsPage, PropsTable } from '@/components/docs';
+import { pageMetadata, componentProps } from '@/constants';
 import FolderStructure from '@/components/folder-structure';
 
 export const metadata = pageMetadata.gettingStarted;
@@ -46,8 +46,8 @@ The properties marked as required are mandatory for that component.
 _You can also import the interface of each component, like `RHFDatePickerProps`
 to extend an existing component or create another reusable component from it._
 
-| Prop | Description | Type | Required |
-|-|-|-|-|
-| `fieldName` | Name of the field registered with React Hook Form. | `string` | Yes |
-| `control` | The `control` object returned by React Hook Form's `useForm` hook. | `UseFormControl` | Yes |
-| `registerOptions` | React Hook Form validation rules. | `RegisterOptions` | No |
+<PropsTable
+  rows={componentProps.Introduction}
+  docsVersion={2}
+  muiVersion={6}
+/>

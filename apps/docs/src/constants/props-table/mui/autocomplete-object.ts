@@ -1,14 +1,16 @@
-import type { PropsInfo, PropsDescriptionArgs, DocsVersion } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
 import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
 
 /** Props reference rows for `MUIAutocompleteObject`. */
-const autocompleteObjectRows = (
-  args: PropsDescriptionArgs,
-  docsVersion?: DocsVersion
-): PropsInfo[] => {
+const autocompleteObjectRows = ({
+  muiVersion,
+  docsVersion
+}: VersionProps): PropsInfo[] => {
+  const args = { docsVersion, muiVersion };
   const v1 = docsVersion === 1;
+
   return [
     P.fieldName,
     P.options_Obj,

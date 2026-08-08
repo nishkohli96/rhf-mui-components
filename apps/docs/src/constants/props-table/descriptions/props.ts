@@ -152,7 +152,7 @@ const PropsDescription: Record<
   hideErrorMessage: {
     name: 'hideErrorMessage',
     description:
-			'A flag to prevent replacement of *helper text* of a field by the *error message* when the validation is triggered.',
+			'A flag to prevent replacement of _helper text_ of a field by the `errorMessage` when the validation is triggered.',
     type: 'boolean'
   },
   renderError: {

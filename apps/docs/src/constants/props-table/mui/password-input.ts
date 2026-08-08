@@ -1,19 +1,17 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
 import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
-type PasswordInputRowsOptions = {
-  v1?: boolean;
-  v3AndAbove?: boolean;
-  v4AndAbove?: boolean;
-};
-
 /** Props reference rows for `RHFPasswordInput`. */
-const passwordInputRows = (
-  args: PropsDescriptionArgs,
-  { v1, v3AndAbove, v4AndAbove }: PasswordInputRowsOptions = {}
-): PropsInfo[] => {
+const passwordInputRows = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v3AndAbove,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
+  const args = { docsVersion, muiVersion };
   const binding = !v1 ? PropsDescription.control : LegacyPropsDescription.register;
 
   let valueChange;
