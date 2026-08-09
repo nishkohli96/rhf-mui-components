@@ -86,7 +86,7 @@ const PropsDescription: Record<
   customOnChange: {
     name: 'customOnChange',
     description: 'Overrides the default `onChange` behavior. When provided, `onValueChange` is not called. You must call `rhfOnChange(newValue)` to update the form state.',
-    type: '(rhfOnChange, event, ...args) => void'
+    type: '(rhfOnChange, newValue, event, ...args) => void'
   },
   onValueChange: {
     name: 'onValueChange',

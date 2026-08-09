@@ -3,31 +3,40 @@ import { resolveProp } from '@/utils';
 import PropsDescription from './descriptions/props';
 import LegacyPropsDescription from './descriptions/legacy-props';
 
-/** Props reference rows for `RHFTextField`. */
+/** Props reference rows shown on the introduction page. */
 const introductionPageRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
 
   return [
-    PropsDescription.fieldName,
-    PropsDescription.control,
-    ...(v1 ? [LegacyPropsDescription.register] : []),
-    PropsDescription.registerOptions,
+    resolveProp(PropsDescription.fieldName, args),
+    ...(!v1 ? [] : [resolveProp(LegacyPropsDescription.register, args)]),
+    resolveProp(PropsDescription.control, args),
+    resolveProp(PropsDescription.registerOptions, args),
     ...(!v1
-      ? [PropsDescription.required, PropsDescription.disabled]
-      : [LegacyPropsDescription.setValue]
+      ? [
+        resolveProp(PropsDescription.required, args),
+      ]
+      : [resolveProp(LegacyPropsDescription.setValue, args)]
     ),
-    ...(v4AndAbove ? [PropsDescription.customOnChange] : []),
-    PropsDescription.onValueChange,
-    ...(!v1 ? [resolveProp(PropsDescription.label, args)] : [LegacyPropsDescription.label_v1]),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange, args)] : []),
+    resolveProp(PropsDescription.onValueChange, args),
+    ...(!v1
+      ? [
+        resolveProp(PropsDescription.disabled, args),
+        resolveProp(PropsDescription.label, args)
+      ]
+      : [resolveProp(LegacyPropsDescription.label_v1, args)]
+    ),
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
+    resolveProp(PropsDescription.formControlLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
     resolveProp(PropsDescription.helperText, args),
     ...(v4AndAbove ? [] : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
-    ...(v4AndAbove ? [PropsDescription.renderError] : []),
-    PropsDescription.hideErrorMessage,
+    ...(v4AndAbove ? [resolveProp(PropsDescription.renderError, args)] : []),
+    resolveProp(PropsDescription.hideErrorMessage, args),
     resolveProp(PropsDescription.formHelperTextProps, args),
-    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };
 

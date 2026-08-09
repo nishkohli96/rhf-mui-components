@@ -1,17 +1,15 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
 import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
-type NumberInputRowsOptions = {
-  v4AndAbove?: boolean;
-};
-
 /** Props reference rows for `RHFNumberInput`. Added in v2.1 — no v1 rows. */
-const numberInputRows = (
-  args: PropsDescriptionArgs,
-  { v4AndAbove }: NumberInputRowsOptions = {}
-): PropsInfo[] => {
+const numberInputRows = ({
+  docsVersion,
+  muiVersion,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
+  const args = { docsVersion, muiVersion };
   const valueChange = resolveProp(
     v4AndAbove
       ? PropsDescription.onValueChange_Inputs
