@@ -1,9 +1,5 @@
-import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import { componentMetadata, componentPropsV4, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFSelect;
 
@@ -11,38 +7,41 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUISelect
+# RHFSelect
 
-`MUISelect` wraps the Material UI [Select](https://v7.mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
+**RHFSelect** is an extended version of [Select](https://v7.mui.com/material-ui/react-select/),
+allowing users to select one or more options. One key advantage is its
+ability to _**accept both arrays and arrays of objects**_, making it easier to
+render options with differing labels and values without custom logic.
 
 <Callout type="tip">
-  If the number of options **exceeds 20**, consider using [MUIAutocomplete](autocomplete)
-  or [MUIMultiAutocomplete](multi-autocomplete) for better searchability, improved keyboard
-  navigation, and overall performance.
+If the number of options **exceeds 20**, consider using [RHFAutocomplete](/v4/components/mui/RHFAutocomplete)
+or [RHFMultiAutocomplete](/v4/components/mui/RHFMultiAutocomplete) for better searchability, improved keyboard
+navigation, and overall performance.
 </Callout>
 
 ## Usage
 
 ```tsx
-import MUISelect, { MUISelectProps } from '@nish1896/mui-components/mui/select';
+import RHFSelect, { RHFSelectProps } from '@nish1896/rhf-mui-components/mui/select';
 ```
 
-```tsx
-const [role, setRole] = useState();
+Here is a basic example with an array of strings:
 
-<MUISelect
-  fieldName="role"
-  options={['Admin', 'Editor', 'Viewer']}
-  value={role}
-  onValueChange={({ newValue }) => setRole(newValue)}
+```tsx
+<RHFSelect
+  fieldName="color"
+  control={control}
+  options={['Red', 'Blue', 'Orange']}
 />
 ```
 
 For options as an array of objects:
 
-```jsx
-<MUISelect
+```tsx
+<RHFSelect
   fieldName="country"
+  control={control}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
@@ -50,21 +49,27 @@ For options as an array of objects:
   ]}
   labelKey="country"
   valueKey="code"
-  multiple
 />
 ```
 
 <Callout type="warning">
-  When using an array of objects for options, both `labelKey` and `valueKey` 
-  are required. If either is missing, an error will be thrown.
+When using an array of objects for options, both `labelKey` and `valueKey`
+are required. If either is missing, an error will be thrown.
 </Callout>
 
-## Props
+You can extend or reuse the `RHFSelect` component by creating your own wrapper component.
 
-`MUISelectProps` also accepts the remaining [SelectProps](https://v7.mui.com/material-ui/api/select/).
+👉 <a href={externalLinks.githubExamples.styledSelect} target="_blank" rel="noopener noreferrer">StyledSelect (GitHub)</a>
+
+## Examples
+- [RHFSelect](https://rhf-mui-components-examples.vercel.app/select)
+- [Select](https://v7.mui.com/material-ui/react-select/)
+- [Styled Select](https://rhf-mui-components-examples.vercel.app/customization)
+- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
+
+## API
+The `RHFSelectProps` interface extends [SelectProps](https://v7.mui.com/material-ui/api/select/)
+and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV1.RHFSelect} />
-
-## Reference
-- [MUI Select](https://v7.mui.com/material-ui/react-select/)
+<PropsTable rows={componentPropsV4.RHFSelect} />

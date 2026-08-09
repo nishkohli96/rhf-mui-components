@@ -1,29 +1,51 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
-import { PropsDescription as P } from '../descriptions/latest';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
 
-/** Props reference rows for `MUIColorPicker`. */
-const colorPickerRows = (args: PropsDescriptionArgs): PropsInfo[] => [
-  P.fieldName_NoName,
-  P.valueKey_ColorPicker,
-  P.value_ColorPicker,
-  P.onValueChange_ColorPicker,
-  P.defaultColor,
-  P.excludeAlpha,
-  P.hideAlpha,
-  P.height_ColorPicker,
-  P.hideInput_ColorPicker,
-  P.required,
-  P.label,
-  P.showLabelAboveFormField_Default,
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
-  P.errorMessage,
-  P.renderError,
-  P.hideErrorMessage,
-  resolveProp(P.helperText, args),
-  resolveProp(P.formHelperTextProps, args),
-  P.customIds
-];
+/** Props reference rows for `RHFColorPicker`. */
+const colorPickerRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+  const args = { docsVersion, muiVersion };
+
+  const valueProps = !v1
+    ? [
+      resolveProp(PropsDescription.control, args),
+      resolveProp(PropsDescription.registerOptions, args),
+      ...(v4AndAbove ? [] : [resolveProp(LegacyPropsDescription.value_ColorPicker_v2_v3, args)]),
+      resolveProp(PropsDescription.valueKey_ColorPicker, args),
+      resolveProp(PropsDescription.defaultColor, args),
+      resolveProp(PropsDescription.excludeAlpha, args),
+      resolveProp(PropsDescription.required, args),
+      resolveProp(PropsDescription.onValueChange_ColorPicker, args),
+      ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange_ColorPicker, args)] : [])
+    ]
+    : [
+      resolveProp(LegacyPropsDescription.value_ColorPicker_v1, args),
+      resolveProp(LegacyPropsDescription.onValueChange_ColorPicker_v1, args)
+    ];
+
+  const labelProp = !v1
+    ? resolveProp(PropsDescription.label, args)
+    : resolveProp(LegacyPropsDescription.label_v1, args);
+
+  return [
+    resolveProp(PropsDescription.fieldName, args),
+    ...valueProps,
+    resolveProp(PropsDescription.disabled, args),
+    labelProp,
+    resolveProp(PropsDescription.showLabelAboveFormField_Default, args),
+    resolveProp(PropsDescription.formLabelProps, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.hideLabel, args),
+        resolveProp(PropsDescription.renderError, args)
+      ]
+      : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
+    resolveProp(PropsDescription.hideErrorMessage, args),
+    resolveProp(PropsDescription.helperText, args),
+    resolveProp(PropsDescription.formHelperTextProps, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
+  ];
+};
 
 export default colorPickerRows;

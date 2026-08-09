@@ -1,6 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import SwitchForm from '@/forms/mui/switch/Client';
 
 export const metadata = componentMetadata.RHFSwitch;
 
@@ -8,41 +7,33 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUISwitch
+# RHFSwitch
 
-`MUISwitch` is a single [Switch](https://mui.com/material-ui/react-switch/) with a boolean value, an inline label, and optional helper text or error state.
+Switches toggle the state of a single setting on or off. **RHFSwitch**
+extends the [Switch](https://mui.com/material-ui/react-switch/) component
+and can be customized in a similar way.
 
 ## Usage
 
 ```tsx
-import MUISwitch, { MUISwitchProps } from '@nish1896/mui-components/mui/switch';
+import RHFSwitch, { RHFSwitchProps } from '@nish1896/rhf-mui-components/mui/switch';
 ```
 
 ```tsx
-const [enabled, setEnabled] = useState(false);
-
-<MUISwitch
-  fieldName="notifications"
-  value={enabled}
-  onValueChange={({ newValue }) => setEnabled(newValue)}
-  label="Email notifications"
+<RHFSwitch
+  fieldName="darkTheme"
+  control={control}
+  label="Enable Dark Theme?"
 />
 ```
 
-## Props
+## Examples
+- [RHFSwitch Example](https://rhf-mui-components-examples.vercel.app/switch-slider-rating)
+- [Switch](https://mui.com/material-ui/react-switch/)
+- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
-`MUISwitchProps` also accepts most [SwitchProps](https://mui.com/material-ui/api/switch/).
+## API
+`RHFSwitchProps` extends [SwitchProps](https://mui.com/material-ui/api/switch/) and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.RHFSwitch} />
-
-## Playground
-
-Driven by plain React state — exercises a custom `label`, `formControlLabelProps`
-(label placement), pass-through `SwitchProps` (`color` / `size`), `helperText`,
-and a required toggle with a custom `renderError` and `customIds`.
-
-<SwitchForm />
-
-## Reference
-- [MUI Switch](https://mui.com/material-ui/react-switch/)

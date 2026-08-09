@@ -1,5 +1,10 @@
-import { PropsDescription as P } from '../descriptions/latest';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
 import { pickerRows } from './shared';
 
-/** `MUIDateTimePicker` / `MUIDesktopDateTimePicker` / `MUIMobileDateTimePicker` / `MUIStaticDateTimePicker` — shared props surface. */
-export const dateTimePickerRows = pickerRows(P.onValueChange_DateTimePicker);
+/** `RHFDateTimePicker` / `RHFDesktopDateTimePicker` / `RHFMobileDateTimePicker` / `RHFStaticDateTimePicker` — shared props surface. */
+export const dateTimePickerRows = pickerRows(
+  PropsDescription.customOnChange_DateTimePicker,
+  PropsDescription.onValueChange_DateTimePicker,
+  LegacyPropsDescription.onValueChange_DateTimePicker_v2_v3
+);

@@ -24,34 +24,34 @@ const passwordInputRows = ({
   }
 
   return [
-    PropsDescription.fieldName,
-    binding,
-    PropsDescription.registerOptions,
-    ...(v4AndAbove ? [PropsDescription.customOnChange_Inputs] : []),
-    valueChange,
+    resolveProp(PropsDescription.fieldName, args),
+    resolveProp(binding, args),
+    resolveProp(PropsDescription.registerOptions, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange_Inputs, args)] : []),
+    resolveProp(valueChange, args),
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove
       ? [
         resolveProp(PropsDescription.hideLabel, args),
-        PropsDescription.readOnly_PasswordInput
+        resolveProp(PropsDescription.readOnly_PasswordInput, args)
       ]
       : []),
-    ...(v3AndAbove ? [LegacyPropsDescription.readOnly_PasswordInput_v3] : []),
-    PropsDescription.showPasswordIcon,
-    PropsDescription.hidePasswordIcon,
+    ...(v3AndAbove ? [resolveProp(LegacyPropsDescription.readOnly_PasswordInput_v3, args)] : []),
+    resolveProp(PropsDescription.showPasswordIcon, args),
+    resolveProp(PropsDescription.hidePasswordIcon, args),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.iconButtonProps_PasswordInput, args)]
       : v3AndAbove
         ? [resolveProp(LegacyPropsDescription.iconButtonProps_PasswordInput_v3, args)]
         : []),
     ...(v4AndAbove
-      ? [PropsDescription.renderError]
+      ? [resolveProp(PropsDescription.renderError, args)]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
-    PropsDescription.hideErrorMessage,
+    resolveProp(PropsDescription.hideErrorMessage, args),
     resolveProp(PropsDescription.helperText, args),
     resolveProp(PropsDescription.formHelperTextProps, args),
-    ...(v4AndAbove ? [PropsDescription.customIds] : [])
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };
 

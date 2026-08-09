@@ -1,28 +1,53 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, PropsDescriptionArgs, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
-import { PropsDescription as P } from '../descriptions/latest';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
+
+type MaybeVersionedProp = PropsInfo | ((args: PropsDescriptionArgs) => PropsInfo);
 
 /**
  * Every picker family ships four variants — responsive, desktop, mobile and
- * static — that all share one props surface. Only the `onValueChange`
- * description differs between families. (The static variant differs slightly
- * in behavior for `fieldName` and `showLabelAboveFormField`; that's called
- * out inline on the doc page rather than with a separate row set.)
+ * static — that all share one props surface. Only `customOnChange`/
+ * `onValueChange` differ between families, so each family's row-builder just
+ * calls this factory with its own set of props.
  */
-export const pickerRows = (onValueChange: PropsInfo) => (args: PropsDescriptionArgs): PropsInfo[] => [
-  P.fieldName,
-  P.value_Picker,
-  onValueChange,
-  P.required,
-  P.label,
-  resolveProp(P.showLabelAboveFormField, args),
-  resolveProp(P.formLabelProps, args),
-  P.hideLabel,
-  P.errorMessage,
-  P.renderError,
-  P.hideErrorMessage,
-  resolveProp(P.helperText, args),
-  resolveProp(P.formHelperTextProps, args),
-  resolveProp(P.pickerSlotProps, args),
-  P.customIds
-];
+export const pickerRows = (
+  customOnChange: MaybeVersionedProp,
+  onValueChange: MaybeVersionedProp,
+  onValueChange_v2_v3: MaybeVersionedProp
+) => ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+  const args = { docsVersion, muiVersion };
+  const binding = !v1 ? PropsDescription.control : LegacyPropsDescription.register;
+  const pickerChangeProps = v4AndAbove
+    ? [resolveProp(customOnChange, args), resolveProp(onValueChange, args)]
+    : [resolveProp(onValueChange_v2_v3, args)];
+
+  return [
+    resolveProp(PropsDescription.fieldName, args),
+    resolveProp(binding, args),
+    resolveProp(PropsDescription.registerOptions, args),
+    ...(!v1
+      ? [
+        resolveProp(PropsDescription.required, args),
+        ...pickerChangeProps,
+        resolveProp(PropsDescription.label, args)
+      ]
+      : [
+        resolveProp(LegacyPropsDescription.setValue, args),
+        resolveProp(LegacyPropsDescription.onValueChange_Pickers_v1, args),
+        resolveProp(LegacyPropsDescription.label_v1, args)
+      ]),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.formLabelProps, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.hideLabel, args),
+        resolveProp(PropsDescription.renderError, args)
+      ]
+      : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
+    resolveProp(PropsDescription.hideErrorMessage, args),
+    resolveProp(PropsDescription.helperText, args),
+    resolveProp(PropsDescription.formHelperTextProps, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
+  ];
+};

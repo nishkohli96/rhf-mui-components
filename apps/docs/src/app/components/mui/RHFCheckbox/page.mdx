@@ -1,6 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import CheckboxForm from '@/forms/mui/checkbox/Client';
 
 export const metadata = componentMetadata.RHFCheckbox;
 
@@ -8,41 +7,35 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUICheckbox
+# RHFCheckbox
 
-`MUICheckbox` is a single [Checkbox](https://mui.com/material-ui/react-checkbox/)
-with a boolean value, an inline label, and optional helper text or error state.
+The **RHFCheckbox** component renders a checkbox, allowing users to toggle an option on or off,
+such as subscribing to a newsletter. It extends the [Checkbox](https://mui.com/material-ui/react-checkbox/)
+component from MUI, accepts most of its props, and offers similar
+customization options.
 
 ## Usage
 
 ```tsx
-import MUICheckbox, { MUICheckboxProps } from '@nish1896/mui-components/mui/checkbox';
+import RHFCheckbox, { RHFCheckboxProps } from '@nish1896/rhf-mui-components/mui/checkbox';
 ```
 
 ```tsx
-const [accepted, setAccepted] = useState(false);
-
-<MUICheckbox
-  fieldName="terms"
-  value={accepted}
-  onValueChange={({ newValue }) => setAccepted(newValue)}
-  label="I accept the terms and conditions"
+<RHFCheckbox
+  fieldName="agreeTnC"
+  control={control}
+  label="Agree to Terms & Conditions"
 />
 ```
 
-## Props
+## Examples
+- [RHFCheckbox](https://rhf-mui-components-examples.vercel.app/checkbox-and-radiogroup)
+- [Checkbox](https://mui.com/material-ui/react-checkbox/)
+- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
-`MUICheckboxProps` also accepts most [CheckboxProps](https://mui.com/material-ui/api/checkbox/).
+## API
+`RHFCheckboxProps` extends [CheckboxProps](https://mui.com/material-ui/api/checkbox/)
+and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.RHFCheckbox} />
-
-## Playground
-
-Driven by plain React state — a custom `label`, pass-through `CheckboxProps`
-(`color` / `size`), `helperText`, and a required checkbox with a custom `renderError`.
-
-<CheckboxForm />
-
-## Reference
-- [MUI Checkbox](https://mui.com/material-ui/react-checkbox/)

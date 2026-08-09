@@ -1,9 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { componentMetadata, componentPropsV2 } from '@/constants';
 
 export const metadata = componentMetadata.RHFSlider;
 
@@ -11,35 +7,30 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUISlider
+# RHFSlider
 
-`MUISlider` wraps the Material UI [Slider](https://v7.mui.com/material-ui/react-slider/)
-for a single number or a range (number array), with label, error and helper-text handling.
+Sliders reflect a range of values along a bar, from which users may select a
+single value. They are ideal for adjusting settings such as volume or brightness.
+**RHFSlider** extends [Slider](https://v6.mui.com/material-ui/react-slider/)
+and can be customized in a similar way.
 
 ## Usage
 
 ```tsx
-import MUISlider, { MUISliderProps } from '@nish1896/mui-components/mui/slider';
+import RHFSlider, { RHFSliderProps } from '@nish1896/rhf-mui-components/mui/slider';
 ```
 
 ```tsx
-const [volume, setVolume] = useState(30);
-
-<MUISlider
-  fieldName="volume"
-  value={volume}
-  onValueChange={({ newValue }) => setVolume(newValue as number)}
-  min={0}
-  max={100}
+<RHFSlider
+  fieldName="score"
+  control={control}
+  errorMessage={errors?.score?.message}
 />
 ```
 
-## Props
+## API
+`RHFSliderProps` extends [SliderProps](https://v6.mui.com/material-ui/api/slider/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-`MUISliderProps` also accepts most [SliderProps](https://v7.mui.com/material-ui/api/slider/).
-Pass a number array as `value` for a range slider. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
-
-<PropsTable rows={componentPropsV1.RHFSlider} />
-
-## Reference
-- [MUI Slider](https://v7.mui.com/material-ui/react-slider/)
+<PropsTable rows={componentPropsV2.RHFSlider} />

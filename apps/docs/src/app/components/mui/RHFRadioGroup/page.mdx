@@ -1,6 +1,5 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import RadioGroupForm from '@/forms/mui/radio-group/Client';
 
 export const metadata = componentMetadata.RHFRadioGroup;
 
@@ -8,56 +7,60 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUIRadioGroup
+# RHFRadioGroup
 
-`MUIRadioGroup` wraps the Material UI [RadioGroup](https://mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
+The **RHFRadioGroup** component renders a group of radio buttons,
+allowing users to select one option from a set. It extends the [RadioGroup](https://mui.com/material-ui/react-radio-button/)
+component from Material UI, accepts most of its props, and offers
+similar customization options. It supports both arrays and
+arrays of objects for options.
 
 ## Usage
 
 ```tsx
-import MUIRadioGroup, { MUIRadioGroupProps } from '@nish1896/mui-components/mui/radio-group';
+import RHFRadioGroup, { RHFRadioGroupProps } from '@nish1896/rhf-mui-components/mui/radio-group';
 ```
 
-```tsx
-const [plan, setPlan] = useState();
+Example with an array of strings:
 
-<MUIRadioGroup
-  fieldName="plan"
-  options={['Free', 'Pro', 'Enterprise']}
-  value={plan}
-  onValueChange={({ newValue }) => setPlan(newValue)}
+```tsx
+<RHFRadioGroup
+  fieldName="favouriteColor"
+  control={control}
+  options={['Red', 'Blue', 'Orange']}
 />
 ```
 
 Example with an array of objects:
 
-```jsx
-<MUIRadioGroup
+```tsx
+<RHFRadioGroup
   fieldName="nationality"
+  control={control}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
-    { code: 'USA', country: 'United States of America' }
     { code: 'UAE', country: 'United Arab Emirates' }
   ]}
   labelKey="country"
   valueKey="code"
-  value={nationality}
 />
 ```
 
-## Props
+<Callout type="warning">
+When using an array of objects for options, both `labelKey` and `valueKey`
+are required. If either is missing, an error will be thrown.
+</Callout>
 
-For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+## Examples
+- [RHFRadioGroup](https://rhf-mui-components-examples.vercel.app/checkbox-and-radiogroup)
+- [RadioGroup](https://mui.com/material-ui/react-radio-button/)
+- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
+
+## API
+
+`RHFRadioGroupProps` extends [RadioGroupProps](https://mui.com/material-ui/api/radio-group/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.RHFRadioGroup} />
-
-## Playground
-
-Driven by plain React state — string and object options (`labelKey` / `valueKey`),
-`getOptionDisabled`, `radioProps`, a custom `renderOptionLabel`, and required validation.
-
-<RadioGroupForm />
-
-## Reference
-- [MUI Radio Group](https://mui.com/material-ui/react-radio-button/)

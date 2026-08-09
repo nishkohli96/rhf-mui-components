@@ -1,9 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { componentMetadata, componentPropsV2 } from '@/constants';
 
 export const metadata = componentMetadata.RHFSwitch;
 
@@ -11,33 +7,28 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUISwitch
+# RHFSwitch
 
-`MUISwitch` is a single [Switch](https://v7.mui.com/material-ui/react-switch/) with a boolean value, an inline label, and optional helper text or error state.
+Switches toggle the state of a single setting on or off. **RHFSwitch**
+extends the [Switch](https://v6.mui.com/material-ui/react-switch/) component
+and can be customized in a similar way.
 
 ## Usage
 
 ```tsx
-import MUISwitch, { MUISwitchProps } from '@nish1896/mui-components/mui/switch';
+import RHFSwitch, { RHFSwitchProps } from '@nish1896/rhf-mui-components/mui/switch';
 ```
 
 ```tsx
-const [enabled, setEnabled] = useState(false);
-
-<MUISwitch
-  fieldName="notifications"
-  value={enabled}
-  onValueChange={({ newValue }) => setEnabled(newValue)}
-  label="Email notifications"
+<RHFSwitch
+  fieldName="darkTheme"
+  control={control}
+  label="Enable Dark Theme?"
 />
 ```
 
-## Props
-
-`MUISwitchProps` also accepts most [SwitchProps](https://v7.mui.com/material-ui/api/switch/).
+## API
+`RHFSwitchProps` extends [SwitchProps](https://v6.mui.com/material-ui/api/switch/) and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV1.RHFSwitch} />
-
-## Reference
-- [MUI Switch](https://v7.mui.com/material-ui/react-switch/)
+<PropsTable rows={componentPropsV2.RHFSwitch} />

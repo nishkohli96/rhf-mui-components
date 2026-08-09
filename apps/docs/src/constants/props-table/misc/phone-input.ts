@@ -1,40 +1,59 @@
 import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
-import { PropsDescription as P } from '../descriptions/latest';
-import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
 
-/** Props reference rows for `MUIPhoneInput`. */
+/** Props reference rows for `RHFPhoneInput`. Added in v2 — no v1 rows. */
 const phoneInputRows = ({
+  docsVersion,
   muiVersion,
-  docsVersion
+  v1,
+  v3AndAbove,
+  v4AndAbove
 }: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
-  const v1 = docsVersion === 1;
+  const valueChangeProps = v4AndAbove
+    ? [
+      resolveProp(PropsDescription.customOnChange_PhoneInput, args),
+      resolveProp(PropsDescription.onValueChange_PhoneInput, args),
+      resolveProp(PropsDescription.searchCountryProps, args)
+    ]
+    : [resolveProp(LegacyPropsDescription.onValueChange_PhoneInput_v2_v3, args)];
+
   return [
-    P.fieldName,
-    P.value_PhoneInput,
-    P.onValueChange_PhoneInput,
-    P.phoneInputProps,
+    resolveProp(PropsDescription.fieldName, args),
+    resolveProp(PropsDescription.control, args),
+    resolveProp(PropsDescription.registerOptions, args),
     ...(!v1
       ? [
-        resolveProp(P.searchCountryProps, args),
-        resolveProp(P.countrySelectProps, args)
+        ...valueChangeProps,
+        resolveProp(PropsDescription.label, args)
       ]
       : [
-        resolveProp(Pv1.searchCountryProps, args),
-        resolveProp(Pv1.countrySelectProps, args)
+        resolveProp(LegacyPropsDescription.value_PhoneInput, args),
+        resolveProp(LegacyPropsDescription.label_v1, args)
+      ]),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.countrySelectProps, args)]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.countrySelectProps_v3, args)]
+        : []),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.formLabelProps, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
+    ...(!v1 ? [resolveProp(PropsDescription.required, args)] : []),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.renderError, args)]
+      : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
+    resolveProp(PropsDescription.hideErrorMessage, args),
+    resolveProp(PropsDescription.helperText, args),
+    resolveProp(PropsDescription.formHelperTextProps, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.phoneInputProps, args),
+        resolveProp(PropsDescription.customIds, args)
       ]
-    ),
-    P.required,
-    P.errorMessage,
-    P.renderError,
-    P.hideErrorMessage,
-    resolveProp(P.helperText, args),
-    resolveProp(P.showLabelAboveFormField, args),
-    P.hideLabel,
-    resolveProp(P.formLabelProps, args),
-    resolveProp(P.formHelperTextProps, args),
-    P.customIds
+      : [resolveProp(LegacyPropsDescription.phoneInputProps_v2_v3, args)])
   ];
 };
 

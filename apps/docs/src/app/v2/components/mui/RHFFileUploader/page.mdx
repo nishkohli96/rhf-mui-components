@@ -1,11 +1,5 @@
-import MuiLink from '@mui/material/Link';
-import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentPropsV1,
-  componentMetadata,
-  externalLinks,
-  stackblitzFileLink
-} from '@/constants';
+import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import { componentMetadata, componentPropsV2, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFFileUploader;
 
@@ -13,34 +7,27 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUIFileUploader
+# RHFFileUploader
 
-**MUIFileUploader** is a flexible file upload component which supports:
-- Single and multiple file uploads
-- Drag-and-drop uploads
-- Existing server-side files
-- File type validation
-- File size validation
-- Upload count limits
-- Custom upload button rendering
-- Custom file item rendering
-- Custom drop zone styling and behavior
+<AvailabilityBanner componentName="RHFFileUploader" version="2.1" />
+
+**RHFFileUploader** component is a flexible and easy-to-use file input field built
+supporting both single and multi-file uploads, optional file type and size validation,
+and customizable UI elements such as the upload button and file list items.
 
 ## Usage
 
 ```tsx
-import MUIFileUploader, { MUIFileUploaderProps } from '@nish1896/mui-components/mui/file-uploader';
+import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from '@nish1896/rhf-mui-components/mui/file-uploader';
 ```
 
-Here is a basic example of the component configured to accept a single file:
+Here's a basic example of the component configured to accept a single file:
 
 ```tsx
-const [file, setFile] = useState<File | null>(null);
-
-<MUIFileUploader
+<RHFFileUploader
   fieldName="resume"
-  value={file}
-  onValueChange={({ newValue }) => setFile(newValue)}
+  control={control}
+  errorMessage={errors?.resume?.message}
 />
 ```
 
@@ -56,14 +43,18 @@ A file object has the following properties:
   webkitRelativePath: ""
 }
 ```
-When uploading files through an API, send them in a **FormData** object.
+When uploading files via an API, the files are sent within a **FormData** object.
+On a Node.js Express server, you can handle this incoming data using the [Multer](https://www.npmjs.com/package/multer) middleware.
+See:
+- <a href={externalLinks.githubExamples.multerFileUpload} target="_blank" rel="noopener noreferrer">Multer File Upload Example</a>
+- <a href={externalLinks.githubExamples.fileUploadMiddleware} target="_blank" rel="noopener noreferrer">File Upload Middleware Examples</a>
 
 ```ts
 async function onFormSubmit(formValues: FormSchema) {
   const formData = new FormData();
   const { resume, pictures } = formValues;
 
-  /* resume can be null, so handle the null check */
+  /* resume can be null, hence handle the null check */
   resume && formData.append('resume', resume);
 
   Array.isArray(pictures) && pictures.forEach(file => {
@@ -73,210 +64,68 @@ async function onFormSubmit(formValues: FormSchema) {
 }
 ```
 
-On a Node.js Express server, you can handle this incoming data with the [Multer](https://www.npmjs.com/package/multer) middleware.
-See:
-- <MuiLink href={externalLinks.githubExamples.multerFileUpload} target="_blank" rel="noopener noreferrer">Multer File Upload Example</MuiLink>
-- <MuiLink href={externalLinks.githubExamples.fileUploadMiddleware} target="_blank" rel="noopener noreferrer">File Upload Middleware Examples</MuiLink>
+### Advanced Usage
 
-### Multiple Files & Validation
+For more advanced scenarios, `RHFFileUploader` can be configured to:
+- Accept **multiple files**.
+- Restrict file types using the `accept` prop, for example, to allow only images (`image/*`).
+- Limit the maximum number of valid files a user can upload
+- Use a **custom upload button** to match your design requirements.
+- Customize the **display of uploaded files**, including file names, sizes, and a remove button.
 
-`MUIFileUploader` can be configured to:
-- Accept multiple files
-- Restrict file types using `accept`
-- Limit file size using `maxSize`
-- Limit uploaded file count using `maxFiles`
-- Handle upload validation errors
-- Render custom upload buttons
-- Render custom file items
-
-```jsx
-const [files, setFiles] = useState<File[] | null>(null);
-
-<MUIFileUploader
+```tsx
+<RHFFileUploader
   fieldName="pictures"
-  value={files}
-  onValueChange={({ newValue }) => setFiles(newValue)}
+  control={control}
   multiple
   accept="image/*"
+  showFileSize
   maxFiles={3}
   maxSize={5 * 1024 * 1024}
-  onUploadError={(errors) => {
-    alert(`${errors.length} file(s) were rejected.`);
+  label={
+    <Typography color="secondary" sx={{ fontWeight: 600 }}>
+      <CloudUploadIcon />
+      {` Upload Photos`}
+    </Typography>
+  }
+  renderUploadButton={fileInput => (
+    <div style={{ width: '200px' }}>
+      <IconButton component="label" tabIndex={-1}>
+        <UploadFileIcon />
+        {fileInput}
+      </IconButton>
+    </div>
+  )}
+  renderFileItem={(file, index) => (
+    <Typography variant="body2">
+      {index + 1}. {file.name}
+      {getFileSize(file.size, { precision: 2 })}
+    </Typography>
+  )}
+  onUploadError={(errors, rejectedFiles) => {
+    alert(`${rejectedFiles.length} file(s) were rejected as ${errors.join(' ,')}`)
   }}
 />
 ```
 
-### Drag and Drop
+The `renderUploadButton` prop allows you to render a **custom upload button**,
+with the `fileInput` (the hidden file input) provided as its child.
 
-Drag-and-drop uploads are enabled by default.
+Similarly, the `renderFileItem` prop lets you customize how each uploaded
+file is displayed in the file list.
 
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-/>
-```
+<Callout type="info">
+Make sure to add the `component="label"` prop to your custom
+`Button` or `IconButton` component to ensure the file input is triggered correctly,
+as file dialogs can only be opened via label elements or direct interaction with file inputs.
 
-Disable drag-and-drop:
+Additionally, add `tabIndex={-1}` to the button to exclude it from the
+tab order, keeping focus management limited to the hidden file input
+itself for better accessibility.
+</Callout>
 
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-  disableDragAndDrop
-/>
-```
-
-### Custom Drop Zone
-
-Customize the drop zone appearance and behavior using `dropZoneProps`.
-
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-  dropZoneProps={({ isDragging, disabled, error }) => ({
-    sx: {
-      borderColor: error
-        ? 'error.main'
-        : isDragging
-          ? 'primary.main'
-          : 'grey.400',
-      opacity: disabled ? 0.5 : 1
-    }
-  })}
-/>
-```
-
-Where:
-```ts
-type FileUploaderDropZoneState = {
-  /** Whether a file is currently being dragged over the drop zone. */
-  isDragging: boolean;
-  /** Whether the uploader is disabled. */
-  disabled: boolean;
-  /** Whether the uploader is currently displaying a validation error. */
-  error: boolean;
-};
-```
-
-### Existing Files
-
-Use `existingFiles` to display files that have already been uploaded and stored on the server.
-
-```tsx
-<MUIFileUploader
-  fieldName="documents"
-  existingFiles={[
-    {
-      name: 'contract.pdf',
-      url: '/uploads/contract.pdf',
-      size: 102400
-    },
-    {
-      name: 'invoice.pdf',
-      url: '/uploads/invoice.pdf'
-    }
-  ]}
-/>
-```
-
-Existing files are rendered separately from newly uploaded files and are counted toward the `maxFiles` limit.
-
-### Custom Upload Button
-
-Use `renderUploadButton` to provide a fully custom upload control.
-
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-  renderUploadButton={fileInput => (
-    <Button
-      component="label"
-      variant="contained"
-      startIcon={<UploadFileIcon />}
-    >
-      Upload Documents
-      {fileInput}
-    </Button>
-  )}
-/>
-```
-
-### Custom File Rendering
-
-Use `renderFileItem` to customize how newly uploaded files are displayed.
-
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-  multiple
-  renderFileItem={({ file, index, removeFile }) => (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Typography>
-        {index + 1}. {file.name}
-      </Typography>
-      <IconButton onClick={removeFile}>
-        <DeleteIcon />
-      </IconButton>
-    </Stack>
-  )}
-/>
-```
-
-The renderer receives:
-
-```ts
-{
-  file: File;
-  index: number;
-  removeFile: (
-    event: MouseEvent<HTMLButtonElement>
-  ) => void;
-}
-```
-
-### Custom Existing File Rendering
-
-Use `renderExistingFileItem` to customize how server-side files are displayed.
-
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-  existingFiles={[
-    {
-      name: 'contract.pdf',
-      url: '/uploads/contract.pdf'
-    }
-  ]}
-  renderExistingFileItem={({ file, index }) => (
-    <Link
-      href={file.url}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {index + 1}. {file.name}
-    </Link>
-  )}
-/>
-```
-
-The renderer receives:
-
-```ts
-{
-  file: {
-    name: string;
-    url: string;
-    size?: number;
-  };
-  index: number;
-}
-```
-
-## Props
-
+## API
+The `RHFFileUploader` accepts the following props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV1.RHFFileUploader} />
+<PropsTable rows={componentPropsV2.RHFFileUploader} />

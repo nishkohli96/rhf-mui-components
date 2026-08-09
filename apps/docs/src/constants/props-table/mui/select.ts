@@ -1,48 +1,68 @@
 import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
-import { PropsDescription as P } from '../descriptions/latest';
-import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
 
-/** Props reference rows for `MUISelect`. */
+/** Props reference rows for `RHFSelect`. */
 const selectRows = ({
+  docsVersion,
   muiVersion,
-  docsVersion
+  v1,
+  v3AndAbove,
+  v4AndAbove
 }: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
-  const v1 = docsVersion === 1;
+  const binding = !v1 ? PropsDescription.control : LegacyPropsDescription.register;
+
+  let onValueChange;
+  if (v4AndAbove) {
+    onValueChange = PropsDescription.onValueChange_Select;
+  } else if (v1) {
+    onValueChange = LegacyPropsDescription.onValueChange_Select_v1;
+  } else {
+    onValueChange = LegacyPropsDescription.onValueChange_Select_v2_v3;
+  }
 
   return [
-    P.fieldName,
-    P.options,
-    P.labelKey,
-    P.valueKey,
-    P.multiple,
-    P.value_Select,
-    P.onValueChange_Select,
-    ...(!v1
-      ? [resolveProp(P.menuItemProps, args)]
-      : [resolveProp(Pv1.menuItemProps, args)]
-    ),
-    P.renderOptionLabel,
-    P.getOptionDisabled,
-    P.showDefaultOption,
-    P.defaultOptionText,
-    P.placeholder_Select,
-    P.label,
-    resolveProp(P.showLabelAboveFormField, args),
-    resolveProp(P.formLabelProps, args),
-    ...(!v1
-      ? [resolveProp(P.inputLabelProps, args)]
-      : [resolveProp(Pv1.inputLabelProps, args)]
-    ),
-    P.hideLabel,
-    P.required,
-    P.errorMessage,
-    P.renderError,
-    P.hideErrorMessage,
-    resolveProp(P.helperText, args),
-    resolveProp(P.formHelperTextProps, args),
-    P.customIds
+    resolveProp(PropsDescription.fieldName, args),
+    resolveProp(binding, args),
+    resolveProp(PropsDescription.registerOptions, args),
+    resolveProp(PropsDescription.options, args),
+    resolveProp(PropsDescription.labelKey, args),
+    resolveProp(PropsDescription.valueKey, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.renderOptionLabel, args),
+        resolveProp(PropsDescription.getOptionDisabled, args),
+        resolveProp(PropsDescription.customOnChange_Select, args)
+      ]
+      : []),
+    resolveProp(onValueChange, args),
+    ...(v1 ? [resolveProp(LegacyPropsDescription.defaultValue, args)] : []),
+    resolveProp(PropsDescription.showDefaultOption, args),
+    resolveProp(PropsDescription.defaultOptionText, args),
+    resolveProp(PropsDescription.label, args),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.inputLabelProps_Select, args)]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.inputLabelProps_Select_v3, args)]
+        : []),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.formLabelProps, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
+    ...(v3AndAbove ? [resolveProp(PropsDescription.placeholder_Select, args)] : []),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.menuItemProps_Select, args)]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.menuItemProps_Select_v3, args)]
+        : []),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.renderError, args)]
+      : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
+    resolveProp(PropsDescription.hideErrorMessage, args),
+    resolveProp(PropsDescription.helperText, args),
+    resolveProp(PropsDescription.formHelperTextProps, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };
 

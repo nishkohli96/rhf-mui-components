@@ -1,9 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { componentMetadata, componentPropsV3 } from '@/constants';
 
 export const metadata = componentMetadata.RHFColorPicker;
 
@@ -11,15 +7,10 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUIColorPicker
+# RHFColorPicker
 
-`MUIColorPicker` wraps [react-color-palette](https://www.npmjs.com/package/react-color-palette) with the suite's
-label/error/helper-text handling. The emitted value format (`hex`, `rgb`, `hsv`) is chosen with `valueKey`.
-
-## Installation
-
-Make sure to install [react-color-palette](https://www.npmjs.com/package/react-color-palette) package
-before using this component.
+**RHFColorPicker** is derived from the [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
+component of [react-color-palette](https://www.npmjs.com/package/react-color-palette) package.
 
 <PackageManagerTabs
   id="install-react-color-palette"
@@ -29,33 +20,32 @@ before using this component.
 ## Usage
 
 ```tsx
-import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
+import RHFColorPicker, { RHFColorPickerProps } from '@nish1896/rhf-mui-components/misc/color-picker';
 ```
 
-The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format, such as:
+The color-picker accepts string value in `hex`, `rgb`, `hsl` or text format, such as:
 - `#00ffff`
 - `rgb(0 255 255)`
 - `hsl(180 100% 100% / 1)`
 - `cyan`
 
-If the field value is uninitialized, the default color **black** (`#000000`) is selected,
+If the field value is uninitialized, the default color **Black**(`#000000`) will be selected,
 which can be configured using the `defaultColor` prop. Refer to the
-[colorToString](../../../form-helpers/colorToString) function to convert
+[colorToString](/v3/form-helpers/colorToString) function to convert
 an **RGB** or **HSV** color object into a string, which can be used to
 set the default color for the color picker.
 
 ```tsx
-const [color, setColor] = useState('#1976d2');
-
-<MUIColorPicker
-  fieldName="brandColor"
-  value={color}
-  onValueChange={({ color, colorValue }) => setColor(colorValue)}
+<RHFColorPicker
+  fieldName="favouriteColor"
+  control={control}
+  value={getValues('favouriteColor')}
+  errorMessage={errors?.favouriteColor?.message}
 />
 ```
 
-The color value returned from the `onValueChange` prop is an object containing the equivalent
-**hex**, **rgb**, and **hsv** values:
+The returned color value from `onValueChange` prop is an object with the equivalent
+**hex**, **rgb** and **hsv** values.
 
 ```js
 {
@@ -74,11 +64,18 @@ The color value returned from the `onValueChange` prop is an object containing t
   }
 }
 ```
- 
-`colorValue` will be string in `hex`, `rgb` or `hsl` format.
 
-## Props
+## Examples
+- [RHFColorPicker](https://rhf-mui-components-examples.vercel.app/miscellaneous-components)
+- [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
 
+## Alternatives
+If this package doesn't meet your requirements, consider the
+[react-color](https://www.npmjs.com/package/react-color) package.
+
+## API
+`RHFColorPickerProps` extends the props of [ColorPicker](https://www.npmjs.com/package/react-color-palette#api)
+and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV1.RHFColorPicker} />
+<PropsTable rows={componentPropsV3.RHFColorPicker} />

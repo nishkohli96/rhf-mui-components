@@ -1,46 +1,52 @@
 import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
-import { PropsDescription as P } from '../descriptions/latest';
-import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
 
-/** Props reference rows for `MUIAutocomplete`. */
+/** Props reference rows for `RHFAutocomplete`. Added in v2 — no v1 rows. */
 const autocompleteRows = ({
+  docsVersion,
   muiVersion,
-  docsVersion
+  v3AndAbove,
+  v4AndAbove
 }: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
-  const v1 = docsVersion === 1;
+  const onValueChange = v4AndAbove
+    ? [
+      resolveProp(PropsDescription.customOnChange_Autocomplete, args),
+      resolveProp(PropsDescription.onValueChange_Autocomplete, args)
+    ]
+    : [resolveProp(LegacyPropsDescription.onValueChange_Autocomplete_v2_v3, args)];
 
   return [
-    P.fieldName,
-    P.options_StrOrObj,
-    P.labelKey,
-    P.valueKey,
-    P.ref_Autocomplete,
-    P.value_Autocomplete,
-    P.onValueChange_Autocomplete,
-    P.multiple,
-    P.disableClearable,
-    P.freeSolo,
-    P.limitTags,
-    P.getLimitTagsText,
-    resolveProp(P.textFieldProps, args),
-    resolveProp(P.ChipProps, args),
-    ...(!v1
-      ? [resolveProp(P.circularProgressProps, args)]
-      : [resolveProp(Pv1.circularProgressProps, args)]
-    ),
-    P.label,
-    resolveProp(P.showLabelAboveFormField, args),
-    P.hideLabel,
-    resolveProp(P.formLabelProps, args),
-    P.required,
-    P.errorMessage,
-    P.renderError,
-    P.hideErrorMessage,
-    resolveProp(P.helperText, args),
-    resolveProp(P.formHelperTextProps, args),
-    P.customIds
+    resolveProp(PropsDescription.fieldName, args),
+    resolveProp(PropsDescription.control, args),
+    resolveProp(PropsDescription.registerOptions, args),
+    resolveProp(PropsDescription.options_StrOrObj, args),
+    resolveProp(PropsDescription.labelKey, args),
+    resolveProp(PropsDescription.valueKey, args),
+    resolveProp(PropsDescription.multiple, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.freeSolo, args)] : []),
+    ...onValueChange,
+    resolveProp(PropsDescription.label, args),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.formLabelProps, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
+    resolveProp(PropsDescription.required, args),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.renderError, args)]
+      : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
+    resolveProp(PropsDescription.hideErrorMessage, args),
+    resolveProp(PropsDescription.helperText, args),
+    resolveProp(PropsDescription.formHelperTextProps, args),
+    resolveProp(PropsDescription.textFieldProps, args),
+    resolveProp(PropsDescription.ChipProps_Autocomplete, args),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
+        : []),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };
 

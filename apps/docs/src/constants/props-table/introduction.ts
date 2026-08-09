@@ -4,7 +4,12 @@ import PropsDescription from './descriptions/props';
 import LegacyPropsDescription from './descriptions/legacy-props';
 
 /** Props reference rows shown on the introduction page. */
-const introductionPageRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+const introductionPageRows = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
 
   return [

@@ -1,9 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { componentMetadata, componentPropsV1 } from '@/constants';
 
 export const metadata = componentMetadata.RHFTimePicker;
 
@@ -11,66 +7,29 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# Time Pickers
+# RHFTimePicker
 
-These components wrap the Material UI X [Time Picker](https://v8.mui.com/x/react-date-pickers/time-picker/) with the
-suite's label, error and helper-text handling. Each comes in four flavors that share
-the same controlled contract — a `value` in your date library's format and an
-`onValueChange` callback:
-
-- `MUITimePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
-- `MUIDesktopTimePicker` — always renders the desktop (keyboard-first) UI.
-- `MUIMobileTimePicker` — always renders the mobile (modal) UI.
-- `MUIStaticTimePicker` — an always-visible inline picker with no text field.
-
-## Setup
-
-All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
-the adapter for your date library ([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
-[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)):
-
-```tsx
-import { ConfigProvider } from '@nish1896/mui-components/config';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-<ConfigProvider dateAdapter={AdapterDayjs}>
-  <App />
-</ConfigProvider>
-```
-
-Without a `dateAdapter`, the pickers throw at render — this is the one required piece of setup.
+**RHFTimePicker** extends the [TimePicker](https://v6.mui.com/x/react-date-pickers/time-picker/)
+component to allow users to select time for an event.
 
 ## Usage
 
 ```tsx
-import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
-import { type Dayjs } from 'dayjs';
+import RHFTimePicker, { RHFTimePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/time';
 ```
 
 ```tsx
-const [value, setValue] = useState<Dayjs | null>(null);
-
-<MUITimePicker
-  fieldName="time"
-  value={value}
-  onValueChange={({ newValue }) => setValue(newValue)}
+<RHFTimePicker
+  fieldName="wakeUpTime"
+  register={register}
+  setValue={setValue}
+  errorMessage={errors?.wakeUpTime?.message}
 />
 ```
 
-The default handler stores the value only when it is valid — inspect
-`context.validationError` in `onValueChange` if you need to react to invalid entries.
-
-## Props
-
-All four variants (`MUITimePicker`, `MUIDesktopTimePicker`, `MUIMobileTimePicker`,
-`MUIStaticTimePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+## API
+`RHFTimePickerProps` extends [TimePickerProps](https://v6.mui.com/x/api/date-pickers/time-picker/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.RHFTimePicker} />
-
-<Callout type="info">
-  `MUIStaticTimePicker` renders inline with no text field, so two props behave
-  slightly differently: `fieldName` only derives the generated ids and default
-  label (no `name` attribute, since there's no input), and
-  `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
-  that means no visible label renders at all (the accessible name is still applied).
-</Callout>

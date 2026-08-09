@@ -1,35 +1,49 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
 import { resolveProp } from '@/utils';
-import { PropsDescription as P } from '../descriptions/latest';
+import PropsDescription from '../descriptions/props';
+import LegacyPropsDescription from '../descriptions/legacy-props';
 
-/** Props reference rows for `MUICountrySelect`. */
-const countrySelectRows = (args: PropsDescriptionArgs): PropsInfo[] => {
+/** Props reference rows for `RHFCountrySelect`. Added in v2 — no v1 rows. */
+const countrySelectRows = ({ docsVersion, muiVersion, v4AndAbove }: VersionProps): PropsInfo[] => {
+  const args = { docsVersion, muiVersion };
+  const valueKey = v4AndAbove
+    ? PropsDescription.valueKey_CountrySelect
+    : LegacyPropsDescription.valueKey_CountrySelect_v2_v3;
+  const onValueChange = v4AndAbove
+    ? [
+      resolveProp(PropsDescription.customOnChange_CountrySelect, args),
+      resolveProp(PropsDescription.onValueChange_CountrySelect, args)
+    ]
+    : [resolveProp(LegacyPropsDescription.onValueChange_CountrySelect_v2_v3, args)];
+
   return [
-    P.fieldName,
-    P.countries,
-    P.preferredCountries,
-    P.valueKey_CountrySelect,
-    P.ref_Autocomplete,
-    P.value_CountrySelect,
-    P.onValueChange_CountrySelect,
-    P.multiple,
-    P.disableClearable,
-    P.renderOptionLabel_CountrySelect,
-    P.limitTags,
-    P.getLimitTagsText,
-    resolveProp(P.textFieldProps, args),
-    resolveProp(P.ChipProps, args),
-    P.label,
-    resolveProp(P.showLabelAboveFormField, args),
-    resolveProp(P.formLabelProps, args),
-    P.hideLabel,
-    P.required,
-    P.errorMessage,
-    P.renderError,
-    P.hideErrorMessage,
-    resolveProp(P.helperText, args),
-    resolveProp(P.formHelperTextProps, args),
-    P.customIds
+    resolveProp(PropsDescription.fieldName, args),
+    resolveProp(PropsDescription.control, args),
+    resolveProp(PropsDescription.registerOptions, args),
+    resolveProp(PropsDescription.countries, args),
+    resolveProp(PropsDescription.multiple_CountrySelect, args),
+    resolveProp(PropsDescription.preferredCountries, args),
+    resolveProp(valueKey, args),
+    ...onValueChange,
+    resolveProp(PropsDescription.label, args),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.formLabelProps, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.hideLabel, args),
+        resolveProp(PropsDescription.renderOptionLabel_CountrySelect, args)
+      ]
+      : [resolveProp(PropsDescription.displayFlagOnSelect, args)]),
+    resolveProp(PropsDescription.required, args),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.renderError, args)]
+      : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
+    resolveProp(PropsDescription.hideErrorMessage, args),
+    resolveProp(PropsDescription.helperText, args),
+    resolveProp(PropsDescription.formHelperTextProps, args),
+    resolveProp(PropsDescription.textFieldProps, args),
+    resolveProp(PropsDescription.ChipProps_Autocomplete, args),
+    ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };
 

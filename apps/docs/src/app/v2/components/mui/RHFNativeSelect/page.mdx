@@ -1,9 +1,5 @@
-import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import { componentMetadata, componentPropsV2 } from '@/constants';
 
 export const metadata = componentMetadata.RHFNativeSelect;
 
@@ -11,37 +7,54 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUINativeSelect
+# RHFNativeSelect
 
-`MUINativeSelect` wraps the Material UI [Native Select](https://v7.mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of the suite.
+**RHFNativeSelect** extends [NativeSelect](https://v6.mui.com/material-ui/react-select/#native-select)
+and is ideal for mobile-friendly form designs. Similar to [RHFSelect](/v2/components/mui/RHFSelect),
+it supports both arrays and arrays of objects for flexible option rendering.
 
 ## Usage
 
 ```tsx
-import MUINativeSelect, { MUINativeSelectProps } from '@nish1896/mui-components/mui/native-select';
+import RHFNativeSelect, { RHFNativeSelectProps } from '@nish1896/rhf-mui-components/mui/native-select';
 ```
 
-```tsx
-const [country, setCountry] = useState();
+Here's a basic example with an array of strings:
 
-<MUINativeSelect
+```tsx
+<RHFNativeSelect
+  fieldName="color"
+  control={control}
+  options={['Red', 'Blue', 'Orange']}
+  errorMessage={errors?.color?.message}
+/>
+```
+
+And with an array of objects:
+
+```tsx
+<RHFNativeSelect
   fieldName="country"
-  options={['India', 'United States', 'Germany']}
-  value={country}
-  onValueChange={({ newValue }) => setCountry(newValue)}
+  control={control}
+  options={[
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'UAE', country: 'United Arab Emirates' },
+  ]}
+  labelKey="country"
+  valueKey="code"
+  errorMessage={errors?.country?.message}
 />
 ```
 
 <Callout type="warning">
-  When using an array of objects for options, both `labelKey` and `valueKey` 
-  are required. If either is missing, an error will be thrown.
+When using an array of objects for options, both `labelKey` and `valueKey`
+are required. If either is missing, an error will be thrown.
 </Callout>
 
-## Props
+## API
+The `RHFNativeSelectProps` interface extends [NativeSelectProps](https://v6.mui.com/material-ui/api/native-select/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
-
-<PropsTable rows={componentPropsV1.RHFNativeSelect} />
-
-## Reference
-- [Native Select](https://v7.mui.com/material-ui/react-select/#native-select)
+<PropsTable rows={componentPropsV2.RHFNativeSelect} />

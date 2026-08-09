@@ -1,11 +1,5 @@
-import MuiLink from '@mui/material/Link';
-import { DocsPage, PropsTable } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  externalLinks,
-  stackblitzFileLink
-} from '@/constants';
+import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
+import { componentMetadata, componentPropsV2, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFCountrySelect;
 
@@ -13,53 +7,34 @@ export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUICountrySelect
+# RHFCountrySelect
 
-`MUICountrySelect` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
-pre-loaded with a list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 countries</MuiLink>
-(**flag**, **name**, **dial code**, **ISO**). Store the complete `CountryDetails` object,
-or a single property via `valueKey`. Pin common choices with `preferredCountries`.
+<AvailabilityBanner componentName="RHFCountrySelect" version="2.0" />
+
+**RHFCountrySelect** leverages the [Autocomplete](https://v6.mui.com/material-ui/react-autocomplete/)
+component from Material-UI to enable users to select one or more countries
+from a comprehensive list of <a href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</a>.
+It offers flexibility in retrieving
+the selected country's value as its name, ISO code, or ISO3 code. Additionally,
+each option is displayed with the respective country's flag, enhancing the
+component's visual appeal and user experience.
 
 ## Usage
 
 ```tsx
-import MUICountrySelect, {
-  MUICountrySelectProps,
+import RHFCountrySelect, {
+  RHFCountrySelectProps,
   CountryISO,
   CountryDetails,
   countryList
-} from '@nish1896/mui-components/mui/country-select';
+} from '@nish1896/rhf-mui-components/mui/country-select';
 ```
 
-`MUICountrySelect` returns the country property specified by `valueKey`.
-If `valueKey` is omitted, the complete country object is returned instead.
-
 ```tsx
-const [country, setCountry] = useState<CountryDetails | null>(null);
-
-/* Returns "IND" or "AUS" */
-<MUICountrySelect
-  fieldName="country"
-  valueKey="iso3"
-  preferredCountries={['US', 'GB', 'IN']}
-  value={country}
-  onValueChange={({ newValue }) => setCountry(newValue)}
-/>
-
-/**
- * Returns
- * {
- *   name: 'India',
- *   iso: 'IN',
- *   iso3: 'IND',
- *   emoji: '🇮🇳'
- * }
- */
-<MUICountrySelect
+<RHFCountrySelect
   fieldName="nationality"
-  preferredCountries={['IN', 'US', 'AU']}
-  value={nationality}
-  onValueChange={({ newValue }) => setNationality(newValue)}
+  control={control}
+  errorMessage={errors?.nationality?.message}
 />
 ```
 
@@ -75,13 +50,14 @@ structured as follows:
 }
 ```
 
-The `iso` key is the default identifier used for country option values,
-providing a compact and consistent way to store selections.
-The `iso` key is strongly typed as `CountryISO`, ensuring type safety
-and consistency during integration. You can also retrieve the ***name***
-or ***iso3*** value(s) by setting the desired key through the `valueKey` prop.
+By default, the `iso` key is used to return the value of the selected
+option(s), offering a compact and consistent identifier. The iso key is
+strongly typed as `CountryISO`, ensuring type safety and consistency in
+integration. Additionally, users can choose to retrieve the **_name_** or
+**_iso3_** value(s) of the selected option(s) by specifying the desired key
+through the `valueKey` prop, providing flexibility to suit various use cases.
 
-For developers who need access to all available country data,
+For developers seeking access to all available country data,
 the complete list of countries is provided via the `countryList` export
 from this module.
 
@@ -89,7 +65,7 @@ The following code snippet demonstrates an advanced use case where users
 can select multiple countries by their names from a predefined list of
 country options. To improve usability, a set of preferred countries is
 prominently displayed at the top of the dropdown. This prioritization
-keeps frequently chosen options easily accessible and streamlines
+ensures frequently chosen options are easily accessible, streamlining
 the selection process.
 
 ```js
@@ -99,22 +75,21 @@ const filteredCountries = countryList.filter(
 );
 ```
 
-```jsx
-<MUICountrySelect
+```tsx
+<RHFCountrySelect
   fieldName="dreamDestinations"
-  countries={filteredCountries}
-  preferredCountries={['IN', 'AU', 'JP']}
+  control={control}
   valueKey="name"
+  preferredCountries={['IN', 'AU', 'JP']}
+  countries={filteredCountries}
   multiple
+  errorMessage={errors?.dreamDestinations?.message}
 />
 ```
 
+## API
+The `RHFCountrySelectProps` interface extends [AutocompleteProps](https://v6.mui.com/material-ui/api/autocomplete/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-## Props
-
-Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instead of the full object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
-
-<PropsTable rows={componentPropsV1.RHFCountrySelect} />
-
-## Reference
-- [Country select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)
+<PropsTable rows={componentPropsV2.RHFCountrySelect} />
