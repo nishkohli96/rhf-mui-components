@@ -157,7 +157,7 @@ const PropsDescription: Record<
   },
   renderError: {
     name: 'renderError',
-    description: 'Custom renderer for the React Hook Form field error. Receives the current field error and returns the content to display, such as `error.message` or a custom React element in the `HelperText` component.\n\nAvailable from `v4.1.0`.',
+    description: 'Custom renderer for the React Hook Form field error. Receives the current field error and returns the content to display, such as `error.message` or a custom React element in the `HelperText` component.\n\n**Available from** `v4.1.0`.',
     type: '(error: FieldError) => ReactNode'
   },
   formHelperTextProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
@@ -541,7 +541,7 @@ const PropsDescription: Record<
   },
   onBlur_FileUploader: {
     name: 'onBlur',
-    description: 'Callback function that returns the blur event when the file uploader component loses focus. Added in `v4.2.0`.',
+    description: 'Callback function that returns the blur event when the file uploader component loses focus.\n\n**Added in** `v4.2.0`.',
     type: '(event: FocusEvent) => void'
   },
   fullWidth_FileUploader: {
@@ -743,7 +743,7 @@ const PropsDescription: Record<
   limitTags: {
     name: 'limitTags',
     description:
-			'Maximum number of tags to show when the input is not focused. The default value is `2`. Provide value as `-1` to show all tags.',
+			'Maximum number of tags to show when the input is not focused. Provide value as `-1` to show all tags.\n\n**Default value is** `2`.',
     type: 'number'
   },
   getLimitTagsText: {

@@ -19,17 +19,17 @@ import { codeToHtml } from 'shiki';
 import CodeSnippetsView, { type ResolvedSnippet } from './CodeSnippetsView';
 
 /** Either a pre-resolved snippet, or a source file to read and highlight at render time. */
-export type ComponentSnippet =
-  | ResolvedSnippet
-  | {
+export type ComponentSnippet
+  = | ResolvedSnippet
+    | {
     /** File name shown as the accordion title. */
-    title: string;
-    /**
+      title: string;
+      /**
      * Path to the source file, relative to the docs app root (e.g.
      * `src/forms/styled-components/StyledTextField.tsx`).
      */
-    src: string;
-  };
+      src: string;
+    };
 
 /**
  * `process.cwd()` is the monorepo root when running `next dev` but the app dir

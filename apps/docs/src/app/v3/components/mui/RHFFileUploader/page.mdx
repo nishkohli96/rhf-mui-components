@@ -1,5 +1,14 @@
-import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
-import { componentMetadata, componentProps, externalLinks } from '@/constants';
+import MuiLink from '@mui/material/Link';
+import {
+  DocsPage,
+  PropsTable,
+  Callout
+} from '@/components/docs';
+import {
+  componentMetadata,
+  componentProps,
+  externalLinks
+} from '@/constants';
 
 export const metadata = componentMetadata.RHFFileUploader;
 
@@ -8,8 +17,6 @@ export default function Layout({ children }) {
 }
 
 # RHFFileUploader
-
-<AvailabilityBanner componentName="RHFFileUploader" version="2.1" />
 
 **RHFFileUploader** component is a flexible and easy-to-use file input field built
 supporting both single and multi-file uploads, optional file type and size validation,
@@ -46,8 +53,22 @@ A file object has the following properties:
 When uploading files via an API, the files are sent within a **FormData** object.
 On a Node.js Express server, you can handle this incoming data using the [Multer](https://www.npmjs.com/package/multer) middleware.
 See:
-- <a href={externalLinks.githubExamples.multerFileUpload} target="_blank" rel="noopener noreferrer">Multer File Upload Example</a>
-- <a href={externalLinks.githubExamples.fileUploadMiddleware} target="_blank" rel="noopener noreferrer">File Upload Middleware Examples</a>
+- <MuiLink
+    href={externalLinks.githubExamples.multerFileUpload}
+    target="_blank"
+    rel="noopener
+    noreferrer"
+  >
+    Multer File Upload Example
+  </MuiLink>
+- <MuiLink
+    href={externalLinks.githubExamples.fileUploadMiddleware}
+    target="_blank"
+    rel="noopener
+    noreferrer"
+  >
+    File Upload Middleware Examples
+  </MuiLink>
 
 ```ts
 async function onFormSubmit(formValues: FormSchema) {
@@ -137,5 +158,4 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
   rows={componentProps.RHFFileUploader}
   docsVersion={3}
   muiVersion={7}
-  v3AndAbove
 />

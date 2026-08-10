@@ -4,7 +4,12 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFFileUploader`. Added in v2.1, rewritten in v4. */
-const fileUploaderRows = ({ docsVersion, muiVersion, v2, v4AndAbove }: VersionProps): PropsInfo[] => {
+const fileUploaderRows = ({
+  docsVersion,
+  muiVersion,
+  v2,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
 
   if (v4AndAbove) {

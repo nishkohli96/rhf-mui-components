@@ -4,7 +4,11 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFTagsInput`. Added in v2 — no v1 rows. */
-const tagsInputRows = ({ docsVersion, muiVersion, v4AndAbove }: VersionProps): PropsInfo[] => {
+const tagsInputRows = ({
+  docsVersion,
+  muiVersion,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
   const onValueChange = v4AndAbove
     ? PropsDescription.onValueChange_tagsInput
@@ -14,6 +18,7 @@ const tagsInputRows = ({ docsVersion, muiVersion, v4AndAbove }: VersionProps): P
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(PropsDescription.control, args),
     resolveProp(PropsDescription.registerOptions, args),
+    resolveProp(onValueChange, args),
     ...(v4AndAbove
       ? [
         resolveProp(PropsDescription.onTagAdd, args),
@@ -23,7 +28,6 @@ const tagsInputRows = ({ docsVersion, muiVersion, v4AndAbove }: VersionProps): P
         resolveProp(PropsDescription.maxTags, args)
       ]
       : []),
-    resolveProp(onValueChange, args),
     resolveProp(PropsDescription.label, args),
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),

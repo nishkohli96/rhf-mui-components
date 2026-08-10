@@ -39,11 +39,11 @@ const passwordInputRows = ({
       : v3AndAbove
         ? [
           resolveProp(LegacyPropsDescription.iconButtonProps_PasswordInput_v3, args),
-        resolveProp(LegacyPropsDescription.readOnly_PasswordInput_v3, args)
+          resolveProp(LegacyPropsDescription.readOnly_PasswordInput_v3, args)
         ]
         : []),
     resolveProp(PropsDescription.label, args),
-        resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.hideLabel, args)]

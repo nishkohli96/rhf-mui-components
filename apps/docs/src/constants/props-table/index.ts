@@ -15,7 +15,7 @@
  * MUI release.
  */
 
-import type { PropsInfo, VersionProps } from '@/types';
+import type { VersionProps } from '@/types';
 import { default as introductionPageRows } from './introduction';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';

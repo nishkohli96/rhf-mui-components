@@ -314,7 +314,7 @@ const LegacyPropsDescription: Record<
   },
   onBlur_FileUploader_v3: {
     name: 'onBlur',
-    description: 'Callback function that returns the blur event when the file uploader component loses focus. Added in `v3.6.0`.',
+    description: 'Callback function that returns the blur event when the file uploader component loses focus.\n\n**Added in** `v3.6.0`.',
     type: '(event: FocusEvent) => void'
   },
   menuItemProps_Select_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
