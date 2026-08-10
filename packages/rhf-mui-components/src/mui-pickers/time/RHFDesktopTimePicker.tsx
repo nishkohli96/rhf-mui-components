@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type DesktopTimePickerInputProps = Omit<
-  DesktopTimePickerProps<PickerValidDate>,
+  DesktopTimePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 

@@ -88,15 +88,8 @@ export const v4VersionArgs: VersionProps = {
 
 const buildComponentProps = (args: VersionProps) => {
   return Object.freeze({
-    /*
-     * Kept as the raw row-builder (not a precomputed array): the
-     * `getting-started` page is shared across every docs version, so it
-     * passes `docsVersion`/`muiVersion`/`v1`/etc. directly to `<PropsTable>`
-     * instead of relying on a version baked in here.
-     */
     Introduction: introductionPageRows,
-
-    RHFTextField: textFieldRows(args),
+    RHFTextField: textFieldRows,
     RHFPasswordInput: passwordInputRows(args),
     RHFNumberInput: numberInputRows(args),
     RHFTagsInput: tagsInputRows(args),

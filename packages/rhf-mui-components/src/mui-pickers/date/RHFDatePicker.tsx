@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type DatePickerInputProps = Omit<
-  DatePickerProps<PickerValidDate>,
+  DatePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 

@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV2 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFTextField;
 
@@ -35,7 +35,11 @@ The `RHFTextFieldProps` interface extends [TextFieldProps](https://v6.mui.com/ma
 and includes the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV2.RHFTextField} />
+<PropsTable
+  rows={componentProps.RHFTextField}
+  docsVersion={2}
+  muiVersion={6}
+/>
 
 ## Reference
 - [MUI TextField](https://v6.mui.com/material-ui/react-text-field/)

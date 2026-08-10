@@ -105,7 +105,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
-} & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange'>;
+} & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange' | 'ref'>;
 
 const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
   {

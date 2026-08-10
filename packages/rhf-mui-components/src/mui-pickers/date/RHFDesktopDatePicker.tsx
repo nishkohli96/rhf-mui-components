@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type DesktopDatePickerInputProps = Omit<
-  DesktopDatePickerProps<PickerValidDate>,
+  DesktopDatePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 

@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type MobileDateTimePickerInputProps = Omit<
-  MobileDateTimePickerProps<PickerValidDate>,
+  MobileDateTimePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 

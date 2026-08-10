@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type TimePickerInputProps = Omit<
-  TimePickerProps<PickerValidDate>,
+  TimePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 

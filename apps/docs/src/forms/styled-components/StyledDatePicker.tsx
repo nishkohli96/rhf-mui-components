@@ -1,36 +1,36 @@
 /**
  * The below snippet illustrates how to create a reusable customized DatePicker
- * using MUIDatePicker, which can be used throughout the application.
+ * using RHFDatePicker, which can be used throughout the application.
  *
  * The look is preset here — label above the field, a `dd LLL yyyy` display
  * format, a rounded / tinted input, a branded calendar icon and focus outline —
- * so callers only pass data props (`value`, `onValueChange`, `errorMessage`…).
- * MUIDatePicker forwards every underlying MUI `DatePickerProps` (`slots`,
+ * so callers only pass data props (`fieldName`, `control`, `onValueChange`…).
+ * RHFDatePicker forwards every underlying MUI `DatePickerProps` (`slots`,
  * `slotProps`, `format`, …), so all customization is just props — no `styled()`.
  *
  * A similar approach can be taken to create reusable styled components for:
- * - MUITimePicker
- * - MUIDateTimePicker
+ * - RHFTimePicker
+ * - RHFDateTimePicker
  */
 
+import { type FieldValues } from 'react-hook-form';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import type { PickerValidDate } from '@mui/x-date-pickers/models';
 import {
-  MUIDatePicker,
-  type MUIDatePickerProps
-} from '@nish1896/mui-components/mui-pickers/date';
+  RHFDatePicker,
+  type RHFDatePickerProps
+} from '@nish1896/rhf-mui-components/mui-pickers/date';
 
 const brandColor = '#007bff';
 
-type StyledDatePickerProps<TDate extends PickerValidDate = PickerValidDate>
-  = Omit<MUIDatePickerProps<TDate>, 'showLabelAboveFormField'>;
+type StyledDatePickerProps<T extends FieldValues>
+  = Omit<RHFDatePickerProps<T>, 'showLabelAboveFormField'>;
 
-const StyledDatePicker = <TDate extends PickerValidDate = PickerValidDate>({
+const StyledDatePicker = <T extends FieldValues>({
   slotProps,
   ...rest
-}: StyledDatePickerProps<TDate>) => {
+}: StyledDatePickerProps<T>) => {
   return (
-    <MUIDatePicker
+    <RHFDatePicker
       showLabelAboveFormField
       format="dd LLL yyyy"
       slots={{ openPickerIcon: CalendarMonthIcon }}
