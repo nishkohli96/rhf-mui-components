@@ -23,9 +23,6 @@ const numberInputRows = ({
     resolveProp(PropsDescription.registerOptions, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange_Inputs, args)] : []),
     valueChange,
-    resolveProp(PropsDescription.label, args),
-    resolveProp(PropsDescription.showLabelAboveFormField, args),
-    resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove
       ? [
         resolveProp(PropsDescription.hideLabel, args),
@@ -35,6 +32,9 @@ const numberInputRows = ({
         resolveProp(PropsDescription.stepAmount, args)
       ]
       : []),
+    resolveProp(PropsDescription.label, args),
+    resolveProp(PropsDescription.showLabelAboveFormField, args),
+    resolveProp(PropsDescription.formLabelProps, args),
     resolveProp(PropsDescription.showMarkers, args),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
