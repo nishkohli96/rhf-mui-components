@@ -1,5 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
-import type { PropsInfo } from '@/types';
+import type { PropsInfo, VersionProps } from '@/types';
 
 /**
  * Matches the inline markdown constructs used by prop descriptions in
@@ -52,12 +52,17 @@ const renderInlineMd = (text: string): ReactNode => (
   </Fragment>
 );
 
-type PropsTableProps = {
+type PropsTableProps = VersionProps & {
   /**
    * Table rows, one per component prop — compose them from
    * `componentProps` / `PropsDescription` in `constants/props-table`.
+   *
+   * Either a ready-made `PropsInfo[]` (as pulled from the precomputed
+   * `componentProps`/`componentPropsVN` records), or a row-builder function
+   * — in which case the version props passed alongside `rows` on this same
+   * component (`docsVersion`, `muiVersion`, `v1`, etc.) are forwarded to it.
    */
-  rows: PropsInfo[];
+  rows: PropsInfo[] | ((args: VersionProps) => PropsInfo[]);
 };
 
 /**
@@ -66,7 +71,20 @@ type PropsTableProps = {
  * crawlable. Rows are typed `PropsInfo[]` maintained centrally, keeping prop
  * docs consistent across components and package versions.
  */
-const PropsTable = ({ rows }: PropsTableProps) => {
+const PropsTable = ({
+  rows,
+  docsVersion,
+  muiVersion,
+  muiXVersion,
+  v1,
+  v2,
+  v3AndAbove,
+  v4AndAbove
+}: PropsTableProps) => {
+  const resolvedRows = typeof rows === 'function'
+    ? rows({ docsVersion, muiVersion, muiXVersion, v1, v2, v3AndAbove, v4AndAbove })
+    : rows;
+
   return (
     <table>
       <thead>
@@ -77,7 +95,7 @@ const PropsTable = ({ rows }: PropsTableProps) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map(row => (
+        {resolvedRows.map(row => (
           <tr key={row.name}>
             <td>
               <code>

@@ -86,11 +86,16 @@ export const v4VersionArgs: VersionProps = {
   v4AndAbove: true
 };
 
-const buildComponentProps = (
-  args: VersionProps
-): Record<string, PropsInfo[]> => {
+const buildComponentProps = (args: VersionProps) => {
   return Object.freeze({
-    Introduction: introductionPageRows(args),
+    /*
+     * Kept as the raw row-builder (not a precomputed array): the
+     * `getting-started` page is shared across every docs version, so it
+     * passes `docsVersion`/`muiVersion`/`v1`/etc. directly to `<PropsTable>`
+     * instead of relying on a version baked in here.
+     */
+    Introduction: introductionPageRows,
+
     RHFTextField: textFieldRows(args),
     RHFPasswordInput: passwordInputRows(args),
     RHFNumberInput: numberInputRows(args),
@@ -115,9 +120,15 @@ const buildComponentProps = (
     RHFTimePicker: timePickerRows(args),
     RHFDateTimePicker: dateTimePickerRows(args),
 
-    RHFColorPicker: colorPickerRows(args),
-    RHFRichTextEditor: richTextEditorRows(args),
-    RHFPhoneInput: phoneInputRows(args)
+    /*
+     * Misc components: also kept as raw row-builders, same as `Introduction`
+     * above — their doc pages pass `docsVersion`/`muiVersion`/`v1`/etc.
+     * straight to `<PropsTable>` instead of picking from a precomputed
+     * per-version record.
+     */
+    RHFColorPicker: colorPickerRows,
+    RHFRichTextEditor: richTextEditorRows,
+    RHFPhoneInput: phoneInputRows
   });
 };
 

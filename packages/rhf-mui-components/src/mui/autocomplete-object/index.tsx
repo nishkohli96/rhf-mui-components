@@ -54,7 +54,6 @@ type OmittedAutocompleteProps<
   | 'value'
   | 'defaultValue'
   | 'onChange'
-  | 'getOptionKey'
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
   | 'blurOnSelect'
