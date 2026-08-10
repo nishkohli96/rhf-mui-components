@@ -31,12 +31,16 @@ const nativeSelectRows = ({
     resolveProp(PropsDescription.valueKey, args),
     ...(v4AndAbove
       ? [
-        resolveProp(PropsDescription.renderOptionLabel, args),
-        resolveProp(PropsDescription.getOptionDisabled, args),
         resolveProp(PropsDescription.customOnChange_NativeSelect, args)
       ]
       : []),
-    resolveProp(onValueChange, args),
+      resolveProp(onValueChange, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.renderOptionLabel, args),
+        resolveProp(PropsDescription.getOptionDisabled, args)
+      ]
+      : []),
     ...(v1
       ? [
         resolveProp(PropsDescription.showDefaultOption, args),
