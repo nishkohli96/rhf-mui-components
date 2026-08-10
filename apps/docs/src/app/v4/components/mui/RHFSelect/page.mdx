@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV4, externalLinks } from '@/constants';
+import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFSelect;
 
@@ -62,14 +62,16 @@ You can extend or reuse the `RHFSelect` component by creating your own wrapper c
 👉 <a href={externalLinks.githubExamples.styledSelect} target="_blank" rel="noopener noreferrer">StyledSelect (GitHub)</a>
 
 ## Examples
-- [RHFSelect](https://rhf-mui-components-examples.vercel.app/select)
 - [Select](https://v7.mui.com/material-ui/react-select/)
-- [Styled Select](https://rhf-mui-components-examples.vercel.app/customization)
-- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
 ## API
 The `RHFSelectProps` interface extends [SelectProps](https://v7.mui.com/material-ui/api/select/)
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV4.RHFSelect} />
+<PropsTable
+  rows={componentProps.RHFSelect}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

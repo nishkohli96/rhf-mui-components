@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
-import { componentMetadata, componentPropsV4 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFNumberInput;
 
@@ -32,9 +32,7 @@ To render a fully functional `RHFNumberInput`, you only need two or three essent
 ```
 
 ## Examples
-- [RHFNumberInput](https://rhf-mui-components-examples.vercel.app/inputs)
 - [TextField](https://v7.mui.com/material-ui/react-text-field/)
-- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
 ## API
 
@@ -42,4 +40,9 @@ The `RHFNumberInputProps` interface extends [TextFieldProps](https://v7.mui.com/
 and includes the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV4.RHFNumberInput} />
+<PropsTable
+  rows={componentProps.RHFNumberInput}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

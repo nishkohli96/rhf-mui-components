@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV3 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFPasswordInput;
 
@@ -40,7 +40,9 @@ import RHFPasswordInput, { RHFPasswordInputProps } from '@nish1896/rhf-mui-compo
 The `RHFPasswordInputProps` interface extends [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
 and includes additional options for password handling and input customization.
 
-<PropsTable rows={componentPropsV3.RHFPasswordInput} />
-
-## Reference
-- [TextField with Input Adornment](https://v7.mui.com/material-ui/react-text-field/#input-adornments)
+<PropsTable
+  rows={componentProps.RHFPasswordInput}
+  docsVersion={3}
+  muiVersion={7}
+  v3AndAbove
+/>

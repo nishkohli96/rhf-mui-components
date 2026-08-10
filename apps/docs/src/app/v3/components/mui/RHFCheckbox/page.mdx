@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV3 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFCheckbox;
 
@@ -39,4 +39,9 @@ import RHFCheckbox, { RHFCheckboxProps } from '@nish1896/rhf-mui-components/mui/
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV3.RHFCheckbox} />
+<PropsTable
+  rows={componentProps.RHFCheckbox}
+  docsVersion={3}
+  muiVersion={7}
+  v3AndAbove
+/>

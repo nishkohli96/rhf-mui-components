@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV4 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFRating;
 
@@ -28,13 +28,16 @@ import RHFRating, { RHFRatingProps } from '@nish1896/rhf-mui-components/mui/rati
 ```
 
 ## Examples
-- [RHFRating](https://rhf-mui-components-examples.vercel.app/switch-slider-rating)
 - [Rating](https://v7.mui.com/material-ui/react-rating/)
-- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
 ## API
 `RHFRatingProps` extends [RatingProps](https://v7.mui.com/material-ui/api/Rating/)
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV4.RHFRating} />
+<PropsTable
+  rows={componentProps.RHFRating}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

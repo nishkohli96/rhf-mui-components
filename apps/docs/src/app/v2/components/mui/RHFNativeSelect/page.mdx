@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV2 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFNativeSelect;
 
@@ -57,4 +57,9 @@ The `RHFNativeSelectProps` interface extends [NativeSelectProps](https://v6.mui.
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV2.RHFNativeSelect} />
+<PropsTable
+  rows={componentProps.RHFNativeSelect}
+  docsVersion={2}
+  muiVersion={6}
+  v2
+/>

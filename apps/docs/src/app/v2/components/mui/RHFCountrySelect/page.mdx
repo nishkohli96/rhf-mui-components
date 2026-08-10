@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
-import { componentMetadata, componentPropsV2, externalLinks } from '@/constants';
+import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFCountrySelect;
 
@@ -92,4 +92,9 @@ The `RHFCountrySelectProps` interface extends [AutocompleteProps](https://v6.mui
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV2.RHFCountrySelect} />
+<PropsTable
+  rows={componentProps.RHFCountrySelect}
+  docsVersion={2}
+  muiVersion={6}
+  v2
+/>

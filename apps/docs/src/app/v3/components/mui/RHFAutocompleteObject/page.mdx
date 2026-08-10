@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV3 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFAutocompleteObject;
 
@@ -93,4 +93,9 @@ The `RHFAutocompleteObjectProps` interface extends [AutocompleteProps](https://v
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV3.RHFAutocompleteObject} />
+<PropsTable
+  rows={componentProps.RHFAutocompleteObject}
+  docsVersion={3}
+  muiVersion={7}
+  v3AndAbove
+/>

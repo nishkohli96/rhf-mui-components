@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
-import { componentMetadata, componentPropsV3 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFNumberInput;
 
@@ -43,4 +43,9 @@ The `RHFNumberInputProps` interface extends [TextFieldProps](https://v7.mui.com/
 and includes the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV3.RHFNumberInput} />
+<PropsTable
+  rows={componentProps.RHFNumberInput}
+  docsVersion={3}
+  muiVersion={7}
+  v3AndAbove
+/>

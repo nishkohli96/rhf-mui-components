@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV2 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFCheckboxGroup;
 
@@ -60,4 +60,9 @@ are required. If either is missing, an error will be thrown.
 `RHFCheckboxGroupProps` accepts the following props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV2.RHFCheckboxGroup} />
+<PropsTable
+  rows={componentProps.RHFCheckboxGroup}
+  docsVersion={2}
+  muiVersion={6}
+  v2
+/>

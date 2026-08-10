@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV4 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFMultiAutocompleteObject;
 
@@ -72,11 +72,15 @@ Indeterminate state:
 - Triggered when some but not all options are selected
 
 ## Examples
-- [RHFMultiAutocompleteObject](https://rhf-mui-components-examples.vercel.app/autocomplete)
 
 ## API
 The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/)
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV4.RHFMultiAutocompleteObject} />
+<PropsTable
+  rows={componentProps.RHFMultiAutocompleteObject}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

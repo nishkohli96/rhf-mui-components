@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFRating;
 
@@ -33,4 +33,9 @@ import RHFRating, { RHFRatingProps } from '@nish1896/rhf-mui-components/mui/rati
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV1.RHFRating} />
+<PropsTable
+  rows={componentProps.RHFRating}
+  docsVersion={1}
+  muiVersion={5}
+  v1
+/>

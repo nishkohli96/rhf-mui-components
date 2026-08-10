@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV2 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFAutocomplete;
 
@@ -63,4 +63,9 @@ The `RHFAutocompleteProps` interface extends [AutocompleteProps](https://v6.mui.
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV2.RHFAutocomplete} />
+<PropsTable
+  rows={componentProps.RHFAutocomplete}
+  docsVersion={2}
+  muiVersion={6}
+  v2
+/>
