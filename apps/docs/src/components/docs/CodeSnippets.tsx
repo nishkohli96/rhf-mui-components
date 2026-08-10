@@ -1,108 +1,93 @@
-'use client';
-
 /**
- * Collapsible, copyable source viewers for the reusable `Styled*` components
- * used on this page. Each snippet is read and syntax-highlighted at build time
- * (see `page.tsx`) with the same shiki config as the MDX pipeline, then rendered
- * here inside a `.doc-code-block` so it inherits the site's code-block styling.
- * All accordions are collapsed by default.
+ * Server-side entry for `CodeSnippetsView`: resolves each snippet — either
+ * already-computed `{ code, html }`, or a `{ src }` file path read and
+ * syntax-highlighted here at render time with the same shiki config as the
+ * MDX code fences (`themes: { light: 'light-plus', dark: 'dark-plus' }`,
+ * `defaultColor: false`) — then hands the resolved list to the interactive
+ * client view.
+ *
+ * Kept as a plain async Server Component (no `'use client'`) specifically so
+ * it can be dropped straight into a `.mdx` page — MDX bodies can't `await`,
+ * but React can render an async Server Component nested anywhere in the tree
+ * without the caller needing to await it.
  */
 
-import { type ReactNode, useState } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CodeIcon from '@mui/icons-material/Code';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckIcon from '@mui/icons-material/Check';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { type ReactNode } from 'react';
+import { codeToHtml } from 'shiki';
+import CodeSnippetsView, { type ResolvedSnippet } from './CodeSnippetsView';
 
-export type ComponentSnippet = {
-  /** File name shown as the accordion title. */
-  title: string;
-  /** Raw source, copied to the clipboard. */
-  code: string;
-  /** shiki-highlighted HTML rendered in the code block. */
-  html: string;
-};
-
-const CopyButton = ({ code }: { code: string }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      /* Clipboard unavailable (permissions/insecure context) — ignore. */
-    }
+/** Either a pre-resolved snippet, or a source file to read and highlight at render time. */
+export type ComponentSnippet =
+  | ResolvedSnippet
+  | {
+    /** File name shown as the accordion title. */
+    title: string;
+    /**
+     * Path to the source file, relative to the docs app root (e.g.
+     * `src/forms/styled-components/StyledTextField.tsx`).
+     */
+    src: string;
   };
 
-  return (
-    <Tooltip title={copied ? 'Copied!' : 'Copy code'} placement="left">
-      <IconButton
-        size="small"
-        onClick={handleCopy}
-        aria-label="Copy code to clipboard"
-        className="doc-code-copy"
-      >
-        {copied
-          ? <CheckIcon fontSize="inherit" />
-          : <ContentCopyIcon fontSize="inherit" />}
-      </IconButton>
-    </Tooltip>
-  );
-};
+/**
+ * `process.cwd()` is the monorepo root when running `next dev` but the app dir
+ * on a Vercel build, so resolve `src` from whichever base actually contains it.
+ */
+async function resolveSrcPath(src: string): Promise<string> {
+  const candidates = [
+    path.join(process.cwd(), 'apps/docs', src),
+    path.join(process.cwd(), src)
+  ];
+  for (const candidate of candidates) {
+    try {
+      await fs.access(candidate);
+      return candidate;
+    } catch {
+      /* not this base — try the next candidate */
+    }
+  }
+  return candidates[candidates.length - 1];
+}
+
+const isResolvedSnippet = (
+  snippet: ComponentSnippet
+): snippet is ResolvedSnippet => 'code' in snippet && 'html' in snippet;
+
+async function resolveSnippet(snippet: ComponentSnippet): Promise<ResolvedSnippet> {
+  if (isResolvedSnippet(snippet)) {
+    return snippet;
+  }
+
+  const filePath = await resolveSrcPath(snippet.src);
+  const code = await fs.readFile(filePath, 'utf8');
+  const html = await codeToHtml(code, {
+    lang: 'tsx',
+    themes: { light: 'light-plus', dark: 'dark-plus' },
+    defaultColor: false
+  });
+  return { title: snippet.title, code, html };
+}
 
 type CodeSnippetsProps = {
-  title: ReactNode;
-  description: ReactNode;
+  title?: ReactNode;
+  description?: ReactNode;
   snippets: ComponentSnippet[];
 };
 
-const CodeSnippets = ({
+const CodeSnippets = async ({
   title,
   description,
   snippets
 }: CodeSnippetsProps) => {
+  const resolvedSnippets = await Promise.all(snippets.map(resolveSnippet));
   return (
-    <Box
-      sx={{
-        mt: 4,
-        /* The accordion is the container, so drop the code block's own frame. */
-        '& .doc-code-block': { m: 0, border: 0, borderRadius: 0 }
-      }}
-    >
-      <Typography variant="h6" sx={{ mb: 1 }}>
-        {title}
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        {description}
-      </Typography>
-      {snippets.map(snippet => (
-        <Accordion key={snippet.title} disableGutters>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
-              <CodeIcon fontSize="small" color="action" />
-              <Typography sx={{ fontFamily: 'monospace', fontWeight: 500 }}>
-                {snippet.title}
-              </Typography>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails sx={{ p: 0 }}>
-            <div className="doc-code-block">
-              <CopyButton code={snippet.code} />
-              <div dangerouslySetInnerHTML={{ __html: snippet.html }} />
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      ))}
-    </Box>
+    <CodeSnippetsView
+      title={title}
+      description={description}
+      snippets={resolvedSnippets}
+    />
   );
 };
 

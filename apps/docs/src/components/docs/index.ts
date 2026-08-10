@@ -8,11 +8,15 @@
  * - PageNav: Docusaurus-style prev/next footer nav, already included by DocsPage.
  * - PageToc: standalone TOC, already included by DocsPage.
  * - PropsTable: props reference table fed by `constants/props-table`.
+ *
+ * `CodeSnippets` is deliberately NOT re-exported here: it reads files off
+ * disk (`node:fs`), and this barrel is reachable from many Client Components
+ * via `@/components` (`export * from './docs'`) — bundling it in breaks the
+ * client build. Import it directly: `@/components/docs/CodeSnippets`.
  */
 
 export { default as AvailabilityBanner } from './AvailabilityBanner';
 export { default as Callout } from './Callout';
-export { default as CodeSnippets, type ComponentSnippet } from './CodeSnippets';
 export { default as DocsPage } from './DocsPage';
 export { default as MdxPre } from './MdxPre';
 export { default as PackageManagerTabs } from './PackageManagerTabs';

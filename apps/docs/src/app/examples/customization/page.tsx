@@ -5,10 +5,9 @@ import { codeToHtml } from 'shiki';
 import {
   ContentContainer,
   PageHeading,
-  SubHeading,
-  CodeSnippets,
-  type ComponentSnippet
+  SubHeading
 } from '@/components';
+import CodeSnippets, { type ComponentSnippet } from '@/components/docs/CodeSnippets';
 import { pageMetadata } from '@/constants';
 import StyledReusableComponentForm from '@/forms/styled-components/Client';
 

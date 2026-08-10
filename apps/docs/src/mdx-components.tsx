@@ -2,7 +2,15 @@ import type { MDXComponents } from 'mdx/types';
 import type { ComponentPropsWithoutRef } from 'react';
 import Typography from '@mui/material/Typography';
 import MuiLink from '@mui/material/Link';
-import { Callout, MdxPre, PackageManagerTabs } from '@/components/docs';
+/*
+ * Imported directly from each file, NOT the `@/components/docs` barrel:
+ * this module must be bundleable for the client, and the barrel also
+ * re-exports `CodeSnippets`, which touches Node built-ins (`fs`, `path`) —
+ * pulling it in here breaks the client build.
+ */
+import Callout from '@/components/docs/Callout';
+import MdxPre from '@/components/docs/MdxPre';
+import PackageManagerTabs from '@/components/docs/PackageManagerTabs';
 
 type HeadingProps = ComponentPropsWithoutRef<'h2'>;
 

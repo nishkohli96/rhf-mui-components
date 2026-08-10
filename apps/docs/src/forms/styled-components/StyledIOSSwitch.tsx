@@ -15,10 +15,11 @@
  * tweaks still win.
  */
 
+import { type FieldValues } from 'react-hook-form';
 import type { Theme } from '@mui/material/styles';
-import MUISwitch, {
-  type MUISwitchProps
-} from '@nish1896/mui-components/mui/switch';
+import RHFSwitch, {
+  type RHFSwitchProps
+} from '@nish1896/rhf-mui-components/mui/switch';
 
 const iosSwitchSx = (theme: Theme) => ({
   width: 42,
@@ -78,21 +79,21 @@ const iosSwitchSx = (theme: Theme) => ({
   }
 });
 
-const toSxArray = (sx: MUISwitchProps['sx']) =>
+const toSxArray = <T extends FieldValues>(sx: RHFSwitchProps<T>['sx']) =>
   /* eslint-disable-next-line no-nested-ternary */
   (Array.isArray(sx) ? sx : sx ? [sx] : []);
 
-const StyledIOSSwitch = ({
+const StyledIOSSwitch = <T extends FieldValues>({
   sx,
   formControlLabelProps,
   ...rest
-}: MUISwitchProps) => {
+}: RHFSwitchProps<T>) => {
   const { sx: labelSx, ...otherLabelProps } = formControlLabelProps ?? {};
   return (
-    <MUISwitch
+    <RHFSwitch
+      {...rest}
       disableRipple
       focusVisibleClassName=".Mui-focusVisible"
-      {...rest}
       formControlLabelProps={{
         ...otherLabelProps,
         /*

@@ -1,27 +1,30 @@
 /**
  * The below code snippet illustrates how to create a reusable styled Autocomplete
- * component using MUIAutocomplete, which can be used throughout the application.
+ * component using RHFAutocomplete, which can be used throughout the application.
  *
  * A similar approach can be taken to create reusable styled components for:
- * - MUIAutocompleteObject
- * - MUIMultiAutocomplete
- * - MUIMultiAutocompleteObject
+ * - RHFAutocompleteObject
+ * - RHFMultiAutocomplete
+ * - RHFMultiAutocompleteObject
  */
 
-import MUIAutocomplete, {
-  type MUIAutocompleteProps
-} from '@nish1896/mui-components/mui/autocomplete';
-import type { StrObjOption } from '@nish1896/mui-components/types';
+import { type FieldValues } from 'react-hook-form';
+import RHFAutocomplete, {
+  type RHFAutocompleteProps
+} from '@nish1896/rhf-mui-components/mui/autocomplete';
+import type { StrObjOption } from '@nish1896/rhf-mui-components/types';
 
 type StyledAutocompleteProps<
+  T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   DisableClearable extends boolean = false,
   FreeSolo extends boolean = false
-> = Omit<MUIAutocompleteProps<Option, LabelKey, ValueKey, true, DisableClearable, FreeSolo>, 'multiple'>;
+> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey, true, DisableClearable, FreeSolo>, 'multiple'>;
 
 const StyledAutocomplete = <
+  T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -29,9 +32,9 @@ const StyledAutocomplete = <
   FreeSolo extends boolean = false
 >({
   ...rest
-}: StyledAutocompleteProps<Option, LabelKey, ValueKey, DisableClearable, FreeSolo>) => {
+}: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable, FreeSolo>) => {
   return (
-    <MUIAutocomplete
+    <RHFAutocomplete
       formHelperTextProps={{
         sx: { fontColor: theme => theme.palette.info.main }
       }}
