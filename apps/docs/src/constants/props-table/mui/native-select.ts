@@ -34,7 +34,7 @@ const nativeSelectRows = ({
         resolveProp(PropsDescription.customOnChange_NativeSelect, args)
       ]
       : []),
-      resolveProp(onValueChange, args),
+    resolveProp(onValueChange, args),
     ...(v4AndAbove
       ? [
         resolveProp(PropsDescription.renderOptionLabel, args),

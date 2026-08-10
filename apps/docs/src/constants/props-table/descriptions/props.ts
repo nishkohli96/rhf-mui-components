@@ -706,7 +706,7 @@ const PropsDescription: Record<
   },
   circularProgressProps_Autocompletes: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'circularProgressProps',
-    description: `Props forwarded to the [CircularProgress](${externalLinks.muiComponents.circularProgress(muiVersion)}) displayed in the autocomplete input when it is \`loading\`. Added in \`v4.3\`.`,
+    description: `Props forwarded to the [CircularProgress](${externalLinks.muiComponents.circularProgress(muiVersion)}) displayed in the autocomplete input when it is \`loading\`.\n\n**Added in** \`v4.3\`.`,
     type: `[CircularProgressProps](${externalLinks.muiComponentApi.circularProgress(muiVersion)})`,
     hasLinkInType: true
   }),

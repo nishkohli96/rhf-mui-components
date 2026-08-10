@@ -13,8 +13,8 @@ const autocompleteObjectRows = ({
   const args = { docsVersion, muiVersion };
   const onValueChange = v4AndAbove
     ? [
+      resolveProp(PropsDescription.customOnChange_AutocompleteObject, args),
       resolveProp(PropsDescription.onValueChange_AutocompleteObject, args),
-      resolveProp(PropsDescription.customOnChange_AutocompleteObject, args)
     ]
     : [resolveProp(LegacyPropsDescription.onValueChange_AutocompleteObject_v3, args)];
 
@@ -25,7 +25,6 @@ const autocompleteObjectRows = ({
     resolveProp(PropsDescription.options_Obj, args),
     resolveProp(PropsDescription.labelKey_Obj, args),
     resolveProp(PropsDescription.valueKey_Obj, args),
-    resolveProp(PropsDescription.required, args),
     resolveProp(PropsDescription.multiple, args),
     ...onValueChange,
     resolveProp(PropsDescription.label, args),
@@ -34,6 +33,14 @@ const autocompleteObjectRows = ({
     ...(v4AndAbove
       ? [
         resolveProp(PropsDescription.hideLabel, args),
+        resolveProp(PropsDescription.circularProgressProps_Autocompletes, args),
+      ]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
+        : []),
+    resolveProp(PropsDescription.required, args),
+    ...(v4AndAbove
+      ? [
         resolveProp(PropsDescription.renderError, args)
       ]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
@@ -42,11 +49,6 @@ const autocompleteObjectRows = ({
     resolveProp(PropsDescription.formHelperTextProps, args),
     resolveProp(PropsDescription.textFieldProps, args),
     resolveProp(PropsDescription.ChipProps_Autocomplete, args),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
-        : []),
     ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };
