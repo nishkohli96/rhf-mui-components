@@ -1,4 +1,15 @@
 import { type DocsVersionInfo } from '@/types';
+import {
+  getComponentHref,
+  newlyAddedComponents_v2,
+  newlyAddedComponents_v3_3
+} from '@/components/folder-structure/routesList';
+
+/** Doc-page paths for components not yet added by a given version. */
+const unavailableComponentPaths = {
+  v2: newlyAddedComponents_v3_3.map(getComponentHref),
+  v1: [...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].map(getComponentHref)
+};
 
 /**
  * Docs versions surfaced by the version switcher, newest first.
@@ -35,7 +46,13 @@ export const docsVersions: DocsVersionInfo[] = [
     slug: 'v2',
     label: 'v2',
     basePath: '/v2',
-    fallbackPath: '/v2/introduction'
+    fallbackPath: '/v2/introduction',
+    /*
+     * Components added in v3.3, so they don't exist under `app/v2`. Sourced
+     * from `newlyAddedComponents_v3_3` (folder-structure's own version-gate
+     * list) so the sidebar and the folder-structure tree never drift apart.
+     */
+    unavailablePaths: unavailableComponentPaths.v2
   },
   {
     slug: 'v1',
@@ -43,12 +60,15 @@ export const docsVersions: DocsVersionInfo[] = [
     basePath: '/v1',
     fallbackPath: '/v1/introduction',
     /*
-     * Sections that were never copied into `app/v1`. Listing them here keeps
-     * the v1 sidebar honest (no links to routes that 404) and makes the
-     * switcher fall back to `fallbackPath` instead of stranding the user.
-     * Delete an entry once the corresponding pages exist under `app/v1`.
+     * Sections that were never copied into `app/v1`, plus every component
+     * added from v2 onward (sourced from folder-structure's own
+     * `newlyAddedComponents_v2`/`newlyAddedComponents_v3_3` lists, so the
+     * sidebar and the folder-structure tree never drift apart). Listing them
+     * here keeps the v1 sidebar honest (no links to routes that 404) and
+     * makes the switcher fall back to `fallbackPath` instead of stranding
+     * the user.
      */
-    unavailablePaths: ['/examples', '/migration-guide']
+    unavailablePaths: ['/examples', '/migration-guide', ...unavailableComponentPaths.v1]
   }
 ];
 

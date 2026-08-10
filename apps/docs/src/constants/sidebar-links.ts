@@ -40,7 +40,7 @@ export const sidebarLinks: Page[] = [
         pages: [
           { title: 'Date Picker', href: '/components/mui-pickers/RHFDatePicker' },
           { title: 'Time Picker', href: '/components/mui-pickers/RHFTimePicker' },
-          { title: 'Date Time Picker', href: '/components/mui-pickers/RHFDate-TimePicker' }
+          { title: 'Date Time Picker', href: '/components/mui-pickers/RHFDateTimePicker' }
         ]
       },
       {

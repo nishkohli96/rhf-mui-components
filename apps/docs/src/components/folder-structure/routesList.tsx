@@ -15,7 +15,7 @@ const miscPrefix = '/misc';
  * folder names under `src/app/components` exactly (each is `RHFXxx`,
  * mirroring the actual exported component name).
  */
-const componentRoutes: Record<
+export const componentRoutes: Record<
   MuiComponents | MuiPickersComponents | MiscComponents,
   string
 > = {
@@ -93,6 +93,18 @@ const miscComponents = [
   MiscComponents.RichTextEditor,
   MiscComponents.PhoneInput
 ];
+
+/** Canonical (unprefixed) doc-page href for a component, e.g. `/components/mui/RHFTagsInput`. */
+export function getComponentHref(
+  component: MuiComponents | MuiPickersComponents | MiscComponents
+): string {
+  const prefix = (muiComponents as string[]).includes(component)
+    ? muiPrefix
+    : (muiPickersComponents as string[]).includes(component)
+      ? muiPickersPrefix
+      : miscPrefix;
+  return `${rootDir}${prefix}/${componentRoutes[component]}`;
+}
 
 export function getMuiFoldersList(docsVersion?: DocsVersion) {
   return muiComponents.map(component => ({
