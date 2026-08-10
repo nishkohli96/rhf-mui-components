@@ -1,4 +1,5 @@
-import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import CodeSnippets from '@/components/docs/CodeSnippets';
 import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFAutocomplete;
@@ -8,8 +9,6 @@ export default function Layout({ children }) {
 }
 
 # RHFAutocomplete
-
-<AvailabilityBanner componentName="RHFAutocomplete" version="2.0" />
 
 **RHFAutocomplete** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
 and is designed for searching and selecting options from large datasets. Similar to
@@ -58,18 +57,21 @@ For options as an array of objects:
 ```
 
 <Callout type="warning">
-When using an array of objects for options, both `labelKey` and `valueKey`
-are required. If either is missing, an error will be thrown.
+  When using an array of objects for options, both `labelKey` and `valueKey`
+  are required. If either is missing, an error will be thrown.
 </Callout>
 
 You can extend or reuse the `RHFAutocomplete` component by creating your own wrapper component.
 
-👉 <a href={externalLinks.githubExamples.styledAutocomplete} target="_blank" rel="noopener noreferrer">StyledAutocomplete (GitHub)</a>
-
+<CodeSnippets
+  snippets={[
+    { title: 'StyledAutocomplete.tsx', src: 'src/forms/styled-components/StyledAutocomplete.tsx' }
+  ]}
+/>
 ## Examples
+- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
 - [RHFAutocomplete](/examples/autocomplete)
 - [Styled Autocomplete](/examples/customization)
-- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
 - [Complete Form](/examples/complete-form)
 
 ## API
