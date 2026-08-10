@@ -61,9 +61,8 @@ const PropsDescription: Record<
   },
   labelKey: {
     name: 'labelKey',
-    description: 'Property name used as the visible label for each option. Required when `options` is an array of objects.',
+    description: 'Property name used as the visible label for each option.\n\n**Required when** `options` **is an array of objects.**',
     type: 'string',
-    required: true
   },
   labelKey_Obj: {
     name: 'labelKey',
@@ -73,9 +72,8 @@ const PropsDescription: Record<
   },
   valueKey: {
     name: 'valueKey',
-    description: 'Property name used as the stored value for each option. Required when `options` is an array of objects.',
+    description: 'Property name used as the stored value for each option.\n\n**Required when** `options` **is an array of objects.**',
     type: 'string',
-    required: true
   },
   valueKey_Obj: {
     name: 'valueKey',
@@ -96,7 +94,7 @@ const PropsDescription: Record<
   },
   label: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
     name: 'label',
-    description: `The text to render in the [FormLabel](${externalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` (e.g., _firstName_) is transformed to "**First Name**" using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
+    description: `The text to render in the [FormLabel](${externalLinks.muiComponentApi.formLabel(muiVersion)}) component. By default, the value of \`fieldName\` is transformed (e.g., "**firstName**" to "**First Name**") using the [fieldNameToLabel](/${docsVersion ? `v${docsVersion}/` : ''}form-helpers/fieldNameToLabel) function.`,
     type: 'ReactNode'
   }),
   hideLabel: ({ muiVersion }: PropsDescriptionArgs) => ({
@@ -118,7 +116,7 @@ const PropsDescription: Record<
   placeholder_Select: {
     name: 'placeholder',
     description:
-			'The placeholder text to be shown when no option is selected in the select field. Available from version **3.1** and above.',
+			'The placeholder text to be shown when no option is selected in the select field.\n\n**Added in** `v3.1`.',
     type: 'string'
   },
   formLabelProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({
@@ -168,7 +166,7 @@ const PropsDescription: Record<
   }),
   renderOptionLabel: {
     name: 'renderOptionLabel',
-    description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`. Option state param added in `v4.2.0`',
+    description: 'Custom renderer for option labels. When not provided, the label is derived from the option value or the property specified by `labelKey`.\n\n**Option state param added in** `v4.2.0`',
     type: '(option) => ReactNode'
   },
   getOptionDisabled: {
@@ -592,13 +590,13 @@ const PropsDescription: Record<
   },
   menuItemProps_Select: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'menuItemProps',
-    description: 'Props forwarded to each internal MUI `MenuItem`, applied to every rendered option. Added in `v4.3`.',
+    description: 'Props forwarded to each internal MUI `MenuItem`, applied to every rendered option.\n\n**Added in** `v4.3`.',
     type: `[MenuItemProps](${externalLinks.muiComponentApi.menuItem(muiVersion)})`,
     hasLinkInType: true
   }),
   inputLabelProps_Select: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'inputLabelProps',
-    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline. Added in `v4.3`.',
+    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline.\n\n**Added in** `v4.3`.',
     type: `[InputLabelProps](${externalLinks.muiComponentApi.inputLabel(muiVersion)})`,
     hasLinkInType: true
   }),

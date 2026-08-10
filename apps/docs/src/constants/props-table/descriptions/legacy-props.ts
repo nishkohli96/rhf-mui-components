@@ -319,13 +319,13 @@ const LegacyPropsDescription: Record<
   },
   menuItemProps_Select_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'menuItemProps',
-    description: 'Props forwarded to each internal MUI `MenuItem`, applied to every rendered option. Added in `v3.7`.',
+    description: 'Props forwarded to each internal MUI `MenuItem`, applied to every rendered option.\n\n**Added in** `v3.7`.',
     type: `[MenuItemProps](${externalLinks.muiComponentApi.menuItem(muiVersion)})`,
     hasLinkInType: true
   }),
   inputLabelProps_Select_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'inputLabelProps',
-    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline. Added in `v3.7`.',
+    description: 'Props forwarded to the `InputLabel` — the inline label shown inside the field\'s outline.\n\n**Added in** `v3.7`.',
     type: `[InputLabelProps](${externalLinks.muiComponentApi.inputLabel(muiVersion)})`,
     hasLinkInType: true
   }),

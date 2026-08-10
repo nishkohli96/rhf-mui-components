@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
-import { componentMetadata, componentProps, externalLinks } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFSelect;
 
@@ -56,10 +56,6 @@ For options as an array of objects:
 When using an array of objects for options, both `labelKey` and `valueKey`
 are required. If either is missing, an error will be thrown.
 </Callout>
-
-You can extend or reuse the `RHFSelect` component by creating your own wrapper component.
-
-👉 <a href={externalLinks.githubExamples.styledSelect} target="_blank" rel="noopener noreferrer">StyledSelect (GitHub)</a>
 
 ## Examples
 - [Select](https://v7.mui.com/material-ui/react-select/)

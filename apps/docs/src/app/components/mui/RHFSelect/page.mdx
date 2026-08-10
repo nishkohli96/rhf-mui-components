@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import CodeSnippets from '@/components/docs/CodeSnippets';
 import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFSelect;
@@ -59,11 +60,15 @@ are required. If either is missing, an error will be thrown.
 
 You can extend or reuse the `RHFSelect` component by creating your own wrapper component.
 
-👉 <a href={externalLinks.githubExamples.styledSelect} target="_blank" rel="noopener noreferrer">StyledSelect (GitHub)</a>
+<CodeSnippets
+  snippets={[
+    { title: 'StyledSelect.tsx', src: 'src/forms/styled-components/StyledSelect.tsx' }
+  ]}
+/>
 
 ## Examples
-- [RHFSelect](/examples/select)
 - [Select](https://mui.com/material-ui/react-select/)
+- [RHFSelect](/examples/select)
 - [Styled Select](/examples/customization)
 - [Complete Form](/examples/complete-form)
 

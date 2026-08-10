@@ -30,15 +30,25 @@ const selectRows = ({
     resolveProp(PropsDescription.options, args),
     resolveProp(PropsDescription.labelKey, args),
     resolveProp(PropsDescription.valueKey, args),
+    resolveProp(PropsDescription.multiple, args),
     ...(v4AndAbove
       ? [
-        resolveProp(PropsDescription.renderOptionLabel, args),
-        resolveProp(PropsDescription.getOptionDisabled, args),
         resolveProp(PropsDescription.customOnChange_Select, args)
       ]
       : []),
     resolveProp(onValueChange, args),
+    ...(v4AndAbove
+      ? [
+        resolveProp(PropsDescription.renderOptionLabel, args),
+        resolveProp(PropsDescription.getOptionDisabled, args)
+      ]
+      : []),
     ...(v1 ? [resolveProp(LegacyPropsDescription.defaultValue, args)] : []),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.menuItemProps_Select, args)]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.menuItemProps_Select_v3, args)]
+        : []),
     resolveProp(PropsDescription.showDefaultOption, args),
     resolveProp(PropsDescription.defaultOptionText, args),
     resolveProp(PropsDescription.label, args),
@@ -51,11 +61,6 @@ const selectRows = ({
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
     ...(v3AndAbove ? [resolveProp(PropsDescription.placeholder_Select, args)] : []),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.menuItemProps_Select, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.menuItemProps_Select_v3, args)]
-        : []),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),
