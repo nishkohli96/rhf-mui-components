@@ -18,6 +18,13 @@ const autocompleteRows = ({
     ]
     : [resolveProp(LegacyPropsDescription.onValueChange_Autocomplete_v2_v3, args)];
 
+  let circularProgressPropsRow: PropsInfo[] = [];
+  if (v4AndAbove) {
+    circularProgressPropsRow = [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)];
+  } else if (v3AndAbove) {
+    circularProgressPropsRow = [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)];
+  }
+
   return [
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(PropsDescription.control, args),
@@ -41,11 +48,7 @@ const autocompleteRows = ({
     resolveProp(PropsDescription.formHelperTextProps, args),
     resolveProp(PropsDescription.textFieldProps, args),
     resolveProp(PropsDescription.ChipProps_Autocomplete, args),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
-        : []),
+    ...circularProgressPropsRow,
     ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };

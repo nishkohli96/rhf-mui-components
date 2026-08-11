@@ -18,6 +18,13 @@ const multiAutocompleteObjectRows = ({
     ]
     : [resolveProp(LegacyPropsDescription.onValueChange_MultiAutocompleteObject_v3, args)];
 
+  let circularProgressPropsRow: PropsInfo[] = [];
+  if (v4AndAbove) {
+    circularProgressPropsRow = [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)];
+  } else if (v3AndAbove) {
+    circularProgressPropsRow = [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)];
+  }
+
   return [
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(PropsDescription.control, args),
@@ -39,11 +46,7 @@ const multiAutocompleteObjectRows = ({
       : []),
     resolveProp(PropsDescription.checkboxProps_MultiAutocomplete, args),
     resolveProp(PropsDescription.formControlLabelProps, args),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
-        : []),
+    ...circularProgressPropsRow,
     resolveProp(PropsDescription.required, args),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]

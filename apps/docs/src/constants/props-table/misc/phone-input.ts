@@ -20,6 +20,13 @@ const phoneInputRows = ({
     ]
     : [resolveProp(LegacyPropsDescription.onValueChange_PhoneInput_v2_v3, args)];
 
+  let countrySelectPropsRow: PropsInfo[] = [];
+  if (v4AndAbove) {
+    countrySelectPropsRow = [resolveProp(PropsDescription.countrySelectProps, args)];
+  } else if (v3AndAbove) {
+    countrySelectPropsRow = [resolveProp(LegacyPropsDescription.countrySelectProps_v3, args)];
+  }
+
   return [
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(PropsDescription.control, args),
@@ -33,11 +40,7 @@ const phoneInputRows = ({
         resolveProp(LegacyPropsDescription.value_PhoneInput, args),
         resolveProp(LegacyPropsDescription.label_v1, args)
       ]),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.countrySelectProps, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.countrySelectProps_v3, args)]
-        : []),
+    ...countrySelectPropsRow,
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),

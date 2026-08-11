@@ -23,6 +23,19 @@ const passwordInputRows = ({
     valueChange = LegacyPropsDescription.onValueChange_Inputs_v2_v3;
   }
 
+  let readOnlyAndIconButtonPropsRows: PropsInfo[] = [];
+  if (v4AndAbove) {
+    readOnlyAndIconButtonPropsRows = [
+      resolveProp(PropsDescription.readOnly_PasswordInput, args),
+      resolveProp(PropsDescription.iconButtonProps_PasswordInput, args)
+    ];
+  } else if (v3AndAbove) {
+    readOnlyAndIconButtonPropsRows = [
+      resolveProp(LegacyPropsDescription.iconButtonProps_PasswordInput_v3, args),
+      resolveProp(LegacyPropsDescription.readOnly_PasswordInput_v3, args)
+    ];
+  }
+
   return [
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(binding, args),
@@ -31,17 +44,7 @@ const passwordInputRows = ({
     resolveProp(valueChange, args),
     resolveProp(PropsDescription.showPasswordIcon, args),
     resolveProp(PropsDescription.hidePasswordIcon, args),
-    ...(v4AndAbove
-      ? [
-        resolveProp(PropsDescription.readOnly_PasswordInput, args),
-        resolveProp(PropsDescription.iconButtonProps_PasswordInput, args)
-      ]
-      : v3AndAbove
-        ? [
-          resolveProp(LegacyPropsDescription.iconButtonProps_PasswordInput_v3, args),
-          resolveProp(LegacyPropsDescription.readOnly_PasswordInput_v3, args)
-        ]
-        : []),
+    ...readOnlyAndIconButtonPropsRows,
     resolveProp(PropsDescription.label, args),
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),

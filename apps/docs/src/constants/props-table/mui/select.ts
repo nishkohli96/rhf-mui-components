@@ -23,6 +23,20 @@ const selectRows = ({
     onValueChange = LegacyPropsDescription.onValueChange_Select_v2_v3;
   }
 
+  let menuItemPropsRow: PropsInfo[] = [];
+  if (v4AndAbove) {
+    menuItemPropsRow = [resolveProp(PropsDescription.menuItemProps_Select, args)];
+  } else if (v3AndAbove) {
+    menuItemPropsRow = [resolveProp(LegacyPropsDescription.menuItemProps_Select_v3, args)];
+  }
+
+  let inputLabelPropsRow: PropsInfo[] = [];
+  if (v4AndAbove) {
+    inputLabelPropsRow = [resolveProp(PropsDescription.inputLabelProps_Select, args)];
+  } else if (v3AndAbove) {
+    inputLabelPropsRow = [resolveProp(LegacyPropsDescription.inputLabelProps_Select_v3, args)];
+  }
+
   return [
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(binding, args),
@@ -44,19 +58,11 @@ const selectRows = ({
       ]
       : []),
     ...(v1 ? [resolveProp(LegacyPropsDescription.defaultValue, args)] : []),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.menuItemProps_Select, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.menuItemProps_Select_v3, args)]
-        : []),
+    ...menuItemPropsRow,
     resolveProp(PropsDescription.showDefaultOption, args),
     resolveProp(PropsDescription.defaultOptionText, args),
     resolveProp(PropsDescription.label, args),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.inputLabelProps_Select, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.inputLabelProps_Select_v3, args)]
-        : []),
+    ...inputLabelPropsRow,
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),

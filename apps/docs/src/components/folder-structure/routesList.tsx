@@ -98,11 +98,12 @@ const miscComponents = [
 export function getComponentHref(
   component: MuiComponents | MuiPickersComponents | MiscComponents
 ): string {
-  const prefix = (muiComponents as string[]).includes(component)
-    ? muiPrefix
-    : (muiPickersComponents as string[]).includes(component)
-      ? muiPickersPrefix
-      : miscPrefix;
+  let prefix = miscPrefix;
+  if ((muiComponents as string[]).includes(component)) {
+    prefix = muiPrefix;
+  } else if ((muiPickersComponents as string[]).includes(component)) {
+    prefix = muiPickersPrefix;
+  }
   return `${rootDir}${prefix}/${componentRoutes[component]}`;
 }
 

@@ -18,6 +18,18 @@ const autocompleteObjectRows = ({
     ]
     : [resolveProp(LegacyPropsDescription.onValueChange_AutocompleteObject_v3, args)];
 
+  let circularProgressPropsRows: PropsInfo[] = [];
+  if (v4AndAbove) {
+    circularProgressPropsRows = [
+      resolveProp(PropsDescription.hideLabel, args),
+      resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)
+    ];
+  } else if (v3AndAbove) {
+    circularProgressPropsRows = [
+      resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)
+    ];
+  }
+
   return [
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(PropsDescription.control, args),
@@ -30,14 +42,7 @@ const autocompleteObjectRows = ({
     resolveProp(PropsDescription.label, args),
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
-    ...(v4AndAbove
-      ? [
-        resolveProp(PropsDescription.hideLabel, args),
-        resolveProp(PropsDescription.circularProgressProps_Autocompletes, args),
-      ]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
-        : []),
+    ...circularProgressPropsRows,
     resolveProp(PropsDescription.required, args),
     ...(v4AndAbove
       ? [

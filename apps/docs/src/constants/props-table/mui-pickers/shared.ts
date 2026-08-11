@@ -15,7 +15,12 @@ export const pickerRows = (
   customOnChange: MaybeVersionedProp,
   onValueChange: MaybeVersionedProp,
   onValueChange_v2_v3: MaybeVersionedProp
-) => ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+) => ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
   const binding = !v1 ? PropsDescription.control : LegacyPropsDescription.register;
   const pickerChangeProps = v4AndAbove
