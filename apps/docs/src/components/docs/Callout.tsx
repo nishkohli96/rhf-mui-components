@@ -4,7 +4,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutlined';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 
 export type CalloutType = 'note' | 'tip' | 'info' | 'warning' | 'danger';
 
@@ -33,7 +33,7 @@ const typeConfig: Record<CalloutType, {
   tip: { label: 'Tip', Icon: LightbulbOutlinedIcon, color: 'success.main', cssVar: '--mui-palette-success-main' },
   info: { label: 'Info', Icon: InfoOutlinedIcon, color: 'info.main', cssVar: '--mui-palette-info-main' },
   warning: { label: 'Warning', Icon: ReportProblemOutlinedIcon, color: 'warning.main', cssVar: '--mui-palette-warning-main' },
-  danger: { label: 'Danger', Icon: ErrorOutlineIcon, color: 'error.main', cssVar: '--mui-palette-error-main' }
+  danger: { label: 'Danger', Icon: ErrorOutlinedIcon, color: 'error.main', cssVar: '--mui-palette-error-main' }
 };
 
 /**

@@ -4,7 +4,12 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFSlider`. */
-const sliderRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+const sliderRows = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
   const binding = v1 ? LegacyPropsDescription.register : PropsDescription.control;
 
@@ -12,7 +17,6 @@ const sliderRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): 
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(binding, args),
     resolveProp(PropsDescription.registerOptions, args),
-    ...(!v1 ? [resolveProp(PropsDescription.required, args)] : []),
     ...(!v1
       ? [
         ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange_Slider, args)] : []),
@@ -29,6 +33,7 @@ const sliderRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): 
     resolveProp(PropsDescription.showLabelAboveFormField_Default, args),
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
+    ...(!v1 ? [resolveProp(PropsDescription.required, args)] : []),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),

@@ -4,7 +4,12 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFSwitch`. */
-const switchRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+const switchRows = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
 
   return [
