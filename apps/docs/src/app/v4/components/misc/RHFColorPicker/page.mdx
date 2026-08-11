@@ -31,7 +31,7 @@ The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format, s
 
 If the field value is uninitialized, the default color **black** (`#000000`) is selected,
 which can be configured using the `defaultColor` prop. Refer to the
-[colorToString](/form-helpers/colorToString) function to convert
+[colorToString](/v4/form-helpers/colorToString) function to convert
 an **RGB** or **HSV** color object into a string, which can be used to
 set the default color for the color picker.
 
@@ -75,4 +75,9 @@ If this package doesn't meet your requirements, consider the
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.RHFColorPicker} docsVersion={4} muiVersion={7} v4AndAbove />
+<PropsTable
+  rows={componentProps.RHFColorPicker}
+  docsVersion={4}
+  muiVersion={7} 
+  v4AndAbove
+/>

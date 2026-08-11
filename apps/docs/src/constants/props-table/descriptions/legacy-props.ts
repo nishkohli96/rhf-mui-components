@@ -238,7 +238,7 @@ const LegacyPropsDescription: Record<
   value_ColorPicker_v1: {
     name: 'value',
     description:
-      'Selected color value for `RHFColorPicker`. Use `getValues("fieldName")` to sync it with the form value. Defaults to black (`#000000`).',
+      'Selected color value for `RHFColorPicker`. Use `getValues("fieldName")` to sync it with the form value.\n\n**Default value:** Black (`#000000`).',
     type: 'string'
   },
   value_RichTextEditor: {

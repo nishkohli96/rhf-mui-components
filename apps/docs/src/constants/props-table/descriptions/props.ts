@@ -440,7 +440,7 @@ const PropsDescription: Record<
   valueKey_ColorPicker: {
     name: 'valueKey',
     description:
-		'Determines the format of the selected color value. Returns a `hex`, `rgba`, or `hsva` representation of the selected color. When `excludeAlpha` is enabled, alpha information is omitted from the returned value. Defaults to `hex`.',
+		'Determines the format of the selected color value. Returns a `hex`, `rgba`, or `hsva` representation of the selected color. When `excludeAlpha` is enabled, alpha information is omitted from the returned value.\n\n****Default value:** `hex`.',
     type: 'hex / rgb / hsv'
   },
   onValueChange_ColorPicker: {
@@ -464,7 +464,7 @@ const PropsDescription: Record<
   defaultColor: {
     name: 'defaultColor',
     description:
-			'The default color to select when the field is not initialized. The default value **Black**(`#000000`) can be overridden by providing a valid color string, hex, rgb or hsv value.',
+			'The default color to select when the field is not initialized. Provide a valid color string, hex, rgb or hsv value.\n\n**Default value:** Black(`#000000`)',
     type: 'string'
   },
   excludeAlpha: {
@@ -633,7 +633,7 @@ const PropsDescription: Record<
   id_Rte: {
     name: 'id',
     description:
-			'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration. Removed in `v4.1.3` as the internally generated field id was already being assigned to the `CKEditor` instance.',
+			'The context ID. When this property changes, the component restarts the context with its editor and reinitializes it based on the current configuration.\n\n**Removed in** `v4.1.3` as the internally generated field id was already being assigned to the `CKEditor` instance.',
     type: 'string'
   },
   onReady_Rte: {

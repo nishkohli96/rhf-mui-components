@@ -1,3 +1,4 @@
+import MuiLink from '@mui/material/Link';
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
 import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
@@ -40,23 +41,23 @@ import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '
 To reorder formatting options or add advanced features, you can provide
 a custom configuration via the `editorConfig` prop, or override the existing
 configuration by modifying the `DefaultEditorConfig` object. You can check the
-<a href={externalLinks.githubRepo.rteConfig} target="_blank" rel="noopener noreferrer">default configuration here</a>.
+<MuiLink href={externalLinks.githubRepo.rteConfig} target="_blank" rel="noopener noreferrer">default configuration here</MuiLink>.
 
 To customize editor theme, check the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
 
 For advanced features like **findAndReplace**, **inserting images**,
 **markdown support**, and **word count**, refer to
-<a href={externalLinks.githubExamples.ckEditorAdvanced} target="_blank" rel="noopener noreferrer">this example</a>.
+<MuiLink href={externalLinks.githubExamples.ckEditorAdvanced} target="_blank" rel="noopener noreferrer">this example</MuiLink>.
 For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
 
 <Callout type="note">
-If your website supports both light and dark themes, styling `CKEditor5` for theme switching
-can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
-To address this, you can override the editor's CSS based on the active theme by
-referring <a href={externalLinks.githubExamples.ckEditorCssGist} target="_blank" rel="noopener noreferrer">this gist</a>.
+  If your website supports both light and dark themes, styling `CKEditor5` for theme switching
+  can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
+  To address this, you can override the editor's CSS based on the active theme by
+  referring <MuiLink href={externalLinks.githubExamples.ckEditorCssGist} target="_blank" rel="noopener noreferrer">this gist</MuiLink>.
 
-You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
-for a better understanding.
+  You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
+  for a better understanding.
 </Callout>
 
 ## Alternatives
@@ -70,4 +71,9 @@ If you're looking for a simpler solution, you can consider implementing
 `RHFRichTextEditorProps` accepts the following props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.RHFRichTextEditor} docsVersion={1} muiVersion={5} v1 />
+<PropsTable
+  rows={componentProps.RHFRichTextEditor}
+  docsVersion={1}
+  muiVersion={5}
+  v1
+/>
