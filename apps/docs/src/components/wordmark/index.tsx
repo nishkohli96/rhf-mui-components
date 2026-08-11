@@ -25,7 +25,7 @@ const Wordmark = ({ sx, ...otherProps }: WordmarkProps) => {
         fontWeight: 800,
         letterSpacing: '-1px',
         lineHeight: 1,
-        background: 'linear-gradient(90deg, #2196F3 0%, #1AACD8 50%, #0BD1A8 100%)',
+        background: 'linear-gradient(90deg, #2683cc 0%, #014280 100%)',
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text',
         WebkitTextFillColor: 'transparent',

@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 100" width="1520" height="200">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="120" viewBox="0 0 640 120">
   <defs>
-    <linearGradient id="wg" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#2196F3"></stop>
-      <stop offset="50%" stop-color="#1AACD8"></stop>
-      <stop offset="100%" stop-color="#0BD1A8"></stop>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2683cc"></stop>
+      <stop offset="100%" stop-color="#014280"></stop>
     </linearGradient>
   </defs>
-  <text x="0" y="72" font-family="Poppins, sans-serif" font-weight="800" font-size="64" letter-spacing="-1" fill="url(#wg)">RHF-MUI Components</text>
+  <text x="0" y="78" font-family="Space Grotesk, Helvetica, Arial, sans-serif" font-size="52" font-weight="700" fill="url(#g)">RHF-MUI<tspan font-weight="400"> Components</tspan></text>
 </svg>

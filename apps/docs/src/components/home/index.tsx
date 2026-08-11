@@ -14,10 +14,10 @@ const installCommand = 'npm install @nish1896/rhf-mui-components';
 
 const features = [
   {
-    icon: '/icons/no-lockin.svg',
-    title: 'No form-library lock-in',
+    icon: '/icons/rhf.svg',
+    title: 'Built for React Hook Form',
     description:
-      'Components speak value, onValueChange and errorMessage. Any state holder can drive them.'
+      'Every field plugs straight into control and registerOptions — no manual value/onChange wiring or error state to manage.'
   },
   {
     icon: '/icons/typed.svg',
@@ -97,9 +97,9 @@ const HomeLanding = () => {
               fontWeight: 500
             }}
           >
-            A suite of 25+ fully-typed, tree-shakable components, independent of any
-            form library. Production-ready with built-in state management, validation,
-            and a consistent API designed to minimize boilerplate.
+            A suite of 25+ fully-typed, tree-shakable components built for React Hook
+            Form. Production-ready with built-in validation, error handling, and a
+            consistent API designed to minimize boilerplate.
           </Typography>
           <Paper
             variant="outlined"

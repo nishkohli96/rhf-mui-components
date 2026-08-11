@@ -4,8 +4,8 @@
  */
 
 export const LightThemePalette = {
-  primary: { main: '#007aba' },
-  secondary: { main: '#ba68c9' },
+  primary: { main: '#2683cc' },
+  secondary: { main: '#014280' },
   success: { main: '#4caf50' },
   warning: { main: '#ffb74d' },
   error: { main: '#ef5350' },
@@ -22,8 +22,8 @@ export const LightThemePalette = {
 };
 
 export const DarkThemePalette = {
-  primary: { main: '#1976d2' },
-  secondary: { main: '#25c2a0' },
+  primary: { main: '#4aa3e0' },
+  secondary: { main: '#b4d0e6' },
   success: { main: '#4ad953' },
   warning: { main: '#ffa726' },
   error: { main: '#c62828' },

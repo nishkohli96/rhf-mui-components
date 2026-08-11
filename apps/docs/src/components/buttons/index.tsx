@@ -35,10 +35,10 @@ export const ResetButton = (btnProps: ButtonProps) => {
 };
 
 /**
- * Brand-gradient action button (blue → teal), used for the site's primary
- * calls to action — e.g. "Get Started" on the homepage, "Go Back" on the
- * 404 page. Accepts the full `ButtonProps` surface, including `component`
- * and `href` for use as a link.
+ * Brand-gradient action button (logo blue → navy), used for the site's
+ * primary calls to action — e.g. "Get Started" on the homepage, "Go Back"
+ * on the 404 page. Accepts the full `ButtonProps` surface, including
+ * `component` and `href` for use as a link.
  */
 export const GradientButton = ({ sx, ...otherBtnProps }: ButtonProps) => {
   return (
@@ -51,7 +51,7 @@ export const GradientButton = ({ sx, ...otherBtnProps }: ButtonProps) => {
         borderRadius: 2,
         fontWeight: 800,
         textTransform: 'none',
-        background: 'linear-gradient(90deg, #2196f3 0%, #0bd1a8 100%)',
+        background: 'linear-gradient(90deg, #2683cc 0%, #014280 100%)',
         ...sx
       }}
       {...otherBtnProps}
