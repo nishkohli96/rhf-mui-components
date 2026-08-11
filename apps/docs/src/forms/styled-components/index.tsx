@@ -1,22 +1,23 @@
 'use client';
 
 /**
- * Reusable styled-component form driven by plain React `useState`. Every field
- * is one of the local `Styled*` wrappers (a preset, restyled `MUI*` component),
- * and each has `required` + manual per-field error handling — validated on
- * submit and cleared as the user edits.
+ * Reusable styled-component form driven by React Hook Form. Every field is one
+ * of the local `Styled*` wrappers (a preset, restyled `RHF*` component), with
+ * validation supplied via `registerOptions` and errors/disabled state driven
+ * entirely by RHF's own field state.
  */
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { type DateTime } from 'luxon';
+import { useForm, useWatch } from 'react-hook-form';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import { ConfigProvider } from '@nish1896/mui-components/config';
+import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import {
   FormContainer,
   FieldVariantInfo,
@@ -38,108 +39,41 @@ import StyledAutocomplete from './StyledAutocomplete';
 import StyledDatePicker from './StyledDatePicker';
 import StyledIOSSwitch from './StyledIOSSwitch';
 
-function validateName(value?: string) {
-  if (!value) {
-    return reqdMsg('your full name');
-  }
-  if (value.length < 4) {
-    return minCharMsg(4);
-  }
-  return undefined;
-}
+type FormSchema = {
+  name: string;
+  hobbies: string[];
+  countries: string[];
+  dob: DateTime | null;
+  enableNotification: boolean;
+};
 
-function validateHobbies(value?: string[]) {
-  if (!value || !value.length) {
-    return 'Select atleast one hobby.';
-  }
-  return undefined;
-}
-
-function validateCountries(value?: string[]) {
-  if (!value || !value.length) {
-    return 'Select atleast one country.';
-  }
-  return undefined;
-}
-
-function validateDob(value: DateTime | null) {
-  return value ? undefined : reqdMsg('your date of birth');
-}
-
-function validateNotification(value?: boolean) {
-  return value ? undefined : 'Please enable notifications to continue.';
-}
+const initialValues: FormSchema = {
+  name: '',
+  hobbies: [],
+  countries: [],
+  dob: null,
+  enableNotification: false
+};
 
 export default function StyledComponentsForm() {
   const pathName = usePathname();
 
-  const [name, setName] = useState<string>();
-  const [nameError, setNameError] = useState<string>();
-  const [hobbies, setHobbies] = useState<string[]>();
-  const [hobbiesError, setHobbiesError] = useState<string>();
-  const [countries, setCountries] = useState<string[]>();
-  const [countriesError, setCountriesError] = useState<string>();
-  const [dob, setDob] = useState<DateTime | null>(null);
-  const [dobError, setDobError] = useState<string>();
-  const [enableNotification, setEnableNotification] = useState<boolean>();
-  const [notificationError, setNotificationError] = useState<string>();
-
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  const formValues = {
-    name,
-    hobbies,
-    countries,
-    dob: dob?.toISODate() ?? null,
-    enableNotification
-  };
+  const {
+    control,
+    reset,
+    formState: { errors },
+    handleSubmit
+  } = useForm<FormSchema>({
+    defaultValues: initialValues,
+    disabled: disableAllFields
+  });
+  const formValues = useWatch({ control });
 
-  const errors = {
-    name: nameError,
-    hobbies: hobbiesError,
-    countries: countriesError,
-    dob: dobError,
-    enableNotification: notificationError
-  };
-
-  function resetForm() {
-    setName(undefined);
-    setHobbies(undefined);
-    setCountries(undefined);
-    setDob(null);
-    setEnableNotification(undefined);
-    setNameError(undefined);
-    setHobbiesError(undefined);
-    setCountriesError(undefined);
-    setDobError(undefined);
-    setNotificationError(undefined);
-  }
-
-  async function onFormSubmit() {
-    const nextNameError = validateName(name);
-    const nextHobbiesError = validateHobbies(hobbies);
-    const nextCountriesError = validateCountries(countries);
-    const nextDobError = validateDob(dob);
-    const nextNotificationError = validateNotification(enableNotification);
-
-    setNameError(nextNameError);
-    setHobbiesError(nextHobbiesError);
-    setCountriesError(nextCountriesError);
-    setDobError(nextDobError);
-    setNotificationError(nextNotificationError);
-
-    if (
-      nextNameError
-      || nextHobbiesError
-      || nextCountriesError
-      || nextDobError
-      || nextNotificationError
-    ) {
-      return;
-    }
-
+  async function onFormSubmit(values: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
-    showToastMessage(formValues);
+    showToastMessage(values);
   }
 
   return (
@@ -147,12 +81,7 @@ export default function StyledComponentsForm() {
       <ConfigProvider
         dateAdapter={AdapterLuxon}
       >
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-            onFormSubmit();
-          }}
-        >
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
             <Grid size={12}>
               <FormControlLabel
@@ -173,17 +102,11 @@ export default function StyledComponentsForm() {
             <Grid size={{ xs: 12, md: 6 }}>
               <StyledTextField
                 fieldName="name"
-                value={name}
-                onValueChange={({ newValue }) => {
-                  setName(newValue);
-                  setNameError(undefined);
+                control={control}
+                registerOptions={{
+                  required: reqdMsg('your full name'),
+                  minLength: { value: 4, message: minCharMsg(4) }
                 }}
-                onBlur={() => {
-                  setNameError(validateName(name));
-                }}
-                disabled={disableAllFields}
-                required
-                errorMessage={nameError}
                 helperText={(
                   <Typography
                     variant="body2"
@@ -203,33 +126,28 @@ export default function StyledComponentsForm() {
               <FieldVariantInfo title="Customized multi MUISelect with a custom font family on the label" />
               <StyledSelect
                 fieldName="hobbies"
-                value={hobbies}
+                control={control}
                 options={hobbiesList}
-                onValueChange={({ newValue }) => {
-                  setHobbies(newValue);
-                  setHobbiesError(undefined);
+                registerOptions={{
+                  validate: value =>
+                    (Array.isArray(value) && value.length > 0)
+                    || 'Select atleast one hobby.'
                 }}
-                required
-                multiple
-                disabled={disableAllFields}
-                errorMessage={hobbiesError}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="Customized multi Autocomplete with styled helperText" />
               <StyledAutocomplete
                 fieldName="countries"
+                control={control}
                 options={countriesList}
                 labelKey="country"
                 valueKey="code"
-                value={countries}
-                onValueChange={({ newValue }) => {
-                  setCountries(newValue);
-                  setCountriesError(undefined);
+                registerOptions={{
+                  validate: value =>
+                    (Array.isArray(value) && value.length > 0)
+                    || 'Select atleast one country.'
                 }}
-                disabled={disableAllFields}
-                required
-                errorMessage={countriesError}
                 helperText="You can select multiple countries"
                 textFieldProps={{
                   placeholder: 'Select the countries you\'ve travelled to'
@@ -240,16 +158,10 @@ export default function StyledComponentsForm() {
               <FieldVariantInfo title="Customized DatePicker with Luxon adapter" />
               <StyledDatePicker
                 fieldName="dob"
-                value={dob}
-                onValueChange={({ newValue }) => {
-                  setDob(newValue);
-                  setDobError(undefined);
-                }}
+                control={control}
+                registerOptions={{ required: reqdMsg('your date of birth') }}
                 label="Date of Birth"
-                required
                 disableFuture
-                disabled={disableAllFields}
-                errorMessage={dobError}
               />
             </Grid>
             <Grid size={12}>
@@ -257,17 +169,17 @@ export default function StyledComponentsForm() {
               <StyledIOSSwitch
                 fieldName="enableNotification"
                 control={control}
-                onValueChange={({ newValue }) => {
-                  setEnableNotification(newValue);
-                  setNotificationError(undefined);
+                registerOptions={{
+                  validate: value =>
+                    value === true
+                    || 'Please enable notifications to continue.'
                 }}
                 label="Enable notifications?"
-                disabled={disableAllFields}
               />
             </Grid>
             <Grid size={12}>
-              <SubmitButton />
-              <ResetButton onClick={resetForm} />
+              <SubmitButton disabled={disableAllFields} />
+              <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
               <FormState

@@ -87,7 +87,7 @@ export const pageMetadata: Record<string, Metadata> = {
   customizationExample: {
     title: 'Styled form with reusable components',
     description:
-      'A form built from reusable Styled* wrappers — TextField, Select, Autocomplete, a customized DatePicker and an iOS-style Switch — controlled with plain React state, each with required validation, and a ConfigProvider supplying shared label/helper styles and the date adapter.'
+      'A form built from reusable Styled* wrappers — TextField, Select, Autocomplete, a customized DatePicker and an iOS-style Switch — wired to React Hook Form with registerOptions validation, and a ConfigProvider supplying shared label/helper styles and the date adapter.'
   },
   completeFormExample: {
     title: 'Complete Form — React Hook Form',

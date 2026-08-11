@@ -54,7 +54,6 @@ const StyledSelect = <
       }}
       {...rest}
       showLabelAboveFormField
-      multiple={true}
     />
   );
 };
