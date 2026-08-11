@@ -9,7 +9,7 @@ import {
 } from '@/components';
 import CodeSnippets, { type ComponentSnippet } from '@/components/docs/CodeSnippets';
 import { pageMetadata } from '@/constants';
-import StyledReusableComponentForm from '@/forms/styled-components/Client';
+import StyledComponentsForm from '@/forms/styled-components/Client';
 
 export const metadata = pageMetadata.customizationExample;
 
@@ -75,13 +75,13 @@ const CodeSnippetDescription = (
   </Fragment>
 );
 
-const CustomizationPage = async () => {
+export default async function CustomizationPage() {
   const snippets = await loadStyledSnippets();
   return (
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
-      <StyledReusableComponentForm />
+      <StyledComponentsForm />
       <CodeSnippets
         snippets={snippets}
         title="Component Source Code"
@@ -89,6 +89,4 @@ const CustomizationPage = async () => {
       />
     </ContentContainer>
   );
-};
-
-export default CustomizationPage;
+}

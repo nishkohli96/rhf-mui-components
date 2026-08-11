@@ -85,17 +85,25 @@ export const sidebarLinks: Page[] = [
   {
     title: 'Examples',
     pages: [
+      { title: 'Inputs', href: '/examples/inputs' },
+      { title: 'Select', href: '/examples/react-hook-form' },
+      { title: 'Autocomplete', href: '/examples/autocomplete' },
+      { title: 'Checkbox & RadioGroup', href: '/examples/checkbox-and-radiogroup' },
+      { title: 'Switch, Slider & Rating', href: '/examples/switch-slider-rating' },
+      { title: 'Date & Time Pickers', href: '/examples/date-time-pickers' },
+      { title: 'Miscellaneous Components', href: '/examples/miscellaneous-components' },
       { title: 'Customization', href: '/examples/customization' },
-      { title: 'Complete Form — State', href: '/examples/state' },
-      { title: 'Complete Form - RHF', href: '/examples/react-hook-form' },
-      { title: 'Complete Form — Formik', href: '/examples/formik' },
-      { title: 'Complete Form — TanStack', href: '/examples/tanstack' }
+      { title: 'Complete Form', href: '/examples/complete-form' },
+      { title: 'Complete Form - Joi', href: '/examples/complete-form-joi' },
     ]
   },
   {
     title: 'Migration Guide',
     pages: [
-      { title: 'v1 to v2', href: '/migration-guide/v1-to-v2' }
+      { title: 'v1 to v2', href: '/migration-guide/v1-to-v2' },
+      { title: 'v2 to v3', href: '/migration-guide/v2-to-v3' },
+      { title: 'v3 to v4', href: '/migration-guide/v3-to-v4' },
+      { title: 'v4 to v5', href: '/migration-guide/v4-to-v5' }
     ]
   }
 ];
