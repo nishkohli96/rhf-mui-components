@@ -4,10 +4,11 @@
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3000",
-    "lint": "eslint --fix ."
+    "start": "next start",
+    "lint": "eslint --fix .",
+    "prod": "next build && next start"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",
