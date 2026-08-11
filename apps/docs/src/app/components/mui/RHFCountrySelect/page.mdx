@@ -1,4 +1,5 @@
-import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import MuiLink from '@mui/material/Link';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
 import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFCountrySelect;
@@ -9,11 +10,9 @@ export default function Layout({ children }) {
 
 # RHFCountrySelect
 
-<AvailabilityBanner componentName="RHFCountrySelect" version="2.0" />
-
 **RHFCountrySelect** uses the [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
 component from Material UI to let users select one or more countries
-from a comprehensive list of <a href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</a>.
+from a comprehensive list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</MuiLink>.
 It can return the selected country as its name, ISO code, ISO3 code, or full country object.
 Each option is displayed with the corresponding country flag for a clearer selection experience.
 
@@ -68,9 +67,8 @@ structured as follows:
 }
 ```
 
-By default, the `iso` key is used to return the value of the selected
-option(s), offering a compact and consistent identifier. The `iso` key is
-strongly typed as `CountryISO`, ensuring type safety and consistency during
+The `iso` key is used to determine the preferred countries from the `countryList`.
+It is strongly typed as `CountryISO`, ensuring type safety and consistency during
 integration. You can also retrieve the **_name_** or **_iso3_** value(s) by
 setting the desired key through the `valueKey` prop.
 
@@ -104,8 +102,8 @@ const filteredCountries = countryList.filter(
 ```
 
 ## Examples
-- [RHFCountrySelect](/examples/country-select)
 - [Autocomplete - Country Select](https://mui.com/material-ui/react-autocomplete/#country-select)
+- [RHFCountrySelect](/examples/country-select)
 - [Complete Form](/examples/complete-form)
 
 ## API

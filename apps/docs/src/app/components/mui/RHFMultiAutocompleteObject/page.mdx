@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFMultiAutocompleteObject;
@@ -8,8 +8,6 @@ export default function Layout({ children }) {
 }
 
 # RHFMultiAutocompleteObject
-
-<AvailabilityBanner componentName="RHFMultiAutocompleteObject" version="3.3" />
 
 **RHFMultiAutocompleteObject** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
 to support **multi-selection of object-based options**, returning the **entire selected objects**
@@ -30,6 +28,14 @@ It also includes a built-in "**Select All**" option with proper handling of:
 
 ## Usage
 
+<Callout type="warning">
+  Both `labelKey` and `valueKey` are required. This component only supports
+  object-based options.
+
+  The internally injected "**Select All**" option is
+  not included in the final form value. Only actual options are returned.
+</Callout>
+
 ```tsx
 import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
 
@@ -42,21 +48,15 @@ import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-a
 />
 ```
 
-<Callout type="warning">
-Both `labelKey` and `valueKey` are required. This component only supports object-based options.
-The internally injected "**Select All**" option is not included in the final form value.
-Only actual options are returned.
-</Callout>
-
 <Callout type="note">
-`freeSolo` is **not supported** in `RHFMultiAutocompleteObject`.
+  `freeSolo` is **not supported** in `RHFMultiAutocompleteObject`.
 
-This component stores complete option objects in form state, whereas enabling
-`freeSolo` would introduce string values alongside option objects, resulting in
-mixed value types.
+  This component stores complete option objects in form state, whereas enabling
+  `freeSolo` would introduce string values alongside option objects, resulting in
+  mixed value types.
 
-If you need users to enter custom values that are not present in the provided
-options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
+  If you need users to enter custom values that are not present in the provided
+  options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
 </Callout>
 
 ### Select All Behavior

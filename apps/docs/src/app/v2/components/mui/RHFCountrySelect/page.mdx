@@ -1,4 +1,5 @@
-import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
+import MuiLink from '@mui/material/Link';
+import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFCountrySelect;
@@ -9,11 +10,9 @@ export default function Layout({ children }) {
 
 # RHFCountrySelect
 
-<AvailabilityBanner componentName="RHFCountrySelect" version="2.0" />
-
 **RHFCountrySelect** leverages the [Autocomplete](https://v6.mui.com/material-ui/react-autocomplete/)
 component from Material-UI to enable users to select one or more countries
-from a comprehensive list of <a href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</a>.
+from a comprehensive list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</MuiLink>.
 It offers flexibility in retrieving
 the selected country's value as its name, ISO code, or ISO3 code. Additionally,
 each option is displayed with the respective country's flag, enhancing the

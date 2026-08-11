@@ -40,6 +40,11 @@ const multiAutocompleteRows = ({
       : []),
     resolveProp(PropsDescription.checkboxProps_MultiAutocomplete, args),
     resolveProp(PropsDescription.formControlLabelProps, args),
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)]
+      : v3AndAbove
+        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
+        : []),
     resolveProp(PropsDescription.required, args),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
@@ -49,11 +54,6 @@ const multiAutocompleteRows = ({
     resolveProp(PropsDescription.formHelperTextProps, args),
     resolveProp(PropsDescription.textFieldProps, args),
     resolveProp(PropsDescription.ChipProps_Autocomplete, args),
-    ...(v4AndAbove
-      ? [resolveProp(PropsDescription.circularProgressProps_Autocompletes, args)]
-      : v3AndAbove
-        ? [resolveProp(LegacyPropsDescription.circularProgressProps_Autocompletes_v3, args)]
-        : []),
     ...(v4AndAbove ? [resolveProp(PropsDescription.customIds, args)] : [])
   ];
 };

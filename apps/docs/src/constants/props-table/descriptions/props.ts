@@ -713,7 +713,7 @@ const PropsDescription: Record<
   hideSelectAllOption_MultiAutocomplete: {
     name: 'hideSelectAllOption',
     description:
-			'A flag to hide the "**Select All**" option that enables user to select all available options. This option will be automatically hidden when there are less than 2 options to select from. Available from version `3.2` and above.',
+			'A flag to hide the "**Select All**" option that enables user to select all available options. This option will be automatically hidden when there are less than 2 options to select from.\n\n**Added in** `v3.2`.',
     type: 'boolean'
   },
   hideSelectAllOption_MultiAutocompleteObject: {

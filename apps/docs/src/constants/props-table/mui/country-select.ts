@@ -4,7 +4,11 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFCountrySelect`. Added in v2 — no v1 rows. */
-const countrySelectRows = ({ docsVersion, muiVersion, v4AndAbove }: VersionProps): PropsInfo[] => {
+const countrySelectRows = ({
+  docsVersion,
+  muiVersion,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
   const valueKey = v4AndAbove
     ? PropsDescription.valueKey_CountrySelect
@@ -21,9 +25,9 @@ const countrySelectRows = ({ docsVersion, muiVersion, v4AndAbove }: VersionProps
     resolveProp(PropsDescription.control, args),
     resolveProp(PropsDescription.registerOptions, args),
     resolveProp(PropsDescription.countries, args),
-    resolveProp(PropsDescription.multiple_CountrySelect, args),
     resolveProp(PropsDescription.preferredCountries, args),
     resolveProp(valueKey, args),
+    resolveProp(PropsDescription.multiple_CountrySelect, args),
     ...onValueChange,
     resolveProp(PropsDescription.label, args),
     resolveProp(PropsDescription.showLabelAboveFormField, args),

@@ -297,7 +297,7 @@ const LegacyPropsDescription: Record<
   },
   valueKey_CountrySelect_v2_v3: {
     name: 'valueKey',
-    description: 'The key to select from each option when returning the value(s) from the selected option. Country `iso` is the returned by default.',
+    description: 'The key to select from each option when returning the value(s) from the selected option.\n\n**Default: ** `iso`.',
     type: '`name` / `iso` / `iso3`',
   },
   phoneInputProps_v2_v3: {

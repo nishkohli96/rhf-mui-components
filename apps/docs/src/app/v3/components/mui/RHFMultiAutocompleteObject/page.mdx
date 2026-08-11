@@ -30,6 +30,17 @@ It also includes a built-in **"Select All"** option with proper handling of:
 
 ## Usage
 
+<Callout type="note">
+  Both `labelKey` and `valueKey` are required. This component only supports
+  object-based options.
+
+  The internally injected "**Select All**" option is not included in the
+  final form value. Only actual options are returned.
+
+  `freeSolo` is not supported, similar to other autocomplete components in
+  this library.
+</Callout>
+
 ```tsx
 import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
 
@@ -43,15 +54,6 @@ import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-a
 />
 ```
 
-<Callout type="warning">
-Both `labelKey` and `valueKey` are required. This component only supports object-based options.
-
-The internally injected "**Select All**" option is not included in the final form value.
-Only actual options are returned.
-
-`freeSolo` is not supported, similar to other autocomplete components in this library.
-</Callout>
-
 ### Select All Behavior
 
 When clicked:
@@ -63,9 +65,6 @@ When all selected:
 
 Indeterminate state:
 - Triggered when some but not all options are selected
-
-## Examples
-- [RHFMultiAutocompleteObject](https://rhf-mui-components-examples.vercel.app/autocomplete)
 
 ## API
 The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/)
