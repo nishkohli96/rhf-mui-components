@@ -9,6 +9,7 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { Comic_Neue } from 'next/font/google';
 import { type DateTime } from 'luxon';
 import { useForm, useWatch } from 'react-hook-form';
 import Checkbox from '@mui/material/Checkbox';
@@ -27,6 +28,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName, hobbiesList, countriesList } from '@/constants';
+import { Colors } from '@/types';
 import {
   reqdMsg,
   minCharMsg,
@@ -39,15 +41,22 @@ import StyledAutocomplete from './StyledAutocomplete';
 import StyledDatePicker from './StyledDatePicker';
 import StyledIOSSwitch from './StyledIOSSwitch';
 
+const comicNeuc = Comic_Neue({
+  subsets: ['latin'],
+  style: 'italic',
+  weight: ['300', '400', '700']
+});
+
 type FormSchema = {
   name: string;
+  favouriteColor: Colors;
   hobbies: string[];
   countries: string[];
   dob: DateTime | null;
   enableNotification: boolean;
 };
 
-const initialValues: FormSchema = {
+const initialValues: Partial<FormSchema> = {
   name: '',
   hobbies: [],
   countries: [],
@@ -123,7 +132,18 @@ export default function StyledComponentsForm() {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="Customized multi MUISelect with a custom font family on the label" />
+              <FieldVariantInfo title="Styled RHFSelect with a custom font family on the label" />
+              <StyledSelect
+                fieldName="favouriteColor"
+                control={control}
+                options={Object.values(Colors)}
+                registerOptions={{
+                  required: true
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Styled RHFSelect accepting multiple values; overriding sx of styled component" />
               <StyledSelect
                 fieldName="hobbies"
                 control={control}
@@ -133,6 +153,14 @@ export default function StyledComponentsForm() {
                     (Array.isArray(value) && value.length > 0)
                     || 'Select atleast one hobby.'
                 }}
+                formLabelProps={{
+                  sx: {
+                    color: '#007aba',
+                    fontFamily: comicNeuc.style.fontFamily,
+                    fontWeight: 700
+                  }
+                }}
+                multiple
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>

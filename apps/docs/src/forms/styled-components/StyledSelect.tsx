@@ -2,13 +2,16 @@
  * The below code snippet illustrates how to create a reusable styled Select
  * component using RHFSelect, which can be used throughout the application.
  *
+ * `multiple` is left in the prop surface (not `Omit`'d) so its generic
+ * `Multiple` type param is inferred per call site from the literal passed —
+ * same as `RHFSelect` itself. Omitting `multiple` from the props type would
+ * pin `Multiple` to its default and make passing `multiple={false}` a type
+ * error.
+ *
  * A similar approach can be taken to create reusable styled components for:
  * - RHFNativeSelect
  * - RHFCheckboxGroup
  * - RHFRadioGroup
- *
- * The only difference being that for all the above components, "multiple" generic
- * prop would not be included in the type definition of the styled component.
  */
 
 import { type FieldValues } from 'react-hook-form';
@@ -21,7 +24,7 @@ import type { StrNumObjOption } from '@nish1896/rhf-mui-components/types';
 const poppins = Poppins({
   subsets: ['latin'],
   style: 'italic',
-  weight: '500'
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 });
 
 type StyledSelectProps<
@@ -32,7 +35,7 @@ type StyledSelectProps<
   Multiple extends boolean = true
 > = Omit<
   RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
-  'showLabelAboveFormField' | 'multiple'
+  'showLabelAboveFormField'
 >;
 
 const StyledSelect = <
@@ -42,18 +45,22 @@ const StyledSelect = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = true
 >({
+  formLabelProps,
   ...rest
 }: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+
   return (
     <RHFSelect
       formLabelProps={{
+        ...formLabelProps,
         sx: {
           fontFamily: poppins.style.fontFamily,
-          fontWeight: 600
+          fontWeight: 400,
+          ...formLabelProps?.sx
         }
       }}
-      {...rest}
       showLabelAboveFormField
+      {...rest}
     />
   );
 };
