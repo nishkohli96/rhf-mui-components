@@ -59,16 +59,12 @@ export const docsVersions: DocsVersionInfo[] = [
     label: 'v1',
     basePath: '/v1',
     fallbackPath: '/v1/introduction',
-    /*
-     * Sections that were never copied into `app/v1`, plus every component
-     * added from v2 onward (sourced from folder-structure's own
-     * `newlyAddedComponents_v2`/`newlyAddedComponents_v3_3` lists, so the
-     * sidebar and the folder-structure tree never drift apart). Listing them
-     * here keeps the v1 sidebar honest (no links to routes that 404) and
-     * makes the switcher fall back to `fallbackPath` instead of stranding
-     * the user.
-     */
-    unavailablePaths: ['/examples', '/migration-guide', ...unavailableComponentPaths.v1]
+    unavailablePaths: [
+      ...unavailableComponentPaths.v1,
+      '/form-helpers',
+      '/examples',
+      '/migration-guide',
+    ]
   }
 ];
 
