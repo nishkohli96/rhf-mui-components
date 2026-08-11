@@ -52,12 +52,12 @@ export const pageMetadata: Record<string, Metadata> = {
   inputsExample: {
     title: 'Inputs',
     description:
-      'Form utilizing MUITextField, MUIPasswordInput, MUINumberInput, MUITagsInput and MUIFileUploader, controlled with plain React state.'
+      'A React Hook Form example using RHFTextField, RHFPasswordInput, RHFNumberInput, RHFTagsInput and RHFFileUploader. Validation using registerOptions.'
   },
   selectExample: {
     title: 'Select with Class-Validator',
     description:
-      'Form utilizing MUISelect and MUINativeSelect with validation managed using class-validator.'
+      'A React Hook Form example using RHFSelect and RHFNativeSelect, with validation managed using class-validator.'
   },
   autocompleteExample: {
     title: 'Autocomplete',
@@ -77,12 +77,12 @@ export const pageMetadata: Record<string, Metadata> = {
   dateTimePickersExample: {
     title: 'Date & Time Pickers',
     description:
-      'A form using MUIDatePicker, MUITimePicker & MUIDateTimePicker components.'
+      'A React Hook Form example using RHFDatePicker, RHFMobileDatePicker, RHFTimePicker and RHFDateTimePicker, validated with a Yup schema.'
   },
   miscComponentsExample: {
     title: 'Miscellaneous Components',
     description:
-      'Form demonstrating usage of external components like MUIColorPicker, MUIPhoneInput & MUIRichTextEditor.'
+      'A React Hook Form example using external components like RHFColorPicker, RHFPhoneInput and RHFRichTextEditor.'
   },
   customizationExample: {
     title: 'Styled form with reusable components',

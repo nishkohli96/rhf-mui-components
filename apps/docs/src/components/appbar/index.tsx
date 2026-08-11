@@ -52,26 +52,38 @@ const AppBar = () => {
             minWidth: 0
           }}
         >
-          {/* <Image
-            src="/logo.svg"
-            alt=""
-            width={36}
-            height={36}
-            style={{
-              borderRadius: '50%',
-              objectFit: 'cover'
-            }}
-          /> */}
-                      <Image
-              src={"/rhf-mui.png"}
-              alt=""
-              width={45}
-              height={45}
-              style={{
-                borderRadius: '50%',
-                objectFit: 'cover'
+          <Box sx={{ position: 'relative', width: 45, height: 45, flexShrink: 0 }}>
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'block',
+                '[data-mui-color-scheme="dark"] &': { display: 'none' }
               }}
-            />
+            >
+              <Image
+                src="/logo-dark.png"
+                alt=""
+                fill
+                style={{ borderRadius: '50%', objectFit: 'cover' }}
+              />
+            </Box>
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'none',
+                '[data-mui-color-scheme="dark"] &': { display: 'block' }
+              }}
+            >
+              <Image
+                src="/logo.png"
+                alt=""
+                fill
+                style={{ borderRadius: '50%', objectFit: 'cover' }}
+              />
+            </Box>
+          </Box>
           <Box
             sx={{
               display: 'flex',

@@ -86,7 +86,7 @@ export const sidebarLinks: Page[] = [
     title: 'Examples',
     pages: [
       { title: 'Inputs', href: '/examples/inputs' },
-      { title: 'Select', href: '/examples/react-hook-form' },
+      { title: 'Select', href: '/examples/select' },
       { title: 'Autocomplete', href: '/examples/autocomplete' },
       { title: 'Checkbox & RadioGroup', href: '/examples/checkbox-and-radiogroup' },
       { title: 'Switch, Slider & Rating', href: '/examples/switch-slider-rating' },
