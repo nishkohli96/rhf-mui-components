@@ -58,7 +58,6 @@ export default function MiscellaneousComponentsForm() {
     control,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors }
   } = useForm<FormSchema>({
     defaultValues: initialValues,
@@ -110,7 +109,7 @@ export default function MiscellaneousComponentsForm() {
               }}
               required
               helperText={(
-                <Typography color={getValues('favouriteColor')}>
+                <Typography sx={{ color: formValues.favouriteColor }}>
                   Your favouriteColor is being applied on this text.
                 </Typography>
               )}
@@ -131,7 +130,6 @@ export default function MiscellaneousComponentsForm() {
               }}
               label="Second Favourite Color"
               customOnChange={({ color, setColor }) => {
-                console.log('color: ', color);
                 if(color.rgb.r > 128) {
                   return;
                 }
@@ -139,7 +137,7 @@ export default function MiscellaneousComponentsForm() {
               }}
               required
               helperText={(
-                <Typography color={getValues('secondFavColor')}>
+                <Typography sx={{ color: formValues.secondFavColor }}>
                   Color wont change if red value is greater than 128
                 </Typography>
               )}

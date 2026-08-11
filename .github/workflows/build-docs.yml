@@ -1,11 +1,9 @@
 name: Build Docs Website
 on: [push]
 jobs:
-  build-docs:
+  build-demo:
     name: Build Docs
     runs-on: ubuntu-latest
-    env:
-      GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -23,5 +21,7 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Build Components Package
+        run: pnpm -F @nish1896/rhf-mui-components run lib:build
       - name: Build Docs Website
-        run: pnpm docs:build
+        run: pnpm -F @nish1896/rhf-mui-docs run build

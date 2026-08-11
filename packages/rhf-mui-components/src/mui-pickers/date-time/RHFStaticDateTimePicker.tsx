@@ -21,13 +21,14 @@ import {
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
+import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
 import { MUIStaticDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { ConfigProvider, RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -190,7 +191,7 @@ const RHFStaticDateTimePickerInner = forwardRef(function RHFStaticDateTimePicker
   } = formHelperTextProps ?? {};
 
   return (
-    <ConfigProvider dateAdapter={dateAdapter}>
+    <MUIComponentsConfigProvider dateAdapter={dateAdapter}>
       <Controller
         name={fieldName}
         control={control}
@@ -254,7 +255,7 @@ const RHFStaticDateTimePickerInner = forwardRef(function RHFStaticDateTimePicker
           );
         }}
       />
-    </ConfigProvider>
+    </MUIComponentsConfigProvider>
   );
 });
 

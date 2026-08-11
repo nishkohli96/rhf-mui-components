@@ -1,6 +1,0 @@
-position: 3
-label: Components
-collapsible: true
-collapsed: false
-customProps:
-  description: API, props and description of form components included in the package.
