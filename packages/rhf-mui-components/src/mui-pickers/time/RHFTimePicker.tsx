@@ -22,13 +22,12 @@ import {
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
-import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
+import { ConfigProvider, RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -185,7 +184,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
   } = formHelperTextProps ?? {};
 
   return (
-    <MUIComponentsConfigProvider dateAdapter={dateAdapter}>
+    <ConfigProvider dateAdapter={dateAdapter}>
       <Controller
         name={fieldName}
         control={control}
@@ -250,7 +249,7 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
           );
         }}
       />
-    </MUIComponentsConfigProvider>
+    </ConfigProvider>
   );
 });
 
