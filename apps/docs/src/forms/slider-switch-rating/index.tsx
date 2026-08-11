@@ -159,4 +159,4 @@ export default function SliderSwitchRatingForm() {
       </form>
     </FormContainer>
   );
-};
+}

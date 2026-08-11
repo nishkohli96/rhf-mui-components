@@ -627,4 +627,4 @@ export default function CompleteForm() {
       </ConfigProvider>
     </FormContainer>
   );
-};
+}

@@ -29,10 +29,10 @@ type StyledSelectProps<
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  Multiple extends boolean = false
+  Multiple extends boolean = true
 > = Omit<
   RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
-  'showLabelAboveFormField'
+  'showLabelAboveFormField' | 'multiple'
 >;
 
 const StyledSelect = <
@@ -40,13 +40,12 @@ const StyledSelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  Multiple extends boolean = false
+  Multiple extends boolean = true
 >({
   ...rest
 }: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
   return (
     <RHFSelect
-      showLabelAboveFormField
       formLabelProps={{
         sx: {
           fontFamily: poppins.style.fontFamily,
@@ -54,6 +53,8 @@ const StyledSelect = <
         }
       }}
       {...rest}
+      showLabelAboveFormField
+      multiple={true}
     />
   );
 };

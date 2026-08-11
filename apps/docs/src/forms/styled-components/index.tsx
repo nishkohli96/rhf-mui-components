@@ -70,7 +70,7 @@ function validateNotification(value?: boolean) {
   return value ? undefined : 'Please enable notifications to continue.';
 }
 
-export default function StyledReusableComponentForm() {
+export default function StyledComponentsForm() {
   const pathName = usePathname();
 
   const [name, setName] = useState<string>();
@@ -256,14 +256,13 @@ export default function StyledReusableComponentForm() {
               <FieldVariantInfo title="Styled Switch, iOS style" />
               <StyledIOSSwitch
                 fieldName="enableNotification"
-                value={enableNotification}
+                control={control}
                 onValueChange={({ newValue }) => {
                   setEnableNotification(newValue);
                   setNotificationError(undefined);
                 }}
                 label="Enable notifications?"
                 disabled={disableAllFields}
-                errorMessage={notificationError}
               />
             </Grid>
             <Grid size={12}>

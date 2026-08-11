@@ -265,4 +265,4 @@ export default function MiscellaneousComponentsForm() {
       </form>
     </FormContainer>
   );
-};
+}

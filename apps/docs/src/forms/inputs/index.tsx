@@ -504,4 +504,4 @@ export default function InputsForm() {
       </form>
     </FormContainer>
   );
-};
+}

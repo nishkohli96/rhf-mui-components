@@ -128,4 +128,4 @@ export default function DateTimePickersForm() {
       </ConfigProvider>
     </FormContainer>
   );
-};
+}

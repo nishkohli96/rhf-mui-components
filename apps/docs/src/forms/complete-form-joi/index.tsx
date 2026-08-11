@@ -420,4 +420,4 @@ export default function CompleteFormWithJoi() {
       </ConfigProvider>
     </FormContainer>
   );
-};
+}

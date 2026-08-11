@@ -11,7 +11,7 @@ import {
   Validate,
 } from 'class-validator';
 import { Colors } from '@/types';
-import { IPLTeams } from '@/constants';
+import { iplTeams } from '@/constants';
 
 @ValidatorConstraint({ name: 'isValidIPLTeam', async: false })
 export class IsValidIPLTeam implements ValidatorConstraintInterface {
@@ -20,7 +20,7 @@ export class IsValidIPLTeam implements ValidatorConstraintInterface {
       return true;
     }
     return (value ?? []).every(team =>
-      IPLTeams.some(iplTeam => iplTeam.abbr === team));
+      iplTeams.some(iplTeam => iplTeam.abbr === team));
   }
 
   defaultMessage(args: ValidationArguments) {

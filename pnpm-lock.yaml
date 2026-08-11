@@ -143,6 +143,9 @@ importers:
       shiki:
         specifier: ^4.4.1
         version: 4.4.2
+      superstruct:
+        specifier: ^2.0.2
+        version: 2.0.2
       yup:
         specifier: ^1.7.1
         version: 1.7.1

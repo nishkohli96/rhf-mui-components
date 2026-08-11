@@ -630,4 +630,4 @@ export default function AutocompleteForm() {
       </form>
     </FormContainer>
   );
-};
+}

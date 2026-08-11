@@ -225,4 +225,4 @@ export default function CheckboxRadioGroupForm() {
       </form>
     </FormContainer>
   );
-};
+}
