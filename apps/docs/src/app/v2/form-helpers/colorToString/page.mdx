@@ -9,8 +9,8 @@ export default function Layout({ children }) {
 
 # colorToString
 
-Converts a color object in RGB or HSV format into a valid CSS color string, best used with
-`MUIColorPicker`.
+Converts a color object in RGB or HSV format into a valid CSS color string.
+Used internally by [RHFColorPicker](/v2/components/misc/RHFColorPicker).
 
 ```ts
 function colorToString(color: ColorObject, excludeAlpha?: boolean): string;
@@ -19,7 +19,7 @@ function colorToString(color: ColorObject, excludeAlpha?: boolean): string;
 ## Usage
 
 ```js
-import { colorToString } from '@nish1896/mui-components/form-helpers';
+import { colorToString } from '@nish1896/rhf-mui-components/form-helpers';
 ```
 
 ### Parameters

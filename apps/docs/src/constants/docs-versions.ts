@@ -34,13 +34,15 @@ export const docsVersions: DocsVersionInfo[] = [
     slug: 'v4',
     label: 'v4',
     basePath: '/v4',
-    fallbackPath: '/v4/introduction'
+    fallbackPath: '/v4/introduction',
+    unavailablePaths: ['/examples']
   },
   {
     slug: 'v3',
     label: 'v3',
     basePath: '/v3',
-    fallbackPath: '/v3/introduction'
+    fallbackPath: '/v3/introduction',
+    unavailablePaths: ['/examples']
   },
   {
     slug: 'v2',
@@ -52,7 +54,11 @@ export const docsVersions: DocsVersionInfo[] = [
      * from `newlyAddedComponents_v3_3` (folder-structure's own version-gate
      * list) so the sidebar and the folder-structure tree never drift apart.
      */
-    unavailablePaths: unavailableComponentPaths.v2
+    unavailablePaths: [
+      ...unavailableComponentPaths.v2,
+      '/form-helpers/fieldNameToId',
+      '/examples',
+    ]
   },
   {
     slug: 'v1',

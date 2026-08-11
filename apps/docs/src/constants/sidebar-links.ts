@@ -69,12 +69,12 @@ export const sidebarLinks: Page[] = [
         href: '/form-helpers/fieldNameToLabel',
       },
       {
-        title: 'getFileSize',
-        href: '/form-helpers/getFileSize'
-      },
-      {
         title: 'validateFileList',
         href: '/form-helpers/validateFileList'
+      },
+      {
+        title: 'getFileSize',
+        href: '/form-helpers/getFileSize'
       },
       {
         title: 'colorToString',

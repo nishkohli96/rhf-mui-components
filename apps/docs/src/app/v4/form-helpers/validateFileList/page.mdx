@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
 import { componentMetadata } from '@/constants';
 
 export const metadata = componentMetadata.validateFileList;
@@ -14,7 +14,8 @@ export default function Layout({ children }) {
 - Maximum file size in bytes (if provided)
 - Accepted file types (based on the `accept` attribute)
 
-This function utilized by `MUIFileUploader` ensures only files meeting the required criteria are passed for further processing.
+This function utilized by [RHFFileUploader](/v4/components/mui/RHFFileUploader)
+ensures only files meeting the required criteria are passed for further processing.
 
 ```ts
 type ValidateFileListOptions = {
@@ -40,8 +41,33 @@ function validateFileList(
 ## Usage
 
 ```js
-import { validateFileList } from '@nish1896/mui-components/form-helpers';
+import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 ```
+
+<Callout type="warning">
+  The `validateFileList` method signature and return value have changed in **v4**.
+  - The function now accepts a single `options` object instead of multiple positional arguments.
+  - The returned `errors` array has been removed. Validation errors are now returned as part of `rejectedFiles`.
+
+  If you are using this utility directly in your application, update existing calls accordingly:
+
+  ```diff
+  - const {
+  -   acceptedFiles,
+  -   rejectedFiles,
+  -   errors
+  - } = validateFileList(fileList, '*', 5 * 1024 * 1024, 3);
+
+  + const {
+  +   acceptedFiles,
+  +   rejectedFiles
+  + } = validateFileList(fileList, {
+  +   accept: '*',
+  +   maxSize: 5 * 1024 * 1024,
+  +   maxFiles: 3
+  + });
+  ```
+</Callout>
 
 ### Parameters
 
@@ -70,33 +96,6 @@ import { validateFileList } from '@nish1896/mui-components/form-helpers';
     - `FILE_SIZE_EXCEEDED`
     - `FILE_TYPE_NOT_ALLOWED`
     - `FILE_LIMIT_EXCEEDED`
-
-:::warning
-
-The `validateFileList` method signature and return value have changed in **v4**.
-
-- The function now accepts a single options object instead of multiple positional arguments.
-- The returned `errors` array has been removed. Validation errors are now returned as part of `rejectedFiles`.
-
-If you are using this utility directly in your application, update existing calls accordingly:
-
-```diff
-- const {
--   acceptedFiles,
--   rejectedFiles,
--   errors
-- } = validateFileList(fileList, '*', 5 * 1024 * 1024, 3);
-
-+ const {
-+   acceptedFiles,
-+   rejectedFiles
-+ } = validateFileList(fileList, {
-+   accept: '*',
-+   maxSize: 5 * 1024 * 1024,
-+   maxFiles: 3
-+ });
-```
-:::
 
 ## Examples
 
