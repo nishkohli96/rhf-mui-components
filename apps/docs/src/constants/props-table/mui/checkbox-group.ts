@@ -4,7 +4,12 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFCheckboxGroup`. */
-const checkboxGroupRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+const checkboxGroupRows = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
   const base = [
     resolveProp(PropsDescription.fieldName, args),
@@ -36,7 +41,6 @@ const checkboxGroupRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionP
     resolveProp(PropsDescription.options_StrOrObj, args),
     resolveProp(PropsDescription.labelKey, args),
     resolveProp(PropsDescription.valueKey, args),
-    resolveProp(PropsDescription.required, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange_CheckboxGroup, args)] : []),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.onValueChange_CheckboxGroup, args)]
@@ -54,6 +58,7 @@ const checkboxGroupRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionP
     resolveProp(PropsDescription.checkboxProps, args),
     resolveProp(PropsDescription.formControlLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
+    resolveProp(PropsDescription.required, args),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),

@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV4 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFDatePicker;
 
@@ -39,13 +39,16 @@ import {
 ```
 
 ## Examples
-- [RHFDatePicker](https://rhf-mui-components-examples.vercel.app/date-time-pickers)
 - [DatePicker](https://v8.mui.com/x/react-date-pickers/date-picker/)
-- [Complete Form](https://rhf-mui-components-examples.vercel.app/complete-form)
 
 ## API
 `RHFDatePickerProps` extends [DatePickerProps](https://v8.mui.com/x/api/date-pickers/date-picker/)
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV4.RHFDatePicker} />
+<PropsTable
+  rows={componentProps.RHFDatePicker}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

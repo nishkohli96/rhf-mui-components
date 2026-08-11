@@ -155,7 +155,7 @@ const PropsDescription: Record<
   },
   renderError: {
     name: 'renderError',
-    description: 'Custom renderer for the React Hook Form field error. Receives the current field error and returns the content to display, such as `error.message` or a custom React element in the `HelperText` component.\n\n**Available from** `v4.1.0`.',
+    description: 'Custom renderer for the React Hook Form field error. Receives the current field error and returns the content to display, such as `error.message` or a custom React element in the `HelperText` component.\n\n**Added in** `v4.1.0`.',
     type: '(error: FieldError) => ReactNode'
   },
   formHelperTextProps: ({ docsVersion, muiVersion }: PropsDescriptionArgs) => ({

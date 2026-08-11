@@ -4,17 +4,16 @@ import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
 /** Props reference rows for `RHFRadioGroup`. */
-const radioGroupRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProps): PropsInfo[] => {
+const radioGroupRows = ({
+  docsVersion,
+  muiVersion,
+  v1,
+  v4AndAbove
+}: VersionProps): PropsInfo[] => {
   const args = { docsVersion, muiVersion };
   const onValueChange = v4AndAbove
     ? PropsDescription.onValueChange_RadioGroup
     : LegacyPropsDescription.onValueChange_RadioGroup_v2_v3;
-
-  const onValueChange_v1: PropsInfo = {
-    name: 'onValueChange',
-    description: 'Callback function triggered when a radio option is selected.',
-    type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
-  };
 
   return [
     resolveProp(PropsDescription.fieldName, args),
@@ -23,7 +22,6 @@ const radioGroupRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProp
     resolveProp(PropsDescription.options_StrOrObj, args),
     resolveProp(PropsDescription.labelKey, args),
     resolveProp(PropsDescription.valueKey, args),
-    ...(!v1 ? [resolveProp(PropsDescription.required, args)] : []),
     ...(!v1
       ? [
         ...(v4AndAbove ? [resolveProp(PropsDescription.customOnChange_RadioGroup, args)] : []),
@@ -38,13 +36,14 @@ const radioGroupRows = ({ docsVersion, muiVersion, v1, v4AndAbove }: VersionProp
         resolveProp(PropsDescription.label, args)
       ]
       : [
-        onValueChange_v1,
+        resolveProp(LegacyPropsDescription.onValueChange_RadioGroup_v1, args),
         resolveProp(LegacyPropsDescription.label_v1, args)
       ]),
     resolveProp(PropsDescription.showLabelAboveFormField_Default, args),
     resolveProp(PropsDescription.formLabelProps, args),
     resolveProp(PropsDescription.radioProps, args),
     resolveProp(PropsDescription.formControlLabelProps, args),
+    ...(!v1 ? [resolveProp(PropsDescription.required, args)] : []),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),

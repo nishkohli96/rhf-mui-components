@@ -147,6 +147,11 @@ const LegacyPropsDescription: Record<
       'Callback function triggered when a checkbox option changes. `selectedItemValue` is the toggled option value, and `value` is the updated field value.',
     type: '(selectedItemValue, value, event) => void'
   },
+  onValueChange_RadioGroup_v1: {
+    name: 'onValueChange',
+    description: 'Callback function triggered when a radio option is selected.',
+    type: '(e: ChangeEvent<HTMLInputElement>, newValue: string) => void'
+  },
   onValueChange_RadioGroup_v2_v3: {
     name: 'onValueChange',
     description:

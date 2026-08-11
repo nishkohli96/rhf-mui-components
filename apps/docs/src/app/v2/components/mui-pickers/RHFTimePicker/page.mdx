@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV2 } from '@/constants';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFTimePicker;
 
@@ -31,4 +31,8 @@ import RHFTimePicker, { RHFTimePickerProps } from '@nish1896/rhf-mui-components/
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentPropsV2.RHFTimePicker} />
+<PropsTable
+  rows={componentProps.RHFTimePicker}
+  docsVersion={2}
+  muiVersion={6}
+/>
