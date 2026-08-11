@@ -59,7 +59,7 @@ import {
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
-const CompleteForm = () => {
+export default function CompleteForm() {
   const pathName = usePathname();
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
@@ -628,5 +628,3 @@ const CompleteForm = () => {
     </FormContainer>
   );
 };
-
-export default CompleteForm;

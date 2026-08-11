@@ -69,7 +69,7 @@ const initialValues: FormSchema = {
 const weightStepAmount = 2;
 const balanceStepAmount = 0.5;
 
-const InputsWithRegisterForm = () => {
+export default function InputsForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
@@ -505,5 +505,3 @@ const InputsWithRegisterForm = () => {
     </FormContainer>
   );
 };
-
-export default InputsWithRegisterForm;

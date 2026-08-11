@@ -77,7 +77,7 @@ const AppBar = () => {
           >
             <Image
               src={'/wordmark.svg'}
-              alt="MUI Components"
+              alt="RHF-MUI Components"
               priority
               width={191}
               height={28}

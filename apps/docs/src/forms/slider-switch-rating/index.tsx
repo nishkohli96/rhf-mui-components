@@ -42,7 +42,7 @@ const initialValues = {
   tempRange: [5, 25],
 };
 
-const SliderSwitchRatingFormWithSuperstruct = () => {
+export default function SliderSwitchRatingForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
@@ -160,5 +160,3 @@ const SliderSwitchRatingFormWithSuperstruct = () => {
     </FormContainer>
   );
 };
-
-export default SliderSwitchRatingFormWithSuperstruct;

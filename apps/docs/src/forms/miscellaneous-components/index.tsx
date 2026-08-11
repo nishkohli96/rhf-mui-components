@@ -13,10 +13,10 @@ import {
   type CountryIso2
 } from 'react-international-phone';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import RHFPhoneInput, {
   type RHFPhoneInputValue
 } from '@nish1896/rhf-mui-components/misc/phone-input';
-import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 import {
   FormContainer,
   FormState,
@@ -51,7 +51,7 @@ const initialValues: Partial<FormSchema> = {
   countries: 'Angola'
 };
 
-const MiscellaneousComponentsForm = () => {
+export default function MiscellaneousComponentsForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
@@ -92,26 +92,6 @@ const MiscellaneousComponentsForm = () => {
                 />
               )}
               label="Disable all fields"
-            />
-          </Grid>
-          <Grid size={12}>
-            <FieldVariantInfo title="CK5 Rich Text Editor" />
-            <RHFRichTextEditor
-              fieldName="bio"
-              control={control}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: 'Please add a bio'
-                }
-              }}
-              label={(
-                <Typography color="#ea3677">
-                  Briefly describe yourself
-                </Typography>
-              )}
-              required
-              errorMessage={errors?.bio?.message}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -181,6 +161,25 @@ const MiscellaneousComponentsForm = () => {
               label="Third Favourite Color"
               required
               excludeAlpha
+            />
+          </Grid>
+          <Grid size={12}>
+            <FieldVariantInfo title="CK5 Rich Text Editor" />
+            <RHFRichTextEditor
+              fieldName="bio"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'Please add a bio'
+                }
+              }}
+              label={(
+                <Typography color="#ea3677">
+                  Briefly describe yourself
+                </Typography>
+              )}
+              required
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -267,5 +266,3 @@ const MiscellaneousComponentsForm = () => {
     </FormContainer>
   );
 };
-
-export default MiscellaneousComponentsForm;

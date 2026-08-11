@@ -27,7 +27,7 @@ import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 import { dateTimeSchema, type DateTimeFormData } from './schema';
 
-const DateTimePickersForm = () => {
+export default function DateTimePickersForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
@@ -129,5 +129,3 @@ const DateTimePickersForm = () => {
     </FormContainer>
   );
 };
-
-export default DateTimePickersForm;

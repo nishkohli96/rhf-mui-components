@@ -76,7 +76,9 @@ const CodeSnippetsView = ({
       sx={{
         mt: 4,
         /* The accordion is the container, so drop the code block's own frame. */
-        '& .doc-code-block': { m: 0, border: 0, borderRadius: 0 }
+        '& .doc-code-block': { m: 0, border: 0, borderRadius: 0 },
+        /* Cap long snippets so collapsing the accordion doesn't require scrolling far up. */
+        '& .doc-code-block pre': { maxHeight: 480, overflowY: 'auto' }
       }}
     >
       {title && (

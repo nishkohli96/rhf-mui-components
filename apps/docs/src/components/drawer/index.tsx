@@ -202,7 +202,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
           >
             <Image
               src={'/wordmark.svg'}
-              alt="MUI Components"
+              alt="RHF-MUI Components"
               priority
               width={175}
               height={28}

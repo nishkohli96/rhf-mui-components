@@ -9,8 +9,8 @@ const poppinsBold = Poppins({
 export type WordmarkProps = BoxProps<'span'>;
 
 /**
- * "MUI-Components" brand wordmark, rendered as real text (gradient-filled via
- * `background-clip: text`) instead of `/wordmark.svg`. The SVG's fixed
+ * "RHF-MUI Components" brand wordmark, rendered as real text (gradient-filled
+ * via `background-clip: text`) instead of `/wordmark.svg`. The SVG's fixed
  * viewBox doesn't tightly match its glyph run, so centering it as an image
  * leaves a visibly off-center gap; real text sizes to its own content and
  * centers precisely. Pass `sx` to control size — e.g. `fontSize`.
@@ -34,7 +34,7 @@ const Wordmark = ({ sx, ...otherProps }: WordmarkProps) => {
       }}
       {...otherProps}
     >
-      MUI-Components
+      RHF-MUI Components
     </Box>
   );
 };

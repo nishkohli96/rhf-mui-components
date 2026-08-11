@@ -25,9 +25,9 @@ export const defaultPageKeywords = [
 
 export const pageMetadata: Record<string, Metadata> = {
   home: {
-    title: 'MUI Components',
+    title: 'RHF-MUI Components',
     description:
-      'Production-ready, form-library-independent Material UI components for forms or standalone use, with consistent labels, helper text and validation UI.'
+      'Production-ready, form-library-independent Material UI form components for React Hook Form and beyond, with consistent labels, helper text and validation UI.'
   },
   notFound: {
     title: 'Page Not Found',

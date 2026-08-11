@@ -39,10 +39,10 @@ import {
   UploadedFile
 } from '@/components';
 import {
-  CountriesList,
-  IPLTeams,
-  GroceryList,
-  HobbiesList,
+  countriesList,
+  iplTeams,
+  groceryList,
+  hobbiesList,
   formSubmitEventName,
 } from '@/constants';
 import { useThemeContext } from '@/theme';
@@ -53,7 +53,7 @@ import styles from './styles.module.css';
 
 type FormSchema = Person & { disableAllFields?: boolean };
 
-const CompleteFormWithJoi = () => {
+export default function CompleteFormWithJoi() {
   const pathName = usePathname();
   const { currentTheme, toggleTheme } = useThemeContext();
   const muiTheme = useTheme();
@@ -195,7 +195,7 @@ const CompleteFormWithJoi = () => {
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"
-                options={IPLTeams}
+                options={iplTeams}
                 multiple
                 disabled={areAllFieldsDisabled}
                 required
@@ -214,7 +214,7 @@ const CompleteFormWithJoi = () => {
               <RHFAutocomplete
                 fieldName="hobby"
                 control={control}
-                options={HobbiesList}
+                options={hobbiesList}
                 registerOptions={{
                   required: {
                     value: true,
@@ -229,7 +229,7 @@ const CompleteFormWithJoi = () => {
               <RHFMultiAutocomplete
                 fieldName="groceryList"
                 control={control}
-                options={GroceryList}
+                options={groceryList}
                 required
                 disabled={areAllFieldsDisabled}
               />
@@ -274,7 +274,7 @@ const CompleteFormWithJoi = () => {
                 fieldName="countries"
                 control={control}
                 label="Select Countries"
-                options={CountriesList}
+                options={countriesList}
                 labelKey="country"
                 valueKey="code"
                 disabled={areAllFieldsDisabled}
@@ -295,7 +295,7 @@ const CompleteFormWithJoi = () => {
               <RHFRadioGroup
                 fieldName="country"
                 control={control}
-                options={CountriesList}
+                options={countriesList}
                 defaultValue={initialValues.country}
                 labelKey="country"
                 valueKey="code"
@@ -421,5 +421,3 @@ const CompleteFormWithJoi = () => {
     </FormContainer>
   );
 };
-
-export default CompleteFormWithJoi;

@@ -20,7 +20,7 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
+import { iplTeams, currencies, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 import { FormSchema } from './validation';
@@ -37,7 +37,7 @@ const getLanguagesList = (count: number) => {
 
 const initialValues = { favouriteColor: Colors.Orange };
 
-const SelectFormWithClassValidator = () => {
+export default function SelectFormWithClassValidator() {
   const pathName = usePathname();
   const languagesList = useMemo(() => getLanguagesList(10), []);
   const [disableAllFields, setDisableAllFields] = useState(false);
@@ -117,7 +117,7 @@ const SelectFormWithClassValidator = () => {
             <RHFSelect
               fieldName="iplTeams"
               control={control}
-              options={IPLTeams}
+              options={iplTeams}
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
@@ -169,7 +169,7 @@ const SelectFormWithClassValidator = () => {
             <RHFNativeSelect
               fieldName="currency"
               control={control}
-              options={Currencies}
+              options={currencies}
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
@@ -206,5 +206,3 @@ const SelectFormWithClassValidator = () => {
     </FormContainer>
   );
 };
-
-export default SelectFormWithClassValidator;
