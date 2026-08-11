@@ -1,9 +1,9 @@
-import { Poppins } from 'next/font/google';
+import { Space_Grotesk } from 'next/font/google';
 import Box, { type BoxProps } from '@mui/material/Box';
 
-const poppinsBold = Poppins({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: '800'
+  weight: ['400', '700']
 });
 
 export type WordmarkProps = BoxProps<'span'>;
@@ -14,15 +14,19 @@ export type WordmarkProps = BoxProps<'span'>;
  * viewBox doesn't tightly match its glyph run, so centering it as an image
  * leaves a visibly off-center gap; real text sizes to its own content and
  * centers precisely. Pass `sx` to control size — e.g. `fontSize`.
+ *
+ * Font family/weights match `/wordmark.svg` exactly (Space Grotesk, 700 for
+ * "RHF-MUI", 400 for "Components") so the large homescreen wordmark and the
+ * nav/mobile SVG logo read as the same mark.
  */
 const Wordmark = ({ sx, ...otherProps }: WordmarkProps) => {
   return (
     <Box
       component="span"
-      className={poppinsBold.className}
+      className={spaceGrotesk.className}
       sx={{
         display: 'inline-block',
-        fontWeight: 800,
+        fontWeight: 700,
         letterSpacing: '-1px',
         lineHeight: 1,
         background: 'linear-gradient(90deg, #2683cc 0%, #014280 100%)',
@@ -34,7 +38,8 @@ const Wordmark = ({ sx, ...otherProps }: WordmarkProps) => {
       }}
       {...otherProps}
     >
-      RHF-MUI Components
+      RHF-MUI
+      <Box component="span" sx={{ fontWeight: 400 }}> Components</Box>
     </Box>
   );
 };

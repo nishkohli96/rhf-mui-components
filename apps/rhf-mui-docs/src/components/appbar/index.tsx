@@ -52,7 +52,17 @@ const AppBar = () => {
             minWidth: 0
           }}
         >
-          <Box sx={{ position: 'relative', width: 45, height: 45, flexShrink: 0 }}>
+          <Box
+            sx={{
+              position: 'relative',
+              width: 45,
+              height: 45,
+              flexShrink: 0,
+              '@media (max-width: 400px)': {
+                display: 'none'
+              }
+            }}
+          >
             <Box
               sx={{
                 position: 'absolute',
@@ -80,7 +90,10 @@ const AppBar = () => {
                 src="/logo.png"
                 alt=""
                 fill
-                style={{ borderRadius: '50%', objectFit: 'cover' }}
+                style={{
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                }}
               />
             </Box>
           </Box>
@@ -92,9 +105,6 @@ const AppBar = () => {
                 height: { xs: '40px', md: '50px' },
                 width: 'auto'
               },
-              '@media (max-width: 329px)': {
-                display: 'none'
-              }
             }}
           >
             <Image

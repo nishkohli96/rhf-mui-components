@@ -4,7 +4,6 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -185,11 +184,38 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
         }}
       >
         <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
-          <Avatar
-            src="/logo.svg"
-            alt="Logo"
-            sx={{ width: '35px', height: '35px' }}
-          />
+          <Box sx={{ position: 'relative', width: '35px', height: '35px', flexShrink: 0 }}>
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'block',
+                '[data-mui-color-scheme="dark"] &': { display: 'none' }
+              }}
+            >
+              <Image
+                src="/logo-dark.png"
+                alt="Logo"
+                fill
+                style={{ borderRadius: '50%', objectFit: 'cover' }}
+              />
+            </Box>
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'none',
+                '[data-mui-color-scheme="dark"] &': { display: 'block' }
+              }}
+            >
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                fill
+                style={{ borderRadius: '50%', objectFit: 'cover' }}
+              />
+            </Box>
+          </Box>
           <Box
             sx={{
               display: { xs: 'flex', md: 'none' },

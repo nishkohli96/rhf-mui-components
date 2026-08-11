@@ -152,7 +152,7 @@ const HomeLanding = () => {
             gap: 2.5
           }}
         >
-          {features.map((feature, idx) => {
+          {features.map(feature => {
             return (
               <Paper
                 key={feature.title}
