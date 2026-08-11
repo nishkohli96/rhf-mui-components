@@ -13,12 +13,12 @@ import {
 import { type IColor } from 'react-color-palette';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
 import { colorToString } from '@nish1896/mui-components/form-helpers';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,

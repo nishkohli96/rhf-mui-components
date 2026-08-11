@@ -31,7 +31,7 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

@@ -25,6 +25,7 @@ const VersionSwitcher = () => {
     if (target && target.slug !== activeVersion.slug) {
       router.push(resolveVersionSwitchHref(target, pathname));
     }
+    setTimeout(() => (document.activeElement as HTMLElement | null)?.blur());
   };
 
   return (

@@ -22,7 +22,7 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { CountriesList, formSubmitEventName } from '@/constants';
+import { countriesList, formSubmitEventName } from '@/constants';
 import { Colors, Gender } from '@/types';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import { formSchema, type PersonInfo } from './validation';
@@ -46,7 +46,7 @@ const initialValues = {
   agreeTnC: false
 };
 
-const CheckboxRadioZodForm = () => {
+export default function CheckboxRadioGroupForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
@@ -165,7 +165,7 @@ const CheckboxRadioZodForm = () => {
               fieldName="countriesVisited"
               label="Select the countries have you visited"
               control={control}
-              options={CountriesList}
+              options={countriesList}
               labelKey="country"
               valueKey="code"
               renderOptionLabel={opn => `${opn.country} (${opn.code})`}
@@ -226,5 +226,3 @@ const CheckboxRadioZodForm = () => {
     </FormContainer>
   );
 };
-
-export default CheckboxRadioZodForm;

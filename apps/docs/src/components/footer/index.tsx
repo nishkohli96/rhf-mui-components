@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const Footer = () => {
+export default function Footer() {
   return (
     <Box
       component="footer"
@@ -22,5 +22,3 @@ const Footer = () => {
     </Box>
   );
 };
-
-export default Footer;

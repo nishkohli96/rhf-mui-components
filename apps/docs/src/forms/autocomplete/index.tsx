@@ -25,7 +25,7 @@ import {
   ResetButton
 } from '@/components';
 import { Colors } from '@/types';
-import { IPLTeams, formSubmitEventName, employeeList } from '@/constants';
+import { iplTeams, formSubmitEventName, employeeList } from '@/constants';
 import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
@@ -45,7 +45,7 @@ type FormSchema = {
 
 const LIMIT = 50;
 
-const AutocompleteForm = () => {
+export default function AutocompleteForm() {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(false);
   const [disableAllFields, setDisableAllFields] = useState(false);
@@ -459,7 +459,7 @@ const AutocompleteForm = () => {
             <RHFMultiAutocomplete
               fieldName="iplTeams"
               control={control}
-              options={IPLTeams}
+              options={iplTeams}
               labelKey="name"
               valueKey="abbr"
               label="Which Teams have won trophy in IPL ?"
@@ -631,5 +631,3 @@ const AutocompleteForm = () => {
     </FormContainer>
   );
 };
-
-export default AutocompleteForm;

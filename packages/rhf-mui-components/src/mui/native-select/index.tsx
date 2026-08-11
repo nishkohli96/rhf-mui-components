@@ -26,7 +26,7 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds, StrNumObjOption } from '@/types';
+import type { CustomComponentIds, StrNumObjOption } from '@nish1896/mui-components/types';
 import {
   mergeRefs,
   mergeSx,

@@ -91,9 +91,6 @@ export const externalLinks = Object.freeze({
   }
 });
 
-export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
+export const githubRepoLink = `${githubProfile}rhf-mui-components`;
 export const docsLink = 'https://rhf-mui-components.vercel.app/';
 export const npmLink = 'https://www.npmjs.com/package/@nish1896/rhf-mui-components';
-
-export const stackblitzFileLink = (file: string) =>
-  `https://stackblitz.com/github/nishkohli96/rhf-mui-components/tree/v4-examples?file=${file}`;

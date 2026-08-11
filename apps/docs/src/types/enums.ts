@@ -17,12 +17,6 @@ export enum Gender {
   Others = 'Others'
 }
 
-export enum UserRole {
-  Admin = 'Admin',
-  User = 'User',
-  Guest = 'Guest',
-}
-
 export enum Sports {
   Cricket = 'Cricket',
   TableTennis = 'Table Tennis',

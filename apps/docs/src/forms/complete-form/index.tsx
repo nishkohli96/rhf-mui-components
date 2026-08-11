@@ -42,10 +42,10 @@ import {
   UploadedFile
 } from '@/components';
 import {
-  CountriesList,
-  IPLTeams,
-  GroceryList,
-  HobbiesList,
+  countriesList,
+  iplTeams,
+  groceryList,
+  hobbiesList,
   formSubmitEventName,
 } from '@/constants';
 import { useThemeContext } from '@/theme';
@@ -283,7 +283,7 @@ const CompleteForm = () => {
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"
-                options={IPLTeams}
+                options={iplTeams}
                 multiple
                 required
               />
@@ -312,7 +312,7 @@ const CompleteForm = () => {
                     message: 'This field is required'
                   }
                 }}
-                options={HobbiesList}
+                options={hobbiesList}
                 required
               />
             </Grid>
@@ -334,7 +334,7 @@ const CompleteForm = () => {
                     },
                   }
                 }}
-                options={GroceryList}
+                options={groceryList}
                 required
               />
             </Grid>
@@ -403,7 +403,7 @@ const CompleteForm = () => {
                   }
                 }}
                 label="Select Countries"
-                options={CountriesList}
+                options={countriesList}
                 labelKey="country"
                 valueKey="code"
                 required
@@ -434,7 +434,7 @@ const CompleteForm = () => {
                     message: reqdMessage('country')
                   }
                 }}
-                options={CountriesList}
+                options={countriesList}
                 labelKey="country"
                 valueKey="code"
                 row

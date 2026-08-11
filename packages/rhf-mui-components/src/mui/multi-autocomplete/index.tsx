@@ -20,6 +20,7 @@ import {
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
 import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
+import type { StrObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormControlLabelProps,
@@ -31,7 +32,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrObjOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

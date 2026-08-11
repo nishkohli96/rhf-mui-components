@@ -37,9 +37,6 @@ import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
 
-export { PropsDescription } from './descriptions/latest';
-export { PropsDescription_v1 } from './descriptions/v1';
-
 /** Props row-builders for every component — consumed by `<PropsTable>` across every docs version. */
 export const componentProps = Object.freeze({
   Introduction: introductionPageRows,
