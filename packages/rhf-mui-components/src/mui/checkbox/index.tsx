@@ -18,6 +18,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormControlLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {

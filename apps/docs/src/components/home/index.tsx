@@ -17,22 +17,22 @@ const features = [
     icon: '/icons/rhf.svg',
     title: 'Built for React Hook Form',
     description:
-      'Every field plugs straight into control and registerOptions — no manual value/onChange wiring or error state to manage.'
+      'Every field plugs straight into control and registerOptions. No manual value/onChange wiring or error state to manage.'
   },
   {
-    icon: '/icons/typed.svg',
+    icon: '/icons/ts.svg',
     title: 'Fully typed',
     description:
       'Written in TypeScript from the ground up, with precise prop types for every component.'
   },
   {
-    icon: '/icons/tree-shakable.svg',
+    icon: '/icons/tree.svg',
     title: 'Tree-shakable',
     description:
       'Import only what you use, with subpath exports for mui, mui-pickers and misc components.'
   },
   {
-    icon: '/icons/form-ux.svg',
+    icon: '/icons/form.svg',
     title: 'Consistent form UX',
     description:
       'One label, error and helper-text system across all fields, with accessible names preserved.'
@@ -152,7 +152,7 @@ const HomeLanding = () => {
             gap: 2.5
           }}
         >
-          {features.map(feature => {
+          {features.map((feature, idx) => {
             return (
               <Paper
                 key={feature.title}

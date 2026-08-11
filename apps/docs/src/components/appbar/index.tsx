@@ -52,7 +52,7 @@ const AppBar = () => {
             minWidth: 0
           }}
         >
-          <Image
+          {/* <Image
             src="/logo.svg"
             alt=""
             width={36}
@@ -61,13 +61,23 @@ const AppBar = () => {
               borderRadius: '50%',
               objectFit: 'cover'
             }}
-          />
+          /> */}
+                      <Image
+              src={"/rhf-mui.png"}
+              alt=""
+              width={45}
+              height={45}
+              style={{
+                borderRadius: '50%',
+                objectFit: 'cover'
+              }}
+            />
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
               '& img': {
-                height: { xs: 22, md: 28 },
+                height: { xs: '40px', md: '50px' },
                 width: 'auto'
               },
               '@media (max-width: 329px)': {
@@ -79,8 +89,8 @@ const AppBar = () => {
               src={'/wordmark.svg'}
               alt="RHF-MUI Components"
               priority
-              width={191}
-              height={28}
+              width={320}
+              height={60}
             />
           </Box>
         </Link>

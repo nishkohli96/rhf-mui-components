@@ -25,13 +25,13 @@ import MUIFileUploader, {
   type FileUploadErrorDetails,
   type ExistingUploadedFile,
 } from '@nish1896/mui-components/mui/file-uploader';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

@@ -23,6 +23,7 @@ import {
 import { type TextFieldProps } from '@mui/material/TextField';
 import { type SelectProps as MuiSelectProps } from '@mui/material/Select';
 import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type CountryIso2,
   type ParsedCountry,
@@ -34,7 +35,6 @@ import {
   type MenuItemProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

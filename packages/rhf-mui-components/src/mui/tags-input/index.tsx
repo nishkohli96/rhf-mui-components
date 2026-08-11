@@ -17,13 +17,13 @@ import {
 } from 'react-hook-form';
 import { type TextFieldProps } from '@mui/material/TextField';
 import MUITagsInput from '@nish1896/mui-components/mui/tags-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type MuiChipProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
