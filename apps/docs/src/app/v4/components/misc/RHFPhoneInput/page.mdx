@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFPhoneInput;
@@ -9,14 +9,12 @@ export default function Layout({ children }) {
 
 # RHFPhoneInput
 
-<AvailabilityBanner componentName="RHFPhoneInput" version="2.0" />
-
 The **RHFPhoneInput** component is built on top of [react-international-phone](https://www.npmjs.com/package/react-international-phone),
 a React library for handling international phone numbers.
 
-It integrates seamlessly with Material UI by leveraging the [TextField](https://v7.mui.com/material-ui/react-text-field/)
-component together with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
-hook from `react-international-phone`, allowing users to select a country and enter phone numbers
+It integrates with Material UI by leveraging the [TextField](https://v7.mui.com/material-ui/react-text-field/)
+component with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
+hook from `react-international-phone`, allowing users to select a country and enter phone number
 in the appropriate international format.
 
 ## Installation
@@ -26,18 +24,6 @@ in the appropriate international format.
   command="react-international-phone"
 />
 
-<Callout type="warning" title="Field value shape changed">
-From **v4** onward, `RHFPhoneInput` stores an object in React Hook Form state
-instead of a plain phone number string.
-
-If you are upgrading from an earlier version, update your form schemas,
-default values, validation logic, and submission handlers to work with
-the new `RHFPhoneInputValue` type.
-
-For backward compatibility, initial and default values may still be provided as strings,
-but any value produced after user interaction will be returned as an `RHFPhoneInputValue` object.
-</Callout>
-
 ## Usage
 
 ```ts
@@ -46,6 +32,19 @@ import RHFPhoneInput, {
   type RHFPhoneInputValue
 } from '@nish1896/rhf-mui-components/misc/phone-input';
 ```
+
+<Callout type="warning" title="Field value shape changed">
+  From **v4** onward, `RHFPhoneInput` stores an object in React Hook Form
+  state instead of a plain phone number string.
+
+  If you are upgrading from an earlier version, update your form schemas,
+  default values, validation logic, and submission handlers to work with
+  the new `RHFPhoneInputValue` type.
+
+  For backward compatibility, initial and default values may still be
+  provided as strings, but any value produced after user interaction will be
+  returned as an `RHFPhoneInputValue` object.
+</Callout>
 
 ```tsx
 <RHFPhoneInput
@@ -59,16 +58,15 @@ import RHFPhoneInput, {
 ```
 
 <Callout type="info">
-For validation, consider enforcing the following minimum lengths:
-
-- `phone` and `phoneNo`: at least **6** characters
-- `country`: exactly **2** characters (ISO country code)
-- `dialCode`: typically **1–4** digits, depending on the selected country
+  For validation, consider enforcing the following minimum lengths:
+  - `phone` and `phoneNo`: at least **6** characters
+  - `country`: exactly **2** characters (ISO country code)
+  - `dialCode`: typically **1–4** digits, depending on the selected country
 </Callout>
 
 ### Return Value
 
-Starting in **v4**, the field value is represented as an `RHFPhoneInputValue` object:
+Starting in `v4`, the field value is represented as an `RHFPhoneInputValue` object:
 
 ```ts
 type RHFPhoneInputValue = {
@@ -122,22 +120,26 @@ Use:
 - `phoneNo` when you only need the national number.
 - `country` for country-specific logic or validation.
 
-**This is the main reason the field value shape changed from a `string` to an `object`
-in `v4`.**
+**This is the main reason the field value shape changed from a `string`
+to an `object` in `v4`.**
 
 ### Search Countries
 
 Because the country list is large, `v4` introduces an inline search field
-that allows users to search for and select their preferred country. The search matches the
-country name, ISO2 country code, and dial code.
+that allows users to search for and select their preferred country.
+The search matches the **country name**, ISO2 **country code**, and
+**dial code**.
 
-The search field is enabled by default and can be customized using `searchCountryProps`, an object
-with the following properties:
+The search field is enabled by default and can be customized using
+`searchCountryProps`, an object with the following properties:
 
 - `allowCountrySearch` - Shows or hides the inline search field. Defaults to `true`.
-- `textFieldProps` - [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) for customizing the search text field.
-- `renderCountryMenuItem` - Customizes the content of each `MenuItem` in the country search dropdown.
-- `noCountryFoundText` - Text shown when no countries match the search. Defaults to "**No countries found**".
+- `textFieldProps` - [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
+  for customizing the search text field.
+- `renderCountryMenuItem` - Customizes the content of each [MenuItem](https://v7.mui.com/material-ui/api/menu-item/)
+  in the country search dropdown.
+- `noCountryFoundText` - Text shown when no countries match the search.
+  Defaults to "**No countries found**".
 
 ```tsx
 <RHFPhoneInput
@@ -164,4 +166,9 @@ country list is scrolled.
 and accepts the following additional props.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.RHFPhoneInput} docsVersion={4} muiVersion={7} v4AndAbove />
+<PropsTable
+  rows={componentProps.RHFPhoneInput}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

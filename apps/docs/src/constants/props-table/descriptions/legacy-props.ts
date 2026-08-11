@@ -241,13 +241,13 @@ const LegacyPropsDescription: Record<
       'Selected color value for `RHFColorPicker`. Use `getValues("fieldName")` to sync it with the form value.\n\n**Default value:** Black (`#000000`).',
     type: 'string'
   },
-  value_RichTextEditor: {
+  value_RichTextEditor_v1: {
     name: 'value',
     description:
       'Content rendered in the Rich Text Editor. It can be plain text or an HTML string.',
     type: 'string'
   },
-  value_PhoneInput: {
+  value_PhoneInput_v2_v3: {
     name: 'value',
     description: 'Pass `getValues(fieldName)` to synchronize the value argument in the `usePhoneInput` hook with the form field\'s actual value.',
     type: 'string / undefined',
@@ -348,7 +348,7 @@ const LegacyPropsDescription: Record<
   }),
   countrySelectProps_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'countrySelectProps',
-    description: `Props forwarded to the internal [Select](${externalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown. Added in \`v3.7\`.`,
+    description: `Props forwarded to the internal [Select](${externalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown.\n\n**Added in** \`v3.7\`.`,
     type: `[SelectProps](${externalLinks.muiComponentApi.select(muiVersion)})`,
     hasLinkInType: true
   }),

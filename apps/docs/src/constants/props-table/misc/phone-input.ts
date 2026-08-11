@@ -3,11 +3,11 @@ import { resolveProp } from '@/utils';
 import PropsDescription from '../descriptions/props';
 import LegacyPropsDescription from '../descriptions/legacy-props';
 
-/** Props reference rows for `RHFPhoneInput`. Added in v2 — no v1 rows. */
+/** Props reference rows for `RHFPhoneInput`. Added in v2. */
 const phoneInputRows = ({
   docsVersion,
   muiVersion,
-  v1,
+  v2,
   v3AndAbove,
   v4AndAbove
 }: VersionProps): PropsInfo[] => {
@@ -16,7 +16,6 @@ const phoneInputRows = ({
     ? [
       resolveProp(PropsDescription.customOnChange_PhoneInput, args),
       resolveProp(PropsDescription.onValueChange_PhoneInput, args),
-      resolveProp(PropsDescription.searchCountryProps, args)
     ]
     : [resolveProp(LegacyPropsDescription.onValueChange_PhoneInput_v2_v3, args)];
 
@@ -31,20 +30,26 @@ const phoneInputRows = ({
     resolveProp(PropsDescription.fieldName, args),
     resolveProp(PropsDescription.control, args),
     resolveProp(PropsDescription.registerOptions, args),
-    ...(!v1
-      ? [
-        ...valueChangeProps,
-        resolveProp(PropsDescription.label, args)
-      ]
-      : [
-        resolveProp(LegacyPropsDescription.value_PhoneInput, args),
-        resolveProp(LegacyPropsDescription.label_v1, args)
-      ]),
+    ...(!v4AndAbove
+      ? [resolveProp(LegacyPropsDescription.value_PhoneInput_v2_v3, args)]
+      : []
+    ),
+    ...(!v2
+      ? [...valueChangeProps]
+      : []
+    ),
     ...countrySelectPropsRow,
+    ...(v4AndAbove
+      ? [resolveProp(PropsDescription.searchCountryProps, args)]
+      : []
+    ),
+    ...(!v2
+      ? [resolveProp(PropsDescription.label, args)]
+      : [resolveProp(LegacyPropsDescription.label_v1, args)]),
     resolveProp(PropsDescription.showLabelAboveFormField, args),
     resolveProp(PropsDescription.formLabelProps, args),
     ...(v4AndAbove ? [resolveProp(PropsDescription.hideLabel, args)] : []),
-    ...(!v1 ? [resolveProp(PropsDescription.required, args)] : []),
+    ...(!v2 ? [resolveProp(PropsDescription.required, args)] : []),
     ...(v4AndAbove
       ? [resolveProp(PropsDescription.renderError, args)]
       : [resolveProp(LegacyPropsDescription.errorMessage, args)]),

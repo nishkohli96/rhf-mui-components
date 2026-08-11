@@ -35,7 +35,7 @@ const richTextEditorRows = ({
     ...(!v1
       ? valueChangeProps
       : [
-        resolveProp(LegacyPropsDescription.value_RichTextEditor, args),
+        resolveProp(LegacyPropsDescription.value_RichTextEditor_v1, args),
         resolveProp(LegacyPropsDescription.onValueChange_RichTextEditor_v1, args)
       ]),
     resolveProp(PropsDescription.disabled, args),

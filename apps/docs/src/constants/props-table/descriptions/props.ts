@@ -797,13 +797,13 @@ const PropsDescription: Record<
   },
   countrySelectProps: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'countrySelectProps',
-    description: `Props forwarded to the internal [Select](${externalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown. Added in \`v4.3\`.`,
+    description: `Props forwarded to the internal [Select](${externalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown.\n\n**Added in** \`v4.3\`.`,
     type: `[SelectProps](${externalLinks.muiComponentApi.select(muiVersion)})`,
     hasLinkInType: true
   }),
   searchCountryProps: {
     name: 'searchCountryProps',
-    description: 'Props to customize the country search field and country menu item rendering. `menuItemProps` added in `v4.3`.',
+    description: 'Props to customize the country search field and country menu item rendering.\n\n**Added** `menuItemProps` **in** `v4.3`.',
     type: '{ allowCountrySearch, textFieldProps, renderCountryMenuItem, noCountryFoundText, menuItemProps }',
   },
 });
