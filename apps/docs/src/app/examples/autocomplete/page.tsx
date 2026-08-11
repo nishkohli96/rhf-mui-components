@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import AutocompleteForm from '@/forms/autocomplete/Client';
 
-export const metadata = pageMetadata.autocomplete;
+export const metadata = pageMetadata.autocompleteExample;
 
 export default function AutocompleteExamplesPage() {
   return (

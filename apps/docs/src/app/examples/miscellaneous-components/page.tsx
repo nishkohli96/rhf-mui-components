@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import MiscellaneousComponentsForm from '@/forms/miscellaneous-components/Client';
 
-export const metadata = pageMetadata.miscComponents;
+export const metadata = pageMetadata.miscComponentsExample;
 
 export default function MiscellaneousComponentsFormPage() {
   return (

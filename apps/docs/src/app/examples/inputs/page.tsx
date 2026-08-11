@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import InputsForm from '@/forms/inputs/Client';
 
-export const metadata = pageMetadata.inputs;
+export const metadata = pageMetadata.inputsExample;
 
 export default function InputsFormPage() {
   return (

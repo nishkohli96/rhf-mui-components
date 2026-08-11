@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import CompleteFormWithJoi from '@/forms/complete-form-joi/Client';
 
-export const metadata = pageMetadata.completeFormJoi;
+export const metadata = pageMetadata.completeFormJoiExample;
 
 export default function CompleteFormWithJoiPage() {
   return (

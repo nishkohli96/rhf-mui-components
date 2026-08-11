@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import CompleteForm from '@/forms/complete-form/Client';
 
-export const metadata = pageMetadata.completeForm;
+export const metadata = pageMetadata.completeFormExample;
 
 export default function CompleteFormPage() {
   return (

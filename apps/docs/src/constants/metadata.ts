@@ -43,60 +43,82 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'Install @nish1896/mui-components, explore the package structure and build your first controlled Material UI form field.'
   },
-  completeFormState: {
-    title: 'Complete Form — React state',
-    description:
-      'Every component in one form, controlled with plain React state and manual validation, with a live values-and-errors readout.'
-  },
-  completeFormRHF: {
-    title: 'Complete Form with React Hook Form + Zod',
-    description:
-      'A complete form showcasing all components from this package, with validation handled by Zod and a checkbox to disable all fields.'
-  },
-  completeFormFormik: {
-    title: 'Complete Form — Formik',
-    description:
-      'Every component in one form, integrated with Formik using a direct validate function, with a live values-and-errors readout.'
-  },
-  completeFormTanStack: {
-    title: 'Complete Form — TanStack + Joi',
-    description:
-      'Every component in one form, integrated with TanStack Form and validated by a Joi schema, with a live values-and-errors readout.'
-  },
   customization: {
     title: 'Customization',
     description:
       'Configure ConfigProvider once to apply global default styles for FormLabel, FormControlLabel and FormHelperText, set a shared dateAdapter, and enable allLabelsAboveFields — no per-component overrides needed.'
+  },
+  /* ----- Form Examples ----- */
+  inputsExample: {
+    title: 'Inputs',
+    description:
+      'Form utilizing MUITextField, MUIPasswordInput, MUINumberInput, MUITagsInput and MUIFileUploader, controlled with plain React state.'
+  },
+  selectExample: {
+    title: 'Select with Class-Validator',
+    description:
+      'Form utilizing MUISelect and MUINativeSelect with validation managed using class-validator.'
+  },
+  autocompleteExample: {
+    title: 'Autocomplete',
+    description:
+      'A React Hook Form example using RHFAutocomplete, RHFAutocompleteObject, RHFMultiAutocomplete, RHFMultiAutocompleteObject and RHFCountrySelect, backed by a live API-driven option list.'
+  },
+  checkboxAndRadioExample: {
+    title: 'Checkbox & Radio Group',
+    description:
+      'A React Hook Form example using RHFCheckbox, RHFCheckboxGroup and RHFRadioGroup, with field-level validation rules.'
+  },
+  switchSliderRatingExample: {
+    title: 'Switch, Slider & Rating',
+    description:
+      'A React Hook Form example using RHFSwitch, RHFSlider and RHFRating to bind toggle, range and rating inputs to form state.'
+  },
+  dateTimePickersExample: {
+    title: 'Date & Time Pickers',
+    description:
+      'A form using MUIDatePicker, MUITimePicker & MUIDateTimePicker components.'
+  },
+  miscComponentsExample: {
+    title: 'Miscellaneous Components',
+    description:
+      'Form demonstrating usage of external components like MUIColorPicker, MUIPhoneInput & MUIRichTextEditor.'
   },
   customizationExample: {
     title: 'Styled form with reusable components',
     description:
       'A form built from reusable Styled* wrappers — TextField, Select, Autocomplete, a customized DatePicker and an iOS-style Switch — controlled with plain React state, each with required validation, and a ConfigProvider supplying shared label/helper styles and the date adapter.'
   },
-  dateTimePickers: {
-    title: 'Date & Time Pickers',
+  completeFormExample: {
+    title: 'Complete Form — React Hook Form',
     description:
-      'A form using MUIDatePicker, MUITimePicker & MUIDateTimePicker components.'
+      'Every component in this package wired into a single React Hook Form, validated with plain registerOptions rules and a live values-and-errors readout.'
   },
-  inputs: {
-    title: 'Inputs',
+  completeFormJoiExample: {
+    title: 'Complete Form — React Hook Form + Joi',
     description:
-      'Form utilizing MUITextField, MUIPasswordInput, MUINumberInput, MUITagsInput and MUIFileUploader, controlled with plain React state.'
+      'Every component in this package wired into a single React Hook Form, validated by a Joi schema via @hookform/resolvers, with a live values-and-errors readout.'
   },
-  miscComponents: {
-    title: 'Miscellaneous Components',
+  /* ----- Migration Guide ----- */
+  migrationGuide_v1v2: {
+    title: 'Migration Guide — v1 to v2',
     description:
-      'Form demonstrating usage of external components like MUIColorPicker, MUIPhoneInput & MUIRichTextEditor.'
+      'Step-by-step guide for upgrading @nish1896/rhf-mui-components from v1 to v2 — the control prop migration, enhanced validation, disabled-field support and per-component breaking changes.'
   },
-  select: {
-    title: 'Select with Class-Validator',
+  migrationGuide_v2v3: {
+    title: 'Migration Guide — v2 to v3',
     description:
-      'Form utilizing MUISelect and MUINativeSelect with validation managed using class-validator.'
+      'Migration guide for upgrading @nish1896/rhf-mui-components from v2 to v3, with Material UI v7 and MUI X Date Pickers v8 compatibility.'
   },
-  migrationGuide_v2: {
-    title: 'Migration Guide - v1 to v2',
+  migrationGuide_v3v4: {
+    title: 'Migration Guide — v3 to v4',
     description:
-      'Step-by-step migration guide for @nish1896/mui-components v2 with Material UI v9, covering breaking changes, updated APIs, and required code changes.'
+      'Step-by-step guide for upgrading @nish1896/rhf-mui-components from v3 to v4 — the onValueChange signature change, RHF disabled-state support, and breaking changes to RHFFileUploader, RHFCountrySelect, RHFColorPicker and RHFPhoneInput.'
+  },
+  migrationGuide_v4v5: {
+    title: 'Migration Guide — v4 to v5',
+    description:
+      'Step-by-step guide for upgrading @nish1896/rhf-mui-components from v4 to v5 for Material UI v9 and MUI X Date Pickers v9 compatibility, covering the slotProps rename and other pass-through prop changes.'
   }
 };
 
@@ -227,6 +249,7 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
   },
+  /* ----- Form Helpers ----- */
   fieldNameToId: {
     title: 'fieldNameToId',
     description: 'Converts a nested or array-indexed form field name (e.g. `phones[0].number`) into a sanitized, stable HTML id — safe for pairing form controls with `<label htmlFor>`.'

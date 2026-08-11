@@ -28,21 +28,36 @@ export const docsVersions: DocsVersionInfo[] = [
     slug: 'current',
     label: 'v5',
     basePath: '',
-    fallbackPath: '/introduction'
+    fallbackPath: '/introduction',
+    unavailablePaths: [
+      '/migration-guide/v3-to-v4',
+      '/migration-guide/v2-to-v3',
+      '/migration-guide/v1-to-v2',
+    ]
   },
   {
     slug: 'v4',
     label: 'v4',
     basePath: '/v4',
     fallbackPath: '/v4/introduction',
-    unavailablePaths: ['/examples']
+    unavailablePaths: [
+      '/examples',
+      '/migration-guide/v4-to-v5',
+      '/migration-guide/v2-to-v3',
+      '/migration-guide/v1-to-v2',
+    ]
   },
   {
     slug: 'v3',
     label: 'v3',
     basePath: '/v3',
     fallbackPath: '/v3/introduction',
-    unavailablePaths: ['/examples']
+    unavailablePaths: [
+      '/examples',
+      '/migration-guide/v4-to-v5',
+      '/migration-guide/v3-to-v4',
+      '/migration-guide/v1-to-v2',
+    ]
   },
   {
     slug: 'v2',
@@ -58,6 +73,9 @@ export const docsVersions: DocsVersionInfo[] = [
       ...unavailableComponentPaths.v2,
       '/form-helpers/fieldNameToId',
       '/examples',
+      '/migration-guide/v4-to-v5',
+      '/migration-guide/v3-to-v4',
+      '/migration-guide/v2-to-v3',
     ]
   },
   {

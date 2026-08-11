@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import SliderSwitchRatingForm from '@/forms/slider-switch-rating/Client';
 
-export const metadata = pageMetadata.switchSliderRating;
+export const metadata = pageMetadata.switchSliderRatingExample;
 
 export default function SwitchSliderRatingFormPage() {
   return (

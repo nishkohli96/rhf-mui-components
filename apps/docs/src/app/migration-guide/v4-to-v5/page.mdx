@@ -1,29 +1,29 @@
 import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
 
-export const metadata = pageMetadata.migrationGuide_v2;
+export const metadata = pageMetadata.migrationGuide_v4v5;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# Migrating from v1 to v2
+# Migrating from v4 to v5
 
-`@nish1896/mui-components` **v2** targets **Material UI v9** and **MUI X Date Pickers v9**.
+`@nish1896/rhf-mui-components` **v5** targets **Material UI v9** and **MUI X Date Pickers v9**.
 
-`v1` targeted MUI `v6`/`v7` and mui-pickers `v7`/`v8`.
+`v4` targeted MUI `v6`/`v7` and MUI X Date Pickers `v7`/`v8`.
 
 ## TL;DR
 
 1. Upgrade your MUI packages to `v9`.
-2. Upgrade `@nish1896/mui-components` to `v2`.
-3. Refer the [MUI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
-and [MUI Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migration guide.
+2. Upgrade `@nish1896/rhf-mui-components` to `v5`.
+3. Refer to the [MUI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
+and [MUI X Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migration guides.
 4. Run MUI's official codemods over **your own** code.
 5. Fix the pass-through props listed in [What you need to change](#what-you-need-to-change).
 
 <Callout type="info">
-  **No prop on any `MUI*` component was renamed or removed in v2.**
+  **No prop on any `RHF*` component was renamed or removed in v5.**
 
   Every break below comes from props you forward *through* our components
   into MUI (`textFieldProps`, `checkboxProps`, `slotProps`), whose shapes
@@ -32,10 +32,10 @@ and [MUI Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migratio
 
 ## 1. Update dependencies
 
-```bash
-npm install @mui/material@^9 @mui/icons-material@^9 @mui/x-date-pickers@^9
-npm install @nish1896/mui-components@^2
-```
+<PackageManagerTabs
+  id="install-v5-deps"
+  command="@mui/material@^9 @mui/icons-material@^9 @mui/x-date-pickers@^9 @nish1896/rhf-mui-components@^5"
+/>
 
 `peerDependencies` are now `^9.0.0` for all MUI packages, so your package manager will
 warn if any of them is still on an older version.
@@ -65,7 +65,6 @@ Then read MUI's own guides, which cover everything outside this package:
 - [Upgrade to Material UI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
 - [Upgrade to MUI X v9](https://mui.com/x/migration/migration-pickers-v8/)
 
-
 ## 3. What you need to change
 
 ### Anything forwarded to a `TextField`
@@ -75,16 +74,15 @@ surfaces in three places:
 
 | Where | Components |
 | --- | --- |
-| `textFieldProps` | `MUIAutocomplete`, `MUIAutocompleteObject`, `MUIMultiAutocomplete`, `MUIMultiAutocompleteObject`, `MUICountrySelect` |
-| Props applied **directly** to the component | `MUIPhoneInput`, `MUITextField`, `MUIPasswordInput`, `MUINumberInput`, `MUITagsInput` — these accept `TextFieldProps` inline |
-| `searchCountryProps.textFieldProps` | `MUIPhoneInput`'s country-search box |
+| `textFieldProps` | `RHFAutocomplete`, `RHFAutocompleteObject`, `RHFMultiAutocomplete`, `RHFMultiAutocompleteObject`, `RHFCountrySelect` |
+| Props applied **directly** to the component | `RHFPhoneInput`, `RHFTextField`, `RHFPasswordInput`, `RHFNumberInput`, `RHFTagsInput` — these accept `TextFieldProps` inline |
+| `searchCountryProps.textFieldProps` | `RHFPhoneInput`'s country-search box |
 
 ```diff
-  <MUIAutocomplete
+  <RHFAutocomplete
     fieldName="country"
+    control={control}
     options={options}
-    value={value}
-    onValueChange={({ newValue }) => setValue(newValue)}
     textFieldProps={{
 -     InputProps: { startAdornment: <SearchIcon /> },
 -     inputProps: { maxLength: 32 },
@@ -100,7 +98,7 @@ surfaces in three places:
   />
 ```
 
-| v1 (MUI v7) | v2 (MUI v9) |
+| v4 (MUI v7) | v5 (MUI v9) |
 | --- | --- |
 | `InputProps` | `slotProps.input` |
 | `inputProps` | `slotProps.htmlInput` |
@@ -111,29 +109,27 @@ surfaces in three places:
 The same rename applies when the props are set directly on a component:
 
 ```diff
-  <MUIPhoneInput
+  <RHFPhoneInput
     fieldName="phone"
-    value={phone}
-    onValueChange={({ newValue }) => setPhone(newValue)}
+    control={control}
 -   inputProps={{ maxLength: 20 }}
 +   slotProps={{ htmlInput: { maxLength: 20 } }}
   />
 ```
 
-### `checkboxProps` / `radioProps`, and `MUISwitch`
+### `checkboxProps` / `radioProps`, and `RHFSwitch`
 
 MUI `v9` removed `inputProps` and `inputRef` from `SwitchBase`, the shared base of
 `Checkbox`, `Radio` and `Switch`.
 
-Affects `MUICheckbox`, `MUICheckboxGroup`, `MUIRadioGroup`, `MUISwitch`,
-`MUIMultiAutocomplete`, `MUIMultiAutocompleteObject`.
+Affects `RHFCheckbox`, `RHFCheckboxGroup`, `RHFRadioGroup`, `RHFSwitch`,
+`RHFMultiAutocomplete`, `RHFMultiAutocompleteObject`.
 
 ```diff
-  <MUICheckboxGroup
+  <RHFCheckboxGroup
     fieldName="topics"
+    control={control}
     options={options}
-    value={value}
-    onValueChange={({ newValue }) => setValue(newValue)}
     checkboxProps={{
 -     inputProps: { 'aria-describedby': 'topics-hint' },
 -     inputRef: ref,
@@ -146,14 +142,13 @@ Affects `MUICheckbox`, `MUICheckboxGroup`, `MUIRadioGroup`, `MUISwitch`,
 
 The picker text field moved to the same slot model.
 
-Affects all `MUIDatePicker`, `MUITimePicker` and `MUIDateTimePicker` variants
+Affects all `RHFDatePicker`, `RHFTimePicker` and `RHFDateTimePicker` variants
 (responsive, desktop, mobile, static).
 
 ```diff
-  <MUIDatePicker
+  <RHFDatePicker
     fieldName="dob"
-    value={value}
-    onValueChange={({ newValue }) => setValue(newValue)}
+    control={control}
     slotProps={{
       textField: {
 -       inputProps: { placeholder: 'DD/MM/YYYY' },
@@ -179,10 +174,9 @@ MUI `v9` removed system props from `Box`, `Stack`, `Grid`, `Typography`, `Link` 
 ```
 
 ```diff
-  <MUITextField
+  <RHFTextField
     fieldName="email"
-    value={value}
-    onValueChange={({ newValue }) => setValue(newValue)}
+    control={control}
 -   formLabelProps={{ fontWeight: 600 }}
 +   formLabelProps={{ sx: { fontWeight: 600 } }}
   />
@@ -202,14 +196,14 @@ MUI `v9` deleted 23 legacy `*Outline` icon aliases.
 + import ErrorOutlineIcon from '@mui/icons-material/ErrorOutlined';
 ```
 
-### `MUISlider`: `onMouseDown` → `onPointerDown`
+### `RHFSlider`: `onMouseDown` → `onPointerDown`
 
 v9's `Slider` uses pointer events. If you passed `onMouseDown` to cancel a drag, it no
 longer fires.
 
 ```diff
-- <MUISlider fieldName="volume" onMouseDown={e => e.preventDefault()} />
-+ <MUISlider fieldName="volume" onPointerDown={e => e.preventDefault()} />
+- <RHFSlider fieldName="volume" control={control} onMouseDown={e => e.preventDefault()} />
++ <RHFSlider fieldName="volume" control={control} onPointerDown={e => e.preventDefault()} />
 ```
 
 ### Theme: `MuiAlert` style overrides
@@ -241,25 +235,24 @@ If your layout still used the legacy Grid API, update to the new Grid sizing:
 
 ## What did *not* change
 
-- Every component's own props — `fieldName`, `value`, `onValueChange`, `errorMessage`,
+- Every component's own props — `fieldName`, `control`, `registerOptions`, `onValueChange`,
   `renderError`, `helperText`, `label`, `hideLabel`, `showLabelAboveFormField`, `customIds`,
   `labelKey`/`valueKey`, `getOptionDisabled`, `ChipProps`, `limitTags`, …
-- The `value` / `onValueChange` contract and all callback payload shapes.
-- `ConfigProvider` and every `MUIComponentsConfig` option.
+- `ConfigProvider` and every config option.
 - `form-helpers` exports (`fieldNameToId`, `fieldNameToLabel`, `getFileSize`,
   `validateFileList`, `colorToString`).
 - `ref` forwarding on the Autocomplete family and the pickers.
-- `MUISelect` / `MUINativeSelect` `inputProps` — MUI's `Select` **kept** this prop in `v9`.
+- `RHFSelect` / `RHFNativeSelect` `inputProps` — MUI's `Select` **kept** this prop in `v9`.
 
 ## Troubleshooting
 
 **Floating label overlaps the selected value on an Autocomplete.**
-You are running a `v1` build against MUI `v9`. In `v7` the label props reached the `TextField`
+You are running a `v4` build against MUI `v9`. In `v7` the label props reached the `TextField`
 implicitly through the params rest-spread; in `v9` they live under `slotProps.inputLabel`, so
-the spread silently stops delivering them. Upgrade to `v2`.
+the spread silently stops delivering them. Upgrade to `v5`.
 
 **`Cannot read properties of undefined (reading 'input')` inside `renderInput`.**
-A `v2` build running against MUI `v7`/`v8` — `params.slotProps` does not exist there. Upgrade MUI to `v9`.
+A `v5` build running against MUI `v7`/`v8` — `params.slotProps` does not exist there. Upgrade MUI to `v9`.
 
 **Picker fields lost their `aria-*` attributes.**
 You are still passing `slotProps.textField.inputProps`. Move it to

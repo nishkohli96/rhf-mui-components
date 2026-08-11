@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import DateTimePickersForm from '@/forms/date-time-pickers/Client';
 
-export const metadata = pageMetadata.dateTimePickers;
+export const metadata = pageMetadata.dateTimePickersExample;
 
 export default function DateTimePickersFormPage() {
   return (

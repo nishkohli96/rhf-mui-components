@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from '@/constants';
 import SelectForm from '@/forms/select/Client';
 
-export const metadata = pageMetadata.select;
+export const metadata = pageMetadata.selectExample;
 
 export default function SelectFormPage() {
   return (
