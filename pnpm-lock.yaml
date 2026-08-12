@@ -233,13 +233,8 @@ importers:
   packages/rhf-mui-components:
     dependencies:
       '@nish1896/mui-components':
-<<<<<<< HEAD
         specifier: ^1.1.2
         version: 1.1.2(30e90968bbe39f096c7737a24290ad44)
-=======
-        specifier: ^1.1.1
-        version: 1.1.1(30e90968bbe39f096c7737a24290ad44)
->>>>>>> v_4.3.0
     devDependencies:
       '@ckeditor/ckeditor5-core':
         specifier: 43.3.0
@@ -2833,13 +2828,8 @@ packages:
       '@eslint/js': '>=9'
       eslint: '>=9'
 
-<<<<<<< HEAD
   '@nish1896/mui-components@1.1.2':
     resolution: {integrity: sha512-chJ4mIZOncUzcgLFGO2Et7I3mLmI3LqiJuVcAYPuDOmYsqIIMfgu34sA26Sffrd9GYnkKRfm84zLSgIy6hYpqg==}
-=======
-  '@nish1896/mui-components@1.1.1':
-    resolution: {integrity: sha512-ODWT07EDLPjzLcIKPw7b3kXaS7aKH6c2TaJtqppCsJp2AcDl2GbuZtyXBHDniD/ZdA/uqa/0ihD8ZNLQxYw/Bw==}
->>>>>>> v_4.3.0
     peerDependencies:
       '@mui/icons-material': ^6.0.0 || ^7.0.0
       '@mui/material': ^6.0.0 || ^7.0.0
@@ -12428,11 +12418,7 @@ snapshots:
       - supports-color
       - typescript
 
-<<<<<<< HEAD
   '@nish1896/mui-components@1.1.2(30e90968bbe39f096c7737a24290ad44)':
-=======
-  '@nish1896/mui-components@1.1.1(30e90968bbe39f096c7737a24290ad44)':
->>>>>>> v_4.3.0
     dependencies:
       '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
