@@ -61,7 +61,6 @@ const RHFMultiAutocompleteObjectPropsTable = ({
     }),
     getPropDetailsByVersion(PropsDescription.textFieldProps, { muiVersion }),
     getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
-    getPropDetailsByVersion(PropsDescription.ChipProps_Autocomplete, { muiVersion }),
     ...(v4AndAbove
       ? [getPropDetailsByVersion(PropsDescription.circularProgressProps_Autocompletes, { muiVersion })]
       : v3AndAbove
