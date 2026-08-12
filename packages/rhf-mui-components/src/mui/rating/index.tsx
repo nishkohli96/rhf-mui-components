@@ -236,8 +236,7 @@ ref: Ref<HTMLSpanElement>) {
 
 /**
  * Controlled Material UI `Rating` (star) input, wired to a React Hook Form
- * field via `control`. Handles value/change wiring, label placement,
- * required-state derivation, and error/helper-text rendering internally.
+ * field via `control`.
  *
  * Docs: [RHFRating](https://rhf-mui-components.vercel.app/components/mui/RHFRating)
  *

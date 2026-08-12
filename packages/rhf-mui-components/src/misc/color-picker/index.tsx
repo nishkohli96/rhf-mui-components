@@ -151,9 +151,9 @@ export type RHFColorPickerProps<T extends FieldValues> = {
 
 /**
  * Controlled color picker built on `react-color-palette`, wired to a React
- * Hook Form field via `control`. The selected color value is derived
- * automatically from React Hook Form state, and handles label placement,
- * required-state derivation, and error/helper-text rendering internally.
+ * Hook Form field via `control`.
+ * 
+ * The selected color is stored and read directly from React Hook Form state.
  *
  * Docs: [RHFColorPicker](https://rhf-mui-components.vercel.app/components/misc/RHFColorPicker)
  *

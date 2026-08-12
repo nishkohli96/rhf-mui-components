@@ -258,9 +258,9 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
 
 /**
  * Controlled, responsive MUI X `DateTimePicker`, wired to a React Hook Form
- * field via `control`. Switches between desktop and mobile pickers
- * automatically based on viewport, and handles label placement, required-state
- * derivation, and error/helper-text rendering internally.
+ * field via `control`.
+ *
+ * Switches between desktop and mobile pickers automatically based on viewport.
  *
  * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
  *

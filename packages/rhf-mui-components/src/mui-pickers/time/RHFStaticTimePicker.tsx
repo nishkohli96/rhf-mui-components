@@ -261,9 +261,9 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
 
 /**
  * Controlled, always-inline MUI X `StaticTimePicker`, wired to a React Hook
- * Form field via `control`. Renders the clock directly in the page rather
- * than a popup, and handles label placement, required-state derivation, and
- * error/helper-text rendering internally.
+ * Form field via `control`.
+ *
+ * Renders the clock directly in the page rather than a popup.
  *
  * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
  *

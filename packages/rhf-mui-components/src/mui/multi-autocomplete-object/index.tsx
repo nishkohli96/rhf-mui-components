@@ -372,10 +372,10 @@ ref: Ref<HTMLInputElement>): JSX.Element {
 
 /**
  * Controlled multi-select Material UI `Autocomplete`, wired to a React Hook
- * Form field via `control`. Stores an array of the complete selected option
- * objects, renders per-option checkboxes with a "Select All" option, and
- * handles label placement, required-state derivation, and error/helper-text
- * rendering internally.
+ * Form field via `control`.
+ *
+ * Stores an array of the complete selected option objects, with per-option
+ * checkboxes and a "**Select All**" option.
  *
  * Docs: [RHFMultiAutocompleteObject](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocompleteObject)
  *

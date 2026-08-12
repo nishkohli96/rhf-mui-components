@@ -320,9 +320,9 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
 
 /**
  * Controlled Material UI native `<select>`, wired to a React Hook Form field
- * via `control`. A lightweight dropdown alternative to `RHFSelect`, well
- * suited for mobile, and handles label placement, required-state derivation,
- * and error/helper-text rendering internally.
+ * via `control`.
+ *
+ * A lightweight dropdown alternative to `RHFSelect`, well suited for mobile.
  *
  * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect)
  *

@@ -190,9 +190,9 @@ export type RHFRadioGroupProps<
 
 /**
  * Controlled Material UI `RadioGroup`, wired to a React Hook Form field via
- * `control`. Supports single choice among primitive or object options, and
- * handles label placement, required-state derivation, and error/helper-text
- * rendering internally.
+ * `control`.
+ *
+ * Supports single choice among primitive or object options.
  *
  * Docs: [RHFRadioGroup](https://rhf-mui-components.vercel.app/components/mui/RHFRadioGroup)
  *

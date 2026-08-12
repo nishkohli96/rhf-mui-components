@@ -256,9 +256,9 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
 
 /**
  * Controlled, responsive MUI X `TimePicker`, wired to a React Hook Form field
- * via `control`. Switches between desktop and mobile pickers automatically
- * based on viewport, and handles label placement, required-state derivation,
- * and error/helper-text rendering internally.
+ * via `control`.
+ *
+ * Switches between desktop and mobile pickers automatically based on viewport.
  *
  * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
  *

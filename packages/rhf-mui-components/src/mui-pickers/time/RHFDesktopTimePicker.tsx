@@ -258,9 +258,9 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
 
 /**
  * Controlled, desktop-only MUI X `DesktopTimePicker`, wired to a React Hook
- * Form field via `control`. Opens the clock in a popper rather than a modal,
- * and handles label placement, required-state derivation, and error/helper-text
- * rendering internally.
+ * Form field via `control`.
+ *
+ * Opens the clock in a popper rather than a modal.
  *
  * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
  *

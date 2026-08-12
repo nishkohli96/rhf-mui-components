@@ -363,9 +363,10 @@ ref: Ref<HTMLInputElement>) {
 
 /**
  * Controlled Material UI `Autocomplete`, wired to a React Hook Form field via
- * `control`. Stores the complete option object as its value (rather than a
- * primitive), and handles label placement, required-state derivation, and
- * error/helper-text rendering internally.
+ * `control`.
+ *
+ * Stores the complete option object as its value, rather than a
+ * primitive.
  *
  * Use `RHFAutocomplete` instead when `freeSolo` behavior is required.
  *

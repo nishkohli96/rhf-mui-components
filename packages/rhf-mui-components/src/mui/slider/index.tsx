@@ -264,9 +264,9 @@ ref: Ref<HTMLSpanElement>) {
 
 /**
  * Controlled Material UI `Slider`, wired to a React Hook Form field via
- * `control`. Supports single or range numeric values, and handles label
- * placement, required-state derivation, and error/helper-text rendering
- * internally.
+ * `control`.
+ *
+ * Supports both a single numeric value and a two-thumb range.
  *
  * Docs: [RHFSlider](https://rhf-mui-components.vercel.app/components/mui/RHFSlider)
  *

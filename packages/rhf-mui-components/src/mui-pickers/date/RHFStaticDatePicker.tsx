@@ -261,9 +261,9 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
 
 /**
  * Controlled, always-inline MUI X `StaticDatePicker`, wired to a React Hook
- * Form field via `control`. Renders the calendar directly in the page rather
- * than a popup, and handles label placement, required-state derivation, and
- * error/helper-text rendering internally.
+ * Form field via `control`.
+ *
+ * Renders the calendar directly in the page rather than a popup.
  *
  * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDatePicker)
  *

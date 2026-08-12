@@ -275,9 +275,10 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
 
 /**
  * Controlled numeric Material UI `TextField`, wired to a React Hook Form
- * field via `control`. Supports decimal, integer, non-negative and stepping
- * constraints, and handles label placement, required-state derivation, and
- * error/helper-text rendering internally.
+ * field via `control`.
+ *
+ * Supports integer/decimal-place limits, a non-negative constraint, and
+ * configurable stepping.
  *
  * Docs: [RHFNumberInput](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput)
  *

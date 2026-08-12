@@ -258,9 +258,9 @@ const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePick
 
 /**
  * Controlled, desktop-only MUI X `DesktopDateTimePicker`, wired to a React
- * Hook Form field via `control`. Opens the calendar/clock in a popper rather
- * than a modal, and handles label placement, required-state derivation, and
- * error/helper-text rendering internally.
+ * Hook Form field via `control`.
+ *
+ * Opens the calendar/clock in a popper rather than a modal.
  *
  * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
  *
