@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/main/apps/rhf-mui-docs/public/logo.svg" width="200" />
+</p>
+
 # @nish1896/rhf-mui-docs
 
 **The documentation and live-examples site for [`@nish1896/rhf-mui-components`](https://www.npmjs.com/package/@nish1896/rhf-mui-components) — built with Next.js.** 📖
