@@ -348,7 +348,7 @@ const LegacyPropsDescription: Record<
   }),
   countrySelectProps_v3: ({ muiVersion }: PropsDescriptionArgs) => ({
     name: 'countrySelectProps',
-    description: `Props forwarded to the internal [Select](${externalLinks.muiComponents.select(muiVersion)}}) that renders the flag/dial-code trigger and country dropdown.\n\n**Added in** \`v3.7\`.`,
+    description: `Props forwarded to the internal [Select](${externalLinks.muiComponents.select(muiVersion)}) that renders the flag/dial-code trigger and country dropdown.\n\n**Added in** \`v3.7\`.`,
     type: `[SelectProps](${externalLinks.muiComponentApi.select(muiVersion)})`,
     hasLinkInType: true
   }),
