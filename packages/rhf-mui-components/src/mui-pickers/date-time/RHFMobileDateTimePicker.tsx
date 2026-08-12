@@ -268,6 +268,16 @@ const RHFMobileDateTimePickerInner = forwardRef(function RHFMobileDateTimePicker
   );
 });
 
+/**
+ * Controlled, mobile-only MUI X `MobileDateTimePicker`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Opens the calendar/clock in a modal optimized for touch.
+ *
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker)
+ *
+ * API: [RHFMobileDateTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker#api)
+ */
 const RHFMobileDateTimePicker = RHFMobileDateTimePickerInner as <T extends FieldValues>(
   props: RHFMobileDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

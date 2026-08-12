@@ -274,6 +274,16 @@ ref: Ref<HTMLSpanElement>) {
   );
 });
 
+/**
+ * Controlled Material UI `Slider`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Supports both a single numeric value and a two-thumb range.
+ *
+ * Docs: [RHFSlider](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSlider)
+ *
+ * API: [RHFSliderProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSlider#api)
+ */
 const RHFSlider = RHFSliderInner as <
   T extends FieldValues,
   TName extends Path<T> = Path<T>,

@@ -376,6 +376,16 @@ const RHFSelectInner = forwardRef(function RHFSelect<
   );
 });
 
+/**
+ * Controlled Material UI `Select`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Supports single/multiple selection with primitive or object options.
+ *
+ * Docs: [RHFSelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSelect)
+ *
+ * API: [RHFSelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSelect#api)
+ */
 const RHFSelect = RHFSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

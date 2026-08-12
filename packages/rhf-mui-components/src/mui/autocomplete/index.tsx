@@ -412,6 +412,16 @@ ref: Ref<HTMLInputElement>) {
   );
 });
 
+/**
+ * Controlled Material UI `Autocomplete`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Stores primitive values, with single/multiple selection and `freeSolo` entry support.
+ *
+ * Docs: [RHFAutocomplete](https://rhf-mui-components.vercel.app/v4/components/mui/RHFAutocomplete)
+ *
+ * API: [RHFAutocompleteProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFAutocomplete#api)
+ */
 const RHFAutocomplete = RHFAutocompleteInner as <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,

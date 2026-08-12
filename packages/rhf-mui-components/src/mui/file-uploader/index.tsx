@@ -443,6 +443,17 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   );
 });
 
+/**
+ * Controlled file uploader with Material UI label and helpertext, wired to a React
+ * Hook Form field via `control`.
+ *
+ * Supports drag-and-drop uploads, pre-existing server-side files, and file
+ * `MIME type`/`size`/`count` validation.
+ *
+ * Docs: [RHFFileUploader](https://rhf-mui-components.vercel.app/v4/components/mui/RHFFileUploader)
+ *
+ * API: [RHFFileUploaderProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFFileUploader#api)
+ */
 const RHFFileUploader = RHFFileUploaderInner as <
   T extends FieldValues,
   Multiple extends boolean = false

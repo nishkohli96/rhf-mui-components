@@ -383,6 +383,16 @@ ref: Ref<HTMLInputElement>) {
   );
 });
 
+/**
+ * Controlled country picker built on Material UI `Autocomplete`, wired to a
+ * React Hook Form field via `control`.
+ *
+ * Renders flags and supports pinning preferred countries to the top of the list.
+ *
+ * Docs: [RHFCountrySelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCountrySelect)
+ *
+ * API: [RHFCountrySelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCountrySelect#api)
+ */
 const RHFCountrySelect = RHFCountrySelectInner as <
   T extends FieldValues,
   Multiple extends boolean = false,

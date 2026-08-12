@@ -232,6 +232,16 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
   );
 });
 
+/**
+ * Controlled single Material UI `Checkbox`, wired to a React Hook Form field
+ * via `control`.
+ *
+ * Use `RHFCheckboxGroup` instead for a set of checkboxes sharing one field.
+ *
+ * Docs: [RHFCheckbox](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCheckbox)
+ *
+ * API: [RHFCheckboxProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCheckbox#api)
+ */
 const RHFCheckbox = RHFCheckboxInner as <T extends FieldValues>(
   props: RHFCheckboxProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

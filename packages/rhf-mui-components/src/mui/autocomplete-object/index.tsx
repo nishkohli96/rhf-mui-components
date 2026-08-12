@@ -367,13 +367,17 @@ ref: Ref<HTMLInputElement>) {
 });
 
 /**
- * The component is designed to store complete option object(s) in form state.
+ * Controlled Material UI `Autocomplete`, wired to a React Hook Form field via
+ * `control`.
  *
- * `freeSolo` is not supported in `RHFAutocompleteObject` as it would introduce
- * string values alongside objects (`Option | string`), making the field value
- * less predictable and type-safe.
+ * Stores the complete option object as its value, rather than a
+ * primitive.
  *
  * Use `RHFAutocomplete` instead when `freeSolo` behavior is required.
+ *
+ * Docs: [RHFAutocompleteObject](https://rhf-mui-components.vercel.app/v4/components/mui/RHFAutocompleteObject)
+ *
+ * API: [RHFAutocompleteObjectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFAutocompleteObject#api)
  */
 const RHFAutocompleteObject = RHFAutocompleteObjectInner as <
   T extends FieldValues,

@@ -268,6 +268,16 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
   );
 });
 
+/**
+ * Controlled, desktop-only MUI X `DesktopDatePicker`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Opens the calendar in a popper rather than a modal.
+ *
+ * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker)
+ *
+ * API: [RHFDesktopDatePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker#api)
+ */
 const RHFDesktopDatePicker = RHFDesktopDatePickerInner as <T extends FieldValues>(
   props: RHFDesktopDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
