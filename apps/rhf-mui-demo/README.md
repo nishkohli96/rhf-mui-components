@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/version-4/apps/rhf-mui-demo/public/logo.svg" width="200" />
+</p>
+
 # @nish1896/rhf-mui-demo
 
 **A playground repository to explore and experiment with the form components in this package during development. 🛠️**

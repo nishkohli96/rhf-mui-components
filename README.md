@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/main/apps/rhf-mui-demo/public/logo.svg" width="200" />
+  <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/version-4/apps/rhf-mui-demo/public/logo.svg" width="200" />
 </p>
 
 <h1>@nish1896/rhf-mui-components</h1>
@@ -17,7 +17,7 @@
   <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
 </p>
 
-> ⚡ **Powered by [@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components)**
+> ⚡ **Powered by [Mui Components](https://www.npmjs.com/package/@nish1896/mui-components)**
 >
 > From **v4.2.0** onwards, every component delegates its rendering and core logic to the form-library-agnostic **[@nish1896/mui-components](https://mui-components-docs.vercel.app/)** — the same Material UI components, driven by a plain `value` / `onValueChange` pair instead of RHF bindings.
 >
