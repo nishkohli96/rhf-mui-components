@@ -277,6 +277,16 @@ ref: Ref<HTMLInputElement>) {
   );
 });
 
+/**
+ * Controlled Material UI password field, wired to a React Hook Form field via
+ * `control`. Renders a show/hide visibility toggle, and handles label
+ * placement, required-state derivation, and error/helper-text rendering
+ * internally.
+ *
+ * Docs: [RHFPasswordInput](https://rhf-mui-components.vercel.app/components/mui/RHFPasswordInput)
+ *
+ * API: [RHFPasswordInputProps](https://rhf-mui-components.vercel.app/components/mui/RHFPasswordInput#api)
+ */
 const RHFPasswordInput = RHFPasswordInputInner as <T extends FieldValues>(
   props: RHFPasswordInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

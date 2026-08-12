@@ -256,6 +256,16 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
   );
 });
 
+/**
+ * Controlled, mobile-only MUI X `MobileDatePicker`, wired to a React Hook
+ * Form field via `control`. Opens the calendar in a modal optimized for
+ * touch, and handles label placement, required-state derivation, and
+ * error/helper-text rendering internally.
+ *
+ * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDatePicker)
+ *
+ * API: [RHFMobileDatePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDatePicker#api)
+ */
 const RHFMobileDatePicker = RHFMobileDatePickerInner as <T extends FieldValues>(
   props: RHFMobileDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

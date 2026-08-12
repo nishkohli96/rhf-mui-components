@@ -259,6 +259,16 @@ const RHFStaticDateTimePickerInner = forwardRef(function RHFStaticDateTimePicker
   );
 });
 
+/**
+ * Controlled, always-inline MUI X `StaticDateTimePicker`, wired to a React
+ * Hook Form field via `control`. Renders the calendar/clock directly in the
+ * page rather than a popup, and handles label placement, required-state
+ * derivation, and error/helper-text rendering internally.
+ *
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
+ *
+ * API: [RHFStaticDateTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker#api)
+ */
 const RHFStaticDateTimePicker = RHFStaticDateTimePickerInner as <
   T extends FieldValues
 >(

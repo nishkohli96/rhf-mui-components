@@ -256,6 +256,16 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
   );
 });
 
+/**
+ * Controlled, mobile-only MUI X `MobileTimePicker`, wired to a React Hook
+ * Form field via `control`. Opens the clock in a modal optimized for touch,
+ * and handles label placement, required-state derivation, and error/helper-text
+ * rendering internally.
+ *
+ * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
+ *
+ * API: [RHFMobileTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker#api)
+ */
 const RHFMobileTimePicker = RHFMobileTimePickerInner as <T extends FieldValues>(
   props: RHFMobileTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

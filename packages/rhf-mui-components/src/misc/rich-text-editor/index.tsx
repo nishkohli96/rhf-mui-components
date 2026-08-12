@@ -328,6 +328,16 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
   );
 });
 
+/**
+ * Controlled CKEditor 5 rich text editor, wired to a React Hook Form field
+ * via `control`. Forwards refs to the underlying `CKEditor` instance, and
+ * handles label placement, required-state derivation, and error/helper-text
+ * rendering internally.
+ *
+ * Docs: [RHFRichTextEditor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor)
+ *
+ * API: [RHFRichTextEditorProps](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor#api)
+ */
 const RHFRichTextEditor = RHFRichTextEditorInner as <T extends FieldValues>(
   props: RHFRichTextEditorProps<T> & { ref?: Ref<CKEditor<ClassicEditor>> }
 ) => JSX.Element;

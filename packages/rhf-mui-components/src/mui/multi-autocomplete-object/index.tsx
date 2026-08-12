@@ -370,6 +370,17 @@ ref: Ref<HTMLInputElement>): JSX.Element {
   );
 });
 
+/**
+ * Controlled multi-select Material UI `Autocomplete`, wired to a React Hook
+ * Form field via `control`. Stores an array of the complete selected option
+ * objects, renders per-option checkboxes with a "Select All" option, and
+ * handles label placement, required-state derivation, and error/helper-text
+ * rendering internally.
+ *
+ * Docs: [RHFMultiAutocompleteObject](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocompleteObject)
+ *
+ * API: [RHFMultiAutocompleteObjectProps](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocompleteObject#api)
+ */
 const RHFMultiAutocompleteObject = RHFMultiAutocompleteObjectInner as <
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,

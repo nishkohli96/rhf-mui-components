@@ -350,6 +350,16 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
   );
 });
 
+/**
+ * Controlled Material UI tags input, wired to a React Hook Form field via
+ * `control`. Type or paste to add chips, with add/delete/paste interception,
+ * and handles label placement, required-state derivation, and error/helper-text
+ * rendering internally.
+ *
+ * Docs: [RHFTagsInput](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput)
+ *
+ * API: [RHFTagsInputProps](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput#api)
+ */
 const RHFTagsInput = RHFTagsInputInner as <T extends FieldValues>(
   props: RHFTagsInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

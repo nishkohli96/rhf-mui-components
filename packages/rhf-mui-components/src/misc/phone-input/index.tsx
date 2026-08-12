@@ -339,6 +339,16 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
   );
 });
 
+/**
+ * Controlled `react-international-phone` input, wired to a React Hook Form field via
+ * `control`. Renders a searchable country dropdown and stores a structured
+ * `RHFPhoneInputValue`, and handles label placement, required-state
+ * derivation, and error/helper-text rendering internally.
+ *
+ * Docs: [RHFPhoneInput](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput)
+ *
+ * API: [RHFPhoneInputProps](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput#api)
+ */
 const RHFPhoneInput = RHFPhoneInputInner as <T extends FieldValues>(
   props: RHFPhoneInputProps<T> & {
     ref?: Ref<HTMLInputElement>;

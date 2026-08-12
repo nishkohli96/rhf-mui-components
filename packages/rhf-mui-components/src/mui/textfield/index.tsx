@@ -218,6 +218,16 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
   );
 });
 
+/**
+ * Controlled Material UI `TextField`, wired to a React Hook Form field via
+ * `control`. Handles value/change wiring, label placement, required-state
+ * derivation, and error/helper-text rendering internally — accepts almost
+ * every native `TextField` prop alongside its own RHF-specific props.
+ *
+ * Docs: [RHFTextField](https://rhf-mui-components.vercel.app/components/mui/RHFTextField)
+ *
+ * API: [RHFTextFieldProps](https://rhf-mui-components.vercel.app/components/mui/RHFTextField#api)
+ */
 const RHFTextField = RHFTextFieldInner as <T extends FieldValues>(
   props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

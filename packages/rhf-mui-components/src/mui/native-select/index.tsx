@@ -318,6 +318,16 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
   );
 });
 
+/**
+ * Controlled Material UI native `<select>`, wired to a React Hook Form field
+ * via `control`. A lightweight dropdown alternative to `RHFSelect`, well
+ * suited for mobile, and handles label placement, required-state derivation,
+ * and error/helper-text rendering internally.
+ *
+ * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect)
+ *
+ * API: [RHFNativeSelectProps](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect#api)
+ */
 const RHFNativeSelect = RHFNativeSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

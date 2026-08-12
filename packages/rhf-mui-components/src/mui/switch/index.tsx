@@ -220,6 +220,15 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
   );
 });
 
+/**
+ * Controlled Material UI `Switch` (on/off toggle), wired to a React Hook Form
+ * field via `control`. Handles value/change wiring, label placement,
+ * required-state derivation, and error/helper-text rendering internally.
+ *
+ * Docs: [RHFSwitch](https://rhf-mui-components.vercel.app/components/mui/RHFSwitch)
+ *
+ * API: [RHFSwitchProps](https://rhf-mui-components.vercel.app/components/mui/RHFSwitch#api)
+ */
 const RHFSwitch = RHFSwitchInner as <T extends FieldValues>(
   props: RHFSwitchProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;
