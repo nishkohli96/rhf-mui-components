@@ -1,12 +1,12 @@
 /**
  * Function to generate easy-to-read form labels from a given string.
  *
- * Examples -
- * "fullName" to "Full Name"
- * "last_name" to "Last Name"
- * "parseJSONData" to "Parse JSON Data"
- * "enable_HTTP_Config" to "Enable HTTP Config"
- * users.0.email -> Users Email
+ * Examples:
+ * - "fullName" to "Full Name"
+ * - "last_name" to "Last Name"
+ * - "parseJSONData" to "Parse JSON Data"
+ * - "enable_HTTP_Config" to "Enable HTTP Config"
+ * - users.0.email -> Users Email
  */
 export function fieldNameToLabel(str: string) {
   return str
@@ -27,10 +27,10 @@ export function fieldNameToLabel(str: string) {
 /**
  * Function to convert an RHF field name/path into a DOM-safe id.
  *
- * Examples -
- * "phones[0]" to "phones-0"
- * "user.email" to "user-email"
- * "user..name" to "user-name"
+ * Examples:
+ * - "phones[0]" to "phones-0"
+ * - "user.email" to "user-email"
+ * - "user..name" to "user-name"
  */
 export function fieldNameToId(fieldName: string): string {
   return fieldName
