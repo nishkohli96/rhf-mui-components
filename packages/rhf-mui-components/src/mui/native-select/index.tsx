@@ -18,6 +18,7 @@ import {
 } from 'react-hook-form';
 import { type NativeSelectProps } from '@mui/material/NativeSelect';
 import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
+import type { CustomComponentIds, StrNumObjOption } from '@nish1896/mui-components/types';
 import {
   type FormHelperTextProps,
   type FormLabelProps,
@@ -25,7 +26,6 @@ import {
   type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   mergeRefs,
   mergeSx,

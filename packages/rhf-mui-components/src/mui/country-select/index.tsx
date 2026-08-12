@@ -26,6 +26,7 @@ import MUICountrySelect, {
   type CountryISO,
   type CountryDetails
 } from '@nish1896/mui-components/mui/country-select';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -35,7 +36,6 @@ import {
   type AutocompleteOptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

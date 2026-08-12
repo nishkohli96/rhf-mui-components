@@ -23,6 +23,7 @@ import {
   type AutocompleteValue
 } from '@mui/material/Autocomplete';
 import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
+import type { KeyValueOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -31,7 +32,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { KeyValueOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

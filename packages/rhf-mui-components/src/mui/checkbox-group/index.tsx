@@ -15,6 +15,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,

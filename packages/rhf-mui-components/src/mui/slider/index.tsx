@@ -19,13 +19,13 @@ import {
 } from 'react-hook-form';
 import { type SliderProps } from '@mui/material/Slider';
 import MUISlider from '@nish1896/mui-components/mui/slider';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeRefs,
   mergeSx,

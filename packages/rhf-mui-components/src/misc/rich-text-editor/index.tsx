@@ -21,12 +21,12 @@ import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { type ClassicEditor } from 'ckeditor5';
 import MUIRichTextEditor, { DefaultEditorConfig } from '@nish1896/mui-components/misc/rich-text-editor';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeRefs,
   mergeSx,

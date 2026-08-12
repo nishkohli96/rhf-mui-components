@@ -27,12 +27,12 @@ import {
   type UsePhoneInputConfig
 } from 'react-international-phone';
 import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,

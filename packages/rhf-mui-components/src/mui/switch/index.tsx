@@ -19,13 +19,13 @@ import {
 } from 'react-hook-form';
 import { type SwitchProps } from '@mui/material/Switch';
 import MUISwitch from '@nish1896/mui-components/mui/switch';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormControlLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {

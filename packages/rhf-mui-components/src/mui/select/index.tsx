@@ -17,6 +17,7 @@ import {
 } from 'react-hook-form';
 import { type SelectChangeEvent } from '@mui/material/Select';
 import MUISelect from '@nish1896/mui-components/mui/select';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -26,7 +27,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
