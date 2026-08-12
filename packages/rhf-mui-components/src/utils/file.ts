@@ -36,7 +36,9 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
   /* Utility to remove .0 if no decimal part exists */
   const format = (value: number, unit: string): string => {
     const roundedValue = value.toFixed(precision);
-    const formattedValue = roundedValue.replace(/(\.0+|\.0+0+)$/, '');
+    const formattedValue = roundedValue
+      .replace(/(\.\d*?)0+$/, '$1')
+      .replace(/\.$/, '');
     return valueAsNumber ? `${Math.round(value)} ${unit}` : `${formattedValue} ${unit}`;
   };
 
@@ -112,7 +114,7 @@ export function validateFileList(
   files.forEach(file => {
     const fileErrors: FileUploadError[] = [];
 
-    if (maxSize && file.size > maxSize) {
+    if (maxSize !== undefined && file.size > maxSize) {
       fileErrors.push(FileUploadError.sizeExceeded);
     }
 
@@ -128,7 +130,7 @@ export function validateFileList(
     }
   });
 
-  if (maxFiles && acceptedFiles.length > maxFiles) {
+  if (maxFiles !== undefined && acceptedFiles.length > maxFiles) {
     const excessFiles = acceptedFiles.slice(maxFiles);
     acceptedFiles.splice(maxFiles);
     rejectedFiles.push(...excessFiles);

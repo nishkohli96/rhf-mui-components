@@ -79,7 +79,6 @@ const InputsWithRegisterForm = () => {
     showToastMessage(formValues);
   }
 
-  console.log('pictures, resume, documents ', watch(['resume', 'pictures', 'documents']));
   return (
     <FormContainer title="Inputs">
       <form onSubmit={handleSubmit(onFormSubmit)}>
