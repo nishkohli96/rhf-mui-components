@@ -1,11 +1,15 @@
 import type { FormLabelProps as MuiFormLabelProps } from '@mui/material/FormLabel';
 import type { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
 import type { FormHelperTextProps as MuiFormHelperTextProps } from '@mui/material/FormHelperText';
+import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
+import type { SelectProps as MuiSelectProps } from '@mui/material/Select';
+import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
+import type { InputLabelProps as MuiInputLabelProps } from '@mui/material/InputLabel';
 import type { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 import type { RadioProps as MuiRadioProps } from '@mui/material/Radio';
-import type { SelectProps as MuiSelectProps } from '@mui/material/Select';
-import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
+import type { IconButtonProps as MuiIconButtonProps } from '@mui/material/IconButton';
 import type { ChipProps } from '@mui/material/Chip';
+import type { CircularProgressProps as MuiCircularProgressProps } from '@mui/material/CircularProgress';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
@@ -44,20 +48,6 @@ export type TextFieldProps = Omit<
   | 'ref'
 >;
 
-export type CheckboxProps = Omit<
-  MuiCheckboxProps,
-  | 'name'
-  | 'value'
-  | 'checked'
-  | 'defaultChecked'
-  | 'onChange'
->;
-
-export type RadioProps = Omit<
-  MuiRadioProps,
-  | 'checked'
->;
-
 export type SelectProps = Omit<
   MuiSelectProps,
   | 'name'
@@ -70,6 +60,23 @@ export type SelectProps = Omit<
   | 'ref'
   | 'displayEmpty'
   | 'multiple'
+>;
+
+export type MenuItemProps = Omit<
+  MuiMenuItemProps,
+  | 'key'
+  | 'value'
+  | 'disabled'
+  | 'children'
+>;
+
+export type InputLabelProps = Omit<
+  MuiInputLabelProps,
+  | 'id'
+  | 'htmlFor'
+  | 'shrink'
+  | 'disabled'
+  | 'children'
 >;
 
 export type AutoCompleteTextFieldProps = Omit<
@@ -100,6 +107,31 @@ export type OmittedAutocompleteProps
     | 'autoHighlight'
     | 'disableCloseOnSelect';
 
+export type CheckboxProps = Omit<
+  MuiCheckboxProps,
+  | 'name'
+  | 'value'
+  | 'checked'
+  | 'defaultChecked'
+  | 'onChange'
+>;
+
+export type RadioProps = Omit<
+  MuiRadioProps,
+  | 'checked'
+>;
+
+export type IconButtonProps = Omit<
+  MuiIconButtonProps,
+  | 'type'
+  | 'onClick'
+  | 'onMouseDown'
+  | 'edge'
+  | 'disabled'
+  | 'aria-label'
+  | 'children'
+>;
+
 export type MuiChipProps = Omit<
   ChipProps,
   | 'key'
@@ -107,3 +139,5 @@ export type MuiChipProps = Omit<
   | 'onDelete'
   | 'disabled'
 >;
+
+export type CircularProgressProps = MuiCircularProgressProps;
