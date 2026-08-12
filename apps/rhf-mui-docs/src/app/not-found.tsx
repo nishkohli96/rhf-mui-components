@@ -7,12 +7,16 @@ import { pageMetadata } from '@/constants';
 
 export const metadata = pageMetadata.notFound;
 
-const NotFound = () => {
+export default function NotFound() {
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'calc(100vh - 65px)',
+        overflowY: 'auto',
+        mt: { xs: '-20px', md: '-28px' },
+        mb: { xs: '-36px', md: '-48px' }
       }}
     >
       <Container
@@ -27,16 +31,16 @@ const NotFound = () => {
         }}
       >
         <Image
-          src="/icons/mui-404.svg"
+          src="/404.png"
           alt="404"
-          width={240}
-          height={150}
+          width={1254}
+          height={1254}
           priority
-          style={{ width: '100%', maxWidth: 240, height: 'auto' }}
+          style={{ width: '100%', maxWidth: 320, height: 'auto' }}
         />
         <Typography
           variant="h4"
-          sx={{ mt: { md: 2 }, fontWeight: 800 }}
+          sx={{ fontWeight: 800 }}
         >
           Page not found
         </Typography>
@@ -55,5 +59,3 @@ const NotFound = () => {
     </Box>
   );
 };
-
-export default NotFound;

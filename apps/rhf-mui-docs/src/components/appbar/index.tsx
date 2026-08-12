@@ -72,7 +72,7 @@ const AppBar = () => {
               }}
             >
               <Image
-                src="/logo-dark.png"
+                src="/logo.png"
                 alt=""
                 fill
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
@@ -87,7 +87,7 @@ const AppBar = () => {
               }}
             >
               <Image
-                src="/logo.png"
+                src="/logo-dark.png"
                 alt=""
                 fill
                 style={{
