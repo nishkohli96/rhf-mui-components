@@ -23,12 +23,12 @@ import {
 } from '@mui/x-date-pickers';
 import { MUIStaticDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -271,6 +271,16 @@ const RHFStaticDatePickerInner = forwardRef(function RHFStaticDatePicker<
   );
 });
 
+/**
+ * Controlled, always-inline MUI X `StaticDatePicker`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Renders the calendar directly in the page rather than a popup.
+ *
+ * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker)
+ *
+ * API: [RHFStaticDatePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker#api)
+ */
 const RHFStaticDatePicker = RHFStaticDatePickerInner as <
   T extends FieldValues
 >(

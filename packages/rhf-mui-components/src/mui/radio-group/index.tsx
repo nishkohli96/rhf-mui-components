@@ -15,6 +15,7 @@ import {
 } from 'react-hook-form';
 import { type RadioGroupProps } from '@mui/material/RadioGroup';
 import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormControlLabelProps,
@@ -25,7 +26,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
@@ -196,6 +196,16 @@ export type RHFRadioGroupProps<
   customIds?: CustomComponentIds;
 } & RadioGroupInputProps;
 
+/**
+ * Controlled Material UI `RadioGroup`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Supports single choice among primitive or object options.
+ *
+ * Docs: [RHFRadioGroup](https://rhf-mui-components.vercel.app/v4/components/mui/RHFRadioGroup)
+ *
+ * API: [RHFRadioGroupProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFRadioGroup#api)
+ */
 const RHFRadioGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

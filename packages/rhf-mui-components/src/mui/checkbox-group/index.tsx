@@ -15,6 +15,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
@@ -221,6 +221,16 @@ export type RHFCheckboxGroupProps<
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Controlled group of Material UI `Checkbox`es, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Stores an array of the selected `string`/`number` option values.
+ *
+ * Docs: [RHFCheckboxGroup](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCheckboxGroup)
+ *
+ * API: [RHFCheckboxGroupProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCheckboxGroup#api)
+ */
 const RHFCheckboxGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

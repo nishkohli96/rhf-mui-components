@@ -23,6 +23,7 @@ import type {
   AutocompleteValue
 } from '@mui/material/Autocomplete';
 import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
+import type { StrObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -32,7 +33,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrObjOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -412,6 +412,16 @@ ref: Ref<HTMLInputElement>) {
   );
 });
 
+/**
+ * Controlled Material UI `Autocomplete`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Stores primitive values, with single/multiple selection and `freeSolo` entry support.
+ *
+ * Docs: [RHFAutocomplete](https://rhf-mui-components.vercel.app/v4/components/mui/RHFAutocomplete)
+ *
+ * API: [RHFAutocompleteProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFAutocomplete#api)
+ */
 const RHFAutocomplete = RHFAutocompleteInner as <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,

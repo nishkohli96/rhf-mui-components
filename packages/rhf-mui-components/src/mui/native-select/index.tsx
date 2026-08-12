@@ -18,6 +18,7 @@ import {
 } from 'react-hook-form';
 import { type NativeSelectProps } from '@mui/material/NativeSelect';
 import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
+import type { CustomComponentIds, StrNumObjOption } from '@nish1896/mui-components/types';
 import {
   type FormHelperTextProps,
   type FormLabelProps,
@@ -25,7 +26,6 @@ import {
   type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   mergeRefs,
   mergeSx,
@@ -329,6 +329,16 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
   );
 });
 
+/**
+ * Controlled Material UI native `<select>`, wired to a React Hook Form field
+ * via `control`.
+ *
+ * A lightweight dropdown alternative to `RHFSelect`, well suited for mobile.
+ *
+ * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFNativeSelect)
+ *
+ * API: [RHFNativeSelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFNativeSelect#api)
+ */
 const RHFNativeSelect = RHFNativeSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

@@ -17,6 +17,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -24,7 +25,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -230,6 +230,16 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
   );
 });
 
+/**
+ * Controlled Material UI `TextField`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Accepts almost every native `TextField` prop alongside its own RHF-specific props.
+ *
+ * Docs: [RHFTextField](https://rhf-mui-components.vercel.app/v4/components/mui/RHFTextField)
+ *
+ * API: [RHFTextFieldProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFTextField#api)
+ */
 const RHFTextField = RHFTextFieldInner as <T extends FieldValues>(
   props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

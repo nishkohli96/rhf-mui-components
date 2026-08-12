@@ -13,12 +13,12 @@ import {
 import { type IColor } from 'react-color-palette';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
 import { colorToString } from '@nish1896/mui-components/form-helpers';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
@@ -157,6 +157,16 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Controlled color picker built on `react-color-palette`, wired to a React
+ * Hook Form field via `control`.
+ * 
+ * The selected color is stored and read directly from React Hook Form state.
+ *
+ * Docs: [RHFColorPicker](https://rhf-mui-components.vercel.app/v4/components/misc/RHFColorPicker)
+ *
+ * API: [RHFColorPickerProps](https://rhf-mui-components.vercel.app/v4/components/misc/RHFColorPicker#api)
+ */
 const RHFColorPicker = <T extends FieldValues>({
   fieldName,
   control,

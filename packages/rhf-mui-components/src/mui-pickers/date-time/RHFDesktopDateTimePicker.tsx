@@ -23,12 +23,12 @@ import {
 } from '@mui/x-date-pickers';
 import { MUIDesktopDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -268,6 +268,16 @@ const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePick
   );
 });
 
+/**
+ * Controlled, desktop-only MUI X `DesktopDateTimePicker`, wired to a React
+ * Hook Form field via `control`.
+ *
+ * Opens the calendar/clock in a popper rather than a modal.
+ *
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker)
+ *
+ * API: [RHFDesktopDateTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker#api)
+ */
 const RHFDesktopDateTimePicker = RHFDesktopDateTimePickerInner as <T extends FieldValues>(
   props: RHFDesktopDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

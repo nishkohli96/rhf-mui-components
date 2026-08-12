@@ -32,7 +32,7 @@ export function resolveLabelAboveControl(
  */
 export function resolveRequired(
   required: boolean | undefined,
-  registerRequired: Message | ValidationRule<boolean> | undefined
+  registerRequired?: Message | ValidationRule<boolean>
 ): boolean {
   const isRegisterRequired = typeof registerRequired === 'object'
     ? registerRequired.value

@@ -21,6 +21,7 @@ import {
 } from '@mui/material/Autocomplete';
 import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
 import { type selectAllOptionValue } from '@nish1896/mui-components/mui';
+import type { KeyValueOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormControlLabelProps,
@@ -31,7 +32,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { KeyValueOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeSx,
@@ -374,6 +374,17 @@ ref: Ref<HTMLInputElement>): JSX.Element {
   );
 });
 
+/**
+ * Controlled multi-select Material UI `Autocomplete`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Stores an array of the complete selected option objects, with per-option
+ * checkboxes and a "**Select All**" option.
+ *
+ * Docs: [RHFMultiAutocompleteObject](https://rhf-mui-components.vercel.app/v4/components/mui/RHFMultiAutocompleteObject)
+ *
+ * API: [RHFMultiAutocompleteObjectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFMultiAutocompleteObject#api)
+ */
 const RHFMultiAutocompleteObject = RHFMultiAutocompleteObjectInner as <
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,

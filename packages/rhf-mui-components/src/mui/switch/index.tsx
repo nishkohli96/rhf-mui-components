@@ -19,13 +19,13 @@ import {
 } from 'react-hook-form';
 import { type SwitchProps } from '@mui/material/Switch';
 import MUISwitch from '@nish1896/mui-components/mui/switch';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormControlLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {
@@ -232,6 +232,14 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
   );
 });
 
+/**
+ * Controlled Material UI `Switch` (on/off toggle), wired to a React Hook Form
+ * field via `control`.
+ *
+ * Docs: [RHFSwitch](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSwitch)
+ *
+ * API: [RHFSwitchProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSwitch#api)
+ */
 const RHFSwitch = RHFSwitchInner as <T extends FieldValues>(
   props: RHFSwitchProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

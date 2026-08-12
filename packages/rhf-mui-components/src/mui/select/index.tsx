@@ -17,6 +17,7 @@ import {
 } from 'react-hook-form';
 import { type SelectChangeEvent } from '@mui/material/Select';
 import MUISelect from '@nish1896/mui-components/mui/select';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -26,7 +27,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -376,6 +376,16 @@ const RHFSelectInner = forwardRef(function RHFSelect<
   );
 });
 
+/**
+ * Controlled Material UI `Select`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Supports single/multiple selection with primitive or object options.
+ *
+ * Docs: [RHFSelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSelect)
+ *
+ * API: [RHFSelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSelect#api)
+ */
 const RHFSelect = RHFSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

@@ -17,13 +17,13 @@ import {
 } from 'react-hook-form';
 import { type TextFieldProps } from '@mui/material/TextField';
 import MUITagsInput from '@nish1896/mui-components/mui/tags-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type MuiChipProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -362,6 +362,16 @@ const RHFTagsInputInner = forwardRef(function RHFTagsInput<
   );
 });
 
+/**
+ * Controlled Material UI `TextField` to accept multiple tags, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Type or paste to add chips, with add/delete/paste interception hooks.
+ *
+ * Docs: [RHFTagsInput](https://rhf-mui-components.vercel.app/v4/components/mui/RHFTagsInput)
+ *
+ * API: [RHFTagsInputProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFTagsInput#api)
+ */
 const RHFTagsInput = RHFTagsInputInner as <T extends FieldValues>(
   props: RHFTagsInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

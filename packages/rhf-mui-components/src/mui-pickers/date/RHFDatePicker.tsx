@@ -23,12 +23,12 @@ import {
 } from '@mui/x-date-pickers';
 import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -266,6 +266,16 @@ const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValu
   );
 });
 
+/**
+ * Controlled, responsive MUI X `DatePicker`, wired to a React Hook Form field
+ * via `control`.
+ *
+ * Switches between desktop and mobile pickers automatically based on viewport.
+ *
+ * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker)
+ *
+ * API: [RHFDatePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker#api)
+ */
 const RHFDatePicker = RHFDatePickerInner as <T extends FieldValues>(
   props: RHFDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

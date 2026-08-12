@@ -18,6 +18,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -280,6 +280,16 @@ ref: Ref<HTMLInputElement>) {
   );
 });
 
+/**
+ * Controlled Material UI password field, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Renders a built-in show/hide visibility toggle, with the option to customize the icon.
+ *
+ * Docs: [RHFPasswordInput](https://rhf-mui-components.vercel.app/v4/components/mui/RHFPasswordInput)
+ *
+ * API: [RHFPasswordInputProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFPasswordInput#api)
+ */
 const RHFPasswordInput = RHFPasswordInputInner as <T extends FieldValues>(
   props: RHFPasswordInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

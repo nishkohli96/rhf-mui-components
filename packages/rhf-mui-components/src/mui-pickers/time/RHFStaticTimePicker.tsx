@@ -23,12 +23,12 @@ import {
 } from '@mui/x-date-pickers';
 import { MUIStaticTimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -271,6 +271,16 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
   );
 });
 
+/**
+ * Controlled, always-inline MUI X `StaticTimePicker`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Renders the clock directly in the page rather than a popup.
+ *
+ * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFTimePicker)
+ *
+ * API: [RHFStaticTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFTimePicker#api)
+ */
 const RHFStaticTimePicker = RHFStaticTimePickerInner as <
   T extends FieldValues
 >(
