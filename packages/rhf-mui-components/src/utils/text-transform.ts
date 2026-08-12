@@ -24,6 +24,14 @@ export function fieldNameToLabel(str: string) {
     .trim();
 }
 
+/**
+ * Function to convert an RHF field name/path into a DOM-safe id.
+ *
+ * Examples -
+ * "phones[0]" to "phones-0"
+ * "user.email" to "user-email"
+ * "user..name" to "user-name"
+ */
 export function fieldNameToId(fieldName: string): string {
   return fieldName
     .replace(/\[(\d+)\]/g, '-$1') // phones[0] -> phones-0

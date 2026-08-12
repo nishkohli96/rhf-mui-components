@@ -11,6 +11,17 @@ type ProcessFilesResult = {
   errors?: FileUploadError[];
 };
 
+/**
+ * Formats a byte count into a human-readable file size string
+ * (bytes/KB/MB/GB), picking the largest unit under 1024.
+ *
+ * @param size - File size in bytes. Must be a non-negative number.
+ * @param options.valueAsNumber - When true, rounds the value to the nearest
+ * integer instead of applying `precision`. Default `false`.
+ * @param options.precision - Decimal places to show for KB/MB/GB values;
+ * trailing zeros are stripped. Default `1`.
+ * @throws {Error} If `size` is negative.
+ */
 export function getFileSize(size: number, options?: FileSizeOptions): string {
   if (size < 0) {
     throw new Error('Invalid file size. It must be a positive number.');
@@ -25,7 +36,9 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
   /* Utility to remove .0 if no decimal part exists */
   const format = (value: number, unit: string): string => {
     const roundedValue = value.toFixed(precision);
-    const formattedValue = roundedValue.replace(/(\.0+|\.0+0+)$/, '');
+    const formattedValue = roundedValue
+      .replace(/(\.\d*?)0+$/, '$1')
+      .replace(/\.$/, '');
     return valueAsNumber ? `${Math.round(value)} ${unit}` : `${formattedValue} ${unit}`;
   };
 
@@ -47,6 +60,19 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
   return format(gb, 'GB');
 }
 
+/**
+ * Splits a `FileList` into accepted/rejected files by validating each file's
+ * type against `accept`, size against `maxSize`, and total count against
+ * `maxFiles` (files beyond the limit are rejected, not the earliest ones).
+ *
+ * @param fileList - Files from a file input's `change` event.
+ * @param accept - Comma-separated list of allowed extensions (`.pdf`), MIME
+ * types (`image/png`), or MIME wildcards (`image/*`). No filtering when omitted.
+ * @param maxSize - Max allowed size in bytes per file. No limit when omitted.
+ * @param maxFiles - Max allowed number of accepted files. No limit when omitted.
+ * @returns `acceptedFiles`/`rejectedFiles` arrays and the set of `errors`
+ * (`FileUploadError`) describing why files were rejected.
+ */
 export function validateFileList(
   fileList: FileList,
   accept?: string,
@@ -88,7 +114,7 @@ export function validateFileList(
   files.forEach(file => {
     const fileErrors: FileUploadError[] = [];
 
-    if (maxSize && file.size > maxSize) {
+    if (maxSize !== undefined && file.size > maxSize) {
       fileErrors.push(FileUploadError.sizeExceeded);
     }
 
@@ -104,7 +130,7 @@ export function validateFileList(
     }
   });
 
-  if (maxFiles && acceptedFiles.length > maxFiles) {
+  if (maxFiles !== undefined && acceptedFiles.length > maxFiles) {
     const excessFiles = acceptedFiles.slice(maxFiles);
     acceptedFiles.splice(maxFiles);
     rejectedFiles.push(...excessFiles);
