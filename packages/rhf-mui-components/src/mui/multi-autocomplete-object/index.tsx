@@ -21,6 +21,7 @@ import {
 } from '@mui/material/Autocomplete';
 import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
 import { type selectAllOptionValue } from '@nish1896/mui-components/mui';
+import type { KeyValueOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormControlLabelProps,
@@ -32,7 +33,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { KeyValueOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeSx,
@@ -179,14 +179,6 @@ export type RHFMultiAutocompleteObjectProps<
    */
   required?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -259,7 +251,6 @@ const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocomplete
   renderOptionLabel,
   formControlLabelProps,
   required,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -312,9 +303,6 @@ ref: Ref<HTMLInputElement>): JSX.Element {
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUIMultiAutocompleteObject
@@ -352,7 +340,7 @@ ref: Ref<HTMLInputElement>): JSX.Element {
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -382,6 +370,17 @@ ref: Ref<HTMLInputElement>): JSX.Element {
   );
 });
 
+/**
+ * Controlled multi-select Material UI `Autocomplete`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Stores an array of the complete selected option objects, with per-option
+ * checkboxes and a "**Select All**" option.
+ *
+ * Docs: [RHFMultiAutocompleteObject](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocompleteObject)
+ *
+ * API: [RHFMultiAutocompleteObjectProps](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocompleteObject#api)
+ */
 const RHFMultiAutocompleteObject = RHFMultiAutocompleteObjectInner as <
   T extends FieldValues,
   Option extends KeyValueOption = KeyValueOption,

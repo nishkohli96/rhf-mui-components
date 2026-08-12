@@ -21,14 +21,14 @@ import {
   type TimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
-import { MUIMobileTimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import { MUIMobileTimePicker } from '@nish1896/mui-components/mui-pickers/time';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type MobileTimePickerInputProps = Omit<
-  MobileTimePickerProps<PickerValidDate>,
+  MobileTimePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 
@@ -110,14 +110,6 @@ export type RHFMobileTimePickerProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -159,7 +151,6 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
     showLabelAboveFormField,
     formLabelProps,
     hideLabel,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -213,9 +204,6 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-          const fieldErrorMessage = typeof errorMessage === 'string'
-            ? errorMessage
-            : fieldStateError?.message?.toString();
 
           return (
             <MUIMobileTimePicker
@@ -248,7 +236,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
                 sx: mergeSx(defaultFormLabelSx, formLabelSx)
               }}
               hideLabel={hideLabel}
-              errorMessage={fieldErrorMessage}
+              errorMessage={fieldStateError?.message?.toString()}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}
@@ -268,6 +256,16 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
   );
 });
 
+/**
+ * Controlled, mobile-only MUI X `MobileTimePicker`, wired to a React Hook
+ * Form field via `control`.
+ *
+ * Opens the clock in a modal optimized for touch.
+ *
+ * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
+ *
+ * API: [RHFMobileTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker#api)
+ */
 const RHFMobileTimePicker = RHFMobileTimePickerInner as <T extends FieldValues>(
   props: RHFMobileTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

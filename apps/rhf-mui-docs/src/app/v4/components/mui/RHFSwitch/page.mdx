@@ -1,0 +1,42 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFSwitch;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFSwitch
+
+Switches toggle the state of a single setting on or off. **RHFSwitch**
+extends the [Switch](https://v7.mui.com/material-ui/react-switch/) component
+and can be customized in a similar way.
+
+## Usage
+
+```tsx
+import RHFSwitch, { RHFSwitchProps } from '@nish1896/rhf-mui-components/mui/switch';
+```
+
+```tsx
+<RHFSwitch
+  fieldName="darkTheme"
+  control={control}
+  label="Enable Dark Theme"
+/>
+```
+
+## Examples
+- [Switch](https://v7.mui.com/material-ui/react-switch/)
+
+## API
+`RHFSwitchProps` extends [SwitchProps](https://v7.mui.com/material-ui/api/switch/) and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFSwitch}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

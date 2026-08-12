@@ -1,0 +1,79 @@
+import MuiLink from '@mui/material/Link';
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import { componentMetadata, componentProps, externalLinks } from '@/constants';
+
+export const metadata = componentMetadata.RHFRichTextEditor;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFRichTextEditor
+
+**RHFRichTextEditor** is a powerful and flexible rich text editor designed for
+content creation within forms. It allows users to format text with features
+like _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_,
+and more, making it suitable for blog posts, comments, or any content
+requiring rich formatting. This component is built on top of
+[CkEditor](https://ckeditor.com/docs/ckeditor5/latest/index.html),
+a highly customizable editor that supports advanced features like
+`codeBlocks`, `findAndReplace`, `tables`, and more.
+
+<PackageManagerTabs
+  id="install-ckeditor5"
+  command="ckeditor5 @ckeditor/ckeditor5-react"
+/>
+
+## Usage
+
+```tsx
+import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+```
+
+```tsx
+<RHFRichTextEditor
+  fieldName="bio"
+  value={getValues('bio')}
+  setValue={setValue}
+/>
+```
+
+To reorder formatting options or add advanced features, you can provide
+a custom configuration via the `editorConfig` prop, or override the existing
+configuration by modifying the `DefaultEditorConfig` object. You can check the
+<MuiLink href={externalLinks.githubRepo.rteConfig} target="_blank" rel="noopener noreferrer">default configuration here</MuiLink>.
+
+To customize editor theme, check the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
+
+For advanced features like **findAndReplace**, **inserting images**,
+**markdown support**, and **word count**, refer to
+<MuiLink href={externalLinks.githubExamples.ckEditorAdvanced} target="_blank" rel="noopener noreferrer">this example</MuiLink>.
+For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
+
+<Callout type="note">
+  If your website supports both light and dark themes, styling `CKEditor5` for theme switching
+  can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
+  To address this, you can override the editor's CSS based on the active theme by
+  referring <MuiLink href={externalLinks.githubExamples.ckEditorCssGist} target="_blank" rel="noopener noreferrer">this gist</MuiLink>.
+
+  You may also refer [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
+  for a better understanding.
+</Callout>
+
+## Alternatives
+I chose CKEditor for its advanced features, customization options and
+support for multiple languages. Although the documentation can be overwhelming,
+I've provided both basic and advanced configuration options for this component.
+If you're looking for a simpler solution, you can consider implementing
+[mui-rte](https://www.npmjs.com/package/mui-rte).
+
+## API
+`RHFRichTextEditorProps` accepts the following props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFRichTextEditor}
+  docsVersion={1}
+  muiVersion={5}
+  v1
+/>

@@ -1,0 +1,98 @@
+import { DocsPage } from '@/components/docs';
+import { pageMetadata, externalLinks } from '@/constants';
+
+export const metadata = pageMetadata.introduction;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+<Callout type="warning" title="Version Compatibility">
+  This is documentation for **version-4**, which is compatible with Material UI `v6` and `v7` only.
+
+  For up-to-date documentation, see the **[latest version](/introduction).**
+</Callout>
+
+# Introduction
+
+Easily build forms in minutes using the popular [React Hook Form](https://react-hook-form.com/)
+library alongside [Material-UI](https://v7.mui.com/material-ui/getting-started/).
+
+This package provides a suite of **25+ reusable and customizable components** specifically
+designed to simplify form creation. Each component handles form binding and UI rendering
+logic internally, minimizing code duplication and giving developers the flexibility to style form
+form fields to match their website's design guidelines.
+
+You can also find additional components in this package, such as **color picker** and **phone input**,
+that are not currently part of Material UI but can be useful when you need them. More components will be
+added based on community feedback. Feel free to raise a feature request or report a bug by contacting
+the author of this package.
+
+## Installation
+
+To get started, install the following packages:
+- [react-hook-form](https://www.npmjs.com/package/react-hook-form) `v7`
+- [@mui/material](https://www.npmjs.com/package/@mui/material) `v7`
+- [@mui/icons-material](https://www.npmjs.com/package/@mui/icons-material) `v7`
+- [@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components) `v4`
+
+<PackageManagerTabs
+  id="install-dependencies"
+  command="react-hook-form@^7 @mui/material@^7 @mui/icons-material@^7 @nish1896/rhf-mui-components@^4"
+/>
+
+You can refer to the [Material UI installation guide](https://v7.mui.com/material-ui/getting-started/installation/)
+for installation instructions.
+
+For date pickers, follow the [installation guide](https://v8.mui.com/x/react-date-pickers/getting-started/)
+to install [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
+
+<Callout type="info">
+  Still on an earlier **MUI** major? Pick the matching package version from the [table below](#version-compatibility)
+  and follow that version's introduction page instead.
+</Callout>
+
+**Optional**: If you are using a third party library for form validation, say
+[joi](https://www.npmjs.com/package/joi), make sure to install its npm package along
+with the [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers) package.
+
+<PackageManagerTabs
+  id="install-joi"
+  command="@hookform/resolvers@^5 joi@^18"
+/>
+
+
+### Usage with Webpack
+
+From **v3 onwards**, this package is **ESM-only**.
+
+If you're using React with Webpack and encounter module resolution errors,
+add the following rule to your `webpack.config.js`:
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false
+        }
+      }
+    ]
+  }
+}
+```
+
+## Version Compatibility
+
+The table below outlines this package's compatibility with various versions of
+[@mui/material](https://www.npmjs.com/package/@mui/material) and
+[@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers).
+
+| Package Version | MUI Versions | @mui/x-date-pickers Versions |
+|-|-|-|
+| `v4` | [v6](https://v6.mui.com/material-ui/), [v7](https://v7.mui.com/material-ui/) | [v7](https://v7.mui.com/x/react-date-pickers/), [v8](https://v8.mui.com/x/react-date-pickers) |
+| `v3` | [v5](https://v5.mui.com/material-ui/), [v6](https://v6.mui.com/material-ui/), [v7](https://v7.mui.com/material-ui/) | [v6](https://v6.mui.com/x/react-date-pickers/), [v7](https://v7.mui.com/x/react-date-pickers/), [v8](https://mui.com/x/react-date-pickers) |
+| `v2` (**deprecated**) | [v5](https://v5.mui.com/material-ui/), [v6](https://v6.mui.com/material-ui/) | [v6](https://v6.mui.com/x/react-date-pickers/), [v7](https://v7.mui.com/x/react-date-pickers/) |
+| `v1` (**deprecated**) | [v5](https://v5.mui.com/material-ui/) | [v6](https://v6.mui.com/x/react-date-pickers/) |

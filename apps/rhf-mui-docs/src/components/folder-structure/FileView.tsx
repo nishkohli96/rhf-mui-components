@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import Link from '@mui/material/Link';
 import { FolderIcon, FolderOpenIcon, FileIcon } from './Icons';
@@ -30,7 +31,7 @@ const FileView = ({
           itemId={`${itemId}/${idx + 1}`}
           key={`${itemId}/${idx + 1}`}
           label={(
-            <Link href={file.path}>
+            <Link component={NextLink} href={file.path}>
               {file.name}
             </Link>
           )}

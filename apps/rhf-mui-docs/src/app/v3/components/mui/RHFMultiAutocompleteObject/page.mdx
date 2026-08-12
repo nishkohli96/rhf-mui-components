@@ -1,0 +1,79 @@
+import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFMultiAutocompleteObject;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFMultiAutocompleteObject
+
+<AvailabilityBanner componentName="RHFMultiAutocompleteObject" version="3.3" />
+
+**RHFMultiAutocompleteObject** extends [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+to support **multi-selection of object-based options**, returning the **entire selected objects**
+instead of primitive values.
+
+It also includes a built-in **"Select All"** option with proper handling of:
+
+- Full selection
+- Partial (indeterminate) state
+- Clear/reset behavior
+
+## Key Features
+
+- Returns **array of objects**
+- Built-in **Select All** support
+- Handles **indeterminate state**
+- Supports **large datasets with filtering**
+
+## Usage
+
+<Callout type="note">
+  Both `labelKey` and `valueKey` are required. This component only supports
+  object-based options.
+
+  The internally injected "**Select All**" option is not included in the
+  final form value. Only actual options are returned.
+
+  `freeSolo` is not supported, similar to other autocomplete components in
+  this library.
+</Callout>
+
+```tsx
+import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
+
+<RHFMultiAutocompleteObject
+  fieldName="countries"
+  control={control}
+  options={countryList}
+  labelKey="name"
+  valueKey="code"
+  errorMessage={errors?.countries?.message}
+/>
+```
+
+### Select All Behavior
+
+When clicked:
+- Selects all available options
+- Stores full array of objects
+
+When all selected:
+- Clicking again clears all selections
+
+Indeterminate state:
+- Triggered when some but not all options are selected
+
+## API
+The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFMultiAutocompleteObject}
+  docsVersion={3}
+  muiVersion={7}
+  v3AndAbove
+/>

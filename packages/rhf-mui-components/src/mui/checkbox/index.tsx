@@ -18,6 +18,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormControlLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {
@@ -83,14 +83,6 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -127,7 +119,6 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     label,
     formControlLabelProps,
     hideLabel,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -175,9 +166,6 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <Fragment>
@@ -202,7 +190,7 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
                 sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
               }}
               hideLabel={hideLabel}
-              errorMessage={fieldErrorMessage}
+              errorMessage={fieldStateError?.message?.toString()}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}
@@ -232,6 +220,16 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
   );
 });
 
+/**
+ * Controlled single Material UI `Checkbox`, wired to a React Hook Form field
+ * via `control`.
+ *
+ * Use `RHFCheckboxGroup` instead for a set of checkboxes sharing one field.
+ *
+ * Docs: [RHFCheckbox](https://rhf-mui-components.vercel.app/components/mui/RHFCheckbox)
+ *
+ * API: [RHFCheckboxProps](https://rhf-mui-components.vercel.app/components/mui/RHFCheckbox#api)
+ */
 const RHFCheckbox = RHFCheckboxInner as <T extends FieldValues>(
   props: RHFCheckboxProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

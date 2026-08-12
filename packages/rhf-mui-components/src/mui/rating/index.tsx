@@ -18,13 +18,13 @@ import {
 } from 'react-hook-form';
 import { type RatingProps } from '@mui/material/Rating';
 import MUIRating from '@nish1896/mui-components/mui/rating';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeRefs,
   mergeSx,
@@ -105,14 +105,6 @@ export type RHFRatingProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -150,7 +142,6 @@ const RHFRatingInner = forwardRef(function RHFRating<T extends FieldValues>({
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -197,9 +188,6 @@ ref: Ref<HTMLSpanElement>) {
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUIRating
@@ -228,7 +216,7 @@ ref: Ref<HTMLSpanElement>) {
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -246,6 +234,14 @@ ref: Ref<HTMLSpanElement>) {
   );
 });
 
+/**
+ * Controlled Material UI `Rating` (star) input, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Docs: [RHFRating](https://rhf-mui-components.vercel.app/components/mui/RHFRating)
+ *
+ * API: [RHFRatingProps](https://rhf-mui-components.vercel.app/components/mui/RHFRating#api)
+ */
 const RHFRating = RHFRatingInner as <T extends FieldValues>(
   props: RHFRatingProps<T> & { ref?: Ref<HTMLSpanElement> }
 ) => JSX.Element;

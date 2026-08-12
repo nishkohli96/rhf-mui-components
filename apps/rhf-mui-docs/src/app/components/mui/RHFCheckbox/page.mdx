@@ -1,0 +1,44 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFCheckbox;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFCheckbox
+
+The **RHFCheckbox** component renders a checkbox, allowing users to toggle an option on or off,
+such as subscribing to a newsletter. It extends the [Checkbox](https://mui.com/material-ui/react-checkbox/)
+component from MUI, accepts most of its props, and offers similar
+customization options.
+
+## Usage
+
+```tsx
+import RHFCheckbox, { RHFCheckboxProps } from '@nish1896/rhf-mui-components/mui/checkbox';
+```
+
+```tsx
+<RHFCheckbox
+  fieldName="agreeTnC"
+  control={control}
+  label="Agree to Terms & Conditions"
+/>
+```
+
+## Examples
+- [Checkbox](https://mui.com/material-ui/react-checkbox/)
+- [RHFCheckbox](/examples/checkbox-and-radiogroup)
+- [Complete Form](/examples/complete-form)
+
+## API
+`RHFCheckboxProps` extends [CheckboxProps](https://mui.com/material-ui/api/checkbox/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFCheckbox}
+  v4AndAbove
+/>

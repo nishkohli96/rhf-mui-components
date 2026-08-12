@@ -18,14 +18,15 @@ import {
 } from 'react-hook-form';
 import { type NativeSelectProps } from '@mui/material/NativeSelect';
 import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
+import type { CustomComponentIds, StrNumObjOption } from '@nish1896/mui-components/types';
 import {
   type FormHelperTextProps,
   type FormLabelProps,
   type CustomOnChangeProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   mergeRefs,
   mergeSx,
@@ -96,7 +97,7 @@ export type RHFNativeSelectProps<
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -160,14 +161,6 @@ export type RHFNativeSelectProps<
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -220,7 +213,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
     formLabelProps,
     hideLabel,
     required,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -271,9 +263,6 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUINativeSelect
@@ -308,7 +297,7 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
             }}
             hideLabel={hideLabel}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -329,6 +318,16 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
   );
 });
 
+/**
+ * Controlled Material UI native `<select>`, wired to a React Hook Form field
+ * via `control`.
+ *
+ * A lightweight dropdown alternative to `RHFSelect`, well suited for mobile.
+ *
+ * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect)
+ *
+ * API: [RHFNativeSelectProps](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect#api)
+ */
 const RHFNativeSelect = RHFNativeSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

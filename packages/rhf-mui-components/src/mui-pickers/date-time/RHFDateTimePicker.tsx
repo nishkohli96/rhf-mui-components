@@ -21,14 +21,14 @@ import {
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
-import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
+import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 
 type DateTimePickerInputProps = Omit<
-  DateTimePickerProps<PickerValidDate>,
+  DateTimePickerProps,
   'name' | 'value' | 'defaultValue' | 'inputRef'
 >;
 
@@ -110,14 +110,6 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -159,7 +151,6 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
     showLabelAboveFormField,
     formLabelProps,
     hideLabel,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -213,9 +204,6 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
           fieldState: { error: fieldStateError }
         }) => {
           const isDisabled = muiDisabled || rhfDisabled;
-          const fieldErrorMessage = typeof errorMessage === 'string'
-            ? errorMessage
-            : fieldStateError?.message?.toString();
 
           return (
             <MUIDateTimePicker
@@ -248,7 +236,7 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
                 sx: mergeSx(defaultFormLabelSx, formLabelSx)
               }}
               hideLabel={hideLabel}
-              errorMessage={fieldErrorMessage}
+              errorMessage={fieldStateError?.message?.toString()}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}
@@ -268,6 +256,16 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
   );
 });
 
+/**
+ * Controlled, responsive MUI X `DateTimePicker`, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Switches between desktop and mobile pickers automatically based on viewport.
+ *
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
+ *
+ * API: [RHFDateTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker#api)
+ */
 const RHFDateTimePicker = RHFDateTimePickerInner as <T extends FieldValues>(
   props: RHFDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

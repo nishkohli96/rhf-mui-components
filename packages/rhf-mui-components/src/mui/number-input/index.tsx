@@ -18,6 +18,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUINumberInput from '@nish1896/mui-components/mui/number-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -127,14 +127,6 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    */
   stepAmount?: number;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -173,7 +165,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   maxDecimalPlaces,
   stepAmount,
   required,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -225,9 +216,6 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUINumberInput
@@ -261,7 +249,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
             maxDecimalPlaces={maxDecimalPlaces}
             stepAmount={stepAmount}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -285,6 +273,17 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   );
 });
 
+/**
+ * Controlled numeric Material UI `TextField`, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Supports integer/decimal-place limits, a non-negative constraint, and
+ * configurable stepping.
+ *
+ * Docs: [RHFNumberInput](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput)
+ *
+ * API: [RHFNumberInputProps](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput#api)
+ */
 const RHFNumberInput = RHFNumberInputInner as <T extends FieldValues>(
   props: RHFNumberInputProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

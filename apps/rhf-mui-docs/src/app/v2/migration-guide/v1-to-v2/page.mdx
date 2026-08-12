@@ -1,0 +1,153 @@
+import { DocsPage, Callout } from '@/components/docs';
+import { pageMetadata } from '@/constants';
+
+export const metadata = pageMetadata.migrationGuide_v1v2;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# Migrating from v1 to v2
+
+**Why is it recommended?**
+
+Version 2 introduces significant enhancements and optimizations for nearly all components
+from version 1. In addition to these improvements, the package now includes five new
+components:
+
+- [RHFAutocomplete](/v2/components/mui/RHFAutocomplete)
+- [RHFMultiAutocomplete](/v2/components/mui/RHFMultiAutocomplete)
+- [RHFCountrySelect](/v2/components/mui/RHFCountrySelect)
+- [RHFTagsInput](/v2/components/mui/RHFTagsInput)
+- [RHFPhoneInput](/v2/components/misc/RHFPhoneInput)
+
+These additions expand the package's utility, making it a compelling upgrade for developers.
+
+## Limitations of Version 1
+
+**1. Validation support**: Some of the components in version 1, like `RHFRadioGroup`, lacked
+validation through [registerOptions](https://react-hook-form.com/docs/useform/register#registerRef)
+and required third-party libraries like [Joi](https://www.npmjs.com/package/joi) for validation.
+
+**2. Disabling form fields**: `RHFCheckboxGroup` and `RHFRadioGroup` did not provide the
+option to disable form fields.
+
+**3. onValueChange**: In version 1, the `onValueChange` function included the change event as
+the first argument and the updated value as the second (or even third) argument. In practice,
+most use cases only need the changed value, making the event parameter unused — affecting the
+readability and maintainability of the code.
+
+**All of these issues have been addressed in version 2.**
+
+<Callout type="warning" title="Deprecation of Version 1">
+  Given these improvements and the resolution of key limitations, **version-1** has been
+  marked as **deprecated**.
+
+  Developers are encouraged to upgrade to at least **version 2**, or the
+  [latest version](/introduction), to benefit from these enhancements and new features.
+</Callout>
+
+## Code Changes
+
+**Version 2** introduces updates and enhancements to various components, aligning them with the
+`control` prop from the `useForm` hook for consistent and optimized functionality. While most
+props for each component remain unchanged, the affected props below cover minimal but highly
+impactful changes.
+
+### Migration to the `control` prop
+
+The following components now use the `control` prop instead of `register`:
+
+- [RHFTextField](/v2/components/mui/RHFTextfield)
+- [RHFPasswordInput](/v2/components/mui/RHFPasswordInput)
+- [RHFSelect](/v2/components/mui/RHFSelect)
+- [RHFNativeSelect](/v2/components/mui/RHFNativeSelect)
+- [RHFSlider](/v2/components/mui/RHFSlider)
+- [RHFDatePicker](/v2/components/mui-pickers/RHFDatePicker)
+- [RHFTimePicker](/v2/components/mui-pickers/RHFTimePicker)
+- [RHFDateTimePicker](/v2/components/mui-pickers/RHFDateTimePicker)
+- [RHFRichTextEditor](/v2/components/misc/RHFRichTextEditor)
+
+```diff
+  <RHFTextField
+    fieldName="firstName"
+-   register={register}
++   control={control}
+    errorMessage={errors?.firstName?.message}
+  />
+```
+
+### Enhanced validation
+
+The `registerOptions` prop has been added to improve validation for:
+
+- [RHFCheckbox](/v2/components/mui/RHFCheckbox)
+- [RHFCheckboxGroup](/v2/components/mui/RHFCheckboxGroup)
+- [RHFRadioGroup](/v2/components/mui/RHFRadioGroup)
+- [RHFSwitch](/v2/components/mui/RHFSwitch)
+- [RHFRating](/v2/components/mui/RHFRating)
+- [RHFRichTextEditor](/v2/components/misc/RHFRichTextEditor)
+
+### Required validation
+
+Every field now supports the `required` prop. When enabled, it appends an asterisk
+(<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong>)
+to the field label, visually signaling that the field requires a valid value.
+
+### Disabling fields
+
+The `disabled` prop has been added to the following components, enabling better control over
+form fields:
+
+- [RHFCheckboxGroup](/v2/components/mui/RHFCheckboxGroup)
+- [RHFRadioGroup](/v2/components/mui/RHFRadioGroup)
+
+### `onValueChange`
+
+As mentioned above, the changed value can now be accessed as the first argument of the
+`onValueChange` callback, followed by the event and any other component-specific arguments.
+For detailed usage, refer to the `onValueChange` entry in the API reference of each component.
+
+## Component-specific updates
+
+Significant changes have been made to each of the components listed below, improving their
+functionality and consistency with the rest of the package.
+
+### 1. [RHFNativeSelect](/v2/components/mui/RHFNativeSelect)
+
+Uses `FormLabel` instead of `InputLabel` to display the field's label text.
+
+**Removed props**
+- `defaultValue`
+- `showDefaultOption`
+
+**Added props**
+- `showLabelAboveFormField`
+- `formLabelProps`
+- `helperText`
+
+### 2. [RHFSwitch](/v2/components/mui/RHFSwitch)
+
+**New props added**
+- `errorMessage`
+- `helperText`
+- `hideErrorMessage`
+- `formHelperTextProps`
+
+### 3. [RHFColorPicker](/v2/components/misc/RHFColorPicker)
+
+Unlike the version 1 implementation, the field value is now handled internally whenever the
+user selects a color.
+
+**New props added**
+- `control`
+- `registerOptions`
+- `defaultColor`
+- `excludeAlpha`
+- `valueKey`
+
+The `onValueChange` prop is now optional, but its implementation remains unchanged.
+
+### 4. [RHFRichTextEditor](/v2/components/misc/RHFRichTextEditor)
+**Removed props**
+- `value`

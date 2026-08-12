@@ -1,10 +1,10 @@
-import { type MuiVersion } from '@site/src/types';
+import { type MuiVersion } from '@/types';
 
 const githubProfile = 'https://github.com/nishkohli96/';
 const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
 const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
-const ExternalLinks = Object.freeze({
+export const externalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
   examplesRepo: `${githubProfile}rhf-mui-examples`,
@@ -91,4 +91,6 @@ const ExternalLinks = Object.freeze({
   }
 });
 
-export default ExternalLinks;
+export const githubRepoLink = `${githubProfile}rhf-mui-components`;
+export const docsLink = 'https://rhf-mui-components.vercel.app/';
+export const npmLink = 'https://www.npmjs.com/package/@nish1896/rhf-mui-components';

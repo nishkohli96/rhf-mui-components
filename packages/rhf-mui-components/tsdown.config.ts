@@ -31,7 +31,7 @@ export default defineConfig({
    * and improve build times.
    */
   deps: {
-    skipNodeModulesBundle: true,
+    neverBundle: true,
   },
   outExtensions() {
     return { js: '.js' };

@@ -1,0 +1,266 @@
+'use client';
+
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useForm, useWatch } from 'react-hook-form';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import {
+  defaultCountries,
+  parseCountry,
+  type CountryIso2
+} from 'react-international-phone';
+import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+import RHFPhoneInput, {
+  type RHFPhoneInputValue
+} from '@nish1896/rhf-mui-components/misc/phone-input';
+import {
+  FormContainer,
+  FormState,
+  GridContainer,
+  FieldVariantInfo,
+  SubmitButton,
+  ResetButton
+} from '@/components';
+import { formSubmitEventName } from '@/constants';
+import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
+
+type FormSchema = {
+  bio: string;
+  contactNumber: RHFPhoneInputValue;
+  otherContactNumber: RHFPhoneInputValue;
+  officeCell: RHFPhoneInputValue;
+  favouriteColor: string;
+  secondFavColor: string;
+  thirdFavColor: string;
+  countries: string;
+};
+
+const initialValues: Partial<FormSchema> = {
+  favouriteColor: 'hsl(201 100% 73% / 1)',
+  contactNumber: {
+    phone: '+14163456234',
+    country: 'ca',
+    dialCode: '1',
+    phoneNo: '4163456234'
+  },
+  countries: 'Angola'
+};
+
+export default function MiscellaneousComponentsForm() {
+  const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<FormSchema>({
+    defaultValues: initialValues,
+    disabled: disableAllFields
+  });
+  const formValues = useWatch({ control });
+
+  const countyCodes: CountryIso2[] = ['in', 'us', 'au', 'fi', 'ua', 'cn', 'gb', 'vn'];
+  const countries = defaultCountries.filter(country => {
+    const { iso2 } = parseCountry(country);
+    return countyCodes.includes(iso2);
+  });
+
+  async function onFormSubmit(formValues: FormSchema) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
+    showToastMessage(formValues);
+  }
+
+  return (
+    <FormContainer title="Miscellaneous Components">
+      <form onSubmit={handleSubmit(onFormSubmit)}>
+        <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => {
+                    setDisableAllFields(event.target.checked);
+                  }}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Color Picker with Hex" />
+            <RHFColorPicker
+              fieldName="favouriteColor"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
+              onValueChange={newColor => {
+                console.log('newColor: ', newColor);
+              }}
+              required
+              helperText={(
+                <Typography sx={{ color: formValues.favouriteColor }}>
+                  Your favouriteColor is being applied on this text.
+                </Typography>
+              )}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Color Picker return rgb value with defaultColor" />
+            <RHFColorPicker
+              fieldName="secondFavColor"
+              control={control}
+              valueKey="rgb"
+              defaultColor="violet"
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
+              label="Second Favourite Color"
+              customOnChange={({ color, setColor }) => {
+                if(color.rgb.r > 128) {
+                  return;
+                }
+                setColor(color);
+              }}
+              required
+              helperText={(
+                <Typography sx={{ color: formValues.secondFavColor }}>
+                  Color wont change if red value is greater than 128
+                </Typography>
+              )}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Color Picker with HSL and excludeAlpha" />
+            <RHFColorPicker
+              fieldName="thirdFavColor"
+              control={control}
+              valueKey="hsv"
+              defaultColor="orange"
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'select a color'
+                }
+              }}
+              label="Third Favourite Color"
+              required
+              excludeAlpha
+            />
+          </Grid>
+          <Grid size={12}>
+            <FieldVariantInfo title="CK5 Rich Text Editor" />
+            <RHFRichTextEditor
+              fieldName="bio"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'Please add a bio'
+                }
+              }}
+              label={(
+                <Typography color="#ea3677">
+                  Briefly describe yourself
+                </Typography>
+              )}
+              required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Phone Input with customized country search input & renderCountryMenuItem" />
+            <RHFPhoneInput
+              fieldName="contactNumber"
+              control={control}
+              searchCountryProps={{
+                textFieldProps: {
+                  variant: 'filled',
+                  sx: {
+                    '& .MuiInputBase-input': {
+                      color: theme => theme.palette.primary.main
+                    }
+                  }
+                },
+                renderCountryMenuItem: country => (
+                  <CountryMenuItem country={country} />
+                )
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Phone Input from a set of countries, with a few preferred countries at the top & hidden search" />
+            <RHFPhoneInput
+              fieldName="otherContactNumber"
+              control={control}
+              showLabelAboveFormField
+              variant="standard"
+              phoneInputProps={{
+                countries,
+                defaultCountry: countyCodes[0],
+                preferredCountries: countyCodes.slice(0, 3)
+              }}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: 'Please enter your phone number'
+                },
+                validate: {
+                  requiredPhoneNumber: value =>
+                    !!getPhoneNoValue(value) || 'Please enter your phone number',
+                  minLength: value =>
+                    (getPhoneNoValue(value)?.length ?? 0) >= 6
+                    || 'Minimum 6 characters required'
+                }
+              }}
+              searchCountryProps={{
+                allowCountrySearch: false
+              }}
+              required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Phone Input with forced country code" />
+            <RHFPhoneInput
+              fieldName="officeCell"
+              control={control}
+              phoneInputProps={{
+                defaultCountry: 'us',
+                /**
+                 * Disables dropdown to select country. Dial code can't be removed/changed
+                 * by keyboard events, but it can be changed by pasting another country phone value.
+                 */
+                forceDialCode: true,
+                /**
+                 * If true alongside `forceDialCode` prop, even the paste event will not trigger
+                 * change of country, including pasting a Canadian number when pre-selected country
+                 * is "USA".
+                 */
+                disableCountryGuess: true
+              }}
+            />
+          </Grid>
+          <Grid size={12}>
+            <SubmitButton />
+            <ResetButton onClick={() => reset(initialValues)} />
+          </Grid>
+          <Grid size={12}>
+            <FormState formValues={formValues} errors={errors} />
+          </Grid>
+        </GridContainer>
+      </form>
+    </FormContainer>
+  );
+}

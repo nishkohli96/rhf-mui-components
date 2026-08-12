@@ -1,0 +1,59 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import CodeSnippets from '@/components/docs/CodeSnippets';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFTextField;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFTextField
+
+Text fields are a core component of any form, allowing users to input text into the UI.
+The **RHFTextField** component extends the functionality of [TextField](https://mui.com/material-ui/react-text-field/),
+accepting almost all TextField props while providing additional customization options.
+
+## Usage
+
+```tsx
+import RHFTextField, { RHFTextFieldProps } from '@nish1896/rhf-mui-components/mui/textfield';
+```
+
+To render a fully functional `RHFTextField`, you only need two or three essential props.
+
+```tsx
+<RHFTextField
+  fieldName="firstName"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue }) => {
+    /* Override default onChange to capitalize input text */
+    rhfOnChange(newValue.toUpperCase());
+  }}
+/>
+```
+
+You can extend or reuse the `RHFTextField` component by creating your own wrapper component.
+
+<CodeSnippets
+  snippets={[
+    { title: 'StyledTextField.tsx', src: 'src/forms/styled-components/StyledTextField.tsx' }
+  ]}
+/>
+
+## Examples
+- [RHFTextField](/examples/inputs)
+- [Styled RHFTextField](/examples/customization)
+- [TextField](https://mui.com/material-ui/react-text-field/)
+- [Complete Form](/examples/complete-form)
+
+## API
+
+The `RHFTextFieldProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+and includes the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFTextField}
+  v4AndAbove
+/>

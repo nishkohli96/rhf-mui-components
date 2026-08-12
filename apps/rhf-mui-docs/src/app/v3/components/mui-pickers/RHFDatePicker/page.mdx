@@ -1,0 +1,41 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFDatePicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFDatePicker
+
+**RHFDatePicker** extends the [DatePicker](https://v8.mui.com/x/react-date-pickers/date-picker/)
+component to let users select a date and can be customized in a similar way.
+
+## Usage
+
+```tsx
+import RHFDatePicker, { RHFDatePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/date';
+```
+
+```tsx
+<RHFDatePicker
+  fieldName="dateOfBirth"
+  control={control}
+  errorMessage={errors?.dateOfBirth?.message}
+/>
+```
+
+## Examples
+- [DatePicker](https://v8.mui.com/x/react-date-pickers/date-picker/)
+
+## API
+`RHFDatePickerProps` extends [DatePickerProps](https://v8.mui.com/x/api/date-pickers/date-picker/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFDatePicker}
+  docsVersion={3}
+  muiVersion={7}
+/>

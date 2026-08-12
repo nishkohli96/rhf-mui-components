@@ -1,0 +1,156 @@
+import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFPhoneInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFPhoneInput
+
+The **RHFPhoneInput** component is built on top of [react-international-phone](https://www.npmjs.com/package/react-international-phone),
+a React library for handling international phone numbers.
+
+It integrates with Material UI by leveraging the [TextField](https://mui.com/material-ui/react-text-field/)
+component with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
+hook from `react-international-phone`, allowing users to select a country and enter phone number
+in the appropriate international format.
+
+## Installation
+
+<PackageManagerTabs
+  id="install-react-international-phone"
+  command="react-international-phone"
+/>
+
+## Usage
+
+```ts
+import RHFPhoneInput, {
+  type RHFPhoneInputProps,
+  type RHFPhoneInputValue
+} from '@nish1896/rhf-mui-components/misc/phone-input';
+```
+
+```tsx
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  phoneInputProps={{
+    defaultCountry: "in",
+    preferredCountries: ["in", "us", "au"]
+  }}
+/>
+```
+
+<Callout type="info">
+  For validation, consider enforcing the following minimum lengths:
+  - `phone` and `phoneNo`: at least **6** characters
+  - `country`: exactly **2** characters (ISO country code)
+  - `dialCode`: typically **1–4** digits, depending on the selected country
+</Callout>
+
+### Return Value
+
+The field value is represented as an `RHFPhoneInputValue` object:
+
+```ts
+type RHFPhoneInputValue = {
+  phone: string;
+  country: CountryIso2;  // imported from 'react-international-phone'
+  dialCode: string;
+  phoneNo: string;
+}
+```
+
+After input, the returned phone value has this shape:
+```js
+{
+  phone: "+918885511000"
+  country: "in"
+  dialCode: "91"
+  phoneNo: "8885511000"
+}
+```
+
+Where:
+
+| Property | Description |
+|-|-|
+| `phone` | Full phone number including country dial code |
+| `country` | Selected ISO 3166-1 alpha-2 country code |
+| `dialCode` | Country dialing code without the `+` prefix |
+| `phoneNo` | National phone number without the dial code |
+
+**Why is the country stored separately?**
+
+Some countries share the same dialing code. For example:
+
+- United States: `+1 (765) 232-3423`
+- Canada: `+1 (416) 345-6234`
+- Puerto Rico: `+1 (787) 234-4442`
+
+Although all three numbers begin with `+1`, they belong to different countries.
+Storing the selected country separately removes that ambiguity
+and makes it easier to perform country-specific validation and processing.
+
+For example:
+
+```ts
+const { phone, country, phoneNo } = value;
+```
+
+Use:
+
+- `phone` when you need the complete international number.
+- `phoneNo` when you only need the national number.
+- `country` for country-specific logic or validation.
+
+### Search Countries
+
+Because the country list is large, the component includes an inline search field
+that allows users to search for and select their preferred country. The search
+matches the **country name**, ISO2 **country code**, and **dial code**.
+
+The search field is enabled by default and can be customized using `searchCountryProps`,
+an object with the following properties:
+
+- `allowCountrySearch` - Shows or hides the inline search field. Defaults to `true`.
+- `textFieldProps` - [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+  for customizing the search text field.
+- `renderCountryMenuItem` - Customizes the content of each [MenuItem](https://mui.com/material-ui/api/menu-item/)
+  in the country search dropdown.
+- `noCountryFoundText` - Text shown when no countries match the search.
+  Defaults to "**No countries found**".
+
+```tsx
+<RHFPhoneInput
+  fieldName="phoneNumber"
+  control={control}
+  searchCountryProps={{
+    textFieldProps: {
+      variant: 'outlined'
+    },
+    renderCountryMenuItem: country => `${country.dialCode} - ${country.name}`,
+    noCountryFoundText: 'No matching country found'
+  }}
+/>
+```
+
+The search field is rendered inside the country dropdown and remains pinned to the top while the
+country list is scrolled.
+
+## Examples
+- [PhoneInput](https://react-international-phone-storybook.vercel.app/?path=/story/phoneinput--default)
+- [RHFPhoneInput](/examples/miscellaneous-components)
+
+## API
+`RHFPhoneInput` extends the props of [TextField](https://mui.com/material-ui/api/text-field/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFPhoneInput}
+  v4AndAbove
+/>

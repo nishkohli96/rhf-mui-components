@@ -1,0 +1,131 @@
+'use client';
+
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useForm, useWatch } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
+import {
+  RHFDatePicker,
+  RHFMobileDatePicker
+} from '@nish1896/rhf-mui-components/mui-pickers/date';
+import { RHFTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/time';
+import { RHFDateTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import {
+  FormContainer,
+  FormState,
+  GridContainer,
+  FieldVariantInfo,
+  SubmitButton,
+  ResetButton,
+} from '@/components';
+import { formSubmitEventName } from '@/constants';
+import { logFirebaseEvent, showToastMessage } from '@/utils';
+import { dateTimeSchema, type DateTimeFormData } from './schema';
+
+export default function DateTimePickersForm() {
+  const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(dateTimeSchema),
+    disabled: disableAllFields
+  });
+  const formValues = useWatch({ control });
+
+  async function onFormSubmit(formValues: DateTimeFormData) {
+    await logFirebaseEvent(formSubmitEventName, { pathName });
+    showToastMessage(formValues);
+  }
+
+  return (
+    <FormContainer title="Date & Time Pickers">
+      <ConfigProvider dateAdapter={AdapterDayjs}>
+        <form onSubmit={handleSubmit(onFormSubmit)}>
+          <GridContainer>
+            <Grid size={12}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={disableAllFields}
+                    onChange={event => {
+                      setDisableAllFields(event.target.checked);
+                    }}
+                  />
+                )}
+                label="Disable all fields"
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="DatePicker with disabled future and textField slotProps" />
+              <RHFDatePicker
+                fieldName="dob"
+                control={control}
+                disableFuture
+                label="Date of Birth"
+                showLabelAboveFormField
+                slotProps={{
+                  textField: {
+                    variant: 'filled',
+                    sx: {
+                      '& .MuiInputBase-input, & .MuiPickersInputBase-sectionContent': {
+                        color: '#2e7d32',
+                        fontWeight: 700
+                      }
+                    }
+                  }
+                }}
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="MobileDatePicker" />
+              <RHFMobileDatePicker
+                fieldName="dobFather"
+                control={control}
+                label="Father's Date of Birth"
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="TimePicker with 24-Hour Format" />
+              <RHFTimePicker
+                fieldName="time"
+                control={control}
+                label="Arrival Time"
+                ampm={false}
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RHFDateTimePicker
+                fieldName="dateOfJourney"
+                control={control}
+                showLabelAboveFormField
+                label="Date-Time Picker"
+                ampm={false}
+                required
+                helperText="Select a future date"
+              />
+            </Grid>
+            <Grid size={12}>
+              <SubmitButton />
+              <ResetButton onClick={() => reset()} />
+            </Grid>
+            <Grid size={12}>
+              <FormState formValues={formValues} errors={errors} />
+            </Grid>
+          </GridContainer>
+        </form>
+      </ConfigProvider>
+    </FormContainer>
+  );
+}

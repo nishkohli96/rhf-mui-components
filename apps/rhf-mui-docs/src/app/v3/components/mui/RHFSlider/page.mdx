@@ -1,0 +1,43 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFSlider;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFSlider
+
+Sliders reflect a range of values along a bar, from which users may select a
+single value. They are ideal for adjusting settings such as volume or brightness.
+**RHFSlider** extends [Slider](https://v7.mui.com/material-ui/react-slider/)
+and can be customized in a similar way.
+
+## Usage
+
+```tsx
+import RHFSlider, { RHFSliderProps } from '@nish1896/rhf-mui-components/mui/slider';
+```
+
+```tsx
+<RHFSlider
+  fieldName="score"
+  control={control}
+  errorMessage={errors?.score?.message}
+/>
+```
+
+## Examples
+- [Slider](https://v7.mui.com/material-ui/react-slider/)
+
+## API
+`RHFSliderProps` extends [SliderProps](https://v7.mui.com/material-ui/api/slider/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFSlider}
+  docsVersion={3}
+  muiVersion={7}
+/>

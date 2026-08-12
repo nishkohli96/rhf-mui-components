@@ -91,22 +91,6 @@ export type AutoCompleteTextFieldProps = Omit<
   | 'inputRef'
 >;
 
-export type OmittedAutocompleteProps
-  = | 'freeSolo'
-    | 'fullWidth'
-    | 'renderInput'
-    | 'renderOption'
-    | 'options'
-    | 'value'
-    | 'defaultValue'
-    | 'multiple'
-    | 'onChange'
-    | 'getOptionKey'
-    | 'getOptionLabel'
-    | 'isOptionEqualToValue'
-    | 'autoHighlight'
-    | 'disableCloseOnSelect';
-
 export type CheckboxProps = Omit<
   MuiCheckboxProps,
   | 'name'

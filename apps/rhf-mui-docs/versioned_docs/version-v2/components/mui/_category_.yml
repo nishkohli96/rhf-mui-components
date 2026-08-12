@@ -1,6 +1,0 @@
-position: 1
-label: Mui
-collapsible: true
-collapsed: true
-customProps:
-  description: Usage, Api and examples for the material-ui components included in @nish1896/rhf-mui-components/mui module.

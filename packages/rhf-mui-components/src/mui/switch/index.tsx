@@ -19,13 +19,13 @@ import {
 } from 'react-hook-form';
 import { type SwitchProps } from '@mui/material/Switch';
 import MUISwitch from '@nish1896/mui-components/mui/switch';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormControlLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import { mergeRefs, mergeSx, resolveRequired } from '@/utils';
 
 type OnValueChangeProps = {
@@ -83,14 +83,6 @@ export type RHFSwitchProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -113,7 +105,7 @@ export type RHFSwitchProps<T extends FieldValues> = {
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
-} & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange'>;
+} & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange' | 'ref'>;
 
 const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
   {
@@ -127,7 +119,6 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
     label,
     formControlLabelProps,
     hideLabel,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -175,9 +166,6 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <Fragment>
@@ -206,7 +194,7 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
                 sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
               }}
               hideLabel={hideLabel}
-              errorMessage={fieldErrorMessage}
+              errorMessage={fieldStateError?.message?.toString()}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}
@@ -232,6 +220,14 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>(
   );
 });
 
+/**
+ * Controlled Material UI `Switch` (on/off toggle), wired to a React Hook Form
+ * field via `control`.
+ *
+ * Docs: [RHFSwitch](https://rhf-mui-components.vercel.app/components/mui/RHFSwitch)
+ *
+ * API: [RHFSwitchProps](https://rhf-mui-components.vercel.app/components/mui/RHFSwitch#api)
+ */
 const RHFSwitch = RHFSwitchInner as <T extends FieldValues>(
   props: RHFSwitchProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

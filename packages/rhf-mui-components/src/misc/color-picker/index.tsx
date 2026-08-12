@@ -13,12 +13,12 @@ import {
 import { type IColor } from 'react-color-palette';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
 import { colorToString } from '@nish1896/mui-components/form-helpers';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
@@ -125,14 +125,6 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -157,6 +149,16 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Controlled color picker built on `react-color-palette`, wired to a React
+ * Hook Form field via `control`.
+ * 
+ * The selected color is stored and read directly from React Hook Form state.
+ *
+ * Docs: [RHFColorPicker](https://rhf-mui-components.vercel.app/components/misc/RHFColorPicker)
+ *
+ * API: [RHFColorPickerProps](https://rhf-mui-components.vercel.app/components/misc/RHFColorPicker#api)
+ */
 const RHFColorPicker = <T extends FieldValues>({
   fieldName,
   control,
@@ -173,7 +175,6 @@ const RHFColorPicker = <T extends FieldValues>({
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -222,9 +223,6 @@ const RHFColorPicker = <T extends FieldValues>({
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUIColorPicker
@@ -256,7 +254,7 @@ const RHFColorPicker = <T extends FieldValues>({
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}

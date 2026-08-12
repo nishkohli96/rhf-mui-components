@@ -17,6 +17,7 @@ import {
 } from 'react-hook-form';
 import { type SelectChangeEvent } from '@mui/material/Select';
 import MUISelect from '@nish1896/mui-components/mui/select';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -28,7 +29,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -196,14 +196,6 @@ export type RHFSelectProps<
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -271,7 +263,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
     formLabelProps,
     hideLabel,
     required,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -323,9 +314,6 @@ const RHFSelectInner = forwardRef(function RHFSelect<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUISelect<Option, LabelKey, ValueKey, Multiple>
@@ -373,7 +361,7 @@ const RHFSelectInner = forwardRef(function RHFSelect<
             }}
             hideLabel={hideLabel}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -395,6 +383,16 @@ const RHFSelectInner = forwardRef(function RHFSelect<
   );
 });
 
+/**
+ * Controlled Material UI `Select`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Supports single/multiple selection with primitive or object options.
+ *
+ * Docs: [RHFSelect](https://rhf-mui-components.vercel.app/components/mui/RHFSelect)
+ *
+ * API: [RHFSelectProps](https://rhf-mui-components.vercel.app/components/mui/RHFSelect#api)
+ */
 const RHFSelect = RHFSelectInner as <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

@@ -15,6 +15,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
+import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -25,7 +26,6 @@ import {
   type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   mergeSx,
   resolveLabelAboveControl,
@@ -185,14 +185,6 @@ export type RHFCheckboxGroupProps<
    */
   required?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -221,6 +213,16 @@ export type RHFCheckboxGroupProps<
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Controlled group of Material UI `Checkbox`es, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Stores an array of the selected `string`/`number` option values.
+ *
+ * Docs: [RHFCheckboxGroup](https://rhf-mui-components.vercel.app/components/mui/RHFCheckboxGroup)
+ *
+ * API: [RHFCheckboxGroupProps](https://rhf-mui-components.vercel.app/components/mui/RHFCheckboxGroup#api)
+ */
 const RHFCheckboxGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
@@ -248,7 +250,6 @@ const RHFCheckboxGroup = <
   checkboxProps,
   formControlLabelProps,
   required,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -304,9 +305,6 @@ const RHFCheckboxGroup = <
         };
         const rhfValue = value ?? [];
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUICheckboxGroup
@@ -349,7 +347,7 @@ const RHFCheckboxGroup = <
               sx: mergeSx(defaultFormControlLabelSx, formControlLabelSx)
             }}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}

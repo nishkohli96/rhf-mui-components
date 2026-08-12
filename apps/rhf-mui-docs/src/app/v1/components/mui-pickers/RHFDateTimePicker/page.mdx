@@ -1,0 +1,40 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFDateTimePicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFDateTimePicker
+
+**RHFDateTimePicker** extends [DateTimePicker](https://v6.mui.com/x/react-date-pickers/date-time-picker/)
+component, allowing users to select the date and time for an event.
+
+## Usage
+
+```tsx
+import RHFDateTimePicker, { RHFDateTimePickerProps } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+```
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meetingDateTime"
+  register={register}
+  setValue={setValue}
+  errorMessage={errors?.meetingDateTime?.message}
+/>
+```
+
+## API
+`RHFDateTimePickerProps` extends [DateTimePickerProps](https://v6.mui.com/x/api/date-pickers/date-time-picker/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFDateTimePicker}
+  docsVersion={1}
+  muiVersion={5}
+  v1
+/>

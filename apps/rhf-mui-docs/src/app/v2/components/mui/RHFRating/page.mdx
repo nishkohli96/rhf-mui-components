@@ -1,0 +1,40 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFRating;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFRating
+
+Ratings provide insight regarding others' opinions and experiences, and can
+allow the user to submit a rating of their own. **RHFRating** extends the 
+[Rating](https://v6.mui.com/material-ui/react-rating/) component,
+so it accepts almost all props of `Rating` and can be customized accordingly!
+
+## Usage
+
+```tsx
+import RHFRating, { RHFRatingProps } from '@nish1896/rhf-mui-components/mui/rating';
+```
+
+```tsx
+<RHFRating
+  fieldName="rating"
+  control={control}
+  errorMessage={errors?.rating?.message}
+/>
+```
+
+## API
+`RHFRatingProps` extends [RatingProps](https://v6.mui.com/material-ui/api/Rating/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFRating}
+  docsVersion={2}
+  muiVersion={6}
+/>

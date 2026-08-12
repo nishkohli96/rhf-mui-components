@@ -19,13 +19,13 @@ import {
 } from 'react-hook-form';
 import { type SliderProps } from '@mui/material/Slider';
 import MUISlider from '@nish1896/mui-components/mui/slider';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeRefs,
   mergeSx,
@@ -120,14 +120,6 @@ export type RHFSliderProps<
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -170,7 +162,6 @@ const RHFSliderInner = forwardRef(function RHFSlider<
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -218,9 +209,6 @@ ref: Ref<HTMLSpanElement>) {
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <Fragment>
@@ -255,7 +243,7 @@ ref: Ref<HTMLSpanElement>) {
                 sx: mergeSx(defaultFormLabelSx, formLabelSx)
               }}
               hideLabel={hideLabel}
-              errorMessage={fieldErrorMessage}
+              errorMessage={fieldStateError?.message?.toString()}
               renderError={() => fieldStateError
                 ? renderError?.(fieldStateError)
                 : undefined}
@@ -274,6 +262,16 @@ ref: Ref<HTMLSpanElement>) {
   );
 });
 
+/**
+ * Controlled Material UI `Slider`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Supports both a single numeric value and a two-thumb range.
+ *
+ * Docs: [RHFSlider](https://rhf-mui-components.vercel.app/components/mui/RHFSlider)
+ *
+ * API: [RHFSliderProps](https://rhf-mui-components.vercel.app/components/mui/RHFSlider#api)
+ */
 const RHFSlider = RHFSliderInner as <
   T extends FieldValues,
   TName extends Path<T> = Path<T>,

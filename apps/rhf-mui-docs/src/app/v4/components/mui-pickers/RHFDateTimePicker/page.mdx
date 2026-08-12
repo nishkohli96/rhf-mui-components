@@ -1,0 +1,53 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFDateTimePicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFDateTimePicker
+
+**RHFDateTimePicker** extends [DateTimePicker](https://v8.mui.com/x/react-date-pickers/date-time-picker/)
+component, allowing users to select a date and time for an event.
+
+Starting with **version 4**, this module also exports `RHFDesktopDateTimePicker`,
+`RHFMobileDateTimePicker`, and `RHFStaticDateTimePicker`.
+
+## Usage
+
+```ts
+import {
+  RHFDateTimePicker,
+  RHFDesktopDateTimePicker,
+  RHFMobileDateTimePicker,
+  RHFStaticDateTimePicker,
+  type RHFDateTimePickerProps,
+  type RHFDesktopDateTimePickerProps,
+  type RHFMobileDateTimePickerProps,
+  type RHFStaticDateTimePickerProps
+} from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+```
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meetingDateTime"
+  control={control}
+/>
+```
+
+## Examples
+- [DateTimePicker](https://v8.mui.com/x/react-date-pickers/date-time-picker/)
+
+## API
+`RHFDateTimePickerProps` extends [DateTimePickerProps](https://v8.mui.com/x/api/date-pickers/date-time-picker/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFDateTimePicker}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>

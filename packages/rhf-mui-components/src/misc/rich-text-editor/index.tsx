@@ -21,12 +21,12 @@ import type { EventInfo } from '@ckeditor/ckeditor5-utils';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { type ClassicEditor } from 'ckeditor5';
 import MUIRichTextEditor, { DefaultEditorConfig } from '@nish1896/mui-components/misc/rich-text-editor';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   mergeRefs,
   mergeSx,
@@ -68,6 +68,12 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    * Validation rules passed to React Hook Form for this field.
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
+  /**
+   * HTML id applied to the CKEditor instance.
+   *
+   * Defaults to the generated field id.
+   */
+  id?: string;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -150,14 +156,6 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   onError?: (error: Error, details: ErrorDetails) => void;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -189,6 +187,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     fieldName,
     control,
     registerOptions,
+    id,
     required,
     editorConfig,
     onReady,
@@ -202,7 +201,6 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     formLabelProps,
     hideLabel,
     onError,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -249,13 +247,11 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUIRichTextEditor
             fieldName={fieldName}
+            id={id}
             required={isFieldRequired}
             ref={mergeRefs(rhfRef, ref)}
             editorConfig={editorConfig ?? DefaultEditorConfig}
@@ -314,7 +310,7 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
             }}
             hideLabel={hideLabel}
             onError={onError}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -332,6 +328,14 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
   );
 });
 
+/**
+ * Controlled CKEditor 5 rich text editor, wired to a React Hook Form field
+ * via `control`.
+ *
+ * Docs: [RHFRichTextEditor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor)
+ *
+ * API: [RHFRichTextEditorProps](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor#api)
+ */
 const RHFRichTextEditor = RHFRichTextEditorInner as <T extends FieldValues>(
   props: RHFRichTextEditorProps<T> & { ref?: Ref<CKEditor<ClassicEditor>> }
 ) => JSX.Element;

@@ -26,6 +26,7 @@ import MUICountrySelect, {
   type CountryISO,
   type CountryDetails
 } from '@nish1896/mui-components/mui/country-select';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -35,7 +36,6 @@ import {
   type AutocompleteOptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -209,14 +209,6 @@ export type RHFCountrySelectProps<
    */
   required?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -271,7 +263,6 @@ const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<
   hideLabel,
   renderOptionLabel,
   required,
-  errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
@@ -321,9 +312,6 @@ ref: Ref<HTMLInputElement>) {
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUICountrySelect
@@ -359,7 +347,7 @@ ref: Ref<HTMLInputElement>) {
             hideLabel={hideLabel}
             renderOptionLabel={renderOptionLabel}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -383,6 +371,16 @@ ref: Ref<HTMLInputElement>) {
   );
 });
 
+/**
+ * Controlled country picker built on Material UI `Autocomplete`, wired to a
+ * React Hook Form field via `control`.
+ *
+ * Renders flags and supports pinning preferred countries to the top of the list.
+ *
+ * Docs: [RHFCountrySelect](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect)
+ *
+ * API: [RHFCountrySelectProps](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect#api)
+ */
 const RHFCountrySelect = RHFCountrySelectInner as <
   T extends FieldValues,
   Multiple extends boolean = false,

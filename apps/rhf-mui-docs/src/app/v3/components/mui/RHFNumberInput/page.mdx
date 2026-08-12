@@ -1,0 +1,43 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFNumberInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFNumberInput
+
+**RHFNumberInput** is an enhanced version of the [TextField](https://v7.mui.com/material-ui/react-text-field/)
+component which accepts only **integer** or **float** values. It retains
+the core functionality, styling options, and flexibility of the TextField,
+while seamlessly integrating with react-hook-form for number-specific input handling.
+
+## Usage
+
+```tsx
+import RHFNumberInput, { RHFNumberInputProps } from '@nish1896/rhf-mui-components/mui/number-input';
+```
+
+To render a fully functional `RHFNumberInput`, you only need 3-4 essential props.
+
+```tsx
+<RHFNumberInput
+  fieldName="age"
+  control={control}
+  errorMessage={errors?.age?.message}
+/>
+```
+
+## API
+
+The `RHFNumberInputProps` interface extends [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
+and includes the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFNumberInput}
+  docsVersion={3}
+  muiVersion={7}
+/>

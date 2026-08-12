@@ -1,0 +1,45 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFTextField;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFTextField
+
+Text fields are a core component of any form, allowing users to input text into the UI.
+The **RHFTextField** component extends the functionality of [TextField](https://v7.mui.com/material-ui/react-text-field/),
+accepting almost all TextField props while providing additional customization options.
+
+## Usage
+
+```tsx
+import RHFTextField, { RHFTextFieldProps } from '@nish1896/rhf-mui-components/mui/textfield';
+```
+
+To render a fully functional `RHFTextField`, you only need 3-4 essential props.
+
+```tsx
+<RHFTextField
+  fieldName="firstName"
+  control={control}
+  errorMessage={errors?.firstName?.message}
+/>
+```
+
+## Examples
+- [TextField](https://v7.mui.com/material-ui/react-text-field/)
+
+## API
+
+The `RHFTextFieldProps` interface extends [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
+and includes the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFTextField}
+  docsVersion={3}
+  muiVersion={7}
+/>

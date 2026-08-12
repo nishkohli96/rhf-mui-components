@@ -17,6 +17,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
@@ -24,7 +25,6 @@ import {
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -87,14 +87,6 @@ export type RHFTextFieldProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
-   *
-   * Use `renderError` to customize how the field error is rendered.
-   */
-  errorMessage?: ReactNode;
-  /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
    *
@@ -129,7 +121,6 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
     formLabelProps,
     hideLabel,
     required,
-    errorMessage,
     renderError,
     hideErrorMessage,
     helperText,
@@ -179,9 +170,6 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
         fieldState: { error: fieldStateError }
       }) => {
         const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = typeof errorMessage === 'string'
-          ? errorMessage
-          : fieldStateError?.message?.toString();
 
         return (
           <MUITextField
@@ -210,7 +198,7 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
             }}
             hideLabel={hideLabel}
             required={isFieldRequired}
-            errorMessage={fieldErrorMessage}
+            errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
               ? renderError?.(fieldStateError)
               : undefined}
@@ -230,6 +218,16 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
   );
 });
 
+/**
+ * Controlled Material UI `TextField`, wired to a React Hook Form field via
+ * `control`.
+ *
+ * Accepts almost every native `TextField` prop alongside its own RHF-specific props.
+ *
+ * Docs: [RHFTextField](https://rhf-mui-components.vercel.app/components/mui/RHFTextField)
+ *
+ * API: [RHFTextFieldProps](https://rhf-mui-components.vercel.app/components/mui/RHFTextField#api)
+ */
 const RHFTextField = RHFTextFieldInner as <T extends FieldValues>(
   props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }
 ) => JSX.Element;

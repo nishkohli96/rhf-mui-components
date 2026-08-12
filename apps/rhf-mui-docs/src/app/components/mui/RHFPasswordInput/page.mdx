@@ -1,0 +1,55 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFPasswordInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFPasswordInput
+
+**RHFPasswordInput** extends the [TextField](https://mui.com/material-ui/react-text-field/)
+component, designed specifically for password input on signup and login pages.
+It allows users to toggle password visibility, offering a more user-friendly
+experience when entering credentials.
+
+## Usage
+
+```tsx
+import RHFPasswordInput, { RHFPasswordInputProps } from '@nish1896/rhf-mui-components/mui/password-input';
+```
+
+`RHFPasswordInput` only needs two or three essential props to render a fully functional field.
+
+```tsx
+<RHFPasswordInput
+  fieldName="password"
+  control={control}
+  registerOptions={{
+    required: {
+      value: true,
+      message: 'Please enter your password'
+    },
+    minLength: {
+      value: 8,
+      message: 'Password must be at least 8 characters long'
+    }
+  }}
+/>
+```
+
+## Examples
+- [RHFPasswordInput](/examples/inputs)
+- [TextField with Input Adornment](https://mui.com/material-ui/react-text-field/#input-adornments)
+- [Complete Form](/examples/complete-form)
+
+## API
+
+The `RHFPasswordInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+and includes additional options for password handling and input customization.
+
+<PropsTable
+  rows={componentProps.RHFPasswordInput}
+  v4AndAbove
+/>

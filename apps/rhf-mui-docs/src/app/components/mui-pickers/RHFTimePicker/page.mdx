@@ -1,0 +1,54 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFTimePicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFTimePicker
+
+**RHFTimePicker** extends the [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
+component to allow users to select a time for an event.
+
+Starting with **version 4**, this module also exports additional variant
+components like `RHFDesktopTimePicker`, `RHFMobileTimePicker`, and
+`RHFStaticTimePicker`.
+
+## Usage
+
+```ts
+import {
+  RHFTimePicker,
+  RHFDesktopTimePicker,
+  RHFMobileTimePicker,
+  RHFStaticTimePicker,
+  type RHFTimePickerProps,
+  type RHFDesktopTimePickerProps,
+  type RHFMobileTimePickerProps,
+  type RHFStaticTimePickerProps
+} from '@nish1896/rhf-mui-components/mui-pickers/time';
+```
+
+```tsx
+<RHFTimePicker
+  fieldName="wakeUpTime"
+  control={control}
+/>
+```
+
+## Examples
+- [TimePicker](https://mui.com/x/react-date-pickers/time-picker/)
+- [RHFTimePicker](/examples/date-time-pickers)
+- [Complete Form](/examples/complete-form)
+
+## API
+`RHFTimePickerProps` extends [TimePickerProps](https://mui.com/x/api/date-pickers/time-picker/)
+and accepts the following additional props.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFTimePicker}
+  v4AndAbove
+/>

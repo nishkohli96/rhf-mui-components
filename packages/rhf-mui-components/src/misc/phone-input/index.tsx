@@ -23,6 +23,7 @@ import {
 import { type TextFieldProps } from '@mui/material/TextField';
 import { type SelectProps as MuiSelectProps } from '@mui/material/Select';
 import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type CountryIso2,
   type ParsedCountry,
@@ -34,7 +35,6 @@ import {
   type MenuItemProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -339,6 +339,18 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
   );
 });
 
+/**
+ * Controlled `react-international-phone` input, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Renders a searchable country dropdown and stores a
+ * structured `RHFPhoneInputValue` (phone, country, dial code and national
+ * number).
+ *
+ * Docs: [RHFPhoneInput](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput)
+ *
+ * API: [RHFPhoneInputProps](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput#api)
+ */
 const RHFPhoneInput = RHFPhoneInputInner as <T extends FieldValues>(
   props: RHFPhoneInputProps<T> & {
     ref?: Ref<HTMLInputElement>;

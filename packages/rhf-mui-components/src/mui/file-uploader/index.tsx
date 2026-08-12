@@ -25,13 +25,13 @@ import MUIFileUploader, {
   type FileUploadErrorDetails,
   type ExistingUploadedFile,
 } from '@nish1896/mui-components/mui/file-uploader';
+import type { CustomComponentIds } from '@nish1896/mui-components/types';
 import {
   type FormLabelProps,
   type FormHelperTextProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
 import {
   keepLabelAboveFormField,
   mergeRefs,
@@ -443,6 +443,17 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   );
 });
 
+/**
+ * Controlled file uploader with Material UI label and helpertext, wired to a React
+ * Hook Form field via `control`.
+ *
+ * Supports drag-and-drop uploads, pre-existing server-side files, and file
+ * `MIME type`/`size`/`count` validation.
+ *
+ * Docs: [RHFFileUploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader)
+ *
+ * API: [RHFFileUploaderProps](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader#api)
+ */
 const RHFFileUploader = RHFFileUploaderInner as <
   T extends FieldValues,
   Multiple extends boolean = false

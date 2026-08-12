@@ -1,7 +1,8 @@
+'use client';
+
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import Link from '@mui/material/Link';
-import { type VersionProps } from '@site/src/types';
+import { type VersionProps } from '@/types';
 import FileView from './FileView';
 import { FolderIcon, FileIcon } from './Icons';
 import {
@@ -9,12 +10,15 @@ import {
   getMuiPickersFoldersList,
   getMiscFoldersList,
   newlyAddedComponents_v2,
-  newlyAddedComponents_v3_3,
+  newlyAddedComponents_v3_3
 } from './routesList';
 
-const FolderStructure = ({ v1, v3AndAbove, docsVersion }: VersionProps) => {
+export default function FolderStructure({ docsVersion }: VersionProps) {
+  const v1 = docsVersion === 1;
+  const v3AndAbove = !docsVersion || docsVersion >= 3;
+
   const muiFolders = getMuiFoldersList(docsVersion);
-  let muiList;
+  let muiList: { name: string; path: string }[];
   if (v1) {
     muiList = muiFolders.filter(folder =>
       ![...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].includes(
@@ -36,7 +40,7 @@ const FolderStructure = ({ v1, v3AndAbove, docsVersion }: VersionProps) => {
 
   return (
     <SimpleTreeView
-      aria-label="rhf-mui-components directory"
+      aria-label="mui-components directory"
       defaultExpandedItems={['1']}
     >
       <TreeItem
@@ -61,27 +65,17 @@ const FolderStructure = ({ v1, v3AndAbove, docsVersion }: VersionProps) => {
         />
         <TreeItem
           itemId="5"
-          label={(
-            <Link href="customization">
-              config
-            </Link>
-          )}
+          label="config"
           slots={{ icon: FileIcon }}
         />
         {!v1 && (
           <TreeItem
             itemId="6"
-            label={(
-              <Link href="form-helpers">
-                form-helpers
-              </Link>
-            )}
+            label="form-helpers"
             slots={{ icon: FileIcon }}
           />
         )}
       </TreeItem>
     </SimpleTreeView>
   );
-};
-
-export default FolderStructure;
+}

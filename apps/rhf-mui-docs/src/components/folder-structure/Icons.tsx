@@ -17,5 +17,12 @@ export const FolderOpenIcon = () => (
 );
 
 export const FileIcon = () => (
-  <InsertDriveFileIcon />
+  <InsertDriveFileIcon
+    sx={{
+      color: 'grey.600',
+      '[data-mui-color-scheme="dark"] &': {
+        color: 'action.active'
+      }
+    }}
+  />
 );
