@@ -23,6 +23,7 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type TextFieldProps,
+  type IconButtonProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -118,6 +119,12 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    */
   hidePasswordIcon?: ReactNode;
   /**
+   * Props forwarded to the `IconButton` component that toggles password
+   * visibility. Use `showPasswordIcon`/`hidePasswordIcon` to swap the icon
+   * itself; this is for the button around it — e.g. a custom `size` or `sx`.
+   */
+  iconButtonProps?: IconButtonProps;
+  /**
    * When true, the value is displayed but cannot be edited.
    *
    * Unlike `disabled`, the field stays focusable, is still submitted with the
@@ -171,6 +178,7 @@ const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<
   hideLabel,
   showPasswordIcon,
   hidePasswordIcon,
+  iconButtonProps,
   readOnly,
   required,
   errorMessage,
@@ -258,6 +266,7 @@ ref: Ref<HTMLInputElement>) {
             hideLabel={hideLabel}
             showPasswordIcon={showPasswordIcon}
             hidePasswordIcon={hidePasswordIcon}
+            iconButtonProps={iconButtonProps}
             readOnly={readOnly}
             required={isFieldRequired}
             errorMessage={fieldErrorMessage}

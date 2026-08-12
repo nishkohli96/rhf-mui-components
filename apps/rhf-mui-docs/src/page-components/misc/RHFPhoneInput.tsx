@@ -7,6 +7,7 @@ const RHFPhoneInputPropsTable = ({
   docsVersion,
   muiVersion,
   v1,
+  v3AndAbove,
   v4AndAbove
 }: VersionProps) => {
   const valueChangeProps = v4AndAbove
@@ -33,6 +34,12 @@ const RHFPhoneInputPropsTable = ({
         LegacyPropsDescription.value_PhoneInput,
         LegacyPropsDescription.label_v1
       ]),
+    ...(v4AndAbove
+      ? [getPropDetailsByVersion(PropsDescription.countrySelectProps, { muiVersion })]
+      : v3AndAbove
+        ? [getPropDetailsByVersion(LegacyPropsDescription.countrySelectProps_v3, { muiVersion })]
+        : []
+    ),
     getPropDetailsByVersion(PropsDescription.showLabelAboveFormField, {
       muiVersion
     }),
