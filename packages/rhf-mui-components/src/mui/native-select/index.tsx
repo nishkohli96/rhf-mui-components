@@ -116,6 +116,17 @@ export type RHFNativeSelectProps<
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & InputNativeSelectProps;
 
+/**
+ * Controlled MUI `NativeSelect` (native HTML `<select>`) wired to a React
+ * Hook Form field via `control`.
+ *
+ * Accepts string/number or object options via
+ * `labelKey`/`valueKey`; best for small-to-moderate option lists.
+ *
+ * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNativeSelect)
+ *
+ * API: [RHFNativeSelectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNativeSelect#api)
+ */
 const RHFNativeSelect = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

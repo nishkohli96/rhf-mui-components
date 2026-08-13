@@ -139,6 +139,17 @@ export type RHFCheckboxGroupProps<
   onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
 };
 
+/**
+ * Group of MUI `Checkbox` controls wired to a single React Hook Form array
+ * field via `control`, one checkbox per `options` entry.
+ *
+ * Best suited for up to ~10 options; use `RHFMultiAutocomplete` for larger
+ * datasets that need search.
+ *
+ * Docs: [RHFCheckboxGroup](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCheckboxGroup)
+ *
+ * API: [RHFCheckboxGroupProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCheckboxGroup#api)
+ */
 const RHFCheckboxGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

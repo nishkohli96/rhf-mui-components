@@ -191,6 +191,17 @@ export type RHFCountrySelectProps<
   ChipProps?: MuiChipProps;
 } & AutoCompleteProps<Multiple, DisableClearable>;
 
+/**
+ * MUI `Autocomplete` preloaded with a full country list (flags, names, dial
+ * codes), wired to a React Hook Form field via `control`.
+ *
+ * Supports `preferredCountries` pinned to the top, and single or multiple
+ * selection through the `multiple` prop.
+ *
+ * Docs: [RHFCountrySelect](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCountrySelect)
+ *
+ * API: [RHFCountrySelectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCountrySelect#api)
+ */
 const RHFCountrySelect = <
   T extends FieldValues,
   Multiple extends boolean = false,

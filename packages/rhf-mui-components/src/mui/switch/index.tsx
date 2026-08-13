@@ -73,6 +73,13 @@ export type RHFSwitchProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & Omit<SwitchProps, 'name'>;
 
+/**
+ * Controlled MUI `Switch` wired to a React Hook Form boolean field via `control`.
+ *
+ * Docs: [RHFSwitch](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSwitch)
+ *
+ * API: [RHFSwitchProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSwitch#api)
+ */
 const RHFSwitch = <T extends FieldValues>({
   fieldName,
   control,

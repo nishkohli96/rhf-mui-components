@@ -118,6 +118,17 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 };
 
+/**
+ * Controlled CKEditor 5 (`ClassicEditor`) rich text field wired to a React
+ * Hook Form field via `control`, storing the value as an HTML string.
+ *
+ * Editor behavior/toolbar is customizable via `editorConfig`; init/runtime
+ * errors surface through `onError`.
+ *
+ * Docs: [RHFRichTextEditor](https://rhf-mui-components.vercel.app/v3/components/misc/RHFRichTextEditor)
+ *
+ * API: [RHFRichTextEditorProps](https://rhf-mui-components.vercel.app/v3/components/misc/RHFRichTextEditor#api)
+ */
 const RHFRichTextEditor = <T extends FieldValues>({
   fieldName,
   control,

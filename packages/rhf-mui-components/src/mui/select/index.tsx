@@ -161,6 +161,17 @@ export type RHFSelectProps<
   placeholder?: string;
 } & SelectProps;
 
+/**
+ * Controlled MUI `Select` wired to a React Hook Form field via `control`.
+ *
+ * Supports single or multiple selection through the `multiple` prop, with
+ * `onValueChange`'s value type generic on it, plus an optional `showDefaultOption`
+ * placeholder item.
+ *
+ * Docs: [RHFSelect](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSelect)
+ *
+ * API: [RHFSelectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSelect#api)
+ */
 const RHFSelect = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

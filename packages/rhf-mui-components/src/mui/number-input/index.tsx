@@ -83,6 +83,16 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & TextFieldInputProps;
 
+/**
+ * Controlled MUI `TextField` (`type="number"`) wired to a React Hook Form
+ * field via `control`, storing the value as a `number` (or `null` when empty).
+ *
+ * Optional `showMarkers` reveals the native increment/decrement spinners.
+ *
+ * Docs: [RHFNumberInput](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNumberInput)
+ *
+ * API: [RHFNumberInputProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNumberInput#api)
+ */
 const RHFNumberInput = <T extends FieldValues>({
   fieldName,
   control,

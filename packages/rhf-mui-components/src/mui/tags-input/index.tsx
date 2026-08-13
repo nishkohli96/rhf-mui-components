@@ -118,6 +118,16 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   getLimitTagsText?: (moreTags: number) => ReactNode;
 } & TextFieldInputProps;
 
+/**
+ * Free-form MUI `TextField` wired to a React Hook Form `string[]` field via
+ * `control`, letting users type and add arbitrary tags as chips.
+ *
+ * Collapses overflow tags past `limitTags`, customizable via `getLimitTagsText`.
+ *
+ * Docs: [RHFTagsInput](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTagsInput)
+ *
+ * API: [RHFTagsInputProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTagsInput#api)
+ */
 const RHFTagsInput = <T extends FieldValues>({
   fieldName,
   control,

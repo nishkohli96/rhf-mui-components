@@ -26,6 +26,14 @@ import {
 } from 'ckeditor5';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 
+/**
+ * Default `EditorConfig` used by `RHFRichTextEditor` when no `editorConfig`
+ * prop is passed.
+ *
+ * Bundles a fixed plugin/toolbar set (undo/redo, headings 1-6, alignment,
+ * text styling, lists, links, code blocks, tables) — override via the
+ * component's `editorConfig` prop to customize.
+ */
 export const DefaultEditorConfig: EditorConfig = {
   plugins: [
     Essentials,

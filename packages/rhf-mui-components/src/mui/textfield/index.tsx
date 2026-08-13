@@ -73,6 +73,13 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & TextFieldProps;
 
+/**
+ * Controlled MUI `TextField` wired to a React Hook Form field via `control`.
+ *
+ * Docs: [RHFTextField](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTextField)
+ *
+ * API: [RHFTextFieldProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTextField#api)
+ */
 const RHFTextField = <T extends FieldValues>({
   fieldName,
   control,

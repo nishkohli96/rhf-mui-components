@@ -165,6 +165,18 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   phoneInputProps?: PhoneInputProps;
 } & InputTextFieldProps;
 
+/**
+ * Controlled `react-international-phone` input, wired to a React Hook Form
+ * field via `control`.
+ *
+ * Renders a country dropdown and, via `onValueChange`, reports
+ * structured `PhoneInputChangeReturnValue` metadata (`phone`, `inputValue` and
+ * `country`).
+ *
+ * Docs: [RHFPhoneInput](https://rhf-mui-components.vercel.app/v3/components/misc/RHFPhoneInput)
+ *
+ * API: [RHFPhoneInputProps](https://rhf-mui-components.vercel.app/v3/components/misc/RHFPhoneInput#api)
+ */
 const RHFPhoneInput = <T extends FieldValues>({
   fieldName,
   control,
