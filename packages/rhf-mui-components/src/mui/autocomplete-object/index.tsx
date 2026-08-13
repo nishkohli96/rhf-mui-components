@@ -181,6 +181,16 @@ export type RHFAutocompleteObjectProps<
   circularProgressProps?: CircularProgressProps;
 } & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 
+/**
+ * Controlled MUI `Autocomplete` wired to a React Hook Form field via `control`,
+ * storing the full selected option object(s) instead of just a `valueKey`.
+ *
+ * Supports single or multiple selection through the `multiple` prop.
+ *
+ * Docs: [RHFAutocompleteObject](https://rhf-mui-components.vercel.app/v3/components/mui/RHFAutocompleteObject)
+ *
+ * API: [RHFAutocompleteObjectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFAutocompleteObject#api)
+ */
 const RHFAutocompleteObject = <
   T extends FieldValues,
   Option extends KeyValueOption,

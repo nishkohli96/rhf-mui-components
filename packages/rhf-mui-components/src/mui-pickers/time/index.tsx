@@ -94,6 +94,14 @@ export type RHFTimePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & TimePickerInputProps;
 
+/**
+ * Controlled MUI X `TimePicker` wired to a React Hook Form field via
+ * `control`, wrapped in its own `LocalizationProvider`.
+ *
+ * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFTimePicker)
+ *
+ * API: [RHFTimePickerProps](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFTimePicker#api)
+ */
 const RHFTimePicker = <T extends FieldValues>({
   fieldName,
   control,

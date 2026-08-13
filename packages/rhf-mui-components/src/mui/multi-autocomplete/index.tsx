@@ -187,6 +187,16 @@ export type RHFMultiAutocompleteProps<
   circularProgressProps?: CircularProgressProps;
 } & MultiAutoCompleteProps<Option, DisableClearable>;
 
+/**
+ * Always-multiple MUI `Autocomplete` wired to a React Hook Form array field
+ * via `control`, with a checkbox per option in the dropdown.
+ *
+ * Includes a built-in "**Select All**" option, hideable via `hideSelectAllOption`.
+ *
+ * Docs: [RHFMultiAutocomplete](https://rhf-mui-components.vercel.app/v3/components/mui/RHFMultiAutocomplete)
+ *
+ * API: [RHFMultiAutocompleteProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFMultiAutocomplete#api)
+ */
 const RHFMultiAutocomplete = <
   T extends FieldValues,
   Option extends StrObjOption = StrObjOption,

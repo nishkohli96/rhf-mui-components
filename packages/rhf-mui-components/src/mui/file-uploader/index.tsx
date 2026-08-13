@@ -175,6 +175,18 @@ export type RHFFileUploaderProps<
   fullWidth?: boolean;
 };
 
+/**
+ * File input wired to a React Hook Form field via `control`, validating
+ * `accept`, `maxSize` and `maxFiles`, with rejected files reported via
+ * `onUploadError`.
+ *
+ * The accepted-file type in `onValueChange` is generic on `multiple`: `File[]`
+ * when `true`, a single `File` otherwise.
+ *
+ * Docs: [RHFFileUploader](https://rhf-mui-components.vercel.app/v3/components/mui/RHFFileUploader)
+ *
+ * API: [RHFFileUploaderProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFFileUploader#api)
+ */
 const RHFFileUploader = <
   T extends FieldValues,
   Multiple extends boolean = false,

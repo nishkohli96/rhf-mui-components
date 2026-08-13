@@ -129,6 +129,16 @@ export type RHFRadioGroupProps<
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & RadioGroupInputProps;
 
+/**
+ * MUI `RadioGroup` wired to a React Hook Form field via `control`, one
+ * `Radio` per `options` entry.
+ *
+ * Accepts string/number or object options via `labelKey`/`valueKey`.
+ *
+ * Docs: [RHFRadioGroup](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRadioGroup)
+ *
+ * API: [RHFRadioGroupProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRadioGroup#api)
+ */
 const RHFRadioGroup = <
   T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,

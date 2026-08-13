@@ -94,6 +94,14 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & DatePickerInputProps;
 
+/**
+ * Controlled MUI X `DatePicker` wired to a React Hook Form field via
+ * `control`, wrapped in its own `LocalizationProvider`.
+ *
+ * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFDatePicker)
+ *
+ * API: [RHFDatePickerProps](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFDatePicker#api)
+ */
 const RHFDatePicker = <T extends FieldValues>({
   fieldName,
   control,

@@ -97,6 +97,17 @@ export type RHFSliderProps<
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & SliderInputProps;
 
+/**
+ * Controlled MUI `Slider` wired to a React Hook Form field via `control`,
+ * supporting both single-thumb and range sliders.
+ *
+ * `onValueChange`'s `value` type is inferred from the field's declared type
+ * in your form schema (`number` vs `number[]`).
+ *
+ * Docs: [RHFSlider](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSlider)
+ *
+ * API: [RHFSliderProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSlider#api)
+ */
 const RHFSlider = <
   T extends FieldValues,
   TName extends Path<T> = Path<T>

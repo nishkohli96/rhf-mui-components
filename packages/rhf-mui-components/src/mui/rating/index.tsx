@@ -86,6 +86,16 @@ export type RHFRatingProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & InputRatingProps;
 
+/**
+ * Controlled MUI `Rating` wired to a React Hook Form field via `control`,
+ * storing the value as a `number` (or `null` when cleared).
+ *
+ * Supports MUI's `precision` for half-star ratings and custom icons.
+ *
+ * Docs: [RHFRating](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRating)
+ *
+ * API: [RHFRatingProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRating#api)
+ */
 const RHFRating = <T extends FieldValues>({
   fieldName,
   control,

@@ -74,6 +74,13 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
 } & CheckboxProps;
 
+/**
+ * Controlled MUI `Checkbox` wired to a React Hook Form boolean field via `control`.
+ *
+ * Docs: [RHFCheckbox](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCheckbox)
+ *
+ * API: [RHFCheckboxProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCheckbox#api)
+ */
 const RHFCheckbox = <T extends FieldValues>({
   fieldName,
   control,
