@@ -133,9 +133,8 @@ export type RHFColorPickerProps<T extends FieldValues> = {
  * Controlled color picker (hue, saturation/lightness, alpha) wired to a
  * React Hook Form field via `control`.
  *
- * Stores the value as a `hex` string by default, or another CSS color format
- * via the `valueKey` prop.
- *
+ * Stores the value as `hex`(default), `rgb` or `hsv` string.
+ * 
  * Docs: [RHFColorPicker](https://rhf-mui-components.vercel.app/v3/components/misc/RHFColorPicker)
  *
  * API: [RHFColorPickerProps](https://rhf-mui-components.vercel.app/v3/components/misc/RHFColorPicker#api)

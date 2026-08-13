@@ -98,9 +98,6 @@ export type RHFDatePickerProps<T extends FieldValues> = {
  * Controlled MUI X `DatePicker` wired to a React Hook Form field via
  * `control`, wrapped in its own `LocalizationProvider`.
  *
- * Reports date-adapter validation errors (min/max/disabled dates) through
- * `errorMessage`.
- *
  * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFDatePicker)
  *
  * API: [RHFDatePickerProps](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFDatePicker#api)
