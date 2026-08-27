@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useForm, useWatch } from 'react-hook-form';
@@ -27,7 +27,7 @@ import {
 import { Colors } from '@/types';
 import { iplTeams, formSubmitEventName, employeeList } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
-import { generateAirportNames } from '@/utils/options';
+import airportList from '@/constants/airports.json';
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
 type FormSchema = {
@@ -54,7 +54,6 @@ export default function AutocompleteForm() {
   const hasMorePokemonsRef = useRef(true);
   const isPokemonFetchInFlightRef = useRef(false);
 
-  const airportList = useMemo(() => generateAirportNames(100), []);
   const pathName = usePathname();
 
   const initialValues: Partial<FormSchema> = {

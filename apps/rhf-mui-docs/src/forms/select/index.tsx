@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
@@ -8,7 +8,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { faker } from '@faker-js/faker';
 import { toast } from 'react-toastify';
 import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
 import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
@@ -27,19 +26,23 @@ import { FormSchema } from './validation';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
 
-const getLanguagesList = (count: number) => {
-  const languages = new Set<string>();
-  while (languages.size < count) {
-    languages.add(faker.location.language().name);
-  }
-  return Array.from(languages);
-};
+const languagesList = [
+  'English',
+  'Mandarin Chinese',
+  'Hindi',
+  'Spanish',
+  'French',
+  'Arabic',
+  'Bengali',
+  'Portuguese',
+  'Russian',
+  'Japanese'
+];
 
 const initialValues = { favouriteColor: Colors.Orange };
 
 export default function SelectFormWithClassValidator() {
   const pathName = usePathname();
-  const languagesList = useMemo(() => getLanguagesList(10), []);
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const {
