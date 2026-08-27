@@ -16,7 +16,7 @@
   "type": "module",
   "sideEffects": false,
   "dependencies": {
-    "@nish1896/mui-components": "^2.0.2"
+    "@nish1896/mui-components": "^2.0.4"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "43.3.0",
