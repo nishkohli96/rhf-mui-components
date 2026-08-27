@@ -195,7 +195,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             >
               <Image
                 src="/logo.png"
-                alt="Logo"
+                alt=""
                 fill
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
@@ -210,7 +210,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             >
               <Image
                 src="/logo-dark.png"
-                alt="Logo"
+                alt=""
                 fill
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
