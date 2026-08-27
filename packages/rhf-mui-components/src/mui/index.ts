@@ -52,7 +52,10 @@ export {
   RHFTextField,
   RHFTagsInput,
   countryList,
-  selectAllOptionValue,
+  /**
+   * Default value for the "**Select All**" option in `RHFMultiAutocomplete` and `RHFMultiAutocompleteObject` components.
+   */
+  selectAllOptionValue
 };
 
 export type {
