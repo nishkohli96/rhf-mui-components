@@ -1,13 +1,16 @@
 import { type MuiVersion } from '@/types';
 
-const githubProfile = 'https://github.com/nishkohli96/';
-const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
-const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
+export const githubProfile = 'https://github.com/nishkohli96';
+const pkgRepoLink = `${githubProfile}/rhf-mui-components/blob/main/`;
+const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
+
+export const githubRepoLink = `${githubProfile}/rhf-mui-components`;
+export const docsLink = 'https://rhf-mui-components.vercel.app/';
+export const npmLink = 'https://www.npmjs.com/package/@nish1896/rhf-mui-components';
 
 export const externalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
   rhf: 'https://react-hook-form.com/',
-  examplesRepo: `${githubProfile}rhf-mui-examples`,
   muiComponents: {
     textField: (muiVersion?: MuiVersion) =>
       `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui/react-text-field/`,
@@ -77,7 +80,7 @@ export const externalLinks = Object.freeze({
   githubExamples: {
     multerFileUpload: `${cslRepo}apps/express-server/src/routes/file/controller.ts`,
     fileUploadMiddleware: `${cslRepo}apps/express-server/src/middleware/file-uploader.ts`,
-    ckEditorAdvanced: `${githubProfile}react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx`,
+    ckEditorAdvanced: `${githubProfile}/react-libs/blob/main/src/pages/rte/CkEditorAdvanced.tsx`,
     ckEditorCssGist: 'https://gist.github.com/nishkohli96/cc26a1b6e8e372dad1be7c5cfa42d9c5',
     styledTextField: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledTextField.tsx`,
     styledSelect: `${pkgRepoLink}apps/rhf-mui-demo/src/forms/styled-form-with-reusable-component/StyledSelect.tsx`,
@@ -90,7 +93,3 @@ export const externalLinks = Object.freeze({
     zod: 'https://www.npmjs.com/package/zod'
   }
 });
-
-export const githubRepoLink = `${githubProfile}rhf-mui-components`;
-export const docsLink = 'https://rhf-mui-components.vercel.app/';
-export const npmLink = 'https://www.npmjs.com/package/@nish1896/rhf-mui-components';

@@ -5,7 +5,10 @@ import { Analytics } from '@vercel/analytics/next';
 import {
   defaultPageTitle,
   defaultPageDescription,
-  defaultPageKeywords
+  githubProfile,
+  githubRepoLink,
+  npmLink,
+  websiteUrl,
 } from '@/constants';
 import AppShell from '@/components/app-shell';
 import { AppThemeProvider } from '@/theme';
@@ -15,6 +18,15 @@ import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
+};
+
+/* Person JSON-LD — identifies the site's author to AI/search crawlers. */
+const authorJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Nishant Kohli',
+  url: githubProfile,
+  sameAs: [githubRepoLink, npmLink]
 };
 
 /*
@@ -34,12 +46,22 @@ type RootLayoutProps = {
 const colorSchemeInit = `(function(){try{var m=localStorage.getItem('${modeStorageKey}')||'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);}catch(e){}})();`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(websiteUrl),
   title: {
     template: `%s | ${defaultPageTitle}`,
     default: defaultPageTitle
   },
   description: defaultPageDescription,
-  keywords: defaultPageKeywords
+  applicationName: defaultPageTitle,
+  authors: [{ name: 'Nishant Kohli', url: githubProfile }],
+  creator: 'Nishant Kohli',
+  openGraph: {
+    type: 'website',
+    siteName: defaultPageTitle,
+  },
+  twitter: {
+    card: 'summary_large_image',
+  }
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
@@ -50,6 +72,10 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
