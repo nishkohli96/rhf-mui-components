@@ -26,7 +26,8 @@ import {
 } from '@/components';
 import { Colors } from '@/types';
 import { iplTeams, formSubmitEventName, employeeList } from '@/constants';
-import { showToastMessage, logFirebaseEvent, generateAirportNames } from '@/utils';
+import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { generateAirportNames } from '@/utils/options';
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
 type FormSchema = {
