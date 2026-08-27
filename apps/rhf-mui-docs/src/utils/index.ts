@@ -1,4 +1,5 @@
 export * from './avatar';
+export * from './breadcrumb';
 export * from './component-props';
 export * from './docs-version';
 export * from './firebase';

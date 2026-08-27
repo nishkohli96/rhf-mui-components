@@ -20,13 +20,25 @@ type RootLayoutProps = {
   children: React.ReactNode;
 };
 
-/* Person JSON-LD — identifies the site's author to AI/search crawlers. */
-const authorJsonLd = {
+/* Site-wide structured data: the site itself + its author entity. */
+const siteJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Nishant Kohli',
-  url: githubProfile,
-  sameAs: [githubRepoLink, npmLink]
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${websiteUrl}/#website`,
+      url: `${websiteUrl}/`,
+      name: defaultPageTitle,
+      description: defaultPageDescription,
+      inLanguage: 'en'
+    },
+    {
+      '@type': 'Person',
+      name: 'Nishant Kohli',
+      url: githubProfile,
+      sameAs: [githubRepoLink, npmLink]
+    }
+  ]
 };
 
 /*
@@ -75,7 +87,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
