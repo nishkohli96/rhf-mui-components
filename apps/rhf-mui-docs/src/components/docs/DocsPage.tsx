@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import BreadcrumbJsonLd from './BreadcrumbJsonLd';
-import OldVersionBanner from './OldVersionBanner';
 import PageToc from './PageToc';
 import PageNav from './PageNav';
 
@@ -18,7 +17,6 @@ const DocsPage = ({ children }: DocsPageProps) => {
     <div className="doc-page">
       <article className="doc-article">
         <BreadcrumbJsonLd />
-        <OldVersionBanner />
         {children}
         <PageNav />
       </article>

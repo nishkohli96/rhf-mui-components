@@ -92,7 +92,7 @@ export default function HomePageLinks() {
                   py: 0.7,
                   fontSize: 13,
                   fontWeight: 600,
-                  borderRadius: 1.5,
+                  borderRadius: 3,
                   border: '1px solid',
                   ...(group.accent
                     ? {

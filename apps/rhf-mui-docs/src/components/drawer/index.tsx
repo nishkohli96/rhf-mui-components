@@ -89,7 +89,7 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
         </ListItemButton>
       </ListItem>
       {hasChildren && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={open} timeout="auto">
           <List component="div" dense disablePadding>
             {page.pages?.map(child => (
               <SidebarItem

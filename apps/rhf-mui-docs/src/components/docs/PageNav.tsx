@@ -102,8 +102,24 @@ const PageNav = () => {
         borderColor: 'divider'
       }}
     >
-      {prev ? <NavCard href={prev.href} title={prev.title} direction="prev" /> : <Box />}
-      {next ? <NavCard href={next.href} title={next.title} direction="next" /> : <Box />}
+      {prev
+        ? (
+          <NavCard
+            href={prev.href}
+            title={prev.title}
+            direction="prev"
+          />
+        )
+        : <Box />}
+      {next
+        ? (
+          <NavCard
+            href={next.href}
+            title={next.title}
+            direction="next"
+          />
+        )
+        : <Box />}
     </Box>
   );
 };

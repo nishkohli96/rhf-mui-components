@@ -9,10 +9,7 @@ import {
   websiteUrl
 } from '@/constants';
 
-export const metadata: Metadata = {
-  ...pageMetadata.home,
-  alternates: { canonical: '/' },
-};
+export const metadata: Metadata = pageMetadata.home;
 
 /* Describes the library the docs cover — the primary entity for rich results. */
 const softwareJsonLd = {
