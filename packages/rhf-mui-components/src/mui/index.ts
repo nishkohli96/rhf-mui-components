@@ -51,9 +51,16 @@ export {
   RHFSwitch,
   RHFTextField,
   RHFTagsInput,
+  /**
+   * Static list of 250 countries (`name`, `iso`, `iso3`, `emoji` flag), used
+   * as `RHFCountrySelect`'s default `countries` option list.
+   *
+   * @see [countries.ts](https://github.com/nishkohli96/mui-components/blob/main/packages/mui-components/src/mui/country-select/countries.ts)
+   */
   countryList,
   /**
-   * Default value for the "**Select All**" option in `RHFMultiAutocomplete` and `RHFMultiAutocompleteObject` components.
+   * Default value for the "**Select All**" option in `RHFMultiAutocomplete`
+   * and `RHFMultiAutocompleteObject`.
    */
   selectAllOptionValue
 };
