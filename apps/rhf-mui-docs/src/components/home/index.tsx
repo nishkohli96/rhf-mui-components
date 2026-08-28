@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import MuiLink from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
@@ -85,7 +86,17 @@ const HomeLanding = () => {
               letterSpacing: 0
             }}
           >
-            Production-ready form components for Material UI
+            Production-ready form components for
+            {' '}
+            <MuiLink
+              href="https://mui.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              underline="hover"
+              sx={{ color: '#007FFF', textDecorationColor: '#007FFF' }}
+            >
+              Material UI
+            </MuiLink>
           </Typography>
           <Typography
             sx={{
