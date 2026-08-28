@@ -115,121 +115,121 @@ export const pageMetadata: Record<string, Metadata> = {
  */
 export const componentMetadata: Record<string, Metadata> = {
   RHFTextField: {
-    title: 'TextField',
+    title: 'RHFTextField',
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   },
   RHFPasswordInput: {
-    title: 'MUIPasswordInput',
+    title: 'RHFPasswordInput',
     description:
       'Controlled Material UI password field with a show/hide toggle, label, error and helper-text handling.'
   },
   RHFNumberInput: {
-    title: 'MUINumberInput',
+    title: 'RHFNumberInput',
     description:
       'Controlled numeric Material UI input with decimal, integer, non-negative and step constraints.'
   },
   RHFTagsInput: {
-    title: 'MUITagsInput',
+    title: 'RHFTagsInput',
     description:
       'Controlled Material UI tags input — type or paste to add chips, with add/delete/paste interception.'
   },
   RHFFileUploader: {
-    title: 'MUIFileUploader',
+    title: 'RHFFileUploader',
     description:
       'Controlled Material UI file uploader with drag-and-drop, type/size/count validation and custom renderers.'
   },
   RHFSelect: {
-    title: 'MUISelect',
+    title: 'RHFSelect',
     description:
       'Controlled Material UI Select supporting single/multiple selection and primitive or object options.'
   },
   RHFNativeSelect: {
-    title: 'MUINativeSelect',
+    title: 'RHFNativeSelect',
     description:
       'Controlled Material UI native <select> for lightweight dropdowns, especially on mobile.'
   },
   RHFAutocomplete: {
-    title: 'MUIAutocomplete',
+    title: 'RHFAutocomplete',
     description:
       'Controlled Material UI Autocomplete storing primitive values, with single/multiple and freeSolo support.'
   },
   RHFAutocompleteObject: {
-    title: 'MUIAutocompleteObject',
+    title: 'RHFAutocompleteObject',
     description:
       'Controlled Material UI Autocomplete that stores the complete option object as its value.'
   },
   RHFCountrySelect: {
-    title: 'MUICountrySelect',
+    title: 'RHFCountrySelect',
     description:
       'Controlled country picker built on Material UI Autocomplete with flags and preferred countries.'
   },
   RHFMultiAutocomplete: {
-    title: 'MUIMultiAutocomplete',
+    title: 'RHFMultiAutocomplete',
     description:
       'Controlled multi-select Material UI Autocomplete with checkboxes and a Select-All option.'
   },
   RHFMultiAutocompleteObject: {
-    title: 'MUIMultiAutocompleteObject',
+    title: 'RHFMultiAutocompleteObject',
     description:
       'Controlled multi-select Material UI Autocomplete storing an array of complete option objects.'
   },
   RHFCheckbox: {
-    title: 'MUICheckbox',
+    title: 'RHFCheckbox',
     description:
       'Controlled single Material UI Checkbox with label and helper-text handling.'
   },
   RHFCheckboxGroup: {
-    title: 'MUICheckboxGroup',
+    title: 'RHFCheckboxGroup',
     description:
       'Controlled group of Material UI checkboxes storing an array of selected option values.'
   },
   RHFRadioGroup: {
-    title: 'MUIRadioGroup',
+    title: 'RHFRadioGroup',
     description:
       'Controlled Material UI RadioGroup for single choice among primitive or object options.'
   },
   RHFSwitch: {
-    title: 'MUISwitch',
+    title: 'RHFSwitch',
     description:
       'Controlled Material UI Switch (on/off toggle) with label and helper-text handling.'
   },
   RHFSlider: {
-    title: 'MUISlider',
+    title: 'RHFSlider',
     description: 'Controlled Material UI Slider for single or range numeric values.'
   },
   RHFRating: {
-    title: 'MUIRating',
+    title: 'RHFRating',
     description:
       'Controlled Material UI Rating (star) input with label and helper-text handling.'
   },
   RHFDatePicker: {
-    title: 'Date Pickers',
+    title: 'RHFDatePicker',
     description:
       'Controlled Material UI X date pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   RHFTimePicker: {
-    title: 'Time Pickers',
+    title: 'RHFTimePicker',
     description:
       'Controlled Material UI X time pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   RHFDateTimePicker: {
-    title: 'Date-Time Pickers',
+    title: 'RHFDateTimePicker',
     description:
       'Controlled Material UI X date-time pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   RHFColorPicker: {
-    title: 'MUIColorPicker',
+    title: 'RHFColorPicker',
     description:
       'Controlled color picker built on react-color-palette with label, error and helper-text handling.'
   },
   RHFPhoneInput: {
-    title: 'MUIPhoneInput',
+    title: 'RHFPhoneInput',
     description:
       'Controlled international phone input with country dropdown, search and structured value output.'
   },
   RHFRichTextEditor: {
-    title: 'MUIRichTextEditor',
+    title: 'RHFRichTextEditor',
     description:
       'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
   },

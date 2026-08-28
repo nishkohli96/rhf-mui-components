@@ -67,6 +67,12 @@ export const metadata: Metadata = {
   applicationName: defaultPageTitle,
   authors: [{ name: 'Nishant Kohli', url: githubProfile }],
   creator: 'Nishant Kohli',
+  /**
+   * Self-referencing canonical per route — Next resolves './' against
+   * the current path. Legacy /v1–v4 pages get their own noindex via
+   * those route-group layouts, so a self-canonical there is harmless.
+   */
+  alternates: { canonical: './' },
   openGraph: {
     type: 'website',
     siteName: defaultPageTitle,
