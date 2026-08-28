@@ -23,7 +23,8 @@ import {
   type FormHelperTextProps,
   type FormLabelProps,
   type CustomOnChangeProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -94,9 +95,11 @@ export type RHFNativeSelectProps<
    * option value itself for primitive options) is rendered.
    *
    * @param option - The option being rendered.
+   * @param state - Current status of the option (`disabled`, `selected`), so the
+   *   label can react to it — e.g. dim a disabled option.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
