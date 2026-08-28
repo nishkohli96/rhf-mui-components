@@ -6,6 +6,7 @@ import Button, { type ButtonProps } from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import { githubRepoLink, npmLink } from '@/constants';
@@ -93,12 +94,7 @@ export const GithubButton = () => {
         color="inherit"
         sx={{ padding: '6px' }}
       >
-        <Image
-          src="https://img.icons8.com/fluency/30/github.png"
-          alt="Github"
-          width={26}
-          height={26}
-        />
+        <GitHubIcon sx={{ fontSize: 26 }} />
       </IconButton>
     </Tooltip>
   );
@@ -120,10 +116,10 @@ export const NpmButton = () => {
         sx={{ padding: '6px' }}
       >
         <Image
-          src="https://img.icons8.com/color/30/npm.png"
+          src="/icons/npm.svg"
           alt="NPM"
-          width={30}
-          height={30}
+          width={40}
+          height={16}
         />
       </IconButton>
     </Tooltip>

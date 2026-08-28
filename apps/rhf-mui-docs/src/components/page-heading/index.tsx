@@ -9,7 +9,12 @@ type PageHeadingProps = {
 
 export const PageHeading = ({ title }: PageHeadingProps) => {
   return (
-    <Typography variant="h4" color="primary" sx={{ mb: '20px' }}>
+    <Typography
+      variant="h4"
+      component="h1"
+      color="primary"
+      sx={{ mb: '20px' }}
+    >
       {title}
     </Typography>
   );
@@ -19,6 +24,7 @@ export const SubHeading = ({ title }: PageHeadingProps) => {
   return (
     <Typography
       variant="h6"
+      component="h2"
       sx={{
         mb: '10px',
         fontWeight: 400,

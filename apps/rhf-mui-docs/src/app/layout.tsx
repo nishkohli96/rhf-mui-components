@@ -5,7 +5,10 @@ import { Analytics } from '@vercel/analytics/next';
 import {
   defaultPageTitle,
   defaultPageDescription,
-  defaultPageKeywords
+  githubProfile,
+  githubRepoLink,
+  npmLink,
+  websiteUrl,
 } from '@/constants';
 import AppShell from '@/components/app-shell';
 import { AppThemeProvider } from '@/theme';
@@ -15,6 +18,27 @@ import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
+};
+
+/* Site-wide structured data: the site itself + its author entity. */
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${websiteUrl}/#website`,
+      url: `${websiteUrl}/`,
+      name: defaultPageTitle,
+      description: defaultPageDescription,
+      inLanguage: 'en'
+    },
+    {
+      '@type': 'Person',
+      name: 'Nishant Kohli',
+      url: githubProfile,
+      sameAs: [githubRepoLink, npmLink]
+    }
+  ]
 };
 
 /*
@@ -34,12 +58,30 @@ type RootLayoutProps = {
 const colorSchemeInit = `(function(){try{var m=localStorage.getItem('${modeStorageKey}')||'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);}catch(e){}})();`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(websiteUrl),
   title: {
     template: `%s | ${defaultPageTitle}`,
     default: defaultPageTitle
   },
   description: defaultPageDescription,
-  keywords: defaultPageKeywords
+  applicationName: defaultPageTitle,
+  authors: [{ name: 'Nishant Kohli', url: githubProfile }],
+  creator: 'Nishant Kohli',
+  /**
+   * Self-referencing canonical per route — Next resolves './' against
+   * the current path. Legacy /v1–v4 pages get their own noindex via
+   * those route-group layouts, so a self-canonical there is harmless.
+   */
+  alternates: { canonical: './' },
+  openGraph: {
+    type: 'website',
+    siteName: defaultPageTitle,
+    /* Resolved per-route against metadataBase, same as alternates.canonical. */
+    url: './',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  }
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
@@ -50,6 +92,10 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>

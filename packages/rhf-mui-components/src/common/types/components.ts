@@ -39,9 +39,9 @@ export type CustomOnChangeProps<T, V> = T & {
 };
 
 /**
- * Per-option state handed to `renderOptionLabel` so custom labels can react to
- * the option's current status — e.g. dim a disabled option or emphasise the
- * selected one.
+ * Per-option state handed to `renderOptionLabel` so custom labels can react
+ * to the option's current status — e.g. dim a disabled option or emphasise
+ * the selected one.
  *
  * Used by the form-control option components (radio group, checkbox group,
  * select). The Autocomplete family passes MUI's `AutocompleteRenderOptionState`
@@ -50,8 +50,8 @@ export type CustomOnChangeProps<T, V> = T & {
  */
 export type OptionRenderState = {
   /**
-   * Whether the option is currently non-interactive — either the whole field is
-   * disabled or the option was disabled via `getOptionDisabled`.
+   * Whether the option is currently non-interactive — either the whole
+   * field is disabled or the option was disabled via `getOptionDisabled`.
    */
   disabled: boolean;
   /** Whether the option is part of the current selection. */

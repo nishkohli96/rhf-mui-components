@@ -22,6 +22,8 @@ import {
   // PlaygroundButton
 } from '../buttons';
 
+const drawerLogoSize = '40px';
+
 const containsPath = (page: Page, pathname: string): boolean => {
   return (
     page.href === pathname
@@ -87,7 +89,7 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
         </ListItemButton>
       </ListItem>
       {hasChildren && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={open} timeout="auto">
           <List component="div" dense disablePadding>
             {page.pages?.map(child => (
               <SidebarItem
@@ -184,7 +186,14 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
         }}
       >
         <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
-          <Box sx={{ position: 'relative', width: '35px', height: '35px', flexShrink: 0 }}>
+          <Box
+            sx={{
+              position: 'relative',
+              width: drawerLogoSize,
+              height: drawerLogoSize,
+              flexShrink: 0
+            }}
+          >
             <Box
               sx={{
                 position: 'absolute',
@@ -195,8 +204,10 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             >
               <Image
                 src="/logo.png"
-                alt="Logo"
+                alt=""
                 fill
+                priority
+                sizes={drawerLogoSize}
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
             </Box>
@@ -210,8 +221,10 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             >
               <Image
                 src="/logo-dark.png"
-                alt="Logo"
+                alt=""
                 fill
+                priority
+                sizes="40px"
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
             </Box>

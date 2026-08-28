@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rhf-mui-docs",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
@@ -15,10 +15,10 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@faker-js/faker": "^10.5.0",
     "@hookform/resolvers": "^5.7.1",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
+    "@microlink/react-json-view": "^1.31.30",
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
     "@mui/material-nextjs": "^9.1.1",
@@ -48,7 +48,6 @@
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.84.0",
     "react-international-phone": "^4.8.0",
-    "react-json-view": "^1.21.3",
     "react-toastify": "^11.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",

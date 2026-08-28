@@ -619,7 +619,10 @@ export default function CompleteForm() {
               <SubmitButton disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={withFileNames(formValues)} errors={errors} />
+              <FormState
+                formValues={withFileNames(formValues)}
+                errors={errors}
+              />
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
           </GridContainer>

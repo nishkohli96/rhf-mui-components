@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import BreadcrumbJsonLd from './BreadcrumbJsonLd';
 import PageToc from './PageToc';
 import PageNav from './PageNav';
 
@@ -15,6 +16,7 @@ const DocsPage = ({ children }: DocsPageProps) => {
   return (
     <div className="doc-page">
       <article className="doc-article">
+        <BreadcrumbJsonLd />
         {children}
         <PageNav />
       </article>

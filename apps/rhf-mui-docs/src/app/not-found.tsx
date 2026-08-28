@@ -33,8 +33,8 @@ export default function NotFound() {
         <Image
           src="/404.png"
           alt="404"
-          width={1254}
-          height={1254}
+          width={640}
+          height={640}
           priority
           style={{ width: '100%', maxWidth: 320, height: 'auto' }}
         />

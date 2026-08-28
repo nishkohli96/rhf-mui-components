@@ -413,7 +413,10 @@ export default function CompleteFormWithJoi() {
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={withFileNames(formValues)} errors={errors} />
+              <FormState
+                formValues={withFileNames(formValues)}
+                errors={errors}
+              />
             </Grid>
           </GridContainer>
         </form>

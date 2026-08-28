@@ -12,6 +12,8 @@ import {
   // PlaygroundButton
 } from '../buttons';
 
+const drawerLogoSize = '40px';
+
 /**
  * Sticky, flat docs-style header: brand on the left, actions on the right.
  * On small screens the side navigation collapses into the DrawerMenu button.
@@ -55,8 +57,8 @@ const AppBar = () => {
           <Box
             sx={{
               position: 'relative',
-              width: 45,
-              height: 45,
+              width: drawerLogoSize,
+              height: drawerLogoSize,
               flexShrink: 0,
               '@media (max-width: 400px)': {
                 display: 'none'
@@ -75,6 +77,8 @@ const AppBar = () => {
                 src="/logo.png"
                 alt=""
                 fill
+                priority
+                sizes={drawerLogoSize}
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
             </Box>
@@ -90,6 +94,8 @@ const AppBar = () => {
                 src="/logo-dark.png"
                 alt=""
                 fill
+                priority
+                sizes={drawerLogoSize}
                 style={{
                   borderRadius: '50%',
                   objectFit: 'cover',
@@ -103,7 +109,8 @@ const AppBar = () => {
               alignItems: 'center',
               '& img': {
                 height: { xs: '40px', md: '50px' },
-                width: 'auto'
+                width: 'auto',
+                aspectRatio: '320 / 60'
               },
             }}
           >
