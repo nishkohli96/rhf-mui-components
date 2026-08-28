@@ -17,9 +17,9 @@
   <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
 </p>
 
-> ⚡ **Powered by [Mui Components](https://mui-components-docs.vercel.app/)**
+> ⚡ **Powered by [Mui Components](https://mui-components-docs.vercel.app)**
 >
-> From **v4.2.0** onwards, every component delegates its rendering and core logic to the form-library-agnostic **[@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components)** — the same Material UI components, driven by a plain `value` / `onValueChange` pair instead of RHF bindings.
+> From **v4.2.0** onwards, every component delegates its rendering and core logic to the form-library-agnostic **[@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components)** - the same Material UI components, driven by a plain `value` / `onValueChange` pair instead of RHF bindings.
 >
 > Worth checking out if you're building forms with plain React state or any other form library, or need Material UI components without wiring custom UI logic for commonly used components.
 
