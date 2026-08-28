@@ -21,7 +21,9 @@
 >
 > From **v4.2.0** onwards, every component delegates its rendering and core logic to the form-library-agnostic **[@nish1896/mui-components](https://www.npmjs.com/package/@nish1896/mui-components)** - the same Material UI components, driven by a plain `value` / `onValueChange` pair instead of RHF bindings.
 >
-> Worth checking out if you're building forms with plain React state or any other form library, or need Material UI components without wiring custom UI logic for commonly used components.
+> Worth checking out if:
+> - You're building forms with plain React state or any other form library
+> - You want Material UI components for common fields, pre-wired, without writing the binding logic yourself
 
 ## ✨ Features
 
