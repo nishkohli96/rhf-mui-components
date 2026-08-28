@@ -9,7 +9,7 @@ export const defaultPageDescription
 
 export const pageMetadata: Record<string, Metadata> = {
   home: {
-    title: 'RHF-MUI Components',
+    title: { absolute: 'RHF-MUI Components — Material UI fields for React Hook Form' },
     description:
       'Production-ready, form-library-independent Material UI form components for React Hook Form and beyond, with consistent labels, helper text and validation UI.'
   },
