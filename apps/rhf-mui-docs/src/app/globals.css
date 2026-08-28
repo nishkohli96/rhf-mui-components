@@ -7,9 +7,11 @@
   --text-color: #000000;
 }
 
-/* No-JS fallback only — the attribute selectors below are the source of
-   truth once the inline bootstrap in layout.tsx stamps
-   data-mui-color-scheme on <html> pre-paint. */
+/**
+ * No-JS fallback only — the attribute selectors below are
+ * the source of truth once the inline bootstrap in layout.tsx
+ * stamps data-mui-color-scheme on <html> pre-paint.
+ */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #0b0e14;
@@ -17,8 +19,10 @@
   }
 }
 
-/* Follow the app's toggle, not the OS: keep in sync with
-   DarkThemePalette.background.default in src/theme/palette.ts. */
+/**
+ * Follow the app's toggle, not the OS: keep in sync with
+ * DarkThemePalette.background.default in src/theme/palette.ts.
+ */
 :root[data-mui-color-scheme='light'] {
   --bg-color: #ffffff;
   --text-color: #000000;
@@ -161,6 +165,11 @@ body {
   color: inherit;
   opacity: 0;
   transition: opacity 0.15s ease-in-out;
+}
+
+/* "#" is drawn here, not as a text node — see mdx-components.tsx. */
+.doc-heading-anchor::before {
+  content: '#';
 }
 
 .doc-heading:hover .doc-heading-anchor,
@@ -343,8 +352,11 @@ body {
   color: #79b8ff;
 }
 
-/* Links inside props-table cells (Type/Description) follow the theme's
-   primary color, like the MDX prose links, instead of the browser default. */
+/*
+ * Links inside props-table cells (Type/Description) follow the
+ * theme's primary color, like the MDX prose links, instead of
+ * the browser default.
+ */
 .doc-article td a {
   color: var(--mui-palette-primary-main);
   text-decoration: none;

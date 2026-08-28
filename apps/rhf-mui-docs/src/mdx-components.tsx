@@ -33,13 +33,18 @@ const AnchoredHeading = (
     >
       {children}
       {id && (
+        /*
+         * The visible "#" comes from CSS (::before) so it never lands in the
+         * heading's text content — keeps "Installation#" out of copied text,
+         * screen-reader output and search snippets. aria-hidden + tabIndex=-1
+         * because it's a purely decorative shortcut (the TOC covers real nav).
+         */
         <a
           href={`#${id}`}
           className="doc-heading-anchor"
-          aria-label="Link to this section"
-        >
-          #
-        </a>
+          aria-hidden="true"
+          tabIndex={-1}
+        />
       )}
     </Typography>
   );

@@ -22,6 +22,8 @@ import {
   // PlaygroundButton
 } from '../buttons';
 
+const drawerLogoSize = '40px';
+
 const containsPath = (page: Page, pathname: string): boolean => {
   return (
     page.href === pathname
@@ -184,7 +186,14 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
         }}
       >
         <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
-          <Box sx={{ position: 'relative', width: '35px', height: '35px', flexShrink: 0 }}>
+          <Box
+            sx={{
+              position: 'relative',
+              width: drawerLogoSize,
+              height: drawerLogoSize,
+              flexShrink: 0
+            }}
+          >
             <Box
               sx={{
                 position: 'absolute',
@@ -197,6 +206,8 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
                 src="/logo.png"
                 alt=""
                 fill
+                priority
+                sizes={drawerLogoSize}
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
             </Box>
@@ -212,6 +223,8 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
                 src="/logo-dark.png"
                 alt=""
                 fill
+                priority
+                sizes="40px"
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
             </Box>
