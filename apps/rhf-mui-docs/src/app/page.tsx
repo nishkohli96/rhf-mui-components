@@ -10,7 +10,7 @@ import {
 } from '@/constants';
 
 export const metadata: Metadata = {
-	...pageMetadata.home,
+  ...pageMetadata.home,
   alternates: { canonical: '/' },
 };
 

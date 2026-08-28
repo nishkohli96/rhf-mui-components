@@ -9,23 +9,23 @@ const PAGE_RE = /^page\.(mdx|tsx|jsx|ts|js)$/;
 /* Older doc versions are intentionally kept out of the sitemap. */
 const EXCLUDE_RE = /^v[1-9]\d*(\/|$)/;
 
+type SiteMapRecord = { route: string; mtime: Date };
+
 /** Recursively collect [routePath, lastModified] for every page.* under src/app. */
-function collectRoutes(dir: string): Array<{ route: string; mtime: Date }> {
-  const out: Array<{ route: string; mtime: Date }> = [];
+function collectRoutes(dir: string): SiteMapRecord[] {
+  const out: SiteMapRecord[] = [];
+
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (entry.isDirectory()) {
-      /* skip route groups "(x)" and private "_x" folders */
-      if (entry.name.startsWith('(') || entry.name.startsWith('_')) {
-        continue;
-      }
+    /* skip route groups "(x)" and private "_x" folders */
+    const isSkippedDir = entry.name.startsWith('(') || entry.name.startsWith('_');
+    if (entry.isDirectory() && !isSkippedDir) {
       out.push(...collectRoutes(full));
-    } else if (PAGE_RE.test(entry.name)) {
+    } else if (!entry.isDirectory() && PAGE_RE.test(entry.name)) {
       const rel = relative(APP_DIR, dir).split(sep).join('/');
-      if (rel && EXCLUDE_RE.test(rel)) {
-        continue;
+      if (!rel || !EXCLUDE_RE.test(rel)) {
+        out.push({ route: rel ? `/${rel}` : '/', mtime: statSync(full).mtime });
       }
-      out.push({ route: rel ? `/${rel}` : '/', mtime: statSync(full).mtime });
     }
   }
   return out;

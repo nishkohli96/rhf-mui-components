@@ -76,6 +76,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: defaultPageTitle,
+    /* Resolved per-route against metadataBase, same as alternates.canonical. */
+    url: './',
   },
   twitter: {
     card: 'summary_large_image',

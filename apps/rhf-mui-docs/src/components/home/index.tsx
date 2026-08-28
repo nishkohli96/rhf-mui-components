@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
+import HomePageLinks from './HomePageLinks';
 
 const installCommand = 'npm install @nish1896/rhf-mui-components';
 
@@ -187,6 +188,7 @@ const HomeLanding = () => {
             );
           })}
         </Box>
+        <HomePageLinks />
       </Container>
       <Footer />
     </Box>

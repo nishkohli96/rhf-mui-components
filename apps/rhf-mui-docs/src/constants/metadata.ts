@@ -157,7 +157,7 @@ export const componentMetadata: Record<string, Metadata> = {
   RHFAutocompleteObject: {
     title: 'RHFAutocompleteObject',
     description:
-      'Controlled Material UI Autocomplete that stores the complete option object as its value.'
+      'Controlled Material UI Autocomplete for React Hook Form that stores the full selected option object(s) as its value, with label, error and helper-text handling.'
   },
   RHFCountrySelect: {
     title: 'RHFCountrySelect',
@@ -167,7 +167,7 @@ export const componentMetadata: Record<string, Metadata> = {
   RHFMultiAutocomplete: {
     title: 'RHFMultiAutocomplete',
     description:
-      'Controlled multi-select Material UI Autocomplete with checkboxes and a Select-All option.'
+      'Controlled multi-select Material UI Autocomplete for React Hook Form, with option checkboxes, a Select-All toggle, and freeSolo support.'
   },
   RHFMultiAutocompleteObject: {
     title: 'RHFMultiAutocompleteObject',
@@ -177,31 +177,31 @@ export const componentMetadata: Record<string, Metadata> = {
   RHFCheckbox: {
     title: 'RHFCheckbox',
     description:
-      'Controlled single Material UI Checkbox with label and helper-text handling.'
+      'Controlled single Material UI Checkbox for React Hook Form, with label, helper text and error display wired in. Usage, live demo and full props reference.'
   },
   RHFCheckboxGroup: {
     title: 'RHFCheckboxGroup',
     description:
-      'Controlled group of Material UI checkboxes storing an array of selected option values.'
+      'Controlled group of Material UI checkboxes for React Hook Form, storing an array of selected values from primitive or object options.'
   },
   RHFRadioGroup: {
     title: 'RHFRadioGroup',
     description:
-      'Controlled Material UI RadioGroup for single choice among primitive or object options.'
+      'Controlled Material UI RadioGroup for React Hook Form — single choice from primitive or object options, with label, error and helper-text handling and a live demo.'
   },
   RHFSwitch: {
     title: 'RHFSwitch',
     description:
-      'Controlled Material UI Switch (on/off toggle) with label and helper-text handling.'
+      'Controlled Material UI Switch (on/off toggle) for React Hook Form, with label, helper text and error display handled for you. Usage, live demo and props reference.'
   },
   RHFSlider: {
     title: 'RHFSlider',
-    description: 'Controlled Material UI Slider for single or range numeric values.'
+    description: 'Controlled Material UI Slider for React Hook Form — single value or a min/max range, custom marks and step, with built-in label, error and helper-text handling.'
   },
   RHFRating: {
     title: 'RHFRating',
     description:
-      'Controlled Material UI Rating (star) input with label and helper-text handling.'
+      'Controlled Material UI Rating (star) input for React Hook Form, with configurable max, precision and read-only mode, plus label, error and helper-text handling.'
   },
   RHFDatePicker: {
     title: 'RHFDatePicker',
@@ -231,7 +231,7 @@ export const componentMetadata: Record<string, Metadata> = {
   RHFRichTextEditor: {
     title: 'RHFRichTextEditor',
     description:
-      'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
+      'Controlled CKEditor 5 rich text editor for React Hook Form — stores HTML in form state, with label, error and helper-text handling, and a live demo.'
   },
   /* ----- Form Helpers ----- */
   fieldNameToId: {

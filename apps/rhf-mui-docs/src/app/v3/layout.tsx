@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true }
 };
 
-const Version3Layout = ({ children }: Props) => <>{children}</>;
+const Version3Layout = ({ children }: Props) => (
+  <>
+    {children}
+  </>
+);
 
 export default Version3Layout;
