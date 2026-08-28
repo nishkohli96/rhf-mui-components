@@ -22,7 +22,7 @@ const linkGroups: {
     links: [
       { label: 'Complete form — every field', href: '/examples/complete-form' },
       { label: 'Complete form + Joi', href: '/examples/complete-form-joi' },
-      { label: 'All live examples', href: '/examples/inputs' }
+      { label: 'Inputs Fields form', href: '/examples/inputs' }
     ]
   },
   {
@@ -39,7 +39,6 @@ const linkGroups: {
   {
     heading: 'Get set up',
     links: [
-      { label: 'Introduction', href: '/introduction' },
       { label: 'Getting Started', href: '/getting-started' },
       { label: 'Customization', href: '/customization' },
       { label: 'Migration guide (v4 → v5)', href: '/migration-guide/v4-to-v5' }

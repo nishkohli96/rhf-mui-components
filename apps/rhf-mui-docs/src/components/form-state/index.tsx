@@ -6,9 +6,14 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { SubHeading } from '../page-heading';
 
-/** react-json-view touches `document` at module load; load only in the browser for SSG/SSR. */
+/*
+ * `@microlink/react-json-view` — the maintained React 19-compatible fork of
+ * the abandoned `react-json-view` (which fails to instantiate under
+ * React 19 + Turbopack). It still touches `document` at module load, so
+ * keep it browser-only for SSG/SSR.
+ */
 const ReactJson = dynamic(
-  () => import('react-json-view').then(mod => mod.default),
+  () => import('@microlink/react-json-view').then(mod => mod.default),
   { ssr: false }
 );
 
@@ -21,11 +26,9 @@ const FormState = <T extends FieldValues>({
   formValues,
   errors
 }: RenderFormStateProps<T>) => {
-  /**
-   * "errors" object from RHF also has ref, besides type & message.
-   * Unfortunately, "react-json-view" has a hard time parsing that
-   * ref key, which gives "Converting circular structure to JSON"
-   * error, so I had to create a new object to yield form errors.
+  /*
+   * RHF's `errors` entries carry a circular `ref` (the DOM node), which the
+   * JSON viewer can't serialize — pull out just message + type.
    */
   let errObj = {};
   Object.keys(errors).forEach(err => {
