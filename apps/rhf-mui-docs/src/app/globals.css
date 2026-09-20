@@ -375,3 +375,92 @@ body {
   line-height: 1.8;
 }
 
+/* --- DocSearch --- */
+
+/*
+ * MUI's AppBar sits at z-index 1100 (theme.zIndex.appBar). DocSearch's own
+ * backdrop is z-index 400 — on mobile, where the modal is full-screen and
+ * its search input sits flush against the top of the viewport, the sticky
+ * AppBar would otherwise render on top of it. Bump above MUI's `modal` tier
+ * (1300) so it behaves like any other MUI modal/dialog in this app.
+ */
+.DocSearch-Container {
+  z-index: 1300;
+}
+
+/*
+ * Re-point DocSearch's own CSS custom properties at MUI's `--mui-palette-*`
+ * vars (emitted by theme.ts's `cssVariables` config) instead of duplicating
+ * colors per data-theme block — MUI already swaps these underlying values
+ * when `data-mui-color-scheme` flips, so DocSearch follows for free.
+ *
+ * Selector is `html:root[data-theme]`, not plain `:root` — DocSearch's own
+ * dark overrides actually live under `:root[data-theme="dark"]` (specificity
+ * 0,2,0,0), and its stylesheet loads lazily (imported inside the
+ * dynamically-loaded SearchBar chunk), landing in the DOM *after* this file.
+ * A same-or-lower-specificity `:root{...}` here would lose that tie-break.
+ * `html:root[data-theme]` (type + pseudo-class + attribute = 0,2,1,0) beats
+ * it outright, independent of import/load order.
+ */
+html:root[data-theme] {
+  --docsearch-primary-color: var(--mui-palette-primary-main);
+  --docsearch-highlight-color: var(--mui-palette-primary-main);
+  --docsearch-focus-color: var(--mui-palette-primary-main);
+  /*
+   * DocSearch's global `:focus-visible` rule tints focused/hovered rows with
+   * this at ~10% alpha. Left at its own default (`#003dff1a`, a blue-purple),
+   * it doesn't track the app's actual primary color — override with MUI's
+   * primary channel so the tint matches the current theme's blue exactly.
+   */
+  --docsearch-soft-primary-color: rgba(var(--mui-palette-primary-mainChannel) / 0.14);
+  --docsearch-text-color: var(--mui-palette-text-primary);
+  --docsearch-secondary-text-color: var(--mui-palette-text-secondary);
+  --docsearch-icon-color: var(--mui-palette-text-secondary);
+  --docsearch-subtle-color: var(--mui-palette-divider);
+  --docsearch-modal-background: var(--mui-palette-background-paper);
+  --docsearch-searchbox-background: transparent;
+  --docsearch-searchbox-focus-background: transparent;
+  --docsearch-hit-background: var(--mui-palette-background-paper);
+  /*
+   * The selected/hovered result row (`.DocSearch-Hit[aria-selected=true] a`)
+   * uses this. Left at DocSearch's own dark default (`#090a11`, a near-black
+   * with a blue-violet cast), it reads as a purple tinge against the modal's
+   * `--docsearch-modal-background`. Use a flat primary-tinted overlay instead,
+   * matching MUI's own selected/hover treatment (e.g. MenuItem.Mui-selected).
+   */
+  --docsearch-hit-focus-background: rgba(var(--mui-palette-primary-mainChannel) / 0.12);
+  --docsearch-footer-background: var(--mui-palette-background-paper);
+  --docsearch-key-background: var(--mui-palette-background-default);
+  --docsearch-key-color: var(--mui-palette-text-secondary);
+  --docsearch-search-button-background: transparent;
+  --docsearch-search-button-text-color: var(--mui-palette-text-secondary);
+  --docsearch-border-radius: 4px;
+  /* Modal's own search input, one notch shorter than DocSearch's 56px default. */
+  --docsearch-searchbox-height: 48px;
+  --docsearch-searchbox-initial-height: 48px;
+}
+
+/*
+ * The header trigger button: swap DocSearch's frosted-white button chrome
+ * for MUI's outlined-TextField look (transparent fill, divider border,
+ * 4px radius, primary-colored focus ring) and shave its default 36px down
+ * a bit, matching a small MUI TextField.
+ */
+.DocSearch-Button {
+  height: 34px;
+  border-radius: 4px;
+  border: 1px solid var(--mui-palette-divider);
+  box-shadow: none;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.DocSearch-Button:hover {
+  background-color: transparent;
+  border-color: var(--mui-palette-text-primary);
+  box-shadow: none;
+}
+
+.DocSearch-Button:focus-visible {
+  border-color: var(--mui-palette-primary-main);
+  box-shadow: 0 0 0 1px var(--mui-palette-primary-main);
+}

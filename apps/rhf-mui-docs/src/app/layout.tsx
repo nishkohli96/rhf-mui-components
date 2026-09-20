@@ -55,7 +55,7 @@ const siteJsonLd = {
  * runs in document order, guaranteeing the attribute is set before paint.
  * (Keep this logic in sync with src/theme/constants.ts.)
  */
-const colorSchemeInit = `(function(){try{var m=localStorage.getItem('${modeStorageKey}')||'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);}catch(e){}})();`;
+const colorSchemeInit = `(function(){try{var v=localStorage.getItem('${modeStorageKey}');var m=(v==='light'||v==='dark'||v==='system')?v:'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);document.documentElement.setAttribute('data-theme',s);}catch(e){}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(websiteUrl),
