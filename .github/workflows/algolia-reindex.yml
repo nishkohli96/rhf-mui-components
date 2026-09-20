@@ -1,0 +1,43 @@
+# Get ALGOLIA_CRAWLER_USERID & ALGOLIA_CRAWLER_API_KEY from
+# https://crawler.algolia.com/admin/user/settings/
+#
+# ALGOLIA_APP_ID & ALGOLIA_CRAWLER_ID is obtained from
+# the crawler settings page
+
+name: Algolia reindex
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  reindex:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Trigger Algolia Crawler (production)
+        # -f makes curl exit nonzero on 4xx/5xx, so the
+        # step (and workflow) now fails properly on auth/reindex errors.
+        # Creds passed via -K (config read from stdin), not -u on the command
+        # line — an argv value is visible to any process on the runner via
+        # `ps`/`/proc/<pid>/cmdline` for the process's lifetime; stdin isn't.
+        env:
+          CRAWLER_USERID: ${{ secrets.ALGOLIA_CRAWLER_USERID }}
+          CRAWLER_API_KEY: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
+          CRAWLER_ID: ${{ secrets.ALGOLIA_CRAWLER_ID }}
+        run: |
+          curl -f -X POST -K - \
+            "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID}/reindex" \
+            <<< "user = \"${CRAWLER_USERID}:${CRAWLER_API_KEY}\""
+
+      - name: Trigger Algolia Crawler (dev)
+        env:
+          CRAWLER_USERID_DEV: ${{ secrets.ALGOLIA_CRAWLER_USERID }}
+          CRAWLER_API_KEY_DEV: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
+          CRAWLER_ID_DEV: ${{ secrets.ALGOLIA_CRAWLER_ID_DEV }}
+        run: |
+          curl -f -X POST -K - \
+            "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID_DEV}/reindex" \
+            <<< "user = \"${CRAWLER_USERID_DEV}:${CRAWLER_API_KEY_DEV}\""

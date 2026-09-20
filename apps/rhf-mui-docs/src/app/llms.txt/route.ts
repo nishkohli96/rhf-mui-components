@@ -2,7 +2,7 @@ import {
   sidebarLinks,
   currentDocsVersion,
   websiteUrl,
-  defaultPageTitle,
+  appName,
   defaultPageDescription,
   githubRepoLink,
   npmLink
@@ -40,7 +40,7 @@ export function GET() {
   });
 
   const body = [
-    `# ${defaultPageTitle}`,
+    `# ${appName}`,
     '',
     `> ${defaultPageDescription}`,
     '',

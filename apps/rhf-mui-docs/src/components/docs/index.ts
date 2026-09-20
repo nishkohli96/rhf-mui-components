@@ -17,6 +17,7 @@
 
 export { default as AvailabilityBanner } from './AvailabilityBanner';
 export { default as Callout } from './Callout';
+export { default as ComponentSourceLink } from './ComponentSourceLink';
 export { default as DocsPage } from './DocsPage';
 export { default as MdxPre } from './MdxPre';
 export { default as PackageManagerTabs } from './PackageManagerTabs';

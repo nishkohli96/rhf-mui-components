@@ -3,7 +3,8 @@ import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import DrawerMenu from './DrawerMenu';
+import Drawer from '../drawer';
+import SearchBar from '../search-bar';
 import VersionSwitcher from '../version-switcher';
 import {
   GithubButton,
@@ -16,7 +17,7 @@ const drawerLogoSize = '40px';
 
 /**
  * Sticky, flat docs-style header: brand on the left, actions on the right.
- * On small screens the side navigation collapses into the DrawerMenu button.
+ * On small screens the side navigation collapses into the Drawer button.
  */
 const AppBar = () => {
   return (
@@ -42,7 +43,7 @@ const AppBar = () => {
       }}
     >
       <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
-        <DrawerMenu />
+        <Drawer />
         <Link
           href="/"
           style={{
@@ -123,7 +124,15 @@ const AppBar = () => {
             />
           </Box>
         </Link>
-        <Box sx={{ flexGrow: 1 }} />
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <SearchBar />
+        </Box>
         <VersionSwitcher />
         <Box
           sx={{
@@ -136,8 +145,8 @@ const AppBar = () => {
           {/* <PlaygroundButton /> */}
           <NpmButton />
           <GithubButton />
+          <ThemeChangeButton />
         </Box>
-        <ThemeChangeButton />
       </Toolbar>
     </MuiAppBar>
   );

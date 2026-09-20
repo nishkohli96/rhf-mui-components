@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 /** Canonical origin of the deployed docs — no trailing slash. */
 export const websiteUrl = 'https://rhf-mui-components.vercel.app';
 
-export const defaultPageTitle = 'RHF-MUI Components';
+export const appName = 'RHF-MUI Components';
 export const defaultPageDescription
   = '25+ form-library-independent Material UI components for forms or standalone use — docs, live demos and full props reference.';
 

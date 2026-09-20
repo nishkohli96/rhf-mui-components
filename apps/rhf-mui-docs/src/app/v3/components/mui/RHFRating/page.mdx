@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFRating;
@@ -40,4 +40,11 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
   rows={componentProps.RHFRating}
   docsVersion={3}
   muiVersion={7}
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/rating"
+  docsVersion={3}
 />

@@ -2,6 +2,7 @@ export { default as AppBar } from './appbar';
 export * from './buttons';
 export * from './containers';
 export { default as Drawer } from './drawer';
+export { default as DrawerContent } from './drawer/DrawerContent';
 export { default as DefaultConfigTable } from './default-config-table';
 export * from './docs';
 export * from './file';

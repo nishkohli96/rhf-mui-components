@@ -45,7 +45,7 @@ Try out the form components live, no install required:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.vercel.app/)
 
-## Form Components List
+## 🧩 Components List
 
 Below is a comprehensive list of all components included in this package, categorized by module:
 
@@ -82,3 +82,15 @@ Below is a comprehensive list of all components included in this package, catego
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config), to format and prettify your javascript code.
+
+## 🌟 Sponsors
+
+<a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
+  <img
+    src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/version-5/apps/rhf-mui-docs/public/sponsors/ramakant.jpeg"
+    width="40"
+    height="40"
+    style="border-radius: 50%;"
+    alt="Ramakanth Evani"
+  />
+</a>

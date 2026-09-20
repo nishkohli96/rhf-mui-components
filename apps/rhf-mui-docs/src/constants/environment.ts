@@ -1,4 +1,9 @@
-export const ENV_VARS = {
+export const envVariables = {
+  algoliaConfig: {
+    appId: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID as string,
+    apiKey: process.env.NEXT_PUBLIC_ALGOLIA_API_KEY as string,
+    indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string,
+  },
   firebaseConfig: {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY as string,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN as string,

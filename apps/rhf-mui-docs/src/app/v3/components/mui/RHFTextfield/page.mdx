@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFTextField;
@@ -12,6 +12,9 @@ export default function Layout({ children }) {
 Text fields are a core component of any form, allowing users to input text into the UI.
 The **RHFTextField** component extends the functionality of [TextField](https://v7.mui.com/material-ui/react-text-field/),
 accepting almost all TextField props while providing additional customization options.
+
+For specialized inputs, you can also use [RHFPasswordInput](/v3/components/mui/RHFPasswordInput)
+for password values or [RHFNumberInput](/v3/components/mui/RHFNumberInput) for numeric input.
 
 ## Usage
 
@@ -42,4 +45,11 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
   rows={componentProps.RHFTextField}
   docsVersion={3}
   muiVersion={7}
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/textfield"
+  docsVersion={3}
 />

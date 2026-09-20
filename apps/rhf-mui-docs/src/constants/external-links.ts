@@ -1,12 +1,17 @@
 import { type MuiVersion } from '@/types';
 
-export const githubProfile = 'https://github.com/nishkohli96';
-const pkgRepoLink = `${githubProfile}/rhf-mui-components/blob/main/`;
+const githubUserName = 'nishkohli96';
+export const packageName = 'rhf-mui-components';
+
+export const personalWebsite = 'https://nishkohli96.vercel.app';
+export const githubProfile = `https://github.com/${githubUserName}`;
+
+const pkgRepoLink = `${githubProfile}/${packageName}/blob/main/`;
 const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
 
-export const githubRepoLink = `${githubProfile}/rhf-mui-components`;
+export const githubRepoLink = `${githubProfile}/${packageName}`;
 export const docsLink = 'https://rhf-mui-components.vercel.app/';
-export const npmLink = 'https://www.npmjs.com/package/@nish1896/rhf-mui-components';
+export const npmLink = `https://www.npmjs.com/package/@nish1896/${packageName}`;
 
 export const externalLinks = Object.freeze({
   mui: 'https://mui.com/material-ui/getting-started/',
