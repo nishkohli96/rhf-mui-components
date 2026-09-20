@@ -1,8 +1,11 @@
-# Fires when Vercel's GitHub integration reports a deployment's outcome —
-# not on push — so the crawler always runs *after* the new build is live,
-# never racing it. A plain `push: [main]` trigger fires the moment code
-# lands, in parallel with Vercel's own build, so the crawler could scrape
-# the still-old production site.
+# Fires when Vercel posts a commit-status check for this commit — not on
+# push — so the crawler always runs *after* the new build is live, never
+# racing it. A plain `push: [main]` trigger fires the moment code lands, in
+# parallel with Vercel's own build, so the crawler could scrape the
+# still-old production site.
+#
+# NOTE: Vercel's GitHub integration reports build results via the Commit
+# Status API (`on: status`).
 #
 # Get ALGOLIA_CRAWLER_USERID & ALGOLIA_CRAWLER_API_KEY from
 # https://crawler.algolia.com/admin/user/settings/
@@ -12,7 +15,7 @@
 
 name: Algolia reindex
 on:
-  deployment_status
+  status
 
 permissions:
   contents: read
@@ -20,8 +23,10 @@ permissions:
 jobs:
   reindex:
     if: >
-      github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production'
+      github.event.state == 'success' &&
+      contains(github.event.context, 'Vercel') &&
+      contains(github.event.context, 'docs') &&
+      contains(github.event.branches.*.name, 'main')
     runs-on: ubuntu-latest
     environment: Production
     steps:
