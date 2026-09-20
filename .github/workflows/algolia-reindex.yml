@@ -1,3 +1,9 @@
+# Fires when Vercel's GitHub integration reports a deployment's outcome —
+# not on push — so the crawler always runs *after* the new build is live,
+# never racing it. A plain `push: [main]` trigger fires the moment code
+# lands, in parallel with Vercel's own build, so the crawler could scrape
+# the still-old production site.
+#
 # Get ALGOLIA_CRAWLER_USERID & ALGOLIA_CRAWLER_API_KEY from
 # https://crawler.algolia.com/admin/user/settings/
 #
@@ -6,23 +12,35 @@
 
 name: Algolia reindex
 on:
-  push:
-    branches: [main]
+  deployment_status
 
 permissions:
   contents: read
 
 jobs:
   reindex:
+    if: >
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production'
     runs-on: ubuntu-latest
     environment: Production
     steps:
-      - name: Trigger Algolia Crawler (production)
+      - name: Trigger Algolia Crawler (dev)
+        env:
+          CRAWLER_USERID: ${{ secrets.ALGOLIA_CRAWLER_USERID}}
+          CRAWLER_API_KEY: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
+          CRAWLER_ID_DEV: ${{ secrets.ALGOLIA_CRAWLER_ID_DEV }}
         # -f makes curl exit nonzero on 4xx/5xx, so the
         # step (and workflow) now fails properly on auth/reindex errors.
         # Creds passed via -K (config read from stdin), not -u on the command
         # line — an argv value is visible to any process on the runner via
         # `ps`/`/proc/<pid>/cmdline` for the process's lifetime; stdin isn't.
+        run: |
+          curl -f -X POST -K - \
+            "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID_DEV}/reindex" \
+            <<< "user = \"${CRAWLER_USERID}:${CRAWLER_API_KEY}\""
+
+      - name: Trigger Algolia Crawler (production)
         env:
           CRAWLER_USERID: ${{ secrets.ALGOLIA_CRAWLER_USERID }}
           CRAWLER_API_KEY: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
@@ -32,12 +50,3 @@ jobs:
             "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID}/reindex" \
             <<< "user = \"${CRAWLER_USERID}:${CRAWLER_API_KEY}\""
 
-      - name: Trigger Algolia Crawler (dev)
-        env:
-          CRAWLER_USERID_DEV: ${{ secrets.ALGOLIA_CRAWLER_USERID }}
-          CRAWLER_API_KEY_DEV: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
-          CRAWLER_ID_DEV: ${{ secrets.ALGOLIA_CRAWLER_ID_DEV }}
-        run: |
-          curl -f -X POST -K - \
-            "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID_DEV}/reindex" \
-            <<< "user = \"${CRAWLER_USERID_DEV}:${CRAWLER_API_KEY_DEV}\""

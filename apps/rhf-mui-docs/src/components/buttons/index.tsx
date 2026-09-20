@@ -53,6 +53,8 @@ export const GradientButton = ({ sx, ...otherBtnProps }: ButtonProps) => {
         fontWeight: 800,
         textTransform: 'none',
         background: 'linear-gradient(90deg, #2683cc 0%, #014280 100%)',
+        color: '#fff',
+        '&:hover': { color: '#fff' },
         ...sx
       }}
       {...otherBtnProps}
