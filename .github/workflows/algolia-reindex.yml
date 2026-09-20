@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     steps:
-      - name: Trigger Algolia Crawler
+      - name: Trigger Algolia Crawler (production)
         # -f makes curl exit nonzero on 4xx/5xx, so the
         # step (and workflow) now fails properly on auth/reindex errors.
         # Creds passed via -K (config read from stdin), not -u on the command
@@ -31,3 +31,13 @@ jobs:
           curl -f -X POST -K - \
             "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID}/reindex" \
             <<< "user = \"${CRAWLER_USERID}:${CRAWLER_API_KEY}\""
+
+      - name: Trigger Algolia Crawler (dev)
+        env:
+          CRAWLER_USERID_DEV: ${{ secrets.ALGOLIA_CRAWLER_USERID_DEV }}
+          CRAWLER_API_KEY_DEV: ${{ secrets.ALGOLIA_CRAWLER_API_KEY_DEV }}
+          CRAWLER_ID_DEV: ${{ secrets.ALGOLIA_CRAWLER_ID_DEV }}
+        run: |
+          curl -f -X POST -K - \
+            "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID_DEV}/reindex" \
+            <<< "user = \"${CRAWLER_USERID_DEV}:${CRAWLER_API_KEY_DEV}\""
