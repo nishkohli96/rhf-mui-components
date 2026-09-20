@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",
+    "@docsearch/css": "^5.1.0",
+    "@docsearch/react": "^5.1.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",

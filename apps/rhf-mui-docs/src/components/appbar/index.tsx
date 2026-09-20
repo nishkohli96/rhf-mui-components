@@ -4,6 +4,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Drawer from '../drawer';
+import SearchBar from '../search-bar';
 import VersionSwitcher from '../version-switcher';
 import {
   GithubButton,
@@ -123,7 +124,15 @@ const AppBar = () => {
             />
           </Box>
         </Link>
-        <Box sx={{ flexGrow: 1 }} />
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'flex-end'
+            }}
+          >
+          <SearchBar />
+        </Box>
         <VersionSwitcher />
         <Box
           sx={{
@@ -136,8 +145,8 @@ const AppBar = () => {
           {/* <PlaygroundButton /> */}
           <NpmButton />
           <GithubButton />
+          <ThemeChangeButton />
         </Box>
-        <ThemeChangeButton />
       </Toolbar>
     </MuiAppBar>
   );

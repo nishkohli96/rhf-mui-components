@@ -42,9 +42,18 @@ const VersionSwitcher = () => {
       }}
       sx={{
         ml: 0.5,
+        /* Matches the DocSearch trigger button's rendered height (34px content + 1px border each side). */
+        height: 36,
         color: 'inherit',
         fontSize: '0.875rem',
-        '.MuiSelect-select': { py: 0.5, pl: 1.25 },
+        '.MuiSelect-select': {
+          display: 'flex',
+          alignItems: 'center',
+          height: '100%',
+          py: 0,
+          pl: 1.25,
+          boxSizing: 'border-box'
+        },
         '.MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
         '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'text.secondary' },
         '.MuiSelect-icon': { color: 'inherit' },
