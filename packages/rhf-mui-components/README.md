@@ -45,12 +45,6 @@ Try out the form components live, no install required:
 
 👉 [Live Demo Examples](https://rhf-mui-components-examples.vercel.app/)
 
-### 🧪 Playground
-
-Spin up an editable sandbox in your browser — fork it and experiment freely:
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/rhf-mui-components/tree/v4-examples)
-
 ## Form Components List
 
 Below is a comprehensive list of all components included in this package, categorized by module:
@@ -79,6 +73,7 @@ Below is a comprehensive list of all components included in this package, catego
   - [Date](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDatePicker)
   - [Time](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
   - [DateTime](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
+
 - **misc**
   - [Color Picker](https://rhf-mui-components.vercel.app/components/misc/RHFColorPicker)
   - [Rich Text Editor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor)
