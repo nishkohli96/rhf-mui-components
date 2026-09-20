@@ -36,7 +36,15 @@ const ComponentSourceLink = ({
 }: ComponentSourceLinkProps) => {
   const ref = docsVersion ? `version-${docsVersion}` : `v${packageJson.version}`;
   const dirPath = `${githubRepoLink}/blob/${ref}/packages/${packageName}/src/${path}`;
-  const href = isDateOrTimePicker ? dirPath : `${dirPath}/index.tsx`;
+
+  /**
+   * MUI Pickers were split into their variations from version-4
+   * onwards. Hence for mui-pickers v3, open the source file itself
+   * instead of the directory.
+   */
+  const href = (isDateOrTimePicker && docsVersion !== 3)
+    ? dirPath
+    : `${dirPath}/index.tsx`;
 
   return (
     <Typography variant="body1" color="text.secondary">

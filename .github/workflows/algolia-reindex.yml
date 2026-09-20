@@ -34,8 +34,8 @@ jobs:
 
       - name: Trigger Algolia Crawler (dev)
         env:
-          CRAWLER_USERID_DEV: ${{ secrets.ALGOLIA_CRAWLER_USERID_DEV }}
-          CRAWLER_API_KEY_DEV: ${{ secrets.ALGOLIA_CRAWLER_API_KEY_DEV }}
+          CRAWLER_USERID_DEV: ${{ secrets.ALGOLIA_CRAWLER_USERID }}
+          CRAWLER_API_KEY_DEV: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
           CRAWLER_ID_DEV: ${{ secrets.ALGOLIA_CRAWLER_ID_DEV }}
         run: |
           curl -f -X POST -K - \
