@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
-import { defaultPageTitle, defaultPageDescription } from '@/constants';
+import { appName, defaultPageDescription } from '@/constants';
 
-export const alt = defaultPageTitle;
+export const alt = appName;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -26,7 +26,7 @@ const OpengraphImage = () =>
           @nish1896/rhf-mui-components
         </div>
         <div style={{ fontSize: 76, fontWeight: 800, marginTop: 24, lineHeight: 1.1 }}>
-          {defaultPageTitle}
+          {appName}
         </div>
         <div style={{ fontSize: 34, color: '#c3cad9', marginTop: 28, lineHeight: 1.35 }}>
           {defaultPageDescription}

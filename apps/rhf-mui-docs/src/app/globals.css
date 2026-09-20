@@ -207,10 +207,10 @@ body {
   margin: 16px 0 24px;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(128, 128, 128, 0.35);
+  border: var(--mui-palette-action-selected);
 }
 
-.doc-code-block pre {
+:not(pre) > code {
   margin: 0;
   padding: 16px 48px 16px 18px;
   overflow-x: auto;

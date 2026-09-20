@@ -3,7 +3,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
 import {
-  defaultPageTitle,
+  appName,
   defaultPageDescription,
   githubProfile,
   githubRepoLink,
@@ -28,7 +28,7 @@ const siteJsonLd = {
       '@type': 'WebSite',
       '@id': `${websiteUrl}/#website`,
       url: `${websiteUrl}/`,
-      name: defaultPageTitle,
+      name: appName,
       description: defaultPageDescription,
       inLanguage: 'en'
     },
@@ -60,11 +60,11 @@ const colorSchemeInit = `(function(){try{var v=localStorage.getItem('${modeStora
 export const metadata: Metadata = {
   metadataBase: new URL(websiteUrl),
   title: {
-    template: `%s | ${defaultPageTitle}`,
-    default: defaultPageTitle
+    template: `%s | ${appName}`,
+    default: appName
   },
   description: defaultPageDescription,
-  applicationName: defaultPageTitle,
+  applicationName: appName,
   authors: [{ name: 'Nishant Kohli', url: githubProfile }],
   creator: 'Nishant Kohli',
   /**
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
   alternates: { canonical: './' },
   openGraph: {
     type: 'website',
-    siteName: defaultPageTitle,
+    siteName: appName,
     /* Resolved per-route against metadataBase, same as alternates.canonical. */
     url: './',
   },

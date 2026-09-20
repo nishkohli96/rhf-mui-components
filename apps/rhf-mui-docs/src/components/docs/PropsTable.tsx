@@ -95,43 +95,51 @@ const PropsTable = ({
         </tr>
       </thead>
       <tbody>
-        {resolvedRows.map(row => (
-          <tr key={row.name}>
-            <td>
-              <code>
-                {row.name}
-              </code>
-              {row.required && (
-                <span
-                  aria-label="required"
-                  style={{
-                    color: 'var(--mui-palette-error-main)',
-                    marginLeft: 2,
-                    fontWeight: 700
-                  }}
-                >
-                  *
-                </span>
-              )}
-            </td>
-            <td>
-              {row.hasLinkInType
-                ? renderInlineMd(row.type)
-                : (
-                  <code>
-                    {row.type}
-                  </code>
+        {resolvedRows.map(row => {
+          const anchorId = `prop-${row.name}`;
+          return (
+            <tr key={row.name} id={anchorId} style={{ scrollMarginTop: 90 }}>
+              <td>
+                <code>
+                  {row.name}
+                </code>
+                {row.required && (
+                  <span
+                    aria-label="required"
+                    style={{
+                      color: 'var(--mui-palette-error-main)',
+                      marginLeft: 2,
+                      fontWeight: 700
+                    }}
+                  >
+                    *
+                  </span>
                 )}
-            </td>
-            <td>
-              {row.description.split('\n\n').map((paragraph, index) => (
-                <div key={index} style={index > 0 ? { marginTop: 6 } : undefined}>
-                  {renderInlineMd(paragraph)}
-                </div>
-              ))}
-            </td>
-          </tr>
-        ))}
+                <a
+                  href={`#${anchorId}`}
+                  className="prop-anchor"
+                  aria-label={`Link to the ${row.name} prop`}
+                />
+              </td>
+              <td>
+                {row.hasLinkInType
+                  ? renderInlineMd(row.type)
+                  : (
+                    <code>
+                      {row.type}
+                    </code>
+                  )}
+              </td>
+              <td>
+                {row.description.split('\n\n').map((paragraph, index) => (
+                  <div key={index} style={index > 0 ? { marginTop: 6 } : undefined}>
+                    {renderInlineMd(paragraph)}
+                  </div>
+                ))}
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

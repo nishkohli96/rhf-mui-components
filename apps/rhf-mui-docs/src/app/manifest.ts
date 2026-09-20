@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next';
-import { defaultPageTitle, defaultPageDescription } from '@/constants';
+import { appName, defaultPageDescription } from '@/constants';
 
 const manifest = (): MetadataRoute.Manifest => ({
-  name: defaultPageTitle,
+  name: appName,
   short_name: 'RHF-MUI',
   description: defaultPageDescription,
   start_url: '/',

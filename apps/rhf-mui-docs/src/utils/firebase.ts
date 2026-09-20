@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 import { envVariables } from '@/constants/environment';
-import { defaultPageTitle } from '@/constants/metadata';
+import { appName } from '@/constants/metadata';
 
 const firebaseApp = initializeApp(envVariables.firebaseConfig);
 
@@ -22,5 +22,5 @@ export async function logFirebaseEvent(
 }
 
 export function getPageTitle(title: string) {
-  return `${title} | ${defaultPageTitle}`;
+  return `${title} | ${appName}`;
 }
