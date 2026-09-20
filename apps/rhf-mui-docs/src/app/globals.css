@@ -177,6 +177,25 @@ body {
   opacity: 0.55;
 }
 
+/* --- Props table: per-row deep links (see PropsTable.tsx `slug` prop) --- */
+
+.prop-anchor {
+  margin-left: 6px;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.prop-anchor::before {
+  content: '#';
+}
+
+.doc-article tr:hover .prop-anchor,
+.prop-anchor:focus-visible {
+  opacity: 0.55;
+}
+
 /**
  * Code blocks: VS Code Light+/Dark+ tokens from shiki, following the
  * app theme. `defaultColor: false` emits both palettes as CSS variables

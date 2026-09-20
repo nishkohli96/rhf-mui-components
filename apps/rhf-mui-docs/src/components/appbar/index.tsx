@@ -129,8 +129,8 @@ const AppBar = () => {
             flexGrow: 1,
             display: 'flex',
             justifyContent: 'flex-end'
-            }}
-          >
+          }}
+        >
           <SearchBar />
         </Box>
         <VersionSwitcher />
