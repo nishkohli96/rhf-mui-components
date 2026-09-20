@@ -1,6 +1,7 @@
 import MuiLink from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { githubRepoLink } from '@/constants';
+import { githubRepoLink, packageName } from '@/constants';
+import { type DocsVersion } from '@/types';
 import packageJson from '../../../../../packages/rhf-mui-components/package.json';
 
 type ComponentSourceLinkProps = {
@@ -10,11 +11,10 @@ type ComponentSourceLinkProps = {
    */
   path: string;
   /**
-   * Set only on /v{N}/ (older) docs pages — links to the git tag that
-   * version's line was last released at, instead of the current package
-   * version tag.
+   * Set only on /v{N}/ (older) docs pages — links to the version-{N} branch
+   * that snapshot was built from, instead of the current package version tag.
    */
-  versionTag?: string;
+  docsVersion?: DocsVersion;
   /**
    * For "mui-pickers" components, navigate to the source directory (which
    * holds multiple picker variants), instead of `dir_path/index.tsx`.
@@ -31,11 +31,11 @@ type ComponentSourceLinkProps = {
  */
 const ComponentSourceLink = ({
   path,
-  versionTag,
+  docsVersion,
   isDateOrTimePicker
 }: ComponentSourceLinkProps) => {
-  const ref = versionTag ?? `v${packageJson.version}`;
-  const dirPath = `${githubRepoLink}/blob/${ref}/packages/rhf-mui-components/src/${path}`;
+  const ref = docsVersion ? `version-${docsVersion}` : `v${packageJson.version}`;
+  const dirPath = `${githubRepoLink}/blob/${ref}/packages/${packageName}/src/${path}`;
   const href = isDateOrTimePicker ? dirPath : `${dirPath}/index.tsx`;
 
   return (

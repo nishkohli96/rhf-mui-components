@@ -1,5 +1,5 @@
 import MuiLink from '@mui/material/Link';
-import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import { DocsPage, PropsTable, Callout, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps, externalLinks } from '@/constants';
 
 export const metadata = componentMetadata.RHFRichTextEditor;
@@ -117,4 +117,11 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
   rows={componentProps.RHFRichTextEditor}
   docsVersion={3}
   muiVersion={7}
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="misc/rich-text-editor"
+  docsVersion={3}
 />
