@@ -19,6 +19,7 @@ import { buildVersionedSidebar, getDocsVersion } from '@/utils';
 import {
   GithubButton,
   NpmButton,
+  ThemeChangeButton
   // PlaygroundButton
 } from '../buttons';
 
@@ -259,6 +260,7 @@ const DrawerContent = ({ onNavigate }: DrawerContentProps) => {
             {/* <PlaygroundButton /> */}
             <NpmButton />
             <GithubButton />
+            <ThemeChangeButton />
           </Box>
         </Toolbar>
       </MuiAppBar>

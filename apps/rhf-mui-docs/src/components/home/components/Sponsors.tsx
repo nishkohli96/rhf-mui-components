@@ -17,7 +17,7 @@ const sponsors = [
 const Sponsors = () => (
   <Box sx={{ mt: 4 }}>
     <Typography
-      variant="body2"
+      variant="h6"
       sx={{
         display: 'block',
         mb: 1.5,
@@ -30,7 +30,7 @@ const Sponsors = () => (
       Sponsors
     </Typography>
     <Typography
-      variant="body2"
+      variant="body1"
       sx={{ mb: 2, color: 'text.secondary' }}
     >
       Supported by generous folks who help keep this project going.

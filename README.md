@@ -112,6 +112,18 @@ Feel free to reach out directly at [nishantkohli96@gmail.com](mailto:nishantkohl
 
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config) to format and prettify your JavaScript/TypeScript code.
 
+## 🌟 Sponsors
+
+<a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
+  <img
+    src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/version-5/apps/rhf-mui-docs/public/sponsors/ramakant.jpeg"
+    width="40"
+    height="40"
+    style="border-radius: 50%;"
+    alt="Ramakanth Evani"
+  />
+</a>
+
 ## License
 
 MIT © [Nishant Kohli](https://github.com/nishkohli96)

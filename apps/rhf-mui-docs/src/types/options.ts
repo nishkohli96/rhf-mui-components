@@ -2,6 +2,12 @@ export type Page = {
   title: string;
   href?: string;
   pages?: Page[];
+  /**
+   * Shows a decorative "New" badge next to the sidebar entry. Rendered
+   * `aria-hidden` via CSS pseudo-content, so it stays out of the link's
+   * accessible name and anchor text (no SEO impact).
+   */
+  isNew?: boolean;
 };
 
 export type PageInfo = {

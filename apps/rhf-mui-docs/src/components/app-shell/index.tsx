@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
 import {
   AppBar,
-  Drawer,
+  DrawerContent,
   FirebaseAnalytics,
 } from '@/components';
 
@@ -46,7 +46,7 @@ const AppShell = ({ children }: AppShellProps) => {
             py: 1.5
           }}
         >
-          <Drawer />
+          <DrawerContent />
         </Box>
         <Box
           component="main"

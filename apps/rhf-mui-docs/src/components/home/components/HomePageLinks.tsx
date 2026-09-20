@@ -26,17 +26,6 @@ const linkGroups: {
     ]
   },
   {
-    heading: 'Popular components',
-    links: [
-      { label: 'RHFTextField', href: '/components/mui/RHFTextfield' },
-      { label: 'RHFSelect', href: '/components/mui/RHFSelect' },
-      { label: 'RHFAutocomplete', href: '/components/mui/RHFAutocomplete' },
-      { label: 'RHFDatePicker', href: '/components/mui-pickers/RHFDatePicker' },
-      { label: 'RHFPhoneInput', href: '/components/misc/RHFPhoneInput' },
-      { label: 'RHFFileUploader', href: '/components/mui/RHFFileUploader' }
-    ]
-  },
-  {
     heading: 'Get set up',
     links: [
       { label: 'Getting Started', href: '/getting-started' },
@@ -52,7 +41,7 @@ export default function HomePageLinks() {
       component="nav"
       aria-label="Explore the documentation"
       sx={{
-        mt: { xs: 7, md: 9 },
+        mt: { xs: 3, md: 5 },
         display: 'flex',
         flexDirection: 'column',
         gap: { xs: 3.5, md: 4 }
@@ -64,7 +53,6 @@ export default function HomePageLinks() {
             component="h2"
             sx={{
               mb: 1.5,
-              fontSize: 12,
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',

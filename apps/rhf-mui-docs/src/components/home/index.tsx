@@ -1,22 +1,25 @@
-'use client';
-
 import { Suspense } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MuiLink from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
 import {
-  CopyInstallCommand,
+  AppBar,
+  Footer,
+  GradientButton,
+  Wordmark
+} from '@/components';
+import {
+  ComponentDirectory,
   HomePageLinks,
   Sponsors,
   TrustBadges,
   TrustBadgesSkeleton
 } from './components';
+import CopyInstallCommand from './components/CopyInstallCommand';
 
 const installCommand = 'npm install @nish1896/rhf-mui-components';
 
@@ -153,7 +156,6 @@ const HomeLanding = () => {
             <CopyInstallCommand command={installCommand} />
           </Paper>
           <GradientButton
-            component={Link}
             href="/introduction"
             endIcon={<ArrowForwardRoundedIcon />}
             sx={{ mt: 3 }}
@@ -208,6 +210,7 @@ const HomeLanding = () => {
             );
           })}
         </Box>
+        <ComponentDirectory />
         <HomePageLinks />
         <Sponsors />
       </Container>
