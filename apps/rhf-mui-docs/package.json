@@ -4,8 +4,9 @@
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "gen:sitemap-lastmod": "node scripts/gen-sitemap-lastmod.mjs",
+    "dev": "pnpm run gen:sitemap-lastmod && next dev -p 3000",
+    "build": "pnpm run gen:sitemap-lastmod && next build",
     "start": "next start",
     "lint": "eslint --fix .",
     "prod": "next build && next start"
