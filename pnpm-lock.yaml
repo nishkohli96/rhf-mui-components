@@ -190,8 +190,8 @@ importers:
   packages/rhf-mui-components:
     dependencies:
       '@nish1896/mui-components':
-        specifier: ^2.0.4
-        version: 2.0.4(5899ee96df42b9cd6b5edd8947221d63)
+        specifier: ^2.2.2
+        version: 2.2.2(5899ee96df42b9cd6b5edd8947221d63)
     devDependencies:
       '@ckeditor/ckeditor5-core':
         specifier: 43.3.0
@@ -1631,13 +1631,35 @@ packages:
       '@mui/system': ^9.0.0
       '@mui/x-date-pickers': ^9.0.0
 
-  '@nish1896/mui-components@2.0.4':
-    resolution: {integrity: sha512-xMkzWC9qyL3tvlQvp7BLoeFm5MYFG4amuHsGoqU1Zd/CTTmuTDAqcN7ggz3XDWGV3troKJkEDwGOgVWsjTWSuA==}
+  '@nish1896/mui-components@2.2.2':
+    resolution: {integrity: sha512-4mGGW4W5a4CHZuN8ErT4lVXFlyB6WF1LPxH8BsiOR7Ia/UbBTdnX7ZvQ4ewh0FefffFzNcl4jQFTY6rO+LTGmQ==}
     peerDependencies:
       '@mui/icons-material': ^9.0.0
       '@mui/material': ^9.0.0
       '@mui/system': ^9.0.0
       '@mui/x-date-pickers': ^9.0.0
+      '@tiptap/core': ^3.0.0
+      '@tiptap/extension-link': ^3.0.0
+      '@tiptap/extension-placeholder': ^3.0.0
+      '@tiptap/extension-text-align': ^3.0.0
+      '@tiptap/extension-underline': ^3.0.0
+      '@tiptap/react': ^3.0.0
+      '@tiptap/starter-kit': ^3.0.0
+    peerDependenciesMeta:
+      '@tiptap/core':
+        optional: true
+      '@tiptap/extension-link':
+        optional: true
+      '@tiptap/extension-placeholder':
+        optional: true
+      '@tiptap/extension-text-align':
+        optional: true
+      '@tiptap/extension-underline':
+        optional: true
+      '@tiptap/react':
+        optional: true
+      '@tiptap/starter-kit':
+        optional: true
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -6633,7 +6655,7 @@ snapshots:
       '@mui/system': 9.3.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.8)
       '@mui/x-date-pickers': 9.11.0(d8e1c12bc3600bf651976b705517536d)
 
-  '@nish1896/mui-components@2.0.4(5899ee96df42b9cd6b5edd8947221d63)':
+  '@nish1896/mui-components@2.2.2(5899ee96df42b9cd6b5edd8947221d63)':
     dependencies:
       '@mui/icons-material': 9.3.1(@mui/material@9.3.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@types/react@19.2.18)(react@19.2.8)
       '@mui/material': 9.3.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.8)(supports-color@8.1.1))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
