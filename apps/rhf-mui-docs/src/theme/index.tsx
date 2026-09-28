@@ -33,9 +33,10 @@ const ThemeContextBridge = ({ children }: { children: React.ReactNode }) => {
    * and get written to `data-theme` as-is, which is why "dark" is spelled
    * out here instead of trusting `mode` beyond `'system'`.
    */
-  const currentTheme: PaletteMode = (mode === 'dark' || mode === 'light')
+  const resolvedTheme: PaletteMode | undefined = (mode === 'dark' || mode === 'light')
     ? mode
-    : systemMode ?? defaultTheme;
+    : systemMode;
+  const currentTheme: PaletteMode = resolvedTheme ?? defaultTheme;
 
   const toggleTheme = () => {
     setMode(currentTheme === 'light' ? 'dark' : 'light');

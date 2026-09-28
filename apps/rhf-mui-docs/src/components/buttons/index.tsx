@@ -150,3 +150,5 @@ export const PlaygroundButton = () => {
     </Tooltip>
   );
 };
+
+export { default as CopyCodeIcon } from './CopyCodeIcon';

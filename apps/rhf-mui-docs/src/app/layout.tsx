@@ -1,5 +1,6 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
 import {
@@ -42,20 +43,12 @@ const siteJsonLd = {
 };
 
 /*
- * Synchronous, no-flash color-scheme bootstrap. Runs as the first child of
- * <body>, so it executes during HTML parsing — before the browser paints
- * any body content — and stamps data-mui-color-scheme on <html> to match
- * the palette CSS already inlined in <head>.
- *
- * Why not `next/script strategy="beforeInteractive"`: that pushes the file
- * onto Next's async `__next_s` queue, which the runtime loads only AFTER the
- * first paint — so the page paints once in the default (light) scheme, then
- * repaints in the stored scheme. That one-frame repaint is the theme flash.
- * An inline <script dangerouslySetInnerHTML> has no such queue; it blocks and
- * runs in document order, guaranteeing the attribute is set before paint.
- * (Keep this logic in sync with src/theme/constants.ts.)
+ * DocSearch's own CSS reads a separate `data-theme` attribute (its
+ * `[data-theme=dark]` selector), not MUI's `data-mui-color-scheme` — mirror
+ * one into the other, synchronously, right after InitColorSchemeScript sets
+ * it, so DocSearch never renders one frame behind on first paint.
  */
-const colorSchemeInit = `(function(){try{var v=localStorage.getItem('${modeStorageKey}');var m=(v==='light'||v==='dark'||v==='system')?v:'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);document.documentElement.setAttribute('data-theme',s);}catch(e){}})();`;
+const syncDocSearchTheme = `document.documentElement.setAttribute('data-theme',document.documentElement.getAttribute('${colorSchemeAttribute}'));`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(websiteUrl),
@@ -84,14 +77,30 @@ export const metadata: Metadata = {
   }
 };
 
+/*
+ * `theme-color` per scheme — matches `background.default` in `theme/palette.ts`
+ * (light `#ffffff`, dark `#0b0e14`) so the mobile browser chrome blends with
+ * the page instead of defaulting to white in dark mode.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0e14' }
+  ]
+};
+
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={roboto.className}>
         {/* Must be the first body child — see colorSchemeInit above. */}
+        <InitColorSchemeScript
+          attribute={colorSchemeAttribute}
+          modeStorageKey={modeStorageKey}
+          defaultMode="system"
+        />
         <script
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
+          dangerouslySetInnerHTML={{ __html: syncDocSearchTheme }}
         />
         <script
           type="application/ld+json"

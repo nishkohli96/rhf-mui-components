@@ -144,6 +144,8 @@ const HomeLanding = () => {
               sx={{
                 px: { xs: 1.5, sm: 2 },
                 py: 1.1,
+                borderTopRightRadius: '0px !important',
+                borderBottomRightRadius: '0px !important',
                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
                 fontSize: { xs: 11, sm: 13 },
                 color: 'text.primary',

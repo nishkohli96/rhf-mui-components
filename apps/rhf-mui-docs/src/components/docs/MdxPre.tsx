@@ -7,8 +7,7 @@ import {
 } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckIcon from '@mui/icons-material/Check';
+import { CopyCodeIcon } from '../buttons';
 
 /**
  * Frame for fenced code blocks in .mdx pages. Shiki has already highlighted
@@ -39,9 +38,7 @@ const MdxPre = (props: ComponentPropsWithoutRef<'pre'>) => {
           aria-label="Copy code to clipboard"
           className="doc-code-copy"
         >
-          {copied
-            ? <CheckIcon fontSize="inherit" />
-            : <ContentCopyIcon fontSize="inherit" />}
+        <CopyCodeIcon isCopied={copied} />
         </IconButton>
       </Tooltip>
       <pre {...props} />

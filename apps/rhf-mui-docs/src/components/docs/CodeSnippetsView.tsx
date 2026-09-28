@@ -18,8 +18,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CodeIcon from '@mui/icons-material/Code';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckIcon from '@mui/icons-material/Check';
+import { CopyCodeIcon } from '../buttons';
 
 /** A snippet with source and highlighted markup already resolved. */
 export type ResolvedSnippet = {
@@ -52,9 +51,7 @@ const CopyButton = ({ code }: { code: string }) => {
         aria-label="Copy code to clipboard"
         className="doc-code-copy"
       >
-        {copied
-          ? <CheckIcon fontSize="inherit" />
-          : <ContentCopyIcon fontSize="inherit" />}
+        <CopyCodeIcon isCopied={copied} />
       </IconButton>
     </Tooltip>
   );

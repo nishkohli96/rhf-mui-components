@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '@mui/material/Button';
+import { CopyCodeIcon } from '../../buttons';
 
 type CopyInstallCommandProps = {
   command: string;
@@ -32,7 +33,7 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
         textTransform: 'none'
       }}
     >
-      {copied ? 'Copied' : 'Copy'}
+      <CopyCodeIcon isCopied={copied} />
     </Button>
   );
 };
