@@ -44,7 +44,10 @@ const CopyButton = ({ code }: { code: string }) => {
   };
 
   return (
-    <Tooltip title={copied ? 'Copied!' : 'Copy code'} placement="left">
+    <Tooltip
+      title={copied ? 'Copied!' : 'Copy code'}
+      placement="left"
+    >
       <IconButton
         size="small"
         onClick={handleCopy}

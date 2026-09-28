@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import { CopyCodeIcon } from '../../buttons';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import { CopyCodeIcon } from '@/components/buttons';
 
 type CopyInstallCommandProps = {
   command: string;
@@ -12,29 +13,31 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
   const [copied, setCopied] = useState(false);
 
   return (
-    <Button
-      size="small"
-      variant="text"
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(command);
-          setCopied(true);
-          window.setTimeout(() => setCopied(false), 1600);
-        } catch {
-          /* Clipboard unavailable (unfocused tab / permissions) — ignore. */
-        }
-      }}
-      sx={{
-        minWidth: 42,
-        px: 1,
-        color: 'text.secondary',
-        fontSize: 11,
-        fontWeight: 700,
-        textTransform: 'none'
-      }}
+    <Tooltip
+      title={copied ? 'Copied!' : 'Copy code'}
+      placement="right"
     >
-      <CopyCodeIcon isCopied={copied} />
-    </Button>
+      <IconButton
+        size="small"
+        aria-label={copied ? 'Copied to clipboard' : 'Copy install command'}
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(command);
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 2000);
+          } catch {
+          /* Clipboard unavailable (unfocused tab / permissions) — ignore. */
+          }
+        }}
+        sx={{
+          mx: 1,
+          p: 1,
+          color: 'text.secondary'
+        }}
+      >
+        <CopyCodeIcon isCopied={copied} />
+      </IconButton>
+    </Tooltip>
   );
 };
 

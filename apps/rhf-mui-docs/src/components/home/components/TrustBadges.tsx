@@ -82,7 +82,7 @@ const TrustBadges = async () => {
       key: 'version',
       label: `v${npmInfo.version}`,
       href: npmLink,
-      icon: <LocalOfferRoundedIcon fontSize="small" />
+      icon: <LocalOfferRoundedIcon />
     },
     downloads !== null && {
       key: 'downloads',
@@ -132,8 +132,9 @@ const TrustBadges = async () => {
           variant="outlined"
           sx={{
             fontWeight: 600,
-            padding: '4px',
-            '& .MuiChip-icon': { color: 'text.secondary' },
+            height: 'auto',
+            padding: '6px 4px',
+            '& .MuiChip-icon': { color: 'text.secondary', fontSize: 16 },
             '&:hover': { borderColor: 'primary.main', color: 'primary.main' },
             '&:hover .MuiChip-icon': { color: 'primary.main' }
           }}
@@ -144,7 +145,7 @@ const TrustBadges = async () => {
 };
 
 /**
- * Same footprint as the loaded chips (row of four ~24px pills), so swapping
+ * Same footprint as the loaded chips (row of four ~34px pills), so swapping
  * it out for the real content inside the `<Suspense>` boundary in
  * `home/index.tsx` doesn't shift anything below it.
  */
@@ -157,12 +158,12 @@ export const TrustBadgesSkeleton = () => (
       mt: 4
     }}
   >
-    {[70, 130, 70, 70].map((width, i) => (
+    {[74, 150, 78, 61].map((width, i) => (
       <Skeleton
         key={i}
         variant="rounded"
         width={width}
-        height={24}
+        height={34}
         sx={{ borderRadius: 4 }}
       />
     ))}

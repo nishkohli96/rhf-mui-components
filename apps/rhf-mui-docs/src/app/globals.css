@@ -207,10 +207,10 @@ body {
   margin: 16px 0 24px;
   border-radius: 10px;
   overflow: hidden;
-  border: var(--mui-palette-action-selected);
+  border: 1px solid rgba(128, 128, 128, 0.35);
 }
 
-:not(pre) > code {
+.doc-code-block pre {
   margin: 0;
   padding: 16px 48px 16px 18px;
   overflow-x: auto;
@@ -306,6 +306,17 @@ body {
   border-radius: 0 10px 10px 10px;
 }
 
+/*
+ * Single-line install command: center the copy button on the text line
+ * (pre padding-top 16px + half the 0.85rem × 1.65 line box) rather than
+ * `top: 50%` — the latter would include the horizontal scrollbar strip
+ * that shows when the command overflows, pushing the button below the text.
+ */
+.pm-tab-panel .doc-code-copy {
+  top: calc(16px + 0.85rem * 1.65 / 2);
+  transform: translateY(-50%);
+}
+
 .pm-tab-input:nth-of-type(1):checked ~ .pm-tab-list label:nth-of-type(1),
 .pm-tab-input:nth-of-type(2):checked ~ .pm-tab-list label:nth-of-type(2),
 .pm-tab-input:nth-of-type(3):checked ~ .pm-tab-list label:nth-of-type(3) {
@@ -329,12 +340,12 @@ body {
 
 /* --- Inline code --- */
 
-.doc-article :not(pre) > code {
+:not(pre) > code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.82em;
   padding: 2px 6px;
   border-radius: 4px;
-  background-color: rgba(128, 128, 128, 0.15);
+  background-color: var(--mui-palette-action-selected);
 }
 
 /* --- Markdown tables (e.g. props tables) --- */

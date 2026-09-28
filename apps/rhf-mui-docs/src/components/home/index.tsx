@@ -140,12 +140,13 @@ const HomeLanding = () => {
             }}
           >
             <Box
-              component="code"
               sx={{
                 px: { xs: 1.5, sm: 2 },
                 py: 1.1,
                 borderTopRightRadius: '0px !important',
                 borderBottomRightRadius: '0px !important',
+                borderRight: '1px solid',
+                borderColor: 'divider',
                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
                 fontSize: { xs: 11, sm: 13 },
                 color: 'text.primary',
