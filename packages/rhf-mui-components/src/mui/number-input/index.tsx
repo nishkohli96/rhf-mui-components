@@ -17,11 +17,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MUINumberInput from '@nish1896/mui-components/mui/number-input';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
+import MUINumberInput, { type MUINumberInputProps } from '@nish1896/mui-components/mui/number-input';
 import {
-  type FormLabelProps,
-  type FormHelperTextProps,
   type TextFieldProps,
   type CustomOnChangeProps
 } from '@/common';
@@ -90,42 +87,64 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    */
   onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When `true`, renders the label above the component instead of within the field layout.
+   * Lower bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur. `nonNegative` sets the lower
+   * bound to `0`, but an explicit `min` overrides it.
    */
-  showLabelAboveFormField?: boolean;
+  min?: MUINumberInputProps['min'];
   /**
-   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   * Upper bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
-  /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
-   */
-  hideLabel?: boolean;
+  max?: MUINumberInputProps['max'];
   /**
    * When `true`, only integer values are allowed. Decimal input is blocked.
    * Cannot be used together with `maxDecimalPlaces`.
    */
-  onlyIntegers?: boolean;
+  onlyIntegers?: MUINumberInputProps['onlyIntegers'];
   /**
    * When `true`, negative and exponential values are not allowed
    * while typing or pasting.
    */
-  nonNegative?: boolean;
+  nonNegative?: MUINumberInputProps['nonNegative'];
   /**
    * Maximum number of decimal places allowed. When set, the user cannot type
    * or paste more than this number of decimal places. Cannot be used together
    * with `onlyIntegers`.
    */
-  maxDecimalPlaces?: number;
-  /**
-   * Show the increment and decrement markers on number input. Hidden by default.
-   */
-  showMarkers?: boolean;
+  maxDecimalPlaces?: MUINumberInputProps['maxDecimalPlaces'];
   /**
    * The amount to increase/decrease value when using arrow keys or input steppers.
    * @default 1
    */
-  stepAmount?: number;
+  stepAmount?: MUINumberInputProps['stepAmount'];
+  /**
+   * Show the increment and decrement markers on number input. Hidden by default.
+   */
+  showMarkers?: MUINumberInputProps['showMarkers'];
+  /**
+   * Formats the numeric value for display — e.g. thousands separators, a
+   * currency prefix, or fixed decimals: `value => value?.toLocaleString() ?? ''`.
+   *
+   * When set, the input switches from `type="number"` to `type="text"` (which
+   * cannot show grouping characters). The formatted string is shown only while
+   * the field is **not** focused; on focus it reverts to the raw numeric string
+   * and all the normal typing / paste / `min` / `max` constraints still apply.
+   * `value` stays a real `number | null` throughout.
+   */
+  renderValue?: MUINumberInputProps['renderValue'];
+  /**
+   * When `true`, renders the label above the component instead of within the field layout.
+   */
+  showLabelAboveFormField?: MUINumberInputProps['showLabelAboveFormField'];
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: MUINumberInputProps['formLabelProps'];
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
+  hideLabel?: MUINumberInputProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -136,15 +155,15 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUINumberInputProps['hideErrorMessage'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUINumberInputProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUINumberInputProps['customIds'];
 } & TextFieldInputProps;
 
 const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldValues>({
@@ -153,17 +172,20 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   registerOptions,
   customOnChange,
   onValueChange,
+  min,
+  max,
+  onlyIntegers,
+  nonNegative,
+  maxDecimalPlaces,
+  stepAmount,
+  showMarkers,
+  renderValue,
   onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  showMarkers,
-  onlyIntegers,
-  nonNegative,
-  maxDecimalPlaces,
-  stepAmount,
   required,
   renderError,
   hideErrorMessage,
@@ -243,11 +265,14 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
               sx: mergeSx(defaultFormLabelSx, formLabelSx)
             }}
             hideLabel={hideLabel}
-            showMarkers={showMarkers}
+            min={min}
+            max={max}
             onlyIntegers={onlyIntegers}
             nonNegative={nonNegative}
             maxDecimalPlaces={maxDecimalPlaces}
             stepAmount={stepAmount}
+            showMarkers={showMarkers}
+            renderValue={renderValue}
             required={isFieldRequired}
             errorMessage={fieldStateError?.message?.toString()}
             renderError={() => fieldStateError
