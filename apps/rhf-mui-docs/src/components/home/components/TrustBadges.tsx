@@ -134,9 +134,17 @@ const TrustBadges = async () => {
             fontWeight: 600,
             height: 'auto',
             padding: '6px 4px',
-            '& .MuiChip-icon': { color: 'text.secondary', fontSize: 16 },
-            '&:hover': { borderColor: 'primary.main', color: 'primary.main' },
-            '&:hover .MuiChip-icon': { color: 'primary.main' }
+            '& .MuiChip-icon': {
+              color: 'text.secondary',
+              fontSize: 16
+            },
+            '&:hover': {
+              borderColor: 'primary.main',
+              color: 'primary.main'
+            },
+            '&:hover .MuiChip-icon': {
+              color: 'primary.main'
+            }
           }}
         />
       ))}

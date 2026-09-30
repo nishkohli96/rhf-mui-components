@@ -19,19 +19,10 @@ import {
   type AutocompleteRenderOptionState,
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
-import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
+import MUIMultiAutocompleteObject, { type MUIMultiAutocompleteObjectProps } from '@nish1896/mui-components/mui/multi-autocomplete-object';
 import { type selectAllOptionValue } from '@nish1896/mui-components/mui';
-import type { KeyValueOption, CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormControlLabelProps,
-  type CheckboxProps,
-  type FormHelperTextProps,
-  type AutoCompleteTextFieldProps,
-  type MuiChipProps,
-  type CircularProgressProps,
-  type CustomOnChangeProps
-} from '@/common';
+import type { KeyValueOption } from '@nish1896/mui-components/types';
+import { type CustomOnChangeProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   keepLabelAboveFormField,
@@ -62,6 +53,13 @@ type MultiAutoCompleteProps<
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'ref'
+>;
+
+type MultiAutocompleteObjectPropsBase = MUIMultiAutocompleteObjectProps<
+  KeyValueOption,
+  Extract<keyof KeyValueOption, string>,
+  Extract<keyof KeyValueOption, string>,
+  false
 >;
 
 type OnValueChangeProps<Option extends KeyValueOption = KeyValueOption> = {
@@ -109,11 +107,11 @@ export type RHFMultiAutocompleteObjectProps<
   /**
    * Text to display for the "Select All" option.
    */
-  selectAllText?: string;
+  selectAllText?: MultiAutocompleteObjectPropsBase['selectAllText'];
   /**
    * When true, hides the select-all option.
    */
-  hideSelectAllOption?: boolean;
+  hideSelectAllOption?: MultiAutocompleteObjectPropsBase['hideSelectAllOption'];
   /**
    * Overrides the default object multi-autocomplete change handling.
    * Receives the next selected object array and the option that triggered the change.
@@ -146,23 +144,23 @@ export type RHFMultiAutocompleteObjectProps<
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: MultiAutocompleteObjectPropsBase['label'];
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MultiAutocompleteObjectPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MultiAutocompleteObjectPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MultiAutocompleteObjectPropsBase['hideLabel'];
   /**
    * Props forwarded to each internal MUI `Checkbox`.
    */
-  checkboxProps?: CheckboxProps;
+  checkboxProps?: MultiAutocompleteObjectPropsBase['checkboxProps'];
   /**
    * Custom renderer for an option label.
    */
@@ -173,11 +171,11 @@ export type RHFMultiAutocompleteObjectProps<
   /**
    * Props forwarded to each internal MUI `FormControlLabel`.
    */
-  formControlLabelProps?: FormControlLabelProps;
+  formControlLabelProps?: MultiAutocompleteObjectPropsBase['formControlLabelProps'];
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: MultiAutocompleteObjectPropsBase['required'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -188,32 +186,32 @@ export type RHFMultiAutocompleteObjectProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MultiAutocompleteObjectPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: MultiAutocompleteObjectPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MultiAutocompleteObjectPropsBase['formHelperTextProps'];
   /**
    * Props forwarded to the internal MUI `TextField`.
    */
-  textFieldProps?: AutoCompleteTextFieldProps;
+  textFieldProps?: MultiAutocompleteObjectPropsBase['textFieldProps'];
   /**
    * Props forwarded to the `CircularProgress` shown in the input
    * while `loading` is `true`.
    */
-  circularProgressProps?: CircularProgressProps;
+  circularProgressProps?: MultiAutocompleteObjectPropsBase['circularProgressProps'];
   /**
    * Props forwarded to chips rendered for selected values.
    */
-  ChipProps?: MuiChipProps;
+  ChipProps?: MultiAutocompleteObjectPropsBase['ChipProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MultiAutocompleteObjectPropsBase['customIds'];
 } & MultiAutoCompleteProps<Option, DisableClearable>;
 
 const RHFMultiAutocompleteObjectInner = forwardRef(function RHFMultiAutocompleteObject<

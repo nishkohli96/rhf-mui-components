@@ -17,13 +17,9 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
+import MUIPasswordInput, { type MUIPasswordInputProps } from '@nish1896/mui-components/mui/password-input';
 import {
-  type FormLabelProps,
-  type FormHelperTextProps,
   type TextFieldProps,
-  type IconButtonProps,
   type CustomOnChangeProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
@@ -93,15 +89,15 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUIPasswordInputProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUIPasswordInputProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUIPasswordInputProps['hideLabel'];
   /**
    * Custom icon displayed when the password is currently hidden.
    *
@@ -109,7 +105,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    *
    * @default Visibility icon
    */
-  showPasswordIcon?: ReactNode;
+  showPasswordIcon?: MUIPasswordInputProps['showPasswordIcon'];
   /**
    * Custom icon displayed when the password is currently visible.
    *
@@ -117,13 +113,13 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    *
    * @default VisibilityOff icon
    */
-  hidePasswordIcon?: ReactNode;
+  hidePasswordIcon?: MUIPasswordInputProps['hidePasswordIcon'];
   /**
    * Props forwarded to the `IconButton` component that toggles password
    * visibility. Use `showPasswordIcon`/`hidePasswordIcon` to swap the icon
    * itself; this is for the button around it — e.g. a custom `size` or `sx`.
    */
-  iconButtonProps?: IconButtonProps;
+  iconButtonProps?: MUIPasswordInputProps['iconButtonProps'];
   /**
    * When true, the value is displayed but cannot be edited.
    *
@@ -132,7 +128,7 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
    * meaningful, so the user can still reveal it to verify it. `disabled`
    * instead makes the whole field inert, including the toggle.
    */
-  readOnly?: boolean;
+  readOnly?: MUIPasswordInputProps['readOnly'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -143,15 +139,15 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUIPasswordInputProps['hideErrorMessage'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUIPasswordInputProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUIPasswordInputProps['customIds'];
 } & InputPasswordProps;
 
 const RHFPasswordInputInner = forwardRef(function RHFPasswordInput<

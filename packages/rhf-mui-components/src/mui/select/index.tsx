@@ -16,17 +16,12 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type SelectChangeEvent } from '@mui/material/Select';
-import MUISelect from '@nish1896/mui-components/mui/select';
-import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
+import MUISelect, { type MUISelectProps } from '@nish1896/mui-components/mui/select';
+import type { StrNumObjOption } from '@nish1896/mui-components/types';
 import {
-  type FormLabelProps,
-  type FormHelperTextProps,
   type SelectProps,
-  type MenuItemProps,
-  type InputLabelProps,
   type CustomOnChangeProps,
-  type OptionValue,
-  type OptionRenderState
+  type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -39,6 +34,13 @@ import {
 type SelectValue<Value, Multiple extends boolean> = Multiple extends true
   ? Value[]
   : Value;
+
+type SelectPropsBase = MUISelectProps<
+  StrNumObjOption,
+  Extract<keyof StrNumObjOption, string>,
+  Extract<keyof StrNumObjOption, string>,
+  false
+>;
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,
@@ -137,7 +139,7 @@ export type RHFSelectProps<
    * option — including the default placeholder option when `showDefaultOption`
    * is enabled. Useful for a custom `dense`, `divider` or `sx` across all options.
    */
-  menuItemProps?: MenuItemProps;
+  menuItemProps?: SelectPropsBase['menuItemProps'];
   /**
    * Custom renderer for dropdown options.
    *
@@ -150,7 +152,7 @@ export type RHFSelectProps<
    *   label can react to it — e.g. dim a disabled option.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  renderOptionLabel?: MUISelectProps<Option, LabelKey, ValueKey, Multiple>['renderOptionLabel'];
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -158,7 +160,7 @@ export type RHFSelectProps<
    *
    * @param option - The option being evaluated.
    */
-  getOptionDisabled?: (option: Option) => boolean;
+  getOptionDisabled?: MUISelectProps<Option, LabelKey, ValueKey, Multiple>['getOptionDisabled'];
   /**
    * When `true`, displays a default placeholder option at the top of the
    * dropdown menu.
@@ -168,33 +170,33 @@ export type RHFSelectProps<
    *
    * @default false
    */
-  showDefaultOption?: boolean;
+  showDefaultOption?: SelectPropsBase['showDefaultOption'];
   /**
    * Custom text displayed for the default option when
    * `showDefaultOption` is enabled.
    *
    * @default `Select ${fieldLabel}`
    */
-  defaultOptionText?: string;
+  defaultOptionText?: SelectPropsBase['defaultOptionText'];
   /**
    * Props forwarded to the `InputLabel` — the inline label shown inside
    * the field's outline when `showLabelAboveFormField` is off. Has no
    * effect when that label isn't rendered (`hideLabel`, `showLabelAboveFormField`,
    * or a `placeholder` with no value selected).
    */
-  inputLabelProps?: InputLabelProps;
+  inputLabelProps?: SelectPropsBase['inputLabelProps'];
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: SelectPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: SelectPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: SelectPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -205,26 +207,26 @@ export type RHFSelectProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: SelectPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: SelectPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: SelectPropsBase['formHelperTextProps'];
   /**
    * Placeholder text displayed when no option is selected.
    *
    * Unlike the default option, the placeholder is displayed in the select
    * input itself and is not rendered as a selectable menu item.
    */
-  placeholder?: string;
+  placeholder?: SelectPropsBase['placeholder'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: SelectPropsBase['customIds'];
 } & SelectProps;
 
 const RHFSelectInner = forwardRef(function RHFSelect<

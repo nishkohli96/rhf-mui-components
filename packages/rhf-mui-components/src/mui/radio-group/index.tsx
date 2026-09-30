@@ -14,16 +14,11 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type RadioGroupProps } from '@mui/material/RadioGroup';
-import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
-import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
+import MUIRadioGroup, { type MUIRadioGroupProps } from '@nish1896/mui-components/mui/radio-group';
+import type { StrNumObjOption } from '@nish1896/mui-components/types';
 import {
-  type FormLabelProps,
-  type FormControlLabelProps,
-  type FormHelperTextProps,
-  type RadioProps,
   type CustomOnChangeProps,
-  type OptionValue,
-  type OptionRenderState
+  type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -46,6 +41,12 @@ type OnValueChangeProps<
 type RadioGroupInputProps = Omit<
   RadioGroupProps,
   'name' | 'value' | 'onChange'
+>;
+
+type RadioGroupPropsBase = MUIRadioGroupProps<
+  StrNumObjOption,
+  Extract<keyof StrNumObjOption, string>,
+  Extract<keyof StrNumObjOption, string>
 >;
 
 export type RHFRadioGroupProps<
@@ -120,7 +121,7 @@ export type RHFRadioGroupProps<
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  renderOptionLabel?: MUIRadioGroupProps<Option, LabelKey, ValueKey>['renderOptionLabel'];
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -128,41 +129,41 @@ export type RHFRadioGroupProps<
    *
    * @param option - The option being evaluated.
    */
-  getOptionDisabled?: (option: Option) => boolean;
+  getOptionDisabled?: MUIRadioGroupProps<Option, LabelKey, ValueKey>['getOptionDisabled'];
   /**
    * When true, disables the field and associated controls.
    */
-  disabled?: boolean;
+  disabled?: RadioGroupPropsBase['disabled'];
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: RadioGroupPropsBase['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: RadioGroupPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: RadioGroupPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: RadioGroupPropsBase['hideLabel'];
   /**
    * Props to pass down to each Radio component. Can be used to set
    * a custom color, size, etc. for all radios in the group.
    */
-  radioProps?: RadioProps;
+  radioProps?: RadioGroupPropsBase['radioProps'];
   /**
    * Props forwarded to each internal MUI `FormControlLabel`.
    */
-  formControlLabelProps?: FormControlLabelProps;
+  formControlLabelProps?: RadioGroupPropsBase['formControlLabelProps'];
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: RadioGroupPropsBase['required'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -173,19 +174,19 @@ export type RHFRadioGroupProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: RadioGroupPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: RadioGroupPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: RadioGroupPropsBase['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: RadioGroupPropsBase['customIds'];
 } & RadioGroupInputProps;
 
 /**

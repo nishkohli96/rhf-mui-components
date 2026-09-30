@@ -16,13 +16,7 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type TextFieldProps } from '@mui/material/TextField';
-import MUITagsInput from '@nish1896/mui-components/mui/tags-input';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type MuiChipProps
-} from '@/common';
+import MUITagsInput, { type MUITagsInputProps } from '@nish1896/mui-components/mui/tags-input';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   keepLabelAboveFormField,
@@ -47,21 +41,6 @@ type TextFieldInputProps = Omit<
 
 type OnValueChangeProps = {
   newValue: string[];
-};
-
-type RHFTagsInputOnTagAddProps = {
-  currentValue: string[];
-  newTag: string;
-};
-
-type RHFTagsInputOnTagDeleteProps = {
-  currentValue: string[];
-  deletedTag: string;
-};
-
-type RHFTagsInputOnTagPasteProps = {
-  currentValue: string[];
-  pastedTags: string[];
 };
 
 export type RHFTagsInputProps<T extends FieldValues> = {
@@ -92,10 +71,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * @param props.newTag - The tag the user is attempting to add.
    * @returns `false` to block the tag, a replacement tag string, or nothing to allow the tag.
    */
-  onTagAdd?: ({
-    currentValue,
-    newTag
-  }: RHFTagsInputOnTagAddProps) => boolean | string | void;
+  onTagAdd?: MUITagsInputProps['onTagAdd'];
   /**
    * Called before a tag is removed.
    *
@@ -110,10 +86,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * @param props.deletedTag - The tag being removed.
    * @returns `false` to prevent deletion, or nothing to allow it.
    */
-  onTagDelete?: ({
-    currentValue,
-    deletedTag
-  }: RHFTagsInputOnTagDeleteProps) => boolean | void;
+  onTagDelete?: MUITagsInputProps['onTagDelete'];
   /**
    * Called when one or more tags are pasted into the input.
    *
@@ -129,10 +102,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    * @param props.currentValue - The current field value before the paste operation.
    * @param props.pastedTags - The parsed tags extracted from the pasted text.
    */
-  onTagPaste?: ({
-    currentValue,
-    pastedTags
-  }: RHFTagsInputOnTagPasteProps) => string[] | boolean | void;
+  onTagPaste?: MUITagsInputProps['onTagPaste'];
   /**
    * Character used to separate tags when typing or pasting.
    *
@@ -141,7 +111,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    *
    * @default ','
    */
-  delimiter?: string;
+  delimiter?: MUITagsInputProps['delimiter'];
   /**
    * Maximum number of tags that can be added.
    *
@@ -151,7 +121,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    *
    * By default, no limit is enforced.
    */
-  maxTags?: number;
+  maxTags?: MUITagsInputProps['maxTags'];
   /**
    * Called after the default tags input handler stores the next tag array in React Hook Form.
    *
@@ -161,15 +131,15 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUITagsInputProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUITagsInputProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUITagsInputProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -180,18 +150,18 @@ export type RHFTagsInputProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUITagsInputProps['hideErrorMessage'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUITagsInputProps['formHelperTextProps'];
   /**
    * Props applied to the Chip component used to render each tag.
    *
    * Useful for customizing the appearance and behavior of tags,
    * such as color, size, variant, icon, or delete functionality.
    */
-  ChipProps?: MuiChipProps;
+  ChipProps?: MUITagsInputProps['ChipProps'];
   /**
    * Maximum number of tags shown when the input is not focused.
    *
@@ -199,7 +169,7 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    *
    * @default 2
    */
-  limitTags?: number;
+  limitTags?: MUITagsInputProps['limitTags'];
   /**
    * Custom label rendered for the hidden tags counter.
    *
@@ -207,17 +177,17 @@ export type RHFTagsInputProps<T extends FieldValues> = {
    *
    * @default moreTags => `+${moreTags} more`
    */
-  getLimitTagsText?: (moreTags: number) => ReactNode;
+  getLimitTagsText?: MUITagsInputProps['getLimitTagsText'];
   /**
    * Custom renderer for each visible tag label.
    *
    * Receives the tag value and should return the content displayed inside the chip.
    */
-  renderTagLabel?: (tag: string) => ReactNode;
+  renderTagLabel?: MUITagsInputProps['renderTagLabel'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUITagsInputProps['customIds'];
 } & TextFieldInputProps;
 
 const RHFTagsInputInner = forwardRef(function RHFTagsInput<

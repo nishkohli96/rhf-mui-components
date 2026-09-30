@@ -8,8 +8,7 @@ import {
   type JSX,
   type ChangeEvent,
   type DragEvent,
-  type MouseEvent,
-  type FocusEvent
+  type MouseEvent
 } from 'react';
 import {
   Controller,
@@ -19,18 +18,13 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import { type BoxProps } from '@mui/material/Box';
 import MUIFileUploader, {
   FileUploadError,
   type FileUploadErrorDetails,
   type ExistingUploadedFile,
+  type MUIFileUploaderProps,
 } from '@nish1896/mui-components/mui/file-uploader';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type CustomOnChangeProps
-} from '@/common';
+import { type CustomOnChangeProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   keepLabelAboveFormField,
@@ -55,6 +49,8 @@ type FileUploaderValue<Multiple extends boolean>
     ? File[]
     : File | null;
 
+type FileUploaderPropsBase = MUIFileUploaderProps<false>;
+
 type RHFFileUploaderOnValueChangeProps<Multiple extends boolean = false> = {
   /** New form value after a successful upload, removal, or clear action. */
   newValue: FileUploaderValue<Multiple>;
@@ -63,38 +59,6 @@ type RHFFileUploaderOnValueChangeProps<Multiple extends boolean = false> = {
     | ChangeEvent<HTMLInputElement>
     | DragEvent<HTMLDivElement>
     | MouseEvent<HTMLButtonElement>;
-};
-
-/**
- * State passed to `dropZoneProps` when it is provided as a callback.
- */
-type RHFFileUploaderDropZoneState = {
-  /** Whether a file is currently being dragged over the drop zone. */
-  isDragging: boolean;
-  /** Whether the uploader is disabled. */
-  disabled: boolean;
-  /** Whether the uploader is currently displaying a validation error. */
-  error: boolean;
-};
-
-type RHFFileUploaderDropZoneProps
-  = | Omit<BoxProps, 'children'>
-    | ((
-      { isDragging, disabled, error }: RHFFileUploaderDropZoneState
-    ) => Omit<BoxProps, 'children'>);
-
-type RenderExistingFileItemProps = {
-  file: ExistingUploadedFile;
-  /** Zero-based index of the existing file. */
-  index: number;
-};
-
-type RenderFileItemProps = {
-  file: File;
-  /** Zero-based index of the newly selected file. */
-  index: number;
-  /** Removes this newly selected file from the RHF field value. */
-  removeFile: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export type RHFFileUploaderProps<
@@ -116,7 +80,7 @@ export type RHFFileUploaderProps<
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: FileUploaderPropsBase['required'];
   /**
    * Comma-separated list of accepted file types.
    *
@@ -125,7 +89,7 @@ export type RHFFileUploaderProps<
    * - `.pdf,.doc,.docx`
    * - `image/png,image/jpeg`
    */
-  accept?: string;
+  accept?: FileUploaderPropsBase['accept'];
   /**
    * When true, allows selecting multiple files.
    */
@@ -137,20 +101,20 @@ export type RHFFileUploaderProps<
    * For example, to set a maximum file size of 5 MB:
    * `maxSize={5 * 1024 * 1024}`
    */
-  maxSize?: number;
+  maxSize?: FileUploaderPropsBase['maxSize'];
   /**
    * Maximum number of files that can be uploaded.
    *
    * When the limit is exceeded, additional files are rejected and
    * reported through the error callback.
    */
-  maxFiles?: number;
+  maxFiles?: FileUploaderPropsBase['maxFiles'];
   /**
    * Disables the file input and prevents file selection.
    *
    * @default false
    */
-  disabled?: boolean;
+  disabled?: FileUploaderPropsBase['disabled'];
   /**
    * Props applied to the drag-and-drop wrapper `Box`.
    *
@@ -160,16 +124,16 @@ export type RHFFileUploaderProps<
    *
    * This prop is ignored when `disableDragAndDrop` is `true`.
    */
-  dropZoneProps?: RHFFileUploaderDropZoneProps;
+  dropZoneProps?: FileUploaderPropsBase['dropZoneProps'];
   /**
    * Disable drag-and-drop functionality and only allow file selection via the upload button.
    * @default false
    */
-  disableDragAndDrop?: boolean;
+  disableDragAndDrop?: MUIFileUploaderProps<Multiple>['disableDragAndDrop'];
   /**
    * Custom upload button renderer. Receives the hidden file input as children/content.
    */
-  renderUploadButton?: (fileInput: ReactNode) => ReactNode;
+  renderUploadButton?: FileUploaderPropsBase['renderUploadButton'];
   /**
    * Pre-existing server-side files.
    *
@@ -177,7 +141,7 @@ export type RHFFileUploaderProps<
    * Existing files are displayed separately from newly uploaded files, and
    * their count is deducted from `maxFiles` during validation.
    */
-  existingFiles?: ExistingUploadedFile[];
+  existingFiles?: FileUploaderPropsBase['existingFiles'];
   /**
    * Custom renderer for each file passed through `existingFiles`.
    *
@@ -191,15 +155,15 @@ export type RHFFileUploaderProps<
    *
    * When omitted, existing files are not rendered.
    */
-  renderExistingFileItem?: ({ file, index }: RenderExistingFileItemProps) => ReactNode;
+  renderExistingFileItem?: FileUploaderPropsBase['renderExistingFileItem'];
   /**
    * Props applied to the wrapper Box that contains pre-existing server-side files.
    */
-  existingFileListProps?: Omit<BoxProps, 'children'>;
+  existingFileListProps?: FileUploaderPropsBase['existingFileListProps'];
   /**
    * Props applied to the wrapper Box that contains newly selected/uploaded files.
    */
-  uploadedFileListProps?: Omit<BoxProps, 'children'>;
+  uploadedFileListProps?: FileUploaderPropsBase['uploadedFileListProps'];
   /**
    * Custom renderer for each newly selected file stored in the RHF field value.
    *
@@ -210,11 +174,7 @@ export type RHFFileUploaderProps<
    *
    * When omitted, newly selected files are not rendered.
    */
-  renderFileItem?: ({
-    file,
-    index,
-    removeFile
-  }: RenderFileItemProps) => ReactNode;
+  renderFileItem?: FileUploaderPropsBase['renderFileItem'];
   /**
    * Overrides the default file uploader change handling.
    * Receives the accepted file value and the input/drop event that produced it.
@@ -250,30 +210,30 @@ export type RHFFileUploaderProps<
   /**
    * Callback fired when uploaded files fail type, size, or count validation.
    */
-  onUploadError?: (errors: FileUploadErrorDetails[]) => void;
+  onUploadError?: FileUploaderPropsBase['onUploadError'];
   /**
    * Called after the field's internal blur handling, which marks the field as touched.
    *
    * @param event - Original blur event from the file input.
    */
-  onBlur?: (event: FocusEvent<HTMLInputElement, Element>) => void;
+  onBlur?: FileUploaderPropsBase['onBlur'];
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: FileUploaderPropsBase['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: FileUploaderPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: FileUploaderPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: FileUploaderPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -284,23 +244,23 @@ export type RHFFileUploaderProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: FileUploaderPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: FileUploaderPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: FileUploaderPropsBase['formHelperTextProps'];
   /**
    * When true, the component expands to fill its container width.
    */
-  fullWidth?: boolean;
+  fullWidth?: FileUploaderPropsBase['fullWidth'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: FileUploaderPropsBase['customIds'];
 };
 
 const RHFFileUploaderInner = forwardRef(function RHFFileUploader<

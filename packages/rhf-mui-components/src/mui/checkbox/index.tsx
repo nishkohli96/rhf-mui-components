@@ -17,11 +17,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
+import MUICheckbox, { type MUICheckboxProps } from '@nish1896/mui-components/mui/checkbox';
 import {
-  type FormControlLabelProps,
-  type FormHelperTextProps,
   type CheckboxProps,
   type CustomOnChangeProps
 } from '@/common';
@@ -73,15 +70,15 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: MUICheckboxProps['label'];
   /**
    * Props forwarded to the checkbox `FormControlLabel`.
    */
-  formControlLabelProps?: FormControlLabelProps;
+  formControlLabelProps?: MUICheckboxProps['formControlLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUICheckboxProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -92,19 +89,19 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUICheckboxProps['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: MUICheckboxProps['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUICheckboxProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUICheckboxProps['customIds'];
 } & CheckboxProps;
 
 const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(

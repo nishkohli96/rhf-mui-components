@@ -2,7 +2,6 @@
 
 import {
   useContext,
-  type FocusEvent,
   type ReactNode,
   type ChangeEvent
 } from 'react';
@@ -14,16 +13,11 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
-import type { StrNumObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
+import MUICheckboxGroup, { type MUICheckboxGroupProps } from '@nish1896/mui-components/mui/checkbox-group';
+import type { StrNumObjOption } from '@nish1896/mui-components/types';
 import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type FormControlLabelProps,
-  type CheckboxProps,
   type CustomOnChangeProps,
-  type OptionValue,
-  type OptionRenderState
+  type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -31,6 +25,12 @@ import {
   resolveLabelAboveControl,
   resolveRequired
 } from '@/utils';
+
+type CheckboxGroupPropsBase = MUICheckboxGroupProps<
+  StrNumObjOption,
+  Extract<keyof StrNumObjOption, string>,
+  Extract<keyof StrNumObjOption, string>
+>;
 
 type OnValueChangeProps<
   Option extends StrNumObjOption = StrNumObjOption,
@@ -138,7 +138,7 @@ export type RHFCheckboxGroupProps<
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  renderOptionLabel?: MUICheckboxGroupProps<Option, LabelKey, ValueKey>['renderOptionLabel'];
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -146,15 +146,15 @@ export type RHFCheckboxGroupProps<
    *
    * @param option - The option being evaluated.
    */
-  getOptionDisabled?: (option: Option) => boolean;
+  getOptionDisabled?: MUICheckboxGroupProps<Option, LabelKey, ValueKey>['getOptionDisabled'];
   /**
    * When true, disables the field and associated controls.
    */
-  disabled?: boolean;
+  disabled?: CheckboxGroupPropsBase['disabled'];
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: CheckboxGroupPropsBase['label'];
   /*
    * Whether the field label renders above the checkbox group. The group has no
    * built-in inline label, so this defaults to `true`; pass `false` to hide the
@@ -162,28 +162,28 @@ export type RHFCheckboxGroupProps<
    *
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: CheckboxGroupPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: CheckboxGroupPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: CheckboxGroupPropsBase['hideLabel'];
   /**
    * Props to pass down to each Checkbox component. Can be used to set
    * a custom color, size, etc. for all checkboxes in the group.
    */
-  checkboxProps?: CheckboxProps;
+  checkboxProps?: CheckboxGroupPropsBase['checkboxProps'];
   /**
    * Props forwarded to each internal MUI `FormControlLabel`.
    */
-  formControlLabelProps?: FormControlLabelProps;
+  formControlLabelProps?: CheckboxGroupPropsBase['formControlLabelProps'];
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: CheckboxGroupPropsBase['required'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -194,23 +194,23 @@ export type RHFCheckboxGroupProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: CheckboxGroupPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: CheckboxGroupPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: CheckboxGroupPropsBase['formHelperTextProps'];
   /**
    * Callback fired when focus leaves the checkbox group.
    */
-  onBlur?: (event: FocusEvent<HTMLDivElement, Element>) => void;
+  onBlur?: CheckboxGroupPropsBase['onBlur'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: CheckboxGroupPropsBase['customIds'];
 };
 
 /**

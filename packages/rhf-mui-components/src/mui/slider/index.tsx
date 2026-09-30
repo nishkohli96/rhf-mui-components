@@ -18,13 +18,8 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type SliderProps } from '@mui/material/Slider';
-import MUISlider from '@nish1896/mui-components/mui/slider';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type CustomOnChangeProps
-} from '@/common';
+import MUISlider, { type MUISliderProps } from '@nish1896/mui-components/mui/slider';
+import { type CustomOnChangeProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   mergeRefs,
@@ -41,6 +36,8 @@ type SliderInputProps = Omit<
 >;
 
 type SliderValue = number | number[];
+
+type SliderPropsBase = MUISliderProps<SliderValue>;
 
 type OnValueChangeProps<Value extends SliderValue> = {
   newValue: Value;
@@ -70,7 +67,7 @@ export type RHFSliderProps<
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: SliderPropsBase['required'];
   /**
    * Overrides the default slider change handling.
    * Receives the next slider value, active thumb index, and original slider change event.
@@ -105,20 +102,20 @@ export type RHFSliderProps<
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: SliderPropsBase['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: SliderPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: SliderPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: SliderPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -129,19 +126,19 @@ export type RHFSliderProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: SliderPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: SliderPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: SliderPropsBase['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: SliderPropsBase['customIds'];
 } & SliderInputProps;
 
 const RHFSliderInner = forwardRef(function RHFSlider<

@@ -22,14 +22,9 @@ import type {
   AutocompleteChangeReason,
   AutocompleteValue
 } from '@mui/material/Autocomplete';
-import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
-import type { StrObjOption, CustomComponentIds } from '@nish1896/mui-components/types';
+import MUIAutocomplete, { type MUIAutocompleteProps } from '@nish1896/mui-components/mui/autocomplete';
+import type { StrObjOption } from '@nish1896/mui-components/types';
 import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type AutoCompleteTextFieldProps,
-  type MuiChipProps,
-  type CircularProgressProps,
   type AutocompleteNewValue,
   type CustomOnChangeProps
 } from '@/common';
@@ -63,6 +58,15 @@ type OmittedAutocompleteProps<
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'ref'
+>;
+
+type AutocompletePropsBase = MUIAutocompleteProps<
+  StrObjOption,
+  Extract<keyof StrObjOption, string>,
+  Extract<keyof StrObjOption, string>,
+  false,
+  false,
+  false
 >;
 
 type OnValueChangeProps<
@@ -186,23 +190,23 @@ export type RHFAutocompleteProps<
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: AutocompletePropsBase['label'];
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: AutocompletePropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: AutocompletePropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: AutocompletePropsBase['hideLabel'];
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: AutocompletePropsBase['required'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -213,32 +217,32 @@ export type RHFAutocompleteProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: AutocompletePropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: AutocompletePropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: AutocompletePropsBase['formHelperTextProps'];
   /**
    * Props forwarded to the internal MUI `TextField`.
    */
-  textFieldProps?: AutoCompleteTextFieldProps;
+  textFieldProps?: AutocompletePropsBase['textFieldProps'];
   /**
    * Props forwarded to the `CircularProgress` shown in the input
    * while `loading` is `true`.
    */
-  circularProgressProps?: CircularProgressProps;
+  circularProgressProps?: AutocompletePropsBase['circularProgressProps'];
   /**
    * Props forwarded to chips rendered for selected values.
    */
-  ChipProps?: MuiChipProps;
+  ChipProps?: AutocompletePropsBase['ChipProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: AutocompletePropsBase['customIds'];
 } & OmittedAutocompleteProps<Option, Multiple, DisableClearable, FreeSolo>;
 
 const RHFAutocompleteInner = forwardRef(function RHFAutocomplete<

@@ -24,17 +24,10 @@ import {
 import MUICountrySelect, {
   countryList,
   type CountryISO,
-  type CountryDetails
+  type CountryDetails,
+  type MUICountrySelectProps
 } from '@nish1896/mui-components/mui/country-select';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type AutoCompleteTextFieldProps,
-  type MuiChipProps,
-  type CustomOnChangeProps,
-  type AutocompleteOptionRenderState
-} from '@/common';
+import { type CustomOnChangeProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   keepLabelAboveFormField,
@@ -91,6 +84,8 @@ type AutoCompleteProps<
   | 'loading'
   | 'ref'
 >;
+
+type CountrySelectPropsBase = MUICountrySelectProps<undefined, false, false>;
 
 export type RHFCountrySelectProps<
   T extends FieldValues,
@@ -182,32 +177,29 @@ export type RHFCountrySelectProps<
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: CountrySelectPropsBase['label'];
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: CountrySelectPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: CountrySelectPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: CountrySelectPropsBase['hideLabel'];
   /**
    * Customize how each country option is displayed in the dropdown menu.
    * `state` carries MUI's option state (`selected`, `index`, `inputValue`) plus
    * a `disabled` flag, so the label can react to the option's status.
    */
-  renderOptionLabel?: (
-    option: CountryDetails,
-    state: AutocompleteOptionRenderState
-  ) => ReactNode;
+  renderOptionLabel?: CountrySelectPropsBase['renderOptionLabel'];
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: CountrySelectPropsBase['required'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -218,27 +210,27 @@ export type RHFCountrySelectProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: CountrySelectPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: CountrySelectPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: CountrySelectPropsBase['formHelperTextProps'];
   /**
    * Props forwarded to the internal MUI `TextField`.
    */
-  textFieldProps?: AutoCompleteTextFieldProps;
+  textFieldProps?: CountrySelectPropsBase['textFieldProps'];
   /**
    * Props forwarded to chips rendered for selected values.
    */
-  ChipProps?: MuiChipProps;
+  ChipProps?: CountrySelectPropsBase['ChipProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: CountrySelectPropsBase['customIds'];
 } & AutoCompleteProps<Multiple, DisableClearable>;
 
 const RHFCountrySelectInner = forwardRef(function RHFCountrySelect<

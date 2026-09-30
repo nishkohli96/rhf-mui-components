@@ -17,13 +17,8 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type RatingProps } from '@mui/material/Rating';
-import MUIRating from '@nish1896/mui-components/mui/rating';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type CustomOnChangeProps
-} from '@/common';
+import MUIRating, { type MUIRatingProps } from '@nish1896/mui-components/mui/rating';
+import { type CustomOnChangeProps } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   mergeRefs,
@@ -62,7 +57,7 @@ export type RHFRatingProps<T extends FieldValues> = {
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: MUIRatingProps['required'];
   /**
    * Overrides the default rating change handling.
    * Receives the next rating value and the original rating change event.
@@ -90,20 +85,20 @@ export type RHFRatingProps<T extends FieldValues> = {
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: MUIRatingProps['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUIRatingProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUIRatingProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUIRatingProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -114,19 +109,19 @@ export type RHFRatingProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUIRatingProps['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: MUIRatingProps['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUIRatingProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUIRatingProps['customIds'];
 } & InputRatingProps;
 
 const RHFRatingInner = forwardRef(function RHFRating<T extends FieldValues>({

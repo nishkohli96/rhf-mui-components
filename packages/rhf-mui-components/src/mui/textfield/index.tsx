@@ -16,11 +16,8 @@ import {
   type Control,
   type RegisterOptions
 } from 'react-hook-form';
-import MUITextField from '@nish1896/mui-components/mui/textfield';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
+import MUITextField, { type MUITextFieldProps } from '@nish1896/mui-components/mui/textfield';
 import {
-  type FormLabelProps,
-  type FormHelperTextProps,
   type TextFieldProps,
   type CustomOnChangeProps
 } from '@/common';
@@ -77,15 +74,15 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUITextFieldProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUITextFieldProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUITextFieldProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -96,15 +93,15 @@ export type RHFTextFieldProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUITextFieldProps['hideErrorMessage'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUITextFieldProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUITextFieldProps['customIds'];
 } & TextFieldProps;
 
 const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues>(

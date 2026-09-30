@@ -17,14 +17,11 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type NativeSelectProps } from '@mui/material/NativeSelect';
-import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
-import type { CustomComponentIds, StrNumObjOption } from '@nish1896/mui-components/types';
+import MUINativeSelect, { type MUINativeSelectProps } from '@nish1896/mui-components/mui/native-select';
+import type { StrNumObjOption } from '@nish1896/mui-components/types';
 import {
-  type FormHelperTextProps,
-  type FormLabelProps,
   type CustomOnChangeProps,
-  type OptionValue,
-  type OptionRenderState
+  type OptionValue
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
@@ -37,6 +34,12 @@ import {
 type InputNativeSelectProps = Omit<
   NativeSelectProps,
   'name' | 'id' | 'labelId' | 'error' | 'onChange' | 'value' | 'ref'
+>;
+
+type NativeSelectPropsBase = MUINativeSelectProps<
+  StrNumObjOption,
+  Extract<keyof StrNumObjOption, string>,
+  Extract<keyof StrNumObjOption, string>
 >;
 
 type OnValueChangeProps<
@@ -99,7 +102,7 @@ export type RHFNativeSelectProps<
    *   label can react to it — e.g. dim a disabled option.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
+  renderOptionLabel?: MUINativeSelectProps<Option, LabelKey, ValueKey>['renderOptionLabel'];
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -107,7 +110,7 @@ export type RHFNativeSelectProps<
    *
    * @param option - The option being evaluated.
    */
-  getOptionDisabled?: (option: Option) => boolean;
+  getOptionDisabled?: MUINativeSelectProps<Option, LabelKey, ValueKey>['getOptionDisabled'];
   /**
    * Overrides the default native select change handling.
    * Receives the normalized selected value and the original native select change event.
@@ -144,24 +147,24 @@ export type RHFNativeSelectProps<
    *
    * @default `Select ${fieldLabel}`
    */
-  defaultOptionText?: string;
+  defaultOptionText?: NativeSelectPropsBase['defaultOptionText'];
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: NativeSelectPropsBase['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: NativeSelectPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: NativeSelectPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: NativeSelectPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -172,19 +175,19 @@ export type RHFNativeSelectProps<
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: NativeSelectPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: NativeSelectPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: NativeSelectPropsBase['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: NativeSelectPropsBase['customIds'];
 } & InputNativeSelectProps;
 
 const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
