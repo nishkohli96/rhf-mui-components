@@ -22,12 +22,7 @@ import {
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
-import { MUIMobileDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps
-} from '@/common';
+import { MUIMobileDateTimePicker, type MUIMobileDateTimePickerProps } from '@nish1896/mui-components/mui-pickers/date-time';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   generateDateAdapterErrMsg,
@@ -52,6 +47,8 @@ type PickerCustomOnChangeProps<ValidationError>
     rhfOnChange: (value: PickerValidDate) => void;
   };
 
+type MobileDateTimePickerPropsBase = MUIMobileDateTimePickerProps<PickerValidDate>;
+
 export type RHFMobileDateTimePickerProps<T extends FieldValues> = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -68,7 +65,7 @@ export type RHFMobileDateTimePickerProps<T extends FieldValues> = {
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: MobileDateTimePickerPropsBase['required'];
   /**
    * Overrides the default date-time picker change handling.
    * Receives every picker change, including date-time values that currently have validation errors.
@@ -100,15 +97,15 @@ export type RHFMobileDateTimePickerProps<T extends FieldValues> = {
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MobileDateTimePickerPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MobileDateTimePickerPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MobileDateTimePickerPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -119,19 +116,19 @@ export type RHFMobileDateTimePickerProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MobileDateTimePickerPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: MobileDateTimePickerPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MobileDateTimePickerPropsBase['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MobileDateTimePickerPropsBase['customIds'];
 } & MobileDateTimePickerInputProps;
 
 const RHFMobileDateTimePickerInner = forwardRef(function RHFMobileDateTimePicker<

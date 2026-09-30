@@ -22,12 +22,7 @@ import {
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
-import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps
-} from '@/common';
+import { MUIDatePicker, type MUIDatePickerProps } from '@nish1896/mui-components/mui-pickers/date';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   generateDateAdapterErrMsg,
@@ -52,6 +47,8 @@ type PickerCustomOnChangeProps<ValidationError>
     rhfOnChange: (value: PickerValidDate) => void;
   };
 
+type DatePickerPropsBase = MUIDatePickerProps<PickerValidDate>;
+
 export type RHFDatePickerProps<T extends FieldValues> = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -68,7 +65,7 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: DatePickerPropsBase['required'];
   /**
    * Overrides the default date picker change handling.
    * Receives every picker change, including date values that currently have validation errors.
@@ -100,15 +97,15 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: DatePickerPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: DatePickerPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: DatePickerPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -119,19 +116,19 @@ export type RHFDatePickerProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: DatePickerPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: DatePickerPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: DatePickerPropsBase['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: DatePickerPropsBase['customIds'];
 } & DatePickerInputProps;
 
 const RHFDatePickerInner = forwardRef(function RHFDatePicker<T extends FieldValues>(

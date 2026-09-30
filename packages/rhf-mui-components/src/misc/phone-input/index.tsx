@@ -21,19 +21,11 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type TextFieldProps } from '@mui/material/TextField';
-import { type SelectProps as MuiSelectProps } from '@mui/material/Select';
-import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
+import MUIPhoneInput, { type MUIPhoneInputProps } from '@nish1896/mui-components/misc/phone-input';
 import {
   type CountryIso2,
-  type ParsedCountry,
-  type UsePhoneInputConfig
+  type ParsedCountry
 } from 'react-international-phone';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps,
-  type MenuItemProps
-} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   keepLabelAboveFormField,
@@ -89,50 +81,6 @@ type InputTextFieldProps = Omit<
   | 'ref'
 >;
 
-type SearchCountryProps = {
-  /**
-   * Whether to show the inline country search field inside the country dropdown.
-   * @default true
-   */
-  allowCountrySearch?: boolean;
-  /**
-   * Props forwarded to the internal MUI `TextField`.
-   */
-  textFieldProps?: Omit<TextFieldProps, 'value' | 'label'>;
-  /**
-   * Customize the content of each `MenuItem` in the country search dropdown.
-   */
-  renderCountryMenuItem?: (country: ParsedCountry) => ReactNode;
-  /**
-   * Text shown when the country search does not match any available country.
-   * @default 'No countries found'
-   */
-  noCountryFoundText?: string;
-  /**
-   * Props forwarded to every rendered country `MenuItem` — including the
-   * disabled "no results" item shown when `noCountryFoundText` applies.
-   *
-   * Added in `v4.3`.
-   */
-  menuItemProps?: MenuItemProps;
-};
-
-type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
-
-type CountrySelectProps = Omit<
-  MuiSelectProps,
-  | 'value'
-  | 'defaultValue'
-  | 'onChange'
-  | 'onOpen'
-  | 'onClose'
-  | 'renderValue'
-  | 'MenuProps'
-  | 'disabled'
-  | 'children'
-  | 'ref'
->;
-
 export type RHFPhoneInputProps<T extends FieldValues> = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -176,29 +124,29 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   /**
    * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
    */
-  phoneInputProps?: PhoneInputProps;
+  phoneInputProps?: MUIPhoneInputProps['phoneInputProps'];
   /**
    * Options for the inline country search field in the country dropdown.
    */
-  searchCountryProps?: SearchCountryProps;
+  searchCountryProps?: MUIPhoneInputProps['searchCountryProps'];
   /**
    * Props forwarded to the internal `Select` that renders the flag/dial-code
    * trigger and country dropdown — e.g. a custom `size` or `sx` (merged with
    * the component's own).
    */
-  countrySelectProps?: CountrySelectProps;
+  countrySelectProps?: MUIPhoneInputProps['countrySelectProps'];
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUIPhoneInputProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUIPhoneInputProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUIPhoneInputProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -209,15 +157,15 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUIPhoneInputProps['hideErrorMessage'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUIPhoneInputProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUIPhoneInputProps['customIds'];
 } & InputTextFieldProps;
 
 const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<

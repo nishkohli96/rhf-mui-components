@@ -18,14 +18,8 @@ import {
 } from 'react-hook-form';
 import { type CKEditor } from '@ckeditor/ckeditor5-react';
 import type { EventInfo } from '@ckeditor/ckeditor5-utils';
-import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { type ClassicEditor } from 'ckeditor5';
-import MUIRichTextEditor, { DefaultEditorConfig } from '@nish1896/mui-components/misc/rich-text-editor';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps
-} from '@/common';
+import MUIRichTextEditor, { DefaultEditorConfig, type MUIRichTextEditorProps } from '@nish1896/mui-components/misc/rich-text-editor';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   mergeRefs,
@@ -73,17 +67,17 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    *
    * Defaults to the generated field id.
    */
-  id?: string;
+  id?: MUIRichTextEditorProps['id'];
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: MUIRichTextEditorProps['required'];
   /**
    * CKEditor configuration passed to `ClassicEditor`.
    *
    * Defaults to this package's `DefaultEditorConfig`.
    */
-  editorConfig?: EditorConfig;
+  editorConfig?: MUIRichTextEditorProps['editorConfig'];
   /**
    * Callback fired when the CKEditor instance is ready.
    */
@@ -133,24 +127,24 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   /**
    * When true, disables the field and associated controls.
    */
-  disabled?: boolean;
+  disabled?: MUIRichTextEditorProps['disabled'];
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: MUIRichTextEditorProps['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUIRichTextEditorProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUIRichTextEditorProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUIRichTextEditorProps['hideLabel'];
   /**
    * Callback fired when CKEditor reports an initialization or runtime error.
    */
@@ -165,19 +159,19 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUIRichTextEditorProps['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: MUIRichTextEditorProps['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUIRichTextEditorProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUIRichTextEditorProps['customIds'];
 };
 
 const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<

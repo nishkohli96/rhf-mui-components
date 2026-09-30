@@ -22,12 +22,7 @@ import {
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
 import { ConfigProvider as MUIComponentsConfigProvider } from '@nish1896/mui-components/config';
-import { MUIDesktopDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps
-} from '@/common';
+import { MUIDesktopDateTimePicker, type MUIDesktopDateTimePickerProps } from '@nish1896/mui-components/mui-pickers/date-time';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   generateDateAdapterErrMsg,
@@ -52,6 +47,8 @@ type PickerCustomOnChangeProps<ValidationError>
     rhfOnChange: (value: PickerValidDate) => void;
   };
 
+type DesktopDateTimePickerPropsBase = MUIDesktopDateTimePickerProps<PickerValidDate>;
+
 export type RHFDesktopDateTimePickerProps<T extends FieldValues> = {
   /**
    * Name/path of the React Hook Form field this component controls.
@@ -68,7 +65,7 @@ export type RHFDesktopDateTimePickerProps<T extends FieldValues> = {
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: DesktopDateTimePickerPropsBase['required'];
   /**
    * Overrides the default date-time picker change handling.
    * Receives every picker change, including date-time values that currently have validation errors.
@@ -100,15 +97,15 @@ export type RHFDesktopDateTimePickerProps<T extends FieldValues> = {
   /**
    * When `true`, renders the label above the component instead of within the field layout.
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: DesktopDateTimePickerPropsBase['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: DesktopDateTimePickerPropsBase['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: DesktopDateTimePickerPropsBase['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -119,19 +116,19 @@ export type RHFDesktopDateTimePickerProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: DesktopDateTimePickerPropsBase['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: DesktopDateTimePickerPropsBase['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: DesktopDateTimePickerPropsBase['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: DesktopDateTimePickerPropsBase['customIds'];
 } & DesktopDateTimePickerInputProps;
 
 const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePicker<

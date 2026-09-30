@@ -11,21 +11,14 @@ import {
   type RegisterOptions
 } from 'react-hook-form';
 import { type IColor } from 'react-color-palette';
-import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
+import MUIColorPicker, { type MUIColorPickerProps } from '@nish1896/mui-components/misc/color-picker';
 import { colorToString } from '@nish1896/mui-components/form-helpers';
-import type { CustomComponentIds } from '@nish1896/mui-components/types';
-import {
-  type FormLabelProps,
-  type FormHelperTextProps
-} from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import {
   mergeSx,
   resolveLabelAboveControl,
   resolveRequired
 } from '@/utils';
-
-type ColorFormat = keyof IColor;
 
 type RHFColorPickerCustomOnChangeProps = {
   color: IColor;
@@ -48,7 +41,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
-  required?: boolean;
+  required?: MUIColorPickerProps['required'];
   /**
    * Color format stored in the React Hook Form field.
    *
@@ -56,7 +49,7 @@ export type RHFColorPickerProps<T extends FieldValues> = {
    * @default 'hex'
    * Options: `hex`, `rgb`, `hsv`
    */
-  valueKey?: ColorFormat;
+  valueKey?: MUIColorPickerProps['valueKey'];
   /**
    * Overrides the default color picker change handling.
    * Receives the raw `IColor` from react-color-palette and a `setColor` helper that commits the formatted value to React Hook Form.
@@ -81,49 +74,49 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   /**
    * When true, disables the field and associated controls.
    */
-  disabled?: boolean;
+  disabled?: MUIColorPickerProps['disabled'];
   /**
    * Initial color used by the picker when the field does not already have a value.
    * @default '#000000'
    */
-  defaultColor?: string;
+  defaultColor?: MUIColorPickerProps['defaultColor'];
   /**
    * When true, omits alpha from emitted color values.
    */
-  excludeAlpha?: boolean;
+  excludeAlpha?: MUIColorPickerProps['excludeAlpha'];
   /**
    * Height, in pixels, of the color picker control.
    * @default 200
    */
-  height?: number;
+  height?: MUIColorPickerProps['height'];
   /**
    * When true, hides alpha controls in the color picker.
    */
-  hideAlpha?: boolean;
+  hideAlpha?: MUIColorPickerProps['hideAlpha'];
   /**
    * Hides picker input fields rendered by `react-color-palette`.
    *
    * Pass `true` to hide all inputs, or pass specific `IColor` keys to hide only
    * those inputs.
    */
-  hideInput?: (keyof IColor)[] | boolean;
+  hideInput?: MUIColorPickerProps['hideInput'];
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
-  label?: ReactNode;
+  label?: MUIColorPickerProps['label'];
   /**
    * Renders the label above the component.
    * @default true
    */
-  showLabelAboveFormField?: boolean;
+  showLabelAboveFormField?: MUIColorPickerProps['showLabelAboveFormField'];
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  formLabelProps?: MUIColorPickerProps['formLabelProps'];
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
-  hideLabel?: boolean;
+  hideLabel?: MUIColorPickerProps['hideLabel'];
   /**
    * Custom renderer for the React Hook Form field error.
    * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
@@ -134,19 +127,19 @@ export type RHFColorPickerProps<T extends FieldValues> = {
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
-  hideErrorMessage?: boolean;
+  hideErrorMessage?: MUIColorPickerProps['hideErrorMessage'];
   /**
    * Helper text shown below the field when there is no visible validation error.
    */
-  helperText?: ReactNode;
+  helperText?: MUIColorPickerProps['helperText'];
   /**
    * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
-  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  formHelperTextProps?: MUIColorPickerProps['formHelperTextProps'];
   /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
-  customIds?: CustomComponentIds;
+  customIds?: MUIColorPickerProps['customIds'];
 };
 
 /**
