@@ -9,11 +9,10 @@ export default function Layout({ children }) {
 
 # RHFRadioGroup
 
-The **RHFRadioGroup** component renders a group of radio buttons,
-allowing users to select one option from a set. It extends the [RadioGroup](https://mui.com/material-ui/react-radio-button/)
-component from Material UI, accepts most of its props, and offers
-similar customization options. It supports both arrays and
-arrays of objects for options.
+`RHFRadioGroup` wraps the Material UI
+[RadioGroup](https://mui.com/material-ui/react-radio-button/) for a single
+choice among `options`, storing the selected value in your form. It supports
+both primitive and object options through `labelKey` and `valueKey`.
 
 ## Usage
 
@@ -21,22 +20,68 @@ arrays of objects for options.
 import RHFRadioGroup, { RHFRadioGroupProps } from '@nish1896/rhf-mui-components/mui/radio-group';
 ```
 
-Example with an array of strings:
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  plan: string;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { plan: '' }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFRadioGroup
+    fieldName="plan"
+    control={control}
+    label="Plan"
+    options={['Free', 'Pro', 'Enterprise']}
+    registerOptions={{ required: 'Please choose a plan' }}
+  />
+</form>
+```
+
+The stored value is the selected option's value, and an empty string, `null` or
+`undefined` mean nothing is selected. `onValueChange` receives `{ newValue,
+event }`: the selected value and the change event.
+
+### Option value types
+
+The type of the options is preserved. A radio button's value is a string in the
+DOM, but the component maps it back to the option, so string options give a
+`string` and number options give a `number`.
+
+Declare primitive options outside the JSX, as below. An array written inline is
+inferred by TypeScript as a union of its literal values, such as `10 | 25 | 50`,
+and then a `number | null` form value doesn't match it.
 
 ```tsx
+const pageSizeOptions = [10, 25, 50];
+
+const { control } = useForm<{ pageSize: number | null }>({
+  defaultValues: { pageSize: null }
+});
+
 <RHFRadioGroup
-  fieldName="favouriteColor"
+  fieldName="pageSize"
   control={control}
-  options={['Red', 'Blue', 'Orange']}
+  options={pageSizeOptions}
 />
 ```
 
-Example with an array of objects:
+### With an array of objects
+
+Options can also be objects. In this case, both `labelKey` and `valueKey` are
+required. `labelKey` is the property used as each radio button's label, and
+`valueKey` is the property used as its value. The stored value is the `valueKey`
+property of the selected option, not the whole object.
 
 ```tsx
 <RHFRadioGroup
   fieldName="nationality"
   control={control}
+  label="Nationality"
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
@@ -52,6 +97,109 @@ Example with an array of objects:
   are required. If either is missing, an error will be thrown.
 </Callout>
 
+### Customizing individual options
+
+`renderOptionLabel` replaces the label of each radio button. It receives the
+option and a state object with `disabled`, which is `true` when the option or
+the whole group is disabled, and `selected`, which is `true` for the current
+value. The label can be any `ReactNode`.
+
+`getOptionDisabled` receives an option and returns `true` to disable that radio
+button. A disabled option can't be picked, but if it is the current value it
+stays selected. `disabled` on the group disables every option at once.
+
+```tsx
+<RHFRadioGroup
+  fieldName="seat"
+  control={control}
+  label="Seat"
+  options={[
+    { id: 'window', name: 'Window', taken: false },
+    { id: 'aisle', name: 'Aisle', taken: true },
+    { id: 'middle', name: 'Middle', taken: false }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  getOptionDisabled={option => option.taken}
+  renderOptionLabel={(option, { disabled, selected }) => (
+    <span
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        fontWeight: selected ? 700 : 400
+      }}
+    >
+      {option.name}{disabled ? ' (taken)' : ''}
+    </span>
+  )}
+/>
+```
+
+### Styling each radio button
+
+`radioProps` is forwarded to every `Radio`, for example a `color`, `size` or
+custom `icon` and `checkedIcon`. `formControlLabelProps` is forwarded to every
+`FormControlLabel` that wraps a radio button and its label, for example
+`labelPlacement`. Its `sx` is merged with the default `FormControlLabel` styles
+from [ConfigProvider](/customization).
+
+```tsx
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+<RHFRadioGroup
+  fieldName="plan"
+  control={control}
+  options={planOptions}
+  radioProps={{
+    color: 'secondary',
+    size: 'small',
+    icon: <RadioButtonUncheckedIcon />,
+    checkedIcon: <CheckCircleIcon />
+  }}
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', mx: 0 }
+  }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`:
+
+```tsx
+<RHFRadioGroup
+  fieldName="plan"
+  control={control}
+  options={['Free', 'Pro', 'Enterprise']}
+  onValueChange={({ newValue, event }) => {
+    if (newValue === 'Free') {
+      setValue('seats', 1);
+    }
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example stores the plan in lowercase: `onValueChange` is not called
+when `customOnChange` is used.
+
+```tsx
+<RHFRadioGroup
+  fieldName="plan"
+  control={control}
+  options={['Free', 'Pro', 'Enterprise']}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    rhfOnChange(newValue.toLowerCase());
+  }}
+/>
+```
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
 ## Examples
 - [RadioGroup](https://mui.com/material-ui/react-radio-button/)
 - [RHFRadioGroup](/examples/checkbox-and-radiogroup)
@@ -59,9 +207,10 @@ Example with an array of objects:
 
 ## API
 
-`RHFRadioGroupProps` extends [RadioGroupProps](https://mui.com/material-ui/api/radio-group/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFRadioGroupProps` extends
+[RadioGroupProps](https://mui.com/material-ui/api/radio-group/) and accepts the
+following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFRadioGroup}

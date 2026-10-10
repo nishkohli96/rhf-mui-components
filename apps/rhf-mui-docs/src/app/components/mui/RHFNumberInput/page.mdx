@@ -156,8 +156,8 @@ receives `{ newValue, event }`, where `newValue` is a `number` or `null`:
 
 Use `customOnChange` when you need to change what gets stored. It replaces the
 default handling, so you must call `rhfOnChange` yourself with the value to
-store. This example caps the value at 100: `onValueChange` is not called when
-`customOnChange` is used.
+store. This example caps the value at 100: `onValueChange` is **not called**
+when `customOnChange` is used.
 
 ```tsx
 <RHFNumberInput

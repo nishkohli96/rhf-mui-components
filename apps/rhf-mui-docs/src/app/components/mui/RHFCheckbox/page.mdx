@@ -9,10 +9,13 @@ export default function Layout({ children }) {
 
 # RHFCheckbox
 
-The **RHFCheckbox** component renders a checkbox, allowing users to toggle an option on or off,
-such as subscribing to a newsletter. It extends the [Checkbox](https://mui.com/material-ui/react-checkbox/)
-component from MUI, accepts most of its props, and offers similar
-customization options.
+`RHFCheckbox` is a single
+[Checkbox](https://mui.com/material-ui/react-checkbox/) with a boolean value, an
+inline label, and optional helper text or error state, bound to React Hook Form
+through `control`.
+
+For choosing several items from a list, use
+[RHFCheckboxGroup](/components/mui/RHFCheckboxGroup).
 
 ## Usage
 
@@ -21,10 +24,123 @@ import RHFCheckbox, { RHFCheckboxProps } from '@nish1896/rhf-mui-components/mui/
 ```
 
 ```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  terms: boolean;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { terms: false }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFCheckbox
+    fieldName="terms"
+    control={control}
+    label="I accept the terms and conditions"
+  />
+</form>
+```
+
+The stored value is a boolean. `onValueChange` receives `{ newValue, event }`:
+the next checked state and the change event. The label defaults to text
+generated from `fieldName`, so `terms` becomes "Terms", and `hideLabel` removes
+the visible label.
+
+### Label and placement
+
+`label` accepts any `ReactNode`, so it can hold a link, such as one to the
+terms. The label sits after the checkbox by default. `formControlLabelProps` is
+forwarded to the `FormControlLabel` around the checkbox, so `labelPlacement` can
+move it to the `'start'`, `'top'` or `'bottom'`. Its `sx` is merged with the
+default `FormControlLabel` styles from [ConfigProvider](/customization). The
+component controls the `FormControlLabel`'s `control`, `label` and `disabled`.
+
+```tsx
 <RHFCheckbox
-  fieldName="agreeTnC"
+  fieldName="terms"
   control={control}
-  label="Agree to Terms & Conditions"
+  label={<>I accept the <a href="/terms">terms and conditions</a></>}
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', ml: 0 }
+  }}
+/>
+```
+
+### Styling the checkbox
+
+The remaining [CheckboxProps](https://mui.com/material-ui/api/checkbox/) are
+passed to the `Checkbox`, for example `color`, `size`, `sx`, and custom `icon`
+and `checkedIcon`. `slotProps` is forwarded too. The checkbox's `id`, `name`,
+`checked` and `onChange` are managed by the component.
+
+```tsx
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
+<RHFCheckbox
+  fieldName="favourite"
+  control={control}
+  color="error"
+  size="small"
+  icon={<FavoriteBorderIcon />}
+  checkedIcon={<FavoriteIcon />}
+/>
+```
+
+The `indeterminate` prop shows the dash icon, which is useful for a "select all"
+box that controls other checkboxes. It only changes how the checkbox looks, and
+the stored value still decides whether it is checked.
+
+### Required, helper text and errors
+
+A `required` rule fails while the checkbox is unchecked, which makes it a simple
+way to enforce accepting terms. The message is shown below the checkbox and
+replaces `helperText` while it is visible.
+
+```tsx
+<RHFCheckbox
+  fieldName="terms"
+  control={control}
+  label="I accept the terms and conditions"
+  helperText="Required to continue"
+  registerOptions={{ required: 'You must accept the terms' }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`:
+
+```tsx
+<RHFCheckbox
+  fieldName="newsletter"
+  control={control}
+  onValueChange={({ newValue, event }) => {
+    if (!newValue) {
+      setValue('newsletterFrequency', '');
+    }
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example only allows checking the box once terms were opened:
+`onValueChange` is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFCheckbox
+  fieldName="terms"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    if (!newValue || hasOpenedTerms) {
+      rhfOnChange(newValue);
+    }
+  }}
 />
 ```
 
@@ -34,9 +150,10 @@ import RHFCheckbox, { RHFCheckboxProps } from '@nish1896/rhf-mui-components/mui/
 - [Complete Form](/examples/complete-form)
 
 ## API
-`RHFCheckboxProps` extends [CheckboxProps](https://mui.com/material-ui/api/checkbox/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFCheckboxProps` extends
+[CheckboxProps](https://mui.com/material-ui/api/checkbox/) and accepts the
+following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFCheckbox}

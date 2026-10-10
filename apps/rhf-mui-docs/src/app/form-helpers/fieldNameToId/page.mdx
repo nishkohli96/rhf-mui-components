@@ -9,7 +9,9 @@ export default function Layout({ children }) {
 
 # fieldNameToId
 
-This function converts a form field name into a valid, HTML-friendly `id` attribute. It is especially useful for nested object paths and field arrays, producing predictable, HTML-safe IDs for form controls and labels.
+This function converts a form field name into a valid, HTML-friendly `id`
+attribute. It is especially useful for nested object paths and field arrays,
+producing predictable, HTML-safe IDs for form controls and labels.
 
 ```ts
 function fieldNameToId(fieldName: string): string;
@@ -30,7 +32,8 @@ import { fieldNameToId } from '@nish1896/rhf-mui-components/form-helpers';
 
 This function transforms field names by:
 
-1. Converting **array indices** (`phones[0]`) into dash-separated segments (`phones-0`).
+1. Converting **array indices** (`phones[0]`) into dash-separated segments
+   (`phones-0`).
 2. Replacing **dot notation** (`user.email`) with dashes.
 3. Removing characters that are invalid in HTML IDs.
 4. Collapsing consecutive dashes into a single dash.

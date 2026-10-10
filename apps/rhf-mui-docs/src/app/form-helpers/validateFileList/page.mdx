@@ -9,13 +9,15 @@ export default function Layout({ children }) {
 
 # validateFileList
 
-`validateFileList` function processes a list of uploaded files, validating each file against:
+`validateFileList` function processes a list of uploaded files, validating each
+file against:
 
 - Maximum file size in bytes (if provided)
 - Accepted file types (based on the `accept` attribute)
 
 This function utilized by [RHFFileUploader](/components/mui/RHFFileUploader)
-ensures only files meeting the required criteria are passed for further processing.
+ensures only files meeting the required criteria are passed for further
+processing.
 
 ```ts
 type ValidateFileListOptions = {
@@ -48,15 +50,23 @@ import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
 
 1. `fileList`: The set of input files to run this validation against.
 2. `options`: Validation options used when processing the file list.
-    - `accept` — Optional string specifying the allowed file types or extensions, following the standard **input[type="file"]** `accept` attribute format (for example, `.png, .jpg, image/*`). Files that do not match the specified criteria will be added to `rejectedFiles`.
-    - `maxSize` — Optional maximum file size in bytes. Files exceeding this limit will be added to `rejectedFiles`.
-    - `maxFiles` — Optional maximum number of files allowed. If the number of valid files exceeds this limit, the additional files will be added to `rejectedFiles` with a `FILE_LIMIT_EXCEEDED` error and excluded from `acceptedFiles`.
+    - `accept` — Optional string specifying the allowed file types or
+      extensions, following the standard **input[type="file"]** `accept`
+      attribute format (for example, `.png, .jpg, image/*`). Files that do not
+      match the specified criteria will be added to `rejectedFiles`.
+    - `maxSize` — Optional maximum file size in bytes. Files exceeding this
+      limit will be added to `rejectedFiles`.
+    - `maxFiles` — Optional maximum number of files allowed. If the number of
+      valid files exceeds this limit, the additional files will be added to
+      `rejectedFiles` with a `FILE_LIMIT_EXCEEDED` error and excluded from
+      `acceptedFiles`.
 
 ### Returns
 
 1. `acceptedFiles` — Files that passed validation (`File[]`).
 
-2. `rejectedFiles` — Files that failed validation, along with the reasons for rejection, and is of the type:
+2. `rejectedFiles` — Files that failed validation, along with the reasons for
+   rejection, and is of the type:
 
     ```ts
     type FileUploadErrorDetails = {

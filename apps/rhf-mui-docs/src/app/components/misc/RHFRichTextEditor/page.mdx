@@ -10,22 +10,22 @@ export default function Layout({ children }) {
 
 # RHFRichTextEditor
 
-**RHFRichTextEditor** is a powerful and flexible rich text editor designed for
-content creation within forms. It allows users to format text with features
-such as _**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_,
-and more, making it suitable for blog posts, comments, or any content
-requiring rich formatting. This component is built on top of
-[CkEditor](https://ckeditor.com/docs/ckeditor5/latest/index.html),
-a highly customizable editor that supports advanced features such as
-`codeBlocks`, `findAndReplace`, `tables`, and more.
+`RHFRichTextEditor` wraps [CKEditor
+5](https://ckeditor.com/docs/ckeditor5/latest/) (`ClassicEditor`) and binds it
+to React Hook Form. It allows users to format text with features such as
+_**bold**_, _**italics**_, _**lists**_, _**links**_, _**images**_, and more,
+making it suitable for blog posts, comments, or any content requiring rich
+formatting. CKEditor 5 is highly customizable and supports advanced features
+such as `codeBlocks`, `findAndReplace`, `tables`, and more.
 
 ## Installation
 
 <Callout type="warning">
-  The latest versions of [CkEditor](https://ckeditor.com/) require a paid license key.
-  Therefore, we will use the free version of this package.
+  The latest versions of [CkEditor](https://ckeditor.com/) require a paid
+  license key. Therefore, we will use the free version of this package.
 
-  To use the latest version, refer to the [Use Latest Version section](#with-latest-version).
+  To use the latest version, refer to the [Use Latest Version
+  section](#with-latest-version).
 </Callout>
 
 <PackageManagerTabs
@@ -39,44 +39,133 @@ a highly customizable editor that supports advanced features such as
 import RHFRichTextEditor, { RHFRichTextEditorProps, DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
 ```
 
+The stored value is an **HTML string**.
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  bio: string;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { bio: '' }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.bio))}>
+  <RHFRichTextEditor
+    fieldName="bio"
+    control={control}
+  />
+</form>
+```
+
+### Validation
+
+Rules go in `registerOptions`. Because the value is HTML, an empty editor can
+still hold markup such as `<p></p>`, so strip the tags before checking its
+length:
+
+```tsx
+const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '').trim();
+
+<RHFRichTextEditor
+  fieldName="bio"
+  control={control}
+  registerOptions={{
+    validate: value =>
+      stripHtml(value).length >= 20 || 'Write at least 20 characters'
+  }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new HTML has been stored in the form. It receives
+`{ newValue, event, editor }`: the new HTML string, the CKEditor event, and the
+editor instance. `onReady`, `onFocus`, `onBlur` and `onError` are forwarded from
+CKEditor.
+
 ```tsx
 <RHFRichTextEditor
   fieldName="bio"
   control={control}
+  onValueChange={({ newValue, event, editor }) => {
+    console.log(newValue.length, editor.getData());
+  }}
 />
 ```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the HTML to
+store. It receives `{ rhfOnChange, newValue, event, editor }`. This example
+stores an empty string instead of an empty paragraph. `onValueChange` is not
+called when `customOnChange` is used.
+
+```tsx
+<RHFRichTextEditor
+  fieldName="bio"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, event, editor }) => {
+    rhfOnChange(newValue === '<p></p>' ? '' : newValue);
+  }}
+/>
+```
+
+### Customizing the editor
 
 To reorder formatting options or add advanced features, you can provide
 a custom configuration via the `editorConfig` prop, or override the existing
 configuration by modifying the `DefaultEditorConfig` object. You can check the
-<MuiLink href={externalLinks.githubRepo.rteConfig} target="_blank" rel="noopener noreferrer">default configuration here</MuiLink>.
+<MuiLink
+  href={externalLinks.githubRepo.rteConfig}
+  target="_blank"
+  rel="noopener noreferrer"
+>default configuration here</MuiLink>.
 
-To customize the editor theme, review the [theme customization guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
+To customize the editor theme, review the [theme customization
+guide](https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/theme-customization.html).
 
 For advanced features like **findAndReplace**, **inserting images**,
 **markdown support**, and **word count**, refer to
-<MuiLink href={externalLinks.githubExamples.ckEditorAdvanced} target="_blank" rel="noopener noreferrer">this example</MuiLink>.
-For a full list of available CKEditor features, visit the [CKEditor documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
+<MuiLink
+  href={externalLinks.githubExamples.ckEditorAdvanced}
+  target="_blank"
+  rel="noopener noreferrer"
+>this example</MuiLink>.
+For a full list of available CKEditor features, visit the [CKEditor
+documentation](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
 
 <Callout type="note">
-  If your website supports both light and dark themes, styling `CKEditor5` for theme switching
-  can be challenging, as the editor doesn't dynamically adapt to theme changes once rendered.
-  To address this, you can override the editor's CSS based on the active theme by
-  referring to <MuiLink href={externalLinks.githubExamples.ckEditorCssGist} target="_blank" rel="noopener noreferrer">this gist</MuiLink>.
+  If your website supports both light and dark themes, styling `CKEditor5` for
+  theme switching can be challenging, as the editor doesn't dynamically adapt to
+  theme changes once rendered. To address this, you can override the editor's
+  CSS based on the active theme by referring to <MuiLink
+  href={externalLinks.githubExamples.ckEditorCssGist} target="_blank"
+  rel="noopener noreferrer">this gist</MuiLink>.
 
-  You may also refer to the [CkEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html)
-  for a better understanding.
+  You may also refer to the [CkEditor5
+  documentation](https://ckeditor.com/docs/ckeditor5/latest/index.html) for a
+  better understanding.
 </Callout>
+
+### Labels, errors and disabling
+
+`showLabelAboveFormField`, `hideLabel`, `formLabelProps`, `helperText`,
+`renderError`, `hideErrorMessage` and `disabled` (or a form-level `disabled` in
+`useForm`) work as described in [RHFTextField](/components/mui/RHFTextfield).
 
 ### With Latest Version
 
-The latest version of **CKEditor5** requires a paid license key. To continue accessing the
-newest features of the editor while preserving the underlying form logic, update your code
-as follows:
+The latest version of **CKEditor5** requires a paid license key. To continue
+accessing the newest features of the editor while preserving the underlying form
+logic, update your code as follows:
 
-1. **Obtain a License Key**: Acquire a commercial license key from the [CKEditor Pricing Page](https://ckeditor.com/pricing/).
+1. **Obtain a License Key**: Acquire a commercial license key from the [CKEditor
+   Pricing Page](https://ckeditor.com/pricing/).
 
-2. **Update Your CKEditor 5 Configuration**: Incorporate the licenseKey into your editor configuration:
+2. **Update Your CKEditor 5 Configuration**: Incorporate the licenseKey into
+   your editor configuration:
 
 ```tsx
 import RHFRichTextEditor, { DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
@@ -92,7 +181,8 @@ import RHFRichTextEditor, { DefaultEditorConfig } from '@nish1896/rhf-mui-compon
 ```
 
 Replace **'YOUR_LICENSE_KEY'** with the license key you obtained. You can also
-configure your own [editor settings](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html#configuring-editor-settings)
+configure your own [editor
+settings](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html#configuring-editor-settings)
 instead of using the default configuration.
 
 ## Examples
@@ -106,12 +196,13 @@ this component provides both basic and advanced configuration options.
 If you're looking for a simpler solution, consider implementing
 [mui-rte](https://www.npmjs.com/package/mui-rte).
 
-[Quill](https://quilljs.com/) and [TipTap](https://tiptap.dev/) are excellent alternatives.
-They offer a wide range of rich text editor features along with well-documented examples and guides.
+[Quill](https://quilljs.com/) and [TipTap](https://tiptap.dev/) are excellent
+alternatives. They offer a wide range of rich text editor features along with
+well-documented examples and guides.
 
 ## API
-`RHFRichTextEditorProps` accepts the following props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFRichTextEditorProps` accepts the following props. Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFRichTextEditor}
