@@ -15,6 +15,7 @@ type AppShellProps = {
 const AppShell = ({ children }: AppShellProps) => {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+  const isExamplesPage = pathname.startsWith('/examples');
 
   if (isHomePage) {
     return (
@@ -53,7 +54,11 @@ const AppShell = ({ children }: AppShellProps) => {
           sx={{
             flex: 1,
             minWidth: 0,
-            p: { xs: '20px 16px 36px', md: '28px 28px 48px' }
+            p: {
+              xs: '20px 16px 36px',
+              /* Docs pages have a Contents rail on the right. */
+              md: isExamplesPage ? '28px 24px 48px' : '28px 8px 48px 24px'
+            }
           }}
         >
           {children}
