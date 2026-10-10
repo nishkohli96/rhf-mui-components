@@ -190,7 +190,7 @@ importers:
   packages/rhf-mui-components:
     dependencies:
       '@nish1896/mui-components':
-        specifier: ^2.0.4
+        specifier: 2.0.4
         version: 2.0.4(5899ee96df42b9cd6b5edd8947221d63)
     devDependencies:
       '@ckeditor/ckeditor5-core':

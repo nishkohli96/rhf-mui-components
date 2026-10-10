@@ -4,7 +4,7 @@ import {
   SubHeading,
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import AutocompleteForm from '@/forms/autocomplete/Client';
+import AutocompleteForm from '@/forms/autocomplete';
 
 export const metadata = pageMetadata.autocompleteExample;
 

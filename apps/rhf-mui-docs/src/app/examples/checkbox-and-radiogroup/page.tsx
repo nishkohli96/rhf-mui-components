@@ -1,6 +1,6 @@
 import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { pageMetadata } from '@/constants';
-import CheckboxRadioForm from '@/forms/checkbox-and-radiogroup/Client';
+import CheckboxRadioForm from '@/forms/checkbox-and-radiogroup';
 
 export const metadata = pageMetadata.checkboxAndRadioExample;
 

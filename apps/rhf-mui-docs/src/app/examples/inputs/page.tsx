@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import InputsForm from '@/forms/inputs/Client';
+import InputsForm from '@/forms/inputs';
 
 export const metadata = pageMetadata.inputsExample;
 

@@ -9,7 +9,7 @@ import {
 } from '@/components';
 import CodeSnippets, { type ComponentSnippet } from '@/components/docs/CodeSnippets';
 import { pageMetadata } from '@/constants';
-import StyledComponentsForm from '@/forms/styled-components/Client';
+import StyledComponentsForm from '@/forms/styled-components';
 
 export const metadata = pageMetadata.customizationExample;
 
