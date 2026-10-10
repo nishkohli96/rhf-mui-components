@@ -27,9 +27,16 @@ jobs:
       contains(github.event.context, 'Vercel') &&
       contains(github.event.context, 'docs') &&
       contains(github.event.branches.*.name, 'main')
+    # Job-level, so it's evaluated only after the `if` above: a non-matching
+    # status for the same SHA can't cancel a qualifying run mid-wait.
+    concurrency:
+      group: algolia-reindex-${{ github.event.sha }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     environment: Production
     steps:
+      - name: Wait 5 mins for prod CDN propagation
+        run: sleep $((5*60))
       - name: Trigger Algolia Crawler (dev)
         env:
           CRAWLER_USERID: ${{ secrets.ALGOLIA_CRAWLER_USERID}}

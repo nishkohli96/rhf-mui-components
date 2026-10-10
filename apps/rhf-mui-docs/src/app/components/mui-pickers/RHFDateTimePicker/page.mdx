@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
+import { DocsPage, PropsTable, Callout, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.RHFDateTimePicker;
@@ -9,15 +9,44 @@ export default function Layout({ children }) {
 
 # RHFDateTimePicker
 
-**RHFDateTimePicker** extends [DateTimePicker](https://mui.com/x/react-date-pickers/date-time-picker/)
-component, allowing users to select a date and time for an event.
+`RHFDateTimePicker` wraps the Material UI X [DateTime
+Picker](https://mui.com/x/react-date-pickers/date-time-picker/) with label,
+error and helper-text handling, bound to React Hook Form through `control`.
 
-Starting with **version 4**, this module also exports `RHFDesktopDateTimePicker`,
-`RHFMobileDateTimePicker`, and `RHFStaticDateTimePicker`.
+Use a date-time picker when something needs both a day and a time, such as a
+meeting, a flight departure or a delivery slot. A single field captures both, so
+you don't have to keep a separate date and time in sync.
+
+Each picker comes in four variants, exported from the same module:
+
+- `RHFDateTimePicker`: responsive (renders the desktop UI on pointer devices,
+  the mobile UI on touch).
+- `RHFDesktopDateTimePicker`: always renders the desktop (keyboard-first) UI.
+- `RHFMobileDateTimePicker`: always renders the mobile (modal) UI.
+- `RHFStaticDateTimePicker`: an always-visible inline picker with no text field.
+
+## Setup
+
+All pickers read their date adapter from [ConfigProvider](/customization). Wrap
+your app once and pass the adapter for your date library
+([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
+[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)).
+
+```tsx
+import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+<ConfigProvider dateAdapter={AdapterDayjs}>
+  <App />
+</ConfigProvider>
+```
+
+Without a `dateAdapter`, the pickers throw an error at render. This is the one
+required piece of setup.
 
 ## Usage
 
-```ts
+```tsx
 import {
   RHFDateTimePicker,
   RHFDesktopDateTimePicker,
@@ -28,12 +57,180 @@ import {
   type RHFMobileDateTimePickerProps,
   type RHFStaticDateTimePickerProps
 } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+import { type Dayjs } from 'dayjs';
 ```
 
 ```tsx
-<RHFDateTimePicker
-  fieldName="meetingDateTime"
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  meeting: Dayjs | null;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { meeting: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.meeting?.toISOString()))}>
+  <RHFDateTimePicker
+    fieldName="meeting"
+    control={control}
+    registerOptions={{ required: 'This field is required' }}
+  />
+</form>
+```
+
+`value` uses the date type of your date adapter, such as a `Dayjs` for
+`AdapterDayjs`. `null` clears the picker, so use `null` as the default value for
+an empty field.
+
+By default, a change is stored in the form only when `context.validationError`
+is `null`. A half-typed or out-of-range entry is therefore **not** written to
+the form, and the field keeps its last valid value. Use `customOnChange` if you
+need to see every change, including invalid ones. `onValueChange` is called
+after a valid value is stored, and is **not called** when `customOnChange` is used.
+
+### Other variants
+
+The other three variants take the same props. Use `RHFDesktopDateTimePicker` for
+the keyboard-first popover on every device, `RHFMobileDateTimePicker` for a
+modal dialog, and `RHFStaticDateTimePicker` for an always-visible picker without
+a text field.
+
+```tsx
+<RHFMobileDateTimePicker
+  fieldName="meeting"
   control={control}
+/>
+```
+
+`onAccept` is passed through to MUI X and fires when the user finishes picking a
+value. The field is also marked as touched at that point, so `mode: 'onTouched'`
+validates once the user has picked a value.
+
+### Validation and limits
+
+Limit the selectable values with the MUI X props `minDateTime`, `maxDateTime`,
+`disablePast` and `disableFuture`, or limit the date and the time separately
+with `minDate`, `maxDate`, `minTime` and `maxTime`. Disabled values can't be
+picked. Typed values outside the limits are not stored (see above), so pair the
+limits with rules in `registerOptions`:
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meeting"
+  control={control}
+  disablePast
+  registerOptions={{ required: 'Pick a date and time' }}
+/>
+```
+
+To report the picker's own error, read `context.validationError` in
+`customOnChange`. It combines the date and time errors, such as `'invalidDate'`,
+`'minDate'`, `'maxDate'`, `'minTime'`, `'maxTime'`, `'disablePast'` and
+`'disableFuture'`, and is `null` when the value is valid.
+
+```tsx
+const messages: Record<string, string> = {
+  invalidDate: 'Enter a valid date and time',
+  minDate: 'Pick a later date',
+  disablePast: 'Pick a time in the future'
+};
+
+<RHFDateTimePicker
+  fieldName="meeting"
+  control={control}
+  disablePast
+  customOnChange={({ rhfOnChange, newValue, context }) => {
+    if (context.validationError) {
+      setError('meeting', {
+        type: context.validationError,
+        message: messages[context.validationError]
+      });
+      return;
+    }
+    clearErrors('meeting');
+    rhfOnChange(newValue);
+  }}
+/>
+```
+
+### 12-hour or 24-hour clock
+
+By default the clock follows the locale. Set `ampm` to `false` for a 24-hour
+clock, or `true` for a 12-hour clock with an AM/PM switch.
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meeting"
+  control={control}
+  ampm={false}
+/>
+```
+
+### Customizing the input
+
+`format` sets how the value is written in the field, using the tokens of your
+date library, such as `'DD/MM/YYYY HH:mm'` for Day.js. `slotProps.textField` is
+forwarded to the text field, as an object or a function, for props like `size`
+and `fullWidth`. The component controls the text field's `id`, `error` and ARIA
+attributes.
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meeting"
+  control={control}
+  format="DD/MM/YYYY HH:mm"
+  slotProps={{ textField: { size: 'small', fullWidth: true } }}
+/>
+```
+
+### Labels, errors and disabling
+
+`showLabelAboveFormField`, `hideLabel` and `formLabelProps` control the label,
+`helperText`, `renderError` and `hideErrorMessage` control the message below the
+field, and `disabled` (or a form-level `disabled` in `useForm`) disables it.
+These work as described in [RHFTextField](/components/mui/RHFTextfield).
+
+<Callout type="info">
+  `RHFStaticDateTimePicker` renders inline with no text field, so two props
+  behave slightly differently: `fieldName` only derives the generated ids and
+  default label (no `name` attribute, since there is no input), and
+  `showLabelAboveFormField` defaults to `false`, which means no visible label
+  renders at all (the accessible name is still applied).
+</Callout>
+
+### Handling value changes
+
+By default a change is stored only when `context.validationError` is `null`.
+`onValueChange` runs after a valid value has been stored. It receives
+`{ newValue, context }`:
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meeting"
+  control={control}
+  onValueChange={({ newValue, context }) => {
+    console.log(newValue?.toISOString())
+  }}
+/>
+```
+
+Use `customOnChange` when you need to see every change, including invalid ones,
+or to change what gets stored. It replaces the default handling, so you must
+call `rhfOnChange` yourself with the value to store. It receives `{ rhfOnChange,
+newValue, context }`. `onValueChange` is **not called** when `customOnChange` is
+used.
+
+```tsx
+<RHFDateTimePicker
+  fieldName="meeting"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, context }) => {
+    if (context.validationError === null) {
+      rhfOnChange(newValue?.second(0) ?? null);
+    }
+  }}
 />
 ```
 
@@ -43,9 +240,10 @@ import {
 - [Complete Form](/examples/complete-form)
 
 ## API
-`RHFDateTimePickerProps` extends [DateTimePickerProps](https://mui.com/x/api/date-pickers/date-time-picker/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFDateTimePickerProps` extends
+[DateTimePickerProps](https://mui.com/x/api/date-pickers/date-time-picker/) and
+accepts the following additional props. Props marked with <strong style={{
+color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFDateTimePicker}

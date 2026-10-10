@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import CompleteFormWithJoi from '@/forms/complete-form-joi/Client';
+import CompleteFormWithJoi from '@/forms/complete-form-joi';
 
 export const metadata = pageMetadata.completeFormJoiExample;
 

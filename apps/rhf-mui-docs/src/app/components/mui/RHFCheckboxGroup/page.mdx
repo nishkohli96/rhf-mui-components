@@ -9,10 +9,10 @@ export default function Layout({ children }) {
 
 # RHFCheckboxGroup
 
-The **RHFCheckboxGroup** component renders multiple checkboxes, allowing
-users to select one or more items from a set. It supports both arrays
-and arrays of objects for options, and each [checkbox](https://mui.com/material-ui/react-checkbox/)
-can be customized as needed.
+`RHFCheckboxGroup` renders a group of
+[checkboxes](https://mui.com/material-ui/react-checkbox/) from `options` and
+stores an array of the selected values in your form. It supports both primitive
+and object options through `labelKey` and `valueKey`.
 
 ## Usage
 
@@ -20,18 +20,69 @@ can be customized as needed.
 import RHFCheckboxGroup, { RHFCheckboxGroupProps } from '@nish1896/rhf-mui-components/mui/checkbox-group';
 ```
 
-Example with an array of strings:
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  permissions: string[];
+};
+
+const permissionOptions = ['Read', 'Write', 'Delete'];
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { permissions: [] }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFCheckboxGroup
+    fieldName="permissions"
+    control={control}
+    label="Permissions"
+    options={permissionOptions}
+    registerOptions={{
+      validate: value => value.length > 0 || 'Select at least one permission'
+    }}
+  />
+</form>
+```
+
+The stored value is an array of the checked options' values, in the order they
+were checked. `onValueChange` receives `{ newValue, toggledValue, checked, event
+}`: the next array, the value of the checkbox that was toggled, its new checked
+state, and the change event.
+
+### Option value types
+
+The type of the options is preserved. A checkbox's value is a string in the DOM,
+but the component converts it back to the type of the option, so string options
+give a `string[]` and number options give a `number[]`.
+
+Declare primitive options outside the JSX, as below. An array written inline is
+inferred by TypeScript as a union of its literal values, such as `1 | 2 | 3 |
+4`, and then a `number[]` form value doesn't match it.
 
 ```tsx
+const roomOptions = [1, 2, 3, 4];
+
+const { control } = useForm<{ rooms: number[] }>({
+  defaultValues: { rooms: [] }
+});
+
 <RHFCheckboxGroup
-  fieldName="toDo"
+  fieldName="rooms"
   control={control}
-  label="Tasks to do"
-  options={['Read Mails', 'Go for a hike', 'Bring groceries']}
+  label="Rooms"
+  options={roomOptions}
 />
 ```
 
-Example with an array of objects:
+### With an array of objects
+
+Options can also be objects. Both `labelKey` and `valueKey` are required in this
+case. `labelKey` is the property used as each checkbox's label, and `valueKey`
+is the property used as its value. The stored value is an array of the
+`valueKey` properties of the checked options, not the whole objects, and it
+keeps the type of that property.
 
 ```tsx
 <RHFCheckboxGroup
@@ -53,14 +104,124 @@ Example with an array of objects:
   are required. If either is missing, an error will be thrown.
 </Callout>
 
+### Customizing individual options
+
+`renderOptionLabel` replaces the label of each checkbox. It receives the option
+and a state object with `disabled`, which is `true` when the option or the whole
+group is disabled, and `selected`, which is `true` while the checkbox is
+checked. The label can be any `ReactNode`.
+
+`getOptionDisabled` receives an option and returns `true` to disable that
+checkbox. A disabled checkbox keeps its current state, so a disabled option that
+is already checked stays in the stored value. `disabled` on the group disables
+every option at once.
+
+```tsx
+<RHFCheckboxGroup
+  fieldName="addons"
+  control={control}
+  label="Add-ons"
+  options={[
+    { id: 'wifi', name: 'Wi-Fi', soldOut: false },
+    { id: 'parking', name: 'Parking', soldOut: true },
+    { id: 'breakfast', name: 'Breakfast', soldOut: false }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  getOptionDisabled={option => option.soldOut}
+  renderOptionLabel={(option, { disabled, selected }) => (
+    <span
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        fontWeight: selected ? 700 : 400
+      }}
+    >
+      {option.name}{disabled ? ' (unavailable)' : ''}
+    </span>
+  )}
+/>
+```
+
+### Styling each checkbox
+
+`checkboxProps` is forwarded to every `Checkbox`, for example a `color`, `size`
+or custom `icon` and `checkedIcon`. `formControlLabelProps` is forwarded to
+every `FormControlLabel` that wraps a checkbox and its label, for example
+`labelPlacement`. Its `sx` is merged with the default `FormControlLabel` styles
+from [ConfigProvider](/customization).
+
+```tsx
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+<RHFCheckboxGroup
+  fieldName="permissions"
+  control={control}
+  options={permissionOptions}
+  checkboxProps={{
+    color: 'secondary',
+    size: 'small',
+    icon: <CircleOutlinedIcon />,
+    checkedIcon: <CheckCircleIcon />
+  }}
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', mx: 0 }
+  }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new array has been stored in the form. It
+receives `{ newValue, toggledValue, checked, event }`: the next array, the value
+of the checkbox that was toggled, its new checked state, and the change event.
+
+```tsx
+<RHFCheckboxGroup
+  fieldName="permissions"
+  control={control}
+  options={['Read', 'Write', 'Delete']}
+  onValueChange={({ newValue, toggledValue, checked, event }) => {
+    console.log(toggledValue, checked ? 'checked' : 'unchecked');
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the array to
+store. It receives `{ rhfOnChange, currentValue, toggledValue, checked, event
+}`, where `currentValue` is the array before the toggle. This example makes
+"None" exclusive: `onValueChange` is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFCheckboxGroup
+  fieldName="allergies"
+  control={control}
+  options={['Peanuts', 'Gluten', 'Dairy', 'None']}
+  customOnChange={({ rhfOnChange, currentValue, toggledValue, checked, event }) => {
+    if (checked && toggledValue === 'None') {
+      rhfOnChange(['None']);
+    } else if (checked) {
+      rhfOnChange([...currentValue.filter(value => value !== 'None'), toggledValue]);
+    } else {
+      rhfOnChange(currentValue.filter(value => value !== toggledValue));
+    }
+  }}
+/>
+```
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
 ## Examples
 - [CheckboxGroup](https://mui.com/material-ui/react-checkbox/#formgroup)
 - [RHFCheckboxGroup](/examples/checkbox-and-radiogroup)
 - [Complete Form](/examples/complete-form)
 
 ## API
-`RHFCheckboxGroupProps` accepts the following props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFCheckboxGroupProps` accepts the following props. Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFCheckboxGroup}

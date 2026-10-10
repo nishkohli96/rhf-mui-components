@@ -10,11 +10,12 @@ export default function Layout({ children }) {
 
 # RHFCountrySelect
 
-**RHFCountrySelect** uses the [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
-component from Material UI to let users select one or more countries
-from a comprehensive list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 options</MuiLink>.
-It can return the selected country as its name, ISO code, ISO3 code, or full country object.
-Each option is displayed with the corresponding country flag for a clearer selection experience.
+`RHFCountrySelect` is an
+[Autocomplete](https://mui.com/material-ui/react-autocomplete/) pre-loaded with
+a list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank"
+rel="noopener noreferrer">250 countries</MuiLink> (**flag**, **name**, **ISO**
+and **ISO3** code). Store the complete `CountryDetails` object, or a single
+property via `valueKey`. Pin common choices with `preferredCountries`.
 
 ## Usage
 
@@ -27,36 +28,40 @@ import RHFCountrySelect, {
 } from '@nish1896/rhf-mui-components/mui/country-select';
 ```
 
-<Callout type="note">
-From **v4** onward, `RHFCountrySelect` returns the country property specified by `valueKey`.
-If `valueKey` is omitted, the complete country object is returned instead.
-</Callout>
+Without a `valueKey`, the stored value is the whole `CountryDetails` object, or
+`null` when nothing is selected:
 
 ```tsx
-<RHFCountrySelect
-  fieldName="nationality"
-  control={control}
-  valueKey="iso"
-/>
-// Returns "IN", "AU"
+import { useForm } from 'react-hook-form';
 
-<RHFCountrySelect
-  fieldName="countriesVisited"
-  control={control}
-/>
-/**
- * Returns
- * {
- *   name: 'India',
- *   iso: 'IN',
- *   iso3: 'IND',
- *   emoji: '🇮🇳'
- * }
- */
+type FormValues = {
+  country: CountryDetails | null;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { country: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.country?.name))}>
+  <RHFCountrySelect
+    fieldName="country"
+    control={control}
+    registerOptions={{ required: 'Please select a country' }}
+  />
+</form>
 ```
 
-Each option in the list of 250 countries is represented as an object
-structured as follows:
+`onValueChange` receives `{ newValue, event, reason, details }`: the value that
+was stored, the original change event, and Material UI's change `reason` and
+`details`.
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
+### Country data
+
+Each country is an object with a `name`, an `iso` code, an `iso3` code and an
+`emoji` flag:
 
 ```js
 {
@@ -67,49 +72,170 @@ structured as follows:
 }
 ```
 
-The `iso` key is used to determine the preferred countries from the `countryList`.
-It is strongly typed as `CountryISO`, ensuring type safety and consistency during
-integration. You can also retrieve the **_name_** or **_iso3_** value(s) by
-setting the desired key through the `valueKey` prop.
+The `iso` key is strongly typed as `CountryISO`, which keeps
+`preferredCountries` and your own code type safe. The full list of 250 countries
+is exported as `countryList`, so you can read or filter it yourself.
 
-For developers who need access to all available country data,
-the complete list of countries is provided via the `countryList` export
-from this module.
+### Choosing the stored value
 
-The following code snippet demonstrates an advanced use case where users
-can select multiple countries by their names from a predefined list of
-country options. To improve usability, a set of preferred countries is
-prominently displayed at the top of the dropdown. This prioritization
-keeps frequently chosen options easily accessible and streamlines
-the selection process.
+Set `valueKey` to store a single property of the country instead of the whole
+object. It can be `iso`, `iso3` or `name`.
+
+| `valueKey` | Stored value for India |
+|---|---|
+| none | `{ name: 'India', iso: 'IN', iso3: 'IND', emoji: '🇮🇳' }` |
+| `iso` | `'IN'` |
+| `iso3` | `'IND'` |
+| `name` | `'India'` |
+
+```tsx
+const { control } = useForm<{ nationality: string | null }>({
+  defaultValues: { nationality: null }
+});
+
+/* stores "IND" for India, "AUS" for Australia */
+<RHFCountrySelect
+  fieldName="nationality"
+  control={control}
+  valueKey="iso3"
+/>
+```
+
+The stored value is also how a country is matched. With a `valueKey`, a country
+is matched by that property, and a stored value that isn't in the list isn't
+shown as selected.
+
+When `valueKey` is omitted, countries are matched by `iso`, so an object loaded
+from your API matches as long as its `iso` is the same. Clearing the field
+stores `null`, or `[]` with `multiple`, unless `disableClearable` is set.
+
+### Customizing the country list
+
+By default every country in `countryList` is listed in the options. Pass the
+`countries` prop to render only the ones you need.
 
 ```js
-/* Logic for filtering countries */
-const filteredCountries = countryList.filter(
-  country => ['IN', 'US', 'AU', 'FI', 'UA', 'CN', 'GB', 'JP', 'VN'].includes(country.iso)
-);
+const filteredCountries = countryList.filter(country => (
+  ['IN', 'US', 'AU', 'FI', 'UA', 'CN', 'GB', 'JP', 'VN'].includes(country.iso)
+));
 ```
+
+`preferredCountries` pins countries to the top of the dropdown, by `iso` code.
+They appear in the order you list them, followed by the remaining countries in
+their usual order. A pinned country isn't repeated further down, and a code that
+isn't in the list is ignored. It only changes the order of the options, not the
+value.
 
 ```tsx
 <RHFCountrySelect
   fieldName="dreamDestinations"
   control={control}
-  valueKey="name"
-  preferredCountries={['IN', 'AU', 'JP']}
   countries={filteredCountries}
+  preferredCountries={['IN', 'AU', 'JP']}
+  valueKey="name"
   multiple
 />
 ```
 
+### Multiple selection
+
+Set `multiple` to store an array: of whole country objects, or of the `valueKey`
+property when one is set. Use `[]` as the default value. Each selection is shown
+as a chip, and the menu stays open while the user picks.
+
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a chip such as "+1 Country" or "+3 Countries".
+`limitTags={-1}` shows all of them, and `getLimitTagsText` receives the number
+of hidden chips and returns your own text. `ChipProps` customizes the chips.
+
+```tsx
+const { control } = useForm<{ countriesVisited: string[] }>({
+  defaultValues: { countriesVisited: [] }
+});
+
+<RHFCountrySelect
+  fieldName="countriesVisited"
+  control={control}
+  valueKey="iso"
+  multiple
+  limitTags={3}
+  getLimitTagsText={hidden => `+${hidden} more`}
+  ChipProps={{ color: 'primary', size: 'small' }}
+/>
+```
+
+### Custom option labels
+
+Each option shows the country's flag and name by default. `renderOptionLabel`
+replaces that content. It receives the country and a state object with
+`selected`, `index`, `inputValue` and `disabled`.
+
+```tsx
+<RHFCountrySelect
+  fieldName="country"
+  control={control}
+  renderOptionLabel={(option, { selected }) => (
+    <span style={{ fontWeight: selected ? 700 : 400 }}>
+      {option.emoji} {option.name} ({option.iso3})
+    </span>
+  )}
+/>
+```
+
+### Input and behavior
+
+`textFieldProps` is forwarded to the underlying `TextField`, for example a
+`placeholder`, `variant` or `size`. `autoHighlight` is `true` by default, so the
+first match is highlighted as the user types and Enter selects it.
+`disableClearable` removes the clear button. Only countries from the list can be
+selected, so `freeSolo` is **not supported**.
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event, reason, details }`:
+
+```tsx
+<RHFCountrySelect
+  fieldName="country"
+  control={control}
+  valueKey="iso"
+  onValueChange={({ newValue, event, reason, details }) => {
+    setValue('state', '')
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example limits a multiple select to five countries: `onValueChange`
+is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFCountrySelect
+  fieldName="countriesVisited"
+  control={control}
+  valueKey="iso"
+  multiple
+  customOnChange={({ rhfOnChange, newValue, event, reason, details }) => {
+    if (newValue.length <= 5) {
+      rhfOnChange(newValue);
+    }
+  }}
+/>
+```
+
 ## Examples
-- [Autocomplete - Country Select](https://mui.com/material-ui/react-autocomplete/#country-select)
-- [RHFCountrySelect](/examples/country-select)
+- [Autocomplete - Country
+  Select](https://mui.com/material-ui/react-autocomplete/#country-select)
+- [RHFCountrySelect](/examples/autocomplete)
 - [Complete Form](/examples/complete-form)
 
 ## API
-The `RHFCountrySelectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFCountrySelectProps` interface extends
+[AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) and accepts
+the following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFCountrySelect}

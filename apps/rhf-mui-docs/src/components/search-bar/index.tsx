@@ -104,6 +104,7 @@ const SearchBar = () => {
       appId={appId}
       apiKey={apiKey}
       indices={[indexName]}
+      maxResultsPerGroup={10}
       transformItems={transformItems}
     />
   );

@@ -115,121 +115,121 @@ export const pageMetadata: Record<string, Metadata> = {
  */
 export const componentMetadata: Record<string, Metadata> = {
   RHFTextField: {
-    title: 'RHFTextField',
+    title: { absolute: 'RHFTextField — Material UI TextField for React Hook Form' },
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   },
   RHFPasswordInput: {
-    title: 'RHFPasswordInput',
+    title: { absolute: 'RHFPasswordInput — Password Field with Show/Hide Toggle' },
     description:
       'Controlled Material UI password field with a show/hide toggle, label, error and helper-text handling.'
   },
   RHFNumberInput: {
-    title: 'RHFNumberInput',
+    title: { absolute: 'RHFNumberInput — Number Input for React Hook Form' },
     description:
       'Controlled numeric Material UI input with decimal, integer, non-negative and step constraints.'
   },
   RHFTagsInput: {
-    title: 'RHFTagsInput',
+    title: { absolute: 'RHFTagsInput — Chip-Based Tags Input' },
     description:
       'Controlled Material UI tags input — type or paste to add chips, with add/delete/paste interception.'
   },
   RHFFileUploader: {
-    title: 'RHFFileUploader',
+    title: { absolute: 'RHFFileUploader — File Upload with Drag & Drop' },
     description:
       'Controlled Material UI file uploader with drag-and-drop, type/size/count validation and custom renderers.'
   },
   RHFSelect: {
-    title: 'RHFSelect',
+    title: { absolute: 'RHFSelect — Material UI Select for React Hook Form' },
     description:
       'Controlled Material UI Select supporting single/multiple selection and primitive or object options.'
   },
   RHFNativeSelect: {
-    title: 'RHFNativeSelect',
+    title: { absolute: 'RHFNativeSelect — Native Select for React Hook Form' },
     description:
       'Controlled Material UI native <select> for lightweight dropdowns, especially on mobile.'
   },
   RHFAutocomplete: {
-    title: 'RHFAutocomplete',
+    title: { absolute: 'RHFAutocomplete — Searchable Select with Free Text' },
     description:
       'Controlled Material UI Autocomplete storing primitive values, with single/multiple and freeSolo support.'
   },
   RHFAutocompleteObject: {
-    title: 'RHFAutocompleteObject',
+    title: { absolute: 'RHFAutocompleteObject — Autocomplete Storing Full Objects' },
     description:
       'Controlled Material UI Autocomplete for React Hook Form that stores the full selected option object(s) as its value, with label, error and helper-text handling.'
   },
   RHFCountrySelect: {
-    title: 'RHFCountrySelect',
+    title: { absolute: 'RHFCountrySelect — Country Select with Flags' },
     description:
       'Controlled country picker built on Material UI Autocomplete with flags and preferred countries.'
   },
   RHFMultiAutocomplete: {
-    title: 'RHFMultiAutocomplete',
+    title: { absolute: 'RHFMultiAutocomplete — Multi-Select with Select All' },
     description:
       'Controlled multi-select Material UI Autocomplete for React Hook Form, with option checkboxes, a Select-All toggle, and freeSolo support.'
   },
   RHFMultiAutocompleteObject: {
-    title: 'RHFMultiAutocompleteObject',
+    title: { absolute: 'RHFMultiAutocompleteObject — Multi-Select Storing Objects' },
     description:
       'Controlled multi-select Material UI Autocomplete storing an array of complete option objects.'
   },
   RHFCheckbox: {
-    title: 'RHFCheckbox',
+    title: { absolute: 'RHFCheckbox — Material UI Checkbox for React Hook Form' },
     description:
       'Controlled single Material UI Checkbox for React Hook Form, with label, helper text and error display wired in. Usage, live demo and full props reference.'
   },
   RHFCheckboxGroup: {
-    title: 'RHFCheckboxGroup',
+    title: { absolute: 'RHFCheckboxGroup — Checkbox Group for React Hook Form' },
     description:
       'Controlled group of Material UI checkboxes for React Hook Form, storing an array of selected values from primitive or object options.'
   },
   RHFRadioGroup: {
-    title: 'RHFRadioGroup',
+    title: { absolute: 'RHFRadioGroup — Radio Group for React Hook Form' },
     description:
       'Controlled Material UI RadioGroup for React Hook Form — single choice from primitive or object options, with label, error and helper-text handling and a live demo.'
   },
   RHFSwitch: {
-    title: 'RHFSwitch',
+    title: { absolute: 'RHFSwitch — Material UI Switch for React Hook Form' },
     description:
       'Controlled Material UI Switch (on/off toggle) for React Hook Form, with label, helper text and error display handled for you. Usage, live demo and props reference.'
   },
   RHFSlider: {
-    title: 'RHFSlider',
+    title: { absolute: 'RHFSlider — Single & Range Slider' },
     description: 'Controlled Material UI Slider for React Hook Form — single value or a min/max range, custom marks and step, with built-in label, error and helper-text handling.'
   },
   RHFRating: {
-    title: 'RHFRating',
+    title: { absolute: 'RHFRating — Star Rating for React Hook Form' },
     description:
       'Controlled Material UI Rating (star) input for React Hook Form, with configurable max, precision and read-only mode, plus label, error and helper-text handling.'
   },
   RHFDatePicker: {
-    title: 'RHFDatePicker',
+    title: { absolute: 'RHFDatePicker — Date Picker for React Hook Form' },
     description:
       'Controlled Material UI X date pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   RHFTimePicker: {
-    title: 'RHFTimePicker',
+    title: { absolute: 'RHFTimePicker — Time Picker for React Hook Form' },
     description:
       'Controlled Material UI X time pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   RHFDateTimePicker: {
-    title: 'RHFDateTimePicker',
+    title: { absolute: 'RHFDateTimePicker — Date-Time Picker for React Hook Form' },
     description:
       'Controlled Material UI X date-time pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   RHFColorPicker: {
-    title: 'RHFColorPicker',
+    title: { absolute: 'RHFColorPicker — Color Picker for React Hook Form' },
     description:
       'Controlled color picker built on react-color-palette with label, error and helper-text handling.'
   },
   RHFPhoneInput: {
-    title: 'RHFPhoneInput',
+    title: { absolute: 'RHFPhoneInput — International Phone Input' },
     description:
       'Controlled international phone input with country dropdown, search and structured value output.'
   },
   RHFRichTextEditor: {
-    title: 'RHFRichTextEditor',
+    title: { absolute: 'RHFRichTextEditor — CKEditor Rich Text Editor' },
     description:
       'Controlled CKEditor 5 rich text editor for React Hook Form — stores HTML in form state, with label, error and helper-text handling, and a live demo.'
   },

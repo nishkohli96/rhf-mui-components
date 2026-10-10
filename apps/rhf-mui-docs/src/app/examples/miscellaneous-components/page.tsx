@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import MiscellaneousComponentsForm from '@/forms/miscellaneous-components/Client';
+import MiscellaneousComponentsForm from '@/forms/miscellaneous-components';
 
 export const metadata = pageMetadata.miscComponentsExample;
 

@@ -9,26 +9,28 @@ export default function Layout({ children }) {
 
 # RHFTagsInput
 
-**RHFTagsInput** is a customized version of [TextField](https://mui.com/material-ui/react-text-field/)
-designed for entering and managing keyword-based inputs.
-Each keyword is visually represented as a [Chip](https://mui.com/material-ui/react-chip/),
-offering a cleaner, more interactive experience than comma-separated values
-in a standard text field.
+`RHFTagsInput` renders a
+[TextField](https://mui.com/material-ui/react-text-field/) that turns typed or
+pasted text into [Chips](https://mui.com/material-ui/react-chip/). It is a
+cleaner, more interactive alternative to a comma-separated text field. Add,
+delete and paste actions can be intercepted, transformed or blocked, and the
+visible chip count can be limited when the field is unfocused.
 
-### Working
+## Working
 
 `RHFTagsInput` works as follows:
 
-- Users can type a keyword, press **Enter** or the **delimiter key** (default `","`), and see it rendered
-as a chip, with the input field cleared for the next entry.
-- Pasting comma-separated values automatically generates
-chips for each value. The delimiter can also be configured, for example `"|"`.
+- Users can type a keyword, press **Enter** or the **delimiter key** (default
+  `","`), and see it rendered as a chip, with the input field cleared for the
+  next entry.
+- Pasting comma-separated values automatically generates chips for each value.
+  The delimiter can also be configured, for example `"|"`.
 - Users can remove a chip by clicking its "x" button.
-- Pressing the **Backspace** or **Delete** key when the input is
-empty removes the last chip.
-- When the field is unfocused, only the first two chips are displayed
-by default. This can be customized via the `limitTags` prop, with `-1`
-showing all chips.
+- Pressing the **Backspace** or **Delete** key when the input is empty removes
+  the last chip.
+- When the field is unfocused, only the first two chips are displayed by
+  default. This can be customized via the `limitTags` prop, with `-1` showing
+  all chips.
 
 ## Usage
 
@@ -37,17 +39,71 @@ import RHFTagsInput, { RHFTagsInputProps } from '@nish1896/rhf-mui-components/mu
 ```
 
 ```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  tags: string[];
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { tags: [] }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFTagsInput
+    fieldName="tags"
+    control={control}
+    delimiter="|"
+  />
+</form>
+```
+
+The stored value is always a `string[]`, and a missing value is an empty list.
+Removing the last tag stores `[]`, never `null`. Tags are trimmed, empty entries
+are dropped, and a tag is skipped when it matches an existing one, ignoring
+letter case and spaces (`React` and `react`, or `New York` and `newyork`).
+
+`onValueChange` receives `{ newValue }`, the next array, after it has been
+stored.
+
+### Delimiter
+
+The `delimiter` (default `','`) is the key that turns the typed text into a tag,
+alongside **Enter**. Pasted text is split on it as well, so pasting
+`red;green;blue` creates three tags when the delimiter is `';'`. Leading and
+trailing spaces around each tag are trimmed, so `red; green ; blue` creates the
+same three tags.
+
+```tsx
 <RHFTagsInput
-  fieldName="tags"
+  fieldName="colors"
   control={control}
+  delimiter=";"
 />
 ```
 
+The delimiter is matched against the pressed key, so use a single character.
+That key is intercepted, which means a tag can't contain the delimiter.
+
 ### Tag Events
 
-Use `onTagAdd`, `onTagDelete`, and `onTagPaste` to validate, transform, or prevent
-tag changes before the form value is updated. Each callback receives a single object
-argument with the current field value available as `currentValue`.
+Use `onTagAdd`, `onTagDelete`, and `onTagPaste` to validate, transform, or
+prevent tag changes before the form value is updated. Each callback receives a
+single object argument with the current field value available as `currentValue`.
+
+- **`onTagAdd`**: called before a tag is added, with `currentValue` (the field
+  value before the addition) and `newTag` (the tag the user is attempting to
+  add). Return `false` to block the tag, a replacement `string` to add a
+  different value instead of `newTag`, or `true`/`void` to add `newTag`
+  unchanged.
+- **`onTagDelete`**: called before a tag is removed, with `currentValue` (the
+  field value before the removal) and `deletedTag` (the tag being removed).
+  Return `false` to prevent the deletion, or `true`/`void` to allow it.
+- **`onTagPaste`**: called when one or more tags are pasted, with `currentValue`
+  and `pastedTags` (the tags parsed from the pasted text, already split on the
+  configured `delimiter`, trimmed, and deduplicated). Return `false` to discard
+  all pasted tags, a `string[]` to replace them with a custom set, or `void` to
+  add `pastedTags` unchanged.
 
 ```tsx
 <RHFTagsInput
@@ -69,6 +125,155 @@ argument with the current field value available as `currentValue`.
 />
 ```
 
+### Limiting the visible tags
+
+While the field is not focused, only the first `limitTags` tags (default `2`)
+are shown, followed by a "**+N more**" chip. Focusing the field shows every tag.
+Set `limitTags` to `-1` to always show all of them. `getLimitTagsText` receives
+the number of hidden tags and returns the text of the extra chip:
+
+```tsx
+<RHFTagsInput
+  fieldName="skills"
+  control={control}
+  limitTags={3}
+  getLimitTagsText={hiddenTags => `${hiddenTags} more…`}
+/>
+```
+
+### Maximum number of tags
+
+`maxTags` caps how many tags the field holds. By default there is no limit. Once
+it is reached:
+
+- New tags typed from the keyboard are ignored, and the text stays in the input.
+- Pasted tags are cut to the free slots. Pasting five tags with two slots left
+  adds the first two.
+
+`onTagAdd` isn't called for a tag that is blocked by the limit. `onTagPaste`
+still receives every parsed tag, and its result is cut to the free slots
+afterwards. Read the current count with `useWatch` to show how many slots are
+left:
+
+```tsx
+const skills = useWatch({ control, name: 'skills' });
+
+<RHFTagsInput
+  fieldName="skills"
+  control={control}
+  maxTags={5}
+  helperText={`${skills.length}/5 tags`}
+/>
+```
+
+### Validation
+
+Rules go in `registerOptions`. A `required` rule treats an empty list as
+missing, and `validate` can check the contents:
+
+```tsx
+<RHFTagsInput
+  fieldName="tags"
+  control={control}
+  registerOptions={{
+    validate: value =>
+      value.length >= 2 || 'Add at least two tags'
+  }}
+/>
+```
+
+### Customizing the chips
+
+`ChipProps` is forwarded to every tag
+[Chip](https://mui.com/material-ui/api/chip/), for example `color`, `variant`,
+`size` or an `icon`. It also applies to the "**+N more**" chip. The `id`,
+`role`, `label`, `disabled` and `onDelete` props are controlled by the
+component:
+
+```tsx
+<RHFTagsInput
+  fieldName="topics"
+  control={control}
+  ChipProps={{ color: 'primary', variant: 'outlined', size: 'small' }}
+/>
+```
+
+### Transform tag content
+
+By default, each chip shows its tag exactly as it was typed. To transform how a
+tag is displayed, for example by adding a `#` prefix, changing its letter case
+or adding an icon, pass a function to `renderTagLabel`. The stored value stays
+the same; only the chip's label changes.
+
+`renderTagLabel` receives a tag string and returns the `ReactNode` to display as
+that chip's label. For example, to prefix every tag with `#`:
+
+```tsx
+<RHFTagsInput
+  fieldName="topics"
+  control={control}
+  renderTagLabel={tag => `#${tag}`}
+/>
+```
+
+The label can be any element, such as an icon next to the text:
+
+```tsx
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+
+<RHFTagsInput
+  fieldName="topics"
+  control={control}
+  renderTagLabel={tag => (
+    <>
+      <LocalOfferIcon
+        sx={{
+          fontSize: 14,
+          mr: 0.5,
+          verticalAlign: 'middle'
+        }}
+      />
+      {tag}
+    </>
+  )}
+/>
+```
+
+This only transforms the content display in an individual chip. The stored
+value, the `onTagAdd`, `onTagDelete` and `onTagPaste` callbacks, and the
+duplicate check all keep using the original tag, so `#react` is shown but
+`'react'` is stored. The "**+N more**" chip isn't affected; use
+`getLimitTagsText` to change it.
+
+### Handling value changes
+
+`onValueChange` runs after the new array has been stored in the form. It
+receives `{ newValue }`:
+
+```tsx
+<RHFTagsInput
+  fieldName="tags"
+  control={control}
+  onValueChange={({ newValue }) => saveDraft(newValue)}
+/>
+```
+
+`RHFTagsInput` has no `customOnChange`. To change what gets stored, intercept
+tags before they are added with `onTagAdd` and `onTagPaste`, and before they are
+removed with `onTagDelete` (see [Tag Events](#tag-events)). This example stores
+every tag in lowercase:
+
+```tsx
+<RHFTagsInput
+  fieldName="tags"
+  control={control}
+  onTagAdd={({ currentValue, newTag }) => newTag.toLowerCase()}
+  onTagPaste={({ currentValue, pastedTags }) => (
+    pastedTags.map(tag => tag.toLowerCase())
+  )}
+/>
+```
+
 ## Examples
 - [TextField](https://mui.com/material-ui/react-text-field/)
 - [Chip](https://mui.com/material-ui/react-chip/)
@@ -77,9 +282,10 @@ argument with the current field value available as `currentValue`.
 
 ## API
 
-The `RHFTagsInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
-and includes the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFTagsInputProps` interface extends
+[TextFieldProps](https://mui.com/material-ui/api/text-field/) and includes the
+following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFTagsInput}

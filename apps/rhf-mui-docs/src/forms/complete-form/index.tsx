@@ -30,7 +30,14 @@ import { RHFDatePicker } from '@nish1896/rhf-mui-components/mui-pickers/date';
 import { RHFDateTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
 import { RHFTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
-import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+import dynamic from 'next/dynamic';
+import type RHFRichTextEditorType from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+
+/* CKEditor touches `document` on import, so it can't render on the server. */
+const RHFRichTextEditor = dynamic(
+  () => import('@nish1896/rhf-mui-components/misc/rich-text-editor'),
+  { ssr: false }
+) as typeof RHFRichTextEditorType;
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
 import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
 import {

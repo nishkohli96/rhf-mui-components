@@ -16,11 +16,11 @@ type HeadingProps = ComponentPropsWithoutRef<'h2'>;
 
 /**
  * Renders an anchored heading: `rehype-slug` supplies the `id`, this adds
- * the hover `#` link. Real h2/h3 tags in server HTML keep sections crawlable.
+ * the hover `#` link. Real h2/h3/h4 tags in server HTML keep sections crawlable.
  */
 const AnchoredHeading = (
-  variant: 'h5' | 'h6',
-  component: 'h2' | 'h3'
+  variant: 'h5' | 'h6' | 'subtitle1',
+  component: 'h2' | 'h3' | 'h4'
 ) => {
   const Heading = ({ id, children, ...props }: HeadingProps) => (
     <Typography
@@ -72,6 +72,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     h2: AnchoredHeading('h5', 'h2'),
     h3: AnchoredHeading('h6', 'h3'),
+    h4: AnchoredHeading('subtitle1', 'h4'),
     p: ({ children, ...props }) => (
       <Typography {...props} variant="body1" sx={{ my: 1.5 }}>
         {children}

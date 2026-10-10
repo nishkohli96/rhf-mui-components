@@ -9,14 +9,17 @@ export default function Layout({ children }) {
 
 # RHFNativeSelect
 
-**RHFNativeSelect** extends [NativeSelect](https://mui.com/material-ui/react-select/#native-select)
-and is ideal for mobile-friendly form designs. Similar to [RHFSelect](/components/mui/RHFSelect),
-it supports both arrays and arrays of objects for flexible option rendering.
+`RHFNativeSelect` wraps the Material UI
+[Native Select](https://mui.com/material-ui/react-select/#native-select), a real
+`<select>` element that is ideal for mobile and lightweight dropdowns, and binds
+it to React Hook Form. Like [RHFSelect](/components/mui/RHFSelect), it accepts
+both arrays and arrays of objects as options.
 
 <Callout type="tip">
-If the number of options **exceeds 20**, consider using [RHFAutocomplete](/components/mui/RHFAutocomplete)
-or [RHFMultiAutocomplete](/components/mui/RHFMultiAutocomplete) for better searchability, improved keyboard
-navigation, and overall performance.
+If the number of options **exceeds 20**, consider using
+[RHFAutocomplete](/components/mui/RHFAutocomplete) or
+[RHFMultiAutocomplete](/components/mui/RHFMultiAutocomplete) for better
+searchability, improved keyboard navigation, and overall performance.
 </Callout>
 
 ## Usage
@@ -25,17 +28,42 @@ navigation, and overall performance.
 import RHFNativeSelect, { RHFNativeSelectProps } from '@nish1896/rhf-mui-components/mui/native-select';
 ```
 
-Here is a basic example with an array of strings:
-
 ```tsx
-<RHFNativeSelect
-  fieldName="color"
-  control={control}
-  options={['Red', 'Blue', 'Orange']}
-/>
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  country: string;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { country: '' }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFNativeSelect
+    fieldName="country"
+    control={control}
+    options={['India', 'United States', 'Germany']}
+    registerOptions={{ required: 'Please select a country' }}
+  />
+</form>
 ```
 
-And here is an example with an array of objects:
+Only a single selection is supported, and `undefined` or `null` mean no
+selection. `onValueChange` receives `{ newValue, event }`: the normalized value
+and the native change event. The control always fills the width of its
+container.
+
+### With an array of objects
+
+When `options` is an array of objects, both `labelKey` and `valueKey` are
+required.
+
+- `labelKey`: the property used as each option's visible label.
+- `valueKey`: the property used as each option's value.
+
+The stored value has the type of the `valueKey` property: a string property
+gives a `string`, and a number property gives a `number`.
 
 ```tsx
 <RHFNativeSelect
@@ -44,7 +72,7 @@ And here is an example with an array of objects:
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
-    { code: 'UAE', country: 'United Arab Emirates' },
+    { code: 'UAE', country: 'United Arab Emirates' }
   ]}
   labelKey="country"
   valueKey="code"
@@ -56,15 +84,106 @@ When using an array of objects for options, both `labelKey` and `valueKey`
 are required. If either is missing, an error will be thrown.
 </Callout>
 
+### Default option & placeholder
+
+A native select always renders a first `<option>` with the value `''`. Its text
+is `defaultOptionText`, falling back to `placeholder`, and it is empty when
+neither is set. The option is disabled when the field is required, so it can't
+be picked again once a real option is chosen. Picking it, when it is enabled,
+stores `''`.
+
+```tsx
+<RHFNativeSelect
+  fieldName="currency"
+  control={control}
+  options={['USD', 'EUR', 'GBP']}
+  defaultOptionText="Select currency"
+  registerOptions={{ required: 'Currency is required' }}
+/>
+```
+
+`placeholder` works as a shorthand for the same text. A native `<select>` has no
+placeholder of its own, so it only sets the default option's text.
+
+### Customizing individual options
+
+`renderOptionLabel` customizes the text of each option. It also receives a
+`{ disabled, selected }` state. An `<option>` can only display text, so return a
+string or number, not elements. `getOptionDisabled` receives an option and
+returns `true` to disable it.
+
+```tsx
+<RHFNativeSelect
+  fieldName="product"
+  control={control}
+  options={[
+    { id: 1, name: 'Keyboard', stock: 12 },
+    { id: 2, name: 'Monitor', stock: 0 },
+    { id: 3, name: 'Mouse', stock: 4 }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  getOptionDisabled={option => option.stock === 0}
+  renderOptionLabel={(option, { disabled }) =>
+    disabled
+      ? `${option.name} (out of stock)`
+      : `${option.name} (${option.stock} left)`
+  }
+/>
+```
+
+### Label placement
+
+A native select has no inline label, so `showLabelAboveFormField` defaults to
+`true` and the label is rendered above the control. Pass `false` to hide the
+visible label while keeping the accessible name. The prop takes precedence over
+`allLabelsAboveFields` from [ConfigProvider](/customization), so `false` hides
+this label even when the config places every label above its field.
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`: the normalized value and the native change
+event. Use it for side effects, such as clearing a dependent field:
+
+```tsx
+<RHFNativeSelect
+  fieldName="country"
+  control={control}
+  options={['India', 'Germany', 'Canada']}
+  onValueChange={({ newValue, event }) => setValue('city', '')}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example stores `null` instead of an empty string for the default
+option: `onValueChange` is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFNativeSelect
+  fieldName="currency"
+  control={control}
+  options={['USD', 'EUR', 'GBP']}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    rhfOnChange(newValue === '' ? null : newValue);
+  }}
+/>
+```
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
 ## Examples
 - [Native Select](https://mui.com/material-ui/react-select/#native-select)
 - [RHFNativeSelect](/examples/select)
 - [Complete Form](/examples/complete-form)
 
 ## API
-The `RHFNativeSelectProps` interface extends [NativeSelectProps](https://mui.com/material-ui/api/native-select/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFNativeSelectProps` interface extends
+[NativeSelectProps](https://mui.com/material-ui/api/native-select/) and accepts
+the following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFNativeSelect}

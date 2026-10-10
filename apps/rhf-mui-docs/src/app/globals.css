@@ -85,7 +85,7 @@ body {
 
 .doc-page {
   display: flex;
-  gap: 32px;
+  gap: 20px;
   align-items: flex-start;
 }
 
@@ -97,7 +97,7 @@ body {
 .doc-toc {
   position: sticky;
   top: 90px;
-  width: 200px;
+  width: 220px;
   flex-shrink: 0;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
@@ -139,6 +139,55 @@ body {
 
 .doc-toc li.doc-toc-sub a {
   padding-left: 26px;
+}
+
+.doc-toc li.doc-toc-sub2 a {
+  padding-left: 40px;
+}
+
+.doc-toc li.doc-toc-prop a {
+  padding-left: 26px;
+}
+
+.doc-toc li.doc-toc-api {
+  display: flex;
+  align-items: stretch;
+}
+
+.doc-toc li.doc-toc-api a {
+  flex: 1;
+}
+
+.doc-toc-toggle {
+  flex-shrink: 0;
+  width: 28px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  position: relative;
+}
+
+.doc-toc-toggle:hover {
+  opacity: 1;
+}
+
+.doc-toc-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -75%) rotate(45deg);
+  transition: transform 0.15s;
+}
+
+.doc-toc-toggle[aria-expanded='true']::before {
+  transform: translate(-50%, -25%) rotate(-135deg);
 }
 
 .doc-toc li a:hover {
@@ -207,10 +256,10 @@ body {
   margin: 16px 0 24px;
   border-radius: 10px;
   overflow: hidden;
-  border: var(--mui-palette-action-selected);
+  border: 1px solid rgba(128, 128, 128, 0.35);
 }
 
-:not(pre) > code {
+.doc-code-block pre {
   margin: 0;
   padding: 16px 48px 16px 18px;
   overflow-x: auto;
@@ -329,12 +378,12 @@ body {
 
 /* --- Inline code --- */
 
-.doc-article :not(pre) > code {
+:not(pre) > code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.82em;
   padding: 2px 6px;
   border-radius: 4px;
-  background-color: rgba(128, 128, 128, 0.15);
+  background-color: var(--mui-palette-action-selected);
 }
 
 /* --- Markdown tables (e.g. props tables) --- */

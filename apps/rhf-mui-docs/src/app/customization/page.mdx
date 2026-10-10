@@ -15,20 +15,24 @@ available for all components. This package provides even more flexibility,
 enabling you to style components globally, eliminating the need to 
 duplicate code across your application.
 
-All components share at least two common props: [FormLabel](https://mui.com/material-ui/api/form-label/) 
-and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/).
-Components like checkbox or switch also include a [FormControlLabel](https://mui.com/material-ui/api/form-control-label/). 
-All of these can be preconfigured to apply uniform styles across all components. 
+All components share at least two common props:
+[FormLabel](https://mui.com/material-ui/api/form-label/) and
+[FormHelperText](https://mui.com/material-ui/api/form-helper-text/). Components
+like checkbox or switch also include a
+[FormControlLabel](https://mui.com/material-ui/api/form-control-label/). All of
+these can be preconfigured to apply uniform styles across all components.
 
-Additionally, there's an option to customize the default `dateAdapter` for 
-date and time pickers, with `AdapterDayjs` being [recommended by Material UI](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+Additionally, there's an option to customize the default `dateAdapter` for date
+and time pickers, with `AdapterDayjs` being [recommended by Material
+UI](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
-There is also a boolean flag, `allLabelsAboveFields`, to simplify label placement
-across form components. When set to **true**, this flag ensures that labels are
-rendered above all form fields globally, eliminating the need to manually specify
-`showLabelAboveFormField` prop for each component. If `allLabelsAboveFields` is
-enabled globally, you can explicitly set `showLabelAboveFormField` to `false` for
-a specific component to override the default behavior.
+There is also a boolean flag, `allLabelsAboveFields`, to simplify label
+placement across form components. When set to **true**, this flag ensures that
+labels are rendered above all form fields globally, eliminating the need to
+manually specify `showLabelAboveFormField` prop for each component. If
+`allLabelsAboveFields` is enabled globally, you can explicitly set
+`showLabelAboveFormField` to `false` for a specific component to override the
+default behavior.
 
 ## ConfigProvider
 
@@ -54,8 +58,8 @@ type MUIComponentsConfigInput = {
 
 The table below lists the default **sx** styles applied to the
 [FormLabel](https://mui.com/material-ui/api/form-label/),
-[FormControlLabel](https://mui.com/material-ui/api/form-control-label/),
-and [FormHelperText](https://mui.com/material-ui/api/form-helper-text/) components.
+[FormControlLabel](https://mui.com/material-ui/api/form-control-label/), and
+[FormHelperText](https://mui.com/material-ui/api/form-helper-text/) components.
 
 <DefaultConfigTable />
 
@@ -69,13 +73,14 @@ import {
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 ```
 
-Override the default `FormLabel` and `FormHelperText` values by providing
-the desired values in `defaultFormLabelSx` and `defaultFormHelperTextSx` props
-which accepts all valid values in the [`sx` prop](https://mui.com/material-ui/customization/how-to-customize/#the-sx-prop).
+Override the default `FormLabel` and `FormHelperText` values by providing the
+desired values in `defaultFormLabelSx` and `defaultFormHelperTextSx` props which
+accepts all valid values in the [`sx` prop](https://mui.com/material-ui/customization/how-to-customize/#the-sx-prop).
 
-Additionally you also need to specify a `dateAdapter` for date and time pickers using 
-`ConfigProvider` component. For a full list of available date adapters, see the 
-[MUI date library options](https://mui.com/x/react-date-pickers/base-concepts/#date-library).
+Additionally you also need to specify a `dateAdapter` for date and time pickers
+using `ConfigProvider` component. For a full list of available date adapters,
+see the [MUI date library
+options](https://mui.com/x/react-date-pickers/base-concepts/#date-library).
 Please do install the npm package of the corresponding date library.
 
 ```jsx

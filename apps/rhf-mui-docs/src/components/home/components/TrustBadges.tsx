@@ -1,6 +1,6 @@
 import LocalOfferRoundedIcon from '@mui/icons-material/LocalOfferRounded';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
-// import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import GavelRoundedIcon from '@mui/icons-material/GavelRounded';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -71,10 +71,10 @@ const getGithubStars = async () => {
  * of shields.io badges so it reads as part of this page, not a pasted README.
  */
 const TrustBadges = async () => {
-  const [npmInfo, downloads] = await Promise.all([
+  const [npmInfo, downloads, stars] = await Promise.all([
     getNpmPackageInfo(),
     getNpmMonthlyDownloads(),
-    // getGithubStars()
+    getGithubStars()
   ]);
 
   const badges = [
@@ -90,12 +90,12 @@ const TrustBadges = async () => {
       href: npmLink,
       icon: <DownloadRoundedIcon />
     },
-    // stars !== null && {
-    //   key: 'stars',
-    //   label: `${compactNumber.format(stars)} stars`,
-    //   href: githubRepoLink,
-    //   icon: <StarRoundedIcon />
-    // },
+    (stars !== null && stars !== 0) && {
+      key: 'stars',
+      label: `${compactNumber.format(stars)} stars`,
+      href: githubRepoLink,
+      icon: <StarRoundedIcon />
+    },
     npmInfo?.license && {
       key: 'license',
       label: npmInfo.license,
@@ -157,7 +157,7 @@ export const TrustBadgesSkeleton = () => (
       mt: 4
     }}
   >
-    {[70, 130, 60].map((width, i) => (
+    {[70, 130, 70, 60].map((width, i) => (
       <Skeleton
         key={i}
         variant="rounded"

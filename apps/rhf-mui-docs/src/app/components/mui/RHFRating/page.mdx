@@ -9,10 +9,10 @@ export default function Layout({ children }) {
 
 # RHFRating
 
-Ratings provide insight into opinions and experiences, and they can
-allow users to submit a rating of their own. **RHFRating** extends the
-[Rating](https://mui.com/material-ui/react-rating/) component,
-so it accepts almost all `Rating` props and can be customized in the same way.
+`RHFRating` wraps the Material UI
+[Rating](https://mui.com/material-ui/react-rating/) star input and binds it to
+React Hook Form. The stored value is a number, or `null` when the rating is
+cleared.
 
 ## Usage
 
@@ -21,9 +21,113 @@ import RHFRating, { RHFRatingProps } from '@nish1896/rhf-mui-components/mui/rati
 ```
 
 ```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  score: number | null;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { score: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFRating
+    fieldName="score"
+    control={control}
+    registerOptions={{ required: 'Please leave a rating' }}
+  />
+</form>
+```
+
+`onValueChange` receives `{ newValue, event }`, and `newValue` is `null` when
+the user clears the rating by clicking the selected star again.
+
+### Number of stars and precision
+
+The remaining [RatingProps](https://mui.com/material-ui/api/rating/) are passed
+through. `max` sets how many stars are shown, which is `5` by default,
+`precision` sets the smallest step that can be chosen, and `size` scales the
+stars. Use `precision={0.5}` to allow half stars.
+
+```tsx
 <RHFRating
-  fieldName="rating"
+  fieldName="score"
   control={control}
+  max={10}
+  precision={0.5}
+  size="large"
+/>
+```
+
+### Custom icons
+
+`icon` replaces the filled icon, and `emptyIcon` replaces the empty one. Give
+the icons `fontSize="inherit"` so that `size` still applies.
+
+```tsx
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+<RHFRating
+  fieldName="love"
+  control={control}
+  icon={<FavoriteIcon fontSize="inherit" />}
+  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+  sx={{ color: 'error.main' }}
+/>
+```
+
+### Read-only and disabled
+
+`readOnly` shows a rating that the user can't change, which suits displaying an
+average. `disabled` dims the control and blocks input, and a form-level
+`disabled` on `useForm` is respected too.
+
+```tsx
+<RHFRating
+  fieldName="average"
+  control={control}
+  precision={0.5}
+  readOnly
+/>
+```
+
+### Label placement
+
+A rating has no inline label, so `showLabelAboveFormField` defaults to `true`
+and the label is shown above the stars. Pass `false` to hide the visible label.
+The error, helper text and change props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`, where `newValue` is `null` when the user clears
+the rating:
+
+```tsx
+<RHFRating
+  fieldName="score"
+  control={control}
+  onValueChange={({ newValue, event }) => trackRating(newValue)}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example doesn't allow clearing the rating: `onValueChange` is not
+called when `customOnChange` is used.
+
+```tsx
+<RHFRating
+  fieldName="score"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    if (newValue !== null) {
+      rhfOnChange(newValue);
+    }
+  }}
 />
 ```
 
@@ -34,8 +138,8 @@ import RHFRating, { RHFRatingProps } from '@nish1896/rhf-mui-components/mui/rati
 
 ## API
 `RHFRatingProps` extends [RatingProps](https://mui.com/material-ui/api/Rating/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+and accepts the following additional props. Props marked with <strong style={{
+color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFRating}

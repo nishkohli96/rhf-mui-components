@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import HomeLanding from '@/components/home';
 import {
   pageMetadata,
+  appName,
   defaultPageDescription,
   githubProfile,
   githubRepoLink,
@@ -9,7 +10,20 @@ import {
   websiteUrl
 } from '@/constants';
 
-export const metadata: Metadata = pageMetadata.home;
+/*
+ * `./` (the root layout's canonical / `og:url`) resolves to `/index` on the
+ * root route, so the home page pins both to `/` explicitly. `openGraph` here
+ * replaces the layout's whole object, hence `type`/`siteName` repeated.
+ */
+export const metadata: Metadata = {
+  ...pageMetadata.home,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: appName,
+    url: '/'
+  }
+};
 
 /* Describes the library the docs cover — the primary entity for rich results. */
 const softwareJsonLd = {

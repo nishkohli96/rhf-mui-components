@@ -9,14 +9,20 @@ export default function Layout({ children }) {
 
 # RHFAutocompleteObject
 
-**RHFAutocompleteObject** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
-and is designed for cases where you need to work with the **entire selected option object**
-instead of just a primitive value.
+`RHFAutocompleteObject` is an
+[Autocomplete](https://mui.com/material-ui/react-autocomplete/) that stores the
+**complete option object** in your form, rather than a primitive.
 
-Unlike **RHFAutocomplete**, which stores only the value derived from `valueKey`, this
-component stores and returns the **full option object (or array of objects)**. This is
-particularly useful when additional metadata from the selected option is required
-elsewhere in your form or application.
+A common use case is picking a record when you need more than its ID later. In
+an "Assign reviewer" form, the options are users loaded from an API, such as `{
+id, name, email, role }`. `RHFAutocompleteObject` shows each `name` and stores
+the selected user object itself, so the rest of the form can use the `email` for
+a confirmation message or the `role` for validation, without searching the list
+again for the matching ID.
+
+It also suits edit forms. The saved reviewer can come back from the API as a
+fresh object and still be shown as selected, because options are matched by
+`valueKey` rather than by object identity.
 
 ## Key Differences
 
@@ -28,76 +34,175 @@ elsewhere in your form or application.
 | Use case | Simple forms | Metadata-driven forms |
 | Custom values (`freeSolo`) | Users can enter values not present in `options` | Not supported |
 
+<Callout type="note">
+  `freeSolo` is **not supported** in `RHFAutocompleteObject` as mixing typed
+  strings with option objects would make the stored value type unpredictable.
+  Use [RHFAutocomplete](/components/mui/RHFAutocomplete) or
+  [RHFMultiAutocomplete](/components/mui/RHFMultiAutocomplete) instead.
+</Callout>
+
 ## Usage
 
 ```tsx
 import RHFAutocompleteObject, { RHFAutocompleteObjectProps } from '@nish1896/rhf-mui-components/mui/autocomplete-object';
-
-<RHFAutocompleteObject
-  fieldName="country"
-  control={control}
-  options={countryList}
-  labelKey="name"
-  valueKey="code"
-  multiple           // omit this prop for single selection
-/>
 ```
 
-<Callout type="warning">
-  Both `labelKey` and `valueKey` props are mandatory. Since this component works
-  exclusively with object-based options, omitting either will result in an error.
-</Callout>
+`options` must be an **array of objects**, and both `labelKey` and `valueKey`
+**are required**. `labelKey` is the property used as each option's visible label,
+and `valueKey` identifies an option. The stored value is the whole option
+object.
 
-<Callout type="note">
-  `freeSolo` is **not supported** in `RHFAutocompleteObject`.
+```tsx
+import { useForm } from 'react-hook-form';
 
-  This component stores complete option objects in form state, whereas enabling
-  `freeSolo` would introduce string values alongside option objects, resulting in
-  mixed value types.
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: string
+};
 
-  If you need users to enter custom values that are not present in the provided
-  options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
-</Callout>
+type FormValues = {
+  reviewer: User | null;
+};
 
-### Example Option Structure
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { reviewer: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.reviewer?.email))}>
+  <RHFAutocompleteObject
+    fieldName="reviewer"
+    control={control}
+    options={users}
+    labelKey="name"
+    valueKey="id"
+    registerOptions={{ required: 'Please pick a reviewer' }}
+  />
+</form>
+```
+
+Given these options:
 
 ```js
 const countryList = [
   { name: 'India', code: 'IN', currency: 'INR' },
-  { name: 'Canada', code: 'CA', currency: 'CAD' },
-  { name: 'Germany', code: 'DE', currency: 'EUR' }
+  { name: 'Canada', code: 'CA', currency: 'CAD' }
 ];
 ```
 
-**Stored Value**
+the stored value is a single object (`{ name: 'India', code: 'IN', currency:
+'INR' }`) or, with `multiple`, an array of them.
 
-```js
-// Single
-{ name: 'India', code: 'IN', currency: 'INR' },
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
 
-// Multiple
-[
-  { name: 'India', code: 'IN', currency: 'INR' },
-  { name: 'Canada', code: 'CA', currency: 'CAD' }
-]
+### Multiple selection
+
+Set `multiple` to store an array of objects, shown as chips. Use `[]` as the
+default value. `limitTags`, `getLimitTagsText` and `ChipProps` work as in
+[RHFAutocomplete](/components/mui/RHFAutocomplete#multiple-selection).
+
+```tsx
+<RHFAutocompleteObject
+  fieldName="reviewers"
+  control={control}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  multiple
+  limitTags={3}
+  registerOptions={{
+    validate: value => value.length > 0 || 'Pick at least one reviewer'
+  }}
+/>
 ```
 
-## When to Use
+### Reading the selected object
 
-Use RHFAutocompleteObject when:
-- You need access to additional fields from the selected option (e.g. currency, id, etc.)
-- You want to avoid mapping IDs back to objects
-- Your form logic depends on rich object data
-- You are working with APIs that expect full objects instead of IDs
+Because the full object is stored, you can derive other UI from it with
+`useWatch`:
+
+```tsx
+const reviewer = useWatch({ control, name: 'reviewer' });
+
+<RHFAutocompleteObject
+  fieldName="reviewer"
+  control={control}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+/>
+
+{reviewer && <p>We will email {reviewer.email}</p>}
+```
+
+### Clearing, loading and the input
+
+`disableClearable` removes the clear button, so give the field an initial value.
+`loading` shows a spinner while options are fetched, and `circularProgressProps`
+customizes it. `textFieldProps` is forwarded to the underlying `TextField`.
+
+```tsx
+<RHFAutocompleteObject
+  fieldName="reviewer"
+  control={control}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  loading={isFetchingUsers}
+  circularProgressProps={{ size: 16 }}
+  textFieldProps={{ placeholder: 'Search reviewers', size: 'small' }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the selected object has been stored in the form. It
+receives `{ newValue, event, reason, details }`, so you can use the whole
+object, not just an ID:
+
+```tsx
+<RHFAutocompleteObject
+  fieldName="reviewer"
+  control={control}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  onValueChange={({ newValue, event, reason, details }) => setValue('reviewerEmail', newValue?.email ?? '')}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example refuses to select an inactive user: `onValueChange` is not
+called when `customOnChange` is used.
+
+```tsx
+<RHFAutocompleteObject
+  fieldName="reviewer"
+  control={control}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  customOnChange={({ rhfOnChange, newValue, event, reason, details }) => {
+    if (newValue?.role === 'REVIEWER') {
+      rhfOnChange(newValue);
+    }
+  }}
+/>
+```
 
 ## Examples
-- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
+- [Autocomplete
+  Variations](https://mui.com/material-ui/react-autocomplete/#playground)
 - [RHFAutocompleteObject](/examples/autocomplete)
 
 ## API
-The `RHFAutocompleteObjectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFAutocompleteObjectProps` interface extends
+[AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) and accepts
+the following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFAutocompleteObject}
