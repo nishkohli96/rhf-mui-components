@@ -20,10 +20,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: algolia-reindex-${{ github.event.sha }}
-  cancel-in-progress: true
-
 jobs:
   reindex:
     if: >
@@ -31,6 +27,11 @@ jobs:
       contains(github.event.context, 'Vercel') &&
       contains(github.event.context, 'docs') &&
       contains(github.event.branches.*.name, 'main')
+    # Job-level, so it's evaluated only after the `if` above: a non-matching
+    # status for the same SHA can't cancel a qualifying run mid-wait.
+    concurrency:
+      group: algolia-reindex-${{ github.event.sha }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     environment: Production
     steps:

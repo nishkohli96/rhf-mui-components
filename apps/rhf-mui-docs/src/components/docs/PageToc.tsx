@@ -31,11 +31,22 @@ const PageToc = () => {
   const [apiOpen, setApiOpen] = useState(true);
 
   useLayoutEffect(() => {
+    /*
+     * Prop rows count only inside the API section: other tables (e.g. the
+     * "Working" table on Getting Started) reuse PropsTable but have no "API"
+     * entry to group them under.
+     */
+    let currentH2: string | undefined;
     const headings = Array.from(
       document.querySelectorAll<HTMLElement>(
         '.doc-article h2[id], .doc-article h3[id], .doc-article h4[id], .doc-article tr[id^="prop-"]'
       )
-    );
+    ).filter(element => {
+      if (element.tagName === 'H2') {
+        currentH2 = element.id;
+      }
+      return element.tagName !== 'TR' || currentH2 === API_ID;
+    });
 
     /**
      * One-time read from an external system (the rendered article DOM) — the

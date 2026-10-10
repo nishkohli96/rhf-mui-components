@@ -63,11 +63,15 @@ const { control, handleSubmit } = useForm<FormValues>({
 ### Validation
 
 Rules go in `registerOptions`. Because the value is HTML, an empty editor can
-still hold markup such as `<p></p>`, so strip the tags before checking its
+still hold markup such as `<p></p>`, and runs of spaces are stored as
+`&nbsp;`. Strip the tags and convert `&nbsp;` to spaces before checking the
 length:
 
 ```tsx
-const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '').trim();
+const stripHtml = (html: string) => html
+  .replace(/<[^>]*>/g, '')
+  .replace(/&nbsp;/g, ' ')
+  .trim();
 
 <RHFRichTextEditor
   fieldName="bio"

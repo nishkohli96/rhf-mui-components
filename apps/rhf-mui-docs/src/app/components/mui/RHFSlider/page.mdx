@@ -76,6 +76,10 @@ at least 10 apart, and `disableSwap` stops one thumb from passing the other:
 ```tsx
 const minDistance = 10;
 
+const { control, getValues } = useForm<FormValues>({
+  defaultValues: { priceRange: [20, 60] }
+});
+
 <RHFSlider
   fieldName="priceRange"
   control={control}
@@ -91,8 +95,8 @@ const minDistance = 10;
 />
 ```
 
-`getValues` comes from `useForm`. `onValueChange` is **not called**
-when `customOnChange` is used.
+`getValues` reads the value that is stored before this change.
+`onValueChange` is **not called** when `customOnChange` is used.
 
 ### Steps, marks and value labels
 
