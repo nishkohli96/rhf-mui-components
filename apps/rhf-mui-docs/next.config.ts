@@ -4,6 +4,12 @@ import createMDX from '@next/mdx';
 const nextConfig: NextConfig = {
   /* .mdx pages compile to server components — docs ship as static HTML. */
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'mdx'],
+  /* Don't advertise the framework in an `X-Powered-By` response header. */
+  poweredByHeader: false,
+  /* `/index` serves the home page too — 308 it to `/` so there's one URL. */
+  async redirects() {
+    return [{ source: '/index', destination: '/', permanent: true }];
+  },
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
