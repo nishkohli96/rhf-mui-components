@@ -1,0 +1,7 @@
+version: 2
+
+secret:
+  ignored_paths:
+    # Route -> git date map for the sitemap. Route names such as
+    # `RHFPasswordInput` trip the generic password detector.
+    - apps/rhf-mui-docs/src/generated/sitemap-lastmod.json
