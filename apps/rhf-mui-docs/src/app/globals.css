@@ -141,6 +141,10 @@ body {
   padding-left: 26px;
 }
 
+.doc-toc li.doc-toc-sub2 a {
+  padding-left: 40px;
+}
+
 .doc-toc li a:hover {
   opacity: 1;
 }
@@ -207,10 +211,10 @@ body {
   margin: 16px 0 24px;
   border-radius: 10px;
   overflow: hidden;
-  border: var(--mui-palette-action-selected);
+  border: 1px solid rgba(128, 128, 128, 0.35);
 }
 
-:not(pre) > code {
+.doc-code-block pre {
   margin: 0;
   padding: 16px 48px 16px 18px;
   overflow-x: auto;
@@ -329,12 +333,12 @@ body {
 
 /* --- Inline code --- */
 
-.doc-article :not(pre) > code {
+:not(pre) > code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.82em;
   padding: 2px 6px;
   border-radius: 4px;
-  background-color: rgba(128, 128, 128, 0.15);
+  background-color: var(--mui-palette-action-selected);
 }
 
 /* --- Markdown tables (e.g. props tables) --- */

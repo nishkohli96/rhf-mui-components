@@ -19,7 +19,8 @@ export default function Layout({ children }) {
 
 # RHFFileUploader
 
-**RHFFileUploader** is a flexible file upload component for React Hook Form. It supports:
+**RHFFileUploader** is a flexible file upload component for React Hook Form. It
+supports:
 - Single and multiple file uploads
 - Drag-and-drop uploads
 - Existing server-side files
@@ -39,11 +40,36 @@ import RHFFileUploader, { RHFFileUploaderProps, FileUploadError } from '@nish189
 Here is a basic example of the component configured to accept a single file:
 
 ```tsx
-<RHFFileUploader
-  fieldName="resume"
-  control={control}
-/>
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  resume: File | null;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { resume: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.resume))}>
+  <RHFFileUploader
+    fieldName="resume"
+    control={control}
+    registerOptions={{ required: 'Please attach your resume' }}
+  />
+</form>
 ```
+
+Pass the `multiple` prop to allow selecting several files.
+
+The stored value is a single `File`, or `null` when empty, and a `File[]` when
+`multiple` is set. Use `null` (single) or `[]` (multiple) as the default value.
+Removing the last file stores `null` for a single-file field and `[]` for a
+multi-file field. `onValueChange` receives `{ newValue, event }`, where `event`
+is the input change, drop or remove-button click that caused the change.
+
+The component only manages the files. It doesn't list them, so render the
+selected files with `renderFileItem` and the server-side ones with
+`existingFiles` and `renderExistingFileItem` (see below).
 
 A file object has the following properties:
 
@@ -74,21 +100,19 @@ async function onFormSubmit(formValues: FormSchema) {
 }
 ```
 
-On a Node.js Express server, you can handle this incoming data with the [Multer](https://www.npmjs.com/package/multer) middleware.
-See:
+On a Node.js Express server, you can handle this incoming data with the
+[Multer](https://www.npmjs.com/package/multer) middleware. See:
 - <MuiLink
     href={externalLinks.githubExamples.multerFileUpload}
     target="_blank"
-    rel="noopener
-    noreferrer"
+    rel="noopener noreferrer"
   >
     Multer File Upload Example
   </MuiLink>
 - <MuiLink
     href={externalLinks.githubExamples.fileUploadMiddleware}
     target="_blank"
-    rel="noopener
-    noreferrer"
+    rel="noopener noreferrer"
   >
     File Upload Middleware Examples
   </MuiLink>
@@ -105,6 +129,14 @@ See:
 - Render custom file items
 
 ```tsx
+type FormValues = {
+  pictures: File[];
+};
+
+const { control } = useForm<FormValues>({
+  defaultValues: { pictures: [] }
+});
+
 <RHFFileUploader
   fieldName="pictures"
   control={control}
@@ -112,24 +144,50 @@ See:
   accept="image/*"
   maxFiles={3}
   maxSize={5 * 1024 * 1024}
-  onUploadError={(errors) => {
+  onUploadError={errors => {
     alert(`${errors.length} file(s) were rejected.`);
+  }}
+/>
+```
+
+Every incoming file, whether it is picked from the dialog or dropped, is checked
+on its own:
+
+- `accept` is a comma-separated list of MIME types (`image/png`), wildcards
+  (`image/*`) and extensions (`.pdf`). Matching ignores case, and the same list
+  also filters the browser's file dialog. An extension is compared with the part
+  of the name after the last dot, so `.gz` matches `archive.tar.gz` but
+  `.tar.gz` doesn't.
+- `maxSize` is in bytes, so `5 * 1024 * 1024` is 5 MB.
+- `maxFiles` caps the total. Files from `existingFiles`, files that are already
+  selected and the incoming batch all count towards it, and only the excess
+  files are rejected.
+
+Rejected files are never added to the field value, while the valid files from
+the same batch still are. With `multiple`, accepted files are appended to the
+current ones. Without it, a valid file replaces the current one, and a rejected
+file leaves the current one in place. In that mode the selected file isn't
+counted by `maxFiles`, since it is replaced.
+
+These checks run while files are being added. To block submission until a file
+is present, or to enforce a minimum count, add a rule in `registerOptions`:
+
+```tsx
+<RHFFileUploader
+  fieldName="pictures"
+  control={control}
+  multiple
+  accept="image/*"
+  registerOptions={{
+    validate: files => files.length >= 2 || 'Upload at least two pictures'
   }}
 />
 ```
 
 ### Drag and Drop
 
-Drag-and-drop uploads are enabled by default.
-
-```tsx
-<RHFFileUploader
-  fieldName="documents"
-  control={control}
-/>
-```
-
-Disable drag-and-drop:
+Drag-and-drop uploads are enabled by default, but can be disabled using the
+`disableDragAndDrop` prop.
 
 ```tsx
 <RHFFileUploader
@@ -172,30 +230,6 @@ type RHFFileUploaderDropZoneState = {
 };
 ```
 
-### Existing Files
-
-Use `existingFiles` to display files that have already been uploaded and stored on the server.
-
-```tsx
-<RHFFileUploader
-  fieldName="documents"
-  control={control}
-  existingFiles={[
-    {
-      name: 'contract.pdf',
-      url: '/uploads/contract.pdf',
-      size: 102400
-    },
-    {
-      name: 'invoice.pdf',
-      url: '/uploads/invoice.pdf'
-    }
-  ]}
-/>
-```
-
-Existing files are rendered separately from newly uploaded files and are counted toward the `maxFiles` limit.
-
 ### Custom Upload Button
 
 Use `renderUploadButton` to provide a fully custom upload control.
@@ -216,6 +250,32 @@ Use `renderUploadButton` to provide a fully custom upload control.
   )}
 />
 ```
+
+### Existing Files
+
+Use `existingFiles` to display files that have already been uploaded and stored
+on the server.
+
+```tsx
+<RHFFileUploader
+  fieldName="documents"
+  control={control}
+  existingFiles={[
+    {
+      name: 'contract.pdf',
+      url: '/uploads/contract.pdf',
+      size: 102400
+    },
+    {
+      name: 'invoice.pdf',
+      url: '/uploads/invoice.pdf'
+    }
+  ]}
+/>
+```
+
+Existing files are rendered separately from newly uploaded files and are counted
+toward the `maxFiles` limit.
 
 ### Custom File Rendering
 
@@ -294,20 +354,24 @@ The renderer receives:
 }
 ```
 
-### Value Change Events
+### Handling value changes
 
-Depending on your use case, you can use `customOnChange` to gain complete control over file
-validation and form state updates, or use `onValueChange` to respond to file uploads, removals, and
-clear actions after the field value has changed.
+Depending on your use case, you can use `customOnChange` to gain complete
+control over file validation and form state updates, or use `onValueChange` to
+respond to file uploads, removals, and clear actions after the field value has
+changed.
 
 #### customOnChange
 
-Use `customOnChange` when you need full control over how uploaded files are processed before updating the React Hook Form field value.
+Use `customOnChange` when you need full control over how uploaded files are
+processed before updating the React Hook Form field value.
 
-Unlike `onValueChange`, which is a notification callback, `customOnChange` overrides the default update behavior.
+Unlike `onValueChange`, which is a notification callback, `customOnChange`
+overrides the default update behavior.
 
 <Callout type="warning">
-When using `customOnChange`, you are responsible for calling `rhfOnChange` manually. If `rhfOnChange` is not called, the form value will not be updated.
+When using `customOnChange`, you are responsible for calling `rhfOnChange`
+manually. If `rhfOnChange` is not called, the form value will not be updated.
 </Callout>
 
 ```ts
@@ -325,7 +389,7 @@ customOnChange?: ({
   fieldName="documents"
   control={control}
   multiple
-  customOnChange={({ rhfOnChange, newValue }) => {
+  customOnChange={({ rhfOnChange, newValue, event }) => {
     const files = Array.isArray(newValue)
       ? newValue
       : newValue
@@ -352,7 +416,7 @@ customOnChange?: ({
   fieldName="documents"
   control={control}
   multiple
-  customOnChange={({ rhfOnChange, newValue }) => {
+  customOnChange={({ rhfOnChange, newValue, event }) => {
     const files = Array.isArray(newValue)
       ? newValue.filter(file => !file.name.startsWith('temp_'))
       : newValue;
@@ -380,36 +444,79 @@ customOnChange?: ({
 
 ### Upload Validation Errors
 
-Use `onUploadError` to handle validation failures.
+`onUploadError` is called with one `FileUploadErrorDetails` entry per rejected
+file: `{ file, errors }`. `errors` lists the `FileUploadError` values that
+apply, and a file can fail more than one check:
+
+| Value | Reported when |
+|---|---|
+| `FileUploadError.sizeExceeded` (`'FILE_SIZE_EXCEEDED'`) | The file is larger than `maxSize` |
+| `FileUploadError.invalidExtension` (`'FILE_TYPE_NOT_ALLOWED'`) | The file doesn't match `accept` |
+| `FileUploadError.limitExceeded` (`'FILE_LIMIT_EXCEEDED'`) | The file exceeds `maxFiles` |
+
+The callback isn't called when every file is accepted. Rejected files are not
+part of the field value, so React Hook Form doesn't know about them. Use
+`setError` to show the message on the field, and `clearErrors` once a batch is
+fully accepted:
 
 ```tsx
+import RHFFileUploader, {
+  FileUploadError,
+  type FileUploadErrorDetails
+} from '@nish1896/rhf-mui-components/mui/file-uploader';
+
+const { control, setError, clearErrors } = useForm<FormValues>({
+  defaultValues: { pictures: [] }
+});
+
+const hadRejections = useRef(false);
+
+function handleUploadError(rejected: FileUploadErrorDetails[]) {
+  hadRejections.current = true;
+  const messages = rejected.map(({ file, errors }) => {
+    if (errors.includes(FileUploadError.sizeExceeded)) {
+      return `${file.name} is larger than 5 MB`;
+    }
+    if (errors.includes(FileUploadError.invalidExtension)) {
+      return `${file.name} is not an image`;
+    }
+    return `${file.name} was not added: too many files`;
+  });
+  setError('pictures', { type: 'upload', message: messages.join(', ') });
+}
+
 <RHFFileUploader
-  fieldName="documents"
+  fieldName="pictures"
   control={control}
+  multiple
   accept="image/*"
-  maxSize={2 * 1024 * 1024}
   maxFiles={3}
-  onUploadError={errors => {
-    /* [{ file, errors: [FileUploadError.sizeExceeded] }] */
-    console.log(errors);
+  maxSize={5 * 1024 * 1024}
+  onUploadError={handleUploadError}
+  onValueChange={() => {
+    if (!hadRejections.current) {
+      clearErrors('pictures');
+    }
+    hadRejections.current = false;
   }}
 />
 ```
 
-Possible error values:
-
-- `FileUploadError.invalidFileType`
-- `FileUploadError.fileTooLarge`
-- `FileUploadError.limitExceeded`
+`onUploadError` runs just before `onValueChange` in the same event, and
+`onValueChange` is still called when every file was rejected, with the unchanged
+value. Clearing the error there unconditionally would remove it right after it
+is set, so remember whether the batch had rejections, as above.
 
 ### Accessibility
 When using a custom upload button:
 
 - Ensure the button uses `component="label"`.
 - Render the provided `fileInput` somewhere inside the label.
-- Add `tabIndex={-1}` to custom buttons when appropriate to avoid duplicate focus targets.
+- Add `tabIndex={-1}` to custom buttons when appropriate to avoid duplicate
+  focus targets.
 
-File dialogs can only be opened through direct interaction with a file input or its associated label element.
+File dialogs can only be opened through direct interaction with a file input or
+its associated label element.
 
 ## Examples
 - [RHFFileUploader](/examples/inputs)
@@ -417,8 +524,8 @@ File dialogs can only be opened through direct interaction with a file input or 
 - [Complete Form](/examples/complete-form)
 
 ## API
-The `RHFFileUploader` accepts the following props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFFileUploader` accepts the following props. Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFFileUploader}

@@ -10,12 +10,15 @@ export default function Layout({ children }) {
 
 # RHFTextField
 
-Text fields are a core component of any form, allowing users to input text into the UI.
-The **RHFTextField** component extends the functionality of [TextField](https://mui.com/material-ui/react-text-field/),
-accepting almost all TextField props while providing additional customization options.
+`RHFTextField` extends the Material UI
+[TextField](https://mui.com/material-ui/react-text-field/) component, accepting
+almost all of its props. It binds the field to React Hook Form through
+`control`, so the value, validation state and error message come straight from
+your form, with no `value` or `onChange` wiring on your side.
 
-For specialized inputs, you can also use [RHFPasswordInput](/components/mui/RHFPasswordInput)
-for password values or [RHFNumberInput](/components/mui/RHFNumberInput) for numeric input.
+For specialized inputs, you can also use
+[RHFPasswordInput](/components/mui/RHFPasswordInput) for password values or
+[RHFNumberInput](/components/mui/RHFNumberInput) for numeric input.
 
 ## Usage
 
@@ -23,20 +26,217 @@ for password values or [RHFNumberInput](/components/mui/RHFNumberInput) for nume
 import RHFTextField, { RHFTextFieldProps } from '@nish1896/rhf-mui-components/mui/textfield';
 ```
 
-To render a fully functional `RHFTextField`, you only need two or three essential props.
+Pass the `control` returned by `useForm` and the `fieldName` to bind. That is
+all you need to render a fully functional text field:
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  firstName: string;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { firstName: '' }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFTextField
+    fieldName="firstName"
+    control={control}
+  />
+</form>
+```
+
+`fieldName` is typed against your form values, so a misspelled field name is a
+compile-time error.
+
+### Customizing the label
+
+By default, the label is generated from `fieldName`, so `firstName` becomes
+"First Name". Use `label` to override it with any `ReactNode`.
+
+`showLabelAboveFormField` renders the label above the input instead of inside
+it, and `hideLabel` removes the visible label while keeping an accessible one.
+`formLabelProps` is forwarded to the label, for example to style it with `sx`.
+
+```tsx
+<RHFTextField
+  fieldName="email"
+  control={control}
+  label="Work email"
+  showLabelAboveFormField
+  formLabelProps={{
+    sx: { fontWeight: 600 }
+  }}
+  helperText="We never share your email"
+  formHelperTextProps={{
+    sx: { fontStyle: 'italic' }
+  }}
+/>
+```
+
+To place every label above its field at once, use `allLabelsAboveFields` in
+[ConfigProvider](/customization).
+
+### Validation
+
+Validation rules go in `registerOptions`, the same object you would pass to
+`register` in React Hook Form. The field reads its error state from the form, so
+there is no error message to derive or keep in sync: when a rule fails, the
+field switches to an error state and shows the message below the input.
+
+`required` is derived from `registerOptions.required`, so the label gets its
+required marker automatically. Pass `required` explicitly only when you want the
+marker without a `required` rule.
+
+```tsx
+<RHFTextField
+  fieldName="username"
+  control={control}
+  registerOptions={{
+    required: 'Username is required',
+    minLength: { value: 3, message: 'Use at least 3 characters' },
+    maxLength: { value: 16, message: 'Use at most 16 characters' }
+  }}
+/>
+```
+
+#### Using a regex
+
+Use the `pattern` rule for format checks:
+
+```tsx
+<RHFTextField
+  fieldName="username"
+  control={control}
+  registerOptions={{
+    pattern: {
+      value: /^[a-z0-9_]{3,16}$/,
+      message: 'Use 3-16 lowercase letters, digits or underscores'
+    }
+  }}
+/>
+```
+
+By default React Hook Form validates on submit and then re-validates on every
+change. Use the `mode` option of `useForm` (`onBlur`, `onChange`, `onTouched`)
+to validate earlier.
+
+#### Custom rules
+
+`validate` accepts a function that returns `true` when the value is valid, or a
+message when it is not. It can be async, which suits checks against a server:
+
+```tsx
+<RHFTextField
+  fieldName="email"
+  control={control}
+  registerOptions={{
+    required: 'Email is required',
+    validate: async value =>
+      (await isEmailAvailable(value)) || 'This email is already registered'
+  }}
+/>
+```
+
+#### Validation with a schema
+
+Instead of per-field rules you can hand validation to a schema library through a
+resolver, for example `zodResolver`, `yupResolver` or `joiResolver` from
+`@hookform/resolvers`. Errors from the schema land on the same field and render
+the same way.
+
+```tsx
+const { control } = useForm<FormValues>({
+  resolver: zodResolver(schema)
+});
+```
+
+#### Showing multiple errors
+
+By default only the first failing rule is reported. Set `criteriaMode: 'all'` in
+`useForm` to collect every failing rule, and read them from `error.types` in
+`renderError`. Give each `validate` rule its own key so each message has a
+name:
+
+```tsx
+const { control } = useForm<FormValues>({
+  criteriaMode: 'all'
+});
+
+<RHFTextField
+  fieldName="password"
+  control={control}
+  registerOptions={{
+    validate: {
+      uppercase: value => /[A-Z]/.test(value) || 'Add an uppercase letter',
+      digit: value => /\d/.test(value) || 'Add a digit',
+      length: value => value.length >= 8 || 'Use at least 8 characters'
+    }
+  }}
+  renderError={error => (
+    <ul style={{ margin: 0, paddingLeft: 16 }}>
+      {Object.values(error.types ?? {}).map(message => (
+        <li key={String(message)}>{String(message)}</li>
+      ))}
+    </ul>
+  )}
+/>
+```
+
+`renderError` receives the `FieldError` and can return anything renderable, so
+it also works for a single message, an icon next to the text, or a link.
+`hideErrorMessage` keeps the field in an error state without showing any text.
+`helperText` is shown while there is no visible error.
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`:
+
+```tsx
+<RHFTextField
+  fieldName="search"
+  control={control}
+  onValueChange={({ newValue, event }) => {
+    runSearch(newValue)
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example stores the text capitalized:
 
 ```tsx
 <RHFTextField
   fieldName="firstName"
   control={control}
-  customOnChange={({ rhfOnChange, newValue }) => {
-    /* Override default onChange to capitalize input text */
+  customOnChange={({ rhfOnChange, newValue, event }) => {
     rhfOnChange(newValue.toUpperCase());
   }}
 />
 ```
 
-You can extend or reuse the `RHFTextField` component by creating your own wrapper component.
+`onValueChange` is **not called** when `customOnChange` is used.
+
+### Disabling the field
+
+Pass `disabled` to disable a single field. A form-level `disabled` option on
+`useForm` is respected too, and disables every field that supports it:
+
+```tsx
+const { control } = useForm<FormValues>({ disabled: isSubmitting });
+```
+
+Disabled fields follow React Hook Form behavior, so depending on how you
+serialize the form their values may be left out of the submitted payload.
+
+### Wrapping the component
+
+You can extend or reuse the `RHFTextField` component by creating your own
+wrapper component.
 
 <CodeSnippets
   snippets={[
@@ -52,9 +252,10 @@ You can extend or reuse the `RHFTextField` component by creating your own wrappe
 
 ## API
 
-The `RHFTextFieldProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
-and includes the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFTextFieldProps` interface extends
+[TextFieldProps](https://mui.com/material-ui/api/text-field/) and includes the
+following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFTextField}

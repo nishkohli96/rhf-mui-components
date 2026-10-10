@@ -9,7 +9,7 @@ type TocItem = {
 };
 
 /**
- * MUI-docs-style "Contents" rail. Scans the rendered article for h2/h3
+ * MUI-docs-style "Contents" rail. Scans the rendered article for h2/h3/h4
  * headings after mount (works for any page — MDX or TSX) and highlights
  * the section currently in view. Pure navigation aid: page content itself
  * is server-rendered, so SEO does not depend on this component.
@@ -28,7 +28,7 @@ const PageToc = () => {
   useLayoutEffect(() => {
     const headings = Array.from(
       document.querySelectorAll<HTMLElement>(
-        '.doc-article h2[id], .doc-article h3[id]'
+        '.doc-article h2[id], .doc-article h3[id], .doc-article h4[id]'
       )
     );
 
@@ -43,7 +43,7 @@ const PageToc = () => {
         id: heading.id,
         /* Strip the trailing "#" of the hover anchor from the label. */
         text: (heading.textContent ?? '').replace(/#\s*$/, '').trim(),
-        level: heading.tagName === 'H2' ? 2 : 3
+        level: Number(heading.tagName.slice(1))
       }))
     );
 
@@ -80,6 +80,7 @@ const PageToc = () => {
                 key={item.id}
                 className={[
                   item.level === 3 ? 'doc-toc-sub' : '',
+                  item.level === 4 ? 'doc-toc-sub2' : '',
                   item.id === activeId ? 'doc-toc-active' : ''
                 ].join(' ').trim()}
               >
