@@ -20,6 +20,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: algolia-reindex-${{ github.event.sha }}
+  cancel-in-progress: true
+
 jobs:
   reindex:
     if: >
@@ -30,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     steps:
+      - name: Wait 5 mins for prod CDN propagation
+        run: sleep $((5*60))
       - name: Trigger Algolia Crawler (dev)
         env:
           CRAWLER_USERID: ${{ secrets.ALGOLIA_CRAWLER_USERID}}
