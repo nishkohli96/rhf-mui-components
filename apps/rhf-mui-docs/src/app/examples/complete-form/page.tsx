@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import CompleteForm from '@/forms/complete-form/Client';
+import CompleteForm from '@/forms/complete-form';
 
 export const metadata = pageMetadata.completeFormExample;
 

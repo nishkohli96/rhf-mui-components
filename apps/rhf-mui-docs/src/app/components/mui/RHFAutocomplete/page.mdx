@@ -10,25 +10,14 @@ export default function Layout({ children }) {
 
 # RHFAutocomplete
 
-**RHFAutocomplete** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
-and is designed for searching and selecting options from large datasets. Similar to
-[RHFSelect](/components/mui/RHFSelect), it supports selecting single or multiple options and
-accepts options as an array of strings or an array of objects. This component is ideal
-for use cases that require dynamic filtering or large option lists.
+`RHFAutocomplete` wraps the Material UI
+[Autocomplete](https://mui.com/material-ui/react-autocomplete/) and stores
+**primitive** values: the option string, or the `valueKey` property for object
+options. It supports single or multiple selection, `disableClearable` and
+`freeSolo`, and suits searching through large option lists.
 
-<Callout type="note">
-Starting with **v4**, the `freeSolo` prop is supported in **RHFAutocomplete**, allowing users to enter
-values that are not present in the provided options.
-
-When using `freeSolo` with object-based options, custom renderers such as `renderValue`, `renderTags`,
-or `renderOptionLabel` should account for both option objects and user-entered string values. A common
-approach is:
-
-```ts
-typeof value === 'string'
-```
-to distinguish free-form input from predefined option objects.
-</Callout>
+Use [RHFAutocompleteObject](/components/mui/RHFAutocompleteObject) when you need
+to store the full option object.
 
 ## Usage
 
@@ -37,22 +26,54 @@ import RHFAutocomplete, { RHFAutocompleteProps } from '@nish1896/rhf-mui-compone
 ```
 
 ```tsx
-<RHFAutocomplete
-  fieldName="countriesVisited"
-  control={control}
-  options={['Azerbaijan', 'Canada', 'India']}
-/>
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  color: string | null;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { color: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFAutocomplete
+    fieldName="color"
+    control={control}
+    options={['Red', 'Green', 'Blue']}
+    registerOptions={{ required: 'Please pick a colour' }}
+  />
+</form>
 ```
 
-For options as an array of objects:
+A single select stores a `string`, or `null` when nothing is selected, and
+`multiple` stores a `string[]`. A value that doesn't match any option isn't
+displayed, unless `freeSolo` is on.
+
+`onValueChange` receives `{ newValue, selectedOption, event, reason, details }`.
+`newValue` is the normalized value that is stored, and `selectedOption` is the
+raw Material UI selection: the option object, or the typed string with
+`freeSolo`. `event`, `reason` (such as `selectOption`, `removeOption`, `clear`
+or `createOption`) and `details` come straight from the Material UI change
+handler.
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
+### With an array of objects
+
+Options can also be objects. In this case, both `labelKey` and `valueKey` are
+required. `labelKey` is the property used as each option's visible label, and
+`valueKey` is the property used as its value. The stored value is the `valueKey`
+property of the selected option, not the whole object.
 
 ```tsx
 <RHFAutocomplete
-  fieldName="countriesVisited"
+  fieldName="country"
   control={control}
   options={countryList} // imported from RHFCountrySelect
   labelKey="name"
-  valueKey="name"
+  valueKey="iso3"
 />
 ```
 
@@ -61,23 +82,187 @@ For options as an array of objects:
   are required. If either is missing, an error will be thrown.
 </Callout>
 
-You can extend or reuse the `RHFAutocomplete` component by creating your own wrapper component.
+To store the whole object, use
+[RHFAutocompleteObject](/components/mui/RHFAutocompleteObject) instead.
+
+### Multiple selection
+
+Set `multiple` to store a `string[]` and show each selection as a chip. The menu
+stays open while the user picks, whereas a single select closes after a choice.
+
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a "**+N More**" chip. `limitTags={-1}` shows all of them,
+and `getLimitTagsText` receives the number of hidden chips and returns your own
+text. `ChipProps` customizes the chips.
+
+```tsx
+type FormValues = {
+  skills: string[];
+};
+
+const { control } = useForm<FormValues>({
+  defaultValues: { skills: [] }
+});
+
+<RHFAutocomplete
+  fieldName="skills"
+  control={control}
+  options={['React', 'Vue', 'Angular', 'Svelte', 'Solid']}
+  multiple
+  limitTags={3}
+  getLimitTagsText={hiddenCount => `+${hiddenCount} skills`}
+  ChipProps={{ color: 'primary', size: 'small' }}
+  registerOptions={{
+    validate: value => value.length > 0 || 'Pick at least one skill'
+  }}
+/>
+```
+
+If you need checkboxes and a "Select All" row, use
+[RHFMultiAutocomplete](/components/mui/RHFMultiAutocomplete).
+
+### Free text entry
+
+`freeSolo` lets the user enter a value that isn't in `options`. The typed string
+is stored as it is. `autoSelect` defaults to `true` with `freeSolo`, so text
+typed in the field is committed when it loses focus. Pass `autoSelect={false}`
+to require Enter. With `multiple`, each typed value becomes its own chip.
+
+```tsx
+<RHFAutocomplete
+  fieldName="city"
+  control={control}
+  options={['Delhi', 'Mumbai', 'Pune']}
+  freeSolo
+/>
+```
+
+<Callout type="note">
+When using `freeSolo` with object-based options, custom renderers such as
+`renderValue`, `renderTags`, or `renderOption` should account for both option
+objects and user-entered string values. A common approach is:
+
+```ts
+typeof value === 'string'
+```
+to distinguish free-form input from predefined option objects.
+</Callout>
+
+### Clearing the value
+
+A clear button is shown once there is a value. `disableClearable` removes it, so
+the stored value is never `null`. Give the field an initial value in that case.
+
+```tsx
+const { control } = useForm<{ color: string }>({
+  defaultValues: { color: 'Red' }
+});
+
+<RHFAutocomplete
+  fieldName="color"
+  control={control}
+  options={['Red', 'Green', 'Blue']}
+  disableClearable
+/>
+```
+
+### Loading state
+
+Set `loading` while the options are being fetched. A small spinner appears at
+the end of the input, and when there are no options yet, the popup shows the
+loading text (`loadingText`, `Loading…` by default) instead of "No options".
+`circularProgressProps` customizes the spinner, which is `20px` by default.
+
+```tsx
+<RHFAutocomplete
+  fieldName="user"
+  control={control}
+  options={users}
+  loading={isFetchingUsers}
+  circularProgressProps={{ size: 16 }}
+/>
+```
+
+### Customizing the input
+
+`textFieldProps` is forwarded to the underlying `TextField`, for example a
+`placeholder`, `variant` or `size`. `autoHighlight` is `true` by default, which
+differs from Material UI, so the first option is highlighted as the user types
+and Enter selects it. Pass `autoHighlight={false}` to turn that off.
+
+```tsx
+<RHFAutocomplete
+  fieldName="color"
+  control={control}
+  options={['Red', 'Green', 'Blue']}
+  autoHighlight={false}
+  textFieldProps={{ placeholder: 'Pick a colour', size: 'small' }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, selectedOption, event, reason, details }`; `reason` is one
+of `selectOption`, `removeOption`, `clear` or `createOption`:
+
+```tsx
+<RHFAutocomplete
+  fieldName="city"
+  control={control}
+  options={['Delhi', 'Mumbai', 'Pune']}
+  onValueChange={({ newValue, selectedOption, event, reason, details }) => {
+    if (reason === 'clear') {
+      resetSuggestions();
+    } else {
+      trackSelection(newValue);
+    }
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example limits a multiple select to five values: `onValueChange` is
+**not called** when `customOnChange` is used.
+
+```tsx
+<RHFAutocomplete
+  fieldName="skills"
+  control={control}
+  options={['React', 'Vue', 'Angular', 'Svelte', 'Solid', 'Qwik']}
+  multiple
+  customOnChange={({ rhfOnChange, newValue, selectedOption, event, reason, details }) => {
+    if (newValue.length <= 5) {
+      rhfOnChange(newValue);
+    }
+  }}
+/>
+```
+
+### Wrapping the component
+
+You can extend or reuse the `RHFAutocomplete` component by creating your own
+wrapper component.
 
 <CodeSnippets
   snippets={[
     { title: 'StyledAutocomplete.tsx', src: 'src/forms/styled-components/StyledAutocomplete.tsx' }
   ]}
 />
+
 ## Examples
-- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)
+- [Autocomplete
+  Variations](https://mui.com/material-ui/react-autocomplete/#playground)
 - [RHFAutocomplete](/examples/autocomplete)
 - [Styled Autocomplete](/examples/customization)
 - [Complete Form](/examples/complete-form)
 
 ## API
-The `RHFAutocompleteProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFAutocompleteProps` interface extends
+[AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) and accepts
+the following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFAutocomplete}

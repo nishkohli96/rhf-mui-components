@@ -12,8 +12,20 @@ import {
   parseCountry,
   type CountryIso2
 } from 'react-international-phone';
-import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
-import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+import type RHFColorPickerType from '@nish1896/rhf-mui-components/misc/color-picker';
+import dynamic from 'next/dynamic';
+import type RHFRichTextEditorType from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+
+const RHFColorPicker = dynamic(
+  () => import('@nish1896/rhf-mui-components/misc/color-picker'),
+  { ssr: false }
+) as typeof RHFColorPickerType;
+
+/* CKEditor touches `document` on import, so it can't render on the server. */
+const RHFRichTextEditor = dynamic(
+  () => import('@nish1896/rhf-mui-components/misc/rich-text-editor'),
+  { ssr: false }
+) as typeof RHFRichTextEditorType;
 import RHFPhoneInput, {
   type RHFPhoneInputValue
 } from '@nish1896/rhf-mui-components/misc/phone-input';

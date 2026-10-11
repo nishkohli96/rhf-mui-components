@@ -9,10 +9,11 @@ export default function Layout({ children }) {
 
 # RHFNumberInput
 
-**RHFNumberInput** is an enhanced version of the [TextField](https://mui.com/material-ui/react-text-field/)
-component that accepts only **integer** or **float** values. It retains
-the core functionality, styling options, and flexibility of the TextField,
-while seamlessly integrating with react-hook-form for number-specific input handling.
+`RHFNumberInput` is a [TextField](https://mui.com/material-ui/react-text-field/)-based
+numeric input that enforces number-only entry, with options for integers-only,
+non-negative values, a maximum number of decimal places, and keyboard step
+increments. The value stored in your form is a real `number`, or `null` when
+the field is empty.
 
 ## Usage
 
@@ -20,24 +21,166 @@ while seamlessly integrating with react-hook-form for number-specific input hand
 import RHFNumberInput, { RHFNumberInputProps } from '@nish1896/rhf-mui-components/mui/number-input';
 ```
 
-To render a fully functional `RHFNumberInput`, you only need two or three essential props.
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  age: number | null;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { age: null }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFNumberInput
+    fieldName="age"
+    control={control}
+    onlyIntegers
+    nonNegative
+  />
+</form>
+```
+
+Use `undefined` or `null` as the default value for an empty field.
+
+### Restricting input
+
+`RHFNumberInput` rejects invalid keystrokes and pasted text up front, instead of
+correcting them afterwards. Combine the props below to describe the numbers you
+accept. The characters `e`, `E` and `+` are always blocked, and so is a second
+minus sign.
+
+#### Integers only
+
+`onlyIntegers` blocks the decimal point. A pasted decimal is cut to its whole
+part, so `43.234` becomes `43`. Stepping also moves by whole numbers:
+`stepAmount` is rounded down, with a minimum of `1`.
+
+```tsx
+<RHFNumberInput
+  fieldName="quantity"
+  control={control}
+  onlyIntegers
+/>
+```
+
+#### Non-negative values
+
+`nonNegative` blocks the minus sign, typed or pasted, so a pasted `-43.5`
+becomes `43.5`.
+
+```tsx
+<RHFNumberInput
+  fieldName="price"
+  control={control}
+  nonNegative
+/>
+```
+
+#### Decimal places
+
+`maxDecimalPlaces` limits the digits after the decimal point. The user can't
+type more, and a pasted `3.14159` becomes `3.14` when the limit is `2`. Don't
+combine it with `onlyIntegers`.
+
+```tsx
+<RHFNumberInput
+  fieldName="weight"
+  control={control}
+  nonNegative
+  maxDecimalPlaces={2}
+/>
+```
+
+#### Step amount and markers
+
+Arrow keys step the value by `stepAmount` (default `1`). The native up/down
+markers are hidden by default; set `showMarkers` to show them.
+
+```tsx
+<RHFNumberInput
+  fieldName="quantity"
+  control={control}
+  onlyIntegers
+  stepAmount={5}
+  showMarkers
+/>
+```
+
+### Validation
+
+Bounds and required checks belong in `registerOptions`. Because the value is a
+number, `min` and `max` compare numerically, and the messages show through the
+same error state as every other field:
 
 ```tsx
 <RHFNumberInput
   fieldName="age"
   control={control}
+  onlyIntegers
+  nonNegative
+  helperText="Between 18 and 65"
+  registerOptions={{
+    required: 'Age is required',
+    min: { value: 18, message: 'You must be at least 18' },
+    max: { value: 65, message: 'Age cannot exceed 65' }
+  }}
+/>
+```
+
+`required` treats `null` as empty. Use `validate` for anything more specific:
+
+```tsx
+registerOptions={{
+  validate: value =>
+    value === null || value % 5 === 0 || 'Enter a multiple of 5'
+}}
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`, where `newValue` is a `number` or `null`:
+
+```tsx
+<RHFNumberInput
+  fieldName="quantity"
+  control={control}
+  onlyIntegers
+  onValueChange={({ newValue, event }) => {
+    setTotal((newValue ?? 0) * unitPrice)
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example caps the value at 100: `onValueChange` is **not called**
+when `customOnChange` is used.
+
+```tsx
+<RHFNumberInput
+  fieldName="quantity"
+  control={control}
+  onlyIntegers
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    rhfOnChange(newValue === null ? null : Math.min(newValue, 100));
+  }}
 />
 ```
 
 ## Examples
 - [RHFNumberInput](/examples/inputs)
 - [Complete Form](/examples/complete-form)
+- [MUI Number Field](https://mui.com/material-ui/react-number-field/)
 
 ## API
 
-The `RHFNumberInputProps` interface extends [TextFieldProps](https://mui.com/material-ui/api/text-field/)
-and includes the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFNumberInputProps` interface extends
+[TextFieldProps](https://mui.com/material-ui/api/text-field/) and includes the
+following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFNumberInput}

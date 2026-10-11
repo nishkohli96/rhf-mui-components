@@ -9,8 +9,16 @@ export default function Layout({ children }) {
 
 # RHFColorPicker
 
-**RHFColorPicker** is derived from the [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
-component from the [react-color-palette](https://www.npmjs.com/package/react-color-palette) package.
+`RHFColorPicker` wraps
+[react-color-palette](https://www.npmjs.com/package/react-color-palette) with
+label, error and helper-text handling, bound to React Hook Form through
+`control`. The stored value is a string, in the format chosen with `valueKey`.
+
+## Installation
+
+Make sure to install the
+[react-color-palette](https://www.npmjs.com/package/react-color-palette) package
+before using this component.
 
 <PackageManagerTabs
   id="install-react-color-palette"
@@ -23,27 +31,105 @@ component from the [react-color-palette](https://www.npmjs.com/package/react-col
 import RHFColorPicker, { RHFColorPickerProps } from '@nish1896/rhf-mui-components/misc/color-picker';
 ```
 
-The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format, such as:
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  brandColor: string;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { brandColor: '#1976d2' }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.brandColor))}>
+  <RHFColorPicker
+    fieldName="brandColor"
+    control={control}
+    defaultColor="#007ABA"
+  />
+</form>
+```
+
+The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format,
+such as:
 - `#00ffff`
 - `rgb(0 255 255)`
 - `hsl(180 100% 100% / 1)`
 - `cyan`
 
-If the field value is uninitialized, the default color **black** (`#000000`) is selected,
-which can be configured using the `defaultColor` prop. Refer to the
-[colorToString](/form-helpers/colorToString) function to convert
-an **RGB** or **HSV** color object into a string, which can be used to
-set the default color for the color picker.
+If the field value is uninitialized, the default color **black** (`#000000`) is
+selected, which can be configured using the `defaultColor` prop. Refer to the
+[colorToString](/form-helpers/colorToString) function to convert an **RGB** or
+**HSV** color object into a string, which can be used to set the default color
+for the color picker.
 
 ```tsx
 <RHFColorPicker
-  fieldName="favouriteColor"
+  fieldName="brandColor"
   control={control}
+  onValueChange={color => console.log(color.hex, color.rgb)}
 />
 ```
 
-The color value returned from the `onValueChange` prop is an object containing the equivalent
-**hex**, **rgb**, and **hsv** values.
+### Choosing the value format
+
+`valueKey` decides which format is stored in the form: `'hex'` (the default),
+`'rgb'` or `'hsv'`. The color object passed to `onValueChange` always carries
+all three, so use it when you need more than one format.
+
+With `valueKey="hsv"`, the picker renders only the saturation panel and the hue
+slider, without the text inputs or the alpha slider.
+
+```tsx
+<RHFColorPicker
+  fieldName="accent"
+  control={control}
+  valueKey="rgb"
+/>
+```
+
+### Customizing the picker
+
+- `excludeAlpha` drops the alpha channel from the stored value, for example
+  `#00ffff` instead of `#00ffffff`.
+- `hideAlpha` hides the alpha slider, and `hideInput` hides some or all of the
+  `hex`, `rgb` and `hsv` text inputs.
+- `height` sets the height, in pixels, of the saturation panel. It defaults to
+  `200`.
+
+```tsx
+<RHFColorPicker
+  fieldName="accent"
+  control={control}
+  excludeAlpha
+  hideAlpha
+  hideInput={['rgb', 'hsv']}
+  height={240}
+/>
+```
+
+### Handling value changes
+
+Two props let you respond to the user picking a color. Use `onValueChange` to
+run side effects once the color has been stored, and `customOnChange` to take
+over what gets stored in the form.
+
+#### onValueChange
+
+`onValueChange` runs after the color has been stored in the form. It receives
+the color object from react-color-palette, which carries the **hex**, **rgb**
+and **hsv** values.
+
+```tsx
+<RHFColorPicker
+  fieldName="brandColor"
+  control={control}
+  onValueChange={color => console.log(color.hex, color.rgb)}
+/>
+```
+
+The below object denotes the shape of `color` obtained from `onValueChange`.
 
 ```js
 {
@@ -63,6 +149,43 @@ The color value returned from the `onValueChange` prop is an object containing t
 }
 ```
 
+#### customOnChange
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling and receives `{ color, setColor }`: the new color object, and a
+helper that updates both the picker and the form value. Call `setColor` with the
+color to commit; if you don't, nothing is stored. This example rejects colors
+that are too dark. `onValueChange` is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFColorPicker
+  fieldName="accent"
+  control={control}
+  customOnChange={({ color, setColor }) => {
+    if (color.hsv.v >= 20) {
+      setColor(color);
+    }
+  }}
+/>
+```
+
+### Validation, labels and disabling
+
+Rules go in `registerOptions`, for example a `validate` function to restrict the
+allowed colors. `showLabelAboveFormField` defaults to `true`. `helperText`,
+`renderError`, `hideErrorMessage` and `disabled` (or a form-level `disabled` in
+`useForm`) work as described in [RHFTextField](/components/mui/RHFTextfield).
+
+```tsx
+<RHFColorPicker
+  fieldName="brandColor"
+  control={control}
+  registerOptions={{
+    validate: value => value !== '#ffffff' || 'White is not allowed'
+  }}
+/>
+```
+
 ## Examples
 - [ColorPicker](https://www.npmjs.com/package/react-color-palette#usage)
 - [RHFColorPicker](/examples/miscellaneous-components)
@@ -72,9 +195,10 @@ If this package doesn't meet your requirements, consider the
 [react-color](https://www.npmjs.com/package/react-color) package.
 
 ## API
-`RHFColorPickerProps` extends the props of [ColorPicker](https://www.npmjs.com/package/react-color-palette#api)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFColorPickerProps` extends the props of
+[ColorPicker](https://www.npmjs.com/package/react-color-palette#api) and accepts
+the following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFColorPicker}

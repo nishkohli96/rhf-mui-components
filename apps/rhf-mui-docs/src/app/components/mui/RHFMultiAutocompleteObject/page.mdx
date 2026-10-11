@@ -9,75 +9,175 @@ export default function Layout({ children }) {
 
 # RHFMultiAutocompleteObject
 
-**RHFMultiAutocompleteObject** extends [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
-to support **multi-selection of object-based options**, returning the **entire selected objects**
-instead of primitive values.
+`RHFMultiAutocompleteObject` is a multi-select
+[Autocomplete](https://mui.com/material-ui/react-autocomplete/) for object-based
+options. Each option has a checkbox, there is a "**Select All**" row, and the
+stored value is the **array of full option objects**, not primitives.
 
-It also includes a built-in "**Select All**" option with proper handling of:
+Use [RHFMultiAutocomplete](/components/mui/RHFMultiAutocomplete) when a
+`string[]` of one property is enough.
 
-- Full selection
-- Partial (indeterminate) state
-- Clear/reset behavior
-
-## Key Features
-
-- Returns **array of objects**
-- Built-in **Select All** support
-- Handles **indeterminate state**
-- Supports **large datasets with filtering**
+<Callout type="note">
+  `freeSolo` is **not supported** in `RHFMultiAutocompleteObject`. Mixing typed
+  strings with option objects would make the stored value type unpredictable.
+  Use [RHFAutocomplete](/components/mui/RHFAutocomplete) or
+  [RHFMultiAutocomplete](/components/mui/RHFMultiAutocomplete) instead.
+</Callout>
 
 ## Usage
+
+```tsx
+import RHFMultiAutocompleteObject, { RHFMultiAutocompleteObjectProps } from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
+```
+
+`options` must be an array of objects, and both `labelKey` and `valueKey` are
+required. `labelKey` is the property used as each option's visible label, and
+`valueKey` identifies an option.
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+type Country = { name: string; code: string; currency: string };
+
+type FormValues = {
+  countries: Country[];
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { countries: [] }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.countries))}>
+  <RHFMultiAutocompleteObject
+    fieldName="countries"
+    control={control}
+    options={countryList}
+    labelKey="name"
+    valueKey="code"
+    registerOptions={{
+      validate: value => value.length > 0 || 'Select at least one country'
+    }}
+  />
+</form>
+```
 
 <Callout type="warning">
   Both `labelKey` and `valueKey` are required. This component only supports
   object-based options.
-
-  The internally injected "**Select All**" option is
-  not included in the final form value. Only actual options are returned.
 </Callout>
 
-```tsx
-import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
+### Select All
 
+A "**Select All**" row is added at the top of the menu. `selectAllText` changes
+its text and `hideSelectAllOption` removes it.
+
+- Clicking it selects every available option and stores the full array of
+  objects.
+- When all options are selected, clicking it again clears the selection.
+- Its checkbox is indeterminate when some, but not all, options are selected.
+
+The internally injected "**Select All**" option is **NOT** included in the
+final form value. Only actual options are returned.
+
+```tsx
 <RHFMultiAutocompleteObject
   fieldName="countries"
   control={control}
   options={countryList}
   labelKey="name"
   valueKey="code"
+  selectAllText="All countries"
 />
 ```
 
-<Callout type="note">
-  `freeSolo` is **not supported** in `RHFMultiAutocompleteObject`.
+### Customizing individual options
 
-  This component stores complete option objects in form state, whereas enabling
-  `freeSolo` would introduce string values alongside option objects, resulting in
-  mixed value types.
+`renderOptionLabel` customizes the label next to an option's checkbox, and
+`getOptionDisabled` disables options. `checkboxProps` and
+`formControlLabelProps` style every option row.
 
-  If you need users to enter custom values that are not present in the provided
-  options, use **RHFAutocomplete** or **RHFMultiAutocomplete** instead.
-</Callout>
+```tsx
+<RHFMultiAutocompleteObject
+  fieldName="countries"
+  control={control}
+  options={countryList}
+  labelKey="name"
+  valueKey="code"
+  renderOptionLabel={option => `${option.name} (${option.currency})`}
+  getOptionDisabled={option => option.currency === 'EUR'}
+  checkboxProps={{ size: 'small' }}
+/>
+```
 
-### Select All Behavior
+### Limiting chips, loading and the input
 
-When clicked:
-- Selects all available options
-- Stores full array of objects
+`limitTags`, `getLimitTagsText` and `ChipProps` control the chips while the
+field is not focused. `loading` shows a spinner while options are fetched,
+`disableClearable` removes the clear button, and `textFieldProps` is forwarded
+to the underlying `TextField`.
 
-When all options are selected:
-- Clicking again clears all selections
+```tsx
+<RHFMultiAutocompleteObject
+  fieldName="countries"
+  control={control}
+  options={countryList}
+  labelKey="name"
+  valueKey="code"
+  limitTags={3}
+  loading={isFetchingCountries}
+  textFieldProps={{ placeholder: 'Search countries' }}
+/>
+```
 
-Indeterminate state:
-- Triggered when some but not all options are selected
+### Handling value changes
+
+`onValueChange` runs after the new array of objects has been stored in the
+form. It receives `{ newValue, selectedOption }`:
+
+```tsx
+<RHFMultiAutocompleteObject
+  fieldName="countries"
+  control={control}
+  options={countryList}
+  labelKey="name"
+  valueKey="code"
+  onValueChange={({ newValue, selectedOption }) => {
+    setCurrencies(newValue.map(country => country.currency));
+  }}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the array to
+store. This example limits the selection to three countries: `onValueChange` is
+**not called** when `customOnChange` is used.
+
+```tsx
+<RHFMultiAutocompleteObject
+  fieldName="countries"
+  control={control}
+  options={countryList}
+  labelKey="name"
+  valueKey="code"
+  customOnChange={({ rhfOnChange, newValue, selectedOption }) => {
+    if (newValue.length <= 3) {
+      rhfOnChange(newValue);
+    }
+  }}
+/>
+```
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
 
 ## Examples
 - [RHFMultiAutocompleteObject](/examples/autocomplete)
 
 ## API
-The `RHFMultiAutocompleteObjectProps` interface extends [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+The `RHFMultiAutocompleteObjectProps` interface extends
+[AutocompleteProps](https://mui.com/material-ui/api/autocomplete/) and accepts
+the following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFMultiAutocompleteObject}

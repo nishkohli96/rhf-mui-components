@@ -9,13 +9,15 @@ export default function Layout({ children }) {
 
 # RHFPhoneInput
 
-The **RHFPhoneInput** component is built on top of [react-international-phone](https://www.npmjs.com/package/react-international-phone),
+The **RHFPhoneInput** component is built on top of
+[react-international-phone](https://www.npmjs.com/package/react-international-phone),
 a React library for handling international phone numbers.
 
-It integrates with Material UI by leveraging the [TextField](https://mui.com/material-ui/react-text-field/)
-component with the [usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
-hook from `react-international-phone`, allowing users to select a country and enter phone number
-in the appropriate international format.
+It integrates with Material UI by leveraging the
+[TextField](https://mui.com/material-ui/react-text-field/) component with the
+[usePhoneInput](https://react-international-phone.vercel.app/docs/Advanced%20Usage/usePhoneInput)
+hook from `react-international-phone`, allowing users to select a country and
+enter phone number in the appropriate international format.
 
 ## Installation
 
@@ -34,22 +36,34 @@ import RHFPhoneInput, {
 ```
 
 ```tsx
-<RHFPhoneInput
-  fieldName="contactNumber"
-  control={control}
-  phoneInputProps={{
-    defaultCountry: "in",
-    preferredCountries: ["in", "us", "au"]
-  }}
-/>
-```
+import { useForm } from 'react-hook-form';
 
-<Callout type="info">
-  For validation, consider enforcing the following minimum lengths:
-  - `phone` and `phoneNo`: at least **6** characters
-  - `country`: exactly **2** characters (ISO country code)
-  - `dialCode`: typically **1–4** digits, depending on the selected country
-</Callout>
+type FormValues = {
+  contactNumber: RHFPhoneInputValue;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: {
+    contactNumber: {
+      phone: '',
+      country: 'in',
+      dialCode: '91',
+      phoneNo: ''
+    }
+  }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.contactNumber.phone))}>
+  <RHFPhoneInput
+    fieldName="contactNumber"
+    control={control}
+    phoneInputProps={{
+      defaultCountry: 'in',
+      preferredCountries: ['in', 'us', 'au']
+    }}
+  />
+</form>
+```
 
 ### Return Value
 
@@ -107,22 +121,85 @@ Use:
 - `phoneNo` when you only need the national number.
 - `country` for country-specific logic or validation.
 
+### Validation
+
+For validation, consider enforcing the following minimum lengths:
+- `phone` and `phoneNo`: at least **6** characters
+- `country`: exactly **2** characters (ISO country code)
+- `dialCode`: typically **1–4** digits, depending on the selected country
+
+Use `validate` in `registerOptions` to apply those rules, with one key per rule:
+
+```tsx
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  registerOptions={{
+    validate: {
+      length: ({ phoneNo }) => phoneNo.length >= 6 || 'Enter a valid phone number',
+      country: ({ country }) => country.length === 2 || 'Select a country'
+    }
+  }}
+/>
+```
+
+### PhoneInput Props
+
+`phoneInputProps` is passed to the `usePhoneInput` hook of
+[react-international-phone](https://react-international-phone.vercel.app/), so
+the behavior of the number and country handling is configured there. `value` and
+`onChange` are controlled by the component. Commonly used options:
+
+- `defaultCountry`: ISO2 code of the country selected when there is no value.
+- `countries`: restricts the dropdown to a subset of countries.
+- `preferredCountries`: countries pinned at the top of the dropdown, in the
+  given order.
+- `forceDialCode`: keeps the dial code from being edited or removed. The country
+  dropdown is disabled too.
+- `disableDialCodePrefill`: doesn't prefill the dial code of the selected
+  country in the input.
+- `disableCountryGuess`: doesn't switch the country when a different dial code
+  is typed.
+- `charAfterDialCode`: character inserted between the dial code and the number.
+  Defaults to a space.
+
+```tsx
+import { defaultCountries } from 'react-international-phone';
+
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  phoneInputProps={{
+    defaultCountry: 'in',
+    preferredCountries: ['in', 'us', 'gb'],
+    countries: defaultCountries.filter(([, iso2]) => iso2 !== 'ru'),
+    charAfterDialCode: '-'
+  }}
+/>
+```
+
 ### Search Countries
 
 Because the country list is large, the component includes an inline search field
 that allows users to search for and select their preferred country. The search
 matches the **country name**, ISO2 **country code**, and **dial code**.
 
-The search field is enabled by default and can be customized using `searchCountryProps`,
-an object with the following properties:
+The search field is enabled by default and can be customized using
+`searchCountryProps`, an object with the following properties:
 
-- `allowCountrySearch` - Shows or hides the inline search field. Defaults to `true`.
-- `textFieldProps` - [TextFieldProps](https://mui.com/material-ui/api/text-field/)
-  for customizing the search text field.
-- `renderCountryMenuItem` - Customizes the content of each [MenuItem](https://mui.com/material-ui/api/menu-item/)
-  in the country search dropdown.
+- `allowCountrySearch` - Shows or hides the inline search field. Defaults to
+  `true`.
+- `textFieldProps` -
+  [TextFieldProps](https://mui.com/material-ui/api/text-field/) for customizing
+  the search text field.
+- `renderCountryMenuItem` - Customizes the content of each
+  [MenuItem](https://mui.com/material-ui/api/menu-item/) in the country search
+  dropdown.
 - `noCountryFoundText` - Text shown when no countries match the search.
   Defaults to "**No countries found**".
+- `menuItemProps` - [MenuItemProps](https://mui.com/material-ui/api/menu-item/)
+  forwarded to every country `MenuItem`, including the disabled "no results"
+  item. Its `sx` is merged with the component's own styles.
 
 ```tsx
 <RHFPhoneInput
@@ -133,22 +210,95 @@ an object with the following properties:
       variant: 'outlined'
     },
     renderCountryMenuItem: country => `${country.dialCode} - ${country.name}`,
-    noCountryFoundText: 'No matching country found'
+    noCountryFoundText: 'No matching country found',
+    menuItemProps: { dense: true, sx: { fontSize: 14 } }
   }}
 />
 ```
 
-The search field is rendered inside the country dropdown and remains pinned to the top while the
-country list is scrolled.
+The search field is rendered inside the country dropdown and remains pinned to
+the top while the country list is scrolled.
+
+### Customizing the input field
+
+The number input is a Material UI
+[TextField](https://mui.com/material-ui/react-text-field/), so `RHFPhoneInput`
+accepts most of its props directly. Everything you would set on a normal text
+field works here too, such as `variant`, `size`, `color`, `fullWidth`,
+`placeholder`, `margin` and `sx`. Use `slotProps` to reach the inner parts, for
+example `slotProps.input` for adornments and `slotProps.htmlInput` for native
+input attributes.
+
+```tsx
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  variant="filled"
+  size="small"
+  fullWidth
+  placeholder="Enter your phone number"
+  sx={{ maxWidth: 360 }}
+  slotProps={{
+    input: {
+      endAdornment: <PhoneIcon fontSize="small" />
+    },
+    htmlInput: { maxLength: 20 }
+  }}
+/>
+```
+
+A few props are managed by the component and can't be set:
+
+- `name`, `value`, `defaultValue` and `onChange`. Use `fieldName`, `control` and
+  `onValueChange` instead.
+- `error`, which comes from the form state.
+- `type`, which is always `tel`.
+- `slotProps.input.startAdornment`, which holds the country dropdown. Style that
+  with `countrySelectProps` instead.
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, phoneData }`: the `RHFPhoneInputValue` that was stored,
+and the raw payload from react-international-phone:
+
+```tsx
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  onValueChange={({ newValue, phoneData }) => setValue('country', newValue.country)}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example refuses numbers longer than 10 digits: `onValueChange` is
+**not called** when `customOnChange` is used.
+
+```tsx
+<RHFPhoneInput
+  fieldName="contactNumber"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, phoneData }) => {
+    if (newValue.phoneNo.length <= 10) {
+      rhfOnChange(newValue);
+    }
+  }}
+/>
+```
+
+The label, helper text and error props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
 
 ## Examples
 - [PhoneInput](https://react-international-phone-storybook.vercel.app/?path=/story/phoneinput--default)
 - [RHFPhoneInput](/examples/miscellaneous-components)
 
 ## API
-`RHFPhoneInput` extends the props of [TextField](https://mui.com/material-ui/api/text-field/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFPhoneInput` extends the props of
+[TextField](https://mui.com/material-ui/api/text-field/) and accepts the
+following additional props. Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFPhoneInput}

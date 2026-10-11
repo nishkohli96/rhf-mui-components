@@ -120,8 +120,9 @@ export const NpmButton = () => {
         <Image
           src="/icons/npm.svg"
           alt="NPM"
-          width={40}
-          height={16}
+          width={36}
+          height={14.4}
+          style={{ width: 36, height: 'auto' }}
         />
       </IconButton>
     </Tooltip>

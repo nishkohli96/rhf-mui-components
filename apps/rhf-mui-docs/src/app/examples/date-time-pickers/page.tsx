@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import DateTimePickersForm from '@/forms/date-time-pickers/Client';
+import DateTimePickersForm from '@/forms/date-time-pickers';
 
 export const metadata = pageMetadata.dateTimePickersExample;
 

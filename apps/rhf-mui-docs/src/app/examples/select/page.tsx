@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import SelectForm from '@/forms/select/Client';
+import SelectForm from '@/forms/select';
 
 export const metadata = pageMetadata.selectExample;
 

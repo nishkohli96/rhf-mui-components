@@ -9,7 +9,8 @@ export default function Layout({ children }) {
 
 # Migrating from v4 to v5
 
-`@nish1896/rhf-mui-components` **v5** targets **Material UI v9** and **MUI X Date Pickers v9**.
+`@nish1896/rhf-mui-components` **v5** targets **Material UI v9** and **MUI X
+Date Pickers v9**.
 
 `v4` targeted MUI `v6`/`v7` and MUI X Date Pickers `v7`/`v8`.
 
@@ -18,11 +19,13 @@ export default function Layout({ children }) {
 1. Upgrade your MUI packages to `v9`.
 2. Upgrade `@nish1896/rhf-mui-components` to `v5`.
 3. Refer to the [MUI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
-and [MUI X Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migration guides.
+   and [MUI X Pickers v9](https://mui.com/x/migration/migration-pickers-v8/)
+   migration guides.
 4. Run MUI's official codemods over **your own** code.
 5. Remove any remaining `errorMessage` prop — see
    [`errorMessage` removed](#errormessage-removed).
-6. Fix the pass-through props listed in [What you need to change](#what-you-need-to-change).
+6. Fix the pass-through props listed in [What you need to
+   change](#what-you-need-to-change).
 
 <Callout type="info">
   Only one `RHF*`-level prop was removed in `v5` — the already-deprecated
@@ -36,17 +39,16 @@ and [MUI X Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migrat
 ## 1. Update dependencies
 
 <PackageManagerTabs
-  id="install-v5-deps"
-  command="@mui/material@^9 @mui/icons-material@^9 @mui/x-date-pickers@^9 @nish1896/rhf-mui-components@^5"
-/>
+  id="install-v5-deps" command="@mui/material@^9 @mui/icons-material@^9
+  @mui/x-date-pickers@^9 @nish1896/rhf-mui-components@^5" />
 
-`peerDependencies` are now `^9.0.0` for all MUI packages, so your package manager will
-warn if any of them is still on an older version.
+`peerDependencies` are now `^9.0.0` for all MUI packages, so your package
+manager will warn if any of them is still on an older version.
 
 ## 2. Run MUI's codemods
 
-Most of the work is in your own app code, and MUI ships codemods for it. There is **no
-single all-in-one preset for v9** — the codemods are per-concern:
+Most of the work is in your own app code, and MUI ships codemods for it. There
+is **no single all-in-one preset for v9** — the codemods are per-concern:
 
 ```bash
 # Rewrites removed system props into `sx` (Box, Stack, Grid, Typography, Link, …)
@@ -59,22 +61,24 @@ npx @mui/codemod@latest v9.0.0/system-props <path> -- --jsx=Box,Typography
 npx @mui/codemod@latest deprecations/<component-name> <path>
 ```
 
-The codemods do not cover the pass-through props documented below, because those are nested
-inside our component props (`textFieldProps`, `checkboxProps`, `slotProps.textField`) rather
-than applied directly to a MUI element — fix those by hand.
+The codemods do not cover the pass-through props documented below, because those
+are nested inside our component props (`textFieldProps`, `checkboxProps`,
+`slotProps.textField`) rather than applied directly to a MUI element — fix those
+by hand.
 
 Then read MUI's own guides, which cover everything outside this package:
 
-- [Upgrade to Material UI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
+- [Upgrade to Material UI
+  v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
 - [Upgrade to MUI X v9](https://mui.com/x/migration/migration-pickers-v8/)
 
 ## 3. What you need to change
 
 ### `errorMessage` removed
 
-The `errorMessage` prop — deprecated back in `v4` — has been removed from every component
-in `v5`. Field errors are now derived internally from React Hook Form's own field state, so
-there's nothing left to pass through manually.
+The `errorMessage` prop — deprecated back in `v4` — has been removed from every
+component in `v5`. Field errors are now derived internally from React Hook
+Form's own field state, so there's nothing left to pass through manually.
 
 ```diff
   <RHFTextField
@@ -85,13 +89,13 @@ there's nothing left to pass through manually.
   />
 ```
 
-If you need to customize how an error renders (not just supply the message), use the
-`renderError` prop instead.
+If you need to customize how an error renders (not just supply the message), use
+the `renderError` prop instead.
 
 ### Anything forwarded to a `TextField`
 
-MUI `v9` removed `TextField`'s legacy prop bag in favour of `slotProps`. In this package that
-surfaces in three places:
+MUI `v9` removed `TextField`'s legacy prop bag in favour of `slotProps`. In this
+package that surfaces in three places:
 
 | Where | Components |
 | --- | --- |
@@ -140,8 +144,8 @@ The same rename applies when the props are set directly on a component:
 
 ### `checkboxProps` / `radioProps`, and `RHFSwitch`
 
-MUI `v9` removed `inputProps` and `inputRef` from `SwitchBase`, the shared base of
-`Checkbox`, `Radio` and `Switch`.
+MUI `v9` removed `inputProps` and `inputRef` from `SwitchBase`, the shared base
+of `Checkbox`, `Radio` and `Switch`.
 
 Affects `RHFCheckbox`, `RHFCheckboxGroup`, `RHFRadioGroup`, `RHFSwitch`,
 `RHFMultiAutocomplete`, `RHFMultiAutocompleteObject`.
@@ -179,14 +183,14 @@ Affects all `RHFDatePicker`, `RHFTimePicker` and `RHFDateTimePicker` variants
   />
 ```
 
-This one fails **silently** — the old `inputProps` is simply ignored rather than raising a
-type error in every configuration, so attributes disappear with no warning. Grep your
-codebase for `textField` + `inputProps` explicitly.
+This one fails **silently** — the old `inputProps` is simply ignored rather than
+raising a type error in every configuration, so attributes disappear with no
+warning. Grep your codebase for `textField` + `inputProps` explicitly.
 
 ### System props are gone — use `sx`
 
-MUI `v9` removed system props from `Box`, `Stack`, `Grid`, `Typography`, `Link` and
-`DialogContentText`. Any prop bag we forward to those (`formLabelProps`,
+MUI `v9` removed system props from `Box`, `Stack`, `Grid`, `Typography`, `Link`
+and `DialogContentText`. Any prop bag we forward to those (`formLabelProps`,
 `formHelperTextProps`, `formControlLabelProps`, `ChipProps`) is affected.
 
 ```diff
@@ -205,8 +209,9 @@ MUI `v9` removed system props from `Box`, `Stack`, `Grid`, `Typography`, `Link` 
 
 ### `renderOptionLabel` and custom option renderers
 
-If your renderer returns MUI components using system props, apply the same `sx` change.
-The `renderOptionLabel(option, state)` signature itself is **unchanged**.
+If your renderer returns MUI components using system props, apply the same `sx`
+change. The `renderOptionLabel(option, state)` signature itself is
+**unchanged**.
 
 ### Icons: `*Outline` → `*Outlined`
 
@@ -219,8 +224,8 @@ MUI `v9` deleted 23 legacy `*Outline` icon aliases.
 
 ### `RHFSlider`: `onMouseDown` → `onPointerDown`
 
-v9's `Slider` uses pointer events. If you passed `onMouseDown` to cancel a drag, it no
-longer fires.
+v9's `Slider` uses pointer events. If you passed `onMouseDown` to cancel a drag,
+it no longer fires.
 
 ```diff
 <RHFSlider fieldName="volume" control={control}
@@ -231,8 +236,9 @@ longer fires.
 
 ### Theme: `MuiAlert` style overrides
 
-`v9` collapsed the per-severity `standard{Info,Success,Warning,Error}` slots into a single
-`standard` slot, with severity moved onto separate `colorInfo`/`colorSuccess`/… classes.
+`v9` collapsed the per-severity `standard{Info,Success,Warning,Error}` slots
+into a single `standard` slot, with severity moved onto separate
+`colorInfo`/`colorSuccess`/… classes.
 
 ```diff
   MuiAlert: {
@@ -258,11 +264,13 @@ If your layout still used the legacy Grid API, update to the new Grid sizing:
 
 ## What did *not* change
 
-- Every component's own props — `fieldName`, `control`, `registerOptions`, `onValueChange`,
-  `renderError`, `helperText`, `label`, `hideLabel`, `showLabelAboveFormField`, `customIds`,
-  `labelKey`/`valueKey`, `getOptionDisabled`, `ChipProps`, `limitTags`, …
+- Every component's own props — `fieldName`, `control`, `registerOptions`,
+  `onValueChange`, `renderError`, `helperText`, `label`, `hideLabel`,
+  `showLabelAboveFormField`, `customIds`, `labelKey`/`valueKey`,
+  `getOptionDisabled`, `ChipProps`, `limitTags`, …
 - `ConfigProvider` and every config option.
 - `form-helpers` exports (`fieldNameToId`, `fieldNameToLabel`, `getFileSize`,
   `validateFileList`, `colorToString`).
 - `ref` forwarding on the Autocomplete family and the pickers.
-- `RHFSelect` / `RHFNativeSelect` `inputProps` — MUI's `Select` **kept** this prop in `v9`.
+- `RHFSelect` / `RHFNativeSelect` `inputProps` — MUI's `Select` **kept** this
+  prop in `v9`.

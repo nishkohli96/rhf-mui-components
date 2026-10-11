@@ -90,7 +90,7 @@ const TrustBadges = async () => {
       href: npmLink,
       icon: <DownloadRoundedIcon />
     },
-    stars !== null && {
+    (stars !== null && stars !== 0) && {
       key: 'stars',
       label: `${compactNumber.format(stars)} stars`,
       href: githubRepoLink,

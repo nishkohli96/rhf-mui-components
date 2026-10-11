@@ -9,10 +9,10 @@ export default function Layout({ children }) {
 
 # RHFSlider
 
-Sliders display a range of values along a bar, from which users may select a
-single value. They are ideal for adjusting settings such as volume or brightness.
-**RHFSlider** extends [Slider](https://mui.com/material-ui/react-slider/)
-and can be customized in a similar way.
+`RHFSlider` wraps the Material UI
+[Slider](https://mui.com/material-ui/react-slider/) for a single number or a
+range (number array), with label, error and helper-text handling, bound to React
+Hook Form through `control`.
 
 ## Usage
 
@@ -21,9 +21,156 @@ import RHFSlider, { RHFSliderProps } from '@nish1896/rhf-mui-components/mui/slid
 ```
 
 ```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  volume: number;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { volume: 30 }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFSlider
+    fieldName="volume"
+    control={control}
+    min={0}
+    max={100}
+  />
+</form>
+```
+
+The stored value is a `number` for a single-thumb slider and a `number[]` for a
+range slider, and `newValue` has the same shape, so no cast is needed. Always
+give the field a default value, since `undefined` and `null` are treated as `0`.
+
+`onValueChange` receives `{ newValue, activeThumb, event }`: the new value, the
+index of the thumb that is being moved, and the change event.
+
+### Range slider
+
+Use a `number[]` default value to get one thumb per number. The slider announces
+a range to screen readers as, for example, "20 to 60".
+
+```tsx
+type FormValues = {
+  priceRange: number[];
+};
+
+const { control } = useForm<FormValues>({
+  defaultValues: { priceRange: [20, 60] }
+});
+
 <RHFSlider
-  fieldName="score"
+  fieldName="priceRange"
   control={control}
+  valueLabelDisplay="auto"
+/>
+```
+
+`activeThumb` tells you which thumb moved, which is useful for rules between the
+thumbs. Use `customOnChange` to store a corrected value. This keeps the thumbs
+at least 10 apart, and `disableSwap` stops one thumb from passing the other:
+
+```tsx
+const minDistance = 10;
+
+const { control, getValues } = useForm<FormValues>({
+  defaultValues: { priceRange: [20, 60] }
+});
+
+<RHFSlider
+  fieldName="priceRange"
+  control={control}
+  disableSwap
+  customOnChange={({ rhfOnChange, newValue, activeThumb }) => {
+    const [from, to] = getValues('priceRange');
+    if (activeThumb === 0) {
+      rhfOnChange([Math.min(newValue[0], to - minDistance), to]);
+    } else {
+      rhfOnChange([from, Math.max(newValue[1], from + minDistance)]);
+    }
+  }}
+/>
+```
+
+`getValues` reads the value that is stored before this change.
+`onValueChange` is **not called** when `customOnChange` is used.
+
+### Steps, marks and value labels
+
+Most of the slider's appearance comes from the underlying Material UI props,
+which are passed through: `min`, `max` and `step` set the scale, `marks` adds
+labelled ticks, and `valueLabelDisplay` controls the bubble above the thumb:
+`'auto'` on hover or drag, `'on'` always, or `'off'`.
+
+```tsx
+<RHFSlider
+  fieldName="temperature"
+  control={control}
+  min={0}
+  max={40}
+  step={10}
+  marks={[
+    { value: 0, label: '0°C' },
+    { value: 10, label: '10°C' },
+    { value: 20, label: '20°C' },
+    { value: 30, label: '30°C' },
+    { value: 40, label: '40°C' }
+  ]}
+  valueLabelDisplay="auto"
+/>
+```
+
+### Validation
+
+Rules go in `registerOptions`. For a single value, `min` and `max` compare
+numerically; for a range, use `validate`:
+
+```tsx
+<RHFSlider
+  fieldName="priceRange"
+  control={control}
+  registerOptions={{
+    validate: ([from, to]) => to - from >= 10 || 'Select a range of at least 10'
+  }}
+/>
+```
+
+### Label placement
+
+A slider has no inline label, so `showLabelAboveFormField` defaults to `true`
+and the label is shown above the track. Pass `false` to hide the visible label.
+The error, helper text and change props work as described in
+[RHFTextField](/components/mui/RHFTextfield).
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, activeThumb, event }`: the new value, the index of the
+thumb that moved, and the change event.
+
+```tsx
+<RHFSlider
+  fieldName="volume"
+  control={control}
+  onValueChange={({ newValue, activeThumb, event }) => player.setVolume(newValue)}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example snaps a single-thumb slider to multiples of 5:
+`onValueChange` is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFSlider
+  fieldName="volume"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, activeThumb, event }) => {
+    rhfOnChange(Math.round(newValue / 5) * 5);
+  }}
 />
 ```
 
@@ -34,8 +181,8 @@ import RHFSlider, { RHFSliderProps } from '@nish1896/rhf-mui-components/mui/slid
 
 ## API
 `RHFSliderProps` extends [SliderProps](https://mui.com/material-ui/api/slider/)
-and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+and accepts the following additional props. Props marked with <strong style={{
+color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFSlider}

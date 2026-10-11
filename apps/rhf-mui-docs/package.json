@@ -9,7 +9,7 @@
     "build": "pnpm run gen:sitemap-lastmod && next build",
     "start": "next start",
     "lint": "eslint --fix .",
-    "prod": "next build && next start"
+    "prod": "pnpm run build && next start"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",

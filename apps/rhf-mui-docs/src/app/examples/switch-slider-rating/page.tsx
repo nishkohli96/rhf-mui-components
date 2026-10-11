@@ -4,7 +4,7 @@ import {
   SubHeading
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import SliderSwitchRatingForm from '@/forms/slider-switch-rating/Client';
+import SliderSwitchRatingForm from '@/forms/slider-switch-rating';
 
 export const metadata = pageMetadata.switchSliderRatingExample;
 

@@ -9,9 +9,9 @@ export default function Layout({ children }) {
 
 # RHFSwitch
 
-Switches toggle the state of a single setting on or off. **RHFSwitch**
-extends the [Switch](https://mui.com/material-ui/react-switch/) component
-and can be customized in a similar way.
+`RHFSwitch` is a single [Switch](https://mui.com/material-ui/react-switch/) with
+a boolean value, an inline label, and optional helper text or error state, bound
+to React Hook Form through `control`.
 
 ## Usage
 
@@ -20,10 +20,108 @@ import RHFSwitch, { RHFSwitchProps } from '@nish1896/rhf-mui-components/mui/swit
 ```
 
 ```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  notifications: boolean;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { notifications: false }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values))}>
+  <RHFSwitch
+    fieldName="notifications"
+    control={control}
+    label="Email notifications"
+  />
+</form>
+```
+
+The stored value is a boolean. `onValueChange` receives `{ newValue, event }`:
+the next checked state and the change event. The label defaults to text
+generated from `fieldName`, so `notifications` becomes "Notifications", and
+`hideLabel` removes the visible label.
+
+### Label and placement
+
+`label` accepts any `ReactNode`. The label sits after the switch by default.
+`formControlLabelProps` is forwarded to the `FormControlLabel` around the
+switch, so `labelPlacement` can move it to the `'start'`, `'top'` or `'bottom'`.
+Its `sx` is merged with the default `FormControlLabel` styles from
+[ConfigProvider](/customization).
+
+```tsx
 <RHFSwitch
-  fieldName="darkTheme"
+  fieldName="darkMode"
   control={control}
-  label="Enable Dark Theme"
+  label="Dark mode"
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', ml: 0 }
+  }}
+/>
+```
+
+### Styling the switch
+
+The remaining [SwitchProps](https://mui.com/material-ui/api/switch/) are passed
+to the `Switch`, for example `color`, `size`, `edge` and `sx`. `slotProps` is
+forwarded too. `name`, `checked` and `onChange` are managed by the component.
+
+```tsx
+<RHFSwitch
+  fieldName="notifications"
+  control={control}
+  color="secondary"
+  size="small"
+/>
+```
+
+### Helper text and errors
+
+A switch can't be invalid by itself, so add a rule in `registerOptions`. A
+`required` rule fails while the switch is off. The message replaces `helperText`
+while it is shown.
+
+```tsx
+<RHFSwitch
+  fieldName="acceptTerms"
+  control={control}
+  label="I accept the terms"
+  helperText="Required to continue"
+  registerOptions={{ required: 'You must accept the terms' }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form. It
+receives `{ newValue, event }`:
+
+```tsx
+<RHFSwitch
+  fieldName="darkMode"
+  control={control}
+  onValueChange={({ newValue, event }) => applyTheme(newValue ? 'dark' : 'light')}
+/>
+```
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the value to
+store. This example asks for confirmation before turning the switch off:
+`onValueChange` is **not called** when `customOnChange` is used.
+
+```tsx
+<RHFSwitch
+  fieldName="notifications"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    if (newValue || window.confirm('Turn off all notifications?')) {
+      rhfOnChange(newValue);
+    }
+  }}
 />
 ```
 
@@ -33,8 +131,9 @@ import RHFSwitch, { RHFSwitchProps } from '@nish1896/rhf-mui-components/mui/swit
 - [Complete Form](/examples/complete-form)
 
 ## API
-`RHFSwitchProps` extends [SwitchProps](https://mui.com/material-ui/api/switch/) and accepts the following additional props.
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`RHFSwitchProps` extends [SwitchProps](https://mui.com/material-ui/api/switch/)
+and accepts the following additional props. Props marked with <strong style={{
+color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable
   rows={componentProps.RHFSwitch}

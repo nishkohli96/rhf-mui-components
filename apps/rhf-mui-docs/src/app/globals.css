@@ -85,7 +85,7 @@ body {
 
 .doc-page {
   display: flex;
-  gap: 32px;
+  gap: 20px;
   align-items: flex-start;
 }
 
@@ -97,7 +97,7 @@ body {
 .doc-toc {
   position: sticky;
   top: 90px;
-  width: 200px;
+  width: 220px;
   flex-shrink: 0;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
@@ -139,6 +139,55 @@ body {
 
 .doc-toc li.doc-toc-sub a {
   padding-left: 26px;
+}
+
+.doc-toc li.doc-toc-sub2 a {
+  padding-left: 40px;
+}
+
+.doc-toc li.doc-toc-prop a {
+  padding-left: 26px;
+}
+
+.doc-toc li.doc-toc-api {
+  display: flex;
+  align-items: stretch;
+}
+
+.doc-toc li.doc-toc-api a {
+  flex: 1;
+}
+
+.doc-toc-toggle {
+  flex-shrink: 0;
+  width: 28px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  position: relative;
+}
+
+.doc-toc-toggle:hover {
+  opacity: 1;
+}
+
+.doc-toc-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -75%) rotate(45deg);
+  transition: transform 0.15s;
+}
+
+.doc-toc-toggle[aria-expanded='true']::before {
+  transform: translate(-50%, -25%) rotate(-135deg);
 }
 
 .doc-toc li a:hover {
