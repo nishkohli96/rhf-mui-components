@@ -2,13 +2,19 @@ import { type DocsVersionInfo } from '@/types';
 import {
   getComponentHref,
   newlyAddedComponents_v2,
-  newlyAddedComponents_v3_3
+  newlyAddedComponents_v3_3,
+  newlyAddedComponents_v4
 } from '@/components/folder-structure/routesList';
 
 /** Doc-page paths for components not yet added by a given version. */
 const unavailableComponentPaths = {
-  v2: newlyAddedComponents_v3_3.map(getComponentHref),
-  v1: [...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].map(getComponentHref)
+  v3: newlyAddedComponents_v4.map(getComponentHref),
+  v2: [...newlyAddedComponents_v3_3, ...newlyAddedComponents_v4].map(getComponentHref),
+  v1: [
+    ...newlyAddedComponents_v2,
+    ...newlyAddedComponents_v3_3,
+    ...newlyAddedComponents_v4
+  ].map(getComponentHref)
 };
 
 /**
@@ -53,6 +59,7 @@ export const docsVersions: DocsVersionInfo[] = [
     basePath: '/v3',
     fallbackPath: '/v3/introduction',
     unavailablePaths: [
+      ...unavailableComponentPaths.v3,
       '/examples',
       '/migration-guide/v4-to-v5',
       '/migration-guide/v3-to-v4',
@@ -66,8 +73,9 @@ export const docsVersions: DocsVersionInfo[] = [
     fallbackPath: '/v2/introduction',
     /*
      * Components added in v3.3, so they don't exist under `app/v2`. Sourced
-     * from `newlyAddedComponents_v3_3` (folder-structure's own version-gate
-     * list) so the sidebar and the folder-structure tree never drift apart.
+     * from `newlyAddedComponents_v3_3` and `newlyAddedComponents_v4`
+     * (folder-structure's own version-gate list) so the sidebar and the
+     * folder-structure tree never drift apart.
      */
     unavailablePaths: [
       ...unavailableComponentPaths.v2,

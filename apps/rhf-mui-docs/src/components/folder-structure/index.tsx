@@ -10,7 +10,8 @@ import {
   getMuiPickersFoldersList,
   getMiscFoldersList,
   newlyAddedComponents_v2,
-  newlyAddedComponents_v3_3
+  newlyAddedComponents_v3_3,
+  newlyAddedComponents_v4
 } from './routesList';
 
 export default function FolderStructure({ docsVersion }: VersionProps) {
@@ -19,24 +20,29 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
 
   const muiFolders = getMuiFoldersList(docsVersion);
   let muiList: { name: string; path: string }[];
+  const v4AndAbove = !docsVersion || docsVersion >= 4;
   if (v1) {
     muiList = muiFolders.filter(folder =>
-      ![...newlyAddedComponents_v2, ...newlyAddedComponents_v3_3].includes(
-        folder.name
-      ));
-  } else if (v3AndAbove) {
+      ![
+        ...newlyAddedComponents_v2,
+        ...newlyAddedComponents_v3_3,
+        ...newlyAddedComponents_v4
+      ].includes(folder.name));
+  } else if (v4AndAbove) {
     muiList = muiFolders;
+  } else if (v3AndAbove) {
+    muiList = muiFolders.filter(
+      folder => !newlyAddedComponents_v4.includes(folder.name)
+    );
   } else {
     muiList = muiFolders.filter(
-      folder => !newlyAddedComponents_v3_3.includes(folder.name)
+      folder => ![...newlyAddedComponents_v3_3, ...newlyAddedComponents_v4].includes(folder.name)
     );
   }
 
-  const miscList = v1
-    ? getMiscFoldersList(docsVersion).filter(
-      folder => !newlyAddedComponents_v2.includes(folder.name)
-    )
-    : getMiscFoldersList(docsVersion);
+  const miscList = getMiscFoldersList(docsVersion).filter(folder =>
+    (v1 ? !newlyAddedComponents_v2.includes(folder.name) : true)
+    && (v4AndAbove ? true : !newlyAddedComponents_v4.includes(folder.name)));
 
   return (
     <SimpleTreeView

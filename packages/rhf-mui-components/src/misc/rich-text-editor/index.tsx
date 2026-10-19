@@ -63,12 +63,6 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
    */
   registerOptions?: RegisterOptions<T, Path<T>>;
   /**
-   * HTML id applied to the CKEditor instance.
-   *
-   * Defaults to the generated field id.
-   */
-  id?: MUIRichTextEditorProps['id'];
-  /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
   required?: MUIRichTextEditorProps['required'];
@@ -181,7 +175,6 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
     fieldName,
     control,
     registerOptions,
-    id,
     required,
     editorConfig,
     onReady,
@@ -245,7 +238,6 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
         return (
           <MUIRichTextEditor
             fieldName={fieldName}
-            id={id}
             required={isFieldRequired}
             ref={mergeRefs(rhfRef, ref)}
             editorConfig={editorConfig ?? DefaultEditorConfig}

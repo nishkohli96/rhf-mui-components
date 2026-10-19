@@ -119,6 +119,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   },
+  RHFTextArea: {
+    title: { absolute: 'RHFTextArea — Multiline Text Area with Character Limit' },
+    description:
+      'RHFTextArea — a React Hook Form multiline text field with auto-grow, a maximum character limit and an optional character counter. Usage, validation and full props reference.'
+  },
   RHFPasswordInput: {
     title: { absolute: 'RHFPasswordInput — Password Field with Show/Hide Toggle' },
     description:
@@ -128,6 +133,11 @@ export const componentMetadata: Record<string, Metadata> = {
     title: { absolute: 'RHFNumberInput — Number Input for React Hook Form' },
     description:
       'Controlled numeric Material UI input with decimal, integer, non-negative and step constraints.'
+  },
+  RHFNumberStepper: {
+    title: { absolute: 'RHFNumberStepper — Number Input with +/- Buttons' },
+    description:
+      'RHFNumberStepper — a React Hook Form number input with always-visible increment and decrement buttons, min/max bounds, integer and decimal rules, and an optional caption.'
   },
   RHFTagsInput: {
     title: { absolute: 'RHFTagsInput — Chip-Based Tags Input' },
@@ -148,6 +158,11 @@ export const componentMetadata: Record<string, Metadata> = {
     title: { absolute: 'RHFNativeSelect — Native Select for React Hook Form' },
     description:
       'Controlled Material UI native <select> for lightweight dropdowns, especially on mobile.'
+  },
+  RHFUnitInput: {
+    title: { absolute: 'RHFUnitInput — Number Input with Unit Dropdown' },
+    description:
+      'RHFUnitInput — a React Hook Form number input paired with a unit dropdown, storing a { unit, value } object. Usage, validation and full props reference.'
   },
   RHFAutocomplete: {
     title: { absolute: 'RHFAutocomplete — Searchable Select with Free Text' },
@@ -232,6 +247,11 @@ export const componentMetadata: Record<string, Metadata> = {
     title: { absolute: 'RHFRichTextEditor — CKEditor Rich Text Editor' },
     description:
       'Controlled CKEditor 5 rich text editor for React Hook Form — stores HTML in form state, with label, error and helper-text handling, and a live demo.'
+  },
+  RHFTipTapRte: {
+    title: { absolute: 'RHFTipTapRte — Tiptap Rich Text Editor' },
+    description:
+      'RHFTipTapRte — a lightweight, MIT-licensed Tiptap rich text editor for React Hook Form that stores HTML. Usage, custom toolbar and extensions, and full props reference.'
   },
   /* ----- Form Helpers ----- */
   fieldNameToId: {

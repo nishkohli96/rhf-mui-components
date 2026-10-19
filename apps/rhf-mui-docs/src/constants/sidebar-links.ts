@@ -16,12 +16,15 @@ export const sidebarLinks: Page[] = [
         title: 'MUI',
         pages: [
           { title: 'Text Field', href: '/components/mui/RHFTextfield' },
+          { title: 'Text Area', href: '/components/mui/RHFTextArea' },
           { title: 'Password Input', href: '/components/mui/RHFPasswordInput' },
           { title: 'Number Input', href: '/components/mui/RHFNumberInput' },
+          { title: 'Number Stepper', href: '/components/mui/RHFNumberStepper' },
           { title: 'Tags Input', href: '/components/mui/RHFTagsInput' },
           { title: 'File Uploader', href: '/components/mui/RHFFileUploader' },
           { title: 'Select', href: '/components/mui/RHFSelect' },
           { title: 'Native Select', href: '/components/mui/RHFNativeSelect' },
+          { title: 'Unit Input', href: '/components/mui/RHFUnitInput' },
           { title: 'Autocomplete', href: '/components/mui/RHFAutocomplete' },
           { title: 'Autocomplete Object', href: '/components/mui/RHFAutocompleteObject' },
           { title: 'Country Select', href: '/components/mui/RHFCountrySelect' },
@@ -48,6 +51,7 @@ export const sidebarLinks: Page[] = [
         pages: [
           { title: 'Color Picker', href: '/components/misc/RHFColorPicker' },
           { title: 'Rich Text Editor', href: '/components/misc/RHFRichTextEditor' },
+          { title: 'TipTap Rich Text Editor', href: '/components/misc/RHFTipTapRte' },
           { title: 'Phone Input', href: '/components/misc/RHFPhoneInput' }
         ]
       }

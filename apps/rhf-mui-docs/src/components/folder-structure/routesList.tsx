@@ -20,12 +20,15 @@ export const componentRoutes: Record<
   string
 > = {
   [MuiComponents.TextField]: 'RHFTextfield',
+  [MuiComponents.TextArea]: 'RHFTextArea',
   [MuiComponents.PasswordInput]: 'RHFPasswordInput',
   [MuiComponents.NumberInput]: 'RHFNumberInput',
+  [MuiComponents.NumberStepper]: 'RHFNumberStepper',
   [MuiComponents.TagsInput]: 'RHFTagsInput',
   [MuiComponents.FileUploader]: 'RHFFileUploader',
   [MuiComponents.Select]: 'RHFSelect',
   [MuiComponents.NativeSelect]: 'RHFNativeSelect',
+  [MuiComponents.UnitInput]: 'RHFUnitInput',
   [MuiComponents.Autocomplete]: 'RHFAutocomplete',
   [MuiComponents.AutocompleteObject]: 'RHFAutocompleteObject',
   [MuiComponents.MultiAutocomplete]: 'RHFMultiAutocomplete',
@@ -42,6 +45,7 @@ export const componentRoutes: Record<
   [MuiPickersComponents.DateTimePicker]: 'RHFDateTimePicker',
   [MiscComponents.ColorPicker]: 'RHFColorPicker',
   [MiscComponents.RichTextEditor]: 'RHFRichTextEditor',
+  [MiscComponents.TipTapRte]: 'RHFTipTapRte',
   [MiscComponents.PhoneInput]: 'RHFPhoneInput'
 };
 
@@ -61,14 +65,25 @@ export const newlyAddedComponents_v3_3 = [
   MuiComponents.MultiAutocompleteObject
 ];
 
+/** Components added to the v4 line — they don't exist in v3 and below. */
+export const newlyAddedComponents_v4 = [
+  MuiComponents.TextArea,
+  MuiComponents.NumberStepper,
+  MuiComponents.UnitInput,
+  MiscComponents.TipTapRte
+];
+
 const muiComponents = [
   MuiComponents.TextField,
+  MuiComponents.TextArea,
   MuiComponents.NumberInput,
+  MuiComponents.NumberStepper,
   MuiComponents.PasswordInput,
   MuiComponents.TagsInput,
   MuiComponents.FileUploader,
   MuiComponents.Select,
   MuiComponents.NativeSelect,
+  MuiComponents.UnitInput,
   MuiComponents.Autocomplete,
   MuiComponents.AutocompleteObject,
   MuiComponents.CountrySelect,
@@ -91,6 +106,7 @@ const muiPickersComponents = [
 const miscComponents = [
   MiscComponents.ColorPicker,
   MiscComponents.RichTextEditor,
+  MiscComponents.TipTapRte,
   MiscComponents.PhoneInput
 ];
 

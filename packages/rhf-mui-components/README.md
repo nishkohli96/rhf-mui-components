@@ -51,12 +51,15 @@ Below is a comprehensive list of all components included in this package, catego
 
 - **mui**
   - [TextField](https://rhf-mui-components.vercel.app/components/mui/RHFTextField)
+  - [Text Area](https://rhf-mui-components.vercel.app/components/mui/RHFTextArea)
   - [NumberInput](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput)
+  - [Number Stepper](https://rhf-mui-components.vercel.app/components/mui/RHFNumberStepper)
   - [PasswordInput](https://rhf-mui-components.vercel.app/components/mui/RHFPasswordInput)
   - [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput)
   - [File Uploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader)
   - [Select](https://rhf-mui-components.vercel.app/components/mui/RHFSelect)
   - [Native Select](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect)
+  - [Unit Input](https://rhf-mui-components.vercel.app/components/mui/RHFUnitInput)
   - [Autocomplete](https://rhf-mui-components.vercel.app/components/mui/RHFAutocomplete)
   - [Autocomplete Object](https://rhf-mui-components.vercel.app/components/mui/RHFAutocompleteObject)
   - [Multi Autocomplete](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocomplete)
@@ -77,6 +80,7 @@ Below is a comprehensive list of all components included in this package, catego
 - **misc**
   - [Color Picker](https://rhf-mui-components.vercel.app/components/misc/RHFColorPicker)
   - [Rich Text Editor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor)
+  - [TipTap Rich Text Editor](https://rhf-mui-components.vercel.app/components/misc/RHFTipTapRte)
   - [Phone Input](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**

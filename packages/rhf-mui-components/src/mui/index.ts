@@ -23,6 +23,7 @@ import RHFMultiAutocompleteObject, {
 } from './multi-autocomplete-object';
 import RHFNativeSelect, { type RHFNativeSelectProps } from './native-select';
 import RHFNumberInput, { type RHFNumberInputProps } from './number-input';
+import RHFNumberStepper, { type RHFNumberStepperProps } from './number-stepper';
 import RHFPasswordInput, { type RHFPasswordInputProps } from './password-input';
 import RHFRadioGroup, { type RHFRadioGroupProps } from './radio-group';
 import RHFRating, { type RHFRatingProps } from './rating';
@@ -30,7 +31,9 @@ import RHFSelect, { type RHFSelectProps } from './select';
 import RHFSlider, { type RHFSliderProps } from './slider';
 import RHFSwitch, { type RHFSwitchProps } from './switch';
 import RHFTagsInput, { type RHFTagsInputProps } from './tags-input';
+import RHFTextArea, { type RHFTextAreaProps } from './text-area';
 import RHFTextField, { type RHFTextFieldProps } from './textfield';
+import RHFUnitInput, { type RHFUnitInputProps } from './unit-input';
 
 export {
   RHFAutocomplete,
@@ -43,14 +46,17 @@ export {
   RHFMultiAutocompleteObject,
   RHFNativeSelect,
   RHFNumberInput,
+  RHFNumberStepper,
   RHFPasswordInput,
   RHFRadioGroup,
   RHFRating,
   RHFSelect,
   RHFSlider,
   RHFSwitch,
+  RHFTextArea,
   RHFTextField,
   RHFTagsInput,
+  RHFUnitInput,
   /**
    * Static list of 250 countries (`name`, `iso`, `iso3`, `emoji` flag), used
    * as `RHFCountrySelect`'s default `countries` option list.
@@ -79,6 +85,7 @@ export type {
   RHFMultiAutocompleteObjectProps,
   RHFNativeSelectProps,
   RHFNumberInputProps,
+  RHFNumberStepperProps,
   RHFPasswordInputProps,
   RHFRadioGroupProps,
   RHFRatingProps,
@@ -86,7 +93,9 @@ export type {
   RHFSliderProps,
   RHFSwitchProps,
   RHFTagsInputProps,
+  RHFTextAreaProps,
   RHFTextFieldProps,
+  RHFUnitInputProps,
   CountryISO,
   CountryDetails,
 };

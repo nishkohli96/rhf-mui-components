@@ -28,7 +28,7 @@
     "@mui/x-date-pickers": "^9.10.1",
     "@mui/x-tree-view": "^9.10.1",
     "@next/mdx": "^16.3.0",
-    "@nish1896/mui-components": "^2.0.1",
+    "@nish1896/mui-components": "^2.3.1",
     "@nish1896/rhf-mui-components": "workspace:*",
     "@shikijs/rehype": "^4.4.1",
     "@tanstack/react-form": "^1.33.3",

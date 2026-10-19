@@ -13,12 +13,15 @@
 
 import { default as introductionPageRows } from './introduction';
 import textFieldRows from './mui/textfield';
+import textAreaRows from './mui/text-area';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
+import numberStepperRows from './mui/number-stepper';
 import tagsInputRows from './mui/tags-input';
 import fileUploaderRows from './mui/file-uploader';
 import selectRows from './mui/select';
 import nativeSelectRows from './mui/native-select';
+import unitInputRows from './mui/unit-input';
 import autocompleteRows from './mui/autocomplete';
 import autocompleteObjectRows from './mui/autocomplete-object';
 import multiAutocompleteRows from './mui/multi-autocomplete';
@@ -34,19 +37,23 @@ import { datePickerRows } from './mui-pickers/date';
 import { timePickerRows } from './mui-pickers/time';
 import { dateTimePickerRows } from './mui-pickers/date-time';
 import colorPickerRows from './misc/color-picker';
-import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
+import tipTapRteRows from './misc/tiptap-rte';
+import phoneInputRows from './misc/phone-input';
 
 /** Props row-builders for every component — consumed by `<PropsTable>` across every docs version. */
 export const componentProps = Object.freeze({
   Introduction: introductionPageRows,
   RHFTextField: textFieldRows,
+  RHFTextArea: textAreaRows,
   RHFPasswordInput: passwordInputRows,
   RHFNumberInput: numberInputRows,
+  RHFNumberStepper: numberStepperRows,
   RHFTagsInput: tagsInputRows,
   RHFFileUploader: fileUploaderRows,
   RHFSelect: selectRows,
   RHFNativeSelect: nativeSelectRows,
+  RHFUnitInput: unitInputRows,
   RHFAutocomplete: autocompleteRows,
   RHFAutocompleteObject: autocompleteObjectRows,
   RHFCountrySelect: countrySelectRows,
@@ -66,5 +73,6 @@ export const componentProps = Object.freeze({
 
   RHFColorPicker: colorPickerRows,
   RHFRichTextEditor: richTextEditorRows,
+  RHFTipTapRte: tipTapRteRows,
   RHFPhoneInput: phoneInputRows
 });
