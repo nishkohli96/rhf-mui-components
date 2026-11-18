@@ -85,6 +85,10 @@ You can also check out my [eslint config](https://www.npmjs.com/package/@nish189
 
 ## 🌟 Sponsors
 
+No active sponsors right now. If this library saves you time, you can [become a sponsor](https://buymeacoffee.com/nish1896).
+
+### Past sponsors
+
 <a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
   <img
     src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/version-5/apps/rhf-mui-docs/public/sponsors/ramakant.jpeg"

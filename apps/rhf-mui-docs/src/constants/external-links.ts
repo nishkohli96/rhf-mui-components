@@ -11,6 +11,7 @@ const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
 
 export const githubRepoLink = `${githubProfile}/${packageName}`;
 export const docsLink = 'https://rhf-mui-components.nishkohli.in/';
+export const sponsorLink = 'https://buymeacoffee.com/nish1896';
 export const npmLink = `https://www.npmjs.com/package/@nish1896/${packageName}`;
 
 export const externalLinks = Object.freeze({
