@@ -1,6 +1,9 @@
 import { type PageInfo } from '@/types';
 import { ENV_VARS } from './environment';
 
+export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
+export const docsLink = 'https://rhf-mui-components.nishkohli.in/';
+
 export const componentsDocsLink: Record<string, PageInfo> = {
   rhfTextField: {
     title: 'RHFTextField',
@@ -92,5 +95,3 @@ export const componentsDocsLink: Record<string, PageInfo> = {
   }
 };
 
-export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
-export const docsLink = 'https://rhf-mui-components.vercel.app/';

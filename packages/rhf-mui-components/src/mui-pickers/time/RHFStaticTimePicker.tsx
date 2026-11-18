@@ -277,9 +277,9 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
  *
  * Renders the clock directly in the page rather than a popup.
  *
- * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFTimePicker)
+ * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFStaticTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFStaticTimePickerProps](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFStaticTimePicker = RHFStaticTimePickerInner as <
   T extends FieldValues

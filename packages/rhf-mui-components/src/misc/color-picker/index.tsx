@@ -163,9 +163,9 @@ export type RHFColorPickerProps<T extends FieldValues> = {
  *
  * The selected color is stored and read directly from React Hook Form state.
  *
- * Docs: [RHFColorPicker](https://rhf-mui-components.vercel.app/v4/components/misc/RHFColorPicker)
+ * Docs: [RHFColorPicker](https://rhf-mui-components.nishkohli.in/v4/components/misc/RHFColorPicker)
  *
- * API: [RHFColorPickerProps](https://rhf-mui-components.vercel.app/v4/components/misc/RHFColorPicker#api)
+ * API: [RHFColorPickerProps](https://rhf-mui-components.nishkohli.in/v4/components/misc/RHFColorPicker#api)
  */
 const RHFColorPicker = <T extends FieldValues>({
   fieldName,

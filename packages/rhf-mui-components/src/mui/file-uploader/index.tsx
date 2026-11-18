@@ -450,9 +450,9 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
  * Supports drag-and-drop uploads, pre-existing server-side files, and file
  * `MIME type`/`size`/`count` validation.
  *
- * Docs: [RHFFileUploader](https://rhf-mui-components.vercel.app/v4/components/mui/RHFFileUploader)
+ * Docs: [RHFFileUploader](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFFileUploader)
  *
- * API: [RHFFileUploaderProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFFileUploader#api)
+ * API: [RHFFileUploaderProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFFileUploader#api)
  */
 const RHFFileUploader = RHFFileUploaderInner as <
   T extends FieldValues,

@@ -389,9 +389,9 @@ ref: Ref<HTMLInputElement>) {
  *
  * Renders flags and supports pinning preferred countries to the top of the list.
  *
- * Docs: [RHFCountrySelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCountrySelect)
+ * Docs: [RHFCountrySelect](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFCountrySelect)
  *
- * API: [RHFCountrySelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFCountrySelect#api)
+ * API: [RHFCountrySelectProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFCountrySelect#api)
  */
 const RHFCountrySelect = RHFCountrySelectInner as <
   T extends FieldValues,

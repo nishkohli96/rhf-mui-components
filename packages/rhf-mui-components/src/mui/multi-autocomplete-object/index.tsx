@@ -389,9 +389,9 @@ ref: Ref<HTMLInputElement>): JSX.Element {
  * Stores an array of the complete selected option objects, with per-option
  * checkboxes and a "**Select All**" option.
  *
- * Docs: [RHFMultiAutocompleteObject](https://rhf-mui-components.vercel.app/v4/components/mui/RHFMultiAutocompleteObject)
+ * Docs: [RHFMultiAutocompleteObject](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFMultiAutocompleteObject)
  *
- * API: [RHFMultiAutocompleteObjectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFMultiAutocompleteObject#api)
+ * API: [RHFMultiAutocompleteObjectProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFMultiAutocompleteObject#api)
  */
 const RHFMultiAutocompleteObject = RHFMultiAutocompleteObjectInner as <
   T extends FieldValues,

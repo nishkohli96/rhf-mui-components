@@ -274,9 +274,9 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
  *
  * Opens the calendar in a modal optimized for touch.
  *
- * Docs: [RHFDatePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker)
+ * Docs: [RHFDatePicker](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFDatePicker)
  *
- * API: [RHFMobileDatePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDatePicker#api)
+ * API: [RHFMobileDatePickerProps](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFDatePicker#api)
  */
 const RHFMobileDatePicker = RHFMobileDatePickerInner as <T extends FieldValues>(
   props: RHFMobileDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }

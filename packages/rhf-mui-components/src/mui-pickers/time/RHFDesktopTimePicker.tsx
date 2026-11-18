@@ -274,9 +274,9 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
  *
  * Opens the clock in a popper rather than a modal.
  *
- * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFTimePicker)
+ * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFDesktopTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFDesktopTimePickerProps](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFDesktopTimePicker = RHFDesktopTimePickerInner as <T extends FieldValues>(
   props: RHFDesktopTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

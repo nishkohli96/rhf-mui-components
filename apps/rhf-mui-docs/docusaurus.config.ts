@@ -10,7 +10,7 @@ const playgroundUrl = process.env.PLAYGROUND_URL
 
 const config: Config = {
   title: '@nish1896/rhf-mui-components',
-  url: 'https://rhf-mui-components.github.io',
+  url: 'https://rhf-mui-components.nishkohli.in',
   baseUrl: '/',
   projectName: '@nish1896/rhf-mui-components',
   organizationName: 'nish1896',

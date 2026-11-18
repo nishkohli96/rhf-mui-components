@@ -295,9 +295,9 @@ ref: Ref<HTMLInputElement>) {
  *
  * Renders a built-in show/hide visibility toggle, with the option to customize the icon.
  *
- * Docs: [RHFPasswordInput](https://rhf-mui-components.vercel.app/v4/components/mui/RHFPasswordInput)
+ * Docs: [RHFPasswordInput](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFPasswordInput)
  *
- * API: [RHFPasswordInputProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFPasswordInput#api)
+ * API: [RHFPasswordInputProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFPasswordInput#api)
  */
 const RHFPasswordInput = RHFPasswordInputInner as <T extends FieldValues>(
   props: RHFPasswordInputProps<T> & { ref?: Ref<HTMLInputElement> }
