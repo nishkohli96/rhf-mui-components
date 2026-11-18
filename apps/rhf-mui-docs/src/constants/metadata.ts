@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 /** Canonical origin of the deployed docs — no trailing slash. */
-export const websiteUrl = 'https://rhf-mui-components.vercel.app';
+export const websiteUrl = 'https://rhf-mui-components.nishkohli.in';
 
 export const appName = 'RHF-MUI Components';
 export const defaultPageDescription

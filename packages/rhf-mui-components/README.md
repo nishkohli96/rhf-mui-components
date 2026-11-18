@@ -28,8 +28,8 @@
 ## ✨ Features
 
 - Each component is fully functional with just 2-3 props — core logic handled internally.
-- Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [Phone Input](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput), [Country Select](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect), [File Uploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader) and [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput), saving development time for specific use cases.
+- Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.nishkohli.in/customization#configprovider).
+- Includes well-configured unique components like [Phone Input](https://rhf-mui-components.nishkohli.in/components/misc/RHFPhoneInput), [Country Select](https://rhf-mui-components.nishkohli.in/components/mui/RHFCountrySelect), [File Uploader](https://rhf-mui-components.nishkohli.in/components/mui/RHFFileUploader) and [Tags Input](https://rhf-mui-components.nishkohli.in/components/mui/RHFTagsInput), saving development time for specific use cases.
 - Provides full control over value validation and transformation before updates are committed to form state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -38,7 +38,7 @@
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://rhf-mui-components.vercel.app/)
+👉 [Documentation Website](https://rhf-mui-components.nishkohli.in/)
 
 ### 🎮 Interactive Demos
 Try out the form components live, no install required:
@@ -50,34 +50,34 @@ Try out the form components live, no install required:
 Below is a comprehensive list of all components included in this package, categorized by module:
 
 - **mui**
-  - [TextField](https://rhf-mui-components.vercel.app/components/mui/RHFTextField)
-  - [NumberInput](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput)
-  - [PasswordInput](https://rhf-mui-components.vercel.app/components/mui/RHFPasswordInput)
-  - [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput)
-  - [File Uploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader)
-  - [Select](https://rhf-mui-components.vercel.app/components/mui/RHFSelect)
-  - [Native Select](https://rhf-mui-components.vercel.app/components/mui/RHFNativeSelect)
-  - [Autocomplete](https://rhf-mui-components.vercel.app/components/mui/RHFAutocomplete)
-  - [Autocomplete Object](https://rhf-mui-components.vercel.app/components/mui/RHFAutocompleteObject)
-  - [Multi Autocomplete](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocomplete)
-  - [Multi Autocomplete Object](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocompleteObject)
-  - [Country Select](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect)
-  - [Checkbox](https://rhf-mui-components.vercel.app/components/mui/RHFCheckbox)
-  - [Checkbox Group](https://rhf-mui-components.vercel.app/components/mui/RHFCheckboxGroup)
-  - [Radio Group](https://rhf-mui-components.vercel.app/components/mui/RHFRadioGroup)
-  - [Slider](https://rhf-mui-components.vercel.app/components/mui/RHFSlider)
-  - [Switch](https://rhf-mui-components.vercel.app/components/mui/RHFSwitch)
-  - [Rating](https://rhf-mui-components.vercel.app/components/mui/RHFRating)
+  - [TextField](https://rhf-mui-components.nishkohli.in/components/mui/RHFTextField)
+  - [NumberInput](https://rhf-mui-components.nishkohli.in/components/mui/RHFNumberInput)
+  - [PasswordInput](https://rhf-mui-components.nishkohli.in/components/mui/RHFPasswordInput)
+  - [Tags Input](https://rhf-mui-components.nishkohli.in/components/mui/RHFTagsInput)
+  - [File Uploader](https://rhf-mui-components.nishkohli.in/components/mui/RHFFileUploader)
+  - [Select](https://rhf-mui-components.nishkohli.in/components/mui/RHFSelect)
+  - [Native Select](https://rhf-mui-components.nishkohli.in/components/mui/RHFNativeSelect)
+  - [Autocomplete](https://rhf-mui-components.nishkohli.in/components/mui/RHFAutocomplete)
+  - [Autocomplete Object](https://rhf-mui-components.nishkohli.in/components/mui/RHFAutocompleteObject)
+  - [Multi Autocomplete](https://rhf-mui-components.nishkohli.in/components/mui/RHFMultiAutocomplete)
+  - [Multi Autocomplete Object](https://rhf-mui-components.nishkohli.in/components/mui/RHFMultiAutocompleteObject)
+  - [Country Select](https://rhf-mui-components.nishkohli.in/components/mui/RHFCountrySelect)
+  - [Checkbox](https://rhf-mui-components.nishkohli.in/components/mui/RHFCheckbox)
+  - [Checkbox Group](https://rhf-mui-components.nishkohli.in/components/mui/RHFCheckboxGroup)
+  - [Radio Group](https://rhf-mui-components.nishkohli.in/components/mui/RHFRadioGroup)
+  - [Slider](https://rhf-mui-components.nishkohli.in/components/mui/RHFSlider)
+  - [Switch](https://rhf-mui-components.nishkohli.in/components/mui/RHFSwitch)
+  - [Rating](https://rhf-mui-components.nishkohli.in/components/mui/RHFRating)
 
 - **mui-pickers**
-  - [Date](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDatePicker)
-  - [Time](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
-  - [DateTime](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
+  - [Date](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker)
+  - [Time](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker)
+  - [DateTime](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker)
 
 - **misc**
-  - [Color Picker](https://rhf-mui-components.vercel.app/components/misc/RHFColorPicker)
-  - [Rich Text Editor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor)
-  - [Phone Input](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput)
+  - [Color Picker](https://rhf-mui-components.nishkohli.in/components/misc/RHFColorPicker)
+  - [Rich Text Editor](https://rhf-mui-components.nishkohli.in/components/misc/RHFRichTextEditor)
+  - [Phone Input](https://rhf-mui-components.nishkohli.in/components/misc/RHFPhoneInput)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 

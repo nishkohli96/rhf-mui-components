@@ -224,9 +224,9 @@ const RHFTextFieldInner = forwardRef(function RHFTextField<T extends FieldValues
  *
  * Accepts almost every native `TextField` prop alongside its own RHF-specific props.
  *
- * Docs: [RHFTextField](https://rhf-mui-components.vercel.app/components/mui/RHFTextField)
+ * Docs: [RHFTextField](https://rhf-mui-components.nishkohli.in/components/mui/RHFTextField)
  *
- * API: [RHFTextFieldProps](https://rhf-mui-components.vercel.app/components/mui/RHFTextField#api)
+ * API: [RHFTextFieldProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFTextField#api)
  */
 const RHFTextField = RHFTextFieldInner as <T extends FieldValues>(
   props: RHFTextFieldProps<T> & { ref?: Ref<HTMLInputElement> }

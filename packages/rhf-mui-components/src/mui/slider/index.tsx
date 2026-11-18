@@ -268,9 +268,9 @@ ref: Ref<HTMLSpanElement>) {
  *
  * Supports both a single numeric value and a two-thumb range.
  *
- * Docs: [RHFSlider](https://rhf-mui-components.vercel.app/components/mui/RHFSlider)
+ * Docs: [RHFSlider](https://rhf-mui-components.nishkohli.in/components/mui/RHFSlider)
  *
- * API: [RHFSliderProps](https://rhf-mui-components.vercel.app/components/mui/RHFSlider#api)
+ * API: [RHFSliderProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFSlider#api)
  */
 const RHFSlider = RHFSliderInner as <
   T extends FieldValues,

@@ -413,9 +413,9 @@ ref: Ref<HTMLInputElement>) {
  *
  * Stores primitive values, with single/multiple selection and `freeSolo` entry support.
  *
- * Docs: [RHFAutocomplete](https://rhf-mui-components.vercel.app/components/mui/RHFAutocomplete)
+ * Docs: [RHFAutocomplete](https://rhf-mui-components.nishkohli.in/components/mui/RHFAutocomplete)
  *
- * API: [RHFAutocompleteProps](https://rhf-mui-components.vercel.app/components/mui/RHFAutocomplete#api)
+ * API: [RHFAutocompleteProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFAutocomplete#api)
  */
 const RHFAutocomplete = RHFAutocompleteInner as <
   T extends FieldValues,

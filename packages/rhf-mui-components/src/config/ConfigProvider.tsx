@@ -18,7 +18,7 @@ export const RHFMuiConfigContext
  * Each config key is merged on top of `DefaultRHFMuiConfig`, so you
  * only need to pass the keys you want to override.
  *
- * Docs: [Customization](https://rhf-mui-components.vercel.app/customization)
+ * Docs: [Customization](https://rhf-mui-components.nishkohli.in/customization)
  */
 export const ConfigProvider = ({
   children,

@@ -399,9 +399,9 @@ ref: Ref<HTMLInputElement>) {
  *
  * Renders per-option checkboxes, a "**Select All**" option, and supports `freeSolo` entry.
  *
- * Docs: [RHFMultiAutocomplete](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocomplete)
+ * Docs: [RHFMultiAutocomplete](https://rhf-mui-components.nishkohli.in/components/mui/RHFMultiAutocomplete)
  *
- * API: [RHFMultiAutocompleteProps](https://rhf-mui-components.vercel.app/components/mui/RHFMultiAutocomplete#api)
+ * API: [RHFMultiAutocompleteProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFMultiAutocomplete#api)
  */
 const RHFMultiAutocomplete = RHFMultiAutocompleteInner as <
   T extends FieldValues,

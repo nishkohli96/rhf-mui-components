@@ -370,9 +370,9 @@ ref: Ref<HTMLInputElement>) {
  *
  * Use `RHFAutocomplete` instead when `freeSolo` behavior is required.
  *
- * Docs: [RHFAutocompleteObject](https://rhf-mui-components.vercel.app/components/mui/RHFAutocompleteObject)
+ * Docs: [RHFAutocompleteObject](https://rhf-mui-components.nishkohli.in/components/mui/RHFAutocompleteObject)
  *
- * API: [RHFAutocompleteObjectProps](https://rhf-mui-components.vercel.app/components/mui/RHFAutocompleteObject#api)
+ * API: [RHFAutocompleteObjectProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFAutocompleteObject#api)
  */
 const RHFAutocompleteObject = RHFAutocompleteObjectInner as <
   T extends FieldValues,

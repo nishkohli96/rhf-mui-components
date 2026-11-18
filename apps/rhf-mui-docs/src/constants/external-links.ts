@@ -10,7 +10,7 @@ const pkgRepoLink = `${githubProfile}/${packageName}/blob/main/`;
 const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
 
 export const githubRepoLink = `${githubProfile}/${packageName}`;
-export const docsLink = 'https://rhf-mui-components.vercel.app/';
+export const docsLink = 'https://rhf-mui-components.nishkohli.in/';
 export const npmLink = `https://www.npmjs.com/package/@nish1896/${packageName}`;
 
 export const externalLinks = Object.freeze({
