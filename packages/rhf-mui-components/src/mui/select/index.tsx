@@ -401,9 +401,9 @@ const RHFSelectInner = forwardRef(function RHFSelect<
  *
  * Supports single/multiple selection with primitive or object options.
  *
- * Docs: [RHFSelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSelect)
+ * Docs: [RHFSelect](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFSelect)
  *
- * API: [RHFSelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFSelect#api)
+ * API: [RHFSelectProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFSelect#api)
  */
 const RHFSelect = RHFSelectInner as <
   T extends FieldValues,

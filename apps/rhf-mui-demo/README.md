@@ -14,4 +14,4 @@ Explore live examples for all the components included in the package:
 ### Documentation
 Browse comprehensive documentation, setup guides, and API references for @nish1896/rhf-mui-components:
 
-👉 [Documentation Site](https://rhf-mui-components.vercel.app)
+👉 [Documentation Site](https://rhf-mui-components.nishkohli.in)

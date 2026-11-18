@@ -202,9 +202,9 @@ export type RHFRadioGroupProps<
  *
  * Supports single choice among primitive or object options.
  *
- * Docs: [RHFRadioGroup](https://rhf-mui-components.vercel.app/v4/components/mui/RHFRadioGroup)
+ * Docs: [RHFRadioGroup](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFRadioGroup)
  *
- * API: [RHFRadioGroupProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFRadioGroup#api)
+ * API: [RHFRadioGroupProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFRadioGroup#api)
  */
 const RHFRadioGroup = <
   T extends FieldValues,

@@ -274,9 +274,9 @@ const RHFDesktopDateTimePickerInner = forwardRef(function RHFDesktopDateTimePick
  *
  * Opens the calendar/clock in a popper rather than a modal.
  *
- * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker)
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFDateTimePicker)
  *
- * API: [RHFDesktopDateTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker#api)
+ * API: [RHFDesktopDateTimePickerProps](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFDateTimePicker#api)
  */
 const RHFDesktopDateTimePicker = RHFDesktopDateTimePickerInner as <T extends FieldValues>(
   props: RHFDesktopDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

@@ -274,9 +274,9 @@ const RHFDateTimePickerInner = forwardRef(function RHFDateTimePicker<
  *
  * Switches between desktop and mobile pickers automatically based on viewport.
  *
- * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker)
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFDateTimePicker)
  *
- * API: [RHFDateTimePickerProps](https://rhf-mui-components.vercel.app/v4/components/mui-pickers/RHFDateTimePicker#api)
+ * API: [RHFDateTimePickerProps](https://rhf-mui-components.nishkohli.in/v4/components/mui-pickers/RHFDateTimePicker#api)
  */
 const RHFDateTimePicker = RHFDateTimePickerInner as <T extends FieldValues>(
   props: RHFDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

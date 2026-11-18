@@ -347,9 +347,9 @@ const RHFPhoneInputInner = forwardRef(function RHFPhoneInput<
  * structured `RHFPhoneInputValue` (phone, country, dial code and national
  * number).
  *
- * Docs: [RHFPhoneInput](https://rhf-mui-components.vercel.app/v4/components/misc/RHFPhoneInput)
+ * Docs: [RHFPhoneInput](https://rhf-mui-components.nishkohli.in/v4/components/misc/RHFPhoneInput)
  *
- * API: [RHFPhoneInputProps](https://rhf-mui-components.vercel.app/v4/components/misc/RHFPhoneInput#api)
+ * API: [RHFPhoneInputProps](https://rhf-mui-components.nishkohli.in/v4/components/misc/RHFPhoneInput#api)
  */
 const RHFPhoneInput = RHFPhoneInputInner as <T extends FieldValues>(
   props: RHFPhoneInputProps<T> & {

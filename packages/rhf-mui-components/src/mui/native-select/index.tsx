@@ -338,9 +338,9 @@ const RHFNativeSelectInner = forwardRef(function RHFNativeSelect<
  *
  * A lightweight dropdown alternative to `RHFSelect`, well suited for mobile.
  *
- * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/v4/components/mui/RHFNativeSelect)
+ * Docs: [RHFNativeSelect](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFNativeSelect)
  *
- * API: [RHFNativeSelectProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFNativeSelect#api)
+ * API: [RHFNativeSelectProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFNativeSelect#api)
  */
 const RHFNativeSelect = RHFNativeSelectInner as <
   T extends FieldValues,

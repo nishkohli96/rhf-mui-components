@@ -250,9 +250,9 @@ ref: Ref<HTMLSpanElement>) {
  * Controlled Material UI `Rating` (star) input, wired to a React Hook Form
  * field via `control`.
  *
- * Docs: [RHFRating](https://rhf-mui-components.vercel.app/v4/components/mui/RHFRating)
+ * Docs: [RHFRating](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFRating)
  *
- * API: [RHFRatingProps](https://rhf-mui-components.vercel.app/v4/components/mui/RHFRating#api)
+ * API: [RHFRatingProps](https://rhf-mui-components.nishkohli.in/v4/components/mui/RHFRating#api)
  */
 const RHFRating = RHFRatingInner as <T extends FieldValues>(
   props: RHFRatingProps<T> & { ref?: Ref<HTMLSpanElement> }
