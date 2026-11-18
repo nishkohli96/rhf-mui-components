@@ -27,7 +27,8 @@ const richTextEditorRows = ({
         resolveProp(PropsDescription.required, args)
       ]
       : [resolveProp(LegacyPropsDescription.setValue, args)]),
-    resolveProp(PropsDescription.id_Rte, args),
+    /* `id` was removed in mui-components v2.3, so it's not on the current (v5) docs. */
+    ...(docsVersion ? [resolveProp(PropsDescription.id_Rte, args)] : []),
     resolveProp(PropsDescription.editorConfig, args),
     resolveProp(PropsDescription.onReady_Rte, args),
     resolveProp(PropsDescription.onFocus_Rte, args),

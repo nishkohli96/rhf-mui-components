@@ -1,0 +1,309 @@
+import { DocsPage, PropsTable, Callout, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFUnitInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFUnitInput
+
+<AvailabilityBanner componentName="RHFUnitInput" version="5.1" />
+
+`RHFUnitInput` pairs a numeric **value**
+([RHFNumberInput](/components/mui/RHFNumberInput)) with a **unit** picker
+([RHFSelect](/components/mui/RHFSelect)), such as a currency, a weight or a
+temperature, rendered borderless inside one bordered pill. It is similar in
+spirit to [RHFPhoneInput](/components/misc/RHFPhoneInput)'s country + number
+pairing.
+
+The field stores a single object, `{ unit, value }`, under one `fieldName`, so
+the two controls are validated and submitted together. `containerProps` styles
+the outer pill container, and `dividerProps` styles the vertical divider between
+the two controls.
+
+`unitOptions` accepts either a plain string array, or an object array read via
+`labelKey` / `valueKey`, the same convention as `RHFSelect`.
+
+Always seed `unit` in the default value with a real option. An empty `unit`
+renders the unit `Select` with nothing selected, rather than silently defaulting
+to `unitOptions[0]`, so what's shown always matches the form value.
+
+## Usage
+
+```tsx
+import RHFUnitInput, { RHFUnitInputProps } from '@nish1896/rhf-mui-components/mui/unit-input';
+```
+
+Plain string `unitOptions`:
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  price: {
+    unit: string;
+    value: number | null;
+  };
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: {
+    price: { unit: 'USD', value: null }
+  }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.price))}>
+  <RHFUnitInput
+    fieldName="price"
+    control={control}
+    unitOptions={['USD', 'EUR', 'GBP']}
+    nonNegative
+    maxDecimalPlaces={2}
+  />
+</form>
+```
+
+The stored value is `{ unit, value }`: the selected unit, and the number, or
+`null` when the number input is empty. `onValueChange` receives
+`{ newValue, event }`: `newValue` is the whole `{ unit, value }` object, and
+`event` is the event of the part that changed, either the number input or the
+unit select.
+
+### With an array of objects
+
+Pass an array of objects as `unitOptions`, with `labelKey` and `valueKey` naming
+two of their properties. `labelKey` is the text shown in the unit picker, and
+`valueKey` is the value stored in `unit`.
+
+```tsx
+type Currency = 'USD' | 'EUR' | 'GBP';
+type CurrencyOption = { code: Currency; label: string };
+
+const currencyOptions: CurrencyOption[] = [
+  { code: 'USD', label: 'US Dollar' },
+  { code: 'EUR', label: 'Euro' },
+  { code: 'GBP', label: 'British Pound' }
+];
+
+type FormValues = {
+  price: {
+    unit: Currency;
+    value: number | null;
+  };
+};
+
+<RHFUnitInput
+  fieldName="price"
+  control={control}
+  unitOptions={currencyOptions}
+  labelKey="label"
+  valueKey="code"
+  unitPosition="start"
+/>
+```
+
+<Callout type="warning">
+  When `unitOptions` is an array of objects, an error is thrown if either
+  `labelKey` or `valueKey` is missing. An error is also thrown when
+  `unitOptions` is not an array.
+</Callout>
+
+### Value input options
+
+The **value** input is an [RHFNumberInput](/components/mui/RHFNumberInput), so
+its usual number props are available directly on `RHFUnitInput`, and they apply
+to the numeric `value` only:
+
+- `min` and `max`: the lower and upper bounds. Stepping stops at them, and an
+  out-of-range value is clamped when the input loses focus.
+- `nonNegative`: blocks the minus sign and acts as an implicit `min` of `0`,
+  unless you set `min`.
+- `onlyIntegers`: allows whole numbers only. Don't combine it with
+  `maxDecimalPlaces`.
+- `maxDecimalPlaces`: limits how many digits can follow the decimal point.
+- `stepAmount`: how much the arrow keys change the value by. Defaults to `1`.
+- `renderValue`: formats the number for display, such as a currency or thousands
+  separators. The raw number is shown while the input is focused, and `value`
+  stays a real `number | null`.
+- `placeholder`: text shown while the value input is empty.
+
+```tsx
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  nonNegative
+  min={1}
+  max={500}
+  maxDecimalPlaces={1}
+  stepAmount={0.5}
+  placeholder="Enter weight"
+/>
+```
+
+### Validation
+
+Rules go in `registerOptions` and receive the whole `{ unit, value }` object, so
+they can check the number against the chosen unit. The message shows below the
+pill. `required` marks the label, but note that the object is always present, so
+use `validate` to check for an empty number:
+
+```tsx
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  registerOptions={{
+    validate: ({ unit, value }) => {
+      if (value === null) {
+        return 'Enter your weight';
+      }
+      return (unit === 'kg' ? value <= 300 : value <= 660)
+        || 'That weight is too high';
+    }
+  }}
+/>
+```
+
+### Customizing the value input
+
+`valueInputProps` is forwarded to the internal number input, for example an
+`sx`, an `onBlur` handler or an `inputRef`. React Hook Form's own `ref` and
+`onBlur` are still called. The component controls a few props itself, so they
+can't be set here: the field name, `value` and `onValueChange`, `variant`,
+`showMarkers`, the label, error and helper text props, `customIds`, `required`,
+`disabled`, `placeholder`, and the number props listed above. Set the last group
+directly on `RHFUnitInput` instead.
+
+```tsx
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  valueInputProps={{
+    sx: { '& input': { fontWeight: 700 } }
+  }}
+/>
+```
+
+### Customizing the unit select
+
+`unitSelectProps` is forwarded to the internal
+[RHFSelect](/components/mui/RHFSelect)-style select that picks the unit. That
+makes `renderOptionLabel`, `getOptionDisabled`, `renderValue` and
+`menuItemProps` available for the unit options. Its `sx` is merged with the
+select's base styles. The component controls the field name, `options`,
+`labelKey`, `valueKey`, `value` and `onValueChange`, `variant`, `multiple`, the
+label, error and helper text props, `customIds`, `required` and `disabled`.
+
+```tsx
+<RHFUnitInput
+  fieldName="price"
+  control={control}
+  unitOptions={currencyOptions}
+  labelKey="label"
+  valueKey="code"
+  unitSelectProps={{
+    renderOptionLabel: option => `${option.label} (${option.code})`,
+    getOptionDisabled: option => option.code === 'GBP',
+    sx: { fontWeight: 600 }
+  }}
+/>
+```
+
+### Unit position and width
+
+`unitPosition` sets which side of the value input the unit select renders on:
+`'end'` (the default) or `'start'`. The divider between the two controls moves
+with it. Use `'start'` for formats where the unit comes first, such as a
+currency.
+
+`unitWidth` sets the width of the unit select as a CSS `flex-basis`, and the
+value input fills the rest of the pill. Pass a percentage of the pill such as
+`'30%'`, a fixed width such as `'100px'`, or a responsive object such as `{ xs:
+'40%', md: '30%' }`. Once it is set, the unit select keeps that width instead of
+shrinking. When `unitWidth` is omitted, the unit select is sized to its selected
+option. Either way, both controls keep a minimum width of `50px`, so neither
+collapses.
+
+```tsx
+<RHFUnitInput
+  fieldName="price"
+  control={control}
+  unitOptions={['USD', 'EUR', 'GBP']}
+  unitPosition="start"
+  unitWidth={{ xs: '40%', md: '30%' }}
+/>
+```
+
+### Handling value changes
+
+Two props let you respond to the number or the unit changing. Use
+`onValueChange` to run side effects once the new value has been stored, and
+`customOnChange` to take over what gets stored in the form.
+
+#### onValueChange
+
+`onValueChange` runs after the new `{ unit, value }` object has been stored in
+the form. It receives `{ newValue, event }`:
+
+```tsx
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  onValueChange={({ newValue, event }) => {
+    setWeightInKg(newValue.unit === 'kg' ? newValue.value : toKg(newValue.value));
+  }}
+/>
+```
+
+#### customOnChange
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the object to
+store. This example converts the number when the unit changes.
+`onValueChange` is not called when `customOnChange` is used.
+
+```tsx
+const { control, getValues } = useForm<FormValues>({
+  defaultValues: { weight: { unit: 'kg', value: null } }
+});
+
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    const { unit, value } = getValues('weight');
+    if (value !== null && newValue.unit !== unit) {
+      const converted = newValue.unit === 'lb' ? value * 2.2046 : value / 2.2046;
+      rhfOnChange({ unit: newValue.unit, value: Number(converted.toFixed(1)) });
+      return;
+    }
+    rhfOnChange(newValue);
+  }}
+/>
+```
+
+## Examples
+- [RHFUnitInput](/examples/inputs)
+- [Complete Form](/examples/complete-form)
+- [MUI Number Field](https://mui.com/material-ui/react-number-field/)
+- [Select](https://mui.com/material-ui/react-select/)
+
+## API
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)'
+}}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFUnitInput}
+  v4AndAbove
+/>
+
+## Source Code
+
+<ComponentSourceLink path="mui/unit-input" />

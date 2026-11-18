@@ -26,6 +26,7 @@ const RHFRichTextEditor = dynamic(
   () => import('@nish1896/rhf-mui-components/misc/rich-text-editor'),
   { ssr: false }
 ) as typeof RHFRichTextEditorType;
+import RHFTipTapRte from '@nish1896/rhf-mui-components/misc/tiptap-rte';
 import RHFPhoneInput, {
   type RHFPhoneInputValue
 } from '@nish1896/rhf-mui-components/misc/phone-input';
@@ -41,8 +42,15 @@ import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage, getPhoneNoValue } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 
+/** Drops the tags and `&nbsp;` entities so only the visible text is counted. */
+const stripHtml = (html: string) => html
+  .replace(/<[^>]*>/g, '')
+  .replace(/&nbsp;/g, ' ')
+  .trim();
+
 type FormSchema = {
   bio: string;
+  summary: string;
   contactNumber: RHFPhoneInputValue;
   otherContactNumber: RHFPhoneInputValue;
   officeCell: RHFPhoneInputValue;
@@ -189,6 +197,25 @@ export default function MiscellaneousComponentsForm() {
                   Briefly describe yourself
                 </Typography>
               )}
+              required
+            />
+          </Grid>
+          <Grid size={12}>
+            <FieldVariantInfo title="Tiptap Rich Text Editor with a minimum length rule on the text content, and customOnChange that stores an empty string for an empty editor" />
+            <RHFTipTapRte
+              fieldName="summary"
+              control={control}
+              registerOptions={{
+                validate: value =>
+                  stripHtml(String(value)).length >= 20
+                  || 'Write at least 20 characters'
+              }}
+              customOnChange={({ rhfOnChange, newValue, editor }) => {
+                rhfOnChange(editor.isEmpty ? '' : newValue);
+              }}
+              placeholder="Summarize your experience"
+              contentContainerProps={{ sx: { minHeight: 160 } }}
+              helperText="Supports headings, lists, links and text alignment"
               required
             />
           </Grid>

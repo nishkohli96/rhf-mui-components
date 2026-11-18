@@ -9,11 +9,11 @@ export default function Layout({ children }) {
 
 # RHFNumberInput
 
-`RHFNumberInput` is a [TextField](https://mui.com/material-ui/react-text-field/)-based
-numeric input that enforces number-only entry, with options for integers-only,
-non-negative values, a maximum number of decimal places, and keyboard step
-increments. The value stored in your form is a real `number`, or `null` when
-the field is empty.
+`RHFNumberInput` is a
+[TextField](https://mui.com/material-ui/react-text-field/)-based numeric input
+that enforces number-only entry, with options for integers-only, non-negative
+values, a maximum number of decimal places, and keyboard step increments. The
+value stored in your form is a real `number`, or `null` when the field is empty.
 
 ## Usage
 
@@ -105,6 +105,56 @@ markers are hidden by default; set `showMarkers` to show them.
   onlyIntegers
   stepAmount={5}
   showMarkers
+/>
+```
+
+#### Minimum and maximum
+
+The `min` and `max` props set the lower and upper bounds. Stepping with the
+arrow keys or the markers stops at them. Typing and pasting are **not** blocked
+while the user is editing, so the field can briefly hold an out-of-range number,
+such as `7` on the way to `70`. When the field loses focus, an out-of-range
+value is clamped to the nearest bound and the new value is stored in the form.
+
+`nonNegative` sets the lower bound to `0`, and an explicit `min` overrides it. A
+`min` greater than `max` throws an error.
+
+```tsx
+<RHFNumberInput
+  fieldName="age"
+  control={control}
+  onlyIntegers
+  min={18}
+  max={65}
+/>
+```
+
+Because the bounds are applied on blur, add `min` / `max` rules in
+`registerOptions` as well (see [Validation](#validation)) if you want a message
+while the user is still typing.
+
+#### Formatting the displayed value
+
+The `renderValue` prop formats the number for display: thousands separators, a
+currency prefix, fixed decimals. The field switches to `type="text"` (which can
+render grouping characters) and shows the formatted string only while it is
+**not** focused. On focus it reverts to the raw number and every typing, paste,
+`min` and `max` rule still applies. The stored value stays a real `number |
+null`.
+
+```tsx
+<RHFNumberInput
+  fieldName="salary"
+  control={control}
+  nonNegative
+  maxDecimalPlaces={2}
+  renderValue={value => value === null
+    ? ''
+    : value.toLocaleString('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    })
+  }
 />
 ```
 

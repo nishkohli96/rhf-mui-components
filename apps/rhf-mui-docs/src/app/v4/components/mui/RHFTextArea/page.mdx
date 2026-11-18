@@ -1,0 +1,126 @@
+import { DocsPage, PropsTable, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFTextArea;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFTextArea
+
+<AvailabilityBanner componentName="RHFTextArea" version="4.4" />
+
+**RHFTextArea** is a multiline
+[TextField](https://v7.mui.com/material-ui/react-text-field/) bound to React
+Hook Form. Unless you set `rows`, the field grows with its content, and
+`maxChars` caps the length: typing stops at the limit and pasted text is cut to
+fit.
+
+For single-line values, use [RHFTextField](/v4/components/mui/RHFTextfield)
+instead.
+
+## Usage
+
+```tsx
+import RHFTextArea, { RHFTextAreaProps } from '@nish1896/rhf-mui-components/mui/text-area';
+```
+
+To render a fully functional `RHFTextArea`, you only need two or three essential
+props. Set `rows` for a fixed height.
+
+```tsx
+<RHFTextArea
+  fieldName="bio"
+  control={control}
+  rows={4}
+/>
+```
+
+### Validation
+
+Rules go in `registerOptions`, and `required` is derived from
+`registerOptions.required`.
+
+```tsx
+<RHFTextArea
+  fieldName="review"
+  control={control}
+  registerOptions={{
+    required: 'Please write a review',
+    minLength: { value: 20, message: 'Write at least 20 characters' }
+  }}
+/>
+```
+
+### Character Limit
+
+`maxChars` limits the number of characters typed or pasted, using the native
+`maxLength` attribute, which counts UTF-16 code units, so an emoji counts as 2
+characters. A value set from code, such as a default value, is shown as is, even
+when it is longer than `maxChars`.
+
+Add `showCharLimit` to render a `current/max` counter inside the field, or pass
+`renderCharLimit` to replace the counter text with your own node.
+
+```tsx
+<RHFTextArea
+  fieldName="bio"
+  control={control}
+  maxChars={150}
+  showCharLimit
+/>
+
+<RHFTextArea
+  fieldName="bio"
+  control={control}
+  maxChars={150}
+  renderCharLimit={(charCount, maxChars) => (
+    <Typography variant="caption">
+      {maxChars - charCount} characters left
+    </Typography>
+  )}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form, and
+`customOnChange` replaces the default handling, so you must call `rhfOnChange`
+yourself. `onValueChange` is not called when `customOnChange` is used.
+
+```tsx
+<RHFTextArea
+  fieldName="bio"
+  control={control}
+  onValueChange={({ newValue, event }) => saveDraft(newValue)}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    rhfOnChange(newValue.replace(/\n{3,}/g, '\n\n'));
+  }}
+/>
+```
+
+## Examples
+- [TextField](https://v7.mui.com/material-ui/react-text-field/)
+
+## API
+
+The `RHFTextAreaProps` interface extends
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except
+`multiline` (always on), and includes the following additional props. Props
+marked with <strong style={{ color: 'var(--mui-palette-error-main)'
+}}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFTextArea}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/text-area"
+  docsVersion={4}
+/>

@@ -12,6 +12,9 @@ import { toast } from 'react-toastify';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
+import RHFNumberStepper from '@nish1896/rhf-mui-components/mui/number-stepper';
+import RHFUnitInput from '@nish1896/rhf-mui-components/mui/unit-input';
+import RHFTextArea from '@nish1896/rhf-mui-components/mui/text-area';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
@@ -39,6 +42,7 @@ const RHFRichTextEditor = dynamic(
   { ssr: false }
 ) as typeof RHFRichTextEditorType;
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import RHFTipTapRte from '@nish1896/rhf-mui-components/misc/tiptap-rte';
 import { fieldNameToLabel } from '@nish1896/rhf-mui-components/form-helpers';
 import {
   FormContainer,
@@ -73,6 +77,8 @@ export default function CompleteForm() {
   const [disableAllFields, setDisableAllFields] = useState(false);
   const initialValues = {
     darkTheme: currentTheme === 'dark',
+    guests: 2,
+    height: { unit: 'cm', value: null }
   };
 
   const {
@@ -594,6 +600,75 @@ export default function CompleteForm() {
                       (value?.length ?? 0) >= 10 || minLengthMsg(10)
                   }
                 }}
+                required
+              />
+            </Grid>
+            <Grid size={12}>
+              <RHFTextArea
+                fieldName="about"
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('about')
+                  },
+                  minLength: {
+                    value: 20,
+                    message: minLengthMsg(20)
+                  }
+                }}
+                minRows={3}
+                maxChars={200}
+                showCharLimit
+                showLabelAboveFormField
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RHFNumberStepper
+                fieldName="guests"
+                control={control}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: reqdMessage('guests')
+                  }
+                }}
+                onlyIntegers
+                min={1}
+                max={10}
+                caption="guests"
+                showLabelAboveFormField
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RHFUnitInput
+                fieldName="height"
+                control={control}
+                registerOptions={{
+                  validate: height =>
+                    (height as Person['height']).value !== null
+                    || reqdMessage('height')
+                }}
+                unitOptions={['cm', 'in']}
+                nonNegative
+                maxDecimalPlaces={1}
+                placeholder="Enter your height"
+                showLabelAboveFormField
+                required
+              />
+            </Grid>
+            <Grid size={12}>
+              <RHFTipTapRte
+                fieldName="experience"
+                control={control}
+                registerOptions={{
+                  validate: value =>
+                    String(value).replace(/<[^>]*>/g, '').trim().length >= 10
+                    || minLengthMsg(10)
+                }}
+                placeholder="Describe your experience"
                 required
               />
             </Grid>

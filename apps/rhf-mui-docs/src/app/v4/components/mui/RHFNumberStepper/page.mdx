@@ -1,0 +1,118 @@
+import { DocsPage, PropsTable, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFNumberStepper;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFNumberStepper
+
+<AvailabilityBanner componentName="RHFNumberStepper" version="4.4" />
+
+**RHFNumberStepper** is [RHFNumberInput](/v4/components/mui/RHFNumberInput) with
+always-visible `-` / `+` buttons flanking the input instead of the native
+browser steppers. The numeric rules (`onlyIntegers`, `nonNegative`,
+`maxDecimalPlaces`, `stepAmount`, `min` / `max` clamping) come from the number
+input, and the matching button is disabled once a `min` / `max` bound is
+reached.
+
+`caption` renders content, such as a unit label, just below the value.
+
+## Usage
+
+```tsx
+import RHFNumberStepper, { RHFNumberStepperProps } from '@nish1896/rhf-mui-components/mui/number-stepper';
+```
+
+To render a fully functional `RHFNumberStepper`, you only need two or three
+essential props. The stored value is a `number`, or `null` when the field is
+empty.
+
+```tsx
+<RHFNumberStepper
+  fieldName="quantity"
+  control={control}
+  onlyIntegers
+  min={1}
+  max={10}
+/>
+```
+
+### Customizing icons and caption
+
+`decrementIcon` and `incrementIcon` replace the default icons, `swapButtons`
+swaps the position and behavior of the two buttons, and `iconButtonProps` is
+forwarded to both
+[IconButton](https://v7.mui.com/material-ui/api/icon-button/)s.
+
+`caption` accepts any `ReactNode`, and `captionProps` is forwarded to the `Box`
+that wraps it, with its `sx` merged with the base caption styles.
+
+```tsx
+<RHFNumberStepper
+  fieldName="weight"
+  control={control}
+  nonNegative
+  min={1}
+  caption="kg"
+  captionProps={{ sx: { fontWeight: 700 } }}
+  iconButtonProps={{ size: 'medium' }}
+/>
+```
+
+### Validation
+
+Rules go in `registerOptions`, and the message shows below the stepper:
+
+```tsx
+<RHFNumberStepper
+  fieldName="quantity"
+  control={control}
+  registerOptions={{ required: 'Choose a quantity' }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new value has been stored in the form, and
+`customOnChange` replaces the default handling, so you must call `rhfOnChange`
+yourself. `onValueChange` is not called when `customOnChange` is used.
+
+```tsx
+<RHFNumberStepper
+  fieldName="quantity"
+  control={control}
+  stepAmount={5}
+  onValueChange={({ newValue, event }) => setTotal((newValue ?? 0) * unitPrice)}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    rhfOnChange(newValue === null ? null : Math.round(newValue / 5) * 5);
+  }}
+/>
+```
+
+## Examples
+- [Number Field](https://v7.mui.com/material-ui/react-number-field/)
+
+## API
+
+The `RHFNumberStepperProps` interface extends
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), with some
+props excluded, including `type`, `variant`, `multiline` and `rows`, and
+includes the following additional props. Props marked with <strong style={{
+color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFNumberStepper}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/number-stepper"
+  docsVersion={4}
+/>

@@ -112,5 +112,23 @@ export const JoiFormSchema: Joi.ObjectSchema<Person> = Joi.object({
   dateTime: Joi.date().required(),
   bgColor: Joi.string().required(),
   feedback: Joi.string().required(),
+  about: Joi.string().required().min(20).max(200),
+  guests: Joi.number().required().integer().min(1).max(10),
+  height: Joi.object({
+    unit: Joi.string().required().valid('cm', 'in'),
+    value: Joi.number().required().positive().messages({
+      'number.base': 'Height is required'
+    })
+  }),
+  experience: Joi.string()
+    .required()
+    .custom((value: string, helpers) => (
+      value.replace(/<[^>]*>/g, '').trim().length >= 10
+        ? value
+        : helpers.error('any.invalid')
+    ))
+    .messages({
+      'any.invalid': 'Write at least 10 characters'
+    }),
   disableAllFields: Joi.boolean().optional()
 });

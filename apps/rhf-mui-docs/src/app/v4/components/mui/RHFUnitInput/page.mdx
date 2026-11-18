@@ -1,0 +1,138 @@
+import { DocsPage, PropsTable, Callout, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFUnitInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFUnitInput
+
+<AvailabilityBanner componentName="RHFUnitInput" version="4.4" />
+
+**RHFUnitInput** pairs a numeric value
+([RHFNumberInput](/v4/components/mui/RHFNumberInput)) with a unit picker
+([RHFSelect](/v4/components/mui/RHFSelect)), such as a currency, a weight or a
+temperature, rendered inside one bordered pill. The field stores a single
+object, `{ unit, value }`, under one `fieldName`.
+
+`unitOptions` accepts a plain string array, or an object array read via
+`labelKey` / `valueKey`, the same convention as `RHFSelect`. Always seed `unit`
+in the default value with a real option.
+
+## Usage
+
+```tsx
+import RHFUnitInput, { RHFUnitInputProps } from '@nish1896/rhf-mui-components/mui/unit-input';
+```
+
+```tsx
+type FormValues = {
+  price: {
+    unit: string;
+    value: number | null;
+  };
+};
+
+const { control } = useForm<FormValues>({
+  defaultValues: {
+    price: { unit: 'USD', value: null }
+  }
+});
+
+<RHFUnitInput
+  fieldName="price"
+  control={control}
+  unitOptions={['USD', 'EUR', 'GBP']}
+  nonNegative
+  maxDecimalPlaces={2}
+/>
+```
+
+With an array of objects, pass `labelKey` and `valueKey`:
+
+```tsx
+<RHFUnitInput
+  fieldName="price"
+  control={control}
+  unitOptions={[
+    { code: 'USD', label: 'US Dollar' },
+    { code: 'EUR', label: 'Euro' }
+  ]}
+  labelKey="label"
+  valueKey="code"
+  unitPosition="start"
+/>
+```
+
+<Callout type="warning">
+  When `unitOptions` is an array of objects, an error is thrown if either
+  `labelKey` or `valueKey` is missing.
+</Callout>
+
+### Value input options and layout
+
+The number input supports `min`, `max`, `nonNegative`, `onlyIntegers`,
+`maxDecimalPlaces`, `stepAmount`, `renderValue` and `placeholder` directly on
+`RHFUnitInput`. `valueInputProps` and `unitSelectProps` are forwarded to the
+number input and the unit select. `unitPosition` (`'start'` or `'end'`) and
+`unitWidth` control the layout, and `containerProps` and `dividerProps` style
+the pill and the divider.
+
+### Validation
+
+Rules go in `registerOptions` and receive the whole `{ unit, value }` object:
+
+```tsx
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  registerOptions={{
+    validate: ({ value }) => value !== null || 'Enter your weight'
+  }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new `{ unit, value }` object has been stored in
+the form, and `customOnChange` replaces the default handling, so you must call
+`rhfOnChange` yourself. `onValueChange` is not called when `customOnChange` is
+used.
+
+```tsx
+<RHFUnitInput
+  fieldName="weight"
+  control={control}
+  unitOptions={['kg', 'lb']}
+  onValueChange={({ newValue, event }) => setWeight(newValue)}
+  customOnChange={({ rhfOnChange, newValue, event }) => {
+    rhfOnChange({ ...newValue, value: newValue.value && Math.round(newValue.value) });
+  }}
+/>
+```
+
+## Examples
+- [Number Field](https://v7.mui.com/material-ui/react-number-field/)
+- [Select](https://v7.mui.com/material-ui/react-select/)
+
+## API
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)'
+}}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFUnitInput}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/unit-input"
+  docsVersion={4}
+/>

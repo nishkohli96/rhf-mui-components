@@ -16,7 +16,10 @@ import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
+import RHFTextArea from '@nish1896/rhf-mui-components/mui/text-area';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
+import RHFNumberStepper from '@nish1896/rhf-mui-components/mui/number-stepper';
+import RHFUnitInput from '@nish1896/rhf-mui-components/mui/unit-input';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
@@ -41,15 +44,29 @@ import {
   withFileNames
 } from '@/utils';
 
+type Currency = 'USD' | 'EUR' | 'GBP';
+
+const currencyOptions: { code: Currency; label: string }[] = [
+  { code: 'USD', label: 'US Dollar' },
+  { code: 'EUR', label: 'Euro' },
+  { code: 'GBP', label: 'British Pound' }
+];
+
+const cmPerInch = 2.54;
+
 type FormSchema = {
   firstName: string;
   lastName: string;
   email: string;
+  bio: string;
   password: string;
   confirmPassword: string;
   age?: number;
   weight?: number;
   balance?: number;
+  guests: number | null;
+  price: { unit: Currency; value: number | null };
+  height: { unit: string; value: number | null };
   tags?: string[];
   keywords?: string[];
   resume?: File;
@@ -61,8 +78,12 @@ const initialValues: FormSchema = {
   firstName: '',
   lastName: 'Jr.',
   email: '',
+  bio: '',
   password: '',
   confirmPassword: '',
+  guests: 2,
+  price: { unit: 'USD', value: null },
+  height: { unit: 'cm', value: null },
   keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
@@ -75,6 +96,7 @@ export default function InputsForm() {
   const {
     control,
     reset,
+    getValues,
     formState: { errors },
     handleSubmit
   } = useForm<FormSchema>({
@@ -276,6 +298,98 @@ export default function InputsForm() {
                   {`Press Arrow Up/Down keys to update input value by ${balanceStepAmount}`}
                 </Typography>
               }
+            />
+          </Grid>
+          <Grid size={12}>
+            <FieldVariantInfo title="Text Area with character limit counter, min length validation and customOnChange that collapses blank lines" />
+            <RHFTextArea
+              fieldName="bio"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('bio')
+                },
+                minLength: {
+                  value: 20,
+                  message: minCharMsg(20)
+                }
+              }}
+              customOnChange={({ rhfOnChange, newValue }) => {
+                rhfOnChange(newValue.replace(/\n{3,}/g, '\n\n'));
+              }}
+              minRows={3}
+              maxRows={8}
+              maxChars={200}
+              showCharLimit
+              helperText="Write at least 20 characters"
+              required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Number Stepper with min & max bounds, integer values and a caption" />
+            <RHFNumberStepper
+              fieldName="guests"
+              control={control}
+              registerOptions={{
+                required: {
+                  value: true,
+                  message: reqdMsg('number of guests')
+                }
+              }}
+              onlyIntegers
+              min={1}
+              max={10}
+              caption="guests"
+              required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Unit Input with an array of objects, unit at the start and validation on the whole value" />
+            <RHFUnitInput
+              fieldName="price"
+              control={control}
+              registerOptions={{
+                validate: price =>
+                  (price as FormSchema['price']).value !== null
+                  || reqdMsg('price')
+              }}
+              unitOptions={currencyOptions}
+              labelKey="label"
+              valueKey="code"
+              unitPosition="start"
+              unitWidth="40%"
+              nonNegative
+              maxDecimalPlaces={2}
+              placeholder="Enter price"
+              showLabelAboveFormField
+              required
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Unit Input with customOnChange that converts the number when the unit changes" />
+            <RHFUnitInput
+              fieldName="height"
+              control={control}
+              unitOptions={['cm', 'in']}
+              nonNegative
+              maxDecimalPlaces={1}
+              placeholder="Enter height"
+              customOnChange={({ rhfOnChange, newValue }) => {
+                const { unit, value } = getValues('height');
+                if (value !== null && newValue.unit !== unit) {
+                  const converted = newValue.unit === 'in'
+                    ? value / cmPerInch
+                    : value * cmPerInch;
+                  rhfOnChange({
+                    unit: newValue.unit,
+                    value: Number(converted.toFixed(1))
+                  });
+                  return;
+                }
+                rhfOnChange(newValue);
+              }}
+              helperText="Changing the unit converts the entered height"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

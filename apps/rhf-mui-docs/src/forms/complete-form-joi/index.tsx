@@ -9,6 +9,9 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
 import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
 import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
+import RHFNumberStepper from '@nish1896/rhf-mui-components/mui/number-stepper';
+import RHFUnitInput from '@nish1896/rhf-mui-components/mui/unit-input';
+import RHFTextArea from '@nish1896/rhf-mui-components/mui/text-area';
 import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
@@ -36,6 +39,7 @@ const RHFRichTextEditor = dynamic(
   { ssr: false }
 ) as typeof RHFRichTextEditorType;
 import RHFPhoneInput from '@nish1896/rhf-mui-components/misc/phone-input';
+import RHFTipTapRte from '@nish1896/rhf-mui-components/misc/tiptap-rte';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -73,6 +77,8 @@ export default function CompleteFormWithJoi() {
     darkTheme: currentTheme === 'dark',
     age: 25,
     weight: 60,
+    guests: 2,
+    height: { unit: 'cm', value: null },
     bgColor: '#007ABA',
     disableAllFields: false
   };
@@ -398,6 +404,53 @@ export default function CompleteFormWithJoi() {
               <RHFRichTextEditor
                 fieldName="feedback"
                 control={control}
+                disabled={areAllFieldsDisabled}
+                required
+              />
+            </Grid>
+            <Grid size={12}>
+              <RHFTextArea
+                fieldName="about"
+                control={control}
+                minRows={3}
+                maxChars={200}
+                showCharLimit
+                showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RHFNumberStepper
+                fieldName="guests"
+                control={control}
+                onlyIntegers
+                min={1}
+                max={10}
+                caption="guests"
+                showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
+                required
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RHFUnitInput
+                fieldName="height"
+                control={control}
+                unitOptions={['cm', 'in']}
+                nonNegative
+                maxDecimalPlaces={1}
+                placeholder="Enter your height"
+                showLabelAboveFormField
+                disabled={areAllFieldsDisabled}
+                required
+              />
+            </Grid>
+            <Grid size={12}>
+              <RHFTipTapRte
+                fieldName="experience"
+                control={control}
+                placeholder="Describe your experience"
                 disabled={areAllFieldsDisabled}
                 required
               />

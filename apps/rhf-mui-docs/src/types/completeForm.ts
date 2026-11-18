@@ -28,5 +28,9 @@ export type Person = {
   dateTime: Moment | null;
   bgColor: string;
   feedback: string;
+  about: string;
+  guests: number | null;
+  height: { unit: string; value: number | null };
+  experience: string;
   resume?: File;
 };

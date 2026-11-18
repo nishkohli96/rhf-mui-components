@@ -1,0 +1,236 @@
+import { DocsPage, PropsTable, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFTipTapRte;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFTipTapRte
+
+<AvailabilityBanner componentName="RHFTipTapRte" version="5.1" />
+
+`RHFTipTapRte` wraps [Tiptap](https://tiptap.dev/)'s headless `useEditor` hook
+and binds it to React Hook Form. The stored value is an **HTML string**. It is a
+lighter, dependency-thinner alternative to
+[RHFRichTextEditor](/components/misc/RHFRichTextEditor) (CKEditor 5): Tiptap is
+free and MIT-licensed, and its extension-driven design means you use, and ship,
+only what you enable.
+
+Since Tiptap ships no UI of its own, this component includes a hand-built
+formatting toolbar (bold, italic, underline, strikethrough, headings, lists,
+blockquote, code block, links, alignment, undo/redo) driven entirely by the
+editor's own extensions.
+
+## Installation
+
+Make sure to install the Tiptap packages before using this component.
+
+<PackageManagerTabs
+  id="install-tiptap" command="@tiptap/core @tiptap/react @tiptap/pm
+  @tiptap/starter-kit @tiptap/extension-link @tiptap/extension-placeholder
+  @tiptap/extension-text-align @tiptap/extension-underline" />
+
+## Usage
+
+```tsx
+import RHFTipTapRte, {
+  DefaultEditorExtensions,
+  type RHFTipTapRteProps
+} from '@nish1896/rhf-mui-components/misc/tiptap-rte';
+```
+
+The value of `bio` will be an **HTML string**.
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  bio: string;
+};
+
+const { control, handleSubmit } = useForm<FormValues>({
+  defaultValues: { bio: '' }
+});
+
+<form onSubmit={handleSubmit(values => console.log(values.bio))}>
+  <RHFTipTapRte
+    fieldName="bio"
+    control={control}
+    placeholder="Tell us about yourself"
+  />
+</form>
+```
+
+`onValueChange` receives `{ newValue, editor }`: the HTML string and the Tiptap
+`Editor` instance, so you can read other formats such as `editor.getJSON()`.
+
+### Validation
+
+Rules go in `registerOptions`. Because the value is HTML, an empty editor still
+holds markup such as `<p></p>`, and runs of spaces are stored as `&nbsp;`. Strip
+the tags and convert `&nbsp;` to spaces before checking the length:
+
+```tsx
+const stripHtml = (html: string) => html
+  .replace(/<[^>]*>/g, '')
+  .replace(/&nbsp;/g, ' ')
+  .trim();
+
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  registerOptions={{
+    validate: value =>
+      stripHtml(value).length >= 20 || 'Write at least 20 characters'
+  }}
+/>
+```
+
+### Choosing the formatting options
+
+Pass a custom `editorExtensions` array, or extend `DefaultEditorExtensions`, to
+control what the editor supports. Every toolbar button checks whether its
+backing extension is loaded before rendering. A custom set missing, for example,
+`Heading` or `TextAlign` simply omits those buttons instead of throwing an error
+when clicked.
+
+```tsx
+import RHFTipTapRte, { DefaultEditorExtensions } from '@nish1896/rhf-mui-components/misc/tiptap-rte';
+import Table from '@tiptap/extension-table';
+
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  editorExtensions={[...DefaultEditorExtensions, Table]}
+/>
+```
+
+### Configuring the editor
+
+Use `editorOptions` to reach into `useEditor` for anything not exposed as its
+own prop. Pass `onCreate`, `onFocus`, `onUpdate` or `onBlur` here and they run
+alongside the component's own handlers.
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  editorOptions={{
+    autofocus: true,
+    onCreate: ({ editor }) => console.log('ready', editor),
+    onFocus: ({ editor }) => console.log('focused', editor),
+    onUpdate: ({ editor }) => console.log('newContent', editor.getHTML()),
+    editorProps: { attributes: { spellcheck: 'false' } }
+  }}
+/>
+```
+
+- `onUpdate` is never replaced, only chained. It first stores the editor's
+  latest HTML in the form (and runs `onValueChange`), then calls your
+  `editorOptions.onUpdate`, so the form value is always in sync by the time your
+  own handler runs.
+- `onBlur` marks the field as touched in React Hook Form, then calls your
+  `editorOptions.onBlur`.
+- `editorOptions` is layered underneath this component's own required wiring
+  (`content`, `editable` and the accessibility attributes), so it can't break
+  the controlled-value contract.
+- `editorProps.attributes` is deep-merged rather than replaced.
+
+### Styling the editor
+
+`containerProps` styles the outer bordered box, and `contentContainerProps`
+styles the scrollable box directly wrapping the editor content. Both merge their
+`sx` with this component's own base styles rather than replacing them.
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  containerProps={{ sx: { borderColor: 'primary.main' } }}
+  contentContainerProps={{ sx: { minHeight: 240 } }}
+/>
+```
+
+### Custom toolbar
+
+`renderToolbar` replaces the built-in toolbar entirely. Pass `() => null` to
+hide it. It receives the live `editor` instance and the field's resolved
+`disabled` state, so a custom toolbar can drive the same
+`editor.chain()...run()` commands and respect the same disabled state.
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  renderToolbar={(editor, disabled) => (
+    <Button
+      disabled={disabled}
+      onClick={() => editor.chain().focus().toggleBold().run()}
+    >
+      Bold
+    </Button>
+  )}
+/>
+```
+
+### Handling value changes
+
+Two props let you respond to the content changing. Use `onValueChange` to run
+side effects once the new HTML has been stored, and `customOnChange` to take
+over what gets stored in the form.
+
+#### onValueChange
+
+`onValueChange` runs after the new HTML has been stored in the form. It receives
+`{ newValue, editor }`:
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  onValueChange={({ newValue, editor }) => {
+    setWordCount(editor.getText().split(/\s+/).filter(Boolean).length);
+  }}
+/>
+```
+
+#### customOnChange
+
+Use `customOnChange` when you need to change what gets stored. It replaces the
+default handling, so you must call `rhfOnChange` yourself with the HTML to
+store. It receives `{ rhfOnChange, newValue, editor }`. This example stores an
+empty string instead of an empty paragraph. `onValueChange` is not called when
+`customOnChange` is used.
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  customOnChange={({ rhfOnChange, newValue, editor }) => {
+    rhfOnChange(editor.isEmpty ? '' : newValue);
+  }}
+/>
+```
+
+## Examples
+- [RHFTipTapRte](/examples/miscellaneous-components)
+- [Complete Form](/examples/complete-form)
+- [Tiptap](https://tiptap.dev/docs/editor/getting-started/overview)
+- [RHFRichTextEditor](/components/misc/RHFRichTextEditor)
+
+## API
+
+Pass a custom `editorExtensions` to control the Tiptap extension set (and, in
+turn, which toolbar buttons render). Props marked with <strong style={{ color:
+'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFTipTapRte}
+  v4AndAbove
+/>
+
+## Source Code
+
+<ComponentSourceLink path="misc/tiptap-rte" />

@@ -1,0 +1,123 @@
+import { DocsPage, PropsTable, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+
+export const metadata = componentMetadata.RHFTipTapRte;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# RHFTipTapRte
+
+<AvailabilityBanner componentName="RHFTipTapRte" version="4.4" />
+
+**RHFTipTapRte** is a rich text editor built on [Tiptap](https://tiptap.dev/)'s
+headless `useEditor` hook, bound to React Hook Form. The stored value is an HTML
+string. It is a lighter alternative to
+[RHFRichTextEditor](/v4/components/misc/RHFRichTextEditor) (CKEditor 5), with a
+built-in toolbar (bold, italic, underline, strikethrough, headings, lists,
+blockquote, code block, links, alignment, undo/redo).
+
+## Installation
+
+<PackageManagerTabs
+  id="install-tiptap" command="@tiptap/core @tiptap/react @tiptap/pm
+  @tiptap/starter-kit @tiptap/extension-link @tiptap/extension-placeholder
+  @tiptap/extension-text-align @tiptap/extension-underline" />
+
+## Usage
+
+```tsx
+import RHFTipTapRte, {
+  DefaultEditorExtensions,
+  type RHFTipTapRteProps
+} from '@nish1896/rhf-mui-components/misc/tiptap-rte';
+```
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  placeholder="Tell us about yourself"
+/>
+```
+
+Pass a custom `editorExtensions` array, or extend `DefaultEditorExtensions`, to
+control what the editor supports; toolbar buttons whose extension isn't loaded
+are omitted. `editorOptions` reaches into `useEditor`, `containerProps` and
+`contentContainerProps` style the editor boxes, and `renderToolbar` replaces the
+built-in toolbar.
+
+```tsx
+import Table from '@tiptap/extension-table';
+
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  editorExtensions={[...DefaultEditorExtensions, Table]}
+  contentContainerProps={{ sx: { minHeight: 240 } }}
+/>
+```
+
+### Validation
+
+Rules go in `registerOptions`. An empty editor still holds markup such as
+`<p></p>`, so strip the tags before checking the length:
+
+```tsx
+const stripHtml = (html: string) => html
+  .replace(/<[^>]*>/g, '')
+  .replace(/&nbsp;/g, ' ')
+  .trim();
+
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  registerOptions={{
+    validate: value =>
+      stripHtml(value).length >= 20 || 'Write at least 20 characters'
+  }}
+/>
+```
+
+### Handling value changes
+
+`onValueChange` runs after the new HTML has been stored in the form, and
+`customOnChange` replaces the default handling, so you must call `rhfOnChange`
+yourself. `onValueChange` is not called when `customOnChange` is used.
+
+```tsx
+<RHFTipTapRte
+  fieldName="bio"
+  control={control}
+  onValueChange={({ newValue, editor }) => {
+    setWordCount(editor.getText().split(/\s+/).filter(Boolean).length);
+  }}
+  customOnChange={({ rhfOnChange, newValue, editor }) => {
+    rhfOnChange(editor.isEmpty ? '' : newValue);
+  }}
+/>
+```
+
+## Examples
+- [Tiptap](https://tiptap.dev/docs/editor/getting-started/overview)
+- [RHFRichTextEditor](/v4/components/misc/RHFRichTextEditor)
+
+## API
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)'
+}}>{'*'}</strong> are required.
+
+<PropsTable
+  rows={componentProps.RHFTipTapRte}
+  docsVersion={4}
+  muiVersion={7}
+  v4AndAbove
+/>
+
+## Source Code
+
+<ComponentSourceLink
+  path="misc/tiptap-rte"
+  docsVersion={4}
+/>

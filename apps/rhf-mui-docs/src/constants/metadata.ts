@@ -36,7 +36,7 @@ export const pageMetadata: Record<string, Metadata> = {
   inputsExample: {
     title: 'Inputs',
     description:
-      'A React Hook Form example using RHFTextField, RHFPasswordInput, RHFNumberInput, RHFTagsInput and RHFFileUploader. Validation using registerOptions.'
+      'A React Hook Form example using RHFTextField, RHFTextArea, RHFPasswordInput, RHFNumberInput, RHFNumberStepper, RHFUnitInput, RHFTagsInput and RHFFileUploader. Validation using registerOptions.'
   },
   selectExample: {
     title: 'Select with Class-Validator',
@@ -66,7 +66,7 @@ export const pageMetadata: Record<string, Metadata> = {
   miscComponentsExample: {
     title: 'Miscellaneous Components',
     description:
-      'A React Hook Form example using external components like RHFColorPicker, RHFPhoneInput and RHFRichTextEditor.'
+      'A React Hook Form example using external components like RHFColorPicker, RHFPhoneInput, RHFRichTextEditor and RHFTipTapRte.'
   },
   customizationExample: {
     title: 'Styled form with reusable components',
