@@ -16,7 +16,7 @@ const DefaultStyles = Object.freeze({
  * `FormHelperText` spacing — `dateAdapter` and `allLabelsAboveFields` have
  * no default and stay `undefined` until a `ConfigProvider` sets them.
  *
- * Docs: [Customization](https://rhf-mui-components.vercel.app/customization)
+ * Docs: [Customization](https://rhf-mui-components.nishkohli.in/customization)
  */
 export const DefaultRHFMuiConfig: RHFMuiConfig = {
   defaultFormLabelSx: { mb: DefaultStyles.margin.bottom },

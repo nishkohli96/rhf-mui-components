@@ -262,9 +262,9 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
  *
  * Opens the clock in a modal optimized for touch.
  *
- * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
+ * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFMobileTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFMobileTimePicker = RHFMobileTimePickerInner as <T extends FieldValues>(
   props: RHFMobileTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

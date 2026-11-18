@@ -332,9 +332,9 @@ const RHFRichTextEditorInner = forwardRef(function RHFRichTextEditorInner<
  * Controlled CKEditor 5 rich text editor, wired to a React Hook Form field
  * via `control`.
  *
- * Docs: [RHFRichTextEditor](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor)
+ * Docs: [RHFRichTextEditor](https://rhf-mui-components.nishkohli.in/components/misc/RHFRichTextEditor)
  *
- * API: [RHFRichTextEditorProps](https://rhf-mui-components.vercel.app/components/misc/RHFRichTextEditor#api)
+ * API: [RHFRichTextEditorProps](https://rhf-mui-components.nishkohli.in/components/misc/RHFRichTextEditor#api)
  */
 const RHFRichTextEditor = RHFRichTextEditorInner as <T extends FieldValues>(
   props: RHFRichTextEditorProps<T> & { ref?: Ref<CKEditor<ClassicEditor>> }

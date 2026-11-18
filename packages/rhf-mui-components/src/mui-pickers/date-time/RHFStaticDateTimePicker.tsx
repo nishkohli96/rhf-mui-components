@@ -265,9 +265,9 @@ const RHFStaticDateTimePickerInner = forwardRef(function RHFStaticDateTimePicker
  *
  * Renders the calendar/clock directly in the page rather than a popup.
  *
- * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker)
  *
- * API: [RHFStaticDateTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker#api)
+ * API: [RHFDateTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker#api)
  */
 const RHFStaticDateTimePicker = RHFStaticDateTimePickerInner as <
   T extends FieldValues

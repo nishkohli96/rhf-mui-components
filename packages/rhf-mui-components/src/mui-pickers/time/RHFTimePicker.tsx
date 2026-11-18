@@ -260,9 +260,9 @@ const RHFTimePickerInner = forwardRef(function RHFTimePicker<T extends FieldValu
  *
  * Switches between desktop and mobile pickers automatically based on viewport.
  *
- * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker)
+ * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFTimePicker = RHFTimePickerInner as <T extends FieldValues>(
   props: RHFTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

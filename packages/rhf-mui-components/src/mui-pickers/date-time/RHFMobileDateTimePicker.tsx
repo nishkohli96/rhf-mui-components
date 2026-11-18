@@ -262,9 +262,9 @@ const RHFMobileDateTimePickerInner = forwardRef(function RHFMobileDateTimePicker
  *
  * Opens the calendar/clock in a modal optimized for touch.
  *
- * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker)
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker)
  *
- * API: [RHFMobileDateTimePickerProps](https://rhf-mui-components.vercel.app/components/mui-pickers/RHFDateTimePicker#api)
+ * API: [RHFDateTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker#api)
  */
 const RHFMobileDateTimePicker = RHFMobileDateTimePickerInner as <T extends FieldValues>(
   props: RHFMobileDateTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

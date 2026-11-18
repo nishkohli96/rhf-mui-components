@@ -219,9 +219,9 @@ export type RHFCheckboxGroupProps<
  *
  * Stores an array of the selected `string`/`number` option values.
  *
- * Docs: [RHFCheckboxGroup](https://rhf-mui-components.vercel.app/components/mui/RHFCheckboxGroup)
+ * Docs: [RHFCheckboxGroup](https://rhf-mui-components.nishkohli.in/components/mui/RHFCheckboxGroup)
  *
- * API: [RHFCheckboxGroupProps](https://rhf-mui-components.vercel.app/components/mui/RHFCheckboxGroup#api)
+ * API: [RHFCheckboxGroupProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFCheckboxGroup#api)
  */
 const RHFCheckboxGroup = <
   T extends FieldValues,

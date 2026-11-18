@@ -280,9 +280,9 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
  * Supports integer/decimal-place limits, a non-negative constraint, and
  * configurable stepping.
  *
- * Docs: [RHFNumberInput](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput)
+ * Docs: [RHFNumberInput](https://rhf-mui-components.nishkohli.in/components/mui/RHFNumberInput)
  *
- * API: [RHFNumberInputProps](https://rhf-mui-components.vercel.app/components/mui/RHFNumberInput#api)
+ * API: [RHFNumberInputProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFNumberInput#api)
  */
 const RHFNumberInput = RHFNumberInputInner as <T extends FieldValues>(
   props: RHFNumberInputProps<T> & { ref?: Ref<HTMLInputElement> }

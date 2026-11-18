@@ -28,8 +28,8 @@
 ## ✨ Features
 
 - Each component is fully functional with just 2-3 props — core logic handled internally.
-- Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [Phone Input](https://rhf-mui-components.vercel.app/components/misc/RHFPhoneInput), [Country Select](https://rhf-mui-components.vercel.app/components/mui/RHFCountrySelect), [File Uploader](https://rhf-mui-components.vercel.app/components/mui/RHFFileUploader) and [Tags Input](https://rhf-mui-components.vercel.app/components/mui/RHFTagsInput), saving development time for specific use cases.
+- Style individual components or apply global styles via [ConfigProvider](https://rhf-mui-components.nishkohli.in/customization#configprovider).
+- Includes well-configured unique components like [Phone Input](https://rhf-mui-components.nishkohli.in/components/misc/RHFPhoneInput), [Country Select](https://rhf-mui-components.nishkohli.in/components/mui/RHFCountrySelect), [File Uploader](https://rhf-mui-components.nishkohli.in/components/mui/RHFFileUploader) and [Tags Input](https://rhf-mui-components.nishkohli.in/components/mui/RHFTagsInput), saving development time for specific use cases.
 - Provides full control over value validation and transformation before updates are committed to form state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -68,7 +68,7 @@ function ProfileForm() {
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://rhf-mui-components.vercel.app/)
+👉 [Documentation Website](https://rhf-mui-components.nishkohli.in/)
 
 ### 🎮 Interactive Demos
 Try out the form components live, no install required:
@@ -113,6 +113,10 @@ Feel free to reach out directly at [nishantkohli96@gmail.com](mailto:nishantkohl
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config) to format and prettify your JavaScript/TypeScript code.
 
 ## 🌟 Sponsors
+
+No active sponsors right now. If this library saves you time, you can [become a sponsor](https://buymeacoffee.com/nish1896).
+
+### Past sponsors
 
 <a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
   <img

@@ -226,9 +226,9 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
  *
  * Use `RHFCheckboxGroup` instead for a set of checkboxes sharing one field.
  *
- * Docs: [RHFCheckbox](https://rhf-mui-components.vercel.app/components/mui/RHFCheckbox)
+ * Docs: [RHFCheckbox](https://rhf-mui-components.nishkohli.in/components/mui/RHFCheckbox)
  *
- * API: [RHFCheckboxProps](https://rhf-mui-components.vercel.app/components/mui/RHFCheckbox#api)
+ * API: [RHFCheckboxProps](https://rhf-mui-components.nishkohli.in/components/mui/RHFCheckbox#api)
  */
 const RHFCheckbox = RHFCheckboxInner as <T extends FieldValues>(
   props: RHFCheckboxProps<T> & { ref?: Ref<HTMLInputElement> }
