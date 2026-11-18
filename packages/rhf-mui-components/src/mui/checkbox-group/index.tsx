@@ -146,9 +146,9 @@ export type RHFCheckboxGroupProps<
  * Best suited for up to ~10 options; use `RHFMultiAutocomplete` for larger
  * datasets that need search.
  *
- * Docs: [RHFCheckboxGroup](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCheckboxGroup)
+ * Docs: [RHFCheckboxGroup](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFCheckboxGroup)
  *
- * API: [RHFCheckboxGroupProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCheckboxGroup#api)
+ * API: [RHFCheckboxGroupProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFCheckboxGroup#api)
  */
 const RHFCheckboxGroup = <
   T extends FieldValues,

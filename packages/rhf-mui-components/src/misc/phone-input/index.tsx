@@ -173,9 +173,9 @@ export type RHFPhoneInputProps<T extends FieldValues> = {
  * structured `PhoneInputChangeReturnValue` metadata (`phone`, `inputValue` and
  * `country`).
  *
- * Docs: [RHFPhoneInput](https://rhf-mui-components.vercel.app/v3/components/misc/RHFPhoneInput)
+ * Docs: [RHFPhoneInput](https://rhf-mui-components.nishkohli.in/v3/components/misc/RHFPhoneInput)
  *
- * API: [RHFPhoneInputProps](https://rhf-mui-components.vercel.app/v3/components/misc/RHFPhoneInput#api)
+ * API: [RHFPhoneInputProps](https://rhf-mui-components.nishkohli.in/v3/components/misc/RHFPhoneInput#api)
  */
 const RHFPhoneInput = <T extends FieldValues>({
   fieldName,

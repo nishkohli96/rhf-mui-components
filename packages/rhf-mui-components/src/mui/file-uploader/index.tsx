@@ -183,9 +183,9 @@ export type RHFFileUploaderProps<
  * The accepted-file type in `onValueChange` is generic on `multiple`: `File[]`
  * when `true`, a single `File` otherwise.
  *
- * Docs: [RHFFileUploader](https://rhf-mui-components.vercel.app/v3/components/mui/RHFFileUploader)
+ * Docs: [RHFFileUploader](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFFileUploader)
  *
- * API: [RHFFileUploaderProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFFileUploader#api)
+ * API: [RHFFileUploaderProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFFileUploader#api)
  */
 const RHFFileUploader = <
   T extends FieldValues,

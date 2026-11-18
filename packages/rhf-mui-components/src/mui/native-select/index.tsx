@@ -123,9 +123,9 @@ export type RHFNativeSelectProps<
  * Accepts string/number or object options via
  * `labelKey`/`valueKey`; best for small-to-moderate option lists.
  *
- * Docs: [RHFNativeSelect](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNativeSelect)
+ * Docs: [RHFNativeSelect](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFNativeSelect)
  *
- * API: [RHFNativeSelectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNativeSelect#api)
+ * API: [RHFNativeSelectProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFNativeSelect#api)
  */
 const RHFNativeSelect = <
   T extends FieldValues,

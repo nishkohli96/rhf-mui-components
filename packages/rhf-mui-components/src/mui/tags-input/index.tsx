@@ -124,9 +124,9 @@ export type RHFTagsInputProps<T extends FieldValues> = {
  *
  * Collapses overflow tags past `limitTags`, customizable via `getLimitTagsText`.
  *
- * Docs: [RHFTagsInput](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTagsInput)
+ * Docs: [RHFTagsInput](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFTagsInput)
  *
- * API: [RHFTagsInputProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTagsInput#api)
+ * API: [RHFTagsInputProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFTagsInput#api)
  */
 const RHFTagsInput = <T extends FieldValues>({
   fieldName,

@@ -104,9 +104,9 @@ export type RHFSliderProps<
  * `onValueChange`'s `value` type is inferred from the field's declared type
  * in your form schema (`number` vs `number[]`).
  *
- * Docs: [RHFSlider](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSlider)
+ * Docs: [RHFSlider](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFSlider)
  *
- * API: [RHFSliderProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSlider#api)
+ * API: [RHFSliderProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFSlider#api)
  */
 const RHFSlider = <
   T extends FieldValues,

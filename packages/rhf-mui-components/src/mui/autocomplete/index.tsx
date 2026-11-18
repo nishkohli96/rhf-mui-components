@@ -192,9 +192,9 @@ export type RHFAutocompleteProps<
  * Accepts string or object options via `labelKey`/`valueKey`,
  * and supports single or multiple selection through the `multiple` prop.
  *
- * Docs: [RHFAutocomplete](https://rhf-mui-components.vercel.app/v3/components/mui/RHFAutocomplete)
+ * Docs: [RHFAutocomplete](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFAutocomplete)
  *
- * API: [RHFAutocompleteProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFAutocomplete#api)
+ * API: [RHFAutocompleteProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFAutocomplete#api)
  */
 const RHFAutocomplete = <
   T extends FieldValues,

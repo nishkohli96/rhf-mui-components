@@ -132,9 +132,9 @@ export type RHFPasswordInputProps<T extends FieldValues> = {
  * `readOnly` keeps the field focusable and the toggle usable (unlike `disabled`,
  * which makes the whole field inert).
  *
- * Docs: [RHFPasswordInput](https://rhf-mui-components.vercel.app/v3/components/mui/RHFPasswordInput)
+ * Docs: [RHFPasswordInput](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFPasswordInput)
  *
- * API: [RHFPasswordInputProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFPasswordInput#api)
+ * API: [RHFPasswordInputProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFPasswordInput#api)
  */
 const RHFPasswordInput = <T extends FieldValues>({
   fieldName,

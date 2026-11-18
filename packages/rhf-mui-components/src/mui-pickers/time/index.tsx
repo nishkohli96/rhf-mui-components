@@ -98,9 +98,9 @@ export type RHFTimePickerProps<T extends FieldValues> = {
  * Controlled MUI X `TimePicker` wired to a React Hook Form field via
  * `control`, wrapped in its own `LocalizationProvider`.
  *
- * Docs: [RHFTimePicker](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFTimePicker)
+ * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/v3/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFTimePickerProps](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFTimePickerProps](https://rhf-mui-components.nishkohli.in/v3/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFTimePicker = <T extends FieldValues>({
   fieldName,

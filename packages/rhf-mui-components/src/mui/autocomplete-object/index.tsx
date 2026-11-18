@@ -187,9 +187,9 @@ export type RHFAutocompleteObjectProps<
  *
  * Supports single or multiple selection through the `multiple` prop.
  *
- * Docs: [RHFAutocompleteObject](https://rhf-mui-components.vercel.app/v3/components/mui/RHFAutocompleteObject)
+ * Docs: [RHFAutocompleteObject](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFAutocompleteObject)
  *
- * API: [RHFAutocompleteObjectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFAutocompleteObject#api)
+ * API: [RHFAutocompleteObjectProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFAutocompleteObject#api)
  */
 const RHFAutocompleteObject = <
   T extends FieldValues,

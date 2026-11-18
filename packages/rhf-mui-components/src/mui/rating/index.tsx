@@ -92,9 +92,9 @@ export type RHFRatingProps<T extends FieldValues> = {
  *
  * Supports MUI's `precision` for half-star ratings and custom icons.
  *
- * Docs: [RHFRating](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRating)
+ * Docs: [RHFRating](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFRating)
  *
- * API: [RHFRatingProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRating#api)
+ * API: [RHFRatingProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFRating#api)
  */
 const RHFRating = <T extends FieldValues>({
   fieldName,

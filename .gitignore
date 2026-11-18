@@ -18,6 +18,7 @@ dist
 
 # AI Agents
 .claude
+graft
 
 # testing
 coverage

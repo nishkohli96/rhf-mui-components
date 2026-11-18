@@ -76,9 +76,9 @@ export type RHFSwitchProps<T extends FieldValues> = {
 /**
  * Controlled MUI `Switch` wired to a React Hook Form boolean field via `control`.
  *
- * Docs: [RHFSwitch](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSwitch)
+ * Docs: [RHFSwitch](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFSwitch)
  *
- * API: [RHFSwitchProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSwitch#api)
+ * API: [RHFSwitchProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFSwitch#api)
  */
 const RHFSwitch = <T extends FieldValues>({
   fieldName,
