@@ -168,9 +168,9 @@ export type RHFSelectProps<
  * `onValueChange`'s value type generic on it, plus an optional `showDefaultOption`
  * placeholder item.
  *
- * Docs: [RHFSelect](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSelect)
+ * Docs: [RHFSelect](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFSelect)
  *
- * API: [RHFSelectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFSelect#api)
+ * API: [RHFSelectProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFSelect#api)
  */
 const RHFSelect = <
   T extends FieldValues,

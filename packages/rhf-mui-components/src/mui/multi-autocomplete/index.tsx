@@ -193,9 +193,9 @@ export type RHFMultiAutocompleteProps<
  *
  * Includes a built-in "**Select All**" option, hideable via `hideSelectAllOption`.
  *
- * Docs: [RHFMultiAutocomplete](https://rhf-mui-components.vercel.app/v3/components/mui/RHFMultiAutocomplete)
+ * Docs: [RHFMultiAutocomplete](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFMultiAutocomplete)
  *
- * API: [RHFMultiAutocompleteProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFMultiAutocomplete#api)
+ * API: [RHFMultiAutocompleteProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFMultiAutocomplete#api)
  */
 const RHFMultiAutocomplete = <
   T extends FieldValues,

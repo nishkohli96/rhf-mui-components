@@ -89,9 +89,9 @@ export type RHFNumberInputProps<T extends FieldValues> = {
  *
  * Optional `showMarkers` reveals the native increment/decrement spinners.
  *
- * Docs: [RHFNumberInput](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNumberInput)
+ * Docs: [RHFNumberInput](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFNumberInput)
  *
- * API: [RHFNumberInputProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFNumberInput#api)
+ * API: [RHFNumberInputProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFNumberInput#api)
  */
 const RHFNumberInput = <T extends FieldValues>({
   fieldName,

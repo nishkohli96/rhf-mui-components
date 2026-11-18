@@ -125,9 +125,9 @@ export type RHFRichTextEditorProps<T extends FieldValues> = {
  * Editor behavior/toolbar is customizable via `editorConfig`; init/runtime
  * errors surface through `onError`.
  *
- * Docs: [RHFRichTextEditor](https://rhf-mui-components.vercel.app/v3/components/misc/RHFRichTextEditor)
+ * Docs: [RHFRichTextEditor](https://rhf-mui-components.nishkohli.in/v3/components/misc/RHFRichTextEditor)
  *
- * API: [RHFRichTextEditorProps](https://rhf-mui-components.vercel.app/v3/components/misc/RHFRichTextEditor#api)
+ * API: [RHFRichTextEditorProps](https://rhf-mui-components.nishkohli.in/v3/components/misc/RHFRichTextEditor#api)
  */
 const RHFRichTextEditor = <T extends FieldValues>({
   fieldName,

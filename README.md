@@ -34,7 +34,7 @@
 ### 📖 Documentation
 Access the full documentation for rhf-mui-components, including setup instructions, API references, and examples:
 
-👉 [Documentation Site](https://rhf-mui-components.vercel.app/)
+👉 [Documentation Site](https://rhf-mui-components.nishkohli.in/)
 
 ### Interactive Demos 🎮
 Try out and experiment with the form components in a live environment:

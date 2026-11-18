@@ -198,9 +198,9 @@ export type RHFCountrySelectProps<
  * Supports `preferredCountries` pinned to the top, and single or multiple
  * selection through the `multiple` prop.
  *
- * Docs: [RHFCountrySelect](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCountrySelect)
+ * Docs: [RHFCountrySelect](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFCountrySelect)
  *
- * API: [RHFCountrySelectProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFCountrySelect#api)
+ * API: [RHFCountrySelectProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFCountrySelect#api)
  */
 const RHFCountrySelect = <
   T extends FieldValues,

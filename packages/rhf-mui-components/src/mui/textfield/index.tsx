@@ -76,9 +76,9 @@ export type RHFTextFieldProps<T extends FieldValues> = {
 /**
  * Controlled MUI `TextField` wired to a React Hook Form field via `control`.
  *
- * Docs: [RHFTextField](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTextField)
+ * Docs: [RHFTextField](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFTextField)
  *
- * API: [RHFTextFieldProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFTextField#api)
+ * API: [RHFTextFieldProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFTextField#api)
  */
 const RHFTextField = <T extends FieldValues>({
   fieldName,

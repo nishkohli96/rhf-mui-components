@@ -135,9 +135,9 @@ export type RHFRadioGroupProps<
  *
  * Accepts string/number or object options via `labelKey`/`valueKey`.
  *
- * Docs: [RHFRadioGroup](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRadioGroup)
+ * Docs: [RHFRadioGroup](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFRadioGroup)
  *
- * API: [RHFRadioGroupProps](https://rhf-mui-components.vercel.app/v3/components/mui/RHFRadioGroup#api)
+ * API: [RHFRadioGroupProps](https://rhf-mui-components.nishkohli.in/v3/components/mui/RHFRadioGroup#api)
  */
 const RHFRadioGroup = <
   T extends FieldValues,

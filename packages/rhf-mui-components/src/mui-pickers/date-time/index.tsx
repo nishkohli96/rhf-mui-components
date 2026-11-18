@@ -98,9 +98,9 @@ export type RHFDateTimePickerProps<T extends FieldValues> = {
  * Controlled MUI X `DateTimePicker` wired to a React Hook Form field via
  * `control`, wrapped in its own `LocalizationProvider`.
  *
- * Docs: [RHFDateTimePicker](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFDateTimePicker)
+ * Docs: [RHFDateTimePicker](https://rhf-mui-components.nishkohli.in/v3/components/mui-pickers/RHFDateTimePicker)
  *
- * API: [RHFDateTimePickerProps](https://rhf-mui-components.vercel.app/v3/components/mui-pickers/RHFDateTimePicker#api)
+ * API: [RHFDateTimePickerProps](https://rhf-mui-components.nishkohli.in/v3/components/mui-pickers/RHFDateTimePicker#api)
  */
 const RHFDateTimePicker = <T extends FieldValues>({
   fieldName,
