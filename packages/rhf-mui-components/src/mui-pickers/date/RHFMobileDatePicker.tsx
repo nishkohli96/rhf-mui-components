@@ -264,7 +264,7 @@ const RHFMobileDatePickerInner = forwardRef(function RHFMobileDatePicker<
  *
  * Docs: [RHFDatePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker)
  *
- * API: [RHFMobileDatePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker#api)
+ * API: [RHFDatePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker#api)
  */
 const RHFMobileDatePicker = RHFMobileDatePickerInner as <T extends FieldValues>(
   props: RHFMobileDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }

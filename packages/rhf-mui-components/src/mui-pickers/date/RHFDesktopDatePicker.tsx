@@ -264,7 +264,7 @@ const RHFDesktopDatePickerInner = forwardRef(function RHFDesktopDatePicker<
  *
  * Docs: [RHFDatePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker)
  *
- * API: [RHFDesktopDatePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker#api)
+ * API: [RHFDatePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDatePicker#api)
  */
 const RHFDesktopDatePicker = RHFDesktopDatePickerInner as <T extends FieldValues>(
   props: RHFDesktopDatePickerProps<T> & { ref?: Ref<HTMLInputElement> }

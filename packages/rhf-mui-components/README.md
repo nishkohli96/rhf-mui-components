@@ -50,7 +50,7 @@ Try out the form components live, no install required:
 Below is a comprehensive list of all components included in this package, categorized by module:
 
 - **mui**
-  - [TextField](https://rhf-mui-components.nishkohli.in/components/mui/RHFTextField)
+  - [TextField](https://rhf-mui-components.nishkohli.in/components/mui/RHFTextfield)
   - [NumberInput](https://rhf-mui-components.nishkohli.in/components/mui/RHFNumberInput)
   - [PasswordInput](https://rhf-mui-components.nishkohli.in/components/mui/RHFPasswordInput)
   - [Tags Input](https://rhf-mui-components.nishkohli.in/components/mui/RHFTagsInput)

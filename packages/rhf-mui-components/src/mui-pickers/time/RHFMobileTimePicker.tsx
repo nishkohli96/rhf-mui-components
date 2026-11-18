@@ -264,7 +264,7 @@ const RHFMobileTimePickerInner = forwardRef(function RHFMobileTimePicker<
  *
  * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFMobileTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFMobileTimePicker = RHFMobileTimePickerInner as <T extends FieldValues>(
   props: RHFMobileTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

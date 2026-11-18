@@ -267,7 +267,7 @@ const RHFStaticTimePickerInner = forwardRef(function RHFStaticTimePicker<
  *
  * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFStaticTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFStaticTimePicker = RHFStaticTimePickerInner as <
   T extends FieldValues

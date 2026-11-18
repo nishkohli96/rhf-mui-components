@@ -264,7 +264,7 @@ const RHFDesktopTimePickerInner = forwardRef(function RHFDesktopTimePicker<
  *
  * Docs: [RHFTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker)
  *
- * API: [RHFDesktopTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
+ * API: [RHFTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFTimePicker#api)
  */
 const RHFDesktopTimePicker = RHFDesktopTimePickerInner as <T extends FieldValues>(
   props: RHFDesktopTimePickerProps<T> & { ref?: Ref<HTMLInputElement> }

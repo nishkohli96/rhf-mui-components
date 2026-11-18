@@ -267,7 +267,7 @@ const RHFStaticDateTimePickerInner = forwardRef(function RHFStaticDateTimePicker
  *
  * Docs: [RHFDateTimePicker](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker)
  *
- * API: [RHFStaticDateTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker#api)
+ * API: [RHFDateTimePickerProps](https://rhf-mui-components.nishkohli.in/components/mui-pickers/RHFDateTimePicker#api)
  */
 const RHFStaticDateTimePicker = RHFStaticDateTimePickerInner as <
   T extends FieldValues
